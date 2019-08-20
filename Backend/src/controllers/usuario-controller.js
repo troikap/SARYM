@@ -4,8 +4,8 @@ let UsuarioModel = require('../models/usuario-model'),
 	UsuarioController = () => {}
 
 UsuarioController.getAll = (req, res, next) => {
-    console.log('jajajajajaja get All ');
     UsuarioModel.getAll((err, rows) => {
+		console.log("mierda")
         if(err)
         {
             console.log('errr')
@@ -24,9 +24,12 @@ UsuarioController.getAll = (req, res, next) => {
                 data : rows
             }
             console.log('acaaa');
-            res.render('index', locals)
+			res.render('index', locals)
+
         }
-    })
+	})
+	console.log("res" , res)
+	return res;
 }
 
 UsuarioController.getOne = (req, res, next) => {

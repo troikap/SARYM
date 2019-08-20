@@ -3,7 +3,9 @@
 let UsuarioController = require('../controllers/usuario-controller'),
     express = require('express'),    
     router = express.Router();
-console.log('holaaaaaaaaaaaaaaa '+router.get('/', UsuarioController.getAll));
+console.log('holaaaaaaaaaaaaaaa '+ router.get('/', UsuarioController.getAll));
+
+console.log('router     -------     ', router)
 router
     .get('/', UsuarioController.getAll)
     .post('/', UsuarioController.save)

@@ -4,12 +4,7 @@ let conn = require('./usuario-connection');
 let UsuarioModel = () => {};
 let algo = null;
 
-UsuarioModel.getAll =  (cb) =>  {conn.query('SELECT * FROM usuario', cb)
-console.log('aca ' + cb);
-this.UsuarioModel = cb;
-this.algo = cb;
-console.log(this.UsuarioModel)
-}
+UsuarioModel.getAll =  (cb) =>  conn.query('SELECT * FROM usuario', cb)
 console.log('aca usuarios' + UsuarioModel);
 console.log('aca algo' + algo);
 
