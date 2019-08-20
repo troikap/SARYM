@@ -1,6 +1,6 @@
 'use strict'
 
-let mysql = require('mysql'),
+var mysql = require('mysql'),
 	conf = require('./db-conf'),
 	dbOptions = {
 		host : conf.mysql.host,
@@ -16,5 +16,7 @@ myConn.connect((err) => {
 })
 
 //console.log(conf.mysql.db)
+//console.log("algo " ,myConn)
+
 
 module.exports = myConn

@@ -1,14 +1,12 @@
 'use strict'
 
-let conn = require('./usuario-connection');
-let UsuarioModel = () => {};
-let algo = null;
+var conn = require('./usuario-connection'),
+   UsuarioModel = () => {}
 
 UsuarioModel.getAll =  (cb) =>  conn.query('SELECT * FROM usuario', cb)
-console.log('aca usuarios' + UsuarioModel);
-console.log('aca algo' + algo);
 
 UsuarioModel.getOne = (id, cb) => conn.query('SELECT * FROM usuario WHERE idUsuario = ?', id, cb)
+
 UsuarioModel.save = (data, cb) => {
 	conn.query('SELECT * FROM usuario WHERE idUsuario = ?', data.idUsuario, (err, rows) => {
 		console.log(`Número de registros: ${rows.length}`)

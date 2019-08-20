@@ -1,9 +1,8 @@
 'use strict'
 
-let UsuarioController = require('../controllers/usuario-controller'),
+var UsuarioController = require('../controllers/usuario-controller'),
     express = require('express'),    
     router = express.Router();
-console.log('holaaaaaaaaaaaaaaa '+ router.get('/', UsuarioController.getAll));
 
 console.log('router     -------     ', router)
 router

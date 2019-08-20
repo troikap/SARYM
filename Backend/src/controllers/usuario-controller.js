@@ -1,11 +1,10 @@
 'use strict'
 
-let UsuarioModel = require('../models/usuario-model'),
+var UsuarioModel = require('../models/usuario-model'),
 	UsuarioController = () => {}
 
 UsuarioController.getAll = (req, res, next) => {
     UsuarioModel.getAll((err, rows) => {
-		console.log("mierda")
         if(err)
         {
             console.log('errr')
@@ -20,16 +19,14 @@ UsuarioController.getAll = (req, res, next) => {
         {
             
             let locals = {
-                title : 'Lista de Películas',
+                title : 'Lista de Usuarios',
                 data : rows
             }
-            console.log('acaaa');
-			res.render('index', locals)
+            console.log('acaaa', locals);
+			//res.render('index', locals)
 
         }
 	})
-	console.log("res" , res)
-	return res;
 }
 
 UsuarioController.getOne = (req, res, next) => {

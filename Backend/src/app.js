@@ -1,11 +1,13 @@
 'use strict'
 
-let express = require('express'),
+var express = require('express'),
     favicon = require('serve-favicon'),
     bodyParser = require('body-parser'),
     morgan = require('morgan'),
     restFul = require('express-method-override')('_method'),
+
     routes = require('./routes/usuario-router'),
+    
     faviconURL = `${__dirname}/public/img/node-favicon.png`,
     publicDir = express.static(`${__dirname}/public`),
     viewDir = `${__dirname}/views`,
@@ -15,8 +17,8 @@ let express = require('express'),
 // settings
 app
 //app.set('view engine', 'ejs');
-    .set('views', viewDir)
-    .set('view engine', 'jade')
+    //.set('views', viewDir)
+    //.set('view engine', 'jade')
     .set('port', port)
 
     .use( favicon(faviconURL) )
