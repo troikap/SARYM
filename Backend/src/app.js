@@ -1,32 +1,48 @@
-const express = require('express');
-const app = express();
-const morgan = require('morgan');
-const path = require('path');
-const mysql = require('mysql');
-const myConnection = require('express-myconnection');
+'use strict'
 
-// importin routes
-const customerRoutes = require('./routes/customer');
+const express = require('express'),
+    favicon = require('serve-favicon'),
+    bodyParser = require('body-parser'),
+    morgan = require('morgan'),
+    restFul = require('express-method-override')('_method'),
+    routes = require('./routes/usuario-router'),
+    faviconURL = `${__dirname}/public/img/node-favicon.png`,
+    publicDir = express.static(`${__dirname}/public`),
+    viewDir = `${__dirname}/views`,
+    port = (process.env.PORT || 3000),
+    app = express()
 
 // settings
-app.set('port', process.env.PORT || 3000);
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app
+//app.set('view engine', 'ejs');
+    .set('views', viewDir)
+    .set('view engine', 'jade')
+    .set('port', port)
 
-// middlewares
-app.use(morgan('dev'));
+    .use( favicon(faviconURL) )
+    .use( bodyParser.json() )
+	// parse application/x-www-form-urlencoded
+    .use( bodyParser.urlencoded({extended: false}))
+    .use(restFul)
+	.use( morgan('dev') )
+	.use(publicDir)
+	.use(routes)
+
+module.exports = app;
+
+/*
 app.use(myConnection(mysql, {
     host: 'localhost',
     user: 'root',
     password: 'root',
     port: 3306,
-    // database: 'sarym'
-    database: 'crudnodejsmysql'
+    database: 'sarym'
+    //database: 'crudnodejsmysql'
 }, 'single'))
 
 
 // routes
-app.use('/', customerRoutes);
+app.use('/usuario', usuariorRoutes);
 
 // static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -34,7 +50,4 @@ app.use(express.static(path.join(__dirname, 'public')));
 // starting the server
 app.listen(app.get('port'), () => {
 console.log('Server on port 3000');
-})
-
-
-
+})*/

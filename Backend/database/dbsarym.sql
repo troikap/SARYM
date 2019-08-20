@@ -4,19 +4,11 @@ CREATE DATABASE sarym;
 --using the database
 use sarym;
 
--- creating a table
-/*CREATE TABLE customer (
-    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    address VARCHAR(100) NOT NULL,
-    phone VARCHAR(15)
-);*/
-
 -- USUARIO
     -- usuario
 create table usuario (
     idUsuario INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
-    cuitUsuario INT NOT NULL, 
+    cuitUsuario INT(11) NOT NULL, 
     nombreUsuario VARCHAR(50) NOT NULL, 
     apellidoUsuario VARCHAR(50) NOT NULL, 
     contrasenaUsuario VARCHAR(50) NOT NULL,  
@@ -24,40 +16,40 @@ create table usuario (
     domicilioUsuario VARCHAR(50) NOT NULL, 
     emailUsuario VARCHAR(50) NOT NULL, 
     idDepartamento INT, 
-    nroCelularUsuario INT, 
+    nroCelularUsuario INT(11), 
     nroTelefonoUsuario INT);
 
     -- departamento
-create table sarym.departamento(
+create table departamento(
     idDepartamento INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
     nombreDepartamento VARCHAR(50) NOT NULL)
 
     -- usuarioestado
-create table sarym.usuarioestado(
+create table usuarioestado(
     idUsuarioEstado INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    idUsuario INT(10) UNSIGNED,
-    idEstadoUsuario INT(5) UNSIGNED,
+    idUsuario INT(10) UNSIGNED NOT NULL,
+    idEstadoUsuario INT(5) UNSIGNED NOT NULL,
     descripcionUsuarioEstado VARCHAR(50), 
-    fechaYHoraAltaUsuarioEstado datetime,
+    fechaYHoraAltaUsuarioEstado datetime NOT NULL,
     fechaYHoraBajaUsuarioEstado datetime)
 
     -- estadousuario
-create table sarym.estadousuario(
+create table estadousuario(
     idEstadoUsuario INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    nombreEstadoUsuario VARCHAR(50))
+    nombreEstadoUsuario VARCHAR(50) NOT NULL)
 
     -- rolusuario
 create table rolusuario(
     idRolUsuario INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    idUsuario INT(10) UNSIGNED,
-    idRol INT(5) UNSIGNED, 
-    fechaYHoraAltaUsuarioEstado datetime,
+    idUsuario INT(10) UNSIGNED NOT NULL,
+    idRol INT(5) UNSIGNED NOT NULL,
+    fechaYHoraAltaUsuarioEstado datetime NOT NULL,
     fechaYHoraBajaUsuarioEstado datetime)
 
     -- rol
 create table rol(
     idRol INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    nombreRol VARCHAR(50))
+    nombreRol VARCHAR(50) NOT NULL)
 
     -- comensal
 create table comensal (
@@ -81,7 +73,7 @@ create table mesa (
 create table sector(
     idSector INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     codSector VARCHAR(50) NOT NULL,
-    nombreSector VARCHAR(50),
+    nombreSector VARCHAR(50) NOT NULL,
     fechaYHoraBajaSector datetime)
 
     -- ubicacion
@@ -93,9 +85,9 @@ create table ubicacion(
     -- mesaestado
 create table mesaestado(
     idMesaEstado INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    idMesa INT(10) UNSIGNED,
-    idEstadoMesa INT(5) UNSIGNED,
-    fechaYHoraAltaMesaEstado datetime,
+    idMesa INT(10) UNSIGNED NOT NULL,
+    idEstadoMesa INT(5) UNSIGNED NOT NULL,
+    fechaYHoraAltaMesaEstado datetime NOT NULL,
     fechaYHoraBajaMesaEstado datetime)
 
     -- estadomesa
@@ -134,10 +126,10 @@ create table unidadmedida (
     -- productoestado
 create table productoestado(
 	idProductoEstado INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	idProducto INT(10) UNSIGNED,
-	idEstadoProducto INT(5) UNSIGNED,
+	idProducto INT(10) UNSIGNED NOT NULL,
+	idEstadoProducto INT(5) UNSIGNED NOT NULL,
 	descripcionProductoEstado VARCHAR(50), 
-	fechaYHoraAltaProductoEstado datetime,
+	fechaYHoraAltaProductoEstado datetime NOT NULL,
 	fechaYHoraBajaProductoEstado datetime)
 
     -- estadoproducto
@@ -158,7 +150,7 @@ create table precioproducto(
 	idProducto INT(10) UNSIGNED NOT NULL,
 	idTipoMoneda INT(5) UNSIGNED NOT NULL,
 	importePrecioProducto float NOT NULL, 
-	fechaYHoraDesdePrecioProducto datetime,
+	fechaYHoraDesdePrecioProducto datetime NOT NULL,
 	fechaYHoraHastaPrecioProducto datetime)
 
 -- MENUPROMOCION
@@ -189,7 +181,7 @@ create table preciomenupromocion(
 	idMenuPromocion INT(10) UNSIGNED NOT NULL,
 	idTipoMoneda INT(5) UNSIGNED NOT NULL,
 	importePrecioMenuPromocion float NOT NULL, 
-	fechaYHoraDesdePrecioMenuPromocion datetime,
+	fechaYHoraDesdePrecioMenuPromocion datetime NOT NULL,
 	fechaYHoraHastaPrecioMenuPromocion datetime)
 
     -- menupromocionestado
@@ -212,20 +204,20 @@ create table estadomenupromocion(
 create table pedido(
 	idPedido INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	idComensal INT(12) UNSIGNED NOT NULL,
-	idEstadia INT(12) UNSIGNED,
-    idReserva INT(12) UNSIGNED,
+	idEstadia INT(12) UNSIGNED NOT NULL,
+    idReserva INT(12) UNSIGNED NOT NULL,
     codPedido VARCHAR(50) NOT NULL,
-	fechaYHoraInicioPedido datetime,
+	fechaYHoraInicioPedido datetime NOT NULL,
 	fechaYHoraFinPedido datetime)
 
     -- detallepedidoproducto
 create table detallepedidoproducto (
     idDetallePedidoProducto INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
     idPedido INT(12) UNSIGNED NOT NULL,
-    idMenuPromocion INT(12) UNSIGNED,
-    idProducto INT(12) UNSIGNED,
+    idMenuPromocion INT(12) UNSIGNED NOT NULL,
+    idProducto INT(12) UNSIGNED NOT NULL,
     cantidadPedidoProducto INT(5) NOT NULL,
-    fechaYHoraInicioPedidoProducto datetime,
+    fechaYHoraInicioPedidoProducto datetime NOT NULL,
     fechaYHoraEntregaPedidoProducto datetime);
 
     -- pedidoestado
@@ -323,7 +315,7 @@ create table clienteestadia (
     --caja
 create table caja(
     idCaja INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
-    nroCaja INT(5) NOT NULL)
+    nroCaja INT(5) UNSIGNED NOT NULL)
 
     -- cajaestado
 create table cajaestado (
