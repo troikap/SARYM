@@ -6,11 +6,12 @@ var express = require('express'),
     morgan = require('morgan'),
     restFul = require('express-method-override')('_method'),
 
-    routes = require('./routes/usuario-router'),
+    router = require('./routes/routes'),
+    // routes = require('./routes/usuario/usuario-router'),
     
     faviconURL = `${__dirname}/public/img/node-favicon.png`,
     publicDir = express.static(`${__dirname}/public`),
-    viewDir = `${__dirname}/views`,
+    //viewDir = `${__dirname}/views`,
     port = (process.env.PORT || 3000),
     app = express()
 
@@ -27,8 +28,9 @@ app
     .use( bodyParser.urlencoded({extended: false}))
     .use(restFul)
 	.use( morgan('dev') )
-	.use(publicDir)
-	.use(routes)
+    .use(publicDir)
+    .use(router)
+	// .use(routes)
 
 module.exports = app;
 
