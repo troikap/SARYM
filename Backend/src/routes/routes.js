@@ -3,26 +3,40 @@
 var express = require('express');  
 var router = express.Router();
 
-var UsuarioController = require('../controllers/usuario/usuario-controller');
-var EstadoUsuarioController = require('../controllers/estadousuario/estadousuario-controller');
-    
-//usuario
+//sincronizador
+require('../database/sincronizar-bd');
+
+var UsuarioController = require('../class/usuario/usuario-controller');
+var EstadoUsuarioController = require('../class/estadousuario/estadousuario-controller');
+// var UsuarioEstadoController = require('../class/usuarioestado/usuarioestado-controller');
+
 router
-    .get('/usuario', UsuarioController.getAll)
-    .post('/usuario', UsuarioController.save)
+// usuario
+    .get('/usuario', UsuarioController.getAll )
+    .post('/usuario', UsuarioController.create)
     .get('/usuario/:idUsuario', UsuarioController.getOne)
-    .post('/usuario/baja/:idUsuario', UsuarioController.bajalogica)
-    .delete('/usuario/:idUsuario', UsuarioController.delete)
+    .post('/usuario/:idUsuario', UsuarioController.delete)
+    .delete('/usuario/:idUsuario', UsuarioController.destroy)
    
 
-//estadousuario
+// estadousuario
     .get('/estadousuario', EstadoUsuarioController.getAll)
-    .post('/estadousuario', EstadoUsuarioController.save)
+    .post('/estadousuario', EstadoUsuarioController.create)
     .get('/estadousuario/:idEstadoUsuario', EstadoUsuarioController.getOne)
-    .post('/estadousuario/:idEstadoUsuario', EstadoUsuarioController.save)
-    .delete('/estadousuario/:idEstadoUsuario', EstadoUsuarioController.delete)
-    .use(UsuarioController.error404)
+    .post('/estadousuario/:idEstadoUsuario', EstadoUsuarioController.delete)
+    .delete('/estadousuario/:idEstadoUsuario', EstadoUsuarioController.destroy)
+
+// usuarioestado
+//     .get('/usuarioestado', UsuarioEstadoController.getAll)
+//     .post('/usuarioestado', UsuarioEstadoController.create)
+//     .get('/usuarioestado/:idEstadoUsuario', UsuarioEstadoController.getOne)
+//     .post('/usuarioestado/:idEstadoUsuario', UsuarioEstadoController.delete)
+//     .delete('/usuarioestado/:idEstadoUsuario', UsuarioEstadoController.destroy)
+
+// //use
     .use(EstadoUsuarioController.error404)
+    .use(UsuarioController.error404)
+//     .use(UsuarioEstadoController.error404)
 
 
 module.exports = router
