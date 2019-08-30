@@ -1,8 +1,11 @@
 "use strict";
 
-const Model = require("./usuario-model"),
-  ModelEstado = require("../usuarioestado/usuarioestado-model"),
-  EstadoModel = require("../estadousuario/estadousuario-model"),
+const UsuarioModelo = require("./usuario-model"),
+  UsuarioEstadoModelo = require("../usuarioestado/usuarioestado-model"),
+  EstadoUsuarioModelo = require("../estadousuario/estadousuario-model"),
+  Sequelize = require('sequelize'),
+  sequelize = require('../../database/connection'),
+  Op = Sequelize.Op,
   UsuarioController = () => {},
   legend = "Usuario",
   legend2 = "UsuarioEstado",
@@ -16,33 +19,51 @@ const Model = require("./usuario-model"),
 
 
 UsuarioController.getAll = (req, res) => {
-  Model.findAll({ raw: true }).then(response => {
+  let locals = {};
+  // BUSCA EL USUARIO CON ID INGRESADO
+  UsuarioModelo.findAll({ 
+    // BUSCA POR FORANEA 
+    include: [
+      { 
+        model: UsuarioEstadoModelo, 
+        include: [
+          {
+            model: EstadoUsuarioModelo,
+            attributes: [
+              'nombreEstadoUsuario'
+            ]
+          }
+        ]
+      }  
+    ],
+  }).then(response => {
     if (!response || response == 0) {
-      let locals = {
-        title: `No existen registros de ${legend}`
+      // SI NO EXISTEN REGISTROS DE USUARIO
+      locals.title = {
+        descripcion: `No existen registros de ${legend}`
       };
       res.json(locals);
     } else {
-      let locals = {
-        title: `${legend}`,
-        data: response
-      };
-      res.json(locals);
+      // SI EXISTE EL USUARIO REGRESARLOS CON SUS ASOCIACIONES
+      locals.title = `${legend}/s encontrado/s`;
+      locals[legend] = response;
+      res.json(locals)
     }
-  });
+  })
 };
 
 UsuarioController.getOne = (req, res) => {
   let locals = {};
   // BUSCA EL USUARIO CON ID INGRESADO
-  Model.findOne({
+  UsuarioModelo.findOne({
     where: { [idtable]: req.params[idtable]  },
+    // BUSCA POR FORANEA 
     include: [
       { 
-        model: ModelEstado, 
+        model: UsuarioEstadoModelo, 
         include: [
           {
-            model: EstadoModel,
+            model: EstadoUsuarioModelo,
             attributes: [
               'nombreEstadoUsuario'
             ]
@@ -61,14 +82,8 @@ UsuarioController.getOne = (req, res) => {
       // SI EXISTE EL USUARIO AGREGAMOS A LA VARIABLE EL MISMO
       locals.title = `${legend} encontrado`;
       locals[legend] = response.dataValues;
-      console.log("other : ",response)
-      res.json(response)
+      res.json(locals)
     }
-
-
-
-
-
   });
 };
 
@@ -78,12 +93,12 @@ UsuarioController.create = (req, res) => {
   if (req.body[idtable]) {
     // SI CREAMOS MANDANDO ID DE USUARIO
     // BUSCA SI EXISTE USUARIO
-    Model.findOne({
+    UsuarioModelo.findOne({
       where: { [idtable]: req.body[idtable] }
     }).then(response => {
       if (!response || response == 0) {
         // BUSCA SI EXISTE ESTADO DE USUARIO
-        EstadoModel.findOne({
+        EstadoUsuarioModelo.findOne({
           where: { [nombreEstado]: "Activo" }
         }).then(response => {
           if (!response || response == 0) {
@@ -94,7 +109,7 @@ UsuarioController.create = (req, res) => {
             locals.title = { descripcion: `${legend3} encontrada` };
             locals[legend3] = response;
             // CREAMOS INSTANCIA USUARIO
-            Model.create(req.body).then(result => {
+            UsuarioModelo.create(req.body).then(result => {
               locals.title = { descripcion: `${legend} creado` };
               locals[legend] = result;
               let push = {
@@ -103,7 +118,7 @@ UsuarioController.create = (req, res) => {
                 fechaYHoraAltaUsuarioEstado: new Date() ///////////////////////////////  HARKODEO
               };
               // CREANDO INSTANCIA USUARIO ESTADO
-              ModelEstado.create(push).then(result => {
+              UsuarioEstadoModelo.create(push).then(result => {
                 locals.title = {
                   descripcion: `${legend} creado , ${legend2} creado`
                 };
@@ -124,7 +139,7 @@ UsuarioController.create = (req, res) => {
           }
         }
         if (check) {
-          Model.update(req.body, {
+          UsuarioModelo.update(req.body, {
             where: {
               [idtable]: req.body[idtable]
             }
@@ -145,7 +160,7 @@ UsuarioController.create = (req, res) => {
   } else {
     // SI CREAMOS SIN MANDAR ID DE USUARIO GENERANDOSE AUTOMATICAMENTE EL ID
     // BUSCA SI EXISTE ESTADO DE USUARIO
-    EstadoModel.findOne({
+    EstadoUsuarioModelo.findOne({
       where: { nombreEstadoUsuario: "Activo" }
     }).then(response => {
       if (!response || response == 0) {
@@ -156,7 +171,7 @@ UsuarioController.create = (req, res) => {
         locals.title = { descripcion: `${legend3} encontrada` };
         locals[legend3] = response;
         // CREAMOS INSTANCIA USUARIO
-        Model.create(req.body).then(result => {
+        UsuarioModelo.create(req.body).then(result => {
           locals.title = { descripcion: `${legend} creado` };
           locals[legend] = result;
           let push = {
@@ -165,7 +180,7 @@ UsuarioController.create = (req, res) => {
             fechaYHoraAltaUsuarioEstado: new Date()
           };
           // CREANDO INSTANCIA USUARIO ESTADO
-          ModelEstado.create(push).then(result => {
+          UsuarioEstadoModelo.create(push).then(result => {
             locals.title = {
               descripcion: `${legend} creado , ${legend2} creado`
             };
@@ -179,27 +194,59 @@ UsuarioController.create = (req, res) => {
 };
 
 UsuarioController.delete = (req, res) => {
-  let [idtabla] = req.params[idtabla];
-  UsuarioModel.getOne([idtabla], (err, rows) => {
-    if (err) {
-      let locals = {
-        title: `Error al buscar el registro con el id: ${[idtabla]}`,
-        description: "Error de Sintaxis SQL",
-        error: err
-      };
-      res.json(locals);
-    } else {
-      let locals = {
-        title: `${leyenda}: ${[idtabla]}`,
-        data: rows
-      };
-      res.json(locals);
-    }
-  });
-};
+  let locals = {};
+    // BUSCA EL USUARIO CON ID INGRESADO
+    UsuarioEstadoModelo.update({
+        fechaYHoraBajaUsuarioEstado: Date()
+      },{
+        where:  { idUsuario: req.params[idtable] , fechaYHoraBajaUsuarioEstado: null }
+      })
+      .then( ( resp ) => {
+        if (!resp || resp == 0){
+          locals.title = "Error al intentar encontrar Intermedia que este de Baja"
+          res.json(locals)
+        }else {
+          locals.title = `${legend2} Actualizada`
+          locals.update = "Actualizado el Registro";
+          res.json(locals)
+        } 
+      })
+
+
+
+    // UsuarioModelo.findOne({
+    //   where: { [idtable]: req.params[idtable]  },
+    //   // BUSCA POR FORANEA 
+    //   include: [
+    //     { 
+    //       model: UsuarioEstadoModelo,
+    //       where: { fechaYHoraBajaUsuarioEstado: null } 
+    //     }  
+    //   ],
+    // }).then(response => {
+    //   console.log(response)
+    //   UsuarioEstadoModelo.update({
+    //     fechaYHoraBajaUsuarioEstado: Date()
+    //   },{
+    //     where: {idUsuarioEstado: req.params[idtable]}
+    //   })
+    //   .then( ( resp ) => {
+    //     if (!resp || resp == 0){
+    //       locals.title = "Error al intentar encontrar Intermedia que este de Baja"
+    //     }else {
+    //       locals.title = `${legend2} Actualizada`
+    //       locals.update = "Actualizado el Registro";
+    //       res.json(locals)
+    //     } 
+    //   })
+      
+    // })
+  }
+
+
 
 UsuarioController.destroy = (req, res) => {
-  Model.destroy({
+  UsuarioModelo.destroy({
     where: {
       [idtable]: req.params[idtable]
     }
@@ -229,6 +276,37 @@ UsuarioController.error404 = (req, res, next) => {
   res.json(locals);
   next();
 };
+
+UsuarioController.validateUser= (req, res , next) => {
+  let locals = {};
+  // BUSCA EL USUARIO CON ID INGRESADO
+  UsuarioModelo.findOne({
+    where: { [idtable]: req.params[idtable]  },
+    // BUSCA POR FORANEA 
+    include: [
+      { 
+        model: UsuarioEstadoModelo,
+        where: { fechaYHoraBajaUsuarioEstado: null } ,
+        include: [
+          {
+            model: EstadoUsuarioModelo,
+            where: { nombreEstadoUsuario: { [Op.notLike]: 'Eliminado'}}
+          }
+        ]
+      }  
+    ],
+  }).then(response => {
+    if (!response || response == 0){
+      locals = {
+        title: "No se encuentra Estado del usuario Diferente a Eliminado"
+      };
+      res.json(locals)
+    }else {
+      next();
+    }
+  })
+}
+
 
 module.exports = UsuarioController;
 

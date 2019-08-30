@@ -1,10 +1,10 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const ModelEstado = require('../usuarioestado/usuarioestado-model');
+const UsuarioEstadoModelo = require('../usuarioestado/usuarioestado-model');
 var sequelize = require('../../database/connection');
 
-const Model = sequelize.define('usuario', {
+const UsuarioModelo = sequelize.define('usuario', {
 	// attributes
 	idUsuario: {
 	  type: Sequelize.INTEGER,
@@ -51,8 +51,16 @@ const Model = sequelize.define('usuario', {
   }, {
 	// options
   });
+// belongsTo Tiene
+// hasMany varios
 
-  Model.hasMany( ModelEstado , {foreignKey: "idUsuario"} )
+// ASOCIACIONES
+UsuarioModelo.hasMany( UsuarioEstadoModelo , {foreignKey: "idUsuario"} )
+
+// SCOPES
+
+// HOOKS
+ 
 
   // allowNull Sequelize.DATE
 //    Sequelize.STRING 
@@ -68,4 +76,4 @@ const Model = sequelize.define('usuario', {
 
 
 
-module.exports = Model 
+module.exports = UsuarioModelo 

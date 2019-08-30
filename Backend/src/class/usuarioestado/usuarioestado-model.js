@@ -36,18 +36,10 @@ const UsuarioModel = sequelize.define('usuarioestado', {
 	// options
   });
 // belongsTo Tiene
+// hasMany varios
 
 // ASOCIACIONES
 UsuarioModel.belongsTo( EstadoUsuarioModel , {foreignKey: "idEstadoUsuario"} )
-// UsuarioModel.belongsTo( EstadoUsuarioModel , {foreignKey: "idEstadoUsuario"} )
-// UsuarioModel.belongsTo( EstadoUsuarioModel , {foreignKey: "idEstadoUsuario"} )
-// UsuarioModel.belongsTo( EstadoUsuarioModel , {foreignKey: "idEstadoUsuario"} )
-
-// UsuarioModel.hasMany( EstadoUsuarioModel , {foreignKey: "idEstadoUsuario"} )
-// UsuarioModel.hasMany( EstadoUsuarioModel , {foreignKey: "idEstadoUsuario"} )
-// UsuarioModel.hasMany( EstadoUsuarioModel , {foreignKey: "idEstadoUsuario"} )
-// UsuarioModel.hasMany( EstadoUsuarioModel , {foreignKey: "idEstadoUsuario"} )
-
 
 // SCOPES
 
