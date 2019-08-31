@@ -2,11 +2,11 @@
 
 const Sequelize = require('sequelize');
 var sequelize = require('../../database/connection');
-const EstadoUsuarioModel = require("../estadousuario/estadousuario-model");
+const EstadoUsuarioModelo = require("../estadousuario/estadousuario-model");
 
 
 // DEFINICION DEL MODELO
-const UsuarioModel = sequelize.define('usuarioestado', {
+const UsuarioEstadoModelo = sequelize.define('usuarioestado', {
 	// attributes
 	idUsuarioEstado: {
 	  type: Sequelize.INTEGER,
@@ -39,10 +39,11 @@ const UsuarioModel = sequelize.define('usuarioestado', {
 // hasMany varios
 
 // ASOCIACIONES
-UsuarioModel.belongsTo( EstadoUsuarioModel , {foreignKey: "idEstadoUsuario"} )
+UsuarioEstadoModelo.belongsTo( EstadoUsuarioModelo , {foreignKey: "idEstadoUsuario"} )
 
 // SCOPES
 
 // HOOKS
 
-module.exports = UsuarioModel 
+
+module.exports = UsuarioEstadoModelo 

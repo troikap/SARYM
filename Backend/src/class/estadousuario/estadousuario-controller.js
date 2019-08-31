@@ -1,14 +1,13 @@
 "use strict";
 
-const Model = require("./estadousuario-model"),
-  Metodos = require("../metodos"),
+const EstadoUsuarioModelo = require("./estadousuario-model"),
   EstadoUsuarioController = () => {},
   legend = "Estado Usuario",
   idtable = "idEstadoUsuario",
   table = "estadousuario";
 
 EstadoUsuarioController.getAll = (req, res, next) => {
-  Model.findAll({ raw: true }).then(projects => {
+  EstadoUsuarioModelo.findAll({ raw: true }).then(projects => {
     if (!projects || projects == 0) {
       let locals = {
         title: `No existen registros de ${legend}`
@@ -25,7 +24,7 @@ EstadoUsuarioController.getAll = (req, res, next) => {
 };
 
 EstadoUsuarioController.getOne = (req, res, next) => {
-  Model.findOne({
+  EstadoUsuarioModelo.findOne({
     where: { [idtable]: req.params[idtable] }
   }).then(project => {
     if (!project || project == 0) {
@@ -45,11 +44,11 @@ EstadoUsuarioController.getOne = (req, res, next) => {
 
 EstadoUsuarioController.create = (req, res) => {
   if (req.body[idtable]) {
-    Model.findOne({
+    EstadoUsuarioModelo.findOne({
       where: { [idtable]: req.body[idtable] }
     }).then(project => {
       if (!project || project == 0) {
-        Model.create(req.body).then(result => {
+        EstadoUsuarioModelo.create(req.body).then(result => {
           let locals = {
             title: `Creando ${legend}`,
             id: result[idtable],
@@ -67,7 +66,7 @@ EstadoUsuarioController.create = (req, res) => {
           }
         }
         if (check) {
-          Model.update(req.body, {
+          EstadoUsuarioModelo.update(req.body, {
             where: {
               [idtable]: req.body[idtable]
             }
@@ -86,7 +85,7 @@ EstadoUsuarioController.create = (req, res) => {
       }
     });
   } else {
-    Model.create(req.body).then(result => {
+    EstadoUsuarioModelo.create(req.body).then(result => {
       let locals = {
         title: `Creando Nuevo ${legend}: ${result[idtable]}`,
         data: result
@@ -98,7 +97,7 @@ EstadoUsuarioController.create = (req, res) => {
 
 EstadoUsuarioController.delete = (req, res, next) => {
   let [idtabla] = req.params[idtabla];
-  UsuarioModel.getOne([idtabla], (err, rows) => {
+  UsuarioEstadoUsuarioModelo.getOne([idtabla], (err, rows) => {
     if (err) {
       let locals = {
         title: `Error al buscar el registro con el id: ${[idtabla]}`,
@@ -117,7 +116,7 @@ EstadoUsuarioController.delete = (req, res, next) => {
 };
 
 EstadoUsuarioController.destroy = (req, res, next) => {
-  Model.destroy({
+  EstadoUsuarioModelo.destroy({
     where: {
       [idtable]: req.params[idtable]
     }

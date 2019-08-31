@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../../database/connection');
 
-const EstadoUsuarioModel = sequelize.define('estadousuario', {
+const EstadoUsuarioModelo = sequelize.define('estadousuario', {
 	// attributes
 	idEstadoUsuario: {
 	  type: Sequelize.INTEGER,
@@ -19,4 +19,5 @@ const EstadoUsuarioModel = sequelize.define('estadousuario', {
 	// options
   });
 
-module.exports = EstadoUsuarioModel 
+
+module.exports = EstadoUsuarioModelo 
