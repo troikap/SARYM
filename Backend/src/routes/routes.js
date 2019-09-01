@@ -9,6 +9,7 @@ require('../database/sincronizar-bd');
 var UsuarioController = require('../class/usuario/usuario-controller');
 var EstadoUsuarioController = require('../class/estadousuario/estadousuario-controller');
 var DepartamentoController = require('../class/departamento/departamento-controller');
+var RolController = require('../class/rol/rol-controller');
 
 router
 // usuario
@@ -33,10 +34,18 @@ router
     .post('/departamento/:idDepartamento', DepartamentoController.delete)
     .delete('/departamento/:idDepartamento', DepartamentoController.destroy)
 
+// rol
+    .get('/rol', RolController.getAll)
+    .post('/rol', RolController.create)
+    .get('/rol/:idRol', RolController.getOne)
+    .post('/rol/:idRol', RolController.delete)
+    .delete('/rol/:idRol', RolController.destroy)
+
 // //use
     .use(EstadoUsuarioController.error404)
     .use(UsuarioController.error404)
     .use(DepartamentoController.error404)
+    .use(RolController.error404)
 
 
 

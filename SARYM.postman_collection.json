@@ -33,6 +33,20 @@
 			"id": "2e24674c-8897-542b-c092-0e47f8259f9e"
 		},
 		{
+			"name": "Rol",
+			"description": "",
+			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
+			"order": [
+				"cd2bf019-746e-95ac-2c67-36cfe6b79eaa",
+				"c0eadec6-c1e0-bc23-ac6d-bd4eee95d988",
+				"e455a964-54a0-a10a-b91b-491c3aba0351",
+				"fb93872d-cf2d-daa1-9ac1-388bdeb35c37"
+			],
+			"owner": "4724418",
+			"folders_order": [],
+			"id": "0b156f28-727a-a148-348e-c5b732b87990"
+		},
+		{
 			"name": "Usuario",
 			"description": "",
 			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
@@ -50,6 +64,7 @@
 	],
 	"folders_order": [
 		"2e24674c-8897-542b-c092-0e47f8259f9e",
+		"0b156f28-727a-a148-348e-c5b732b87990",
 		"a7438a6b-2132-07ae-4c1e-4734fd623d4d",
 		"bf90811b-29bd-9089-ce53-e5fde0523233"
 	],
@@ -327,6 +342,52 @@
 			"responses": []
 		},
 		{
+			"id": "c0eadec6-c1e0-bc23-ac6d-bd4eee95d988",
+			"headers": "",
+			"headerData": [],
+			"url": "localhost:3000/rol/2",
+			"folder": "0b156f28-727a-a148-348e-c5b732b87990",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1567358301088,
+			"name": "Get Rol : id",
+			"description": "Trae todos los Usuarios",
+			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
+			"responses": []
+		},
+		{
+			"id": "cd2bf019-746e-95ac-2c67-36cfe6b79eaa",
+			"headers": "",
+			"headerData": [],
+			"url": "localhost:3000/rol",
+			"folder": "0b156f28-727a-a148-348e-c5b732b87990",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1567358301727,
+			"name": "Get Rol",
+			"description": "Trae todos los Usuarios",
+			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
+			"responses": []
+		},
+		{
 			"id": "d2c80708-bcf2-d80d-c298-1ea33839c23f",
 			"headers": "Content-Type: application/json\n",
 			"headerData": [
@@ -356,6 +417,60 @@
 			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
 			"responses": [],
 			"rawModeData": "{\n\t\"idDepartamento\" : 20,\n\t\"nombreDepartamento\": \"ccccccccccc\"\n}"
+		},
+		{
+			"id": "e455a964-54a0-a10a-b91b-491c3aba0351",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:3000/rol",
+			"folder": "0b156f28-727a-a148-348e-c5b732b87990",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1567358299715,
+			"name": "Post Rol",
+			"description": "Puede o no ir el idEstadoUsuario",
+			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
+			"responses": [],
+			"rawModeData": "{\n\t\"idRol\" : 10,\n\t\"nombreRol\": \"Eliminado\"\n}"
+		},
+		{
+			"id": "fb93872d-cf2d-daa1-9ac1-388bdeb35c37",
+			"headers": "",
+			"headerData": [],
+			"url": "localhost:3000/rol/10",
+			"folder": "0b156f28-727a-a148-348e-c5b732b87990",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "DELETE",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1567358311901,
+			"name": "Del Rol : id",
+			"description": "Trae todos los Usuarios",
+			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
+			"responses": []
 		},
 		{
 			"id": "fff480ce-552b-cdd3-3b20-0cd709901982",

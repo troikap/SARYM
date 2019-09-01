@@ -4,6 +4,8 @@ const UsuarioModelo = require("./usuario-model"),
   UsuarioEstadoModelo = require("../usuarioestado/usuarioestado-model"),
   EstadoUsuarioModelo = require("../estadousuario/estadousuario-model"),
   DepartamentoModelo = require("../departamento/departamento-model"),
+  RolModelo = require("../rol/rol-model"),
+  RolUsuarioModelo = require("../rolusuario/rolusuario-model"),
   Sequelize = require('sequelize'),
   sequelize = require('../../database/connection'),
   Op = Sequelize.Op,
@@ -54,6 +56,21 @@ UsuarioController.getAll = (req, res) => {
           }
         ]
       },
+      { 
+        model: RolUsuarioModelo, 
+        attributes: [
+          'fechaYHoraAltaRolUsuario',
+          'fechaYHoraBajaRolUsuario'
+        ],
+        include: [
+          {
+            model:RolModelo,
+            attributes: [
+              'nombreRol'
+            ]
+          }
+        ]
+      },      
       {
         model: DepartamentoModelo,
         attributes: [
@@ -113,6 +130,21 @@ UsuarioController.getOne = (req, res) => {
           }
         ]
       },
+      { 
+        model: RolUsuarioModelo, 
+        attributes: [
+          'fechaYHoraAltaRolUsuario',
+          'fechaYHoraBajaRolUsuario'
+        ],
+        include: [
+          {
+            model:RolModelo,
+            attributes: [
+              'nombreRol'
+            ]
+          }
+        ]
+      },      
       {
         model: DepartamentoModelo,
         attributes: [
@@ -245,22 +277,22 @@ UsuarioController.create = (req, res) => {
 UsuarioController.delete = (req, res, next) => {
   let locals = {};
     // BUSCA EL USUARIO CON ID INGRESADO
-    UsuarioEstadoModelo.update({
-        fechaYHoraBajaUsuarioEstado: Date()
-      },{
-        where:  { idUsuario: req.params[idtable] , fechaYHoraBajaUsuarioEstado: null }
-      })
-      .then( ( resp ) => {
-        if (!resp || resp == 0){
-          locals.title = "Error al intentar encontrar Intermedia que este de Baja"
-          res.json(locals)
-        }else {
-          locals.title = `${legend2} Actualizada`
-          locals.update = "Actualizado el Registro";
-          next()
-        } 
-      })
-  }
+  UsuarioEstadoModelo.update({
+    fechaYHoraBajaUsuarioEstado: Date()
+  },{
+    where:  { idUsuario: req.params[idtable] , fechaYHoraBajaUsuarioEstado: null }
+  })
+  .then( ( resp ) => {
+    if (!resp || resp == 0){
+      locals.title = "Error al intentar encontrar Intermedia que este de Baja"
+      res.json(locals)
+    }else {
+      locals.title = `${legend2} Actualizada`
+      locals.update = "Actualizado el Registro";
+      next()
+    } 
+  })
+}
 
   // ESTE QUEDA SUSPENDIDO .... NO LO USO MAS ... LO CAMBIO POR EL changeState
 UsuarioController.stateDelete = (req, res) => {
@@ -355,6 +387,7 @@ UsuarioController.validateUser= (req, res , next) => {
       };
       res.json(locals)
     }else {
+
       next();
     }
   })

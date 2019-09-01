@@ -7,6 +7,8 @@ require('../class/estadousuario/estadousuario-model');
 require('../class/departamento/departamento-model');
 require('../class/usuario/usuario-model');
 require('../class/usuarioestado/usuarioestado-model');
+require('../class/rol/rol-model');
+require('../class/rolusuario/rolusuario-model');
 
 console.log("Se esta ejecutando sincronizar")
 
