@@ -15,7 +15,7 @@ router
     .get('/usuario', UsuarioController.getAll )
     .post('/usuario', UsuarioController.create)
     .get('/usuario/:idUsuario', UsuarioController.getOne)
-    .post('/usuario/:idUsuario', UsuarioController.validateUser,UsuarioController.delete)
+    .post('/usuario/:idUsuario', UsuarioController.validateUser,UsuarioController.delete,UsuarioController.stateDelete)
     .delete('/usuario/:idUsuario', UsuarioController.destroy)
    
 

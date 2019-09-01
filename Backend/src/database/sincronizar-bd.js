@@ -9,7 +9,7 @@ require('../class/usuarioestado/usuarioestado-model');
 
 console.log("Se esta ejecutando sincronizar")
 
-sequelize.sync({force: true});  // force = false  crea nuevos modelos/tablas dejando las creadas intactas
+sequelize.sync({force: false});  // force = false  crea nuevos modelos/tablas dejando las creadas intactas
 
 //require('../class/prueba');
 

@@ -193,7 +193,7 @@ UsuarioController.create = (req, res) => {
   }
 };
 
-UsuarioController.delete = (req, res) => {
+UsuarioController.delete = (req, res, next) => {
   let locals = {};
     // BUSCA EL USUARIO CON ID INGRESADO
     UsuarioEstadoModelo.update({
@@ -208,40 +208,34 @@ UsuarioController.delete = (req, res) => {
         }else {
           locals.title = `${legend2} Actualizada`
           locals.update = "Actualizado el Registro";
-          res.json(locals)
+          next()
         } 
       })
-
-
-
-    // UsuarioModelo.findOne({
-    //   where: { [idtable]: req.params[idtable]  },
-    //   // BUSCA POR FORANEA 
-    //   include: [
-    //     { 
-    //       model: UsuarioEstadoModelo,
-    //       where: { fechaYHoraBajaUsuarioEstado: null } 
-    //     }  
-    //   ],
-    // }).then(response => {
-    //   console.log(response)
-    //   UsuarioEstadoModelo.update({
-    //     fechaYHoraBajaUsuarioEstado: Date()
-    //   },{
-    //     where: {idUsuarioEstado: req.params[idtable]}
-    //   })
-    //   .then( ( resp ) => {
-    //     if (!resp || resp == 0){
-    //       locals.title = "Error al intentar encontrar Intermedia que este de Baja"
-    //     }else {
-    //       locals.title = `${legend2} Actualizada`
-    //       locals.update = "Actualizado el Registro";
-    //       res.json(locals)
-    //     } 
-    //   })
-      
-    // })
+   
   }
+
+  UsuarioController.stateDelete = (req, res) => {
+    let locals = {};
+      // BUSCA EL USUARIO CON ID INGRESADO
+      EstadoUsuarioModelo.findOne({
+        where: { nombreEstadoUsuario: "Eliminado" }
+      }).then(response => {
+      let push = {
+         [idestadotable]: response.dataValues[idestadotable],
+         [idtable]: req.params[idtable],
+        fechaYHoraAltaUsuarioEstado: new Date(),
+        descripcionUsuarioEstado: "por jodido"
+      };
+      UsuarioEstadoModelo.create(push).then(result => {
+        locals.title = {
+          descripcion: `${legend} creado , ${legend2} creado`
+        };
+        locals[legend2] = result;
+        res.json(locals);
+      });
+    })
+    }
+  
 
 
 
