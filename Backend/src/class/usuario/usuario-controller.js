@@ -3,6 +3,7 @@
 const UsuarioModelo = require("./usuario-model"),
   UsuarioEstadoModelo = require("../usuarioestado/usuarioestado-model"),
   EstadoUsuarioModelo = require("../estadousuario/estadousuario-model"),
+  DepartamentoModelo = require("../departamento/departamento-model"),
   Sequelize = require('sequelize'),
   sequelize = require('../../database/connection'),
   Op = Sequelize.Op,
@@ -23,9 +24,27 @@ UsuarioController.getAll = (req, res) => {
   // BUSCA EL USUARIO CON ID INGRESADO
   UsuarioModelo.findAll({ 
     // BUSCA POR FORANEA 
+    attributes: [
+      'idUsuario',
+      'cuitUsuario',
+      'nombreUsuario',
+      'apellidoUsuario',
+      'contrasenaUsuario',
+      'dniUsuario',
+      'domicilioUsuario',
+      'emailUsuario',
+      'idDepartamento',
+      'nroCelularUsuario',
+      'nroTelefonoUsuario',
+    ],
     include: [
       { 
         model: UsuarioEstadoModelo, 
+        attributes: [
+          'descripcionUsuarioEstado',
+          'fechaYHoraAltaUsuarioEstado',
+          'fechaYHoraBajaUsuarioEstado'
+        ],
         include: [
           {
             model: EstadoUsuarioModelo,
@@ -33,6 +52,12 @@ UsuarioController.getAll = (req, res) => {
               'nombreEstadoUsuario'
             ]
           }
+        ]
+      },
+      {
+        model: DepartamentoModelo,
+        attributes: [
+          'nombreDepartamento'
         ]
       }  
     ],
@@ -57,10 +82,28 @@ UsuarioController.getOne = (req, res) => {
   // BUSCA EL USUARIO CON ID INGRESADO
   UsuarioModelo.findOne({
     where: { [idtable]: req.params[idtable]  },
+    attributes: [
+      'idUsuario',
+      'cuitUsuario',
+      'nombreUsuario',
+      'apellidoUsuario',
+      'contrasenaUsuario',
+      'dniUsuario',
+      'domicilioUsuario',
+      'emailUsuario',
+      'idDepartamento',
+      'nroCelularUsuario',
+      'nroTelefonoUsuario',
+    ],
     // BUSCA POR FORANEA 
     include: [
       { 
         model: UsuarioEstadoModelo, 
+        attributes: [
+          'descripcionUsuarioEstado',
+          'fechaYHoraAltaUsuarioEstado',
+          'fechaYHoraBajaUsuarioEstado'
+        ],
         include: [
           {
             model: EstadoUsuarioModelo,
@@ -69,7 +112,13 @@ UsuarioController.getOne = (req, res) => {
             ]
           }
         ]
-      }  
+      },
+      {
+        model: DepartamentoModelo,
+        attributes: [
+          'nombreDepartamento'
+        ]
+      }    
     ],
   }).then(response => {
     if (!response || response == 0) {

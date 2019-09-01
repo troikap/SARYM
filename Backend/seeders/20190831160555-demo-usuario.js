@@ -1,3 +1,5 @@
+
+
 'use strict';
 
 var currentDate = new Date();
@@ -14,7 +16,7 @@ module.exports = {
       "dniUsuario": 36850688,
       "domicilioUsuario": "Villa Mercedes 1235",
       "emailUsuario": "lucaz_pato@gmail.com",
-      "idDepartamento": null, 
+      "idDepartamento": 1, 
       "nroCelularUsuario": 4318023,
       "nroTelefonoUsuario": 261387547,
       "createdAt": currentDate,
@@ -29,7 +31,7 @@ module.exports = {
       "dniUsuario": 36850688,
       "domicilioUsuario": "Villa Mercedes 1235",
       "emailUsuario": "lucaz_pato@gmail.com",
-      "idDepartamento": null, 
+      "idDepartamento": 2, 
       "nroCelularUsuario": 4318023,
       "nroTelefonoUsuario": 261387547,
       "createdAt": currentDate,
@@ -44,7 +46,7 @@ module.exports = {
       "dniUsuario": 36850688,
       "domicilioUsuario": "Villa Mercedes 1235",
       "emailUsuario": "lucaz_pato@gmail.com",
-      "idDepartamento": null, 
+      "idDepartamento": 3, 
       "nroCelularUsuario": 4318023,
       "nroTelefonoUsuario": 261387547,
       "createdAt": currentDate,
@@ -58,3 +60,4 @@ module.exports = {
       .then(console.log("que onda!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1"));
   }
 };
+
