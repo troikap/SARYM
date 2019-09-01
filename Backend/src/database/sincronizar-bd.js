@@ -4,6 +4,7 @@ const sequelize = require('./connection');
 
 // models
 require('../class/estadousuario/estadousuario-model');
+require('../class/departamento/departamento-model');
 require('../class/usuario/usuario-model');
 require('../class/usuarioestado/usuarioestado-model');
 
@@ -13,4 +14,5 @@ sequelize.sync({force: false});  // force = false  crea nuevos modelos/tablas de
 
 //require('../class/prueba');
 
+//  node_modules/.bin/sequelize seed:generate --name demo-user          crea nueva semilla
 // node_modules/.bin/sequelize db:seed:all        para correr la semilla

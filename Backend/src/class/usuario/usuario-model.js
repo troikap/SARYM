@@ -2,6 +2,7 @@
 
 const Sequelize = require('sequelize');
 const UsuarioEstadoModelo = require('../usuarioestado/usuarioestado-model');
+const DepartamentoModelo = require('../departamento/departamento-model');
 var sequelize = require('../../database/connection');
 
 const UsuarioModelo = sequelize.define('usuario', {
@@ -56,6 +57,7 @@ const UsuarioModelo = sequelize.define('usuario', {
 
 // ASOCIACIONES
 UsuarioModelo.hasMany( UsuarioEstadoModelo , {foreignKey: "idUsuario"} )
+UsuarioModelo.belongsTo( DepartamentoModelo , {foreignKey: "idDepartamento"} )
 
 // SCOPES
 

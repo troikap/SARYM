@@ -211,33 +211,53 @@ UsuarioController.delete = (req, res, next) => {
           next()
         } 
       })
-   
   }
 
-  UsuarioController.stateDelete = (req, res) => {
-    let locals = {};
-      // BUSCA EL USUARIO CON ID INGRESADO
-      EstadoUsuarioModelo.findOne({
-        where: { nombreEstadoUsuario: "Eliminado" }
-      }).then(response => {
-      let push = {
-         [idestadotable]: response.dataValues[idestadotable],
-         [idtable]: req.params[idtable],
-        fechaYHoraAltaUsuarioEstado: new Date(),
-        descripcionUsuarioEstado: "por jodido"
+  // ESTE QUEDA SUSPENDIDO .... NO LO USO MAS ... LO CAMBIO POR EL changeState
+UsuarioController.stateDelete = (req, res) => {
+  let locals = {};
+    // BUSCA EL USUARIO CON ID INGRESADO
+    EstadoUsuarioModelo.findOne({
+      where: { nombreEstadoUsuario: "Eliminado" }
+    }).then(response => {
+    let push = {
+        [idestadotable]: response.dataValues[idestadotable],
+        [idtable]: req.params[idtable],
+      fechaYHoraAltaUsuarioEstado: new Date(),
+      descripcionUsuarioEstado: "por jodido"
+    };
+    UsuarioEstadoModelo.create(push).then(result => {
+      locals.title = {
+        descripcion: `${legend} creado , ${legend2} creado`
       };
-      UsuarioEstadoModelo.create(push).then(result => {
-        locals.title = {
-          descripcion: `${legend} creado , ${legend2} creado`
-        };
-        locals[legend2] = result;
-        res.json(locals);
-      });
-    })
-    }
-  
+      locals[legend2] = result;
+      res.json(locals);
+    });
+  })
+}
 
-
+// Metodo generico para crear intermedia entre Estado Usuario y Usuario... Esta recibe el nombre del estado y la descripcion del cambio.
+UsuarioController.changeState = (req, res) => {
+  let locals = {};
+    // BUSCA EL USUARIO CON ID INGRESADO
+    EstadoUsuarioModelo.findOne({
+      where: { nombreEstadoUsuario:  req.body.estado}
+    }).then(response => {
+    let push = {
+        [idestadotable]: response.dataValues[idestadotable],
+        [idtable]: req.params[idtable],
+      fechaYHoraAltaUsuarioEstado: new Date(),
+      descripcionUsuarioEstado: req.body.descripcion
+    };
+    UsuarioEstadoModelo.create(push).then(result => {
+      locals.title = {
+        descripcion: `Cambio de estado de ${legend}, pasado a ${req.body.estado}.`
+      };
+      locals[legend2] = result;
+      res.json(locals);
+    });
+  })
+}
 
 UsuarioController.destroy = (req, res) => {
   UsuarioModelo.destroy({
@@ -259,18 +279,7 @@ UsuarioController.destroy = (req, res) => {
   });
 };
 
-UsuarioController.error404 = (req, res, next) => {
-  let error = new Error(),
-    locals = {
-      title: "Error 404",
-      description: `Recurso ${leyenda} No Encontrado`,
-      error: error
-    };
-  error.status = 404;
-  res.json(locals);
-  next();
-};
-
+// Valida si al quererse cambiar de estado, no exista ya en el mismo estado.
 UsuarioController.validateUser= (req, res , next) => {
   let locals = {};
   // BUSCA EL USUARIO CON ID INGRESADO
@@ -284,15 +293,16 @@ UsuarioController.validateUser= (req, res , next) => {
         include: [
           {
             model: EstadoUsuarioModelo,
-            where: { nombreEstadoUsuario: { [Op.notLike]: 'Eliminado'}}
+            where: { nombreEstadoUsuario: { [Op.notLike]: req.body.estado}}
           }
         ]
       }  
     ],
   }).then(response => {
     if (!response || response == 0){
+      console.log(req.body.estado)
       locals = {
-        title: "No se encuentra Estado del usuario Diferente a Eliminado"
+        title: `No se encuentra Estado del usuario Diferente a ${req.body.estado}`
       };
       res.json(locals)
     }else {
@@ -301,6 +311,17 @@ UsuarioController.validateUser= (req, res , next) => {
   })
 }
 
+UsuarioController.error404 = (req, res, next) => {
+  let error = new Error(),
+    locals = {
+      title: "Error 404",
+      description: `Recurso ${leyenda} No Encontrado`,
+      error: error
+    };
+  error.status = 404;
+  res.json(locals);
+  next();
+};
 
 module.exports = UsuarioController;
 
