@@ -7,6 +7,8 @@ import { identifierModuleUrl } from '@angular/compiler';
 })
 export class UsuarioServiceService {
 
+  baseUrl: string = 'http://localhost:3000';
+
   constructor(
     private http: HttpClient
     ) { }
