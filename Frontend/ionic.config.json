@@ -1,5 +1,7 @@
 {
-  "name": "Frontend",
-  "integrations": {},
+  "name": "capacitacion-ionic",
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

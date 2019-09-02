@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text="Regresar" defaultHref="/"></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{titulo}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-button expand="full" (click)="presentAlertLucas()" color="secondary">
+        Cambiar Titulo!
+    </ion-button>
+
+
+
+    <ion-button expand="full" fill="clear" (click)="presentAlert()" color="secondary">
+        Informativa presentAlert
+    </ion-button>
+    <ion-button expand="full" fill="outline" (click)="presentAlertMultipleButtons()" color="secondary">
+        Modal Delete presentAlertMultipleButtons
+    </ion-button>
+    <ion-button expand="full" fill="solid" (click)="presentAlertConfirm()" color="secondary">
+        Delete presentAlertConfirm
+    </ion-button>
+    <ion-button expand="full" (click)="presentAlertPrompt()" color="secondary">
+        Add info presentAlertPrompt
+    </ion-button>
+    <ion-button expand="full" fill="clear" (click)="presentAlertRadio()" color="secondary">
+        Selections presentAlertRadio
+    </ion-button>
+    <ion-button expand="full" fill="clear" (click)="presentAlertCheckbox()" color="secondary">
+        Checkbox presentAlertCheckbox
+    </ion-button>
+</ion-content>

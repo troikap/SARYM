@@ -1,1 +1,58 @@
-
+    .my-custom-menu {
+        --width: 500px;
+    }
+    
+    ion-content {
+        ion-slides {
+            height: calc(100% - 210px);
+            min-width: 100%;
+            ion-slide {
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: cover;
+                overflow: visible;
+            }
+        }
+    }
+    
+    ion-footer {
+        ion-toolbar {
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            background-color: transparent;
+            ion-list.list-radius {
+                padding-bottom: 0px;
+                padding-top: 0px;
+                background-color: transparent;
+                ion-item:first-child {
+                    border-top-left-radius: 15px;
+                    border-top-right-radius: 15px;
+                }
+                ion-label {
+                    background-color: transparent;
+                    font-weight: 900;
+                    padding-left: 10px;
+                    padding-top: 1px;
+                }
+            }
+        }
+        ion-icon.list-icon {
+            padding: 10px;
+            font-size: 35px;
+            padding-left: 20px;
+        }
+    }
+    
+     :host {
+        ion-toolbar {
+            --background: transparent;
+            background: transparent !important;
+            background-color: transparent !important;
+        }
+        div.slides {
+            div.swiper-pagination-bullets {
+                bottom: 50px!important;
+            }
+        }
+    }

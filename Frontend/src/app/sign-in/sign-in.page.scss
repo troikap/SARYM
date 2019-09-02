@@ -1,0 +1,16 @@
+:host {
+    background: url('../../assets/imgs/background_login.png') no-repeat center center fixed;
+    background-size: cover;
+}
+ion-content {
+    --background: unset;
+}
+.terms-text {
+    text-align: center;
+    p {
+        color: var(--ion-color-light-shade);
+        a {
+            color: var(--ion-color-light);
+        }
+    }
+}

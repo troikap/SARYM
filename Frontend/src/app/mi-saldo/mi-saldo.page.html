@@ -1,0 +1,49 @@
+<div class="ion-page" main>
+    <ion-header>
+        <ion-toolbar color="primary">
+            <ion-buttons slot="start">
+                <ion-icon routerLink="/home" name="arrow-back"></ion-icon>
+            </ion-buttons>
+            <ion-title class="ion-text-center">
+                <ion-img class="logo" src="../../assets/icon/logo-sarym-extrafino.jpg"> </ion-img>
+            </ion-title>
+            <ion-buttons class="header-final" slot="end">
+                <ion-icon name="person"></ion-icon>
+            </ion-buttons>
+            <ion-buttons slot="end">
+                <ion-icon name="notifications"></ion-icon>
+            </ion-buttons>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-content no-padding color="primary" class="ion-text-center ion-text-capitalize">
+
+        <div class="super">
+            <ion-title>mi saldo</ion-title>
+            <ion-icon routerLink="/mi-cuenta" name="arrow-forward"></ion-icon>
+            <div class="balance">$ 000000,00</div>
+            <hr class="ion-no-padding" />
+            <div class="recharge ion-text-uppercase">recarga</div>
+        </div>
+
+        <div class="list-radius">
+            <ion-list>
+                <ion-item *ngFor="let item of acount" no-padding>
+                    <ion-icon class="list-icon" name="{{item.img}}"></ion-icon>
+                    <div class="inf">
+                        <ion-label>{{item.date}}</ion-label>
+                        <ion-label>{{item.name}}</ion-label>
+                    </div>
+                    <div slot="end">
+                        <ion-label [ngClass]="{'cash': item.id=='1', 'point': item.id=='2' }">{{item.valor}}</ion-label>
+                    </div>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div class="space"></div>
+    </ion-content>
+    <div class="float">
+        <ion-icon name="aperture"></ion-icon>
+    </div>
+
+</div>

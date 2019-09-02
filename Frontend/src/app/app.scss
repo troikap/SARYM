@@ -1,0 +1,61 @@
+// App Styles
+// ----------------------------------------------------------------------------
+// Put style rules here that you want to apply to the entire application. These 
+// styles are for the entire app and not just one component. Additionally, this 
+// file can hold Sass mixins, functions, and placeholder classes to be imported 
+// and used throughout the application)
+@font-face {
+    font-family: SF;
+    font-style: normal;
+    font-weight: 400;
+    src: url(../assets/fonts/SF/SFProText-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: SF;
+    font-style: normal;
+    font-weight: 600;
+    src: url(../assets/fonts/SF/SFProText-Medium.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: SF;
+    font-style: normal;
+    font-weight: 100;
+    src: url(../assets/fonts/SF/SFProText-Light.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: SF;
+    font-style: normal;
+    font-weight: 900;
+    src: url(../assets/fonts/SF/SFProText-Bold.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: SFDisplay;
+    font-style: normal;
+    font-weight: 400;
+    src: url(../assets/fonts/SF/SFProDisplay-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: SFDisplay;
+    font-style: normal;
+    font-weight: 600;
+    src: url(../assets/fonts/SF/SFProDisplay-Medium.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: SFDisplay;
+    font-style: normal;
+    font-weight: 100;
+    src: url(../assets/fonts/SF/SFProDisplay-Light.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: SFDisplay;
+    font-style: normal;
+    font-weight: 900;
+    src: url(../assets/fonts/SF/SFProDisplay-Bold.ttf) format('truetype');
+}
