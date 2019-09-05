@@ -14,6 +14,8 @@ const routes: Routes = [
   { path: 'sumaqr', loadChildren: './sumaqr/sumaqr.module#SumaqrPageModule' },
   { path: 'card-page', loadChildren: './card-page/card-page.module#CardPagePageModule' },
   { path: 'logueo', loadChildren: './logueo/logueo.module#LogueoPageModule' },
+  { path: 'sign-up', loadChildren: './sign-up/sign-up.module#SignUpPageModule' },
+  { path: 'registro', loadChildren: './registro/registro.module#RegistroPageModule' },
 ];
 
 @NgModule({

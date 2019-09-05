@@ -9,12 +9,17 @@ var express = require('express'),
     faviconURL = `${__dirname}/public/img/node-favicon.png`,
     publicDir = express.static(`${__dirname}/public`),
     port = (process.env.PORT || 3000),
-    app = express()
+    app = express();
 
 // settings
 app
     .set('port', port)
-
+    .use((req, res, next) => {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+        next();
+    })
     .use( favicon(faviconURL) )
     .use( bodyParser.json() )
 	// parse application/x-www-form-urlencoded
@@ -23,5 +28,7 @@ app
 	.use( morgan('dev') )
     .use(publicDir)
     .use(routes)
+   
+    
 
 module.exports = app;

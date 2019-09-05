@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
-import { UsuarioServiceService } from '../services/usuario-service.service';
+import { UsuarioService } from '../services/usuario/usuario.service';
+import { logging } from 'protractor';
 
 @Component({
   selector: 'app-home',
@@ -28,18 +29,22 @@ export class HomePage {
   ];
 
   constructor(private menu: MenuController,
-    private usuarioservice: UsuarioServiceService) {
+    private usuarioservice: UsuarioService) {
   }
 
   openFirst() {
     this.menu.toggle();
   }
 
-  verusuario(){
-    this.usuarioservice.getUsers()
-    .then( algo => {
-      console.log("Hola servicio : ", algo);
-    });
+  OnInit(){}
+getUsuario(id){
+  this.usuarioservice.getUsuario(id);
+
+}
+
+  async getUsuarios() {
+  let datos = await this.usuarioservice.getUsuarios();
   }
+  
 
 }

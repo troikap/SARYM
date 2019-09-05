@@ -13,6 +13,7 @@ var RolController = require('../class/rol/rol-controller');
 
 router
 // usuario
+    .post('/usuario/logueo', UsuarioController.logueo)
     .get('/usuario', UsuarioController.getAll )
     .post('/usuario', UsuarioController.create)
     .get('/usuario/:idUsuario', UsuarioController.getOne)

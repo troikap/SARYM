@@ -20,16 +20,73 @@ const UsuarioModelo = require("./usuario-model"),
   table = "usuario";
 
 
+  UsuarioController.logueo = (req, res) => {
+    let locals = {};
+      UsuarioModelo.findAll({
+        where: { cuitUsuario: req.body.cuitUsuario,
+        contrasenaUsuario: req.body.contrasenaUsuario},
+        attributes: [
+          'idUsuario',
+          'nombreUsuario' ,
+          'apellidoUsuario'
+        ],
+        include: [
+          { 
+            model: UsuarioEstadoModelo,
+            where: { fechaYHoraBajaUsuarioEstado: null },
+            attributes: [
+              'descripcionUsuarioEstado',
+              'fechaYHoraAltaUsuarioEstado',
+              'fechaYHoraBajaUsuarioEstado'
+            ],
+            include: [
+              {
+                model: EstadoUsuarioModelo,
+                attribute: [
+                  'nombreEstadoUsuario'
+                ]
+              }
+            ]
+          }  
+        ],
+      }).then(response => {
+      if (response && response != 0){
+        if( response[0].usuarioestados[0].estadousuario.dataValues.nombreEstadoUsuario != 'Activo' ){
+          locals.title = {
+            descripcion: `Usuario Suspendido o dado de Baja`,
+            tipo: 3
+          };
+          res.json(locals);
+        } else {
+          locals.title = {
+            descripcion: `Usuario Logueado`,
+            tipo: 1
+          };
+          locals[legend2] = response;
+          res.json(locals);
+        }
+      } else {
+        locals.title = {
+          descripcion: `Usuario o Contraseña invalidos`,
+          tipo: 2
+        };
+        res.json(locals);
+      }
+      });
+  }
 
 UsuarioController.getAll = (req, res) => {
   let locals = {};
+  // res.header('Access-Control-Allow-Origin', '*');
+  // // res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
+  // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   // BUSCA EL USUARIO CON ID INGRESADO
   UsuarioModelo.findAll({ 
     // BUSCA POR FORANEA 
     attributes: [
       'idUsuario',
       'cuitUsuario',
-      'nombreUsuario',
+      'nombreUsuario' ,
       'apellidoUsuario',
       'contrasenaUsuario',
       'dniUsuario',
@@ -92,10 +149,11 @@ UsuarioController.getAll = (req, res) => {
       res.json(locals)
     }
   })
-};
+}
 
 UsuarioController.getOne = (req, res) => {
   let locals = {};
+  res.header('Access-Control-Allow-Origin' , '*');
   // BUSCA EL USUARIO CON ID INGRESADO
   UsuarioModelo.findOne({
     where: { [idtable]: req.params[idtable]  },
@@ -170,6 +228,7 @@ UsuarioController.getOne = (req, res) => {
 
 // CREACION DE CONTEXTO USUARIO : VERIFICACION DE ESTADOS USUARIO + CREACION DE USUARIO + CREACION DE USUARIO ESTADO
 UsuarioController.create = (req, res) => {
+  res.header('Access-Control-Allow-Origin' , '*');
   let locals = {};
   if (req.body[idtable]) {
     // SI CREAMOS MANDANDO ID DE USUARIO
@@ -275,6 +334,7 @@ UsuarioController.create = (req, res) => {
 };
 
 UsuarioController.delete = (req, res, next) => {
+  res.header('Access-Control-Allow-Origin' , '*');
   let locals = {};
     // BUSCA EL USUARIO CON ID INGRESADO
   UsuarioEstadoModelo.update({
@@ -319,6 +379,7 @@ UsuarioController.stateDelete = (req, res) => {
 
 // Metodo generico para crear intermedia entre Estado Usuario y Usuario... Esta recibe el nombre del estado y la descripcion del cambio.
 UsuarioController.changeState = (req, res) => {
+  res.header('Access-Control-Allow-Origin' , '*');
   let locals = {};
     // BUSCA EL USUARIO CON ID INGRESADO
     EstadoUsuarioModelo.findOne({
@@ -341,6 +402,7 @@ UsuarioController.changeState = (req, res) => {
 }
 
 UsuarioController.destroy = (req, res) => {
+  res.header('Access-Control-Allow-Origin' , '*');
   UsuarioModelo.destroy({
     where: {
       [idtable]: req.params[idtable]
@@ -362,6 +424,7 @@ UsuarioController.destroy = (req, res) => {
 
 // Valida si al quererse cambiar de estado, no exista ya en el mismo estado.
 UsuarioController.validateUser= (req, res , next) => {
+  res.header('Access-Control-Allow-Origin' , '*');
   let locals = {};
   // BUSCA EL USUARIO CON ID INGRESADO
   UsuarioModelo.findOne({
@@ -382,6 +445,7 @@ UsuarioController.validateUser= (req, res , next) => {
   }).then(response => {
     if (!response || response == 0){
       console.log(req.body.estado)
+      console.log("WFT!!!!!!!!!!!!!!!!!!!")
       locals = {
         title: `No se encuentra Estado del usuario Diferente a ${req.body.estado}`
       };
@@ -394,10 +458,11 @@ UsuarioController.validateUser= (req, res , next) => {
 }
 
 UsuarioController.error404 = (req, res, next) => {
+  res.header('Access-Control-Allow-Origin' , '*');
   let error = new Error(),
     locals = {
       title: "Error 404",
-      description: `Recurso ${leyenda} No Encontrado`,
+      description: `Recurso ${legend} No Encontrado`,
       error: error
     };
   error.status = 404;

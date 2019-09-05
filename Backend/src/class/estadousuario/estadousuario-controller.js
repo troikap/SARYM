@@ -7,6 +7,7 @@ const EstadoUsuarioModelo = require("./estadousuario-model"),
   table = "estadousuario";
 
 EstadoUsuarioController.getAll = (req, res, next) => {
+  res.header('Access-Control-Allow-Origin' , '*');
   EstadoUsuarioModelo.findAll({ raw: true }).then(projects => {
     if (!projects || projects == 0) {
       let locals = {
@@ -24,6 +25,7 @@ EstadoUsuarioController.getAll = (req, res, next) => {
 };
 
 EstadoUsuarioController.getOne = (req, res, next) => {
+  res.header('Access-Control-Allow-Origin' , '*');
   EstadoUsuarioModelo.findOne({
     where: { [idtable]: req.params[idtable] }
   }).then(project => {
@@ -43,6 +45,7 @@ EstadoUsuarioController.getOne = (req, res, next) => {
 };
 
 EstadoUsuarioController.create = (req, res) => {
+  res.header('Access-Control-Allow-Origin' , '*');
   if (req.body[idtable]) {
     EstadoUsuarioModelo.findOne({
       where: { [idtable]: req.body[idtable] }
@@ -96,6 +99,7 @@ EstadoUsuarioController.create = (req, res) => {
 };
 
 EstadoUsuarioController.delete = (req, res, next) => {
+  res.header('Access-Control-Allow-Origin' , '*');
   let [idtabla] = req.params[idtabla];
   UsuarioEstadoUsuarioModelo.getOne([idtabla], (err, rows) => {
     if (err) {
@@ -116,6 +120,7 @@ EstadoUsuarioController.delete = (req, res, next) => {
 };
 
 EstadoUsuarioController.destroy = (req, res, next) => {
+  res.header('Access-Control-Allow-Origin' , '*');
   EstadoUsuarioModelo.destroy({
     where: {
       [idtable]: req.params[idtable]

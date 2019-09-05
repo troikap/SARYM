@@ -1,23 +1,37 @@
 <ion-content padding>
-  <ion-row class="mt-18vh">
-    <ion-col col-8 offset-2 class="text-center">
-      <img src="../../assets/imgs/WTF2.png">
+  <ion-row class='mt-18vh'>
+    <ion-col col-8 offset-2 class='text-center'>
+      <img src='../../assets/imgs/WTF2.png'>
     </ion-col>
   </ion-row>
 </ion-content>
 
 <ion-footer padding>
-  <!-- <ion-row *ngIf="isReady == true"> -->
-      <ion-row>
-    <ion-col size="10" offset="1">
+  <!-- <ion-row *ngIf='isReady == true'> -->
+  <ion-row>
+    <ion-col size='10' offset='1'>
       <ion-row>
         <ion-col>
-          <ion-button expand="full" shape="round" color="primary" (click)="goTo('sign-in')">Loguear</ion-button>
-          <ion-button expand="full" shape="round" (click)="goTo('sign-up')" color="primary">Registrarse</ion-button>
-          <ion-button expand="full" shape="round" (click)="goTo('home')" color="primary">Sin Logueo</ion-button>
+          <form [formGroup]='form' *ngIf='form'>
+            <ion-item>
+                <!-- <ion-label for='cuitUsuario'>Cuit Usuario</ion-label> -->
+              <ion-row>
+                <ion-input type='number' id='cuitUsuario' placeholder='Ingrese Cuit' formControlName='cuitUsuario'></ion-input>
+              </ion-row>
+            </ion-item>
+            <ion-item>
+              <ion-row>
+                <ion-input type='text' id='contrasenaUsuario' placeholder='Ingrese Contraseña' formControlName='contrasenaUsuario'  ></ion-input>
+              </ion-row>
+            </ion-item>
+          </form>
+          <ion-button expand='full' shape='round' color='primary' (click)='loguear()'>Loguear</ion-button>
+          <!-- <ion-button expand='full' shape='round' color='primary' (click)='goTo('sign-in')'>Loguear</ion-button> -->
+          <ion-button expand='full' shape='round' (click)="goTo('sign-up')" color='primary'>Registrarse</ion-button>
+          <ion-button expand='full' shape='round' (click)="goTo('home')" color='primary'>Sin Logueo</ion-button>
         </ion-col>
       </ion-row>
-      <ion-row class="mt-10 terms-text">
+      <ion-row class='mt-10 terms-text'>
         <ion-col>
           <span></span>
         </ion-col>

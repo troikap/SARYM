@@ -32,11 +32,11 @@
                 </ion-item>
                 <ion-item no-padding>
                     <ion-icon color="primary" class="list-icon" name="card"></ion-icon>
-                    <ion-label color="primary">CANJEÁ</ion-label>
+                    <ion-label (click)=getUsuario(1) color="primary">CANJEÁ</ion-label>
                 </ion-item>
                 <ion-item no-padding>
                     <ion-icon color="primary" class="list-icon" name="albums"></ion-icon>
-                    <ion-label (click)=verusuario() color="primary">CATÁLOCO</ion-label>
+                    <ion-label (click)=getUsuarios() color="primary">CATÁLOCO</ion-label>
                 </ion-item>
             </ion-list>
         </ion-toolbar>

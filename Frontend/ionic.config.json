@@ -1,7 +1,13 @@
 {
-  "name": "capacitacion-ionic",
+  "name": "Sarym",
   "integrations": {
     "cordova": {}
   },
+  "proxies":[ 
+    {
+      "path": "/usuario",
+      "proxyUrl": "localhost:3000"
+    }
+  ],
   "type": "angular"
 }

@@ -5,13 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SignInPage } from './sign-in.page';
-// import { TranslateModule } from '@ngx-translate/core';
+import { RegistroPage } from './registro.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: SignInPage
+    component: RegistroPage
   }
 ];
 
@@ -20,9 +19,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
-    // TranslateModule.forChild()
+    RouterModule.forChild(routes)
   ],
-  declarations: [SignInPage]
+  declarations: [RegistroPage]
 })
-export class SignInPageModule {}
+export class RegistroPageModule {}
