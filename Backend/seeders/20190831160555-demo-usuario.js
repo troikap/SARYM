@@ -9,7 +9,7 @@ module.exports = {
     return queryInterface.bulkInsert('usuarios', [
     {
       "idUsuario": 1,
-      "cuitUsuario": 2036850688, 
+      "cuitUsuario": 20368506886, 
       "nombreUsuario": "Lucas", 
       "apellidoUsuario": "Perez", 
       "contrasenaUsuario": "123456789",   
@@ -24,10 +24,10 @@ module.exports = {
     } ,
     {
       "idUsuario": 2,
-      "cuitUsuario": 888888888, 
+      "cuitUsuario": 20374128575, 
       "nombreUsuario": "Roberto", 
       "apellidoUsuario": "Carlos", 
-      "contrasenaUsuario": "1234",   
+      "contrasenaUsuario": "12345",   
       "dniUsuario": 36850688,
       "domicilioUsuario": "Villa Mercedes 1235",
       "emailUsuario": "lucaz_pato@gmail.com",
@@ -39,7 +39,7 @@ module.exports = {
   },
     {
       "idUsuario": 3,
-      "cuitUsuario": 999999999, 
+      "cuitUsuario": 20123456786, 
       "nombreUsuario": "Julian", 
       "apellidoUsuario": "Lopez", 
       "contrasenaUsuario": "4321",   

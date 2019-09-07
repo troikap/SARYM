@@ -16,7 +16,7 @@ const UsuarioModelo = sequelize.define('usuario', {
 	  autoIncrement: true
 	},
 	cuitUsuario: {
-		type: Sequelize.INTEGER,
+		type: Sequelize.BIGINT(11),
 		allowNull: false,
 	},
 	nombreUsuario: {

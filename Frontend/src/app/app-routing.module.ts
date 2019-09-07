@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: 'logueo', loadChildren: './logueo/logueo.module#LogueoPageModule' },
   { path: 'sign-up', loadChildren: './sign-up/sign-up.module#SignUpPageModule' },
   { path: 'registro', loadChildren: './registro/registro.module#RegistroPageModule' },
+  { path: 'registro-usuario', loadChildren: './registro-usuario/registro-usuario.module#RegistroUsuarioPageModule' },
 ];
 
 @NgModule({

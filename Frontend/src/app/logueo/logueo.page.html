@@ -13,17 +13,27 @@
       <ion-row>
         <ion-col>
           <form [formGroup]='form' *ngIf='form'>
-            <ion-item>
+            <ion-item class="form-group">
                 <!-- <ion-label for='cuitUsuario'>Cuit Usuario</ion-label> -->
               <ion-row>
-                <ion-input type='number' id='cuitUsuario' placeholder='Ingrese Cuit' formControlName='cuitUsuario'></ion-input>
+                <ion-input class="form-control" type='number' id='cuitUsuario' placeholder='Ingrese Cuit' formControlName='cuitUsuario'></ion-input>
               </ion-row>
             </ion-item>
-            <ion-item>
-              <ion-row>
-                <ion-input type='text' id='contrasenaUsuario' placeholder='Ingrese Contraseña' formControlName='contrasenaUsuario'  ></ion-input>
-              </ion-row>
-            </ion-item>
+            <ion-row no-padding>
+              <ion-col size="6" >
+                <ion-item class="form-group">
+                  <ion-row>
+                    <ion-input   class="form-control" type='password' id='contrasenaUsuario' placeholder='Ingrese Contraseña' formControlName='contrasenaUsuario'  ></ion-input>
+                  </ion-row>
+                </ion-item>
+              </ion-col>
+              <ion-col size="6">
+                <ion-item >
+                    <ion-label >Recordar</ion-label>
+                  <ion-checkbox no-margin formControlName='checkRecordar' color="primary" slot="end"></ion-checkbox>
+                </ion-item>
+              </ion-col>
+            </ion-row>
           </form>
           <ion-button expand='full' shape='round' color='primary' (click)='loguear()'>Loguear</ion-button>
           <!-- <ion-button expand='full' shape='round' color='primary' (click)='goTo('sign-in')'>Loguear</ion-button> -->

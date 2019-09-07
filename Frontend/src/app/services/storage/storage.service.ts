@@ -95,6 +95,7 @@ updateLog(log: Log): Promise<any> {
           newLogs.push(log);
         } else {
           newLogs.push(i);
+          console.log("newLogs  LUEGO",newLogs)
         }
       }
       return this.storage.set(LOG_KEY, newLogs);
