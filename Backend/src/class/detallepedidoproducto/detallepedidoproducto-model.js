@@ -38,6 +38,7 @@ const DetallePedidoProductoModelo = sequelize.define('detallepedidoproducto', {
         // options
     });
 
+module.exports = DetallePedidoProductoModelo;
 
 /*
     -- detallepedidoproducto

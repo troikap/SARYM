@@ -38,6 +38,8 @@ const CajaEstadoModelo = sequelize.define('cajaestado', {
 	}, {
 		// options
 	});
+
+	module.exports = CajaEstadoModelo;
 /*
 create table cajaestado (
 	idCajaEstado INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,

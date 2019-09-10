@@ -7,32 +7,34 @@ const sequelize = require('../../database/connection');
 const ReservaEstadoModelo = sequelize.define('reservaestado', {
 	// attributes
 	idReservaEstado: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false,
-	  primaryKey: true,
-	  autoIncrement: true
+		type: Sequelize.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
 	},
 	idReserva: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false
+		type: Sequelize.INTEGER,
+		allowNull: false
 	},
 	idEstadoReserva: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false
+		type: Sequelize.INTEGER,
+		allowNull: false
 	},
 	descripcionReservaEstado: {
-	  type: Sequelize.STRING
+		type: Sequelize.STRING
 	},
 	fechaYHoraAltaReservaEstado: {
-	  type: Sequelize.DATE,
-	  allowNull: false
+		type: Sequelize.DATE,
+		allowNull: false
 	},
 	fechaYHoraBajaReservaEstado: {
-	  type: Sequelize.DATE
+		type: Sequelize.DATE
 	}
-  }, {
-	  // options
+}, {
+		// options
 	});
+
+module.exports = ReservaEstadoModelo;
 
 /*
 create table reservaestado(

@@ -28,6 +28,8 @@ const EstadoMesaModelo = sequelize.define('estadomesa', {
         // options
     });
 
+module.exports = EstadoMesaModelo;
+
 /*
 create table estadomesa(
     idEstadoMesa INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,

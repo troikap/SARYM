@@ -7,39 +7,41 @@ const sequelize = require('../../database/connection');
 const MenuPromocionEstadoModelo = sequelize.define('menupromocionestado', {
 	// attributes
 	idUsuarioEstado: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false,
-	  primaryKey: true,
-	  autoIncrement: true
+		type: Sequelize.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
 	},
 	idUsuario: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false
+		type: Sequelize.INTEGER,
+		allowNull: false
 	},
 	idEstadoUsuario: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false
+		type: Sequelize.INTEGER,
+		allowNull: false
 	},
 	descripcionUsuarioEstado: {
-	  type: Sequelize.STRING
+		type: Sequelize.STRING
 	},
 	fechaYHoraAltaUsuarioEstado: {
-	  type: Sequelize.DATE,
-	  allowNull: false
+		type: Sequelize.DATE,
+		allowNull: false
 	},
 	fechaYHoraBajaUsuarioEstado: {
-	  type: Sequelize.DATE
+		type: Sequelize.DATE
 	}
-  }, {
-	  // options
+}, {
+		// options
 	});
+
+module.exports = MenuPromocionEstadoModelo;
 
 /*
 create table menupromocionestado(
 	idMenuPromocionEstado INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	idMenuPromocion INT(10) UNSIGNED NOT NULL,
 	idEstadoMenuPromocion INT(5) UNSIGNED NOT NULL,
-	descripcionMenuPromocionEstado VARCHAR(50), 
+	descripcionMenuPromocionEstado VARCHAR(50),
 	fechaYHoraAltaMenuPromocionEstado datetime NOT NULL,
 	fechaYHoraBajaMenuPromocionEstado datetime)
 */

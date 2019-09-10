@@ -7,29 +7,31 @@ const sequelize = require('../../database/connection');
 const PedidoEstadoModelo = sequelize.define('pedidoestado', {
 	// attributes
 	idPedidoEstado: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false,
-	  primaryKey: true,
-	  autoIncrement: true
+		type: Sequelize.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
 	},
 	idPedido: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false
+		type: Sequelize.INTEGER,
+		allowNull: false
 	},
 	idEstadoPedido: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false
+		type: Sequelize.INTEGER,
+		allowNull: false
 	},
 	fechaYHoraAltaPedidoEstado: {
-	  type: Sequelize.DATE,
-	  allowNull: false
+		type: Sequelize.DATE,
+		allowNull: false
 	},
 	fechaYHoraBajaPedidoEstado: {
-	  type: Sequelize.DATE
+		type: Sequelize.DATE
 	}
-  }, {
-	  // options
+}, {
+		// options
 	});
+
+module.exports = PedidoEstadoModelo;
 
 /*
 create table pedidoestado(

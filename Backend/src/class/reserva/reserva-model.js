@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
-const UsuarioEstadoModelo = sequelize.define('usuarioestado', {
+const ReservaModelo = sequelize.define('reservamodelo', {
     // attributes
     idReserva: {
         type: Sequelize.INTEGER,
@@ -42,6 +42,9 @@ const UsuarioEstadoModelo = sequelize.define('usuarioestado', {
 }, {
         // options
     });
+
+module.exports = ReservaModelo;
+
 
 /*
 create table reserva(

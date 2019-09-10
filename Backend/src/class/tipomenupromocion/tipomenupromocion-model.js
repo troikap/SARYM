@@ -20,6 +20,8 @@ const TipoMenuPromocionModelo = sequelize.define('tipomenupromocion', {
         // options
     });
 
+module.exports = TipoMenuPromocionModelo;
+
 /*
 create table tipomenupromocion (
     idTipoMenuPromocion INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,

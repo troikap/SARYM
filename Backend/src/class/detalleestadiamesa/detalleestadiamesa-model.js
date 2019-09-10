@@ -24,6 +24,7 @@ const DetalleEstadiaMesaModelo = sequelize.define('detalleestadiamesa', {
         // options
     });
 
+    module.exports = DetalleEstadiaMesaModelo;
 /*
 create table detalleestadiamesa (
     idDetalleEstadiaMesa INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,

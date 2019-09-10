@@ -23,6 +23,8 @@ const UbicacionModelo = sequelize.define('ubicacion', {
         // options
     });
 
+module.exports = UbicacionModelo;
+
 /*
 create table ubicacion(
     idUbicacion INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,

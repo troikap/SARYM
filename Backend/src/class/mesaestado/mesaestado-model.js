@@ -5,31 +5,33 @@ const sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
 const MesaEstadoModelo = sequelize.define('mesaestado', {
-    // attributes
-    idMesaEstado: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    idMesa: {
-      type: Sequelize.INTEGER,
-      allowNull: false
-    },
-    idEstadoMesa: {
-      type: Sequelize.INTEGER,
-      allowNull: false
-    },
-    fechaYHoraAltaMesaEstado: {
-      type: Sequelize.DATE,
-      allowNull: false
-    },
-    fechaYHoraBajaMesaEstado: {
-      type: Sequelize.DATE
-    }
-  }, {
-      // options
-    });
+  // attributes
+  idMesaEstado: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  idMesa: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  idEstadoMesa: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  fechaYHoraAltaMesaEstado: {
+    type: Sequelize.DATE,
+    allowNull: false
+  },
+  fechaYHoraBajaMesaEstado: {
+    type: Sequelize.DATE
+  }
+}, {
+    // options
+  });
+
+module.exports = MesaEstadoModelo;
 
 /*
 create table mesaestado(

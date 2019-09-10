@@ -7,40 +7,42 @@ const sequelize = require('../../database/connection');
 const PrecioMenuPromocionModelo = sequelize.define('preciomenupromocion', {
 	// attributes
 	idPrecionMenuPromocion: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false,
-	  primaryKey: true,
-	  autoIncrement: true
+		type: Sequelize.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
 	},
 	idMenuPromocion: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false
+		type: Sequelize.INTEGER,
+		allowNull: false
 	},
 	idTipoMoneda: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false
+		type: Sequelize.INTEGER,
+		allowNull: false
 	},
 	importePrecioMenuPromocion: {
-	  type: Sequelize.FLOAT,
-	  allowNull: false
+		type: Sequelize.FLOAT,
+		allowNull: false
 	},
 	fechaYHoraDesdePrecioMenuPromocion: {
-	  type: Sequelize.DATE,
-	  allowNull: false
+		type: Sequelize.DATE,
+		allowNull: false
 	},
 	fechaYHoraHastaPrecioMenuPromocion: {
-	  type: Sequelize.DATE
+		type: Sequelize.DATE
 	}
-  }, {
-	  // options
+}, {
+		// options
 	});
+
+module.exports = PrecioMenuPromocionModelo;
 
 /*
 create table preciomenupromocion(
 	idPrecionMenuPromocion INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	idMenuPromocion INT(10) UNSIGNED NOT NULL,
 	idTipoMoneda INT(5) UNSIGNED NOT NULL,
-	importePrecioMenuPromocion float NOT NULL, 
+	importePrecioMenuPromocion float NOT NULL,
 	fechaYHoraDesdePrecioMenuPromocion datetime NOT NULL,
 	fechaYHoraHastaPrecioMenuPromocion datetime)
 */

@@ -2,8 +2,14 @@
 
 const Sequelize = require('sequelize');
 const UsuarioEstadoModelo = require('../../usuarioestado/usuarioestado-model');
-const DepartamentoModelo = require('../../departamento/departamento-model');
 const RolUsuarioModelo = require('../../rolusuario/rolusuario-model');
+const CajaEstadoModelo = require('../../cajaestado/cajaestado-model');
+const MozoEstadiaModelo = require('../../mozoestadia/mozoestadia-model');
+const ClienteEstadiaModelo = require('../../clienteestado/clienteestado-model');
+const ReservaModelo = require('../../reservamodelo/reservamodelo-model');
+const MovimientoCajaModelo = require('../../movimientocaja/movimientocaja-model');
+const DepartamentoModelo = require('../../departamento/departamento-model');
+
 RolUsuarioModelo
 var sequelize = require('../../../database/connection');
 
@@ -59,8 +65,14 @@ const UsuarioModelo = sequelize.define('usuario', {
 
 // ASOCIACIONES
 UsuarioModelo.hasMany( UsuarioEstadoModelo , {foreignKey: "idUsuario"} )
-UsuarioModelo.belongsTo( DepartamentoModelo , {foreignKey: "idDepartamento"} )
 UsuarioModelo.hasMany( RolUsuarioModelo , {foreignKey: "idUsuario"} )
+UsuarioModelo.hasMany( CajaEstadoModelo , {foreignKey: "idUsuario"} )
+UsuarioModelo.hasMany( MozoEstadiaModelo , {foreignKey: "idUsuario"} )
+UsuarioModelo.hasMany( ClienteEstadiaModelo , {foreignKey: "idUsuario"} )
+UsuarioModelo.hasMany( ReservaModelo , {foreignKey: "idUsuario"} )
+UsuarioModelo.hasMany( MovimientoCajaModelo , {foreignKey: "idUsuario"} )
+
+UsuarioModelo.belongsTo( DepartamentoModelo , {foreignKey: "idDepartamento"} )
 
 // SCOPES
 

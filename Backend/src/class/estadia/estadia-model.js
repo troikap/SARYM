@@ -39,6 +39,8 @@ const EstadiaModelo = sequelize.define('estadia', {
         // options
     });
 
+module.exports = EstadiaModelo;
+
 /*
 create table estadia (
 	idEstadia INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,

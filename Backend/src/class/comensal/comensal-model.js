@@ -37,6 +37,7 @@ const ComensalModelo = sequelize.define('comensal', {
     //options
 }
 
+module.exports = ComensalModelo;
 
 /*
 create table comensal (

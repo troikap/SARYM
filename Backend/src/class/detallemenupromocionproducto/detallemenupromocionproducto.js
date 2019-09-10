@@ -28,6 +28,8 @@ const DetalleMenuPromocionProductoModelo = sequelize.define('detallemenupromocio
         // options
     });
 
+    module.exports = DetalleMenuPromocionProductoModelo;
+
 /*
 create table detallemenupromocionproducto (
     idDetalleMenuPromocionProducto INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 

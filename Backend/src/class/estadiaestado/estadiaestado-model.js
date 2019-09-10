@@ -7,33 +7,35 @@ const sequelize = require('../../database/connection');
 const EstadiaEstadoModelo = sequelize.define('estadiaestado', {
 	// attributes
 	idEstadiaEstado: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false,
-	  primaryKey: true,
-	  autoIncrement: true
+		type: Sequelize.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
 	},
 	idEstadia: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false
+		type: Sequelize.INTEGER,
+		allowNull: false
 	},
 	idEstadoEstadia: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false
+		type: Sequelize.INTEGER,
+		allowNull: false
 	},
 	descripcionEstadiaEstado: {
-	  type: Sequelize.STRING,
-	  allowNull: false
+		type: Sequelize.STRING,
+		allowNull: false
 	},
 	fechaYHoraAltaEstadiaEstado: {
-	  type: Sequelize.DATE,
-	  allowNull: false
+		type: Sequelize.DATE,
+		allowNull: false
 	},
 	fechaYHoraBajaEstadiaEstado: {
-	  type: Sequelize.DATE
+		type: Sequelize.DATE
 	}
-  }, {
-	  // options
+}, {
+		// options
 	});
+
+module.exports = EstadiaEstadoModelo;
 
 
 /*

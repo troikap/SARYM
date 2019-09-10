@@ -24,6 +24,8 @@ const TipoMonedaModelo = sequelize.define('tipomoneda', {
         // options
     });
 
+module.exports = TipoMonedaModelo;
+
 /*
 create table tipomoneda(
     idTipoMoneda INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,

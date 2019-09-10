@@ -7,38 +7,40 @@ const sequelize = require('../../database/connection');
 const MovimientoCajaModelo = sequelize.define('movimientocaja', {
 	// attributes
 	idMovimientoCaja: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false,
-	  primaryKey: true,
-	  autoIncrement: true
+		type: Sequelize.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
 	},
 	idCaja: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false
+		type: Sequelize.INTEGER,
+		allowNull: false
 	},
 	idTipoMovimientoCaja: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false
+		type: Sequelize.INTEGER,
+		allowNull: false
 	},
 	idUsuario: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false
+		type: Sequelize.INTEGER,
+		allowNull: false
 	},
 	montoMovimientoCaja: {
-	  type: Sequelize.FLOAT,
-	  allowNull: false
+		type: Sequelize.FLOAT,
+		allowNull: false
 	},
 	descripcionMovimientoCaja: {
-	  type: Sequelize.STRING,
-	  allowNull: false
+		type: Sequelize.STRING,
+		allowNull: false
 	},
 	fechaYHoraMovimientoCaja: {
-	  type: Sequelize.DATE,
-	  allowNull: false
+		type: Sequelize.DATE,
+		allowNull: false
 	}
-  }, {
-	  // options
+}, {
+		// options
 	});
+
+module.exports = MovimientoCajaModelo;
 
 /*
 create table movimientocaja (

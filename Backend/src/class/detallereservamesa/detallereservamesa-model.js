@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
-const ReservaMesaModelo = sequelize.define('reservamesa', {
+const DetalleReservaMesaModelo = sequelize.define('detallereservamesa', {
     // attributes
     idDetalleReservaMesa: {
         type: Sequelize.INTEGER,
@@ -20,13 +20,14 @@ const ReservaMesaModelo = sequelize.define('reservamesa', {
         type: Sequelize.INTEGER,
         allowNull: false
     }
-    }, {
+}, {
         // options
     });
 
+module.exports = DetalleReservaMesaModelo;
 /*
 create table detallereservamesa (
-    idDetalleReservaMesa INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+    idDetalleReservaMesa INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     idReserva INT(12) UNSIGNED NOT NULL,
     idMesa INT(12) UNSIGNED NOT NULL)
 */

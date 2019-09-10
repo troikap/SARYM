@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
-const TipoMovimientoCaja = sequelize.define('tipomovimientocaja', {
+const TipoMovimientoCajaModelo = sequelize.define('tipomovimientocaja', {
     // attributes
     idTipoMenuPromocion: {
         type: Sequelize.INTEGER,
@@ -20,8 +20,10 @@ const TipoMovimientoCaja = sequelize.define('tipomovimientocaja', {
         // options
     });
 
+module.exports = TipoMovimientoCajaModelo;
+
 /*
 create table tipomovimientocaja (
-    idTipoMovimientoCaja INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+    idTipoMovimientoCaja INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombreTipoMovimientoCaja VARCHAR(50) NOT NULL)
 */

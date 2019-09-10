@@ -24,6 +24,8 @@ const EstadoReservaModelo = sequelize.define('estadoreserva', {
         // options
     });
 
+module.exports = EstadoReservaModelo;
+
 /*
 create table estadoreserva(
     idEstadoReserva INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,

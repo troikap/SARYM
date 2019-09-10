@@ -24,6 +24,8 @@ const EstadoMenuPromocionModelo = sequelize.define('estadomenupromocion', {
         // options
     });
 
+module.exports = EstadoMenuPromocionModelo;
+
 /*
 create table estadomenupromocion(
     idEstadoMenuPromocion INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
