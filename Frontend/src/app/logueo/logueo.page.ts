@@ -17,7 +17,7 @@ export class LogueoPage implements OnInit {
   items: Item[] = [];
   private newItem: Item = <Item>{};
   private invalidotitle = 'Datos Inválidos';
-  private invalidomsj = 'Convinación de Usuario y Contraseña incorrectos.';
+  private invalidomsj = 'Combinación de Usuario y Contraseña incorrectos.';
   private susptitle = 'Usuario Suspendido';
   private suspmsj = 'El Usuario ingresado se encuentra Suspendido o dado de Baja.';
   private valtitle = 'Bienvenido';
@@ -58,10 +58,12 @@ export class LogueoPage implements OnInit {
     this.usuarioservicio.loguear(this.form.value.cuitUsuario , this.form.value.contrasenaUsuario )
     .then(algo => {
     this.algo = algo;
+    console.log("token", algo.title.token)
       if (algo.title.tipo == 1) {
         console.log("LOGUEADO")
         let logueo = {cuit: this.form.value.cuitUsuario, pass: this.form.value.contrasenaUsuario , date: null}
-        // this.storage.setOneObject( 'logueo',logueo)
+        this.storage.setOneObject( 'logueo',logueo)
+        this.storage.setOneObject( 'token',algo.title.token)
         if (this.form.value.checkRecordar){
           this.actualizarLog(logueo);
         }
@@ -97,11 +99,11 @@ export class LogueoPage implements OnInit {
     let page;
 
     switch (key) {
-      case 'sign-in':
+      case 'home':
         page = '/home';
         break;
-      case 'sign-up':
-        page = '/sign-up';
+      case 'registro-usuario':
+        page = '/registro-usuario/0';
         break;
       case 'home':
         page = '/home';

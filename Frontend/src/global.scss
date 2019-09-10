@@ -11,7 +11,9 @@
 @import '~@ionic/angular/css/flex-utils.css';
 //custom
 @import 'theme/header.scss';
-//
+//assets styles
+@import './assets/styles/inputs.scss';
+@import './assets/styles/label.scss';
 //
 .rojo span,
 .rojo ion-icon {

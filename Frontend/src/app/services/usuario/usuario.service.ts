@@ -10,8 +10,6 @@ const dir = '/usuario';
 })
 export class UsuarioService {
 
-  basepath = "/usuario";
-
   constructor( 
     public http: HttpClient
   ) { }
@@ -21,7 +19,6 @@ export class UsuarioService {
       .get(URL + dir)
       .toPromise()
       .then(response => {
-        console.log(response)
         return response as Usuario[];
       })
       .catch(  );
@@ -33,7 +30,6 @@ export class UsuarioService {
       .get(`${URL}${dir}/${id}`)
       .toPromise()
       .then(response => {
-        console.log(response)
         return response as Usuario;
       })
       .catch(  );
@@ -45,7 +41,7 @@ export class UsuarioService {
     console.log(`${URL}${dir}/logueo`)
     return this.http
       .post(
-        `${URL}${dir}/logueo`,
+        `${URL}/login`,
         value
         )
       .toPromise()
@@ -55,8 +51,19 @@ export class UsuarioService {
       })
       .catch(  );
   }
-}
 
+  setUsuario( data ): Promise<any> {
+    console.log(`${URL}${dir}`)
+    return this.http
+      .post(`${URL}${dir}`, data)
+      .toPromise()
+      .then(response => {
+        console.log("RESPUESTA",response)
+        return response as Usuario;
+      })
+      .catch(  );
+  }
+}
 
 export interface Usuario {
   idUsuario: string;
@@ -71,30 +78,3 @@ export interface Usuario {
   nroCelularUsuario: number;
   nroTelefonoUsuario: number;
 }
-
-
-// getUsuarios(): Promise<Usuario[]> {
-  //   return this.http
-  //     .get(URL + "/usuario/" + id, this.getRestHeader())
-  //     .toPromise()
-  //     .then(response => {
-  //       return response.json() as Mascota[];
-  //     })
-  //     .catch(this.handleError);
-  // }
-
-
-
-  // getUsuarios(  ) {
-  //   return new Promise( resolve => {
-  //       this.http.get(`${ URL }/usuario`)
-  //       .subscribe( async resp => {
-  //         console.log(resp)
-  //         if ( resp['ok'] ) {
-  //           resolve(true);
-  //         } else {
-  //           resolve(false);
-  //         }
-  //       });
-  //   });
-  // }

@@ -8,17 +8,19 @@ const DepartamentoModelo = require("./departamento-model"),
 
 DepartamentoController.getAll = (req, res, next) => {
   res.header('Access-Control-Allow-Origin' , '*');
-  DepartamentoModelo.findAll({ raw: true }).then(projects => {
-    if (!projects || projects == 0) {
-      let locals = {
+  DepartamentoModelo.findAll({  raw: true,
+    attributes: [
+      'idDepartamento',
+      'nombreDepartamento'
+    ] }).then(respons => {
+    let locals = {};
+    if (!respons || respons == 0) {
+      locals = {
         title: `No existen registros de ${legend}`
       };
       res.json(locals);
     } else {
-      let locals = {
-        title: `${legend}`,
-        data: projects
-      };
+      locals[legend] = respons;
       res.json(locals);
     }
   });

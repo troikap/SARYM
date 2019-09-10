@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { UsuarioService } from '../services/usuario/usuario.service';
 import { logging } from 'protractor';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -28,8 +29,10 @@ export class HomePage {
     }
   ];
 
-  constructor(private menu: MenuController,
-    private usuarioservice: UsuarioService) {
+  constructor(
+    private menu: MenuController,
+    private usuarioservice: UsuarioService,
+    private router: Router,) {
   }
 
   openFirst() {
@@ -44,6 +47,18 @@ getUsuario(id){
 
   async getUsuarios() {
   let datos = await this.usuarioservice.getUsuarios();
+  }
+
+  goTo(key: string) {
+    let page;
+
+    switch (key) {
+      case 'registro-usuario':
+        page = '/registro-usuario/1';
+        break;
+    }
+
+    this.router.navigateByUrl(page);
   }
   
 

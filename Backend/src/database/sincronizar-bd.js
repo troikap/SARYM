@@ -18,3 +18,11 @@ sequelize.sync({force: false});  // force = false  crea nuevos modelos/tablas de
 
 //  node_modules/.bin/sequelize seed:generate --name demo-user          crea nueva semilla
 // node_modules/.bin/sequelize db:seed:all        para correr la semilla
+
+
+// bcrypt.compare("123", encrypt, function(err, res) {
+//     // res == true
+//     console.log("RESPUESTA: ",res)
+//   });
+
+//bcrypt.compareSync(body.contrasenaUsuario, response.dataValues.contrasenaUsuario

@@ -4,7 +4,6 @@ const Sequelize = require('sequelize');
 const UsuarioEstadoModelo = require('../usuarioestado/usuarioestado-model');
 const DepartamentoModelo = require('../departamento/departamento-model');
 const RolUsuarioModelo = require('../rolusuario/rolusuario-model');
-RolUsuarioModelo
 var sequelize = require('../../database/connection');
 
 const UsuarioModelo = sequelize.define('usuario', {
