@@ -2,6 +2,9 @@
 
 const Sequelize = require('sequelize');
 const sequelize = require('../../database/connection');
+const MesaEstadoModelo = require('../../mesaestado/mesaestado-model');
+const DetalleReservaModelo = require('../../detallereserva/detallereserva-model');
+const DetalleEstadiaMesa = require('../../detalleestadia/detalleestadia-model');
 
 // DEFINICION DEL MODELO
 const MesaModelo = sequelize.define('mesa', {
@@ -31,6 +34,10 @@ const MesaModelo = sequelize.define('mesa', {
 }, {
     // options
   });
+
+MesaModelo.hasMany( MesaEstadoModelo, {foreignKey:"idMesa"} );
+MesaModelo.hasMany( DetalleReservaModelo, {foreignKey:"idMesa"} );
+MesaModelo.hasMany( DetalleEstadiaMesa, {foreignKey:"idMesa"} );
 
 module.exports = MesaModelo;
 

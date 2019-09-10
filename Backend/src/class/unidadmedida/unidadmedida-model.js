@@ -2,6 +2,7 @@
 
 const Sequelize = require('sequelize');
 const sequelize = require('../../database/connection');
+const ProductoModelo = require('../../producto/producto-model');
 
 // DEFINICION DEL MODELO
 const UnidadMedidaModelo = sequelize.define('unidadmedida', {
@@ -29,6 +30,8 @@ const UnidadMedidaModelo = sequelize.define('unidadmedida', {
 }, {
     // options
   });
+
+UnidadMedidaModelo.hasMany(ProductoModelo, { foreignKey: "idUnidadModelo" });
 
 module.exports = UnidadMedidaModelo;
 

@@ -2,6 +2,7 @@
 
 const Sequelize = require('sequelize');
 const sequelize = require('../../database/connection');
+const MesaModelo = requiere ('../../mesa/mesa-model');
 
 // DEFINICION DEL MODELO
 const SectorModelo = sequelize.define('sector', {
@@ -26,6 +27,8 @@ const SectorModelo = sequelize.define('sector', {
 }, {
     // options
   });
+
+SectorModelo.hasMany( MesaModelo, {foreignKey:"idSector"} );  
 
 module.exports = SectorModelo;
 

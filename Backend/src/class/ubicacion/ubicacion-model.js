@@ -2,6 +2,7 @@
 
 const Sequelize = require('sequelize');
 const sequelize = require('../../database/connection');
+const MesaModelo = requiere ('../../mesa/mesa-model');
 
 // DEFINICION DEL MODELO
 const UbicacionModelo = sequelize.define('ubicacion', {
@@ -22,6 +23,8 @@ const UbicacionModelo = sequelize.define('ubicacion', {
 }, {
         // options
     });
+
+UbicacionModelo.hasMany( MesaModelo, {foreignKey:"idUbicacion"} );
 
 module.exports = UbicacionModelo;
 

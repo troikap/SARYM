@@ -2,6 +2,7 @@
 
 const Sequelize = require('sequelize');
 const sequelize = require('../../database/connection');
+const MenuPromocionEstadoModelo = requiere('../../menupromocionestado/menupromocionestado-model');
 
 // DEFINICION DEL MODELO
 const EstadoMenuPromocionModelo = sequelize.define('estadomenupromocion', {
@@ -23,6 +24,8 @@ const EstadoMenuPromocionModelo = sequelize.define('estadomenupromocion', {
 }, {
         // options
     });
+
+EstadoMenuPromocionModelo.hasMany(MenuPromocionEstadoModelo, { foreignKey: "idEstadoMenuPromocion" });
 
 module.exports = EstadoMenuPromocionModelo;
 

@@ -2,6 +2,13 @@
 
 const Sequelize = require('sequelize');
 const sequelize = require('../../database/connection');
+const DetalleEstadiMesaModelo = requiere('../../detalleestadiamesa/detalleestadiamesa-model');
+const ClienteEstadiaModelo = requiere('../../clienteestadia/clienteestadia-model');
+const EstadiaEstadoModelo = requiere('../../estadiaestado/estadiaestado-model');
+const ReservaModelo = requiere('../../reserva/reserva-model');
+const PedidoModelo = requiere('../../pedido/pedido-model');
+const ComensalModelo = requiere('../../comensal/comensal-model');
+
 
 // DEFINICION DEL MODELO
 const EstadiaModelo = sequelize.define('estadia', {
@@ -38,6 +45,15 @@ const EstadiaModelo = sequelize.define('estadia', {
 }, {
         // options
     });
+
+EstadiaModelo.hasMany(DetalleEstadiMesaModelo, { foreignKey: "idEstadia" });
+EstadiaModelo.hasMany(ClienteEstadiaModelo, { foreignKey: "idEstadia" });
+EstadiaModelo.hasMany(EstadiaEstadoModelo, { foreignKey: "idEstadia" });
+EstadiaModelo.hasMany(ReservaModelo, { foreignKey: "idEstadia" });
+//Pedido modelo es 0..N, verificar "hasOne"
+EstadiaModelo.hasOne(PedidoModelo, { foreignKey: "idEstadia" });
+EstadiaModelo.hasOne(ComensalModelo, { foreignKey: "idEstadia" });
+
 
 module.exports = EstadiaModelo;
 
