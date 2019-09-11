@@ -1,8 +1,8 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const sequelize = require('../../database/connection');
-const MenuPromocionEstadoModelo = requiere('../../menupromocionestado/menupromocionestado-model');
+const MenuPromocionEstadoModelo = requiere('../menupromocionestado/menupromocionestado-model');
+var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
 const EstadoMenuPromocionModelo = sequelize.define('estadomenupromocion', {

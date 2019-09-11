@@ -1,16 +1,17 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const sequelize = require('../../database/connection');
+const EstadoCajaModelo = require('../estadocaja/estadocaja-model');
+var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
 const CajaEstadoModelo = sequelize.define('cajaestado', {
 	// attributes
 	idCajaEstado: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false,
-	  primaryKey: true,
-	  autoIncrement: true
+		type: Sequelize.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
 	},
 	idCaja: {
 		type: Sequelize.INTEGER,
@@ -23,7 +24,7 @@ const CajaEstadoModelo = sequelize.define('cajaestado', {
 	idUsuario: {
 		type: Sequelize.INTEGER,
 		allowNull: false
-	}, 
+	},
 	montoAperturaCajaEstado: {
 		type: Sequelize.FLOAT,
 		allowNull: false
@@ -32,14 +33,16 @@ const CajaEstadoModelo = sequelize.define('cajaestado', {
 		type: Sequelize.FLOAT,
 		allowNull: false
 	},
-    fechaYHoraCajaEstado: {
+	fechaYHoraCajaEstado: {
 		type: Sequelize.DATE
 	}
-	}, {
+}, {
 		// options
 	});
 
-	module.exports = CajaEstadoModelo;
+CajaEstadoModelo.belongsTo(EstadoCajaModelo, { foreignKey: "idEstadoCaja" });
+
+module.exports = CajaEstadoModelo;
 /*
 create table cajaestado (
 	idCajaEstado INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,

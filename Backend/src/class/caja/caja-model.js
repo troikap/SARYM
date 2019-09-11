@@ -1,12 +1,12 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const sequelize = require('../../database/connection');
-const MovimientoCajaModelo = require('../../movimientocaja/movimientocaja-model');
-const CajaEstadoModelo = requre('../../cajaestado/cajaestado-model');
+const MovimientoCajaModelo = require('../movimientocaja/movimientocaja-model');
+const CajaEstadoModelo = requre('../cajaestado/cajaestado-model');
+var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
-const CajaModelo = sequelize.define('cajamodelo', {
+const CajaModelo = sequelize.define('caja', {
 	// attributes
 	idCaja: {
 	  type: Sequelize.INTEGER,
@@ -23,8 +23,8 @@ const CajaModelo = sequelize.define('cajamodelo', {
   });
 
 //ASOCIACIONES
-CajaModelo.hasMany( MovimientoCajaModelo, {foreignKey: "idMovimientoCaja"} );
-CajaModelo.hasMany( CajaEstadoModelo, {foreignKey: "idCajaEstado"} );
+CajaModelo.hasMany( MovimientoCajaModelo, {foreignKey: "idCaja"} );
+CajaModelo.hasMany( CajaEstadoModelo, {foreignKey: "idCaja"} );
 
 
 module.exports = CajaModelo;

@@ -1,8 +1,8 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const sequelize = require('../../database/connection');
-const ReservaEstadoModelo = requiere('../../reservaestado/reservaestado-model');
+const ReservaEstadoModelo = requiere('../reservaestado/reservaestado-model');
+var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
 const EstadoReservaModelo = sequelize.define('estadoreserva', {

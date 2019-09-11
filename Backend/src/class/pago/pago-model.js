@@ -1,8 +1,9 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const sequelize = require('../../database/connection');
-const PagoPedidoModelo = require('../../pagopedido/pagopedido-model');
+const PagoPedidoModelo = require('../pagopedido/pagopedido-model');
+const MedioPagoModelo = require('../mediopago/mediopago-model');
+var sequelize = require('../../database/connection');
 
 
 // DEFINICION DEL MODELO
@@ -39,5 +40,7 @@ const PagoModelo = sequelize.define('pago', {
   });
 
 PagoModelo.hasMany(PagoPedidoModelo, { foreignKey: "idPago" });
+PagoModelo.belongsTo(MedioPagoModelo, { foreignKey: "idMedioPago" });
+
 
 module.exports = PagoModelo;

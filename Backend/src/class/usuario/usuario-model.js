@@ -1,17 +1,17 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const UsuarioEstadoModelo = require('../../usuarioestado/usuarioestado-model');
-const RolUsuarioModelo = require('../../rolusuario/rolusuario-model');
-const CajaEstadoModelo = require('../../cajaestado/cajaestado-model');
-const MozoEstadiaModelo = require('../../mozoestadia/mozoestadia-model');
-const ClienteEstadiaModelo = require('../../clienteestado/clienteestado-model');
-const ReservaModelo = require('../../reservamodelo/reservamodelo-model');
-const MovimientoCajaModelo = require('../../movimientocaja/movimientocaja-model');
-const DepartamentoModelo = require('../../departamento/departamento-model');
+const UsuarioEstadoModelo = require('../usuarioestado/usuarioestado-model');
+const RolUsuarioModelo = require('../rolusuario/rolusuario-model');
+const CajaEstadoModelo = require('../cajaestado/cajaestado-model');
+const MozoEstadiaModelo = require('../mozoestadia/mozoestadia-model');
+const ClienteEstadiaModelo = require('../clienteestadia/clienteestadia-model');
+const ReservaModelo = require('../reserva/reserva-model');
+const MovimientoCajaModelo = require('../movimientocaja/movimientocaja-model');
+const DepartamentoModelo = require('../departamento/departamento-model');
+var sequelize = require('../../database/connection');
 
-RolUsuarioModelo
-var sequelize = require('../../../database/connection');
+
 
 const UsuarioModelo = sequelize.define('usuario', {
 	// attributes

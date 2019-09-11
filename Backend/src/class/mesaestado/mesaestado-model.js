@@ -1,7 +1,8 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const sequelize = require('../../database/connection');
+const EstadoMesaModelo = require('../estadomesa/estadomesa-model');
+var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
 const MesaEstadoModelo = sequelize.define('mesaestado', {
@@ -30,6 +31,8 @@ const MesaEstadoModelo = sequelize.define('mesaestado', {
 }, {
     // options
   });
+
+MesaEstadoModelo.belongsTo(EstadoMesaModelo, { foreignKey: "idEstadoMesa" });
 
 module.exports = MesaEstadoModelo;
 

@@ -1,8 +1,7 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const sequelize = require('../../database/connection');
-const CajaEstadoModelo = requiere('../../cajaestado/cajaestado-model');
+var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
 const EstadoCajaModelo = sequelize.define('estadocaja', {
@@ -26,7 +25,6 @@ const EstadoCajaModelo = sequelize.define('estadocaja', {
   });
 
   //Asociaciones
-  EstadoCajaModelo.hasMany( CajaEstadoModelo, {foreignKey: "idEstadoCaja"} );
 
 module.exports = EstadoCajaModelo;
 

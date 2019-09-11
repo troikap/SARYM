@@ -2,7 +2,6 @@
 
 const Sequelize = require('sequelize');
 const sequelize = require('../../database/connection');
-const EstadoEstadiaModelo = requiere('../../estadoestadia/estadoestadia-model');
 
 // DEFINICION DEL MODELO
 const EstadoEstadiaModelo = sequelize.define('estadoestadia', {
@@ -24,8 +23,6 @@ const EstadoEstadiaModelo = sequelize.define('estadoestadia', {
 }, {
         // options
     });
-
-EstadoEstadia.hasMany(EstadoEstadiaModelo, { foreignKey: "idEstadoEstadia" });
 
 module.exports = EstadoEstadiaModelo;
 

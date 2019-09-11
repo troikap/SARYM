@@ -1,13 +1,13 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const sequelize = require('../../database/connection');
-const DetalleEstadiMesaModelo = requiere('../../detalleestadiamesa/detalleestadiamesa-model');
-const ClienteEstadiaModelo = requiere('../../clienteestadia/clienteestadia-model');
-const EstadiaEstadoModelo = requiere('../../estadiaestado/estadiaestado-model');
-const ReservaModelo = requiere('../../reserva/reserva-model');
-const PedidoModelo = requiere('../../pedido/pedido-model');
-const ComensalModelo = requiere('../../comensal/comensal-model');
+const DetalleEstadiMesaModelo = require('../detalleestadiamesa/detalleestadiamesa-model');
+const ClienteEstadiaModelo = require('../clienteestadia/clienteestadia-model');
+const EstadiaEstadoModelo = require('../estadiaestado/estadiaestado-model');
+const ReservaModelo = require('../reserva/reserva-model');
+const PedidoModelo = require('../pedido/pedido-model');
+const ComensalModelo = require('../comensal/comensal-model');
+var sequelize = require('../../database/connection');
 
 
 // DEFINICION DEL MODELO

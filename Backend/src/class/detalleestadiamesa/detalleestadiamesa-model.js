@@ -1,7 +1,8 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const sequelize = require('../../database/connection');
+const MesaModelo = require('../mesa/mesa-model');
+var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
 const DetalleEstadiaMesaModelo = sequelize.define('detalleestadiamesa', {
@@ -24,7 +25,9 @@ const DetalleEstadiaMesaModelo = sequelize.define('detalleestadiamesa', {
         // options
     });
 
-    module.exports = DetalleEstadiaMesaModelo;
+DetalleEstadiaMesaModelo.belongsTo(MesaModelo, { foreignKey: "idMesa" });
+
+module.exports = DetalleEstadiaMesaModelo;
 /*
 create table detalleestadiamesa (
     idDetalleEstadiaMesa INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,

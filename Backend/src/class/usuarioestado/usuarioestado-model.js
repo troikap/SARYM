@@ -1,8 +1,8 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-var sequelize = require('../../database/connection');
 const EstadoUsuarioModelo = require("../estadousuario/estadousuario-model");
+var sequelize = require('../../database/connection');
 
 
 // DEFINICION DEL MODELO

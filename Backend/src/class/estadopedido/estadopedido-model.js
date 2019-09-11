@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 const sequelize = require('../../database/connection');
-const PedidoEstadoModelo = require('../../pedidoestado/pedidoestado-model');
+var PedidoEstadoModelo = require('../pedidoestado/pedidoestado-model');
 
 // DEFINICION DEL MODELO
 const EstadoPedidoModelo = sequelize.define('estadopedido', {

@@ -3,21 +3,31 @@
 const Sequelize = require('sequelize');
 var sequelize = require('../../database/connection');
 
+
 // DEFINICION DEL MODELO
-const MedioPagoModelo = sequelize.define('mediopago', {
+const PagoPedidoModelo = sequelize.define('pagopedido', {
   // attributes
-  idMedioPago: {
+  idPagoPedido: {
     type: Sequelize.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true
   },
-  nombreMedioPago: {
-    type: Sequelize.STRING,
+  idPago: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  idPedido: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  importePagoPedido: {
+    type: Sequelize.FLOAT,
     allowNull: false
   }
 }, {
     // options
   });
 
-module.exports = MedioPagoModelo;
+
+module.exports = PagoPedidoModelo;

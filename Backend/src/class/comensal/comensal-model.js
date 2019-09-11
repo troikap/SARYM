@@ -1,9 +1,9 @@
 'use strict'
 
 const Sequelize = require('sequelize');
+const PagoModelo = require('../pago/pago-model');
+const PedidoModelo = require('../pedido/pedido-model');
 var sequelize = require('../../database/connection');
-const PagoModelo = require('../../pago/pago-model');
-const PedidoModelo = require('../../pedido/pedido-model');
 
 const ComensalModelo = sequelize.define('comensal', {
     //atributes

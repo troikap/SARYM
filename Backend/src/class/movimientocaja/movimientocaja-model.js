@@ -1,7 +1,8 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const sequelize = require('../../database/connection');
+const TipoMovimientoCajaModelo = require('../tipomovimientocaja/tipomovimientocaja-model');
+var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
 const MovimientoCajaModelo = sequelize.define('movimientocaja', {
@@ -39,6 +40,8 @@ const MovimientoCajaModelo = sequelize.define('movimientocaja', {
 }, {
 		// options
 	});
+
+MovimientoCajaModelo.belongsTo( TipoMovimientoCajaModelo, {foreignKey:"idTipoMovimientoCaja"} );
 
 module.exports = MovimientoCajaModelo;
 

@@ -1,10 +1,10 @@
 'use strict'
 
 const Sequelize = require('sequelize');
+const PagoPedidoModelo = require('../producto/producto-model');
+const DetallePedidoProductoModelo = require('../producto/producto-model');
+const PedidoEstadoModelo = require('../producto/producto-model');
 const sequelize = require('../../database/connection');
-const PagoPedidoModelo = require('../../producto/producto-model');
-const DetallePedidoProductoModelo = require('../../producto/producto-model');
-const PedidoEstadoModelo = require('../../producto/producto-model');
 
 // DEFINICION DEL MODELO
 const PedidoModelo = sequelize.define('pedido', {
