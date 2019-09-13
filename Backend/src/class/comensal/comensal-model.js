@@ -33,13 +33,12 @@ const ComensalModelo = sequelize.define('comensal', {
         type: Sequelize.STRING,
         allowNull: false
     }
-})
-{
-    //options
-}
+}, {
+    // options
+});
 
-ComensalModelo.hasMany(PagoModelo, { foreignKey: "idComensal" })
-ComensalModelo.hasMany(PedidoModelo, { foreignKey: "idComensal" })
+ComensalModelo.hasMany(PagoModelo, { foreignKey: "idComensal" });
+ComensalModelo.hasMany(PedidoModelo, { foreignKey: "idComensal" });
 
 module.exports = ComensalModelo;
 
