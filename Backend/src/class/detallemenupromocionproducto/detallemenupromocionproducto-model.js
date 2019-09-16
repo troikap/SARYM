@@ -1,6 +1,7 @@
 'use strict'
 
 const Sequelize = require('sequelize');
+const MenuPromocionModelo = require('../menupromocion/menupromocion-model');
 var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
@@ -23,12 +24,14 @@ const DetalleMenuPromocionProductoModelo = sequelize.define('detallemenupromocio
     cantidadProductoMenuPromocion: {
         type: Sequelize.INTEGER,
         allowNull: false
-      },
-    }, {
-        // options
-    });
+    },
+}, {
+    // options
+});
 
-    module.exports = DetalleMenuPromocionProductoModelo;
+
+DetalleMenuPromocionProductoModelo.belongsTo(MenuPromocionModelo, { foreignKey: "idMenuPromocion" });
+module.exports = DetalleMenuPromocionProductoModelo;
 
 /*
 create table detallemenupromocionproducto (

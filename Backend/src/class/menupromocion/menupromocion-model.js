@@ -41,6 +41,7 @@ const MenuPromocionModelo = sequelize.define('menupromocion', {
 });
 
 MenuPromocionModelo.hasOne(TipoMenuPromocionModelo, { foreignKey: "idTipoMenuPromocion" });
+
 /*
 MenuPromocionModelo.hasMany(MenuPromocionEstadoModelo, { foreignKey: "idMenuPromocion" });
 MenuPromocionModelo.hasMany(PrecioMenuPromocionModelo, { foreignKey: "idMenuPromocion" });

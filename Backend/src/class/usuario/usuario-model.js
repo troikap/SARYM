@@ -59,8 +59,6 @@ const UsuarioModelo = sequelize.define(
         // options
     }
 );
-// belongsTo Tiene
-// hasMany varios
 
 // ASOCIACIONES
 UsuarioModelo.hasMany(UsuarioEstadoModelo, { foreignKey: "idUsuario" });
@@ -72,21 +70,5 @@ UsuarioModelo.hasMany(ReservaModelo, { foreignKey: "idUsuario" });
 UsuarioModelo.hasMany(MovimientoCajaModelo, { foreignKey: "idUsuario" });
 
 UsuarioModelo.belongsTo(DepartamentoModelo, { foreignKey: "idDepartamento" });
-
-// SCOPES
-
-// HOOKS
-
-// allowNull Sequelize.DATE
-//    Sequelize.STRING
-//    Sequelize.NOW
-//   // defaultValue: true
-//   Sequelize.BOOLEAN
-//   Sequelize.INTEGER
-//   unique: 'compositeIndex'
-//   // primaryKey: true
-//   autoIncrement: true
-//    Sequelize.TEXT
-//    .UNSIGNED
 
 module.exports = UsuarioModelo;

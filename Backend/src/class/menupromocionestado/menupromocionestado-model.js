@@ -1,8 +1,8 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const EstadoMenuPromocionModelo = requiere('../estadomenupromocion/estadomenupromocion-model');
-const MenuPromocionModelo = requiere('../menupromocion/menupromocion-model');
+const EstadoMenuPromocionModelo = require('../estadomenupromocion/estadomenupromocion-model');
+const MenuPromocionModelo = require('../menupromocion/menupromocion-model');
 var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
@@ -38,7 +38,7 @@ const MenuPromocionEstadoModelo = sequelize.define('menupromocionestado', {
 
 
 MenuPromocionEstadoModelo.belongsTo(EstadoMenuPromocionModelo, { foreignKey: "idEstadoMenuPromocion" });
-MenuPromocionEstadoModelo.belongsTo(MenuPromocionModelo, { foreignKey: "idMenuPromocion" });
+//MenuPromocionEstadoModelo.belongsTo(MenuPromocionModelo, { foreignKey: "idMenuPromocion" });
 
 module.exports = MenuPromocionEstadoModelo;
 
