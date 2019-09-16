@@ -6,7 +6,7 @@ var sequelize = require('../../database/connection');
 // DEFINICION DEL MODELO
 const TipoMovimientoCajaModelo = sequelize.define('tipomovimientocaja', {
     // attributes
-    idTipoMenuPromocion: {
+    idTipoMovimientoCaja: {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
@@ -17,8 +17,8 @@ const TipoMovimientoCajaModelo = sequelize.define('tipomovimientocaja', {
         allowNull: false
     }
 }, {
-        // options
-    });
+    // options
+});
 
 module.exports = TipoMovimientoCajaModelo;
 

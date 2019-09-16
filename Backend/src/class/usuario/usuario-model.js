@@ -71,4 +71,5 @@ UsuarioModelo.hasMany(MovimientoCajaModelo, { foreignKey: "idUsuario" });
 
 UsuarioModelo.belongsTo(DepartamentoModelo, { foreignKey: "idDepartamento" });
 
+
 module.exports = UsuarioModelo;
