@@ -9,7 +9,6 @@ const ClienteEstadiaModelo = require("../clienteestadia/clienteestadia-model");
 const ReservaModelo = require("../reserva/reserva-model");
 const MovimientoCajaModelo = require("../movimientocaja/movimientocaja-model");
 const DepartamentoModelo = require("../departamento/departamento-model");
-const ComensalModelo = require("../comensal/comensal-model");
 var sequelize = require("../../database/connection");
 
 const UsuarioModelo = sequelize.define(
@@ -73,7 +72,6 @@ UsuarioModelo.hasMany(ReservaModelo, { foreignKey: "idUsuario" });
 UsuarioModelo.hasMany(MovimientoCajaModelo, { foreignKey: "idUsuario" });
 
 UsuarioModelo.belongsTo(DepartamentoModelo, { foreignKey: "idDepartamento" });
-UsuarioModelo.hasOne(ComensalModelo, { foreignKey: "idComensal" });
 
 // SCOPES
 

@@ -1,7 +1,6 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const ReservaEstadoModelo = requiere('../reservaestado/reservaestado-model');
 var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
@@ -22,11 +21,8 @@ const EstadoReservaModelo = sequelize.define('estadoreserva', {
         allowNull: false
     }
 }, {
-        // options
-    });
-
-EstadoReservaModelo.hasMany(ReservaEstadoModelo, { foreignKey: "idEstadoReserva" });
-
+    // options
+});
 
 module.exports = EstadoReservaModelo;
 

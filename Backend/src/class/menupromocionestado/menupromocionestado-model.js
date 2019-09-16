@@ -1,38 +1,44 @@
 'use strict'
 
 const Sequelize = require('sequelize');
+const EstadoMenuPromocionModelo = requiere('../estadomenupromocion/estadomenupromocion-model');
+const MenuPromocionModelo = requiere('../menupromocion/menupromocion-model');
 var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
 const MenuPromocionEstadoModelo = sequelize.define('menupromocionestado', {
-	// attributes
-	idUsuarioEstado: {
-		type: Sequelize.INTEGER,
-		allowNull: false,
-		primaryKey: true,
-		autoIncrement: true
-	},
-	idUsuario: {
-		type: Sequelize.INTEGER,
-		allowNull: false
-	},
-	idEstadoUsuario: {
-		type: Sequelize.INTEGER,
-		allowNull: false
-	},
-	descripcionUsuarioEstado: {
-		type: Sequelize.STRING
-	},
-	fechaYHoraAltaUsuarioEstado: {
-		type: Sequelize.DATE,
-		allowNull: false
-	},
-	fechaYHoraBajaUsuarioEstado: {
-		type: Sequelize.DATE
-	}
+    // attributes
+    idMenuPromocionEstado: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    idMenuPromocion: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    idEstadoMenuPromocion: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    descripcionMenuPromocionEstado: {
+        type: Sequelize.STRING
+    },
+    fechaYHoraAltaMenuPromocionEstado: {
+        type: Sequelize.DATE,
+        allowNull: false
+    },
+    fechaYHoraBajaMenuPromocionEstado: {
+        type: Sequelize.DATE
+    }
 }, {
-		// options
-	});
+    // options
+});
+
+
+MenuPromocionEstadoModelo.belongsTo(EstadoMenuPromocionModelo, { foreignKey: "idEstadoMenuPromocion" });
+MenuPromocionEstadoModelo.belongsTo(MenuPromocionModelo, { foreignKey: "idMenuPromocion" });
 
 module.exports = MenuPromocionEstadoModelo;
 
