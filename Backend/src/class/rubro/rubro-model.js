@@ -1,34 +1,31 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const ProductoModelo = require('../producto/producto-model');
 var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
 const RubroModelo = sequelize.define('rubro', {
-  // attributes
-  idRubro: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  codRubro: {
-    type: Sequelize.INTEGER,
-    allowNull: false
-  },
-  nombreRubro: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  descripcionRubro: {
-    type: Sequelize.STRING
-  }
+    // attributes
+    idRubro: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    codRubro: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    nombreRubro: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    descripcionRubro: {
+        type: Sequelize.STRING
+    }
 }, {
     // options
-  });
-
-RubroModelo.hasMany(ProductoModelo, { foreignKey: "idRubro" });
+});
 
 module.exports = RubroModelo;
 

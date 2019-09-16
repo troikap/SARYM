@@ -1,37 +1,34 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const ProductoModelo = require('../producto/producto-model');
 var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
 const UnidadMedidaModelo = sequelize.define('unidadmedida', {
-  // attributes
-  idUnidadMedida: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  codUnidadMedida: {
-    type: Sequelize.INTEGER,
-    allowNull: false
-  },
-  nombreUnidadMedida: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  descripcionUnidadMedida: {
-    type: Sequelize.STRING
-  },
-  caracterUnidadMedida: {
-    type: Sequelize.STRING
-  }
+    // attributes
+    idUnidadMedida: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    codUnidadMedida: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    nombreUnidadMedida: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    descripcionUnidadMedida: {
+        type: Sequelize.STRING
+    },
+    caracterUnidadMedida: {
+        type: Sequelize.STRING
+    }
 }, {
     // options
-  });
-
-UnidadMedidaModelo.hasMany(ProductoModelo, { foreignKey: "idUnidadModelo" });
+});
 
 module.exports = UnidadMedidaModelo;
 

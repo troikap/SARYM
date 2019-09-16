@@ -1,11 +1,14 @@
 'use strict'
 
 const Sequelize = require('sequelize');
+const TipoMenuPromocionModelo = require('../tipomenupromocion/tipomenupromocion-model');
+
+
 const MenuPromocionEstadoModelo = require('../menupromocionestado/menupromocionestado-model');
 const PrecioMenuPromocionModelo = require('../preciomenupromocion/preciomenupromocion-model');
-const TipoMenuPromocionModelo = require('../tipomenupromocion/tipomenupromocion-model');
 const DetalleMenuPromocionProductoModelo = require('../detallemenupromocionproducto/detallemenupromocionproducto-model');
 const DetallePedidoProductoModelo = require('../detallepedidoproducto/detallepedidoproducto-model');
+
 var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
