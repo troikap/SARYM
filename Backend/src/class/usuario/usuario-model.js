@@ -61,6 +61,13 @@ UsuarioModelo.hasMany( UsuarioEstadoModelo , {foreignKey: "idUsuario"} )
 UsuarioModelo.belongsTo( DepartamentoModelo , {foreignKey: "idDepartamento"} )
 UsuarioModelo.hasMany( RolUsuarioModelo , {foreignKey: "idUsuario"} )
 
+
+// BelongsTo
+// HasOne
+// HasMany
+// BelongsToMany
+
+
 // SCOPES
 
 // HOOKS

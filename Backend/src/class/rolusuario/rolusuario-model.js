@@ -3,6 +3,7 @@
 const Sequelize = require('sequelize');
 var sequelize = require('../../database/connection');
 const RolModelo = require("../rol/rol-model");
+const UsuarioModelo = require("../usuario/usuario-model");
 
 
 // DEFINICION DEL MODELO
@@ -37,6 +38,7 @@ const RolUsuarioModelo = sequelize.define('rolusuario', {
 
 // ASOCIACIONES
 RolUsuarioModelo.belongsTo( RolModelo , {foreignKey: "idRol"} )
+RolUsuarioModelo.belongsTo( UsuarioModelo , {foreignKey: "idUsuario"} )
 
 // SCOPES
 
