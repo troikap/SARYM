@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
 import { UsuarioService } from '../services/usuario/usuario.service';
-import { StorageService, Item, Log } from '../services/storage/storage.service';
+import { StorageService, Log } from '../services/storage/storage.service';
 import { AlertController } from '@ionic/angular';
 
 @Component({
@@ -14,10 +14,8 @@ export class LogueoPage implements OnInit {
 
   private form: FormGroup;
   private logueo: Log;
-  items: Item[] = [];
-  private newItem: Item = <Item>{};
   private invalidotitle = 'Datos Inválidos';
-  private invalidomsj = 'Convinación de Usuario y Contraseña incorrectos.';
+  private invalidomsj = 'Combinación de Usuario y Contraseña incorrectos.';
   private susptitle = 'Usuario Suspendido';
   private suspmsj = 'El Usuario ingresado se encuentra Suspendido o dado de Baja.';
   private valtitle = 'Bienvenido';
@@ -60,11 +58,13 @@ export class LogueoPage implements OnInit {
     this.algo = algo;
       if (algo.title.tipo == 1) {
         console.log("LOGUEADO")
-        let logueo = {cuit: this.form.value.cuitUsuario, pass: this.form.value.contrasenaUsuario , date: null}
-        // this.storage.setOneObject( 'logueo',logueo)
+        this.logueo = {cuit: this.form.value.cuitUsuario, pass: this.form.value.contrasenaUsuario, id: algo.title.idUsuario , date: null}
+        this.storage.setOneObject( 'token',algo.title.token)
         if (this.form.value.checkRecordar){
-          this.actualizarLog(logueo);
+          console.log("Actualizando Log de Usuario")
+          this.actualizarLog(this.logueo);
         }
+        this.storage.setOneObject( 'currentUsuario', this.logueo)
         this.alert();
          this.router.navigate(["/home"])
       } else {
@@ -80,43 +80,44 @@ export class LogueoPage implements OnInit {
 
   actualizarLog(log: Log) {
      log.date = new Date();
-    // log.pass = this.form.value.contrasenaUsuario;
-    this.storage.updateLog(log)
+    console.log("ACTUALIZAR : ",log)
+    // this.storage.updateLog(log)
+    this.storage.actualizarLog(log)
       .then( res => {
         console.log("ACTUALIZANDO ", res)
         if (!res) {
-          this.storage.addLog(log)
-            .then( res2 => {
-              console.log("CREANDO ", res2)
-            })
+          console.log("NO HIZO NADA ")
+        } else {
+          console.log("ACTUALIZATION !!! ")
         }
+
       })
   }
 
   goTo(key: string) {
     let page;
-
     switch (key) {
-      case 'sign-in':
+      case 'home':
         page = '/home';
         break;
-      case 'sign-up':
-        page = '/sign-up';
+      case 'registro-usuario':
+        page = '/registro-usuario/0';
         break;
       case 'home':
         page = '/home';
         break;
     }
-
     this.router.navigateByUrl(page);
   }
 
   async alert() {
     if (this.algo.title.tipo == 1) {
+      // console.log("CORROBORANDO2 :", ((this.algo.UsuarioEstado[0].nombreUsuario) || (this.algo.UsuarioEstado.nombreUsuario) ))
       const alert = await this.alertController.create({
         header: this.valtitle,
-        message: `${this.valmsj} ${this.algo.UsuarioEstado[0].nombreUsuario} ${this.algo.UsuarioEstado[0].apellidoUsuario}`,
-        buttons: ['OK']
+        message: `${this.valmsj} ${this.algo.UsuarioEstado.nombreUsuario} ${this.algo.UsuarioEstado.apellidoUsuario}`,
+        buttons: ['OK'],
+        cssClass: 'alert',
       });
       await alert.present();
     } 
@@ -124,7 +125,8 @@ export class LogueoPage implements OnInit {
       const alert = await this.alertController.create({
         header: this.invalidotitle,
         message: this.invalidomsj,
-        buttons: ['OK']
+        buttons: ['OK'],
+        cssClass: 'alert',
       });
       await alert.present();
     } 
@@ -132,7 +134,8 @@ export class LogueoPage implements OnInit {
       const alert = await this.alertController.create({
         header: this.susptitle,
         message: this.suspmsj,
-        buttons: ['OK']
+        buttons: ['OK'],
+        cssClass: 'alert',
       });
       await alert.present();
     }

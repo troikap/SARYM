@@ -7,25 +7,25 @@ const DepartamentoModelo = require("./departamento-model"),
   table = "departamento";
 
 DepartamentoController.getAll = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin' , '*');
-  DepartamentoModelo.findAll({ raw: true }).then(projects => {
-    if (!projects || projects == 0) {
-      let locals = {
+  DepartamentoModelo.findAll({  raw: true,
+    attributes: [
+      'idDepartamento',
+      'nombreDepartamento'
+    ] }).then(respons => {
+    let locals = {};
+    if (!respons || respons == 0) {
+      locals = {
         title: `No existen registros de ${legend}`
       };
       res.json(locals);
     } else {
-      let locals = {
-        title: `${legend}`,
-        data: projects
-      };
+      locals[legend] = respons;
       res.json(locals);
     }
   });
 };
 
 DepartamentoController.getOne = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin' , '*');
   DepartamentoModelo.findOne({
     where: { [idtable]: req.params[idtable] }
   }).then(project => {
@@ -45,7 +45,6 @@ DepartamentoController.getOne = (req, res, next) => {
 };
 
 DepartamentoController.create = (req, res) => {
-  res.header('Access-Control-Allow-Origin' , '*');
   if (req.body[idtable]) {
     DepartamentoModelo.findOne({
       where: { [idtable]: req.body[idtable] }
@@ -99,7 +98,6 @@ DepartamentoController.create = (req, res) => {
 };
 
 DepartamentoController.delete = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin' , '*');
   let [idtabla] = req.params[idtabla];
   DepartamentoModelo.getOne([idtabla], (err, rows) => {
     if (err) {
@@ -120,7 +118,6 @@ DepartamentoController.delete = (req, res, next) => {
 };
 
 DepartamentoController.destroy = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin' , '*');
   DepartamentoModelo.destroy({
     where: {
       [idtable]: req.params[idtable]
@@ -141,7 +138,6 @@ DepartamentoController.destroy = (req, res, next) => {
 };
 
 DepartamentoController.error404 = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin' , '*');
   let error = new Error(),
     locals = {
       title: "Error 404",

@@ -1,21 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
-export interface Item {
-  id: number,
-  title: string,
-  value: string,
-  modified: number
-}
-
 export interface Log {
   cuit: number,
   pass: string,
+  id: number;
   date: Date
 }
 const LOG_KEY = 'logueo';
+const CURRENT_KEY = 'currentUsuario';
 
-const ITEMS_KEY = 'my-items';
+
 
 @Injectable({
   providedIn: 'root'
@@ -27,21 +22,11 @@ export class StorageService {
   ) { }
 
   // Create   
-addItem(item: Item): Promise<any> {
-  return this.storage.get(ITEMS_KEY)
-  .then( (items: Item[]) => {
-    if (items) {
-      items.push(item)
-      return this.storage.set(ITEMS_KEY, items);
-    } else {
-      return this.storage.set(ITEMS_KEY, [item]);
-    }
-  })
-}
-
 addLog(log: Log): Promise<any> {
+  console.log("ESTO ES LOG :", log)
   return this.storage.get(LOG_KEY)
   .then( (logs: Log[]) => {
+    console.log("METRAIGOLOGUEO : ",logs)
     if (logs) {
       logs.push(log)
       return this.storage.set(LOG_KEY, logs);
@@ -52,33 +37,15 @@ addLog(log: Log): Promise<any> {
 }
 
 // Read
-getItem(): Promise<Item[]> {
-  return this.storage.get(ITEMS_KEY);
-}
-
 getLog(): Promise<Log> {
   return this.storage.get(LOG_KEY);
 }
 
-// Update
-updateItem(item: Item): Promise<any> {
-  return this.storage.get(ITEMS_KEY)
-    .then((items: Item[]) => {
-      if(!items || items.length === 0) {
-        return null;
-      }
-      let newItems: Item[] = [];
-      for (let i of items) {
-        if (i.id === item.id) {
-          newItems.push(item);
-        } else {
-          newItems.push(i);
-        }
-      }
-      return this.storage.set(ITEMS_KEY, newItems);
-    })
+getCurrentUsuario(): Promise<Log> {
+  return this.storage.get(CURRENT_KEY);
 }
 
+// Update
 updateLog(log: Log): Promise<any> {
   console.log("UPDATING :", log)
   return this.storage.get(LOG_KEY)
@@ -91,7 +58,7 @@ updateLog(log: Log): Promise<any> {
       console.log("ESTA RETORNANDO ALGO")
       let newLogs: Log[] = [];
       for (let i of logs) {
-        if (i.cuit === log.cuit) {
+        if (i.id === log.id) {
           newLogs.push(log);
         } else {
           newLogs.push(i);
@@ -102,22 +69,67 @@ updateLog(log: Log): Promise<any> {
     })
 }
 
-// Delete
-deleteItem(id: number): Promise<Item> {
-  return this.storage.get(ITEMS_KEY)
-    .then((items: Item[]) => {
-      if (!items || items.length === 0) {
-        return null;
-      }
-      let toKeep: Item[] = [];
-      for (let i of items) {
-        if (i.id !== id) {
-          toKeep.push(i);
+actualizarLog(log: Log): Promise<any> {
+  return this.storage.get(LOG_KEY)
+    .then((logs: Log[]) => {
+      let newLogs: Log[] = [];
+      if(!logs || logs.length === 0) {
+        newLogs.push(log);
+      } else {
+        let esta = false;
+        for (let i of logs ) {
+          if (i.id === log.id) {
+            newLogs.push(log);
+            esta = true
+          } else {
+            newLogs.push(i);
+          } 
+        }
+        if (!esta) {
+          newLogs.push(log)
         }
       }
-      return this.storage.set(ITEMS_KEY, toKeep);
+      return this.storage.set(LOG_KEY, newLogs);
     })
-}
+    .catch( (err) => {
+      console.log("Error ,", err)
+    })
+  }
+
+  deleteItem(Log : Log): Promise<Log> {
+    return this.storage.get(LOG_KEY)
+      .then((logs: Log[]) => {
+        if (!logs || logs.length === 0) {
+          return null;
+        }
+        let toKeep: Log[] = [];
+        for (let i of logs) {
+          if (i.id !== Log.id) {
+            toKeep.push(i);
+          }
+        }
+        return this.storage.set(LOG_KEY, toKeep);
+      })
+  }
+
+
+
+// Delete
+// deleteItem(id: number): Promise<Item> {
+//   return this.storage.get(ITEMS_KEY)
+//     .then((items: Item[]) => {
+//       if (!items || items.length === 0) {
+//         return null;
+//       }
+//       let toKeep: Item[] = [];
+//       for (let i of items) {
+//         if (i.id !== id) {
+//           toKeep.push(i);
+//         }
+//       }
+//       return this.storage.set(ITEMS_KEY, toKeep);
+//     })
+// }
 
   setOneItem(name: string, value: string) {
     //     Guardar datos en el navegador
@@ -133,7 +145,8 @@ deleteItem(id: number): Promise<Item> {
     }
     setOneObject(name: string, object: any) {
     //     Guardar objetos en el LocalStorage
-      this.storage.set(name, JSON.stringify(object));
+    console.log("SET ONE OBJECT : ", (name + object))
+      this.storage.set(name, object);
     }
     
     getOneObject(name){

@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { UsuarioService } from '../services/usuario/usuario.service';
-import { logging } from 'protractor';
+import { Router } from '@angular/router';
+import { StorageService, Log } from '../services/storage/storage.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
+
+  private logueo: Log;
 
   slides = [
     {
@@ -28,23 +31,42 @@ export class HomePage {
     }
   ];
 
-  constructor(private menu: MenuController,
-    private usuarioservice: UsuarioService) {
+  constructor(
+    private menu: MenuController,
+    private usuarioservice: UsuarioService,
+    private router: Router,
+    private storage: StorageService) {
+     
+    this.loadLog()
   }
-
   openFirst() {
     this.menu.toggle();
   }
 
-  OnInit(){}
-getUsuario(id){
-  this.usuarioservice.getUsuario(id);
+  ngOnInit(){
+  }
 
-}
-
-  async getUsuarios() {
-  let datos = await this.usuarioservice.getUsuarios();
+  async goTo(key: string) {
+    await this.loadLog()
+    let id = this.logueo.id;
+    let page;
+    switch (key) {
+      case 'registro-usuario':
+        page = `/registro-usuario/${id}`;
+        break;
+    }
+    this.router.navigateByUrl(page);
   }
   
 
+  async loadLog() { 
+    await this.storage.getCurrentUsuario()
+    .then(  logs => {
+      console.log("TRAYENDO USUARIO" , logs)
+      this.logueo = logs;
+      if (!logs) {
+        console.log('ERRORR')
+      }
+    })
+  }
 }

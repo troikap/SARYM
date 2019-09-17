@@ -3,12 +3,17 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Router } from '@angular/router';
+import { StorageService, Log } from './services/storage/storage.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
+
+  desactivar: boolean = false;
+
   pages = [
     {
       title: 'Principal',
@@ -31,7 +36,7 @@ export class AppComponent {
         {
           title: 'Ionic',
           url: '/ionic',
-          icon: 'logo-ionic'
+          icon: 'settings'
         },
         {
           title: 'Alert',
@@ -42,7 +47,6 @@ export class AppComponent {
           title: 'Avatar',
           url: '/avatar',
           icon: 'beaker',
-          // icon: '../assets/icon/tucus.jpeg'
         },
         {
           title: 'Botones',
@@ -55,13 +59,21 @@ export class AppComponent {
           icon: 'beaker',
         },
       ]
-    }
+    },
+    {
+      title: 'Cerrar Sesión',
+      url: '/logueo',
+      icon: 'warning',
+    },
   ];
   constructor(
+    private router: Router,
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private storage: StorageService
   ) {
+
     this.initializeApp();
   }
 
@@ -70,5 +82,41 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+    // this.traerCurrentUsuario();
   }
+
+  // prueba( ruta: string) {
+  //   if (ruta == '/logueo') {
+  //     this.storage.delOneItem('currentUsuario');
+  //   }
+  //   this.storage.getCurrentUsuario()
+  //     .then( (res) => {
+  //       console.log("USUARIO",res)
+  //       if (res == null) {
+  //         console.log("ENTRO")
+  //         this.desactivar = true;
+  //         this.router.navigate(['/logueo']);
+  //       } else {
+  //         this.desactivar = false;
+  //         this.router.navigate([ruta]);
+  //       }
+  //     })
+  //     .catch( (err) => {
+  //       console.log('ERRRR ', err)
+  //     })
+  //   console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" , ruta)
+  // }
+  
+  // traerCurrentUsuario() {
+  //   this.storage.getCurrentUsuario()
+  //     .then( (res) => {
+  //       if (res == null) {
+  //         this.desactivar = true
+  //       } else {
+  //         this.desactivar = false
+  //       }
+  //       console.log( "desactivar" ,this.desactivar)
+  //     })
+  // }
+
 }

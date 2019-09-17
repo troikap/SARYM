@@ -5,10 +5,17 @@ require('../config');
 // Verificar TOKEN
 // =======================
 let verificaToken = ( req, res, next) => {
+<<<<<<< HEAD
     let token = req.get('token');
 
     if (token == "nada") {
         
+=======
+    console.log('VERIFICANDO')
+    let token = req.get('token');
+// token = "nada";
+    if (token == "nuevo") {
+>>>>>>> master
         next();
     } else{
         jwt.verify( token, process.env.SEED , (err , decoded) => {

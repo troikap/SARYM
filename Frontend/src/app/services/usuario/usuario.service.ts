@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
-const URL = environment.url;
+const URL = environment.urlNgrok || environment.url;
 const dir = '/usuario';
 
 @Injectable({
@@ -10,30 +10,29 @@ const dir = '/usuario';
 })
 export class UsuarioService {
 
-  basepath = "/usuario";
-
   constructor( 
     public http: HttpClient
   ) { }
 
-   getUsuarios(): Promise<Usuario[]> {
+  getUsuarios(token: string): Promise<Usuario[]> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', token);
     return this.http
-      .get(URL + dir)
+      .get(URL + dir, {headers})
       .toPromise()
       .then(response => {
-        console.log(response)
         return response as Usuario[];
       })
       .catch(  );
   }
 
-  getUsuario( id: number ): Promise<any> {
-    console.log(`${URL}${dir}/${id}`)
+  getUsuario( id: number , token: string): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', token);
     return this.http
-      .get(`${URL}${dir}/${id}`)
+      .get(`${URL}${dir}/${id}`, {headers})
       .toPromise()
       .then(response => {
-        console.log(response)
         return response as Usuario;
       })
       .catch(  );
@@ -42,10 +41,9 @@ export class UsuarioService {
   loguear( cuit: number, pass: string ): Promise<any> {
     let value = { cuitUsuario: cuit, contrasenaUsuario: pass}
     console.log("value ",value)
-    console.log(`${URL}${dir}/logueo`)
     return this.http
       .post(
-        `${URL}${dir}/logueo`,
+        `${URL}/login`,
         value
         )
       .toPromise()
@@ -53,10 +51,41 @@ export class UsuarioService {
         console.log("aaaa ",response)
         return response as Usuario;
       })
+      .catch( err => {
+        console.log("ERROR : ",err)
+      } );
+  }
+
+  updateUsuario( datas, token ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', token);
+     let data = {headers}
+     console.log("DATAS:" ,datas)
+    return this.http
+      .put(`${URL}${dir}`, datas, data)
+      .toPromise()
+      .then(response => {
+        console.log("RESPUESTA",response)
+        return response as Usuario;
+      })
+      .catch(  );
+  }
+
+  setUsuario( datas, token ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', token);
+     let data = {headers}
+     console.log("DATAS:" ,datas)
+    return this.http
+      .post(`${URL}${dir}`, datas, data)
+      .toPromise()
+      .then(response => {
+        console.log("RESPUESTA",response)
+        return response as Usuario;
+      })
       .catch(  );
   }
 }
-
 
 export interface Usuario {
   idUsuario: string;
@@ -71,30 +100,3 @@ export interface Usuario {
   nroCelularUsuario: number;
   nroTelefonoUsuario: number;
 }
-
-
-// getUsuarios(): Promise<Usuario[]> {
-  //   return this.http
-  //     .get(URL + "/usuario/" + id, this.getRestHeader())
-  //     .toPromise()
-  //     .then(response => {
-  //       return response.json() as Mascota[];
-  //     })
-  //     .catch(this.handleError);
-  // }
-
-
-
-  // getUsuarios(  ) {
-  //   return new Promise( resolve => {
-  //       this.http.get(`${ URL }/usuario`)
-  //       .subscribe( async resp => {
-  //         console.log(resp)
-  //         if ( resp['ok'] ) {
-  //           resolve(true);
-  //         } else {
-  //           resolve(false);
-  //         }
-  //       });
-  //   });
-  // }

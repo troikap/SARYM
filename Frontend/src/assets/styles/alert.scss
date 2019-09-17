@@ -1,0 +1,23 @@
+:root{
+    .alert-1-msg {
+        text-align: center;
+        font-size: 46px;
+    }
+}
+ion-alert {
+    ion-backdrop {
+
+    }
+    .alert-wrapper {
+        .alert-head {
+            font-size: 20px;
+        }
+        .alert-1-msg {
+            text-align: center;
+            font-size: 16px;
+        }
+        .alert-button-group {
+            font-size: 16px;
+        }
+    }
+}
