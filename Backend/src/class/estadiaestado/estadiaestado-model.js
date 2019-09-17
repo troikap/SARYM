@@ -33,20 +33,9 @@ const EstadiaEstadoModelo = sequelize.define('estadiaestado', {
 		type: Sequelize.DATE
 	}
 }, {
-		// options
-	});
+	// options
+});
 
 EstadiaEstadoModelo.belongsTo(EstadoEstadiaModelo, { foreignKey: "idEstadoEstadia" });
 
 module.exports = EstadiaEstadoModelo;
-
-
-/*
-create table estadiaestado(
-	idEstadiaEstado INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	idEstadia INT(12) UNSIGNED NOT NULL,
-	idEstadoEstadia INT(5) UNSIGNED NOT NULL,
-    descripcionEstadiaEstado VARCHAR(100) NOT NULL,
-	fechaYHoraAltaEstadiaEstado datetime NOT NULL,
-	fechaYHoraBajaEstadiaEstado datetime)
-*/

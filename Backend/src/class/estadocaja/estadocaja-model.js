@@ -21,16 +21,7 @@ const EstadoCajaModelo = sequelize.define('estadocaja', {
     allowNull: false
   }
 }, {
-    // options
-  });
-
-  //Asociaciones
+  // options
+});
 
 module.exports = EstadoCajaModelo;
-
-/*
-create table estadocaja (
-    idEstadoCaja INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    codestadocaja VARCHAR(50) NOT NULL,
-    nombreestadocaja VARCHAR(50) NOT NULL)
-*/

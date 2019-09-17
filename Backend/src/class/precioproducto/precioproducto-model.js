@@ -36,14 +36,3 @@ const PrecioProductoModelo = sequelize.define('precioproducto', {
 	});
 
 module.exports = PrecioProductoModelo;
-
-
-/*
-create table precioproducto(
-	idPrecioProducto INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	idProducto INT(10) UNSIGNED NOT NULL,
-	idTipoMoneda INT(5) UNSIGNED NOT NULL,
-	importePrecioProducto float NOT NULL,
-	fechaYHoraDesdePrecioProducto datetime NOT NULL,
-	fechaYHoraHastaPrecioProducto datetime)
-*/

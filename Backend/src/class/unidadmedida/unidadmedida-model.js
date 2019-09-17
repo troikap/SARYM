@@ -31,13 +31,3 @@ const UnidadMedidaModelo = sequelize.define('unidadmedida', {
 });
 
 module.exports = UnidadMedidaModelo;
-
-/*
-create table unidadmedida (
-    idUnidadMedida INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    codUnidadMedida VARCHAR(50) NOT NULL,
-    nombreUnidadMedida VARCHAR(50) NOT NULL,
-    descripcionUnidadMedida VARCHAR(50),
-    caracterUnidadMedida VARCHAR(10));
-
-*/

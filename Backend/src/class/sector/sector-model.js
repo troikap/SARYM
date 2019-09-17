@@ -24,15 +24,7 @@ const SectorModelo = sequelize.define('sector', {
     type: Sequelize.DATE
   }
 }, {
-    // options
-  });
+  // options
+});
 
 module.exports = SectorModelo;
-
-/*
-create table sector(
-    idSector INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    codSector VARCHAR(50) NOT NULL,
-    nombreSector VARCHAR(50) NOT NULL,
-    fechaYHoraBajaSector datetime)
-*/

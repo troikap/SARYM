@@ -4,7 +4,6 @@ const Sequelize = require('sequelize');
 const PedidoModelo = require('../pedido/pedido-model');
 var sequelize = require('../../database/connection');
 
-
 // DEFINICION DEL MODELO
 const PagoPedidoModelo = sequelize.define('pagopedido', {
     // attributes

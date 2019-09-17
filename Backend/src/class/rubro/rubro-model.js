@@ -28,11 +28,3 @@ const RubroModelo = sequelize.define('rubro', {
 });
 
 module.exports = RubroModelo;
-
-/*
-create table rubro (
-    idRubro INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    codRubro VARCHAR(50) NOT NULL,
-    nombreRubro VARCHAR(50) NOT NULL,
-    descripcionRubro VARCHAR(50));
-*/

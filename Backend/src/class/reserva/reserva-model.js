@@ -55,15 +55,3 @@ ReservaModelo.hasMany(PedidoModelo, { foreignKey: "idReserva" });
 ReservaModelo.hasMany(ReservaEstadoModelo, { foreignKey: "idReserva" });
 
 module.exports = ReservaModelo;
-
-/*
-create table reserva(
-	idReserva INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	idUsuario INT(12) UNSIGNED NOT NULL,
-    codReserva VARCHAR(50) NOT NULL,
-    cantPersonas INT(5) UNSIGNED NOT NULL,
-	fechaReserva date NOT NULL,
-	horaEntradaReserva time NOT NULL,
-    horaSalidaReserva time,
-    tokenReserva VARCHAR(50) NOT NULL)
-*/

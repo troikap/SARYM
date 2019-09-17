@@ -1,7 +1,6 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const UsuarioModelo = require('../usuario/usuario-model');
 const PagoModelo = require('../pago/pago-model');
 const PedidoModelo = require('../pedido/pedido-model');
 var sequelize = require('../../database/connection');
@@ -38,18 +37,7 @@ const ComensalModelo = sequelize.define('comensal', {
     // options
 });
 
-//ComensalModelo.hasOne(UsuarioModelo, { foreignKey: "idUsuario" });
 ComensalModelo.hasMany(PagoModelo, { foreignKey: "idComensal" });
 ComensalModelo.hasMany(PedidoModelo, { foreignKey: "idComensal" });
 
 module.exports = ComensalModelo;
-
-/*
-create table comensal (
-    idComensal INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    idUsuario INT(10) UNSIGNED,
-    idReserva INT(10) UNSIGNED,
-    idEstadia INT(10) UNSIGNED,
-    aliasComensal VARCHAR(50) NOT NULL,
-    edadComensal VARCHAR(50) NOT NULL);
-*/

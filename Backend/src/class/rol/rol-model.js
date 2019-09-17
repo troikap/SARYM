@@ -19,5 +19,4 @@ const RolModelo = sequelize.define('rol', {
 	// options
 });
 
-
 module.exports = RolModelo 

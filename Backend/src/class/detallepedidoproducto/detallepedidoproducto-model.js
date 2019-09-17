@@ -1,6 +1,7 @@
 'use strict'
 
 const Sequelize = require('sequelize');
+const PedidoModelo = require('../pedido/pedido-model');
 var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
@@ -35,19 +36,7 @@ const DetallePedidoProductoModelo = sequelize.define('detallepedidoproducto', {
         type: Sequelize.DATE
     }
 }, {
-        // options
-    });
+    // options
+});
 
 module.exports = DetallePedidoProductoModelo;
-
-/*
-    -- detallepedidoproducto
-create table detallepedidoproducto (
-    idDetallePedidoProducto INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    idPedido INT(12) UNSIGNED NOT NULL,
-    idMenuPromocion INT(12) UNSIGNED NOT NULL,
-    idProducto INT(12) UNSIGNED NOT NULL,
-    cantidadPedidoProducto INT(5) NOT NULL,
-    fechaYHoraInicioPedidoProducto datetime NOT NULL,
-    fechaYHoraEntregaPedidoProducto datetime);
-*/

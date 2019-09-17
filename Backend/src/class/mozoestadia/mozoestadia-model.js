@@ -25,17 +25,9 @@ const MozoEstadiaModelo = sequelize.define('mozoestadia', {
     type: Sequelize.DATE
   }
 }, {
-    // options
-  });
+  // options
+});
 
-MozoEstadiaModelo.hasMany(EstadiaModelo, { foreignKey: "idMozoEstadia" });  
+MozoEstadiaModelo.hasMany(EstadiaModelo, { foreignKey: "idMozoEstadia" });
 
 module.exports = MozoEstadiaModelo;
-
-/*
-create table mozoestadia (
-    idMozoEstadia INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    idUsuario INT(12) UNSIGNED NOT NULL,
-    fechaYHoraInicioMozoEstadia datetime NOT NULL,
-	fechaYHoraFinMozoEstadia datetime)
-*/

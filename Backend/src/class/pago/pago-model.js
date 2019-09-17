@@ -5,7 +5,6 @@ const PagoPedidoModelo = require('../pagopedido/pagopedido-model');
 const MedioPagoModelo = require('../mediopago/mediopago-model');
 var sequelize = require('../../database/connection');
 
-
 // DEFINICION DEL MODELO
 const PagoModelo = sequelize.define('pago', {
   // attributes
@@ -36,11 +35,10 @@ const PagoModelo = sequelize.define('pago', {
     allowNull: false
   }
 }, {
-    // options
-  });
+  // options
+});
 
 PagoModelo.hasMany(PagoPedidoModelo, { foreignKey: "idPago" });
 PagoModelo.belongsTo(MedioPagoModelo, { foreignKey: "idMedioPago" });
-
 
 module.exports = PagoModelo;

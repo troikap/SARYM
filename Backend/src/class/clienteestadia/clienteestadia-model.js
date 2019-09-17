@@ -20,14 +20,8 @@ const ClienteEstadiaModelo = sequelize.define('clienteestadia', {
         type: Sequelize.INTEGER,
         allowNull: false
     }
-    }, {
-        // options
-    });
+}, {
+    // options
+});
 
-    module.exports = ClienteEstadiaModelo;
-/*
-create table clienteestadia (
-    idClienteEstadia INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    idUsuario INT(12) UNSIGNED NOT NULL,
-    idEstadia INT(12) UNSIGNED NOT NULL)
-*/
+module.exports = ClienteEstadiaModelo;

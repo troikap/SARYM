@@ -22,15 +22,9 @@ const DetalleReservaMesaModelo = sequelize.define('detallereservamesa', {
         allowNull: false
     }
 }, {
-        // options
-    });
+    // options
+});
 
 DetalleReservaMesaModelo.belongsTo(MesaModelo, { foreignKey: "idMesa" });
 
 module.exports = DetalleReservaMesaModelo;
-/*
-create table detallereservamesa (
-    idDetalleReservaMesa INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    idReserva INT(12) UNSIGNED NOT NULL,
-    idMesa INT(12) UNSIGNED NOT NULL)
-*/
