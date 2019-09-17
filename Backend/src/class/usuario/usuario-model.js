@@ -50,10 +50,10 @@ const UsuarioModelo = sequelize.define(
             type: Sequelize.INTEGER
         },
         nroCelularUsuario: {
-            type: Sequelize.INTEGER
+            type: Sequelize.BIGINT(10)
         },
         nroTelefonoUsuario: {
-            type: Sequelize.BIGINT(15)
+            type: Sequelize.BIGINT(10)
         }
     }, {
         // options
