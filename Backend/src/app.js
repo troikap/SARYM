@@ -14,12 +14,16 @@ var express = require('express'),
 // settings
 app
     .set('port', port)
-    .use((req, res, next) => {
+    .all('*', function(req, res, next) {
         res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
-        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-        next();
-    })
+        res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+        res.header('Access-Control-Allow-Headers', 'Content-Type, token');
+        if ('OPTIONS' == req.method) {
+        res.sendStatus(200);
+        } else {
+          next();
+        }
+      })
     .use( favicon(faviconURL) )
     .use( bodyParser.json() )
 	// parse application/x-www-form-urlencoded
@@ -28,6 +32,7 @@ app
 	.use( morgan('dev') )
     .use(publicDir)
     .use(routes)
+
    
     
 

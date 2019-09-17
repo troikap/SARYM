@@ -65,12 +65,14 @@ const UsuarioModelo = require("./usuario-model"),
             let token = jwt.sign({
               cuitUsuario: response.dataValues.cuitUsuario,
               nombreUsuario: response.dataValues.nombreUsuario,
-              apellidoUsuario: response.dataValues.apellidoUsuario
+              apellidoUsuario: response.dataValues.apellidoUsuario,
+              rolUsuario: response.dataValues.usuarioestados[0].estadousuario.dataValues.nombreEstadoUsuario
             }, process.env.SEED, { expiresIn: process.env.CADUCIDAD_TOKEN}) // 60 * 60 (hora) * 24 *30
             locals.title = {
               descripcion: `Usuario Logueado`,
               tipo: 1,
-              token
+              token,
+              idUsuario: response.dataValues.idUsuario,
             };
             locals[legend2] = response;
             res.json(locals);
@@ -282,13 +284,15 @@ UsuarioController.getOne = (req, res) => {
     if (!response || response == 0) {
       // SI NO EXISTE EL USUARIO
       locals.title = {
-        descripcion: `No existe el registro : ${req.params[idtable]}`
+        descripcion: `No existe el registro : ${req.params[idtable]}`,
+        tipo: 2
       };
       res.json(locals);
     } else {
       // SI EXISTE EL USUARIO AGREGAMOS A LA VARIABLE EL MISMO
       // locals.title = `${legend} encontrado`;
       locals[legend] = response.dataValues;
+      locals['tipo'] = 1
       res.json(locals)
     }
   });
@@ -311,7 +315,6 @@ UsuarioController.create = (req, res) => {
         }).then(response => {
           if (!response || response == 0) {
             locals.title = `No existe : ${legend3}`;
-
             res.json(locals);
           } else {
             UsuarioModelo.findOne({
@@ -361,6 +364,7 @@ UsuarioController.create = (req, res) => {
     }).then(response => {
       if (!response || response == 0) {
         locals.title = ` No existe : ${legend3}  AAAAA`;
+        locals['tipo'] = 2
         res.json(locals);
       } else {
         UsuarioModelo.findOne({
@@ -369,27 +373,29 @@ UsuarioController.create = (req, res) => {
           if (!resp || resp == 0) {
             locals.title = { descripcion: `${legend3} encontrada` };
             locals[legend3] = response;
+            locals['tipo'] = 2
             body.contrasenaUsuario = bcrypt.hashSync(body.contrasenaUsuario, 10);
             // CREAMOS INSTANCIA USUARIO
             UsuarioModelo.create(body).then(result => {
-              locals.title = { descripcion: `${legend} creado` };
+              locals.title = `${legend} creado Correctamente`;
               locals[legend] = result;
+              locals['tipo'] = 1
               let push = {
                 [idestadotable]: response[idestadotable],
                 [idtable]: result[idtable],
-                fechaYHoraAltaUsuarioEstado: new Date() ///////////////////////////////  HARKODEO
+                fechaYHoraAltaUsuarioEstado: new Date() 
               };
               // CREANDO INSTANCIA USUARIO ESTADO
               UsuarioEstadoModelo.create(push).then(result => {
-                locals.title = {
-                  descripcion: `${legend} creado , ${legend2} creado`
-                };
+                let descripcion2 = `${legend} creado , ${legend2} creado`
+                locals['descripcion2'] = descripcion2
                 locals[legend2] = result;
                 res.json(locals);
               });
             });
           } else {
             locals.title = `Ya Existe un Registro ${legend} con cuit ${body.cuitUsuario}`;
+            locals['tipo'] = 2
             res.json(locals);
           }
         })
@@ -414,9 +420,13 @@ UsuarioController.update = (req, res) => {
       } else {
         var check = false;
         var pass = false;
-        if (bcrypt.compareSync(body.contrasenaUsuario, response.dataValues.contrasenaUsuario) ) {
-          body.contrasenaUsuario = response.dataValues.contrasenaUsuario
-        };
+        if ( !body.contrasenaUsuario ) {
+          body['contrasenaUsuario'] = response.dataValues.contrasenaUsuario
+        } else { 
+          if (bcrypt.compareSync(body.contrasenaUsuario, response.dataValues.contrasenaUsuario) ) {
+            body.contrasenaUsuario = response.dataValues.contrasenaUsuario
+          };
+        }
         for (let attribute in body) {
           if (
             String(body[attribute]) !=
@@ -433,21 +443,21 @@ UsuarioController.update = (req, res) => {
             console.log("cambiando Contraseña")
             body.contrasenaUsuario = bcrypt.hashSync(body.contrasenaUsuario, 10);
           }
-          console.log("ANTES ",response.dataValues.contrasenaUsuario)
-          console.log("DESPUES ",body.contrasenaUsuario)
           UsuarioModelo.update(body, {
             where: {
               [idtable]: body[idtable]
             }
           }).then(result => {
             let locals = {
-              title: `Actualizando ${legend}: ${body[idtable]}`
+              title: `Registro ${legend} Actualizado`,
+              tipo: 1
             };
             res.json(locals);
           });
         } else {
           let locals = {
-            title: `No existe ninguna modificación de ${legend}: ${body[idtable]}`
+            title: `No ha Modificado ningún Registro de ${legend}`,
+            tipo: 2
           };
           res.json(locals);
         }

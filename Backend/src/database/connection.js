@@ -24,14 +24,5 @@ sequelize
 	.catch(err => {
 	console.error('Unable to connect to the database:', err);
 	});
-
-// var uno =  { idEstadoUsuario: 5,
-// 	codEstadoUsuario: '5',
-// 	nombreEstadoUsuario: 'Otro2' }
-// 	console.log("uno es :", uno);
-// 	for ( let x in uno ) {
-// 		console.log(`${x}:${uno[x]},` )
-// 		// console.log(uno[x]);
-// 	}
 	
 module.exports = sequelize

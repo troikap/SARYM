@@ -38,9 +38,9 @@ router
     .delete('/estadousuario/:idEstadoUsuario', verificaToken, EstadoUsuarioController.destroy)
 
 // departamento
-    .get('/departamento', verificaToken, DepartamentoController.getAll)
+    .get('/departamento', DepartamentoController.getAll)
     .post('/departamento', verificaToken, DepartamentoController.create)
-    .get('/departamento/:idDepartamento', verificaToken, DepartamentoController.getOne)
+    .get('/departamento/:idDepartamento', DepartamentoController.getOne)
     .post('/departamento/:idDepartamento', verificaToken, DepartamentoController.delete)
     .delete('/departamento/:idDepartamento', verificaToken, DepartamentoController.destroy)
 
