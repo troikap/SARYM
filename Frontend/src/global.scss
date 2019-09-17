@@ -12,8 +12,13 @@
 //custom
 @import 'theme/header.scss';
 //assets styles
-@import './assets/styles/inputs.scss';
+@import './assets/styles/input.scss';
 @import './assets/styles/label.scss';
+@import './assets/styles/toast.scss';
+@import './assets/styles/select.scss';
+@import './assets/styles/other.scss';
+@import './assets/styles/alert.scss';
+@import './assets/styles/item.scss';
 //
 .rojo span,
 .rojo ion-icon {

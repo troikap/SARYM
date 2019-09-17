@@ -13,7 +13,7 @@
       <ion-row>
         <ion-col>
           <form [formGroup]='form' *ngIf='form'>
-            <ion-item class="form-group">
+            <ion-item class="login-input">
                 <!-- <ion-label for='cuitUsuario'>Cuit Usuario</ion-label> -->
               <ion-row>
                 <ion-input class="form-control" type='number' id='cuitUsuario' placeholder='Ingrese Cuit' formControlName='cuitUsuario'></ion-input>
@@ -21,14 +21,14 @@
             </ion-item>
             <ion-row no-padding>
               <ion-col size="6" >
-                <ion-item class="form-group">
+                <ion-item class="login-input" >
                   <ion-row>
-                    <ion-input   class="form-control" type='password' id='contrasenaUsuario' placeholder='Ingrese Contraseña' formControlName='contrasenaUsuario'  ></ion-input>
+                    <ion-input class="form-control" type='password' id='contrasenaUsuario' placeholder='Contraseña' formControlName='contrasenaUsuario'  ></ion-input>
                   </ion-row>
                 </ion-item>
               </ion-col>
               <ion-col size="6">
-                <ion-item >
+                <ion-item  class="login-input" >
                     <ion-label >Recordar</ion-label>
                   <ion-checkbox no-margin formControlName='checkRecordar' color="primary" slot="end"></ion-checkbox>
                 </ion-item>
@@ -36,8 +36,7 @@
             </ion-row>
           </form>
           <ion-button expand='full' shape='round' color='primary' (click)='loguear()' [disabled]="!form.valid">Loguear</ion-button>
-          <ion-button expand='full' shape='round' color='primary' (click)='loguear()' >Loguear OTRO</ion-button>
-          <!-- <ion-button expand='full' shape='round' color='primary' (click)='goTo('sign-in')'>Loguear</ion-button> -->
+          <!-- <ion-button expand='full' shape='round' color='primary' (click)='loguear()' >Loguear OTRO</ion-button> -->
           <ion-button expand='full' shape='round' (click)="goTo('registro-usuario')" color='primary'>Registrarse</ion-button>
           <ion-button expand='full' shape='round' (click)="goTo('home')" color='primary'>Sin Logueo</ion-button>
         </ion-col>

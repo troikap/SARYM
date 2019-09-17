@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
-const URL = environment.url;
+const URL = environment.urlNgrok || environment.url;
 const dir = '/usuario';
 
 @Injectable({
@@ -14,9 +14,11 @@ export class UsuarioService {
     public http: HttpClient
   ) { }
 
-   getUsuarios(): Promise<Usuario[]> {
+  getUsuarios(token: string): Promise<Usuario[]> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', token);
     return this.http
-      .get(URL + dir)
+      .get(URL + dir, {headers})
       .toPromise()
       .then(response => {
         return response as Usuario[];
@@ -24,10 +26,11 @@ export class UsuarioService {
       .catch(  );
   }
 
-  getUsuario( id: number ): Promise<any> {
-    console.log(`${URL}${dir}/${id}`)
+  getUsuario( id: number , token: string): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', token);
     return this.http
-      .get(`${URL}${dir}/${id}`)
+      .get(`${URL}${dir}/${id}`, {headers})
       .toPromise()
       .then(response => {
         return response as Usuario;
@@ -38,7 +41,6 @@ export class UsuarioService {
   loguear( cuit: number, pass: string ): Promise<any> {
     let value = { cuitUsuario: cuit, contrasenaUsuario: pass}
     console.log("value ",value)
-    console.log(`${URL}${dir}/logueo`)
     return this.http
       .post(
         `${URL}/login`,
@@ -49,13 +51,33 @@ export class UsuarioService {
         console.log("aaaa ",response)
         return response as Usuario;
       })
+      .catch( err => {
+        console.log("ERROR : ",err)
+      } );
+  }
+
+  updateUsuario( datas, token ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', token);
+     let data = {headers}
+     console.log("DATAS:" ,datas)
+    return this.http
+      .put(`${URL}${dir}`, datas, data)
+      .toPromise()
+      .then(response => {
+        console.log("RESPUESTA",response)
+        return response as Usuario;
+      })
       .catch(  );
   }
 
-  setUsuario( data ): Promise<any> {
-    console.log(`${URL}${dir}`)
+  setUsuario( datas, token ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', token);
+     let data = {headers}
+     console.log("DATAS:" ,datas)
     return this.http
-      .post(`${URL}${dir}`, data)
+      .post(`${URL}${dir}`, datas, data)
       .toPromise()
       .then(response => {
         console.log("RESPUESTA",response)
