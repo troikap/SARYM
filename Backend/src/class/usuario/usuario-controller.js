@@ -94,31 +94,12 @@ const UsuarioModelo = require("./usuario-model"),
       });
   }
 
-<<<<<<< HEAD
-UsuarioController.logueo = (req, res) => {
-  let locals = {};
-  UsuarioModelo.findAll({
-    where: {
-      cuitUsuario: req.body.cuitUsuario,
-      contrasenaUsuario: req.body.contrasenaUsuario
-    },
-    attributes: [
-      'idUsuario',
-      'nombreUsuario',
-      'apellidoUsuario'
-    ],
-    include: [
-      {
-        model: UsuarioEstadoModelo,
-        where: { fechaYHoraBajaUsuarioEstado: null },
-=======
   UsuarioController.logueo = (req, res) => {
     let locals = {};
     let body = req.body;
       UsuarioModelo.findAll({
         where: { cuitUsuario: body.cuitUsuario,
         contrasenaUsuario: body.contrasenaUsuario},
->>>>>>> master
         attributes: [
           'descripcionUsuarioEstado',
           'fechaYHoraAltaUsuarioEstado',
@@ -132,8 +113,6 @@ UsuarioController.logueo = (req, res) => {
             ]
           }
         ]
-      }
-    ],
   }).then(response => {
     if (response && response != 0) {
       if (response[0].usuarioestados[0].estadousuario.dataValues.nombreEstadoUsuario != 'Activo') {
@@ -162,15 +141,7 @@ UsuarioController.logueo = (req, res) => {
 
 UsuarioController.getAll = (req, res) => {
   let locals = {};
-<<<<<<< HEAD
-  // res.header('Access-Control-Allow-Origin', '*');
-  // // res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
-  // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  // BUSCA EL USUARIO CON ID INGRESADO
-  UsuarioModelo.findAll({
-=======
   UsuarioModelo.findAll({ 
->>>>>>> master
     // BUSCA POR FORANEA 
     attributes: [
       'idUsuario',
@@ -242,10 +213,6 @@ UsuarioController.getAll = (req, res) => {
 
 UsuarioController.getOne = (req, res) => {
   let locals = {};
-<<<<<<< HEAD
-  res.header('Access-Control-Allow-Origin', '*');
-=======
->>>>>>> master
   // BUSCA EL USUARIO CON ID INGRESADO
   UsuarioModelo.findOne({
     where: { [idtable]: req.params[idtable] },
@@ -322,10 +289,6 @@ UsuarioController.getOne = (req, res) => {
 
 // CREACION DE CONTEXTO USUARIO : VERIFICACION DE ESTADOS USUARIO + CREACION DE USUARIO + CREACION DE USUARIO ESTADO
 UsuarioController.create = (req, res) => {
-<<<<<<< HEAD
-  res.header('Access-Control-Allow-Origin', '*');
-=======
->>>>>>> master
   let locals = {};
   let body = req.body;
   if (body[idtable]) {
@@ -496,10 +459,6 @@ UsuarioController.update = (req, res) => {
 };
 
 UsuarioController.delete = (req, res, next) => {
-<<<<<<< HEAD
-  res.header('Access-Control-Allow-Origin', '*');
-=======
->>>>>>> master
   let locals = {};
   // BUSCA EL USUARIO CON ID INGRESADO
   UsuarioEstadoModelo.update({
@@ -544,10 +503,6 @@ UsuarioController.stateDelete = (req, res) => {
 
 // Metodo generico para crear intermedia entre Estado Usuario y Usuario... Esta recibe el nombre del estado y la descripcion del cambio.
 UsuarioController.changeState = (req, res) => {
-<<<<<<< HEAD
-  res.header('Access-Control-Allow-Origin', '*');
-=======
->>>>>>> master
   let locals = {};
   // BUSCA EL USUARIO CON ID INGRESADO
   EstadoUsuarioModelo.findOne({
@@ -570,10 +525,6 @@ UsuarioController.changeState = (req, res) => {
 }
 
 UsuarioController.destroy = (req, res) => {
-<<<<<<< HEAD
-  res.header('Access-Control-Allow-Origin', '*');
-=======
->>>>>>> master
   UsuarioModelo.destroy({
     where: {
       [idtable]: req.params[idtable]
@@ -594,12 +545,7 @@ UsuarioController.destroy = (req, res) => {
 };
 
 // Valida si al quererse cambiar de estado, no exista ya en el mismo estado.
-<<<<<<< HEAD
-UsuarioController.validateUser = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-=======
 UsuarioController.validateUser= (req, res , next) => {
->>>>>>> master
   let locals = {};
   // BUSCA EL USUARIO CON ID INGRESADO
   UsuarioModelo.findOne({
@@ -633,10 +579,6 @@ UsuarioController.validateUser= (req, res , next) => {
 }
 
 UsuarioController.error404 = (req, res, next) => {
-<<<<<<< HEAD
-  res.header('Access-Control-Allow-Origin', '*');
-=======
->>>>>>> master
   let error = new Error(),
     locals = {
       title: "Error 404",
