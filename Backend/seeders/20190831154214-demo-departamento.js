@@ -27,7 +27,7 @@ module.exports = {
 
   down: (queryInterface, Sequelize) => {
     return queryInterface.bulkDelete('departamentos', null, {})
-    .then(console.log("--AAAA--"));
+      .then(console.log("--AAAA--"));
   }
 };
 
