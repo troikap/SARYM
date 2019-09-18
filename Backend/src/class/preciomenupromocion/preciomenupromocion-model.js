@@ -32,7 +32,7 @@ const PrecioMenuPromocionModelo = sequelize.define('preciomenupromocion', {
 		type: Sequelize.DATE
 	}
 }, {
-		// options
-	});
+	// options
+});
 
 module.exports = PrecioMenuPromocionModelo;

@@ -3,6 +3,8 @@
 const Sequelize = require('sequelize');
 const TipoMenuPromocionModelo = require('../tipomenupromocion/tipomenupromocion-model');
 const DetallePedidoProductoModelo = require('../detallepedidoproducto/detallepedidoproducto-model');
+const MenuPromocionEstadoModelo = require('../menupromocionestado/menupromocionestado-model');
+const PrecioMenuPromocionModelo = require('../preciomenupromocion/preciomenupromocion-model');
 
 var sequelize = require('../../database/connection');
 
@@ -40,5 +42,7 @@ const MenuPromocionModelo = sequelize.define('menupromocion', {
 
 MenuPromocionModelo.belongsTo(TipoMenuPromocionModelo, { foreignKey: "idTipoMenuPromocion" });
 MenuPromocionModelo.hasMany(DetallePedidoProductoModelo, { foreignKey: "idMenuPromocion" });
+MenuPromocionModelo.hasMany(MenuPromocionEstadoModelo, { foreignKey: "idMenuPromocion" });
+MenuPromocionModelo.hasMany(PrecioMenuPromocionModelo, { foreignKey: "idMenuPromocion" });
 
 module.exports = MenuPromocionModelo;
