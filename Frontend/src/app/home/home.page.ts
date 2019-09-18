@@ -36,14 +36,14 @@ export class HomePage implements OnInit {
     private usuarioservice: UsuarioService,
     private router: Router,
     private storage: StorageService) {
-     
+
     this.loadLog()
   }
   openFirst() {
     this.menu.toggle();
   }
 
-  ngOnInit(){
+  ngOnInit() {
   }
 
   async goTo(key: string) {
@@ -57,16 +57,14 @@ export class HomePage implements OnInit {
     }
     this.router.navigateByUrl(page);
   }
-  
 
-  async loadLog() { 
+  async loadLog() {
     await this.storage.getCurrentUsuario()
-    .then(  logs => {
-      console.log("TRAYENDO USUARIO" , logs)
-      this.logueo = logs;
-      if (!logs) {
-        console.log('ERRORR')
-      }
-    })
+      .then(logs => {
+        this.logueo = logs;
+        if (!logs) {
+          console.log('ERRORR')
+        }
+      })
   }
 }

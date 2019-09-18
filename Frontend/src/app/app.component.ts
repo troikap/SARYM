@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { StorageService, Log } from './services/storage/storage.service';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -71,7 +72,8 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private storage: StorageService
+    private storage: StorageService,
+    private menu: MenuController
   ) {
 
     this.initializeApp();
@@ -85,38 +87,10 @@ export class AppComponent {
     // this.traerCurrentUsuario();
   }
 
-  // prueba( ruta: string) {
-  //   if (ruta == '/logueo') {
-  //     this.storage.delOneItem('currentUsuario');
-  //   }
-  //   this.storage.getCurrentUsuario()
-  //     .then( (res) => {
-  //       console.log("USUARIO",res)
-  //       if (res == null) {
-  //         console.log("ENTRO")
-  //         this.desactivar = true;
-  //         this.router.navigate(['/logueo']);
-  //       } else {
-  //         this.desactivar = false;
-  //         this.router.navigate([ruta]);
-  //       }
-  //     })
-  //     .catch( (err) => {
-  //       console.log('ERRRR ', err)
-  //     })
-  //   console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" , ruta)
-  // }
-  
-  // traerCurrentUsuario() {
-  //   this.storage.getCurrentUsuario()
-  //     .then( (res) => {
-  //       if (res == null) {
-  //         this.desactivar = true
-  //       } else {
-  //         this.desactivar = false
-  //       }
-  //       console.log( "desactivar" ,this.desactivar)
-  //     })
-  // }
-
+  prueba( ruta: string) {
+    if (ruta == '/logueo') {
+      this.storage.delOneItem('currentUsuario');
+      this.menu.enable(false);
+    }
+  }
 }

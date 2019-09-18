@@ -140,12 +140,10 @@ actualizarLog(log: Log): Promise<any> {
     //     Recuperar datos
     this.storage.get(name)
       .then((res) => {
-        console.log('BBBBBBBBBBBBBBBBBBB ', res)
       })
     }
     setOneObject(name: string, object: any) {
     //     Guardar objetos en el LocalStorage
-    console.log("SET ONE OBJECT : ", (name + object))
       this.storage.set(name, object);
     }
     

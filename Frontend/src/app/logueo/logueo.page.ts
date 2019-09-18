@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular
 import { UsuarioService } from '../services/usuario/usuario.service';
 import { StorageService, Log } from '../services/storage/storage.service';
 import { AlertController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-logueo',
@@ -26,8 +27,10 @@ export class LogueoPage implements OnInit {
     private formBuilder: FormBuilder,
     private usuarioservicio: UsuarioService,
     private storage: StorageService,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private menu: MenuController
     ) { 
+      this.menu.enable(false)
       this.loadLog();
       this.form = this.formBuilder.group({
         cuitUsuario: ['', Validators.compose([Validators.required])],
@@ -61,11 +64,11 @@ export class LogueoPage implements OnInit {
         this.logueo = {cuit: this.form.value.cuitUsuario, pass: this.form.value.contrasenaUsuario, id: algo.title.idUsuario , date: null}
         this.storage.setOneObject( 'token',algo.title.token)
         if (this.form.value.checkRecordar){
-          console.log("Actualizando Log de Usuario")
           this.actualizarLog(this.logueo);
         }
         this.storage.setOneObject( 'currentUsuario', this.logueo)
         this.alert();
+        this.menu.enable(true);
          this.router.navigate(["/home"])
       } else {
         if (algo.title.tipo == 2){
@@ -80,17 +83,13 @@ export class LogueoPage implements OnInit {
 
   actualizarLog(log: Log) {
      log.date = new Date();
-    console.log("ACTUALIZAR : ",log)
-    // this.storage.updateLog(log)
     this.storage.actualizarLog(log)
       .then( res => {
-        console.log("ACTUALIZANDO ", res)
         if (!res) {
           console.log("NO HIZO NADA ")
         } else {
           console.log("ACTUALIZATION !!! ")
         }
-
       })
   }
 

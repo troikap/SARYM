@@ -1,3 +1,11 @@
 ion-label {
     font-size: 18px !important;
 }
+
+ion-col.login {
+    ion-label {
+        width: 180px;
+        text-align: center;
+        align-content: center;
+    }
+}

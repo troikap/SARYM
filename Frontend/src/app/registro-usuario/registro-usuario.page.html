@@ -7,9 +7,9 @@
   </ion-toolbar>
 </ion-header>
   
-<ion-content padding>
+<ion-content no-padding>
   <ion-row >
-    <ion-col>
+    <ion-col class="login">
       <form [formGroup]="form" *ngIf="form">
         <ion-item class="form-group">
           <ion-label color="primary" padding>Cuit</ion-label>
@@ -35,12 +35,12 @@
         <p class="input-error-msg" *ngIf="(form.controls.dniUsuario.errors?.min || form.controls.dniUsuario.errors?.max) && form.controls.dniUsuario.touched">Debería ser por ejemplo: 36.850.688.</p>
         <ion-item class="form-group">
           <ion-label color="primary" padding class="label-large">Email</ion-label>
-          <ion-input  class="form-control" type="email" id='emailUsuario' placeholder='Ingrese Email' formControlName="emailUsuario"></ion-input>
+          <ion-input slot="end" class="form-control" type="email" id='emailUsuario' placeholder='Ingrese Email' formControlName="emailUsuario"></ion-input>
         </ion-item>
         <p class="input-error-msg" *ngIf="form.controls.emailUsuario.errors?.required && form.controls.emailUsuario.touched">Campo Obligatorio.</p>
         <ion-item class="form-group">
           <ion-label color="primary" padding class="label-large">Domicilio</ion-label>
-          <ion-input  class="form-control" type='text' id='domicilioUsuario' placeholder='Ingrese Domicilio' formControlName='domicilioUsuario'></ion-input>
+          <ion-input slot="end" class="form-control" type='text' id='domicilioUsuario' placeholder='Ingrese Domicilio' formControlName='domicilioUsuario'></ion-input>
         </ion-item>
         <p class="input-error-msg" *ngIf="form.controls.domicilioUsuario.errors?.required && form.controls.domicilioUsuario.touched">Campo Obligatorio.</p>
         <ion-item class="form-group">
@@ -91,7 +91,6 @@
   <ion-row class="white-background">
     <ion-col size="10" offset="1" padding>
       <ion-button *ngIf="form" class="mt-10" [disabled]="!form.valid" (click)="guardar()" expand="full" shape="round">Guardar</ion-button>
-      <ion-button *ngIf="form" class="mt-10" (click)="prueba()" expand="full" shape="round">Guardar</ion-button>
     </ion-col>
   </ion-row>
 </ion-footer>

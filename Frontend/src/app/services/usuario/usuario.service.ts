@@ -40,7 +40,6 @@ export class UsuarioService {
 
   loguear( cuit: number, pass: string ): Promise<any> {
     let value = { cuitUsuario: cuit, contrasenaUsuario: pass}
-    console.log("value ",value)
     return this.http
       .post(
         `${URL}/login`,
@@ -48,7 +47,6 @@ export class UsuarioService {
         )
       .toPromise()
       .then(response => {
-        console.log("aaaa ",response)
         return response as Usuario;
       })
       .catch( err => {
@@ -60,12 +58,10 @@ export class UsuarioService {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', token);
      let data = {headers}
-     console.log("DATAS:" ,datas)
     return this.http
       .put(`${URL}${dir}`, datas, data)
       .toPromise()
       .then(response => {
-        console.log("RESPUESTA",response)
         return response as Usuario;
       })
       .catch(  );
@@ -75,12 +71,10 @@ export class UsuarioService {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', token);
      let data = {headers}
-     console.log("DATAS:" ,datas)
     return this.http
       .post(`${URL}${dir}`, datas, data)
       .toPromise()
       .then(response => {
-        console.log("RESPUESTA",response)
         return response as Usuario;
       })
       .catch(  );

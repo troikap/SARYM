@@ -38,7 +38,6 @@ const RolUsuarioModelo = sequelize.define('rolusuario', {
 
 // ASOCIACIONES
 RolUsuarioModelo.belongsTo( RolModelo , {foreignKey: "idRol"} )
-RolUsuarioModelo.belongsTo( UsuarioModelo , {foreignKey: "idUsuario"} )
 
 // SCOPES
 
