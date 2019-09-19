@@ -22,7 +22,7 @@ const MenuPromocionModelo = sequelize.define('menupromocion', {
         allowNull: false
     },
     codMenuPromocion: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
     },
     nombreMenuPromocion: {
