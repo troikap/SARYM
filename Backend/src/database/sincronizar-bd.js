@@ -31,7 +31,6 @@ require('../class/mesaestado/mesaestado-model');
 require('../class/movimientocaja/movimientocaja-model');
 require('../class/mozoestadia/mozoestadia-model');
 require('../class/pago/pago-model');
-require('../class/pagocomensal/pagocomensal-model');
 require('../class/pagopedido/pagopedido-model');
 require('../class/pedido/pedido-model');
 require('../class/pedidoestado/pedidoestado-model');
@@ -55,7 +54,7 @@ require('../class/usuarioestado/usuarioestado-model');
 
 console.log("Se esta ejecutando sincronizar")
 
-sequelize.sync({force: true});  // force = false  crea nuevos modelos/tablas dejando las creadas intactas
+sequelize.sync({ force: true }); // force = false  crea nuevos modelos/tablas dejando las creadas intactas
 
 //require('../class/prueba');
 
