@@ -8,39 +8,43 @@ var sequelize = require("../../database/connection");
 // DEFINICION DEL MODELO
 const CajaEstadoModelo = sequelize.define(
     "cajaestado", {
-    // attributes
-    idCajaEstado: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    idCaja: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-    idEstadoCaja: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-    idUsuario: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-    montoAperturaCajaEstado: {
-        type: Sequelize.FLOAT,
-        allowNull: false
-    },
-    montoCierreCajaEstado: {
-        type: Sequelize.FLOAT,
-        allowNull: false
-    },
-    fechaYHoraCajaEstado: {
-        type: Sequelize.DATE
+        // attributes
+        idCajaEstado: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        idCaja: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        idEstadoCaja: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        idUsuario: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        descripcionCajaEstado: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        montoAperturaCajaEstado: {
+            type: Sequelize.FLOAT,
+            allowNull: false
+        },
+        montoCierreCajaEstado: {
+            type: Sequelize.FLOAT,
+            allowNull: false
+        },
+        fechaYHoraCajaEstado: {
+            type: Sequelize.DATE
+        }
+    }, {
+        // options
     }
-}, {
-    // options
-}
 );
 
 CajaEstadoModelo.belongsTo(EstadoCajaModelo, { foreignKey: "idEstadoCaja" });
