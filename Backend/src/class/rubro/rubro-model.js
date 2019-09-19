@@ -13,7 +13,7 @@ const RubroModelo = sequelize.define('rubro', {
         autoIncrement: true
     },
     codRubro: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
     },
     nombreRubro: {

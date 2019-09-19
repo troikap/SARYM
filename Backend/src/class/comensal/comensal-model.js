@@ -30,7 +30,7 @@ const ComensalModelo = sequelize.define('comensal', {
         allowNull: false
     },
     edadComensal: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false
     }
 }, {

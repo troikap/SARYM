@@ -13,7 +13,7 @@ const UnidadMedidaModelo = sequelize.define('unidadmedida', {
         autoIncrement: true
     },
     codUnidadMedida: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
     },
     nombreUnidadMedida: {
