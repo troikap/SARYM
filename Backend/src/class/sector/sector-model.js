@@ -5,26 +5,26 @@ var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
 const SectorModelo = sequelize.define('sector', {
-  // attributes
-  idSector: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  codSector: {
-    type: Sequelize.INTEGER,
-    allowNull: false
-  },
-  nombreSector: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  fechaYHoraBajaSector: {
-    type: Sequelize.DATE
-  }
+    // attributes
+    idSector: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    codSector: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    nombreSector: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    fechaYHoraBajaSector: {
+        type: Sequelize.DATE
+    }
 }, {
-  // options
+    // options
 });
 
 module.exports = SectorModelo;
