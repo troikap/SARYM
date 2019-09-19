@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle del Item</ion-title>
+    <ion-buttons slot="end">
+        <ion-button (click)="dismissModal()">Close</ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card button=true color='light'>
+    <img padding src={{composicion.item.img}} />
+    <ion-card-header>
+      <ion-card-subtitle>{{composicion.item.costo}}</ion-card-subtitle>
+      <ion-card-title>{{composicion.item.titulo}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{composicion.item.descripcion}}
+    </ion-card-content>
+    <ion-button fill="outline" slot="end" (click)='volver()'>Que Mira</ion-button>
+  </ion-card>
+
+  <ion-title>
+    Conformación
+  </ion-title>
+
+  <ion-card>
+    <ion-item *ngFor='let item of composicion.componentes' [ngClass]="{ 'activo': item.estado == 'Activo' , 'enfalta': item.estado == 'En Falta' , 'inactivo': item.estado == 'Inactivo'}">
+      <img src={{item.img}} />
+      <ion-card-header>
+        <ion-card-title>{{item.titulo}}</ion-card-title>
+        <ion-card-subtitle>{{item.descripcion}}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+          {{item.medida}}{{item.unidad}}
+      </ion-card-content>
+    </ion-item>
+  </ion-card>
+</ion-content>

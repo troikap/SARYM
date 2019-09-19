@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Catálogo</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+    <ion-segment>
+        <ion-segment-button checked (ionSelect)="seleccionTipo('productos')">
+            <ion-label>Productos</ion-label>
+        </ion-segment-button>
+        <ion-segment-button (ionSelect)="seleccionTipo('menus')">
+            <ion-label>Menus</ion-label>
+        </ion-segment-button>
+        <ion-segment-button (ionSelect)="seleccionTipo('promociones')">
+            <ion-label>Promociones</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+  <ion-card>
+    <ion-item href="javascript:void(0)" (click)='presentModal(item)' class="activated" *ngFor="let item of this[seleccion]">
+        <ion-thumbnail slot="start">
+            <ion-img src={{item.img}}></ion-img>
+        </ion-thumbnail>
+      <ion-label>
+        <h3>{{item.titulo}}</h3>
+        <h2 slot="end">{{item.costo}}$</h2>
+        <p>{{item.descripcion}}</p>
+      </ion-label>
+     
+    </ion-item>
+  </ion-card>
+</ion-content>

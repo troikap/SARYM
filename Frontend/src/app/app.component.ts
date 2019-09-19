@@ -22,6 +22,11 @@ export class AppComponent {
       icon: 'home'
     },
     {
+      title: 'Catálogo',
+      url: '/catalogo',
+      icon: 'clipboard'
+    },
+    {
       title: 'Mi Saldo',
       url: '/mi-saldo',
       icon: 'filing'

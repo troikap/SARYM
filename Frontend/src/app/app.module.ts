@@ -32,6 +32,10 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 //storage
 import { IonicStorageModule } from '@ionic/storage';
 
+//modal
+import { ModalController } from '@ionic/angular';
+import { ModalDetalleCatalogoPage } from './modal/modal-detalle-catalogo/modal-detalle-catalogo.page';
+
 
 
 
@@ -48,7 +52,7 @@ import { IonicStorageModule } from '@ionic/storage';
     HttpClientModule,
     ReactiveFormsModule,
     IonicStorageModule.forRoot(),
-    BrMaskerModule
+    BrMaskerModule,
   ],
   providers: [
     StatusBar,
@@ -56,7 +60,9 @@ import { IonicStorageModule } from '@ionic/storage';
     BarcodeScanner,
     DatePipe,
     QRScanner,
-    Camera, 
+    Camera,
+    ModalDetalleCatalogoPage,
+    
     // UsuarioServiceService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
