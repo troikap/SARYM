@@ -29,14 +29,6 @@ const DetalleMenuPromocionProductoModelo = sequelize.define('detallemenupromocio
     // options
 });
 
-
 DetalleMenuPromocionProductoModelo.belongsTo(MenuPromocionModelo, { foreignKey: "idMenuPromocion" });
-module.exports = DetalleMenuPromocionProductoModelo;
 
-/*
-create table detallemenupromocionproducto (
-    idDetalleMenuPromocionProducto INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
-    idProducto INT(10) UNSIGNED NOT NULL,
-    idMenuPromocion INT(10) UNSIGNED NOT NULL,
-    cantidadProductoMenuPromocion INT(10) NOT NULL);
-*/
+module.exports = DetalleMenuPromocionProductoModelo;

@@ -17,7 +17,7 @@ const MedioPagoModelo = sequelize.define('mediopago', {
     allowNull: false
   }
 }, {
-    // options
-  });
+  // options
+});
 
 module.exports = MedioPagoModelo;

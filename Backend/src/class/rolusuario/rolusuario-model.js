@@ -5,21 +5,20 @@ var sequelize = require('../../database/connection');
 const RolModelo = require("../rol/rol-model");
 const UsuarioModelo = require("../usuario/usuario-model");
 
-
 // DEFINICION DEL MODELO
 const RolUsuarioModelo = sequelize.define('rolusuario', {
-	// attributes
-	idRolUsuario: {
-	  type: Sequelize.INTEGER,
-	  allowNull: false,
-	  primaryKey: true,
-	  autoIncrement: true
-	},
-	idUsuario: {
+  // attributes
+  idRolUsuario: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  idUsuario: {
     type: Sequelize.INTEGER,
     allowNull: false
   },
-	idRol: {
+  idRol: {
     type: Sequelize.INTEGER,
     allowNull: false
   },
@@ -29,19 +28,11 @@ const RolUsuarioModelo = sequelize.define('rolusuario', {
   },
   fechaYHoraBajaRolUsuario: {
     type: Sequelize.DATE
-	}
-  }, {
-	// options
-  });
-// belongsTo Tiene
-// hasMany varios
+  }
+}, {
+  // options
+});
 
-// ASOCIACIONES
-RolUsuarioModelo.belongsTo( RolModelo , {foreignKey: "idRol"} )
-
-// SCOPES
-
-// HOOKS
-
+RolUsuarioModelo.belongsTo(RolModelo, { foreignKey: "idRol" })
 
 module.exports = RolUsuarioModelo 

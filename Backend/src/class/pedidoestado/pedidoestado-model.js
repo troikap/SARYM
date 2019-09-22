@@ -23,6 +23,9 @@ const PedidoEstadoModelo = sequelize.define(
             type: Sequelize.INTEGER,
             allowNull: false
         },
+        descripcionPedidoEstado: {
+            type: Sequelize.STRING
+        },
         fechaYHoraAltaPedidoEstado: {
             type: Sequelize.DATE,
             allowNull: false
@@ -36,15 +39,8 @@ const PedidoEstadoModelo = sequelize.define(
 );
 
 PedidoEstadoModelo.belongsTo(PedidoModelo, { foreignKey: "idPedido" });
-PedidoEstadoModelo.belongsTo(EstadoPedidoModelo, { foreignKey: "idEstadoPedido" });
+PedidoEstadoModelo.belongsTo(EstadoPedidoModelo, {
+    foreignKey: "idEstadoPedido"
+});
 
 module.exports = PedidoEstadoModelo;
-
-/*
-create table pedidoestado(
-	idPedidoEstado INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	idPedido INT(12) UNSIGNED NOT NULL,
-	idEstadoPedido INT(5) UNSIGNED NOT NULL,
-	fechaYHoraAltaPedidoEstado datetime NOT NULL,
-	fechaYHoraBajaPedidoEstado datetime)
-*/

@@ -24,12 +24,4 @@ const EstadoProductoModelo = sequelize.define('estadoproducto', {
     // options
 });
 
-
 module.exports = EstadoProductoModelo;
-
-/*
-create table estadoproducto(
-    idEstadoProducto INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    codEstadoProducto VARCHAR(50) NOT NULL,
-    nombreEstadoProducto VARCHAR(50) NOT NULL)
-*/

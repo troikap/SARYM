@@ -2,12 +2,9 @@
 
 const Sequelize = require('sequelize');
 const TipoMenuPromocionModelo = require('../tipomenupromocion/tipomenupromocion-model');
-
-
+const DetallePedidoProductoModelo = require('../detallepedidoproducto/detallepedidoproducto-model');
 const MenuPromocionEstadoModelo = require('../menupromocionestado/menupromocionestado-model');
 const PrecioMenuPromocionModelo = require('../preciomenupromocion/preciomenupromocion-model');
-const DetalleMenuPromocionProductoModelo = require('../detallemenupromocionproducto/detallemenupromocionproducto-model');
-const DetallePedidoProductoModelo = require('../detallepedidoproducto/detallepedidoproducto-model');
 
 var sequelize = require('../../database/connection');
 
@@ -25,7 +22,7 @@ const MenuPromocionModelo = sequelize.define('menupromocion', {
         allowNull: false
     },
     codMenuPromocion: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
     },
     nombreMenuPromocion: {
@@ -43,22 +40,9 @@ const MenuPromocionModelo = sequelize.define('menupromocion', {
     // options
 });
 
-MenuPromocionModelo.hasOne(TipoMenuPromocionModelo, { foreignKey: "idTipoMenuPromocion" });
-
-/*
+MenuPromocionModelo.belongsTo(TipoMenuPromocionModelo, { foreignKey: "idTipoMenuPromocion" });
+MenuPromocionModelo.hasMany(DetallePedidoProductoModelo, { foreignKey: "idMenuPromocion" });
 MenuPromocionModelo.hasMany(MenuPromocionEstadoModelo, { foreignKey: "idMenuPromocion" });
 MenuPromocionModelo.hasMany(PrecioMenuPromocionModelo, { foreignKey: "idMenuPromocion" });
-MenuPromocionModelo.hasMany(DetalleMenuPromocionProductoModelo, { foreignKey: "idMenuPromocion" });
-MenuPromocionModelo.hasMany(DetallePedidoProductoModelo, { foreignKey: "idMenuPromocion" });
-*/
-module.exports = MenuPromocionModelo;
 
-/*
-create table menupromocion (
-    idMenuPromocion INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    idTipoMenuPromocion INT(5) NOT NULL,
-    codMenuPromocion VARCHAR(50) NOT NULL,
-    nombreMenuPromocion VARCHAR(50) NOT NULL,
-    descripcionMenuPromocion VARCHAR(50) NOT NULL,
-    pathImagenMenuPromocion VARCHAR(100));
-*/
+module.exports = MenuPromocionModelo;

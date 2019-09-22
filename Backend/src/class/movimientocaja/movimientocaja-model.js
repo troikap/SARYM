@@ -38,20 +38,9 @@ const MovimientoCajaModelo = sequelize.define('movimientocaja', {
 		allowNull: false
 	}
 }, {
-		// options
-	});
+	// options
+});
 
-MovimientoCajaModelo.belongsTo( TipoMovimientoCajaModelo, {foreignKey:"idTipoMovimientoCaja"} );
+MovimientoCajaModelo.belongsTo(TipoMovimientoCajaModelo, { foreignKey: "idTipoMovimientoCaja" });
 
 module.exports = MovimientoCajaModelo;
-
-/*
-create table movimientocaja (
-	idMovimientoCaja INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	idCaja INT(12) UNSIGNED NOT NULL,
-	idTipoMovimientoCaja INT(5) UNSIGNED NOT NULL,
-    idUsuario INT(12) UNSIGNED NOT NULL,
-    montoMovimientoCaja float NOT NULL,
-    descripcionMovimientoCaja VARCHAR(50) NOT NULL,
-	fechaYHoraMovimientoCaja datetime NOT NULL)
-*/

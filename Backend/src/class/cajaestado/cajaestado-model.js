@@ -27,6 +27,10 @@ const CajaEstadoModelo = sequelize.define(
             type: Sequelize.INTEGER,
             allowNull: false
         },
+        descripcionCajaEstado: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
         montoAperturaCajaEstado: {
             type: Sequelize.FLOAT,
             allowNull: false
@@ -47,13 +51,3 @@ CajaEstadoModelo.belongsTo(EstadoCajaModelo, { foreignKey: "idEstadoCaja" });
 CajaEstadoModelo.belongsTo(CajaModelo, { foreignKey: "idCaja" });
 
 module.exports = CajaEstadoModelo;
-/*
-create table cajaestado (
-	idCajaEstado INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	idCaja INT(12) UNSIGNED NOT NULL,
-	idEstadoCaja INT(5) UNSIGNED NOT NULL,
-    idUsuario INT(12) UNSIGNED NOT NULL,
-    montoAperturaCajaEstado float NOT NULL,
-    montoCierreCajaEstado float,
-	fechaYHoraCajaEstado datetime NOT NULL)
-*/

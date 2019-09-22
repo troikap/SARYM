@@ -23,16 +23,10 @@ const TipoMonedaModelo = sequelize.define('tipomoneda', {
         allowNull: false
     }
 }, {
-        // options
-    });
+    // options
+});
 
 TipoMonedaModelo.hasMany(PrecioMenuPromocionModelo, { foreignKey: "idTipoMoneda" });
 TipoMonedaModelo.hasMany(PrecioProductoModelo, { foreignKey: "idTipoMoneda" });
 
 module.exports = TipoMonedaModelo;
-
-/*
-create table tipomoneda(
-    idTipoMoneda INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    nombreTipoMoneda VARCHAR(50) NOT NULL,
-    simboloTipoMoneda VARCHAR(10) NOT NULL) */

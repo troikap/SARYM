@@ -4,7 +4,6 @@ const Sequelize = require('sequelize');
 const EstadoUsuarioModelo = require("../estadousuario/estadousuario-model");
 var sequelize = require('../../database/connection');
 
-
 // DEFINICION DEL MODELO
 const UsuarioEstadoModelo = sequelize.define('usuarioestado', {
   // attributes
@@ -33,17 +32,9 @@ const UsuarioEstadoModelo = sequelize.define('usuarioestado', {
     type: Sequelize.DATE
   }
 }, {
-    // options
-  });
-// belongsTo Tiene
-// hasMany varios
+  // options
+});
 
-// ASOCIACIONES
 UsuarioEstadoModelo.belongsTo(EstadoUsuarioModelo, { foreignKey: "idEstadoUsuario" })
-
-// SCOPES
-
-// HOOKS
-
 
 module.exports = UsuarioEstadoModelo 
