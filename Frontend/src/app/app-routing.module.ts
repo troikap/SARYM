@@ -19,7 +19,9 @@ const routes: Routes = [
   { path: 'registro-usuario', loadChildren: './registro-usuario/registro-usuario.module#RegistroUsuarioPageModule' },
   { path: 'registro-usuario/:id', loadChildren: './registro-usuario/registro-usuario.module#RegistroUsuarioPageModule' },
   { path: 'catalogo', loadChildren: './catalogo/catalogo.module#CatalogoPageModule' },
-  { path: 'modal-detalle-catalogo', loadChildren: './modal/modal-detalle-catalogo/modal-detalle-catalogo.module#ModalDetalleCatalogoPageModule' },
+  { path: 'modal-detalle-catalogo', loadChildren: './modal/modal-detalle-catalogo/modal-detalle-catalogo.module#ModalDetalleCatalogoPageModule' },  { path: 'reserva', loadChildren: './reserva/reserva.module#ReservaPageModule' },
+  { path: 'nueva-reserva', loadChildren: './nueva-reserva/nueva-reserva.module#NuevaReservaPageModule' },
+
 
 
 ];

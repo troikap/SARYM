@@ -86,9 +86,9 @@ export class LogueoPage implements OnInit {
     this.storage.actualizarLog(log)
       .then( res => {
         if (!res) {
-          console.log("NO HIZO NADA ")
+          console.log("No Actualizo Log")
         } else {
-          console.log("ACTUALIZATION !!! ")
+          console.log("Actualizo Log")
         }
       })
   }

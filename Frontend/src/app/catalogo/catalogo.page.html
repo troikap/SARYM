@@ -7,9 +7,8 @@
     </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
-    <ion-segment>
+    <ion-segment mode="ios">
         <ion-segment-button checked (ionSelect)="seleccionTipo('productos')">
             <ion-label>Productos</ion-label>
         </ion-segment-button>
@@ -30,7 +29,6 @@
         <h2 slot="end">{{item.costo}}$</h2>
         <p>{{item.descripcion}}</p>
       </ion-label>
-     
     </ion-item>
   </ion-card>
 </ion-content>

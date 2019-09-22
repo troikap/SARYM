@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { UsuarioService } from '../services/usuario/usuario.service';
 import { Router } from '@angular/router';
+
 import { StorageService, Log } from '../services/storage/storage.service';
 
 @Component({
@@ -53,6 +54,18 @@ export class HomePage implements OnInit {
     switch (key) {
       case 'registro-usuario':
         page = `/registro-usuario/${id}`;
+        break;
+      case 'nueva-reserva':
+        page = `/nueva-reserva`;
+        break;
+      case 'reserva':
+        page = `/reserva`;
+        break;
+      case 'realizar-pedido':
+        page = `/realizar-pedido`;
+        break;
+      case 'catalogo':
+        page = `/catalogo`;
         break;
     }
     this.router.navigateByUrl(page);
