@@ -19,7 +19,7 @@ app
         res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
         res.header('Access-Control-Allow-Headers', 'Content-Type, token');
         if ('OPTIONS' == req.method) {
-        res.sendStatus(200);
+            res.sendStatus(200);
         } else {
           next();
         }
@@ -32,8 +32,5 @@ app
 	.use( morgan('dev') )
     .use(publicDir)
     .use(routes)
-
-   
-    
 
 module.exports = app;

@@ -28,7 +28,7 @@ module.exports = {
                 nombreEstadoProducto: "Eliminado",
                 createdAt: currentDate,
                 updatedAt: currentDate
-            }, ], {}
+            }], {}
         );
     },
 

@@ -9,29 +9,85 @@
 
 <ion-content>
   <form [formGroup]="form">
-        <ion-item>
-          <ion-label position="floating">Fecha Reserva</ion-label>
-          <ion-datetime mode="md" displayFormat="DD/MM/YYYY" min='{{fechaDesde}}' max='{{fechaHasta}}'></ion-datetime>
-        </ion-item>
-    <ion-item>
-      <ion-label position="stacked">Fecha Reserva</ion-label>
-      <ion-datetime value="1995-04-15" min="1990-02" max="2000"
-        [dayShortNames]="customDayShortNames"
-        displayFormat="DDD. MMM DD, YY"
-        monthShortNames="jan, feb, mar, apr, mai, jun, jul, aug, sep, okt, nov, des"></ion-datetime>
-      <ion-input class="form-control" type="date"  placeholder="Fecha Reserva" formControlName="fechaReserva" id="fechaReserva" [brmasker]="{}"></ion-input>
+    <div class="form-section">
+      <ion-item padding>
+        <ion-label position="fixed">Fecha Reserva</ion-label>
+        <ion-datetime  formControlName="fechaReserva" id="fechaReserva" class="form-control" mode="ios" displayFormat="DD/MM/YYYY" min='{{fechaDesde}}' max='{{fechaHasta}}' doneText="Elegir" placeholder="Elija Fecha"></ion-datetime>
+      </ion-item>
+      <ion-item padding>
+        <ion-label position="fixed">Hora Entrada</ion-label> 
+        <ion-datetime formControlName="horaEntrada" id="horaEntrada" class="form-control" mode="ios" displayFormat="HH:mm" doneText="Elegir" placeholder="Elija Hora Entrada" placeholder="Hora Entrada"></ion-datetime>
+      </ion-item>
+      <ion-item padding>
+        <ion-label position="fixed">Hora Salida</ion-label>
+        <ion-datetime formControlName="horaSalida" id="horaSalida" class="form-control" mode="ios" displayFormat="HH:mm" doneText="Elegir" placeholder="Elija Hora Salida" placeholder="Hora Entrada"></ion-datetime>
+      </ion-item>
+      <ion-item padding>
+        <ion-label position="fixed">Comensales</ion-label>
+        <ion-input class="form-control" type="number" placeholder="Cantidad Comensales" formControlName="cantidadComensal" id="cantidadComensal"></ion-input>
+      </ion-item>
+      <ion-item padding>
+        <ion-label  position="fixed" >Sector</ion-label>
+        <ion-input class="form-control" type="number" placeholder="Sector N°" formControlName="sector" id="sector"></ion-input>
+      </ion-item>
+      <ion-item padding>
+        <ion-label position="fixed">Mesa</ion-label>
+        <ion-input class="form-control" type="number" placeholder="Mesa N°" formControlName="nroMesa" id="nroMesa"></ion-input>
+      </ion-item>
+    </div>
+  </form>
+  <form [formGroup]="form2">
+    <ion-row padding>
+      <ion-title>Comensal </ion-title>
+      <ion-button (click)="mostrar = !mostrar">
+          <ion-icon name="help"> </ion-icon>
+      </ion-button>
+    </ion-row>
+    <div class="input-group-append" *ngIf="mostrar">
+      <button class="btn btn-clear btn-dark tooltip-custom" type="button" (click)="mostrar = !mostrar">
+        <div class="tooltip-container">
+          <p class="averageTicketSize"><b>Agregar Comensal</b></p>
+          <p class="description">Usted puede agregar cuantos comensales quiera. Usted podrá dar permisos para que ingresen a su "Reserva" o "Estadía".</p>
+          <i></i>
+        </div>
+      </button>
+    </div>
+    <ion-item padding>
+      <ion-label  position="fixed" >Alias Comensal</ion-label>
+      <ion-input class="form-control" type="text" placeholder="Alias" formControlName="aliasComensal" id="aliasComensal"></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-label position="stacked">Hora Entrada</ion-label>
-    <ion-input class="form-control" type="date"  placeholder="Hora Entrada" formControlName="horaEntrada" id="horaEntrada" [brmasker]="{}"></ion-input>
+    <ion-item padding>
+      <ion-label  position="fixed" >Edad Comensal</ion-label>
+      <ion-input class="form-control" type="number" placeholder="Edad" formControlName="edadComensal" id="edadComensal"></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-label position="stacked">Hora Salida</ion-label>
-      <ion-input class="form-control" type="date"  placeholder="Hora Salida" formControlName="horaSalida" id="horaSalida" [brmasker]="{}"></ion-input>
+    <ion-item padding>
+      <ion-label  position="fixed" >Id del Usuario</ion-label>
+      <ion-input class="form-control" type="number" placeholder="Id del Usuario" formControlName="idUsuario" id="idUsuario"></ion-input>
+      <ion-button (click)="mostrar2 = !mostrar2">
+          <ion-icon name="help"> </ion-icon>
+      </ion-button>
     </ion-item>
-    <ion-item>
-      <ion-label position="stacked">Cantidad Comensales</ion-label>
-      <ion-input class="form-control" type="date"  placeholder="Cantidad Comensales" formControlName="cantidadComensal" id="cantidadComensal" [brmasker]="{}"></ion-input>
-    </ion-item>
-</form>
+    <div class="input-group-append" *ngIf="mostrar2">
+      <button class="btn btn-clear btn-dark tooltip-custom" type="button" (click)="mostrar2 = !mostrar2">
+        <div class="tooltip-container">
+          <p class="averageTicketSize"><b>Que es Id del Usuario?</b></p>
+          <p class="description">Si dicho comensal esta registrado en nuestra aplicación, ¡Pídele su número de Usuario!.</p>
+          <i></i>
+        </div>
+      </button>
+    </div>
+  </form>
+  <ion-button *ngIf="form2" class="mt-10" (click)="nuevoComensal()" [disabled]="!form2.valid" expand="full" shape="round">Agregar Comensal</ion-button>
+  <ion-card *ngFor="let comen of comensales; let i = index">
+    <ion-card-header>
+      <ion-card-title>
+        Alias: {{comen.aliasComensal}}
+      </ion-card-title>
+      <ion-card-subtitle>
+        Edad: {{comen.edadComensal}}  -  Usuario: {{comen.idUsuario}}
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-button color="danger" class="mt-10" (click)="eliminarComensal(i)" shape="round"> Eliminar</ion-button>
+  </ion-card>
+  <ion-button class="mt-10" (click)="nuevoComensal()" [disabled]="!form.valid" expand="full">Crear Reserva</ion-button>
 </ion-content>

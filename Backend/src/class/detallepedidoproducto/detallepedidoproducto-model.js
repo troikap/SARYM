@@ -19,11 +19,11 @@ const DetallePedidoProductoModelo = sequelize.define('detallepedidoproducto', {
     },
     idMenuPromocion: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: true
     },
     idProducto: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: true
     },
     cantidadPedidoProducto: {
         type: Sequelize.INTEGER

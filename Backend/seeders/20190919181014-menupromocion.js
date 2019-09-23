@@ -32,12 +32,7 @@ module.exports = {
             {"idMenuPromocion": 25,"idTipoMenuPromocion": 2, "codMenuPromocion": "P-ENS","nombreMenuPromocion": "Ensalada Don Pepe con agua saborizada", "descripcionMenuPromocion": "Tomate – Lechuga – Apio – Berro – Repollo – Zanahoria – Rabanito","pathImagenMenuPromocion": "http://algunaurl.com","createdAt": currentDate,"updatedAt": currentDate},
             {"idMenuPromocion": 26,"idTipoMenuPromocion": 2, "codMenuPromocion": "P-PIZZ","nombreMenuPromocion": "Pizza 4 quesos más cerveza", "descripcionMenuPromocion": "8 porciones","pathImagenMenuPromocion": "http://algunaurl.com","createdAt": currentDate,"updatedAt": currentDate},
             {"idMenuPromocion": 27,"idTipoMenuPromocion": 2, "codMenuPromocion": "P-LOMOP","nombreMenuPromocion": "Lomopizza más cerveza", "descripcionMenuPromocion": "Pizza de mozarella con carne de novillo","pathImagenMenuPromocion": "http://algunaurl.com","createdAt": currentDate,"updatedAt": currentDate},
-            
-
-
-
-
-        }], {});
+        ], {});
     },
 
     down: (queryInterface, Sequelize) => {

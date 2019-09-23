@@ -9,7 +9,8 @@
             <div *ngFor="let p of pages">
                 <!-- Standard Menu Item -->
                 <ion-menu-toggle *ngIf="p.url">
-                    <ion-item (click)="prueba(p.url)" [routerLink]="p.url" routerDirection="root" routerLinkActive="active">
+                    <!-- <ion-item (click)="prueba(p.url)" [routerLink]="p.url" routerDirection="root" routerLinkActive="active"> -->
+                        <ion-item (click)="prueba(p.url)">
                         <ion-icon [name]="p.icon" slot="start"></ion-icon>
                         <ion-label>{{ p.title }}</ion-label>
                     </ion-item>
@@ -23,7 +24,8 @@
                 <!-- Children List for clicked Item -->
                 <ion-list *ngIf="p.open">
                     <ion-menu-toggle>
-                        <ion-item *ngFor="let sub of p.children" class="sub-item" [routerLink]="sub.url" routerDirection="root" routerLinkActive="active">
+                        <!-- <ion-item *ngFor="let sub of p.children" class="sub-item" [routerLink]="sub.url" routerDirection="root" routerLinkActive="active"> -->
+                            <ion-item *ngFor="let sub of p.children" class="sub-item" (click)="prueba(p.url)">
                             <ion-icon [name]="sub.icon" slot="start"></ion-icon>
                             <ion-label>{{ sub.title }}</ion-label>
                         </ion-item>

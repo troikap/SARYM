@@ -80,7 +80,6 @@ export class AppComponent {
     private storage: StorageService,
     private menu: MenuController
   ) {
-
     this.initializeApp();
   }
 
@@ -97,5 +96,6 @@ export class AppComponent {
       this.storage.delOneItem('currentUsuario');
       this.menu.enable(false);
     }
+    this.router.navigate([ruta])
   }
 }

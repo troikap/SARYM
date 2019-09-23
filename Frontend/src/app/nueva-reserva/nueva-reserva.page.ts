@@ -9,20 +9,30 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 export class NuevaReservaPage implements OnInit {
 
   private form: FormGroup;
+  private form2: FormGroup;
   private fechaDesde;
   private fechaHasta;
+  private comensal: Comensal;
+  private comensales: Comensal[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
   ) {
     this.form = this.formBuilder.group({
-      fechaReserva: [''],
-      horaEntrada: [''],
-      horaSalida: [''],
-      cantidadComensal: [''],
-      sector: ['' ],
-      nroMesa: ['']
+      fechaReserva: ['', Validators.required],
+      horaEntrada: ['', Validators.required],
+      horaSalida: ['', Validators.required],
+      cantidadComensal: ['', Validators.required],
+      sector: ['', Validators.required],
+      nroMesa: ['', Validators.required],
+      comensales: [[]]
     });
+    this.form2 = this.formBuilder.group({
+      aliasComensal: ['', Validators.required],
+      edadComensal: [null, Validators.required],
+      idUsuario: [null]
+    })
+    this.resetComensal();
    }
 
   ngOnInit() {
@@ -63,4 +73,37 @@ export class NuevaReservaPage implements OnInit {
     console.log( `Desde ${this.fechaDesde} hasta ${this.fechaHasta}`)
   }
 
+  nuevoComensal() {
+    console.log(this.form2.value.aliasComensal);
+    console.log(this.form2.value.edadComensal);
+    console.log(this.form2.value.idUsuario);
+    this.comensal = {
+      aliasComensal: this.form2.value.aliasComensal,
+      edadComensal: this.form2.value.edadComensal,
+      idUsuario: this.form2.value.idUsuario
+    }
+    this.comensales.push(this.comensal);
+    this.resetComensal();
+    console.log(this.comensales);
+  }
+
+  resetComensal() {
+    this.comensal = {
+      aliasComensal: '',
+      edadComensal: null,
+      idUsuario: null
+    }
+  }
+
+  eliminarComensal( num: number){
+    console.log("numero : ", num)
+    this.comensales.splice(num,1);
+  }
+
+}
+
+export interface Comensal {
+  aliasComensal: string;
+  edadComensal: number;
+  idUsuario: number
 }
