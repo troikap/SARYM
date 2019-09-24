@@ -55,7 +55,6 @@ export class CatalogoPage implements OnInit {
     await modal.present();
     this.currentModal = modal;
     const { data } = await modal.onDidDismiss();
-
     console.log("DEVOLVIO ALGO EL MODAL")
   }
 
@@ -72,7 +71,6 @@ export class CatalogoPage implements OnInit {
       this.currentModal.dismiss().then(() => { this.currentModal = null; });
     }
   }
-
 
   traerProductos(){
     this.productos = [

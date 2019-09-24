@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { ToastController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+import { EnvioReservaService } from '../services/envio-reserva/envio-reserva.service'
 
 @Component({
   selector: 'app-nueva-reserva',
@@ -17,21 +20,18 @@ export class NuevaReservaPage implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    public toastController: ToastController,
+    private navController: NavController,
+    private envioReservaService: EnvioReservaService
   ) {
     this.form = this.formBuilder.group({
-      fechaReserva: ['', Validators.required],
-      horaEntrada: ['', Validators.required],
-      horaSalida: ['', Validators.required],
-      cantidadComensal: ['', Validators.required],
-      sector: ['', Validators.required],
-      nroMesa: ['', Validators.required],
-      comensales: [[]]
+      fechaReserva: ['2019-09-23', Validators.required],
+      horaEntrada: ['22:50', Validators.required],
+      horaSalida: ['23:30', Validators.required],
+      cantidadComensal: ['12', Validators.required],
+      sector: ['3', Validators.required],
+      nroMesa: ['2', Validators.required]
     });
-    this.form2 = this.formBuilder.group({
-      aliasComensal: ['', Validators.required],
-      edadComensal: [null, Validators.required],
-      idUsuario: [null]
-    })
     this.resetComensal();
    }
 
@@ -74,9 +74,6 @@ export class NuevaReservaPage implements OnInit {
   }
 
   nuevoComensal() {
-    console.log(this.form2.value.aliasComensal);
-    console.log(this.form2.value.edadComensal);
-    console.log(this.form2.value.idUsuario);
     this.comensal = {
       aliasComensal: this.form2.value.aliasComensal,
       edadComensal: this.form2.value.edadComensal,
@@ -84,10 +81,14 @@ export class NuevaReservaPage implements OnInit {
     }
     this.comensales.push(this.comensal);
     this.resetComensal();
-    console.log(this.comensales);
   }
 
   resetComensal() {
+    this.form2 = this.formBuilder.group({
+      aliasComensal: ['', Validators.required],
+      edadComensal: [null, Validators.required],
+      idUsuario: [null]
+    });
     this.comensal = {
       aliasComensal: '',
       edadComensal: null,
@@ -98,6 +99,34 @@ export class NuevaReservaPage implements OnInit {
   eliminarComensal( num: number){
     console.log("numero : ", num)
     this.comensales.splice(num,1);
+  }
+
+  crearReserva() {
+    const reserva = {
+      fechaReserva: this.form.value['fechaReserva'],
+      horaEntrada: this.form.value['horaEntrada'],
+      horaSalida: this.form.value['horaSalida'],
+      cantidadComensal: this.form.value['cantidadComensal'],
+      sector: this.form.value['sector'],
+      nroMesa: this.form.value['nroMesa'],
+      comensales: this.comensales,
+      idTraidoBackEnd: 23231
+    }
+    console.log('Reserva', reserva)
+    this.presentToast(reserva);
+    this.envioReservaService.sendObjectSource(reserva);
+    this.navController.navigateForward('/reserva' );
+  }
+
+  async presentToast( reserva ) {
+      const toast = await this.toastController.create({
+        message: `Reserva Creada Satisfactoriamente. N° ${reserva.idTraidoBackEnd}`,
+        duration: 3000,
+        color: 'success',
+        position: 'middle',
+        translucent: true
+      });
+      toast.present();
   }
 
 }

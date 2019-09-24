@@ -1,6 +1,7 @@
 'use strict'
 
 const Sequelize = require('sequelize');
+const sequelize = require('../../database/connection');
 
 const RubroModelo = require('../rubro/rubro-model');
 const UnidadMedidaModelo = require('../unidadmedida/unidadmedida-model');
@@ -8,7 +9,6 @@ const DetalleMenuPromocionProductoModelo = require('../detallemenupromocionprodu
 const DetallePedidoProductoModelo = require('../detallepedidoproducto/detallepedidoproducto-model');
 const ProductoEstadoModelo = require('../productoestado/productoestado-model');
 const PrecioProductoModelo = require('../precioproducto/precioproducto-model');
-var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
 const ProductoModelo = sequelize.define('producto', {
