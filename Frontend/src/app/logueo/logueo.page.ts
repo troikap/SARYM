@@ -22,7 +22,7 @@ export class LogueoPage implements OnInit {
   private suspmsj = 'El Usuario ingresado se encuentra Suspendido o dado de Baja.';
   private valtitle = 'Bienvenido';
   private valmsj = 'Le damos la bienvenida ';
-  private algo = null;  
+  private algo = null;
 
   constructor(private router: Router,
     private formBuilder: FormBuilder,
