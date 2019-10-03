@@ -13,6 +13,9 @@ var UsuarioController = require('../class/usuario/usuario-controller');
 var EstadoUsuarioController = require('../class/estadousuario/estadousuario-controller');
 var DepartamentoController = require('../class/departamento/departamento-controller');
 var RolController = require('../class/rol/rol-controller');
+var ProductoController = require('../class/producto/producto-controller');
+var MenuPromocionController = require('../class/menupromocion/menupromocion-controller');
+
 const { verificaToken } = require('../middlewares/autenticacion');
 
 router
@@ -51,11 +54,20 @@ router
     .post('/rol/:idRol', verificaToken, RolController.delete)
     .delete('/rol/:idRol', verificaToken, RolController.destroy)
 
+// producto
+    .get('/producto', ProductoController.getAll)
+    .get('/producto/:idProducto', ProductoController.getOne)
+
+// promocion
+    .get('/menupromocion', MenuPromocionController.getAll)
+    .get('/menupromocion/:idMenuPromocion', MenuPromocionController.getOne)
+
 // //use
     .use(EstadoUsuarioController.error404)
     .use(UsuarioController.error404)
     .use(DepartamentoController.error404)
     .use(RolController.error404)
+    .use(ProductoController.error404)
 
 
 

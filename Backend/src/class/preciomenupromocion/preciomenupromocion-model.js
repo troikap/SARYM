@@ -2,11 +2,12 @@
 
 const Sequelize = require('sequelize');
 var sequelize = require('../../database/connection');
+const TipoMonedaModelo = require("../tipomoneda/tipomoneda-model");
 
 // DEFINICION DEL MODELO
 const PrecioMenuPromocionModelo = sequelize.define('preciomenupromocion', {
 	// attributes
-	idPrecionMenuPromocion: {
+	idPrecioMenuPromocion: {
 		type: Sequelize.INTEGER,
 		allowNull: false,
 		primaryKey: true,
@@ -34,5 +35,7 @@ const PrecioMenuPromocionModelo = sequelize.define('preciomenupromocion', {
 }, {
 	// options
 });
+
+PrecioMenuPromocionModelo.belongsTo(TipoMonedaModelo, { foreignKey: "idTipoMoneda" })
 
 module.exports = PrecioMenuPromocionModelo;

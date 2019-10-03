@@ -5,7 +5,7 @@ var currentDate = new Date();
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.bulkInsert('preciomenupromocions', [{
-            "idPrecionMenuPromocion": 1,
+            "idPrecioMenuPromocion": 1,
             "idMenuPromocion": 1,
             "idTipoMoneda": 1,
             "importePrecioMenuPromocion": 99.99,

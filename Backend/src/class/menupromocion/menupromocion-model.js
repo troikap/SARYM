@@ -5,6 +5,7 @@ const TipoMenuPromocionModelo = require('../tipomenupromocion/tipomenupromocion-
 const DetallePedidoProductoModelo = require('../detallepedidoproducto/detallepedidoproducto-model');
 const MenuPromocionEstadoModelo = require('../menupromocionestado/menupromocionestado-model');
 const PrecioMenuPromocionModelo = require('../preciomenupromocion/preciomenupromocion-model');
+const DetalleMenuPromocionProductoModelo = require('../detallemenupromocionproducto/detallemenupromocionproducto-model');
 
 var sequelize = require('../../database/connection');
 
@@ -44,5 +45,6 @@ MenuPromocionModelo.belongsTo(TipoMenuPromocionModelo, { foreignKey: "idTipoMenu
 MenuPromocionModelo.hasMany(DetallePedidoProductoModelo, { foreignKey: "idMenuPromocion" });
 MenuPromocionModelo.hasMany(MenuPromocionEstadoModelo, { foreignKey: "idMenuPromocion" });
 MenuPromocionModelo.hasMany(PrecioMenuPromocionModelo, { foreignKey: "idMenuPromocion" });
+MenuPromocionModelo.hasMany(DetalleMenuPromocionProductoModelo, { foreignKey: "idMenuPromocion" });
 
 module.exports = MenuPromocionModelo;

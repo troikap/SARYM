@@ -1,8 +1,6 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const PrecioMenuPromocionModelo = require('../preciomenupromocion/preciomenupromocion-model');
-const PrecioProductoModelo = require('../precioproducto/precioproducto-model');
 var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
@@ -25,8 +23,5 @@ const TipoMonedaModelo = sequelize.define('tipomoneda', {
 }, {
     // options
 });
-
-TipoMonedaModelo.hasMany(PrecioMenuPromocionModelo, { foreignKey: "idTipoMoneda" });
-TipoMonedaModelo.hasMany(PrecioProductoModelo, { foreignKey: "idTipoMoneda" });
 
 module.exports = TipoMonedaModelo;
