@@ -22,12 +22,13 @@
   <ion-card>
     <ion-item href="javascript:void(0)" (click)='presentModal(item)' class="activated" *ngFor="let item of this[seleccion]">
         <ion-thumbnail slot="start">
-            <ion-img src={{item.img}}></ion-img>
+            <ion-img *ngIf="item.pathImagenProducto" src={{item.pathImagenProducto}}></ion-img>
+            <ion-img *ngIf="!item.pathImagenProducto" src="../../assets/imgs/logo-sarym.png"></ion-img>
         </ion-thumbnail>
       <ion-label>
-        <h3>{{item.titulo}}</h3>
-        <h2 slot="end">{{item.costo}}$</h2>
-        <p>{{item.descripcion}}</p>
+        <h3>{{item.nombreProducto}} - {{item.rubro?.nombreRubro}}</h3>
+        <p >{{item.precioproductos[0]?.importePrecioProducto}} {{item.precioproductos[0]?.tipomoneda?.simboloTipoMoneda}}</p>
+        <p>{{item.descripcionProducto}}</p>
       </ion-label>
     </ion-item>
   </ion-card>

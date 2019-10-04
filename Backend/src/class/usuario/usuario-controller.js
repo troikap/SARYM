@@ -50,9 +50,30 @@ const UsuarioModelo = require("./usuario-model"),
                 ]
               }
             ]
-          }  
+          },
+          { 
+            model: RolUsuarioModelo,
+            where: { fechaYHoraBajaRolUsuario: null },
+            // attributes: [
+            //   'descripcionUsuarioEstado',
+            //   'fechaYHoraAltaUsuarioEstado',
+            //   'fechaYHoraBajaUsuarioEstado'
+            // ],
+            include: [
+              {
+                model: RolModelo,
+                attribute: [
+                  'nombreRol'
+                ]
+              }
+            ]
+          }, 
         ],
       }).then(response => {
+        console.log('RESPUESTA >>>>>>> ,',response)
+        // console.log('RESPUESTA >>>>>>> ,',response.dataValues.rolusuarios[0].dataValues.fechaYHoraBajaRolUsuario)
+        // console.log('RESPUESTA >>>>>>> ,',response.dataValues.rolusuarios[0].dataValues.rol.dataValues.idRol)
+        // console.log('RESPUESTA >>>>>>> ,',response.dataValues.rolusuarios[0].dataValues.rol.dataValues.nombreRol)
       if (response && response != 0){
         if (bcrypt.compareSync(body.contrasenaUsuario, response.dataValues.contrasenaUsuario)) {
           if( response.dataValues.usuarioestados[0].estadousuario.dataValues.nombreEstadoUsuario != 'Activo' ){
@@ -66,7 +87,7 @@ const UsuarioModelo = require("./usuario-model"),
               cuitUsuario: response.dataValues.cuitUsuario,
               nombreUsuario: response.dataValues.nombreUsuario,
               apellidoUsuario: response.dataValues.apellidoUsuario,
-              rolUsuario: response.dataValues.usuarioestados[0].estadousuario.dataValues.nombreEstadoUsuario
+              RolUsuario: response.dataValues.rolusuarios[0].dataValues.rol.dataValues.nombreRol
             }, process.env.SEED, { expiresIn: process.env.CADUCIDAD_TOKEN}) // 60 * 60 (hora) * 24 *30
             locals.title = {
               descripcion: `Usuario Logueado`,

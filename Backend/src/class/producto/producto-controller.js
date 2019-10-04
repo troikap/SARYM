@@ -31,6 +31,7 @@ ProductoController.getAll = (req, res) => {
     attributes: [
         "idProducto",
         "codProducto",
+        "cantidadMedida",
         "nombreProducto",
         "descripcionProducto",
         "pathImagenProducto"
@@ -119,6 +120,7 @@ ProductoController.getOne = (req, res) => {
     attributes: [
         "idProducto",
         "codProducto",
+        "cantidadMedida",
         "nombreProducto",
         "descripcionProducto",
         "pathImagenProducto"
