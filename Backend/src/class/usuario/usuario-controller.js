@@ -54,16 +54,12 @@ const UsuarioModelo = require("./usuario-model"),
           { 
             model: RolUsuarioModelo,
             where: { fechaYHoraBajaRolUsuario: null },
-            // attributes: [
-            //   'descripcionUsuarioEstado',
-            //   'fechaYHoraAltaUsuarioEstado',
-            //   'fechaYHoraBajaUsuarioEstado'
-            // ],
             include: [
               {
                 model: RolModelo,
                 attribute: [
-                  'nombreRol'
+                  'nombreRol',
+                  'idRol'
                 ]
               }
             ]
@@ -94,6 +90,10 @@ const UsuarioModelo = require("./usuario-model"),
               tipo: 1,
               token,
               idUsuario: response.dataValues.idUsuario,
+              rol: {
+                nombreRol: response.dataValues.rolusuarios[0].dataValues.rol.dataValues.idRol,
+                idRol: response.dataValues.rolusuarios[0].dataValues.rol.dataValues.nombreRol
+              }
             };
             locals[legend2] = response;
             res.json(locals);
