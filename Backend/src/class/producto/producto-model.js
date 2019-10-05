@@ -1,14 +1,14 @@
 'use strict'
 
 const Sequelize = require('sequelize');
+const sequelize = require('../../database/connection');
 
 const RubroModelo = require('../rubro/rubro-model');
 const UnidadMedidaModelo = require('../unidadmedida/unidadmedida-model');
-const DetalleMenuPromocionProductoModelo = require('../detallemenupromocionproducto/detallemenupromocionproducto-model');
+// const DetalleMenuPromocionProductoModelo = require('../detallemenupromocionproducto/detallemenupromocionproducto-model');
 const DetallePedidoProductoModelo = require('../detallepedidoproducto/detallepedidoproducto-model');
 const ProductoEstadoModelo = require('../productoestado/productoestado-model');
 const PrecioProductoModelo = require('../precioproducto/precioproducto-model');
-var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
 const ProductoModelo = sequelize.define('producto', {
@@ -48,7 +48,7 @@ const ProductoModelo = sequelize.define('producto', {
 
 ProductoModelo.belongsTo(RubroModelo, { foreignKey: "idRubro" });
 ProductoModelo.belongsTo(UnidadMedidaModelo, { foreignKey: "idUnidadMedida" });
-ProductoModelo.hasMany(DetalleMenuPromocionProductoModelo, { foreignKey: "idProducto" });
+// ProductoModelo.hasMany(DetalleMenuPromocionProductoModelo, { foreignKey: "idProducto" });
 ProductoModelo.hasMany(DetallePedidoProductoModelo, { foreignKey: "idProducto" });
 ProductoModelo.hasMany(ProductoEstadoModelo, { foreignKey: "idProducto" });
 ProductoModelo.hasMany(PrecioProductoModelo, { foreignKey: "idProducto" });

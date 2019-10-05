@@ -6,6 +6,7 @@ import { DepartamentoService, Departamento } from '../services/departamento/depa
 import { StorageService, Log } from '../services/storage/storage.service';
 import { ToastController } from '@ionic/angular';
 import * as CustomValidator from '../utils/custom-validators.util';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-registro-usuario',
@@ -30,7 +31,8 @@ export class RegistroUsuarioPage implements OnInit {
     private departamnetoservicio: DepartamentoService,
     public activatedRoute: ActivatedRoute,
     private storage: StorageService,
-    public toastController: ToastController
+    public toastController: ToastController,
+    private navController: NavController
   ) {
     this.form1 = this.formBuilder.group({
       idUsuario: [''],
@@ -104,7 +106,8 @@ export class RegistroUsuarioPage implements OnInit {
             this.usuarioservicio.setUsuario(usuario, 'nuevo')
               .then((resp) => {
                 this.presentToast(resp);
-                this.router.navigate(['/logueo'])
+                this.navController.navigateRoot('/logueo');
+                // this.router.navigate(['/logueo'])
               })
               .catch((err) => {
                 console.log("ERROR ", err)

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-registro',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegistroPage implements OnInit {
 
-  constructor() { }
+  private idReserva: number;
+
+  constructor(
+    private navParams: NavParams
+  ) {
+    this.navParams.get('')
+   }
 
   ngOnInit() {
+    
   }
 
 }

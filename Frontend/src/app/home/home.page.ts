@@ -4,6 +4,7 @@ import { UsuarioService } from '../services/usuario/usuario.service';
 import { Router } from '@angular/router';
 
 import { StorageService, Log } from '../services/storage/storage.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -36,8 +37,9 @@ export class HomePage implements OnInit {
     private menu: MenuController,
     private usuarioservice: UsuarioService,
     private router: Router,
-    private storage: StorageService) {
-
+    private storage: StorageService,
+    private navController: NavController
+    ) {
     this.loadLog()
   }
   openFirst() {
@@ -68,7 +70,8 @@ export class HomePage implements OnInit {
         page = `/catalogo`;
         break;
     }
-    this.router.navigateByUrl(page);
+    this.navController.navigateForward(page)
+    // this.router.navigateByUrl(page);
   }
 
   async loadLog() {

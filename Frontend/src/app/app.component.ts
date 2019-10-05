@@ -3,9 +3,9 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Router } from '@angular/router';
 import { StorageService, Log } from './services/storage/storage.service';
 import { MenuController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -73,12 +73,12 @@ export class AppComponent {
     },
   ];
   constructor(
-    private router: Router,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private storage: StorageService,
-    private menu: MenuController
+    private menu: MenuController,
+    private navController: NavController
   ) {
     this.initializeApp();
   }
@@ -88,14 +88,16 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
-    // this.traerCurrentUsuario();
   }
 
   prueba( ruta: string) {
     if (ruta == '/logueo') {
       this.storage.delOneItem('currentUsuario');
       this.menu.enable(false);
+      this.navController.navigateRoot(ruta)
+    } else {
+      this.navController.navigateForward(ruta)
     }
-    this.router.navigate([ruta])
+    // this.router.navigate([ruta])
   }
 }

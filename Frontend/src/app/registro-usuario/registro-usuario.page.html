@@ -16,7 +16,7 @@
           <ion-input slot="end" class="form-control" type='number' id='cuitUsuario' placeholder='Ingrese Cuit' formControlName='cuitUsuario'></ion-input>
         </ion-item>
         <p class="input-error-msg" *ngIf="form.controls.cuitUsuario.errors?.required && form.controls.cuitUsuario.touched">Campo Obligatorio.</p>
-        <p class="input-error-msg" *ngIf="(form.controls.cuitUsuario.errors?.min || form.controls.cuitUsuario.errors?.max) && form.controls.cuitUsuario.touched">Debería ser por ejemplo: 20 36850688 6.</p>
+        <p class="input-error-msg" *ngIf="(form.controls.cuitUsuario.errors?.min || form.controls.cuitUsuario.errors?.max) && form.controls.cuitUsuario.touched">Debería ser por ejemplo: 20 12345678 6.</p>
         <ion-item class="form-group">
           <ion-label color="primary" padding>Nombre</ion-label>
           <ion-input slot="end" class="form-control" type='text' id='nombreUsuario' placeholder='Ingrese Nombre' formControlName='nombreUsuario'></ion-input>
@@ -32,7 +32,7 @@
           <ion-input slot="end" class="form-control" type='number' id='dniUsuario' placeholder='Ingrese DNI' formControlName='dniUsuario'></ion-input>
         </ion-item>
         <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.required && form.controls.dniUsuario.touched">Campo Obligatorio.</p>
-        <p class="input-error-msg" *ngIf="(form.controls.dniUsuario.errors?.min || form.controls.dniUsuario.errors?.max) && form.controls.dniUsuario.touched">Debería ser por ejemplo: 36.850.688.</p>
+        <p class="input-error-msg" *ngIf="(form.controls.dniUsuario.errors?.min || form.controls.dniUsuario.errors?.max) && form.controls.dniUsuario.touched">Debería ser por ejemplo: 12345678.</p>
         <ion-item class="form-group">
           <ion-label color="primary" padding class="label-large">Email</ion-label>
           <ion-input slot="end" class="form-control" type="email" id='emailUsuario' placeholder='Ingrese Email' formControlName="emailUsuario"></ion-input>
@@ -55,13 +55,13 @@
           <ion-input slot="end" class="form-control" type="tel" id='nroCelularUsuario' placeholder='Ingrese Celular' formControlName='nroCelularUsuario' [brmasker]="{mask:'000-000-0000', len:12, userCaracters: true}"></ion-input>
         </ion-item>
         <p class="input-error-msg" *ngIf="form.controls.nroCelularUsuario.errors?.required && form.controls.nroCelularUsuario.touched">Campo Obligatorio.</p>
-        <p class="input-error-msg" *ngIf="form.controls.nroCelularUsuario.errors?.pattern && form.controls.nroCelularUsuario.touched">Debería ser por ejemplo: 261-387-5470.</p>
+        <p class="input-error-msg" *ngIf="form.controls.nroCelularUsuario.errors?.pattern && form.controls.nroCelularUsuario.touched">Debería ser por ejemplo: 261-123-4567.</p>
         <ion-item class="form-group">
           <ion-label color="primary" padding>Telefono Fijo</ion-label>
           <ion-input slot="end" class="form-control" type="tel" id='nroTelefonoUsuario' placeholder='Ingrese Teléfono' formControlName='nroTelefonoUsuario' [brmasker]="{mask:'000-000-0000', len:12, userCaracters: true}"></ion-input>
         </ion-item>
         <p class="input-error-msg" *ngIf="form.controls.nroTelefonoUsuario.errors?.required && form.controls.nroTelefonoUsuario.touched">Campo Obligatorio.</p>
-        <p class="input-error-msg" *ngIf="form.controls.nroTelefonoUsuario.errors?.pattern && (form.controls.nroTelefonoUsuario.touched || form.controls.nroTelefonoUsuario.dirty)">Debería ser por ejemplo: 261-431-8023.</p>
+        <p class="input-error-msg" *ngIf="form.controls.nroTelefonoUsuario.errors?.pattern && (form.controls.nroTelefonoUsuario.touched || form.controls.nroTelefonoUsuario.dirty)">Debería ser por ejemplo: 261-123-4567.</p>
 
         <form [formGroup]="form2.get('contrasenaUsuario_group')" *ngIf="this.id == 0">
           <ion-item class="form-group">
@@ -78,10 +78,6 @@
           <p class="input-error-msg" *ngIf="(form2.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('minlength') || form2.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('maxlength')) && form2.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').touched">Debería ser mayor a 5 letras y menor a 25.</p>
           <p class="input-error-msg" *ngIf="form2.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('not_equal') && form2.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').touched">Contraseñas no Coinciden.</p>
         </form>
-        <!-- <ion-item>
-          <ion-label color="primary" >HOLA$</ion-label>
-          <ion-datetime displayFormat="MM/DD/YYYY" formControlName="birthdate"></ion-datetime>
-        </ion-item> -->
       </form>
     </ion-col>
   </ion-row>
