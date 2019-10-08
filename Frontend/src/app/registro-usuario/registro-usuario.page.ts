@@ -23,6 +23,9 @@ export class RegistroUsuarioPage implements OnInit {
   private usuario = {}
   private token = null;
   private id: number = 0;
+  private existenciaUsuario: boolean = false;
+  private mensajeExistenciaUsuario: string = null;
+  private nuevoUsuario: boolean = false;
 
   constructor(
     private router: Router,
@@ -67,6 +70,24 @@ export class RegistroUsuarioPage implements OnInit {
 
   ngOnInit() {
     this.token = this.recuperarToken();
+
+  }
+
+  validarExistenciaUsuario(){
+    console.log("Validar Existencia")
+       this.form.controls.cuitUsuario.valueChanges
+        .subscribe( respuesta => {
+          this.usuarioservicio.validarExistenciaUsuario( respuesta )
+          .then( (res) => {
+            if (res.tipo == 2) {
+              this.existenciaUsuario = true;
+              this.mensajeExistenciaUsuario = res.descripcion;
+              this.form.controls.cuitUsuario.setErrors({pattern: true});
+            } else {
+              this.existenciaUsuario = false;
+            }
+          })
+      });
   }
 
   recuperarToken() {
@@ -80,9 +101,12 @@ export class RegistroUsuarioPage implements OnInit {
               this.form = this.form1;
               console.log("Buscando Usuario")
               this.traerUsuario(this.id, res);
+              this.nuevoUsuario = true;
             } else {
               this.form = this.form2
-              console.log("NUEVO USUARIO")
+              console.log("Nuevo Usuario")
+              this.validarExistenciaUsuario();
+              this.nuevoUsuario = false;
             }
           });
       })

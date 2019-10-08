@@ -38,6 +38,20 @@ export class UsuarioService {
       .catch(  );
   }
 
+  validarExistenciaUsuario( cuit: number ): Promise<any> {
+    let value = { cuitUsuario: cuit};
+    let cuitUsuario = cuit;
+    console.log(`${URL}/existUser`, value)
+    return this.http.post(`${URL}/existUser`, value).toPromise()
+    .then( (response) => {
+      console.log("Response ,",response)
+      return response;
+    })
+    .catch( (err) => {
+      console.log("ERROR: ",err)
+    })
+  }
+
   loguear( cuit: number, pass: string ): Promise<any> {
     let value = { cuitUsuario: cuit, contrasenaUsuario: pass}
     return this.http
@@ -46,11 +60,12 @@ export class UsuarioService {
         value
         )
       .toPromise()
-      .then(response => {
+      .then( (response: any) => {
+        console.log("RESPUESTA ",response.title.token)
         return response as Usuario;
       })
       .catch( err => {
-        console.log("ERROR : ",err)
+        console.log("ERROR: ",err)
       } );
   }
 
