@@ -9,33 +9,46 @@
       </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-  <ion-card button=true color='light'>
-    <img padding src={{composicion.item.img}} />
+  <ion-card button=true color='light' *ngIf="tipo == 'producto'">
+    <ion-img padding *ngIf="producto.pathImagenProducto"  src={{producto.pathImagenProducto}} ></ion-img>
+    <ion-img padding *ngIf="!producto.pathImagenProducto" [src]=altSrc></ion-img>
     <ion-card-header>
-      <ion-card-subtitle>{{composicion.item.costo}}</ion-card-subtitle>
-      <ion-card-title>{{composicion.item.titulo}}</ion-card-title>
+      <ion-card-subtitle class="precio"> Precio: {{producto.precioproductos[0]?.importePrecioProducto}} {{producto.precioproductos[0]?.tipomoneda.simboloTipoMoneda}}</ion-card-subtitle>
+      <ion-card-title>{{producto.nombreProducto}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      {{composicion.item.descripcion}}
+      Descripcion: {{producto.descripcionProducto}} <br/>
+      Rubro: {{producto.rubro?.descripcionRubro}} <br/>
+      {{producto.cantidadMedida}} {{producto.unidadmedida.nombreUnidadMedida}}
     </ion-card-content>
-    <!-- <ion-button fill="outline" slot="end" (click)='volver()'>Producto</ion-button> -->
   </ion-card>
-
-  <ion-title>
+  <ion-card button=true color='light' *ngIf="tipo == 'menupromocion'">
+    <ion-img padding *ngIf="menupromocion.pathImagenMenuPromocion"  src={{menupromocion.pathImagenMenuPromocion}} ></ion-img>
+    <ion-img padding *ngIf="!menupromocion.pathImagenMenuPromocion" [src]=altSrc></ion-img>
+    <ion-card-header>
+      <ion-card-subtitle class="precio"> Precio: {{menupromocion.preciomenupromocions[0]?.importePrecioMenuPromocion}} {{menupromocion.preciomenupromocions[0]?.tipomoneda.simboloTipoMoneda}}</ion-card-subtitle>
+      <ion-card-title>{{menupromocion.nombreMenuPromocion}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Descripcion: {{menupromocion.descripcionMenuPromocion}} <br/>
+    </ion-card-content>
+  </ion-card>
+  <ion-title *ngIf="tipo == 'menupromocion'">
     Conformación
   </ion-title>
-
-  <ion-card>
-    <ion-item *ngFor='let item of composicion.componentes' [ngClass]="{ 'activo': item.estado == 'Activo' , 'enfalta': item.estado == 'En Falta' , 'inactivo': item.estado == 'Inactivo'}">
-      <img src={{item.img}} />
+  <ion-card *ngIf="tipo == 'menupromocion'">
+    <ion-item *ngFor='let item of menupromocion.detallemenupromocionproductos' [ngClass]="{ 'activo': item.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Activo' , 'enfalta': item.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'En Falta' , 'inactivo': item.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Inactivo', 'eliminado': item.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Eliminado'}">
+      <ion-card-title>{{item.cantidadProductoMenuPromocion}}x-  </ion-card-title>
+      <div class="box-imagen">
+        <ion-img class="imagen" *ngIf="item.producto.pathImagenProducto" src={{item.producto.pathImagenProducto}}></ion-img>
+        <ion-img class="imagen" *ngIf="!item.producto.pathImagenProducto" [src]=altSrc></ion-img>
+      </div>
       <ion-card-header>
-        <ion-card-title>{{item.titulo}}</ion-card-title>
-        <ion-card-subtitle>{{item.descripcion}}</ion-card-subtitle>
+        <ion-card-subtitle>{{item.producto.descripcionProducto}}</ion-card-subtitle>
       </ion-card-header>
-      <ion-card-content>
-          {{item.medida}}{{item.unidad}}
+      <ion-card-content class="composicion">
+          {{item.producto.cantidadMedida}} <br/> {{item.producto.unidadmedida.caracterUnidadMedida}}
       </ion-card-content>
     </ion-item>
   </ion-card>

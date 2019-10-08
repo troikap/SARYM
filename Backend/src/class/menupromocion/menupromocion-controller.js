@@ -98,7 +98,8 @@ MenuPromocionController.getAll = (req, res) => {
                         "codProducto",
                         "nombreProducto",
                         "descripcionProducto",
-                        "pathImagenProducto"
+                        "pathImagenProducto",
+                        "cantidadMedida"
                     ],
                     include: [
                         {
@@ -252,7 +253,8 @@ MenuPromocionController.getOne = (req, res) => {
                         "codProducto",
                         "nombreProducto",
                         "descripcionProducto",
-                        "pathImagenProducto"
+                        "pathImagenProducto",
+                        "cantidadMedida"
                     ],
                     include: [
                         {
