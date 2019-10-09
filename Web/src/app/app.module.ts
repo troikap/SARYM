@@ -2,18 +2,22 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app.routes';
 import { LoginComponent } from './components/login/login.component';
-import { ProductoComponent } from './components/entidades/producto/producto.component';
-import { UsuarioComponent } from './components/entidades/usuario/usuario.component';
-import { TipoMonedaComponent } from './components/entidades/tipo-moneda/tipo-moneda.component';
-import { UnidadMedidaComponent } from './components/entidades/unidad-medida/unidad-medida.component';
-import { RubroComponent } from './components/entidades/rubro/rubro.component';
-import { SectorComponent } from './components/entidades/sector/sector.component';
-import { MenuPromocionComponent } from './components/entidades/menu-promocion/menu-promocion.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AbmUsuarioComponent } from './components/abm-usuario/abm-usuario.component';
+import { AbmTipomonedaComponent } from './components/abm-tipomoneda/abm-tipomoneda.component';
+import { AbmUnidadmedidaComponent } from './components/abm-unidadmedida/abm-unidadmedida.component';
+import { AbmCajaComponent } from './components/abm-caja/abm-caja.component';
+import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
+import { AbmRubroComponent } from './components/abm-rubro/abm-rubro.component';
+import { AbmSectorComponent } from './components/abm-sector/abm-sector.component';
+import { GestionarProductoComponent } from './components/gestionar-producto/gestionar-producto.component';
+import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/gestionar-menupromocion.component';
+import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 
 
 
@@ -21,21 +25,25 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [
     AppComponent,
     LoginComponent,
-    ProductoComponent,
-    UsuarioComponent,
-    TipoMonedaComponent,
-    UnidadMedidaComponent,
-    RubroComponent,
-    SectorComponent,
-    MenuPromocionComponent,
     NavbarComponent,
     HomeComponent,
+    AbmUsuarioComponent,
+    AbmTipomonedaComponent,
+    AbmUnidadmedidaComponent,
+    AbmCajaComponent,
+    AbmMesaComponent,
+    AbmRubroComponent,
+    AbmSectorComponent,
+    GestionarProductoComponent,
+    GestionarMenupromocionComponent,
+    GenerarReporteComponent,
     
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

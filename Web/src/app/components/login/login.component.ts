@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router, RouterModule } from '@angular/router';
 import { UsuarioService } from '../../services/usuario/usuario.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -14,7 +15,10 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private usuarioservicio: UsuarioService
+    private usuarioservicio: UsuarioService,
+    private router: Router,
+    private rout: RouterModule
+
   ) {
     this.form = this.formBuilder.group({
       username: ['', Validators.required],
@@ -31,6 +35,7 @@ export class LoginComponent implements OnInit {
     .then(algo => {
     // this.algo = algo;
     console.log("LOGUEADO", algo)
+    this.router.navigate(['/home']);
 
       // if (algo.title.tipo == 1) {
       //   console.log("LOGUEADO")
@@ -53,6 +58,13 @@ export class LoginComponent implements OnInit {
         // this.alert();
       // }
     })
+  }
+  next(){
+    console.log("SIGUIENTE")
+    this.router.navigate(['/usuario'])
+  }
+  next2(){
+    console.log("SIGUIENTE2")
   }
 
 }
