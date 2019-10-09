@@ -12,6 +12,10 @@ import { SectorComponent } from './components/entidades/sector/sector.component'
 import { MenuPromocionComponent } from './components/entidades/menu-promocion/menu-promocion.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
+import { ReactiveFormsModule} from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
+
 
 @NgModule({
   declarations: [
@@ -25,10 +29,13 @@ import { HomeComponent } from './components/home/home.component';
     SectorComponent,
     MenuPromocionComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
