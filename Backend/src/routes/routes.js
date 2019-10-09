@@ -15,6 +15,8 @@ var DepartamentoController = require('../class/departamento/departamento-control
 var RolController = require('../class/rol/rol-controller');
 var ProductoController = require('../class/producto/producto-controller');
 var MenuPromocionController = require('../class/menupromocion/menupromocion-controller');
+var MesaController = require('../class/mesa/mesa-controller');
+
 
 const { verificaToken } = require('../middlewares/autenticacion');
 
@@ -63,7 +65,12 @@ router
     .get('/menupromocion', MenuPromocionController.getAll)
     .get('/menupromocion/:idMenuPromocion', MenuPromocionController.getOne)
 
-// //use
+// mesa
+    .get('/mesa', MesaController.getAll)
+    .get('/mesa/:idMesa', MesaController.getOne)
+
+
+// use
     .use(EstadoUsuarioController.error404)
     .use(UsuarioController.error404)
     .use(DepartamentoController.error404)
