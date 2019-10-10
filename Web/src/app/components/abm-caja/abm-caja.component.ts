@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-abm-caja',
-  templateUrl: './abm-caja.component.html',
-  styleUrls: ['./abm-caja.component.css']
+  templateUrl: './abm-caja.component.html'
 })
 export class AbmCajaComponent implements OnInit {
 
