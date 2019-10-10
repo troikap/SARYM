@@ -1,18 +1,19 @@
 <h2 class="titulo">ABM Usuario</h2>
+<hr>
 <div class="container">
-    <!-- <div class="row buscar">
-        <div class="col sm-7"></div>
-        <div class="col">
+    <!-- <div class="form-group row buscar">
+        <div class="col-8 sm-7"></div>
+        <div class="col-8">
             <input type="search" placeholder="Buscar...">		    	
             <button (click)="buscar()">Search</button>
         </div>
     </div> -->
     <div class="form-section">
         <form [formGroup]="form" *ngIf="form">
-            <div class="row">
+            <div class="form-group row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="cuitUsuario">Cuit Usuario</label>
+                        <label for="cuitUsuario" class="col col-form-label">Cuit</label>
                         <input type="text" class="form-control" id="cuitUsuario" placeholder="Ingrese Respuesta" formControlName="cuitUsuario">
                         <p class="input-error-msg" *ngIf="!form.controls.cuitUsuario.valid && form.controls.cuitUsuario.touched">
                             Campo Obligatorio.
@@ -22,7 +23,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label for="dniUsuario">DNI Usuario</label>
+                        <label for="dniUsuario" class="col col-form-label">DNI</label>
                         <input type="text" class="form-control" id="dniUsuario" placeholder="Ingrese Respuesta" formControlName="dniUsuario">
                         <p class="input-error-msg" *ngIf="!form.controls.dniUsuario.valid && form.controls.dniUsuario.touched">
                             Campo Obligatorio.
@@ -30,10 +31,10 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="nombreUsuario">Nombre Usuario</label>
+                        <label for="nombreUsuario" class="col col-form-label">Nombre</label>
                         <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese Respuesta" formControlName="nombreUsuario">
                         <p class="input-error-msg" *ngIf="!form.controls.nombreUsuario.valid && form.controls.nombreUsuario.touched">
                             Campo Obligatorio.
@@ -42,7 +43,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label for="apellidoUsuario">Apellido Usuario</label>
+                        <label for="apellidoUsuario" class="col col-form-label">Apellido</label>
                         <input type="text" class="form-control" id="apellidoUsuario" placeholder="Ingrese Respuesta" formControlName="apellidoUsuario">
                         <p class="input-error-msg" *ngIf="!form.controls.apellidoUsuario.valid && form.controls.apellidoUsuario.touched">
                             Campo Obligatorio.
@@ -50,10 +51,10 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="emailUsuario">Email Usuario</label>
+                        <label for="emailUsuario" class="col col-form-label">Email</label>
                         <input type="text" class="form-control" id="emailUsuario" placeholder="Ingrese Respuesta" formControlName="emailUsuario">
                         <p class="input-error-msg" *ngIf="!form.controls.emailUsuario.valid && form.controls.emailUsuario.touched">
                             Campo Obligatorio.
@@ -62,7 +63,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label for="domicilioUsuario">Domicilio Usuario</label>
+                        <label for="domicilioUsuario" class="col col-form-label">Domicilio</label>
                         <input type="text" class="form-control" id="domicilioUsuario" placeholder="Ingrese Respuesta" formControlName="domicilioUsuario">
                         <p class="input-error-msg" *ngIf="!form.controls.domicilioUsuario.valid && form.controls.domicilioUsuario.touched">
                             Campo Obligatorio.
@@ -70,10 +71,10 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="nroCelularUsuario">Celular Usuario</label>
+                        <label for="nroCelularUsuario" class="col col-form-label">Celular</label>
                         <input type="text" class="form-control" id="nroCelularUsuario" placeholder="Ingrese Respuesta" formControlName="nroCelularUsuario">
                         <p class="input-error-msg" *ngIf="!form.controls.nroCelularUsuario.valid && form.controls.nroCelularUsuario.touched">
                             Campo Obligatorio.
@@ -82,7 +83,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label for="nroTelefonoUsuario">Telefono Usuario</label>
+                        <label for="nroTelefonoUsuario" class="col col-form-label">Telefono</label>
                         <input type="text" class="form-control" id="nroTelefonoUsuario" placeholder="Ingrese Respuesta" formControlName="nroTelefonoUsuario">
                         <p class="input-error-msg" *ngIf="!form.controls.nroTelefonoUsuario.valid && form.controls.nroTelefonoUsuario.touched">
                             Campo Obligatorio.
@@ -90,10 +91,10 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="idDepartamento">Departamento</label>
+                        <label for="idDepartamento" class="col col-form-label">Departamento</label>
                         <select Placeholder='SELECCIONE' formControlName='idDepartamento'> 
                             <option *ngFor='let element of departamentos' [value]='element.idDepartamento'>{{element.nombreDepartamento}}</option>
                         </select>
@@ -104,7 +105,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label for="contrasenaUsuario">Contraseña Usuario</label>
+                        <label for="contrasenaUsuario" class="col col-form-label">Contraseña</label>
                         <input type="text" class="form-control" id="contrasenaUsuario" placeholder="Ingrese Respuesta" formControlName="contrasenaUsuario">
                         <p class="input-error-msg" *ngIf="!form.controls.contrasenaUsuario.valid && form.controls.contrasenaUsuario.touched">
                             Campo Obligatorio.
@@ -112,10 +113,10 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="rolUsuario">Rol</label>
+                        <label for="rolUsuario" class="col col-form-label">Rol</label>
                         <select Placeholder='SELECCIONE' formControlName='rolUsuario'> 
                             <option *ngFor='let element of roles' [value]='element.idRol'>{{element.nombreRol}}</option>
                         </select>
@@ -126,7 +127,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label for="estadoUsuario">Estado Usuario</label>
+                        <label for="estadoUsuario" class="col col-form-label">Estado incial</label>
                         <select Placeholder='SELECCIONE' formControlName='estadoUsuario'> 
                             <option *ngFor='let element of estadosusuarios' [value]='element.idEstadoUsuario'>{{element.nombreEstadoUsuario}}</option>
                         </select>
@@ -137,7 +138,8 @@
                 </div>
             </div>
         </form>
-        <button (click)="guardar()">Guardar</button>
+        <button (click)="guardar()" type="submit" class="btn btn-primary btn-block">Guardar</button>
     </div>
 </div>
-<button routerLink="/home">VOLVER</button>
+<hr>
+<button routerLink="/home" class="btn btn-primary">Cancelar</button>
