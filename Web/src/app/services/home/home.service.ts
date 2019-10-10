@@ -1,3 +1,5 @@
+// Página de iconos: https://icon-icons.com/
+
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -11,7 +13,7 @@ export class HomeService {
           nombre: 'ABM Usuario',
           clave: 'abm-usuario',
           path: '/usuario',
-          img: 'assets/imagenes/noimage.png',
+          img: 'assets/imagenes/user_accounts.png',
           responsable: 'Administrador'
         },
         {
@@ -19,7 +21,7 @@ export class HomeService {
           nombre: 'ABM Tipo Moneda',
           clave: 'abm-tipomoneda',
           path: '/tipomoneda',
-          img: 'assets/imagenes/noimage.png',
+          img: 'assets/imagenes/tipo-moneda.png',
           responsable: 'Administrador'
         },
         {
@@ -27,7 +29,7 @@ export class HomeService {
           nombre: 'ABM Unidad Medida',
           clave: 'abm-unidadmedida',
           path: '/unidadmedida',
-          img: 'assets/imagenes/noimage.png',
+          img: 'assets/imagenes/unidad-medida.png',
           responsable: 'Administrador'
         },
         {
@@ -35,7 +37,7 @@ export class HomeService {
           nombre: 'ABM Caja',
           clave: 'abm-caja',
           path: '/caja',
-          img: 'assets/imagenes/noimage.png',
+          img: 'assets/imagenes/caja.png',
           responsable: 'Administrador'
         },
         {
@@ -43,7 +45,7 @@ export class HomeService {
           nombre: 'ABM Mesa',
           clave: 'abm-mesa',
           path: '/mesa',
-          img: 'assets/imagenes/noimage.png',
+          img: 'assets/imagenes/config_general.png',
           responsable: 'Administrador'
         },
         {
@@ -51,7 +53,7 @@ export class HomeService {
           nombre: 'ABM Rubro',
           clave: 'abm-rubro',
           path: '/rubro',
-          img: 'assets/imagenes/noimage.png',
+          img: 'assets/imagenes/rubro.png',
           responsable: 'Administrador'
         },
         {
@@ -59,7 +61,7 @@ export class HomeService {
           nombre: 'ABM Sector',
           clave: 'abm-sector',
           path: '/sector',
-          img: 'assets/imagenes/noimage.png',
+          img: 'assets/imagenes/ubicacion.png',
           responsable: 'Administrador'
         },
         {
@@ -67,7 +69,7 @@ export class HomeService {
           nombre: 'Gestionar Producto',
           clave: 'gestionar-producto',
           path: '/producto',
-          img: 'assets/imagenes/noimage.png',
+          img: 'assets/imagenes/producto.png',
           responsable: 'Administrador'
         },
         {
@@ -75,7 +77,7 @@ export class HomeService {
           nombre: 'Gestionar Menu Promocion',
           clave: 'gestionar-menupromocion',
           path: '/menupromocion',
-          img: 'assets/imagenes/noimage.png',
+          img: 'assets/imagenes/menu-promocion.png',
           responsable: 'Administrador'
         },
         {
@@ -83,7 +85,7 @@ export class HomeService {
           nombre: 'Generar Reporte',
           clave: 'generar-reporte',
           path: '/reporte',
-          img: 'assets/imagenes/noimage.png',
+          img: 'assets/imagenes/reportes.png',
           responsable: 'Administrador'
         },
     ];
