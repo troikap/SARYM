@@ -1,9 +1,15 @@
-<!-- <app-navbar></app-navbar> -->
+<div class="card-columns">
+    <div class="card animated fadeIn fast" *ngFor="let iconos of iconosHome">
+        <img [src]="iconos.img" class="card-img-top" [alt]="iconos.nombre" (click)="goTo(iconos.clave)">
+        <div class="card-body">
+            <h4 class="card-title" style="text-align: center; font-weight: bold;">{{iconos.nombre}}</h4>
+        </div>
+    </div>
 
-<!-- <div class="container main_container">
-    <router-outlet></router-outlet>
-</div> -->
-<div>hola hagan la fucking tarea.. vagos hijos de su chingada madre...</div>
+
+
+    <!-- width="50" height="50" -->
+    <!-- <div>hola hagan la fucking tarea.. vagos hijos de su chingada madre...</div>
 <button (click)="goTo('abm-usuario')">ABM Usuario</button>
 <button (click)="goTo('abm-tipomoneda')">ABM Tipo Moneda</button>
 <button (click)="goTo('abm-unidadmedida')">ABM Unidad Medida</button>
@@ -13,7 +19,4 @@
 <button (click)="goTo('abm-sector')">ABM Sector</button>
 <button (click)="goTo('gestionar-producto')">ABM Gestionar Producto</button>
 <button (click)="goTo('gestionar-menupromocion')">ABM Gestionar Menu Promocion</button>
-<button (click)="goTo('generar-reporte')">ABM Generar Reporte</button>
-
-
-<router-outlet></router-outlet>
+<button (click)="goTo('generar-reporte')">ABM Generar Reporte</button> -->
