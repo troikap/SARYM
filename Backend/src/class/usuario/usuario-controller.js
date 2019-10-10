@@ -17,6 +17,7 @@ const UsuarioModelo = require("./usuario-model"),
   legend2 = "UsuarioEstado",
   legend3 = "EstadoUsuario",
   idtable = "idUsuario",
+  cuittable = "cuitUsuario",
   idtableestado = "idUsuarioEstado",
   idestadotable = "idEstadoUsuario",
   nombreEstado = "nombreEstadoUsuario",
@@ -269,7 +270,6 @@ UsuarioController.getOne = (req, res) => {
       'nroCelularUsuario',
       'nroTelefonoUsuario',
     ],
-    // BUSCA POR FORANEA 
     include: [
       {
         model: UsuarioEstadoModelo,
@@ -282,6 +282,7 @@ UsuarioController.getOne = (req, res) => {
           {
             model: EstadoUsuarioModelo,
             attributes: [
+              'idEstadoUsuario',
               'nombreEstadoUsuario'
             ]
           }
@@ -297,6 +298,7 @@ UsuarioController.getOne = (req, res) => {
           {
             model: RolModelo,
             attributes: [
+              'idRol',
               'nombreRol'
             ]
           }
@@ -305,6 +307,7 @@ UsuarioController.getOne = (req, res) => {
       {
         model: DepartamentoModelo,
         attributes: [
+          'idDepartamento',
           'nombreDepartamento'
         ]
       }
@@ -319,7 +322,28 @@ UsuarioController.getOne = (req, res) => {
       res.json(locals);
     } else {
       // SI EXISTE EL USUARIO AGREGAMOS A LA VARIABLE EL MISMO
-      // locals.title = `${legend} encontrado`;
+      locals[legend] = response.dataValues;
+      locals['tipo'] = 1
+      res.json(locals)
+    }
+  });
+};
+
+UsuarioController.getOneCuit = (req, res) => {
+  let locals = {};
+  // BUSCA EL USUARIO CON ID INGRESADO
+  UsuarioModelo.findOne({
+    where: { [cuittable]: req.params[cuittable] },
+  }).then(response => {
+    if (!response || response == 0) {
+      // SI NO EXISTE EL USUARIO
+      locals.title = {
+        descripcion: `No existe el registro : ${req.params[cuittable]}`,
+        tipo: 2
+      };
+      res.json(locals);
+    } else {
+      // SI EXISTE EL USUARIO AGREGAMOS A LA VARIABLE EL MISMO
       locals[legend] = response.dataValues;
       locals['tipo'] = 1
       res.json(locals)
@@ -440,7 +464,62 @@ UsuarioController.update = (req, res) => {
     // SI CREAMOS MANDANDO ID DE USUARIO
     // BUSCA SI EXISTE USUARIO
     UsuarioModelo.findOne({
-      where: { [idtable]: body[idtable] }
+      where: { [idtable]: body[idtable] },
+      attributes: [
+        'idUsuario',
+        'cuitUsuario',
+        'nombreUsuario',
+        'apellidoUsuario',
+        'contrasenaUsuario',
+        'dniUsuario',
+        'domicilioUsuario',
+        'emailUsuario',
+        'idDepartamento',
+        'nroCelularUsuario',
+        'nroTelefonoUsuario',
+      ],
+      include: [
+        {
+          model: UsuarioEstadoModelo,
+          attributes: [
+            'descripcionUsuarioEstado',
+            'fechaYHoraAltaUsuarioEstado',
+            'fechaYHoraBajaUsuarioEstado'
+          ],
+          include: [
+            {
+              model: EstadoUsuarioModelo,
+              attributes: [
+                'idEstadoUsuario',
+                'nombreEstadoUsuario'
+              ]
+            }
+          ]
+        },
+        {
+          model: RolUsuarioModelo,
+          attributes: [
+            'fechaYHoraAltaRolUsuario',
+            'fechaYHoraBajaRolUsuario'
+          ],
+          include: [
+            {
+              model: RolModelo,
+              attributes: [
+                'idRol',
+                'nombreRol'
+              ]
+            }
+          ]
+        },
+        {
+          model: DepartamentoModelo,
+          attributes: [
+            'idDepartamento',
+            'nombreDepartamento'
+          ]
+        }
+      ],
     }).then(response => {
       if (!response || response == 0) {
         // BUSCA SI EXISTE ESTADO DE USUARIO
@@ -457,13 +536,41 @@ UsuarioController.update = (req, res) => {
           };
         }
         for (let attribute in body) {
-          if (
-            String(body[attribute]) !=
-            String(response.dataValues[attribute])
-          ) {
-            check = true;
+            if (typeof(body[attribute])=== "object"){
+              console.log("UNO ", check)
+              for (let att in body[attribute]) {
+                if (typeof(body[attribute][att]) === "object"){
+                console.log("DOS ", check)
+                  for (let att2 in body[attribute][att]) {
+                    if (typeof(body[attribute][att][att2]) === "object"){
+                    console.log("TRES ", check)
+                      for (let att3 in body[attribute][att][att2]) {
+                        if (typeof(body[attribute][att][att2][att3]) === "object"){
+                        console.log("CUATRO ", check)
+                        } else {
+                          if (String(body[attribute][att][att2][att3]) != String(response.dataValues[attribute][att][att2][att3])) {
+                            check = true;
+                          }
+                        }
+                      }
+                    } else {
+                      if (JSON.stringify(body[attribute][att][att2]) != JSON.stringify(response.dataValues[attribute][att][att2])) {
+                        check = true;
+                      }
+                    }
+                  }
+              } else {
+                if (String(body[attribute][att]) != String(response.dataValues[attribute][att])) {
+                  check = true;
+                }
+              }
+            }
             if(attribute == "contrasenaUsuario") {
               pass = true;
+            }
+          } else { 
+            if (String(body[attribute]) != String(response.dataValues[attribute])) {
+              check = true;
             }
           }
         }
