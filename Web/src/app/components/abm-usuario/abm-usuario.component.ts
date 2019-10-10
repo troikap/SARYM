@@ -12,8 +12,7 @@ import { UsuarioService } from '../../services/usuario/usuario.service';
 
 @Component({
   selector: 'app-abm-usuario',
-  templateUrl: './abm-usuario.component.html',
-  styleUrls: ['./abm-usuario.component.css']
+  templateUrl: './abm-usuario.component.html'
 })
 export class AbmUsuarioComponent implements OnInit {
   form: FormGroup;

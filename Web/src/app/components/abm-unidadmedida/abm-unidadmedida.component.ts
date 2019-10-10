@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-abm-unidadmedida',
-  templateUrl: './abm-unidadmedida.component.html',
-  styleUrls: ['./abm-unidadmedida.component.css']
+  templateUrl: './abm-unidadmedida.component.html'
 })
 export class AbmUnidadmedidaComponent implements OnInit {
 
