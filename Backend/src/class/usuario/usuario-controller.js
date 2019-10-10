@@ -23,6 +23,29 @@ const UsuarioModelo = require("./usuario-model"),
   nombreEstado = "nombreEstadoUsuario",
   table = "usuario";
 
+  UsuarioController.
+  validateExistUser = (req, res) => {
+    console.log("VALIDANDO DESDE BACK")
+    console.log("REQ.BODY  ,",req.body)
+
+    let body = req.body;
+      UsuarioModelo.findOne({
+        where: {cuitUsuario: body.cuitUsuario}
+      })
+      .then( (response) => {
+        let locals = {};
+        if(!response) {
+          locals['tipo'] = 1;
+          locals['descripcion'] = 'Usuario no encontrado.'
+        } else {
+          locals['tipo'] = 2;
+          locals['descripcion'] = 'Cuit existente, ingrese otro.'
+          locals['descripcion2'] = 'Usuario encontrado.'
+        }
+        res.json(locals)
+      })
+  }
+
   UsuarioController.login = (req, res) => {
     let locals = {};
     let body = req.body;
@@ -67,10 +90,6 @@ const UsuarioModelo = require("./usuario-model"),
           }, 
         ],
       }).then(response => {
-        console.log('RESPUESTA >>>>>>> ,',response)
-        // console.log('RESPUESTA >>>>>>> ,',response.dataValues.rolusuarios[0].dataValues.fechaYHoraBajaRolUsuario)
-        // console.log('RESPUESTA >>>>>>> ,',response.dataValues.rolusuarios[0].dataValues.rol.dataValues.idRol)
-        // console.log('RESPUESTA >>>>>>> ,',response.dataValues.rolusuarios[0].dataValues.rol.dataValues.nombreRol)
       if (response && response != 0){
         if (bcrypt.compareSync(body.contrasenaUsuario, response.dataValues.contrasenaUsuario)) {
           if( response.dataValues.usuarioestados[0].estadousuario.dataValues.nombreEstadoUsuario != 'Activo' ){

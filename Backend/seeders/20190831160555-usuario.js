@@ -48,8 +48,22 @@ module.exports = {
                 "nroTelefonoUsuario": 2613875477,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
-
-            }
+            },
+            {
+                "idUsuario": 4,
+                "cuitUsuario": 11111111111,
+                "nombreUsuario": "Admin",
+                "apellidoUsuario": "Admin",
+                "contrasenaUsuario": "$2b$10$wimyYXNtw97sxl14KIlX5uDzt5hGPxJVgfbl7fcpqa89vtJjYb/z6",
+                "dniUsuario": 11111111,
+                "domicilioUsuario": "UTN FRM",
+                "emailUsuario": "sarymresto@gmail.com",
+                "idDepartamento": 1,
+                "nroCelularUsuario": 1111111111,
+                "nroTelefonoUsuario": 1111111111,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            },
         ], {});
     },
 

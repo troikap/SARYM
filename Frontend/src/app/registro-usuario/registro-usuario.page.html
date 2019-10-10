@@ -13,10 +13,11 @@
       <form [formGroup]="form" *ngIf="form">
         <ion-item class="form-group">
           <ion-label color="primary" padding>Cuit</ion-label>
-          <ion-input slot="end" class="form-control" type='number' id='cuitUsuario' placeholder='Ingrese Cuit' formControlName='cuitUsuario'></ion-input>
+          <ion-input slot="end" class="form-control" type='number' id='cuitUsuario' placeholder='Ingrese Cuit' formControlName='cuitUsuario' [disabled]="nuevoUsuario"></ion-input>
         </ion-item>
         <p class="input-error-msg" *ngIf="form.controls.cuitUsuario.errors?.required && form.controls.cuitUsuario.touched">Campo Obligatorio.</p>
         <p class="input-error-msg" *ngIf="(form.controls.cuitUsuario.errors?.min || form.controls.cuitUsuario.errors?.max) && form.controls.cuitUsuario.touched">Debería ser por ejemplo: 20 12345678 6.</p>
+        <p class="input-error-msg" *ngIf="existenciaUsuario">{{mensajeExistenciaUsuario}}</p>
         <ion-item class="form-group">
           <ion-label color="primary" padding>Nombre</ion-label>
           <ion-input slot="end" class="form-control" type='text' id='nombreUsuario' placeholder='Ingrese Nombre' formControlName='nombreUsuario'></ion-input>
@@ -38,6 +39,7 @@
           <ion-input slot="end" class="form-control" type="email" id='emailUsuario' placeholder='Ingrese Email' formControlName="emailUsuario"></ion-input>
         </ion-item>
         <p class="input-error-msg" *ngIf="form.controls.emailUsuario.errors?.required && form.controls.emailUsuario.touched">Campo Obligatorio.</p>
+        <p class="input-error-msg" *ngIf="form.controls.emailUsuario.errors?.pattern && form.controls.emailUsuario.touched">Debería ser por ejemplo: sarym@gmail.com.</p>
         <ion-item class="form-group">
           <ion-label color="primary" padding class="label-large">Domicilio</ion-label>
           <ion-input slot="end" class="form-control" type='text' id='domicilioUsuario' placeholder='Ingrese Domicilio' formControlName='domicilioUsuario'></ion-input>

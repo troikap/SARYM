@@ -20,9 +20,10 @@ const { verificaToken } = require('../middlewares/autenticacion');
 
 router
 
-// login
+// utiles
     .post('/login', UsuarioController.login)
-
+    .post('/existUser', UsuarioController.validateExistUser)
+    
 // usuario
     .post('/usuario/logueo', UsuarioController.logueo)
     .get('/usuario' , UsuarioController.getAll )
