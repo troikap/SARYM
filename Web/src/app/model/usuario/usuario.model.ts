@@ -1,5 +1,5 @@
 export interface Usuario {
-    idUsuario: string;
+    idUsuario?: string;
     cuitUsuario: number;
     nombreUsuario: string;
     apellidoUsuario: string;
@@ -10,4 +10,6 @@ export interface Usuario {
     idDepartamento: number;
     nroCelularUsuario: number;
     nroTelefonoUsuario: number;
+    rolUsuario?: number;
+    estadoUsuario?: number
   }

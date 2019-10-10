@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { DepartamentoService, Departamento } from '../../services/departamento/departamento.service';
 import { RolService, Rol } from '../../services/rol/rol.service';
 import { EstadoUsuarioService, EstadoUsuario } from '../../services/estadousuario/estadousuario.service';
+import { Usuario } from '../../model/usuario/usuario.model';
 
 import { UsuarioService } from '../../services/usuario/usuario.service';
 
@@ -85,13 +86,8 @@ export class AbmUsuarioComponent implements OnInit {
     this.usuarioservicio.getUsuario(id)
       .then((res) => {
         if (res) {
-          console.log("TRAER USUARIO" , res)
           this.usuario = res['Usuario'];
-          console.log("USUARIO rol" , this.usuario.rolusuarios[0].rol.idRol)
-          console.log("USUARIO est" , this.usuario.usuarioestados[0].estadousuario.idEstadoUsuario)
-          console.log("USUARIO dep" , (this.usuario['idDepartamento']))
           this.newForm = {
-            // idUsuario: (this.usuario['idUsuario']),
             cuitUsuario:  this.usuario['cuitUsuario'],
             nombreUsuario:  this.usuario['nombreUsuario'],
             apellidoUsuario:  this.usuario['apellidoUsuario'],
@@ -111,12 +107,21 @@ export class AbmUsuarioComponent implements OnInit {
       })
   }
 
+  reemplazarUsuario() {
+  }
+
   async guardar() {
     console.log(this.form)
-    this.usuarioservicio.updateUsuario( this.usuario, "libre" )
-    .then( (response) => {
-      console.log("ACTUALIZAMOS", response)
-    })
+    if (this.usuarioencontrado) {
+      this.reemplazarUsuario();
+      this.usuarioservicio.updateUsuario( this.usuario, "libre" )
+      .then( (response) => {
+        console.log("ACTUALIZAMOS", response)
+      })
+    } else {
+      console.log("CREANDO")
+
+    }
     // this.storage.getOneObject('token')
     // //   .then((res) => {
     //     if (false) {
@@ -149,7 +154,6 @@ export class AbmUsuarioComponent implements OnInit {
       })
   }
   traerRoles() {
-    console.log("ROLES")
     this.rolservicio.getRoles()
       .then((res) => {
         this.roles = res;

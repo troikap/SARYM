@@ -1,7 +1,7 @@
 "use strict";
 
 require('../../config');
-const MenuPromocionomodel = require("./menupromocion-model"),
+const MenuPromocionModel = require("./menupromocion-model"),
   RubroModelo = require("../rubro/rubro-model"),
   UnidadMedidaModelo = require("../unidadmedida/unidadmedida-model"),
   MenuPromocionEstadoModelo = require("../menupromocionestado/menupromocionestado-model"),
@@ -29,7 +29,7 @@ const MenuPromocionomodel = require("./menupromocion-model"),
 
 MenuPromocionController.getAll = (req, res) => {
   let locals = {};
-  MenuPromocionomodel.findAll({ 
+  MenuPromocionModel.findAll({ 
     // BUSCA POR FORANEA 
     attributes: [
         "idMenuPromocion",
@@ -183,7 +183,7 @@ MenuPromocionController.getAll = (req, res) => {
 MenuPromocionController.getOne = (req, res) => {
   let locals = {};
   // BUSCA EL USUARIO CON ID INGRESADO
-  MenuPromocionomodel.findOne({
+  MenuPromocionModel.findOne({
     where: { [idtable]: req.params[idtable] },
     // BUSCA POR FORANEA 
     attributes: [
