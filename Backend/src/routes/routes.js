@@ -25,16 +25,17 @@ router
 
 // usuario
     .post('/usuario/logueo', UsuarioController.logueo)
-    .get('/usuario', verificaToken , UsuarioController.getAll )
+    .get('/usuario' , UsuarioController.getAll )
     .post('/usuario',verificaToken, UsuarioController.create)
     .put('/usuario', verificaToken, UsuarioController.update)
-    .get('/usuario/:idUsuario', verificaToken, UsuarioController.getOne)
+    .get('/usuario/:idUsuario', UsuarioController.getOne)
+    .get('/usuario/cuitUsuario/:cuitUsuario', UsuarioController.getOneCuit)
     .post('/usuario/:idUsuario', verificaToken, UsuarioController.validateUser,UsuarioController.delete,UsuarioController.changeState)
     .delete('/usuario/:idUsuario', verificaToken, UsuarioController.destroy)
    
 
 // estadousuario
-    .get('/estadousuario', verificaToken, EstadoUsuarioController.getAll)
+    .get('/estadousuario',  EstadoUsuarioController.getAll)
     .post('/estadousuario', verificaToken,  EstadoUsuarioController.create)
     .get('/estadousuario/:idEstadoUsuario', verificaToken, EstadoUsuarioController.getOne)
     .post('/estadousuario/:idEstadoUsuario', verificaToken,  EstadoUsuarioController.delete)
@@ -48,7 +49,7 @@ router
     .delete('/departamento/:idDepartamento', verificaToken, DepartamentoController.destroy)
 
 // rol
-    .get('/rol', verificaToken, RolController.getAll)
+    .get('/rol', RolController.getAll)
     .post('/rol', verificaToken, RolController.create)
     .get('/rol/:idRol', verificaToken, RolController.getOne)
     .post('/rol/:idRol', verificaToken, RolController.delete)
