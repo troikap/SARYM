@@ -537,38 +537,30 @@ UsuarioController.update = (req, res) => {
         }
         for (let attribute in body) {
             if (typeof(body[attribute])=== "object"){
+              console.log("UNO ", check)
               for (let att in body[attribute]) {
                 if (typeof(body[attribute][att]) === "object"){
+                console.log("DOS ", check)
                   for (let att2 in body[attribute][att]) {
                     if (typeof(body[attribute][att][att2]) === "object"){
+                    console.log("TRES ", check)
                       for (let att3 in body[attribute][att][att2]) {
-                        
-
                         if (typeof(body[attribute][att][att2][att3]) === "object"){
-                          console.log(" ------------------------------" )
-                        console.log("CONTRASEÑAS" , String(body[attribute][att][att2][att3]))
-                        console.log("CONTRASEÑAS" , String(response.dataValues[attribute][att][att2][att3]))
-                        console.log(" +++++++++++++++++++++++++++++++++++++++++" )
-                         
+                        console.log("CUATRO ", check)
                         } else {
-                          console.log(" ------------------------------" )
-                          console.log("CONTRASEÑAS" , String(body[attribute][att][att2][att3]))
-                          console.log("CONTRASEÑAS" , String(response.dataValues[attribute][att][att2][att3]))
-                          console.log(" +++++++++++++++++++++++++++++++++++++++++" )
-                          if (body[attribute][att][att2][att3] != response.dataValues[attribute][att][att2][att3] ) {
+                          if (String(body[attribute][att][att2][att3]) != String(response.dataValues[attribute][att][att2][att3])) {
                             check = true;
                           }
                         }
                       }
-                      
                     } else {
-                      if (body[attribute][att][att2] != response.dataValues[attribute][att][att2] ) {
+                      if (JSON.stringify(body[attribute][att][att2]) != JSON.stringify(response.dataValues[attribute][att][att2])) {
                         check = true;
                       }
                     }
                   }
               } else {
-                if (body[attribute][att] != response.dataValues[attribute][att] ) {
+                if (String(body[attribute][att]) != String(response.dataValues[attribute][att])) {
                   check = true;
                 }
               }
@@ -577,7 +569,7 @@ UsuarioController.update = (req, res) => {
               pass = true;
             }
           } else { 
-            if (body[attribute] != response.dataValues[attribute]) {
+            if (String(body[attribute]) != String(response.dataValues[attribute])) {
               check = true;
             }
           }
