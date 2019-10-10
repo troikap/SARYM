@@ -28,7 +28,7 @@ const routes: Routes = [
     { path: 'producto', component: GestionarProductoComponent },
     { path: 'menupromocion', component: GestionarMenupromocionComponent },
     { path: 'reporte', component: GestionarMenupromocionComponent },
-    { path: '',  redirectTo: '/home', pathMatch: 'full' },
+    { path: '',  redirectTo: '/login', pathMatch: 'full' },
     { path: '**', redirectTo: 'home'}
 ];
 

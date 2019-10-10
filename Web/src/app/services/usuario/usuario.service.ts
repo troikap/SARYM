@@ -8,8 +8,9 @@ import { environment } from '../../../environments/environment';
 })
 export class UsuarioService {
 
-   url = environment.urlngrok || environment.url;
+   url = environment.urlNgrok || environment.url;
    dir = '/usuario';
+   dir2 = '/cuitUsuario';
 
   constructor(
     public http: HttpClient
@@ -28,4 +29,80 @@ export class UsuarioService {
         console.log("ERROR : ",err)
       } );
   }
+
+  getUsuarioCuit(cuit: number): Promise<Usuario> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', 'token');
+    return this.http
+      .get(`${this.url}${this.dir}${this.dir2}/${cuit}`, {headers})
+      .toPromise()
+      .then(response => {
+        return response as Usuario;
+      })
+      .catch(  );
+  }
+
+  getUsuarios(token: string): Promise<Usuario[]> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', token);
+    return this.http
+      .get(this.url + this.dir, {headers})
+      .toPromise()
+      .then(response => {
+        return response as Usuario[];
+      })
+      .catch(  );
+  }
+
+  getUsuario( id: number ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', 'token');
+    return this.http
+      .get(`${this.url}${this.dir}/${id}`, {headers})
+      .toPromise()
+      .then(response => {
+        return response as Usuario;
+      })
+      .catch(  );
+  }
+
+  updateUsuario( datas, token ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', token);
+     let data = {headers}
+    return this.http
+      .put(`${this.url}${this.dir}`, datas, data)
+      .toPromise()
+      .then(response => {
+        return response as Usuario;
+      })
+      .catch(  );
+  }
+
+  setUsuario( datas, token ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', token);
+     let data = {headers}
+    return this.http
+      .post(`${this.url}${this.dir}`, datas, data)
+      .toPromise()
+      .then(response => {
+        return response as Usuario;
+      })
+      .catch(  );
+  }
+}
+
+export interface Usuario {
+  idUsuario: string;
+  cuitUsuario: number;
+  nombreUsuario: string;
+  apellidoUsuario: string;
+  contrasenaUsuario: string;
+  dniUsuario: number;
+  domicilioUsuario: string;
+  emailUsuario: string;
+  idDepartamento: number;
+  nroCelularUsuario: number;
+  nroTelefonoUsuario: number;
 }

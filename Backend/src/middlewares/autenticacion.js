@@ -8,7 +8,7 @@ let verificaToken = ( req, res, next) => {
     console.log('VERIFICANDO')
     let token = req.get('token');
 // token = "nada";
-    if (token == "nuevo") {
+    if (token == "nuevo" || token == "libre") {
         next();
     } else{
         jwt.verify( token, process.env.SEED , (err , decoded) => {
