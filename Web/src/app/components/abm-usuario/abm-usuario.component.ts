@@ -47,8 +47,8 @@ export class AbmUsuarioComponent implements OnInit {
       nombreUsuario: ['', Validators.required],
       nroCelularUsuario: ['', [Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]],
       nroTelefonoUsuario: ['', [Validators.required, Validators.pattern(/^[0-9\-]{7,11}$/)]],
-      rolUsuario: ['', Validators.required],
-      estadoUsuario: ['', Validators.required],
+      idRol: [''],
+      idEstadoUsuario: [''],
 
     });
   }
@@ -86,6 +86,10 @@ export class AbmUsuarioComponent implements OnInit {
     let id = this.idUsuario;
     this.usuarioservicio.getUsuario(id)
       .then((res) => {
+        console.log("RESPUESTA ", res)
+        if ( res.tipo == 2) {
+          console.log("Raro")
+        } else {
         if (res) {
           this.usuario = res['Usuario'];
           this.newForm = {
@@ -99,29 +103,56 @@ export class AbmUsuarioComponent implements OnInit {
             nroCelularUsuario: this.usuario['nroCelularUsuario'],
             nroTelefonoUsuario: this.usuario['nroTelefonoUsuario'],
             contrasenaUsuario: '',
-            rolUsuario: this.usuario.rolusuarios[0].rol.idRol,
-            estadoUsuario: this.usuario.usuarioestados[0].estadousuario.idEstadoUsuario
+            idRol: this.usuario.rolusuarios[0].rol.idRol,
+            idEstadoUsuario: this.usuario.usuarioestados[0].estadousuario.idEstadoUsuario
           }
           this.form.setValue(this.newForm)
           console.log("FORM" , this.form)
         }
+      }
       })
   }
 
-  reemplazarUsuario() {
+  reemplazarUsuario(): Usuario {
+    let us;
+    if(this.usuario.idUsuario) {
+      us = this.usuario.idUsuario;
+    } else {
+      us = null
+    }
+    let rempUsuario: Usuario = {
+      idUsuario: us,
+      cuitUsuario:  this.form.value['cuitUsuario'],
+      nombreUsuario:  this.form.value['nombreUsuario'],
+      apellidoUsuario:  this.form.value['apellidoUsuario'],
+      dniUsuario:  this.form.value['dniUsuario'],
+      domicilioUsuario:  this.form.value['domicilioUsuario'],
+      emailUsuario:  this.form.value['emailUsuario'],
+      idDepartamento:  this.form.value['idDepartamento'],
+      nroCelularUsuario: this.form.value['nroCelularUsuario'],
+      nroTelefonoUsuario: this.form.value['nroTelefonoUsuario'],
+      contrasenaUsuario: this.form.value['contrasenaUsuario'],
+      idRol: this.form.value['idRol'],
+      idEstadoUsuario: this.form.value['idEstadoUsuario'],
+    }
+    return rempUsuario
   }
 
   async guardar() {
     console.log(this.form)
     if (this.usuarioencontrado) {
-      this.reemplazarUsuario();
-      this.usuarioservicio.updateUsuario( this.usuario, "libre" )
+      let user = this.reemplazarUsuario();
+      this.usuarioservicio.updateUsuario( user, "libre" )
       .then( (response) => {
         console.log("ACTUALIZAMOS", response)
       })
     } else {
       console.log("CREANDO")
-
+      let user = this.reemplazarUsuario();
+      this.usuarioservicio.updateUsuario( user, "libre" )
+      .then( (response) => {
+        console.log("CREADO", response)
+      })
     }
     // this.storage.getOneObject('token')
     // //   .then((res) => {

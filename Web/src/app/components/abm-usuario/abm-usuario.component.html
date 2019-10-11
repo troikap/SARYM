@@ -116,22 +116,22 @@
             <div class="form-group row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="rolUsuario" class="col col-form-label">Rol</label>
-                        <select Placeholder='SELECCIONE' formControlName='rolUsuario'> 
+                        <label for="idRol" class="col col-form-label">Rol</label>
+                        <select Placeholder='SELECCIONE' formControlName='idRol'> 
                             <option *ngFor='let element of roles' [value]='element.idRol'>{{element.nombreRol}}</option>
                         </select>
-                        <p class="input-error-msg" *ngIf="!form.controls.rolUsuario.valid && form.controls.rolUsuario.touched">
+                        <p class="input-error-msg" *ngIf="!form.controls.idRol.valid && form.controls.idRol.touched">
                             Campo Obligatorio.
                         </p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label for="estadoUsuario" class="col col-form-label">Estado incial</label>
-                        <select Placeholder='SELECCIONE' formControlName='estadoUsuario'> 
+                        <label for="idEstadoUsuario" class="col col-form-label">Estado incial</label>
+                        <select Placeholder='SELECCIONE' formControlName='idEstadoUsuario'> 
                             <option *ngFor='let element of estadosusuarios' [value]='element.idEstadoUsuario'>{{element.nombreEstadoUsuario}}</option>
                         </select>
-                        <p class="input-error-msg" *ngIf="!form.controls.estadoUsuario.valid && form.controls.estadoUsuario.touched">
+                        <p class="input-error-msg" *ngIf="!form.controls.idEstadoUsuario.valid && form.controls.idEstadoUsuario.touched">
                             Campo Obligatorio.
                         </p>
                     </div>

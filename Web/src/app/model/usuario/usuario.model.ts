@@ -10,6 +10,6 @@ export interface Usuario {
     idDepartamento: number;
     nroCelularUsuario: number;
     nroTelefonoUsuario: number;
-    rolUsuario?: number;
-    estadoUsuario?: number
+    idRol?: number;
+    idEstadoUsuario?: number
   }

@@ -341,10 +341,8 @@ const UsuarioModelo = require("./usuario-model"),
     }).then(response => {
       if (!response || response == 0) {
         // SI NO EXISTE EL USUARIO
-        locals.title = {
-          descripcion: `No existe el registro : ${req.params[cuittable]}`,
-          tipo: 2
-        };
+        locals['descripcion'] = `No existe el registro : ${req.params[cuittable]}`,
+        locals['tipo'] = 2
         res.json(locals);
       } else {
         // SI EXISTE EL USUARIO AGREGAMOS A LA VARIABLE EL MISMO
