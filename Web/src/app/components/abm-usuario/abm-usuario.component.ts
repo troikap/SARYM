@@ -135,8 +135,8 @@ export class AbmUsuarioComponent implements OnInit {
             nroCelularUsuario: this.usuario['nroCelularUsuario'],
             nroTelefonoUsuario: this.usuario['nroTelefonoUsuario'],
             contrasenaUsuario: '',
-            idRol: this.usuario.rolusuarios[0].rol.idRol,
-            idEstadoUsuario: this.usuario.usuarioestados[0].estadousuario.idEstadoUsuario
+            idRol: this.usuario['rolusuarios'][0].rol.idRol,
+            idEstadoUsuario: this.usuario['usuarioestados'][0].estadousuario.idEstadoUsuario
           }
           this.form.setValue(this.newForm)
           console.log("FORM" , this.form)

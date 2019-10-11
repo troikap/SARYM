@@ -22,7 +22,6 @@ import { GestionarMenupromocionComponent } from './components/gestionar-menuprom
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +37,7 @@ import { GenerarReporteComponent } from './components/generar-reporte/generar-re
     AbmSectorComponent,
     GestionarProductoComponent,
     GestionarMenupromocionComponent,
-    GenerarReporteComponent,
+    GenerarReporteComponent
     
   ],
   imports: [
