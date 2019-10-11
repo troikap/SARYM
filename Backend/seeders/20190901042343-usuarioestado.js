@@ -33,6 +33,16 @@ module.exports = {
                 "fechaYHoraAltaUsuarioEstado": currentDate,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
+            },
+            {
+                "idUsuarioEstado": 4,
+                "idUsuario": 4,
+                "idEstadoUsuario": 1,
+                "descripcionUsuarioEstado": "Admin",
+                "fechaYHoraBajaUsuarioEstado": null,
+                "fechaYHoraAltaUsuarioEstado": currentDate,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
             }
         ], {});
     },

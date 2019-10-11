@@ -16,12 +16,14 @@
       </ion-item>
       <ion-item padding>
         <ion-label position="fixed">Hora Entrada</ion-label> 
-        <ion-datetime formControlName="horaEntrada" id="horaEntrada" class="form-control" mode="ios" displayFormat="HH:mm" doneText="Elegir" placeholder="Elija Hora Entrada" placeholder="Hora Entrada"></ion-datetime>
+        <ion-datetime formControlName="horaEntrada" id="horaEntrada" class="form-control" mode="ios" displayFormat="HH:mm" doneText="Elegir" placeholder="Elija Hora Entrada"></ion-datetime>
       </ion-item>
+      <p class="input-error-msg" *ngIf="form.controls.horaEntrada.errors?.pattern && form.controls.horaEntrada.touched">Debería ser 15m menos que hora de Salida.</p>
       <ion-item padding>
         <ion-label position="fixed">Hora Salida</ion-label>
-        <ion-datetime formControlName="horaSalida" id="horaSalida" class="form-control" mode="ios" displayFormat="HH:mm" doneText="Elegir" placeholder="Elija Hora Salida" placeholder="Hora Entrada"></ion-datetime>
+        <ion-datetime formControlName="horaSalida" id="horaSalida" class="form-control" mode="ios" displayFormat="HH:mm" doneText="Elegir" placeholder="Elija Hora Salida"></ion-datetime>
       </ion-item>
+      <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.pattern && form.controls.horaSalida.touched">Debería ser 15m mayor que la hora de Entrada.</p>
       <ion-item padding>
         <ion-label position="fixed">Comensales</ion-label>
         <ion-input class="form-control" type="number" placeholder="Cantidad Comensales" formControlName="cantidadComensal" id="cantidadComensal"></ion-input>
@@ -60,13 +62,14 @@
       <ion-label  position="fixed" >Edad Comensal</ion-label>
       <ion-input class="form-control" type="number" placeholder="Edad" formControlName="edadComensal" id="edadComensal"></ion-input>
     </ion-item>
-    <ion-item padding>
-      <ion-label  position="fixed" >Id del Usuario</ion-label>
+    <ion-item >
+      <ion-label padding position="fixed" >Id del Usuario</ion-label>
       <ion-input class="form-control" type="number" placeholder="Id del Usuario" formControlName="idUsuario" id="idUsuario"></ion-input>
       <ion-button (click)="mostrar2 = !mostrar2">
           <ion-icon name="help"> </ion-icon>
       </ion-button>
     </ion-item>
+    <p class="input-error-msg" *ngIf="!existenciaUsuario">{{mensajeExistenciaUsuario}}</p>
     <div class="input-group-append" *ngIf="mostrar2">
       <button class="btn btn-clear btn-dark tooltip-custom" type="button" (click)="mostrar2 = !mostrar2">
         <div class="tooltip-container">

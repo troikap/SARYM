@@ -7,7 +7,6 @@ const RolModelo = require("../rol/rol-model"),
   table = "rol";
 
 RolController.getAll = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin' , '*');
   RolModelo.findAll({ raw: true }).then(projects => {
     if (!projects || projects == 0) {
       let locals = {
@@ -25,7 +24,6 @@ RolController.getAll = (req, res, next) => {
 };
 
 RolController.getOne = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin' , '*');
   RolModelo.findOne({
     where: { [idtable]: req.params[idtable] }
   }).then(project => {
@@ -45,7 +43,7 @@ RolController.getOne = (req, res, next) => {
 };
 
 RolController.create = (req, res) => {
-  res.header('Access-Control-Allow-Origin' , '*');
+  console.log("Estamos LLEGANDO M", req.body)
   if (req.body[idtable]) {
     RolModelo.findOne({
       where: { [idtable]: req.body[idtable] }
@@ -99,7 +97,6 @@ RolController.create = (req, res) => {
 };
 
 RolController.delete = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin' , '*');
   let [idtabla] = req.params[idtabla];
   RolModelo.getOne([idtabla], (err, rows) => {
     if (err) {
@@ -120,7 +117,6 @@ RolController.delete = (req, res, next) => {
 };
 
 RolController.destroy = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin' , '*');
   RolModelo.destroy({
     where: {
       [idtable]: req.params[idtable]
@@ -141,7 +137,6 @@ RolController.destroy = (req, res, next) => {
 };
 
 RolController.error404 = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin' , '*');
   let error = new Error(),
     locals = {
       title: "Error 404",

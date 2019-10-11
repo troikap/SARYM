@@ -3,11 +3,11 @@
   "integrations": {
     "cordova": {}
   },
-  "proxies":[ 
+  "type": "angular",
+  "proxies": [
     {
       "path": "/usuario",
       "proxyUrl": "localhost:3000"
     }
-  ],
-  "type": "angular"
+  ]
 }

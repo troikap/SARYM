@@ -16,7 +16,7 @@ module.exports = {
             {
                 "idRolUsuario": 2,
                 "idUsuario": 2,
-                "idRol": 2,
+                "idRol": 5,
                 "fechaYHoraBajaRolUsuario": null,
                 "fechaYHoraAltaRolUsuario": currentDate,
                 "createdAt": currentDate,
@@ -25,12 +25,21 @@ module.exports = {
             {
                 "idRolUsuario": 3,
                 "idUsuario": 3,
-                "idRol": 3,
+                "idRol": 5,
                 "fechaYHoraBajaRolUsuario": null,
                 "fechaYHoraAltaRolUsuario": currentDate,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
-            }
+            },
+            {
+                "idRolUsuario": 4,
+                "idUsuario": 4,
+                "idRol": 1,
+                "fechaYHoraBajaRolUsuario": null,
+                "fechaYHoraAltaRolUsuario": currentDate,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            },
         ], {});
     },
 

@@ -1,6 +1,11 @@
 img {
     border-radius: 20px;
 }
+.precio {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: right;   
+}
 ion-item {
     img {
 
@@ -25,5 +30,18 @@ ion-item {
         border-radius: 5px;
         border: 4px solid red;
         border-left: 19px solid red;
+    }
+    &.eliminado {
+        border-radius: 5px;
+        border: 4px solid black;
+        border-left: 19px solid black;
+        pointer-events: none; 
+        cursor: default;
+    }
+    .box-imagen {
+        max-width: 100px;
+    }
+    .composicion {
+        text-align: center;
     }
 }

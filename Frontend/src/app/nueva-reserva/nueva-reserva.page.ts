@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { ToastController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { EnvioReservaService } from '../services/envio-reserva/envio-reserva.service'
+import { UsuarioService } from '../services/usuario/usuario.service';
+
 
 @Component({
   selector: 'app-nueva-reserva',
@@ -17,12 +19,15 @@ export class NuevaReservaPage implements OnInit {
   private fechaHasta;
   private comensal: Comensal;
   private comensales: Comensal[] = [];
+  private mensajeExistenciaUsuario: string = null;
+  private existenciaUsuario: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     public toastController: ToastController,
     private navController: NavController,
-    private envioReservaService: EnvioReservaService
+    private envioReservaService: EnvioReservaService,
+    private usuarioservicio: UsuarioService,
   ) {
     this.form = this.formBuilder.group({
       fechaReserva: ['2019-09-23', Validators.required],
@@ -37,6 +42,7 @@ export class NuevaReservaPage implements OnInit {
 
   ngOnInit() {
     this.tratarFecha();
+    this.setValidatorsHours();
   }
 
   tratarFecha(){
@@ -70,17 +76,43 @@ export class NuevaReservaPage implements OnInit {
     }
     this.fechaDesde = `${yy}-${mes}-${dia}`;
     this.fechaHasta = `${año}-${mes2}-${dia}`;
-    console.log( `Desde ${this.fechaDesde} hasta ${this.fechaHasta}`)
+  }
+
+  validarExistenciaUsuario(){
+    console.log("Validar Existencia")
+    const cuit = this.form2.value.idUsuario;
+    if (cuit != null) {
+      this.usuarioservicio.validarExistenciaUsuario( cuit )
+      .then( (res) => {
+        if (res.tipo == 2) {
+          this.existenciaUsuario = true;
+          this.comensal = {
+            aliasComensal: this.form2.value.aliasComensal,
+            edadComensal: this.form2.value.edadComensal,
+            idUsuario: this.form2.value.idUsuario
+          }
+          this.comensales.push(this.comensal);
+          this.resetComensal();
+        } else {
+          this.existenciaUsuario = false;
+          this.mensajeExistenciaUsuario = res.descripcion;
+          this.form2.controls.idUsuario.setErrors({pattern: true});
+          this.form2.markAsTouched();
+        }
+      });
+    } else {
+      this.comensal = {
+        aliasComensal: this.form2.value.aliasComensal,
+        edadComensal: this.form2.value.edadComensal,
+        idUsuario: this.form2.value.idUsuario
+      }
+      this.comensales.push(this.comensal);
+      this.resetComensal();
+    }
   }
 
   nuevoComensal() {
-    this.comensal = {
-      aliasComensal: this.form2.value.aliasComensal,
-      edadComensal: this.form2.value.edadComensal,
-      idUsuario: this.form2.value.idUsuario
-    }
-    this.comensales.push(this.comensal);
-    this.resetComensal();
+    this.validarExistenciaUsuario();
   }
 
   resetComensal() {
@@ -97,7 +129,6 @@ export class NuevaReservaPage implements OnInit {
   }
 
   eliminarComensal( num: number){
-    console.log("numero : ", num)
     this.comensales.splice(num,1);
   }
 
@@ -129,6 +160,62 @@ export class NuevaReservaPage implements OnInit {
       toast.present();
   }
 
+  setValidatorsHours() {
+    this.form.get('horaEntrada').valueChanges
+      .subscribe( respuesta => {
+        const horaSalida = this.form.get('horaSalida').value || 0;
+        const nuevaHoraEntrada = respuesta;
+        if (  horaSalida < ( this.addTimes(nuevaHoraEntrada , '00:15') )) {
+          this.form.controls.horaEntrada.setErrors({pattern: true});
+        } else {
+          this.form.controls.horaEntrada.setErrors(null);
+          this.form.controls.horaSalida.setErrors(null);
+        }
+    });
+    this.form.get('horaSalida').valueChanges
+    .subscribe( respuesta => {
+      const horaEntrada = this.form.get('horaEntrada').value || 0;
+      const nuevaHoraSalida = respuesta;
+      if ( this.addTimes(horaEntrada , '00:15') > nuevaHoraSalida ) {
+        this.form.controls.horaSalida.setErrors({pattern: true});
+      } else {
+        this.form.controls.horaSalida.setErrors(null);
+        this.form.controls.horaEntrada.setErrors(null);
+      }
+    });
+  }
+
+
+  addTimes(startTime, endTime) {
+    var times = [ 0, 0, 0 ]
+    var max = times.length
+    var a = (startTime || '').split(':')
+    var b = (endTime || '').split(':')
+    // normalize time values
+    for (var i = 0; i < max; i++) {
+      a[i] = isNaN(parseInt(a[i])) ? 0 : parseInt(a[i])
+      b[i] = isNaN(parseInt(b[i])) ? 0 : parseInt(b[i])
+    }
+    // store time values
+    for (var i = 0; i < max; i++) {
+      times[i] = a[i] + b[i]
+    }
+    var hours = times[0]
+    var minutes = times[1]
+    var seconds = times[2]
+    if (seconds >= 60) {
+      var m = (seconds / 60) << 0
+      minutes += m
+      seconds -= 60 * m
+    }
+    if (minutes >= 60) {
+      var h = (minutes / 60) << 0
+      hours += h
+      minutes -= 60 * h
+    }
+    // return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2)
+    return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) 
+  }
 }
 
 export interface Comensal {
