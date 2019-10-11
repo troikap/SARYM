@@ -16,6 +16,14 @@ var RolController = require('../class/rol/rol-controller');
 var ProductoController = require('../class/producto/producto-controller');
 var MenuPromocionController = require('../class/menupromocion/menupromocion-controller');
 var MesaController = require('../class/mesa/mesa-controller');
+var TipoMonedaController = require('../class/tipomoneda/tipomoneda-controller');
+var UnidadMedidaController = require('../class/unidadmedida/unidadmedida-controller');
+var RubroController = require('../class/rubro/rubro-controller');
+var SectorController = require('../class/sector/sector-controller');
+
+SectorController
+
+
 
 
 const { verificaToken } = require('../middlewares/autenticacion');
@@ -35,7 +43,6 @@ router
     .get('/usuario/cuitUsuario/:cuitUsuario', UsuarioController.getOneCuit)
     .post('/usuario/:idUsuario', verificaToken, UsuarioController.validateUser,UsuarioController.delete,UsuarioController.changeState)
     .delete('/usuario/:idUsuario', verificaToken, UsuarioController.destroy)
-   
 
 // estadousuario
     .get('/estadousuario',  EstadoUsuarioController.getAll)
@@ -70,6 +77,34 @@ router
     .get('/mesa', MesaController.getAll)
     .get('/mesa/:idMesa', MesaController.getOne)
 
+// tipomoneda
+    .get('/tipomoneda', TipoMonedaController.getAll)
+    .post('/tipomoneda', verificaToken, TipoMonedaController.create)
+    .get('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.getOne)
+    .post('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.delete)
+    .delete('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.destroy)
+
+// unidadmedida
+    .get('/unidadmedida', UnidadMedidaController.getAll)
+    .post('/unidadmedida', verificaToken, UnidadMedidaController.create)
+    .get('/unidadmedida/:idUnidadMedida', verificaToken, UnidadMedidaController.getOne)
+    .post('/unidadmedida/:idUnidadMedida', verificaToken, UnidadMedidaController.delete)
+    .delete('/unidadmedida/:idUnidadMedida', verificaToken, UnidadMedidaController.destroy)
+
+// rubro
+    .get('/rubro', RubroController.getAll)
+    .post('/rubro', verificaToken, RubroController.create)
+    .get('/rubro/:idRubro', verificaToken, RubroController.getOne)
+    .post('/rubro/:idRubro', verificaToken, RubroController.delete)
+    .delete('/rubro/:idRubro', verificaToken, RubroController.destroy)
+
+// sector
+    .get('/sector', SectorController.getAll)
+    .post('/sector', verificaToken, SectorController.create)
+    .get('/sector/:idSector', verificaToken, SectorController.getOne)
+    .post('/sector/:idSector', verificaToken, SectorController.delete)
+    .delete('/sector/:idSector', verificaToken, SectorController.destroy)
+
 
 // use
     .use(EstadoUsuarioController.error404)
@@ -77,7 +112,9 @@ router
     .use(DepartamentoController.error404)
     .use(RolController.error404)
     .use(ProductoController.error404)
-
+    .use(TipoMonedaController.error404)
+    .use(UnidadMedidaController.error404)
+    .use(RubroController.error404)
 
 
 module.exports = router
