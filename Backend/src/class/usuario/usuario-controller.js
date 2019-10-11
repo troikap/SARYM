@@ -364,8 +364,8 @@ const UsuarioModelo = require("./usuario-model"),
       .then(response => {
         if (!response || response == 0) {
           EstadoUsuarioModelo.findOne({where: { [nombreEstado]: "Activo" }})
-          .then(response => {
-            if (!response || response == 0) {
+          .then(response2 => {
+            if (!response2 || response2 == 0) {
               locals.title = `No existe : ${legend3}`;
               res.json(locals);
             } else {
@@ -373,7 +373,7 @@ const UsuarioModelo = require("./usuario-model"),
               .then( resp => {
                 if (!resp || resp == 0) {
                   locals.title = { descripcion: `${legend3} encontrada` };
-                  locals[legend3] = response;
+                  locals[legend3] = response2;
                   body.contrasenaUsuario = bcrypt.hashSync(body.contrasenaUsuario, 10);
                   // CREAMOS INSTANCIA USUARIO
                   UsuarioModelo.create(body)
@@ -381,7 +381,7 @@ const UsuarioModelo = require("./usuario-model"),
                     locals.title = { descripcion: `${legend} creado` };
                     locals[legend] = result;
                     let pushEstado;
-                    if ( body.idEstadoUsuario ) {
+                    if ( body['idEstadoUsuario'] ) {
                       pushEstado = {
                         [idestadotable]: body.idEstadoUsuario,
                         [idtable]: result[idtable],
@@ -389,7 +389,7 @@ const UsuarioModelo = require("./usuario-model"),
                       };
                     } else {
                       pushEstado = {
-                        [idestadotable]: response[idestadotable],
+                        [idestadotable]: response2[idestadotable],
                         [idtable]: result[idtable],
                         fechaYHoraAltaUsuarioEstado: new Date() 
                       };
@@ -403,16 +403,15 @@ const UsuarioModelo = require("./usuario-model"),
                       locals[legend2] = result;
                     });
                     let pushRol;
-                    if (body.idRol) {
+                    if ( body['idRol'] ) {
                       pushRol = {
                         idRol: body.idRol,
                         [idtable]: result[idtable],
                         fechaYHoraAltaRolUsuario: new Date() 
-                        
                       };
                     } else {
                       pushRol = {
-                        idRol: response.idRol,
+                        idRol: 5,
                         [idtable]: result[idtable],
                         fechaYHoraAltaRolUsuario: new Date() 
                       };
@@ -463,20 +462,52 @@ const UsuarioModelo = require("./usuario-model"),
                 locals.title = `${legend} creado Correctamente`;
                 locals[legend] = result;
                 locals['tipo'] = 1
-                let push = {
-                  [idestadotable]: response[idestadotable],
-                  [idtable]: result[idtable],
-                  fechaYHoraAltaUsuarioEstado: new Date() 
-                };
+        // -------
+                let pushEstado;
+                if ( body.idEstadoUsuario ) {
+                  pushEstado = {
+                    [idestadotable]: body.idEstadoUsuario,
+                    [idtable]: result[idtable],
+                    fechaYHoraAltaUsuarioEstado: new Date() 
+                  };
+                } else {
+                  pushEstado = {
+                    [idestadotable]: response[idestadotable],
+                    [idtable]: result[idtable],
+                    fechaYHoraAltaUsuarioEstado: new Date() 
+                  };
+                }
                 // CREANDO INSTANCIA USUARIO ESTADO
-                UsuarioEstadoModelo.create(push)
+                UsuarioEstadoModelo.create(pushEstado)
                 .then(result => {
                   let descripcion2 = `${legend} creado , ${legend2} creado`
                   locals['descripcion2'] = descripcion2
                   locals[legend2] = result;
+                });
+        // ------
+                let pushRol;
+                if (body.idRol) {
+                  pushRol = {
+                    idRol: body.idRol,
+                    [idtable]: result[idtable],
+                    fechaYHoraAltaRolUsuario: new Date() 
+                  };
+                } else {
+                  pushRol = {
+                    idRol: 5,
+                    [idtable]: result[idtable],
+                    fechaYHoraAltaRolUsuario: new Date() 
+                  };
+                }
+                RolUsuarioModelo.create(pushRol)
+                .then(result => {
+                  locals.title = {
+                    descripcion: `${legend} creado.`
+                  };
+                  locals[legend4] = result;
                   res.json(locals);
                 });
-              });
+            });
             } else {
               locals.title = `Ya Existe un Registro ${legend} con cuit ${body.cuitUsuario}`;
               locals['tipo'] = 2

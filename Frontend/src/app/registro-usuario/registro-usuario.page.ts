@@ -112,11 +112,12 @@ export class RegistroUsuarioPage implements OnInit {
       })
   }
 
-  async guardar() {
+  guardar() {
     console.log(this.form)
     this.storage.getOneObject('token')
       .then((res) => {
         let usuario = this.crearNuevoUsuario();
+        console.log("YYYYYYYYYYYYYYYYYY " ,usuario)
         if (this.id != 0) {
           this.usuarioservicio.updateUsuario(usuario, res)
             .then((resp) => {
@@ -127,8 +128,9 @@ export class RegistroUsuarioPage implements OnInit {
             })
         } else {
           if (this.id == 0) {
-            this.usuarioservicio.setUsuario(usuario, 'nuevo')
+            this.usuarioservicio.setUsuario(usuario, 'libre')
               .then((resp) => {
+                console.log('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr', resp)
                 this.presentToast(resp);
                 this.navController.navigateRoot('/logueo');
                 // this.router.navigate(['/logueo'])
@@ -199,7 +201,7 @@ export class RegistroUsuarioPage implements OnInit {
   async presentToast(data) {
     if (data.tipo == 1) {
       const toast = await this.toastController.create({
-        message: data.title,
+        message: data.title.descripcion,
         duration: 3000,
         color: 'success',
         position: 'middle',
@@ -209,7 +211,7 @@ export class RegistroUsuarioPage implements OnInit {
     }
     if (data.tipo == 2) {
       const toast = await this.toastController.create({
-        message: data.title,
+        message: data.title.descripcion,
         duration: 3000,
         color: 'warning',
         position: 'middle',

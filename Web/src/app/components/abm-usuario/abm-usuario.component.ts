@@ -5,7 +5,6 @@ import { DepartamentoService, Departamento } from '../../services/departamento/d
 import { RolService, Rol } from '../../services/rol/rol.service';
 import { EstadoUsuarioService, EstadoUsuario } from '../../services/estadousuario/estadousuario.service';
 import { Usuario } from '../../model/usuario/usuario.model';
-
 import { UsuarioService } from '../../services/usuario/usuario.service';
 
 
@@ -32,11 +31,8 @@ export class AbmUsuarioComponent implements OnInit {
     private departamnetoservicio: DepartamentoService,
     private rolservicio: RolService,
     private estadousuarioservicio: EstadoUsuarioService,
-
     private usuarioservicio: UsuarioService,
   ) {
-    
-    
     this.form = new FormGroup({
       'apellidoUsuario': new FormControl('', Validators.required),
       'contrasenaUsuario': new FormControl('', Validators.required),
@@ -62,7 +58,6 @@ export class AbmUsuarioComponent implements OnInit {
 
   verificarValidacionCampo(pNombreCampo: string, arregloValidaciones: string[]) {
     let countValidate = 0;
-
     for (let validacion of arregloValidaciones) {
       if (validacion === 'valid') {
         if (this.form.controls[pNombreCampo].valid) {
@@ -92,7 +87,6 @@ export class AbmUsuarioComponent implements OnInit {
   buscar() {
     console.log("funcion 'buscar()' ejecutada");
   }
-
   ponerBuscador() {
     this.form.controls.cuitUsuario.valueChanges
     .subscribe( (res) => {
@@ -101,10 +95,16 @@ export class AbmUsuarioComponent implements OnInit {
         if(response.tipo == 1) {
           this.usuarioencontrado = true;
           this.idUsuario = response.Usuario.idUsuario;
-          console.log("ENCONTRO ALGO", response)
+          console.log("ENCONTRO ALGO ----------------", response)
+          console.log(this.idUsuario , this.usuarioencontrado)
+
         } else {
+          console.log("LIMPIANDO ID +++++++++++++++++++++"  , this.idUsuario)
           this.usuarioencontrado = false;
           this.idUsuario = null;
+          this.usuario = null;
+          console.log(this.idUsuario , this.usuarioencontrado)
+
         }
       }
       )
@@ -112,14 +112,12 @@ export class AbmUsuarioComponent implements OnInit {
   }
 
   traerUsuario() {
-
     console.log("Funcion 'traerUsuario()', ejecutada");
-
     let id = this.idUsuario;
     this.usuarioservicio.getUsuario(id)
       .then((res) => {
-        console.log("RESPUESTA ", res)
-        if ( res.tipo == 2) {
+        console.log("USUARIO TRAIDO: ", res)
+        if ( res['tipo'] == 2) {
           console.log("Raro")
         } else {
         if (res) {
@@ -135,8 +133,8 @@ export class AbmUsuarioComponent implements OnInit {
             nroCelularUsuario: this.usuario['nroCelularUsuario'],
             nroTelefonoUsuario: this.usuario['nroTelefonoUsuario'],
             contrasenaUsuario: '',
-            idRol: this.usuario.rolusuarios[0].rol.idRol,
-            idEstadoUsuario: this.usuario.usuarioestados[0].estadousuario.idEstadoUsuario
+            idRol: this.usuario['rolusuarios'][0].rol.idRol,
+            idEstadoUsuario: this.usuario['usuarioestados'][0].estadousuario.idEstadoUsuario
           }
           this.form.setValue(this.newForm)
           console.log("FORM" , this.form)
@@ -146,15 +144,12 @@ export class AbmUsuarioComponent implements OnInit {
   }
 
   reemplazarUsuario(): Usuario {
-
     console.log("Funcion 'reemplazarUsuario()', ejecutada");
-
-    let us;
-    if(this.usuario.idUsuario) {
+    let us = null;
+    if( this.usuario && this.usuario.idUsuario) {
+      console.log("SETEO DE ID :", )
       us = this.usuario.idUsuario;
-    } else {
-      us = null
-    }
+    } 
     let rempUsuario: Usuario = {
       idUsuario: us,
       cuitUsuario:  this.form.value['cuitUsuario'],
@@ -173,69 +168,40 @@ export class AbmUsuarioComponent implements OnInit {
     return rempUsuario
   }
 
-  async guardar() {
-    
-    console.log("Funcion 'guardar()', ejecutada");
+  guardar() {
     console.log(this.form);
-    console.log(this.form.value);
-
     if (this.usuarioencontrado) {
       let user = this.reemplazarUsuario();
       this.usuarioservicio.updateUsuario( user, "libre" )
       .then( (response) => {
-        console.log("ACTUALIZAMOS", response)
+        console.log("ACTUALIZADO", response)
       })
     } else {
-      console.log("CREANDO")
       let user = this.reemplazarUsuario();
-      this.usuarioservicio.updateUsuario( user, "libre" )
+      console.log("----------------------------- :", user)
+      this.usuarioservicio.setUsuario( user, "libre" )
       .then( (response) => {
         console.log("CREADO", response)
       })
     }
-    // this.storage.getOneObject('token')
-    // //   .then((res) => {
-    //     if (false) {
-    //       this.usuarioservicio.updateUsuario(usuario, res)
-    //         .then((resp) => {
-    //           this.presentToast(resp);
-    //         })
-    //         .catch((err) => {
-    //           console.log("ERROR ", err)
-    //         })
-    //     } else {
-    //       if (this.id == 0) {
-    //         this.usuarioservicio.setUsuario(usuario, 'nuevo')
-    //           .then((resp) => {
-    //             this.presentToast(resp);
-    //           })
-    //           .catch((err) => {
-    //             console.log("ERROR ", err)
-    //           })
-    //       }
-    //     }
-    //   })
   }
 
   traerDepartamentos() {
     this.departamnetoservicio.getDepartamentos()
       .then((res) => {
         this.departamentos = res;
-        // console.log(res);
       })
   }
   traerRoles() {
     this.rolservicio.getRoles()
       .then((res) => {
         this.roles = res;
-        // console.log(res);
       })
   }
   traerEstadosUsuarios() {
     this.estadousuarioservicio.getEstadosUsuarios()
       .then((res) => {
         this.estadosusuarios = res;
-        // console.log(res);
       })
   }
 }
