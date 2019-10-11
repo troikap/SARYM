@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import { Router } from '@angular/router';
 import { DepartamentoService, Departamento } from '../../services/departamento/departamento.service';
 import { RolService, Rol } from '../../services/rol/rol.service';
@@ -13,7 +13,8 @@ import { UsuarioService } from '../../services/usuario/usuario.service';
 
 @Component({
   selector: 'app-abm-usuario',
-  templateUrl: './abm-usuario.component.html'
+  templateUrl: './abm-usuario.component.html',
+  styleUrls: ['./abm-usuario.component.css']
 })
 export class AbmUsuarioComponent implements OnInit {
   form: FormGroup;
@@ -22,7 +23,7 @@ export class AbmUsuarioComponent implements OnInit {
   private estadosusuarios: EstadoUsuario[];
   private usuarioencontrado: boolean = false; 
   private idUsuario: number = null;
-  private usuario;
+  private usuario: Usuario;
   private newForm = {};
 
   constructor(
@@ -32,23 +33,23 @@ export class AbmUsuarioComponent implements OnInit {
     private rolservicio: RolService,
     private estadousuarioservicio: EstadoUsuarioService,
 
-
     private usuarioservicio: UsuarioService,
-  ) { 
-    this.form = this.formBuilder.group({
-      apellidoUsuario: ['', Validators.required],
-      contrasenaUsuario: ['', Validators.required],
-      cuitUsuario: [ 20368506886, Validators.required],
-      dniUsuario: ['', Validators.required],
-      domicilioUsuario: ['', Validators.required],
-      emailUsuario: ['', Validators.required],
-      idDepartamento: ['', Validators.required],
-      nombreUsuario: ['', Validators.required],
-      nroCelularUsuario: ['', Validators.required],
-      nroTelefonoUsuario: ['', Validators.required],
-      rolUsuario: ['', Validators.required],
-      estadoUsuario: ['', Validators.required],
-
+  ) {
+    
+    
+    this.form = new FormGroup({
+      'apellidoUsuario': new FormControl('', Validators.required),
+      'contrasenaUsuario': new FormControl('', Validators.required),
+      'cuitUsuario': new FormControl('', Validators.required),
+      'dniUsuario': new FormControl('', Validators.required),
+      'domicilioUsuario': new FormControl('', Validators.required),
+      'emailUsuario': new FormControl('',  [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]),
+      'idDepartamento': new FormControl('', Validators.required),
+      'nombreUsuario': new FormControl('', Validators.required),
+      'nroCelularUsuario': new FormControl('', [Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
+      'nroTelefonoUsuario': new FormControl('', [Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
+      'idRol': new FormControl('', Validators.required),
+      'idEstadoUsuario': new FormControl('', Validators.required)
     });
   }
 
@@ -59,8 +60,37 @@ export class AbmUsuarioComponent implements OnInit {
     this.ponerBuscador();
   }
 
-  buscar() {
+  verificarValidacionCampo(pNombreCampo: string, arregloValidaciones: string[]) {
+    let countValidate = 0;
 
+    for (let validacion of arregloValidaciones) {
+      if (validacion === 'valid') {
+        if (this.form.controls[pNombreCampo].valid) {
+          countValidate ++;
+        }
+      }
+      if (validacion === 'invalid') {
+        if (this.form.controls[pNombreCampo].invalid) {
+          countValidate ++;
+        }
+      }
+      if (validacion === 'touched') {
+        if (this.form.controls[pNombreCampo].touched) {
+          countValidate ++;
+        }
+      }
+    }
+
+    if (countValidate === arregloValidaciones.length) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  buscar() {
+    console.log("funcion 'buscar()' ejecutada");
   }
 
   ponerBuscador() {
@@ -82,9 +112,16 @@ export class AbmUsuarioComponent implements OnInit {
   }
 
   traerUsuario() {
+
+    console.log("Funcion 'traerUsuario()', ejecutada");
+
     let id = this.idUsuario;
     this.usuarioservicio.getUsuario(id)
       .then((res) => {
+        console.log("RESPUESTA ", res)
+        if ( res.tipo == 2) {
+          console.log("Raro")
+        } else {
         if (res) {
           this.usuario = res['Usuario'];
           this.newForm = {
@@ -98,29 +135,63 @@ export class AbmUsuarioComponent implements OnInit {
             nroCelularUsuario: this.usuario['nroCelularUsuario'],
             nroTelefonoUsuario: this.usuario['nroTelefonoUsuario'],
             contrasenaUsuario: '',
-            rolUsuario: this.usuario.rolusuarios[0].rol.idRol,
-            estadoUsuario: this.usuario.usuarioestados[0].estadousuario.idEstadoUsuario
+            idRol: this.usuario.rolusuarios[0].rol.idRol,
+            idEstadoUsuario: this.usuario.usuarioestados[0].estadousuario.idEstadoUsuario
           }
           this.form.setValue(this.newForm)
           console.log("FORM" , this.form)
         }
+      }
       })
   }
 
-  reemplazarUsuario() {
+  reemplazarUsuario(): Usuario {
+
+    console.log("Funcion 'reemplazarUsuario()', ejecutada");
+
+    let us;
+    if(this.usuario.idUsuario) {
+      us = this.usuario.idUsuario;
+    } else {
+      us = null
+    }
+    let rempUsuario: Usuario = {
+      idUsuario: us,
+      cuitUsuario:  this.form.value['cuitUsuario'],
+      nombreUsuario:  this.form.value['nombreUsuario'],
+      apellidoUsuario:  this.form.value['apellidoUsuario'],
+      dniUsuario:  this.form.value['dniUsuario'],
+      domicilioUsuario:  this.form.value['domicilioUsuario'],
+      emailUsuario:  this.form.value['emailUsuario'],
+      idDepartamento:  this.form.value['idDepartamento'],
+      nroCelularUsuario: this.form.value['nroCelularUsuario'],
+      nroTelefonoUsuario: this.form.value['nroTelefonoUsuario'],
+      contrasenaUsuario: this.form.value['contrasenaUsuario'],
+      idRol: this.form.value['idRol'],
+      idEstadoUsuario: this.form.value['idEstadoUsuario'],
+    }
+    return rempUsuario
   }
 
   async guardar() {
-    console.log(this.form)
+    
+    console.log("Funcion 'guardar()', ejecutada");
+    console.log(this.form);
+    console.log(this.form.value);
+
     if (this.usuarioencontrado) {
-      this.reemplazarUsuario();
-      this.usuarioservicio.updateUsuario( this.usuario, "libre" )
+      let user = this.reemplazarUsuario();
+      this.usuarioservicio.updateUsuario( user, "libre" )
       .then( (response) => {
         console.log("ACTUALIZAMOS", response)
       })
     } else {
       console.log("CREANDO")
-
+      let user = this.reemplazarUsuario();
+      this.usuarioservicio.updateUsuario( user, "libre" )
+      .then( (response) => {
+        console.log("CREADO", response)
+      })
     }
     // this.storage.getOneObject('token')
     // //   .then((res) => {
@@ -150,21 +221,21 @@ export class AbmUsuarioComponent implements OnInit {
     this.departamnetoservicio.getDepartamentos()
       .then((res) => {
         this.departamentos = res;
-        console.log(res)
+        // console.log(res);
       })
   }
   traerRoles() {
     this.rolservicio.getRoles()
       .then((res) => {
         this.roles = res;
-        console.log(res)
+        // console.log(res);
       })
   }
   traerEstadosUsuarios() {
     this.estadousuarioservicio.getEstadosUsuarios()
       .then((res) => {
         this.estadosusuarios = res;
-        console.log(res)
+        // console.log(res);
       })
   }
 }

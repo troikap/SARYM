@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AbmUsuarioComponent } from '../abm-usuario/abm-usuario.component';
-import { AbmTipomonedaComponent } from '../abm-tipomoneda/abm-tipomoneda.component';
-import { AbmUnidadmedidaComponent } from '../abm-unidadmedida/abm-unidadmedida.component';
-import { AbmCajaComponent } from '../abm-caja/abm-caja.component';
-import { AbmMesaComponent } from '../abm-mesa/abm-mesa.component';
-import { AbmRubroComponent } from '../abm-rubro/abm-rubro.component';
-import { AbmSectorComponent } from '../abm-sector/abm-sector.component';
-import { GestionarProductoComponent } from '../gestionar-producto/gestionar-producto.component';
-import { GestionarMenupromocionComponent } from '../gestionar-menupromocion/gestionar-menupromocion.component';
-import { GenerarReporteComponent } from '../generar-reporte/generar-reporte.component';
+import { ActivatedRoute } from '@angular/router';
+import { HomeService, IconoHome } from 'src/app/services/home/home.service';
+
+// import { AbmUsuarioComponent } from '../abm-usuario/abm-usuario.component';
+// import { AbmTipomonedaComponent } from '../abm-tipomoneda/abm-tipomoneda.component';
+// import { AbmUnidadmedidaComponent } from '../abm-unidadmedida/abm-unidadmedida.component';
+// import { AbmCajaComponent } from '../abm-caja/abm-caja.component';
+// import { AbmMesaComponent } from '../abm-mesa/abm-mesa.component';
+// import { AbmRubroComponent } from '../abm-rubro/abm-rubro.component';
+// import { AbmSectorComponent } from '../abm-sector/abm-sector.component';
+// import { GestionarProductoComponent } from '../gestionar-producto/gestionar-producto.component';
+// import { GestionarMenupromocionComponent } from '../gestionar-menupromocion/gestionar-menupromocion.component';
+// import { GenerarReporteComponent } from '../generar-reporte/generar-reporte.component';
 
 
 @Component({
@@ -17,10 +20,17 @@ import { GenerarReporteComponent } from '../generar-reporte/generar-reporte.comp
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
+  
+  iconosHome: IconoHome [];
 
-  constructor(
-    private routes: Router,
-  ) { }
+  constructor( private activatedRoute: ActivatedRoute, 
+               private homeSercie: HomeService, 
+               private routes: Router ) 
+    { 
+      this.activatedRoute.params.subscribe(params => {
+        this.iconosHome = this.homeSercie.getIconosHome();
+      });
+    }
 
   ngOnInit() {
     /* Hacer lógica que verifique si se encuentra logueado. En caso de no estar 

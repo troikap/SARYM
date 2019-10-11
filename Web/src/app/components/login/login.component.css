@@ -176,3 +176,9 @@ input[type="password"] {
     display: flex;
     width: 600px;
 }
+.main_container {
+    width: 100%!important;
+    max-width: 100%!important;
+    margin: 0px!important;
+    padding: 0px!important;
+}

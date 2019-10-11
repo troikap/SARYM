@@ -1,143 +1,124 @@
 <h2 class="titulo">ABM Usuario</h2>
+<hr>
 <div class="container">
-    <!-- <div class="row buscar">
-        <div class="col sm-7"></div>
-        <div class="col">
-            <input type="search" placeholder="Buscar...">		    	
-            <button (click)="buscar()">Search</button>
-        </div>
-    </div> -->
     <div class="form-section">
-        <form [formGroup]="form" *ngIf="form">
-            <div class="row">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="form-group row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="cuitUsuario">Cuit Usuario</label>
-                        <input type="text" class="form-control" id="cuitUsuario" placeholder="Ingrese Respuesta" formControlName="cuitUsuario">
-                        <p class="input-error-msg" *ngIf="!form.controls.cuitUsuario.valid && form.controls.cuitUsuario.touched">
+                        <label for="cuitUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('cuitUsuario', ['invalid','touched'])}">Cuit</label>
+                        <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('cuitUsuario', ['invalid','touched'])}" id="cuitUsuario" placeholder="Ingrese Respuesta" formControlName="cuitUsuario">
+                        <p class="input-error-msg" *ngIf="verificarValidacionCampo('cuitUsuario', ['invalid','touched'])">
                             Campo Obligatorio.
                         </p>
                         <button type="button" class="btn btn-success traer" (click)="traerUsuario()" *ngIf="usuarioencontrado">Traer</button>
                     </div>
+
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label for="dniUsuario">DNI Usuario</label>
-                        <input type="text" class="form-control" id="dniUsuario" placeholder="Ingrese Respuesta" formControlName="dniUsuario">
-                        <p class="input-error-msg" *ngIf="!form.controls.dniUsuario.valid && form.controls.dniUsuario.touched">
+                        <label for="dniUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('dniUsuario', ['invalid','touched'])}">DNI</label>
+                        <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('dniUsuario', ['invalid','touched'])}" id="dniUsuario" placeholder="Ingrese Respuesta" formControlName="dniUsuario">
+                        <p class="input-error-msg" *ngIf="verificarValidacionCampo('dniUsuario', ['invalid','touched'])">
                             Campo Obligatorio.
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="row">
+
+            <div class="form-group row">
                 <div class="col">
-                    <div class="form-group">
-                        <label for="nombreUsuario">Nombre Usuario</label>
-                        <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese Respuesta" formControlName="nombreUsuario">
-                        <p class="input-error-msg" *ngIf="!form.controls.nombreUsuario.valid && form.controls.nombreUsuario.touched">
-                            Campo Obligatorio.
-                        </p>
-                    </div>
+                    <label for="nombreUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('nombreUsuario', ['invalid','touched'])}">Nombre</label>
+                    <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('nombreUsuario', ['invalid','touched'])}" id="nombreUsuario" placeholder="Ingrese Respuesta" formControlName="nombreUsuario">
+                    <p class="input-error-msg" *ngIf="verificarValidacionCampo('nombreUsuario', ['invalid','touched'])">
+                        Campo Obligatorio.
+                    </p>
                 </div>
                 <div class="col">
-                    <div class="form-group">
-                        <label for="apellidoUsuario">Apellido Usuario</label>
-                        <input type="text" class="form-control" id="apellidoUsuario" placeholder="Ingrese Respuesta" formControlName="apellidoUsuario">
-                        <p class="input-error-msg" *ngIf="!form.controls.apellidoUsuario.valid && form.controls.apellidoUsuario.touched">
-                            Campo Obligatorio.
-                        </p>
-                    </div>
+                    <label for="apellidoUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('apellidoUsuario', ['invalid','touched'])}">Apellido</label>
+                    <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('apellidoUsuario', ['invalid','touched'])}" id="apellidoUsuario" placeholder="Ingrese Respuesta" formControlName="apellidoUsuario">
+                    <p class="input-error-msg" *ngIf="verificarValidacionCampo('apellidoUsuario', ['invalid','touched'])">
+                        Campo Obligatorio.
+                    </p>
+                    <!-- !form.controls.apellidoUsuario.valid && form.controls.apellidoUsuario.touched -->
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group row">
                 <div class="col">
-                    <div class="form-group">
-                        <label for="emailUsuario">Email Usuario</label>
-                        <input type="text" class="form-control" id="emailUsuario" placeholder="Ingrese Respuesta" formControlName="emailUsuario">
-                        <p class="input-error-msg" *ngIf="!form.controls.emailUsuario.valid && form.controls.emailUsuario.touched">
-                            Campo Obligatorio.
-                        </p>
-                    </div>
+                    <label for="emailUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('emailUsuario', ['invalid','touched'])}">Email</label>
+                    <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('emailUsuario', ['invalid','touched'])}" id="emailUsuario" placeholder="Ingrese Respuesta" formControlName="emailUsuario">
+                    <p class="input-error-msg" *ngIf="verificarValidacionCampo('emailUsuario', ['invalid','touched'])">
+                        Campo Obligatorio.
+                    </p>
                 </div>
                 <div class="col">
-                    <div class="form-group">
-                        <label for="domicilioUsuario">Domicilio Usuario</label>
-                        <input type="text" class="form-control" id="domicilioUsuario" placeholder="Ingrese Respuesta" formControlName="domicilioUsuario">
-                        <p class="input-error-msg" *ngIf="!form.controls.domicilioUsuario.valid && form.controls.domicilioUsuario.touched">
-                            Campo Obligatorio.
-                        </p>
-                    </div>
+                    <label for="domicilioUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('domicilioUsuario', ['invalid','touched'])}">Domicilio</label>
+                    <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('domicilioUsuario', ['invalid','touched'])}" id="domicilioUsuario" placeholder="Ingrese Respuesta" formControlName="domicilioUsuario">
+                    <p class="input-error-msg" *ngIf="verificarValidacionCampo('domicilioUsuario', ['invalid','touched'])">
+                        Campo Obligatorio.
+                    </p>
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group row">
                 <div class="col">
-                    <div class="form-group">
-                        <label for="nroCelularUsuario">Celular Usuario</label>
-                        <input type="text" class="form-control" id="nroCelularUsuario" placeholder="Ingrese Respuesta" formControlName="nroCelularUsuario">
-                        <p class="input-error-msg" *ngIf="!form.controls.nroCelularUsuario.valid && form.controls.nroCelularUsuario.touched">
-                            Campo Obligatorio.
-                        </p>
-                    </div>
+                    <label for="nroCelularUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('nroCelularUsuario', ['invalid','touched'])}">Celular</label>
+                    <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('nroCelularUsuario', ['invalid','touched'])}" id="nroCelularUsuario" placeholder="Ingrese Respuesta" formControlName="nroCelularUsuario">
+                    <p class="input-error-msg" *ngIf="verificarValidacionCampo('nroCelularUsuario', ['invalid','touched'])">
+                        Campo Obligatorio.
+                    </p>
                 </div>
                 <div class="col">
-                    <div class="form-group">
-                        <label for="nroTelefonoUsuario">Telefono Usuario</label>
-                        <input type="text" class="form-control" id="nroTelefonoUsuario" placeholder="Ingrese Respuesta" formControlName="nroTelefonoUsuario">
-                        <p class="input-error-msg" *ngIf="!form.controls.nroTelefonoUsuario.valid && form.controls.nroTelefonoUsuario.touched">
-                            Campo Obligatorio.
-                        </p>
-                    </div>
+                    <label for="nroTelefonoUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('nroTelefonoUsuario', ['invalid','touched'])}">Telefono</label>
+                    <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('nroTelefonoUsuario', ['invalid','touched'])}" id="nroTelefonoUsuario" placeholder="Ingrese Respuesta" formControlName="nroTelefonoUsuario">
+
+                    <p class="input-error-msg" *ngIf="verificarValidacionCampo('nroTelefonoUsuario', ['invalid','touched'])">
+                        Campo Obligatorio.
+                    </p>
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group row">
                 <div class="col">
-                    <div class="form-group">
-                        <label for="idDepartamento">Departamento</label>
-                        <select Placeholder='SELECCIONE' formControlName='idDepartamento'> 
+                    <label for="idDepartamento" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('idDepartamento', ['invalid','touched'])}">Departamento</label>
+                    <select Placeholder='SELECCIONE' formControlName='idDepartamento' [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('idDepartamento', ['invalid','touched'])}"> 
                             <option *ngFor='let element of departamentos' [value]='element.idDepartamento'>{{element.nombreDepartamento}}</option>
                         </select>
-                        <p class="input-error-msg" *ngIf="!form.controls.idDepartamento.valid && form.controls.idDepartamento.touched">
-                            Campo Obligatorio.
-                        </p>
-                    </div>
+
+                    <p class="input-error-msg" *ngIf="verificarValidacionCampo('idDepartamento', ['invalid','touched'])">
+                        Campo Obligatorio.
+                    </p>
                 </div>
                 <div class="col">
-                    <div class="form-group">
-                        <label for="contrasenaUsuario">Contraseña Usuario</label>
-                        <input type="text" class="form-control" id="contrasenaUsuario" placeholder="Ingrese Respuesta" formControlName="contrasenaUsuario">
-                        <p class="input-error-msg" *ngIf="!form.controls.contrasenaUsuario.valid && form.controls.contrasenaUsuario.touched">
-                            Campo Obligatorio.
-                        </p>
-                    </div>
+                    <label for="contrasenaUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('contrasenaUsuario', ['invalid','touched'])}">Conraseña</label>
+                    <input type="password" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('contrasenaUsuario', ['invalid','touched'])}" id="contrasenaUsuario" placeholder="Ingrese Respuesta" formControlName="contrasenaUsuario">
+                    <p class="input-error-msg" *ngIf="verificarValidacionCampo('contrasenaUsuario', ['invalid','touched'])">
+                        Campo Obligatorio.
+                    </p>
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group row">
                 <div class="col">
-                    <div class="form-group">
-                        <label for="rolUsuario">Rol</label>
-                        <select Placeholder='SELECCIONE' formControlName='rolUsuario'> 
+                    <label for="idRol" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('idRol', ['invalid','touched'])}">Rol</label>
+                    <select Placeholder='SELECCIONE' formControlName='idRol' [ngClass]="{'col': true, 'form-control': true, 'is-invalid': verificarValidacionCampo('idRol', ['invalid','touched'])}"> 
                             <option *ngFor='let element of roles' [value]='element.idRol'>{{element.nombreRol}}</option>
                         </select>
-                        <p class="input-error-msg" *ngIf="!form.controls.rolUsuario.valid && form.controls.rolUsuario.touched">
-                            Campo Obligatorio.
-                        </p>
-                    </div>
+                    <p class="input-error-msg" *ngIf="verificarValidacionCampo('idRol', ['invalid','touched'])">
+                        Campo Obligatorio.
+                    </p>
+
                 </div>
                 <div class="col">
-                    <div class="form-group">
-                        <label for="estadoUsuario">Estado Usuario</label>
-                        <select Placeholder='SELECCIONE' formControlName='estadoUsuario'> 
+                    <label for="idEstadoUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('idEstadoUsuario', ['invalid','touched'])}">Estado</label>
+                    <select Placeholder='SELECCIONE' formControlName='idEstadoUsuario' [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('idEstadoUsuario', ['invalid','touched'])}"> 
                             <option *ngFor='let element of estadosusuarios' [value]='element.idEstadoUsuario'>{{element.nombreEstadoUsuario}}</option>
                         </select>
-                        <p class="input-error-msg" *ngIf="!form.controls.estadoUsuario.valid && form.controls.estadoUsuario.touched">
-                            Campo Obligatorio.
-                        </p>
-                    </div>
+                    <p class="input-error-msg" *ngIf="verificarValidacionCampo('idEstadoUsuario', ['invalid','touched'])">
+                        Campo Obligatorio.
+                    </p>
                 </div>
             </div>
+            <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
         </form>
-        <button (click)="guardar()">Guardar</button>
     </div>
 </div>
-<button routerLink="/home">VOLVER</button>
+<hr>
+<button routerLink="/home" class="btn btn-primary">Cancelar</button>

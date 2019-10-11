@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
-import { Usuario } from 'src/app/model/usuario/usuario.model';
 import { environment } from '../../../environments/environment';
+import { Usuario } from '../../model/usuario/usuario.model';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +70,7 @@ export class UsuarioService {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', token);
      let data = {headers}
+     console.log("DATOS A ENVIAR :",datas)
     return this.http
       .put(`${this.url}${this.dir}`, datas, data)
       .toPromise()
@@ -91,18 +92,4 @@ export class UsuarioService {
       })
       .catch(  );
   }
-}
-
-export interface Usuario {
-  idUsuario: string;
-  cuitUsuario: number;
-  nombreUsuario: string;
-  apellidoUsuario: string;
-  contrasenaUsuario: string;
-  dniUsuario: number;
-  domicilioUsuario: string;
-  emailUsuario: string;
-  idDepartamento: number;
-  nroCelularUsuario: number;
-  nroTelefonoUsuario: number;
 }
