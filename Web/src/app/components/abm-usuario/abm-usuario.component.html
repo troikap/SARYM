@@ -70,6 +70,7 @@
                 <div class="col">
                     <label for="nroTelefonoUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('nroTelefonoUsuario', ['invalid','touched'])}">Telefono</label>
                     <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('nroTelefonoUsuario', ['invalid','touched'])}" id="nroTelefonoUsuario" placeholder="Ingrese Respuesta" formControlName="nroTelefonoUsuario">
+
                     <p class="input-error-msg" *ngIf="verificarValidacionCampo('nroTelefonoUsuario', ['invalid','touched'])">
                         Campo Obligatorio.
                     </p>
@@ -115,7 +116,7 @@
                     </p>
                 </div>
             </div>
-            <button type="submit" class="btn btn-outline-primary btn-block">Guardar</button>
+            <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
         </form>
     </div>
 </div>
