@@ -39,14 +39,14 @@ export class AbmUsuarioComponent implements OnInit {
     this.form = this.formBuilder.group({
       apellidoUsuario: ['', Validators.required],
       contrasenaUsuario: ['', Validators.required],
-      cuitUsuario: [ 20368506886, Validators.required],
+      cuitUsuario: [ '', Validators.required],
       dniUsuario: ['', Validators.required],
       domicilioUsuario: ['', Validators.required],
-      emailUsuario: ['', Validators.required],
+      emailUsuario: ['', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]],
       idDepartamento: ['', Validators.required],
       nombreUsuario: ['', Validators.required],
-      nroCelularUsuario: ['', Validators.required],
-      nroTelefonoUsuario: ['', Validators.required],
+      nroCelularUsuario: ['', [Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]],
+      nroTelefonoUsuario: ['', [Validators.required, Validators.pattern(/^[0-9\-]{7,11}$/)]],
       rolUsuario: ['', Validators.required],
       estadoUsuario: ['', Validators.required],
 
