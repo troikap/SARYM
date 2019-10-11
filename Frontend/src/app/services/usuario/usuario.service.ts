@@ -86,6 +86,10 @@ export class UsuarioService {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', token);
      let data = {headers}
+     console.log("UUUUUUUUUUUUUUUUUU ", data)
+     data['idRol'] = 5;
+     data['idEstadoUsuario'] = 1;
+     console.log("UUUUUUUUUUUUUUUUUU ", data)
     return this.http
       .post(`${URL}${dir}`, datas, data)
       .toPromise()
