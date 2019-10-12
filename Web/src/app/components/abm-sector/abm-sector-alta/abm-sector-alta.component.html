@@ -1,0 +1,34 @@
+<h2 class="titulo">Alta / Modificación Sector</h2>
+<hr>
+<div class="container">
+    <div class="form-section">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="form-group">
+                <label for="id" class="col col-form-label">Id Sector</label>
+                <input type="text" id="id" placeholder="Identificador" formControlName="id" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="codigo" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('codigo', ['invalid','touched'])}">Código Sector</label>
+                <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('codigo', ['invalid','touched'])}" id="codigo" placeholder="Ingrese Código" formControlName="codigo">
+                <p class="input-error-msg" *ngIf="verificarValidacionCampo('codigo', ['invalid','touched'])">
+                    Campo Obligatorio.
+                </p>
+                <button type="button" class="btn btn-success traer" (click)="traerUnidadMedida()" *ngIf="unidadMedidaEncontrada">Traer</button>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('nombre', ['invalid','touched'])}">Nombre Sector</label>
+                <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('nombre', ['invalid','touched'])}" id="nombre" placeholder="Ingrese Nombre" formControlName="nombre">
+                <p class="input-error-msg" *ngIf="verificarValidacionCampo('nombre', ['invalid','touched'])">
+                    Campo Obligatorio.
+                </p>
+            </div>
+
+            <hr>
+            <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+        </form>
+    </div>
+</div>
+<hr>
+<button [routerLink]="['/sector']" class="btn btn-primary">Cancelar</button>
