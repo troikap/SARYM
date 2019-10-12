@@ -55,6 +55,9 @@ export class UnidadMedidaService {
   getAllUnidadMedida() { //Promesa
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
+
+    console.log("Servicio getAllUnidadMedida() Running");
+
     return this.http
       .get(`${this.url}${this.dir}`, {headers})
       .toPromise()
