@@ -3,8 +3,29 @@
 const RolModelo = require("../rol/rol-model"),
   RolController = () => {},
   legend = "Rol",
-  idtable = "idRol",
-  table = "rol";
+  idtable = `id${legend}`,
+  nombretable = `nombre${legend}`,
+  Sequelize = require('sequelize'),
+  Op = Sequelize.Op;
+
+RolController.getToName = (req, res, next) => {
+  RolModelo.findAll({
+    where: { [nombretable]: { [Op.substring]: req.params[nombretable] }}
+  }).then(project => {
+    if (!project || project == 0) {
+      let locals = {
+        title: "No existe el registro : " + req.params[nombretable]
+      };
+      res.json(locals);
+    } else {
+      let locals = {
+        title: `${legend}`,
+        data: project
+      };
+      res.json(locals);
+    }
+  });
+};
 
 RolController.getAll = (req, res, next) => {
   RolModelo.findAll({ raw: true }).then(projects => {

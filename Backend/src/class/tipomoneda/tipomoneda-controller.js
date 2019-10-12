@@ -3,8 +3,30 @@
 const TipoMonedaModelo = require("../tipomoneda/tipomoneda-model"),
   TipoMonedaController = () => {},
   legend = "TipoMoneda",
-  idtable = "idTipoMoneda",
-  table = "tipomoneda";
+  idtable = `id${legend}`,
+  table = "tipomoneda",
+  nombretable = `nombre${legend}`,
+  Sequelize = require('sequelize'),
+  Op = Sequelize.Op;
+
+TipoMonedaController.getToName = (req, res, next) => {
+  TipoMonedaModelo.findAll({
+    where: { [nombretable]: { [Op.substring]: req.params[nombretable] }}
+  }).then(project => {
+    if (!project || project == 0) {
+      let locals = {
+        title: "No existe el registro : " + req.params[nombretable]
+      };
+      res.json(locals);
+    } else {
+      let locals = {
+        title: `${legend}`,
+        data: project
+      };
+      res.json(locals);
+    }
+  });
+};
 
 TipoMonedaController.getAll = (req, res, next) => {
   TipoMonedaModelo.findAll({ raw: true }).then(projects => {

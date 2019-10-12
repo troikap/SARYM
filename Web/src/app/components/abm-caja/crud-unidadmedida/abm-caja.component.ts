@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import { Router } from '@angular/router';
 import { CajaService } from '../../../services/caja/caja.service';
 import { Caja } from 'src/app/model/caja/caja.model';
+import { EstadoCaja } from 'src/app/model/estadoCaja/estadoCaja.model';
+import { Usuario } from 'src/app/model/usuario/usuario.model';
 
 @Component({
   selector: 'app-abm-caja-create',
@@ -13,6 +15,10 @@ export class AbmCajaCreateComponent implements OnInit {
   form: FormGroup;
   cajaEncontrada: boolean;
   idCaja: string = "";
+  listaEstadoCaja: EstadoCaja[];
+  estadoCaja: EstadoCaja;
+  listaUsuarios: Usuario[];
+  usuario: Usuario;
 
   private newForm = {};
   private caja: Caja;

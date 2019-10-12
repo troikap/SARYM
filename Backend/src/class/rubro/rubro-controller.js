@@ -3,8 +3,30 @@
 const RubroModelo = require("../rubro/rubro-model"),
   RubroController = () => {},
   legend = "Rubro",
-  idtable = "idRubro",
-  table = "rubro";
+  idtable = `id${legend}`,
+  table = "rol",
+  nombretable = `nombre${legend}`,
+  Sequelize = require('sequelize'),
+  Op = Sequelize.Op;
+
+RubroController.getToName = (req, res, next) => {
+  RubroModelo.findAll({
+    where: { [nombretable]: { [Op.substring]: req.params[nombretable] }}
+  }).then(project => {
+    if (!project || project == 0) {
+      let locals = {
+        title: "No existe el registro : " + req.params[nombretable]
+      };
+      res.json(locals);
+    } else {
+      let locals = {
+        title: `${legend}`,
+        data: project
+      };
+      res.json(locals);
+    }
+  });
+};
 
 RubroController.getAll = (req, res, next) => {
   RubroModelo.findAll({ raw: true }).then(projects => {

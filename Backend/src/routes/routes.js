@@ -20,10 +20,7 @@ var TipoMonedaController = require('../class/tipomoneda/tipomoneda-controller');
 var UnidadMedidaController = require('../class/unidadmedida/unidadmedida-controller');
 var RubroController = require('../class/rubro/rubro-controller');
 var SectorController = require('../class/sector/sector-controller');
-
-SectorController
-
-
+var CajaController = require('../class/caja/caja-controller');
 
 
 const { verificaToken } = require('../middlewares/autenticacion');
@@ -40,6 +37,7 @@ router
     .post('/usuario',verificaToken, UsuarioController.create)
     .put('/usuario', verificaToken, UsuarioController.update)
     .get('/usuario/:idUsuario', UsuarioController.getOne)
+    .get('/usuario/name/:nombreUsuario', verificaToken, UsuarioController.getToName)
     .get('/usuario/cuitUsuario/:cuitUsuario', UsuarioController.getOneCuit)
     .post('/usuario/:idUsuario', verificaToken, UsuarioController.validateUser,UsuarioController.delete,UsuarioController.changeState)
     .delete('/usuario/:idUsuario', verificaToken, UsuarioController.destroy)
@@ -48,6 +46,7 @@ router
     .get('/estadousuario',  EstadoUsuarioController.getAll)
     .post('/estadousuario', verificaToken,  EstadoUsuarioController.create)
     .get('/estadousuario/:idEstadoUsuario', verificaToken, EstadoUsuarioController.getOne)
+    // .get('/estadousuario/name/:nombreEstadoUsuario', verificaToken, EstadoUsuarioController.getToName)
     .post('/estadousuario/:idEstadoUsuario', verificaToken,  EstadoUsuarioController.delete)
     .delete('/estadousuario/:idEstadoUsuario', verificaToken, EstadoUsuarioController.destroy)
 
@@ -62,6 +61,7 @@ router
     .get('/rol', RolController.getAll)
     .post('/rol', verificaToken, RolController.create)
     .get('/rol/:idRol', verificaToken, RolController.getOne)
+    .get('/rol/name/:nombreRol', verificaToken, RolController.getToName)
     .post('/rol/:idRol', verificaToken, RolController.delete)
     .delete('/rol/:idRol', verificaToken, RolController.destroy)
 
@@ -81,6 +81,7 @@ router
     .get('/tipomoneda', TipoMonedaController.getAll)
     .post('/tipomoneda', verificaToken, TipoMonedaController.create)
     .get('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.getOne)
+    .get('/tipomoneda/name/:nombreTipoMoneda', verificaToken, TipoMonedaController.getToName)
     .post('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.delete)
     .delete('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.destroy)
 
@@ -88,6 +89,7 @@ router
     .get('/unidadmedida', UnidadMedidaController.getAll)
     .post('/unidadmedida', verificaToken, UnidadMedidaController.create)
     .get('/unidadmedida/:idUnidadMedida', verificaToken, UnidadMedidaController.getOne)
+    .get('/unidadmedida/name/:nombreUnidadMedida', verificaToken, UnidadMedidaController.getToName)
     .post('/unidadmedida/:idUnidadMedida', verificaToken, UnidadMedidaController.delete)
     .delete('/unidadmedida/:idUnidadMedida', verificaToken, UnidadMedidaController.destroy)
 
@@ -95,6 +97,7 @@ router
     .get('/rubro', RubroController.getAll)
     .post('/rubro', verificaToken, RubroController.create)
     .get('/rubro/:idRubro', verificaToken, RubroController.getOne)
+    .get('/rubro/name/:nombreRubro', verificaToken, RubroController.getToName)
     .post('/rubro/:idRubro', verificaToken, RubroController.delete)
     .delete('/rubro/:idRubro', verificaToken, RubroController.destroy)
 
@@ -105,6 +108,13 @@ router
     .post('/sector/:idSector', verificaToken, SectorController.delete)
     .delete('/sector/:idSector', verificaToken, SectorController.destroy)
 
+// caja
+    .get('/caja', CajaController.getAll)
+    .post('/caja', verificaToken, CajaController.create)
+    .get('/caja/:idCaja', verificaToken, CajaController.getOne)
+    .get('/caja/name/:nroCaja', verificaToken, CajaController.getToName)
+    .post('/caja/:idCaja', verificaToken, CajaController.delete)
+    .delete('/caja/:idCaja', verificaToken, CajaController.destroy)
 
 // use
     .use(EstadoUsuarioController.error404)
@@ -115,6 +125,7 @@ router
     .use(TipoMonedaController.error404)
     .use(UnidadMedidaController.error404)
     .use(RubroController.error404)
-
+    .use(SectorController.error404)
+    .use(CajaController.error404)
 
 module.exports = router

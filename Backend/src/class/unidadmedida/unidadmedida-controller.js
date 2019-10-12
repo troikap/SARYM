@@ -3,9 +3,30 @@
 const UnidadMedidaModelo = require("../unidadmedida/unidadmedida-model"),
   UnidadMedidaController = () => {},
   legend = "UnidadMedida",
-  idtable = "idUnidadMedida",
-  table = "unidadmedida";
+  idtable = `id${legend}`,
+  nombretable = `nombre${legend}`,
+  Sequelize = require('sequelize'),
+  Op = Sequelize.Op;
 
+UnidadMedidaController.getToName = (req, res, next) => {
+  UnidadMedidaModelo.findAll({
+    where: { [nombretable]: { [Op.substring]: req.params[nombretable] }}
+  }).then(project => {
+    if (!project || project == 0) {
+      let locals = {
+        title: "No existe el registro : " + req.params[nombretable]
+      };
+      res.json(locals);
+    } else {
+      let locals = {
+        title: `${legend}`,
+        data: project
+      };
+      res.json(locals);
+    }
+  });
+};
+  
 UnidadMedidaController.getAll = (req, res, next) => {
   UnidadMedidaModelo.findAll({ raw: true }).then(projects => {
     if (!projects || projects == 0) {

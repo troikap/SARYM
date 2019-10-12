@@ -12,7 +12,8 @@ module.exports = {
             "descripcionCajaEstado": "Bla bla...",
             "montoAperturaCajaEstado": 400.50,
             "montoCierreCajaEstado": 1500.99,
-            "fechaYHoraCajaEstado": currentDate,
+            "fechaYHoraAltaCajaEstado": currentDate,
+            "fechaYHoraBajaCajaEstado": null,
             "createdAt": currentDate,
             "updatedAt": currentDate
         }], {});

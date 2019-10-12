@@ -1,6 +1,5 @@
 export interface UnidadMedida {
-    idCaja?: number;
-    nroCaja: number;
-    idUsuario?: number;
-    idEstadoCaja?: number;   
+    idEstadoCaja?: number;
+    nombreEstadoCaja: string;
+    codEstadoCaja: string;     
   }

@@ -22,12 +22,29 @@ const UsuarioModelo = require("./usuario-model"),
   idtableestado = "idUsuarioEstado",
   idestadotable = "idEstadoUsuario",
   nombreEstado = "nombreEstadoUsuario",
-  table = "usuario";
+  table = "usuario",
+  nombretable = "nombreUsuario";
+
+  UsuarioController.getToName = (req, res, next) => {
+    UsuarioModelo.findAll({
+      where: { [nombretable]: { [Op.substring]: req.params[nombretable] }}
+    }).then(project => {
+      if (!project || project == 0) {
+        let locals = {
+          title: "No existe el registro : " + req.params[nombretable]
+        };
+        res.json(locals);
+      } else {
+        let locals = {
+          title: `${legend}`,
+          data: project
+        };
+        res.json(locals);
+      }
+    });
+  };
 
   UsuarioController.validateExistUser = (req, res) => {
-    console.log("VALIDANDO DESDE BACK")
-    console.log("REQ.BODY  ,",req.body)
-
     let body = req.body;
       UsuarioModelo.findOne({
         where: {cuitUsuario: body.cuitUsuario}

@@ -9,36 +9,32 @@
             </div>
 
             <div class="form-group">
-                <label for="codigo" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('codigo', ['invalid','touched'])}">Código</label>
-                <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('codigo', ['invalid','touched'])}" id="codigo" placeholder="Ingrese Código" formControlName="codigo">
-                <p class="input-error-msg" *ngIf="verificarValidacionCampo('codigo', ['invalid','touched'])">
+                <label for="numeroCaja" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('numeroCaja', ['invalid','touched'])}">Numero de Caja</label>
+                <input type="number" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('numeroCaja', ['invalid','touched'])}" id="numeroCaja" placeholder="Ingrese Código" formControlName="numeroCaja">
+                <p class="input-error-msg" *ngIf="verificarValidacionCampo('numeroCaja', ['invalid','touched'])">
                     Campo Obligatorio.
                 </p>
-                <button type="button" class="btn btn-success traer" (click)="traerUnidadMedida()" *ngIf="unidadMedidaEncontrada">Traer</button>
+                <button type="button" class="btn btn-success traer" (click)="traerCaja()" *ngIf="cajaEncontrada">Traer</button>
             </div>
 
-            <div class="form-group">
-                <label for="nombre" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('nombre', ['invalid','touched'])}">Nombre</label>
-                <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('nombre', ['invalid','touched'])}" id="nombre" placeholder="Ingrese Nombre" formControlName="nombre">
-                <p class="input-error-msg" *ngIf="verificarValidacionCampo('nombre', ['invalid','touched'])">
-                    Campo Obligatorio.
-                </p>
-            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <label for="idEstadoCaja" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('idEstadoCaja', ['invalid','touched'])}">Estado Caja</label>
+                    <select Placeholder='SELECCIONE' formControlName='idEstadoCaja' [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('idEstadoCaja', ['invalid','touched'])}"> 
+                            <option *ngFor='let estadoCaja of listaEstadoCaja' [value]='estadoCaja.idEstadoCaja'>{{estadoCaja.nombreEstadoCaja}}</option>
+                        </select>
 
-            <div class="form-group">
-                <label for="caracter" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('caracter', ['invalid','touched'])}">Caracter</label>
-                <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('caracter', ['invalid','touched'])}" id="caracter" placeholder="Ingrese Caracter" formControlName="caracter">
-                <p class="input-error-msg" *ngIf="verificarValidacionCampo('caracter', ['invalid','touched'])">
-                    Campo Obligatorio.
-                </p>
-            </div>
-
-            <div class="form-group">
-                <label for="descripcion" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('descripcion', ['invalid','touched'])}">Descripción</label>
-                <textarea aria-label="Ingrese Descripción" id="descripcion" formControlName="descripcion" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('descripcion', ['invalid','touched'])}"></textarea>
-                <p class="input-error-msg" *ngIf="verificarValidacionCampo('descripcion', ['invalid','touched'])">
-                    Campo Obligatorio.
-                </p>
+                    <p class="input-error-msg" *ngIf="verificarValidacionCampo('idDepartamento', ['invalid','touched'])">
+                        Campo Obligatorio.
+                    </p>
+                </div>
+                <div class="col">
+                    <label for="contrasenaUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('contrasenaUsuario', ['invalid','touched'])}">Conraseña</label>
+                    <input type="password" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('contrasenaUsuario', ['invalid','touched'])}" id="contrasenaUsuario" placeholder="Ingrese Respuesta" formControlName="contrasenaUsuario">
+                    <p class="input-error-msg" *ngIf="verificarValidacionCampo('contrasenaUsuario', ['invalid','touched'])">
+                        Campo Obligatorio.
+                    </p>
+                </div>
             </div>
             <hr>
             <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
