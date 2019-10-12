@@ -2,6 +2,7 @@
 
 @import "./assets/styles/form.css";
 @import "./assets/styles/select.css";
+
 body {
     padding-bottom: 50px;
 }

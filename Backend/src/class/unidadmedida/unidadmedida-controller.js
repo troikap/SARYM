@@ -9,6 +9,7 @@ const UnidadMedidaModelo = require("../unidadmedida/unidadmedida-model"),
   Op = Sequelize.Op;
 
 UnidadMedidaController.getToName = (req, res, next) => {
+  let locals = {};
   UnidadMedidaModelo.findAll({
     where: { [nombretable]: { [Op.substring]: req.params[nombretable] }}
   }).then(project => {
@@ -26,6 +27,7 @@ UnidadMedidaController.getToName = (req, res, next) => {
 };
   
 UnidadMedidaController.getAll = (req, res, next) => {
+  let locals = {};
   UnidadMedidaModelo.findAll({ raw: true }).then(projects => {
     if (!projects || projects == 0) {
       locals['title'] = `No existen registros de ${legend}`;
@@ -122,6 +124,7 @@ UnidadMedidaController.update = (req, res) => {
 };
 
 UnidadMedidaController.getOne = (req, res, next) => {
+  let locals = {};
   UnidadMedidaModelo.findOne({
     where: { [idtable]: req.params[idtable] }
   }).then(project => {
@@ -139,6 +142,7 @@ UnidadMedidaController.getOne = (req, res, next) => {
 };
 
 UnidadMedidaController.create = (req, res) => {
+  let locals = {};
   if (req.body[idtable]) {
     UnidadMedidaModelo.findOne({
       where: { [idtable]: req.body[idtable] }
@@ -168,6 +172,7 @@ UnidadMedidaController.create = (req, res) => {
 };
 
 UnidadMedidaController.delete = (req, res, next) => {
+  let locals = {};
   let [idtabla] = req.params[idtabla];
   UnidadMedidaModelo.getOne([idtabla], (err, rows) => {
     if (err) {
@@ -185,6 +190,7 @@ UnidadMedidaController.delete = (req, res, next) => {
 };
 
 UnidadMedidaController.destroy = (req, res, next) => {
+  let locals = {};
   UnidadMedidaModelo.destroy({
     where: {
       [idtable]: req.params[idtable]
@@ -203,6 +209,7 @@ UnidadMedidaController.destroy = (req, res, next) => {
 };
 
 UnidadMedidaController.error404 = (req, res, next) => {
+  let locals = {};
   locals['title'] = "Error 404";
   locals['data'] = `Recurso No Encontrado`;
   locals['tipo'] = 2;
