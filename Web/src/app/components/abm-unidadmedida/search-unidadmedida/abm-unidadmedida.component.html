@@ -14,6 +14,7 @@
             <th scope="col">Nombre</th>
             <th scope="col">Caracter</th>
             <th scope="col">Descripción</th>
+            <th scope="col">Acción</th>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +24,10 @@
             <td>{{lista.nombreUnidadMedida}}</td>
             <td>{{lista.caracterUnidadMedida}}</td>
             <td>{{lista.descripcionUnidadMedida}}</td>
+            <td>
+                <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Editar" (click)="abmUnidadMedida(lista.idUnidadMedida, 'editar')" style="cursor: pointer;">
+                <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Editar" title="Eliminar" (click)="abmUnidadMedida(lista.idUnidadMedida, 'eliminar')" style="cursor: pointer;">
+            </td>
         </tr>
     </tbody>
 </table>
@@ -45,15 +50,5 @@
         </tr>
     </tbody>
 </table> -->
-
-<table class="table">
-
-    <tr>
-        <td width="20%">&nbsp;</td>
-        <td width="20%">&nbsp;</td>
-        <td width="20%">&nbsp;</td>
-        <td align="right" width="20%"><button [routerLink]="['/home']" class="btn btn-primary">Volver</button></td>
-        <td align="right" width="20%"><button [routerLink]="['/unidadmedida_create']" class="btn btn-primary">Crear / Modificar</button></td>
-    </tr>
-
-</table>
+<hr>
+<button [routerLink]="['/home']" class="btn btn-primary">Volver</button>

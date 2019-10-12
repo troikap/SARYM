@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 // import { UnidadMedida } from '../../model/unidad-medida/unidad-medida.model'; //Da error
-import { UnidadMedidaService } from '../../services/unidad-medida/unidad-medida.service';
+import { UnidadMedidaService } from '../../../services/unidad-medida/unidad-medida.service';
 
 
 
@@ -55,6 +55,13 @@ export class AbmUnidadmedidaComponent implements OnInit {
         this.listaUnidadMedida =  res.data;
       })
 
+  }
+
+  abmUnidadMedida(idElemento: number, accion: string) {
+    console.log("idElemento: ", idElemento);
+    console.log("accion: ", accion);
+
+    this.router.navigate( [`/unidadmedida_create/${idElemento}/${accion}`] );
   }
 
 }

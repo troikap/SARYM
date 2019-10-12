@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
-import { Router } from '@angular/router';
-import { UnidadMedidaService } from '../../services/unidad-medida/unidad-medida.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { UnidadMedidaService } from '../../../services/unidad-medida/unidad-medida.service';
 import { UnidadMedida } from 'src/app/model/unidad-medida/unidad-medida.model';
 
 @Component({
@@ -17,7 +17,17 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
   private newForm = {};
   private unidadMedida: UnidadMedida;
 
+
+  /* constructor(private activatedRoute: ActivatedRoute, private heroeService: HeroesService, private router: Router) {
+
+    this.activatedRoute.params.subscribe(params => {
+      this.heroeLocal = this.heroeService.buscarHeroeService(params.termino);
+      this.termino = params.termino;
+    });
+  } */
+
   constructor(
+    private activatedRoute: ActivatedRoute,
     private unidadMedidaService :UnidadMedidaService,
     private router: Router,
   ) { 
@@ -28,6 +38,11 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
       'caracter': new FormControl('', Validators.required),
       'descripcion': new FormControl('', Validators.required)
     })
+
+    this.activatedRoute.params.subscribe(params => {
+      console.log("PAREMTROS DE URL", params);
+      
+    });
   }
 
   ngOnInit() {

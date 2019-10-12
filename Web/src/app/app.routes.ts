@@ -4,15 +4,16 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { AbmUsuarioComponent } from './components/abm-usuario/abm-usuario.component';
 import { AbmTipomonedaComponent } from './components/abm-tipomoneda/abm-tipomoneda.component';
-import { AbmUnidadmedidaComponent } from './components/abm-unidadmedida/abm-unidadmedida.component';
+import { AbmUnidadmedidaComponent } from './components/abm-unidadmedida/search-unidadmedida/abm-unidadmedida.component';
+import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida/crud-unidadmedida/abm-unidadmedida-create.component';
 import { AbmCajaComponent } from './components/abm-caja/abm-caja.component';
 import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
-import { AbmRubroComponent } from './components/abm-rubro/abm-rubro.component';
+import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
 import { AbmSectorComponent } from './components/abm-sector/abm-sector.component';
 import { GestionarProductoComponent } from './components/gestionar-producto/gestionar-producto.component';
 import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
-import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida-create/abm-unidadmedida-create.component';
+
 
 
 const routes: Routes = [
@@ -21,7 +22,7 @@ const routes: Routes = [
     { path: 'usuario', component: AbmUsuarioComponent },
     { path: 'tipomoneda', component: AbmTipomonedaComponent },
     { path: 'unidadmedida', component: AbmUnidadmedidaComponent },
-    { path: 'unidadmedida_create', component: AbmUnidadmedidaCreateComponent },
+    { path: 'unidadmedida_create/:id/:accion', component: AbmUnidadmedidaCreateComponent },
     { path: 'caja', component: AbmCajaComponent },
     { path: 'mesa', component: AbmMesaComponent },
     { path: 'rubro', component: AbmRubroComponent },
