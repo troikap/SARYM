@@ -14,12 +14,14 @@ export class UnidadMedidaService {
   dir = '/unidadmedida';
   dir2 = '/name';
 
+  tokenEnviroment = environment.token;
+
   constructor(public http: HttpClient) {}
    
   getUnidadMedida( termino: string) { //Observador
     // console.log("Service getUnidadMedida: Termino = ", termino);
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', 'libre');
+    headers = headers.append('token', this.tokenEnviroment);
     return this.http
       .get(`${this.url}${this.dir}/${termino}`, {headers})
       .pipe( map ((data: any) => {
@@ -35,7 +37,7 @@ export class UnidadMedidaService {
     console.log("Service getUnidadMedidaName: Termino = ", termino);
     if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
-      headers = headers.append('token', 'libre');
+      headers = headers.append('token', this.tokenEnviroment);
       return this.http
         .get(`${this.url}${this.dir}${this.dir2}/${termino}`, {headers})
         .pipe( map ((data: any) => {
@@ -51,8 +53,10 @@ export class UnidadMedidaService {
   }
 
   getAllUnidadMedida() { //Promesa
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .get(`${this.url}${this.dir}`)
+      .get(`${this.url}${this.dir}`, {headers})
       .toPromise()
       .then(response => {
         console.log("UNIDAD MEDIDA ", response)
@@ -64,13 +68,12 @@ export class UnidadMedidaService {
   }
 
 
-  updateUnidadMedida( datas, token ): Promise<any> {
+  updateUnidadMedida( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
-     let data = {headers}
+     headers = headers.append('token', this.tokenEnviroment);
      console.log("DATOS A ENVIAR :",datas)
     return this.http
-      .put(`${this.url}${this.dir}`, datas, data)
+      .put(`${this.url}${this.dir}`, datas, {headers})
       .toPromise()
       .then(response => {
         return response;
@@ -78,13 +81,12 @@ export class UnidadMedidaService {
       .catch(  );
   }
 
-  deleteUnidadMedida( datas, token ): Promise<any> {
+  deleteUnidadMedida( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
-     let data = {headers}
-     console.log("data Header:",data)
+     headers = headers.append('token', this.tokenEnviroment);
+     console.log("data Header:",datas);
     return this.http
-      .post(`${this.url}${this.dir}/${datas.idUnidadMedida}`, data)
+      .post(`${this.url}${this.dir}/${datas.idUnidadMedida}`, {headers})
       .toPromise()
       .then(response => {
         return response;
@@ -92,12 +94,11 @@ export class UnidadMedidaService {
       .catch(  );
   }
 
-  createUnidadMedida( datas, token ): Promise<any> {
+  createUnidadMedida( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
-     let data = {headers}
+     headers = headers.append('token', this.tokenEnviroment); 
     return this.http
-      .post(`${this.url}${this.dir}`, datas, data)
+      .post(`${this.url}${this.dir}`, datas, {headers})
       .toPromise()
       .then(response => {
         return response;

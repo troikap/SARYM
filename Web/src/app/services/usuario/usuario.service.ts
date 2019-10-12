@@ -3,6 +3,8 @@ import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Usuario } from '../../model/usuario/usuario.model';
 
+import { map } from 'rxjs/operators';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,6 +13,9 @@ export class UsuarioService {
    url = environment.urlNgrok || environment.url;
    dir = '/usuario';
    dir2 = '/cuitUsuario';
+   dir3 = '/name';
+
+   tokenEnviroment = environment.token;
 
   constructor(
     public http: HttpClient
@@ -32,7 +37,7 @@ export class UsuarioService {
 
   getUsuarioCuit(cuit: number): Promise<Usuario> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', 'token');
+     headers = headers.append('token', this.tokenEnviroment);
     return this.http
       .get(`${this.url}${this.dir}${this.dir2}/${cuit}`, {headers})
       .toPromise()
@@ -42,9 +47,28 @@ export class UsuarioService {
       .catch(  );
   }
 
-  getUsuarios(token: string): Promise<Usuario[]> {
+  getUsuarioByName( termino: string) { //Observador
+    console.log("Service getUsuarioByName: Termino = ", termino);
+    if (termino != "") {
+      let headers: HttpHeaders = new HttpHeaders();
+      headers = headers.append('token', this.tokenEnviroment);
+      return this.http
+        .get(`${this.url}${this.dir}${this.dir3}/${termino}`, {headers})
+        .pipe( map ((data: any) => {
+          console.log(data.data);
+          if (data != null) {
+            return data.data;
+          }
+      }));
+    }
+    else {
+      // console.log("Service getUnidadMedida: SIN TERMINO");
+    }
+  }
+
+  getUsuarios(): Promise<Usuario[]> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', this.tokenEnviroment);
     return this.http
       .get(this.url + this.dir, {headers})
       .toPromise()
@@ -56,7 +80,7 @@ export class UsuarioService {
 
   getUsuario( id: number ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', 'token');
+     headers = headers.append('token', this.tokenEnviroment);
     return this.http
       .get(`${this.url}${this.dir}/${id}`, {headers})
       .toPromise()
@@ -66,9 +90,9 @@ export class UsuarioService {
       .catch(  );
   }
 
-  updateUsuario( datas, token ): Promise<any> {
+  updateUsuario( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
      console.log("DATOS A ENVIAR :",datas)
     return this.http
@@ -80,9 +104,9 @@ export class UsuarioService {
       .catch(  );
   }
 
-  deleteUsuario( datas, token ): Promise<any> {
+  deleteUsuario( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
      console.log("DATOS A ENVIAR :",datas)
     return this.http
@@ -94,9 +118,9 @@ export class UsuarioService {
       .catch(  );
   }
 
-  setUsuario( datas, token ): Promise<any> {
+  setUsuario( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
     return this.http
       .post(`${this.url}${this.dir}`, datas, data)

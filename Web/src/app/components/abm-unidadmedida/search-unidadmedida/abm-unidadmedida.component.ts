@@ -22,10 +22,10 @@ export class AbmUnidadmedidaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getAllUnidadMedida();
+    this.getAllElements();
   }
 
-  buscarUnidadMedida(termino: string) {
+  buscarElemento(termino: string) {
     
     console.log(termino);
 
@@ -42,11 +42,11 @@ export class AbmUnidadmedidaComponent implements OnInit {
       });
     }
     else {
-      this.getAllUnidadMedida();
+      this.getAllElements();
     }
   }
 
-  getAllUnidadMedida() {
+  getAllElements() {
     this.unidadMedidaService.getAllUnidadMedida()
       .then((res: any) => {
         // console.log(res);
@@ -55,7 +55,7 @@ export class AbmUnidadmedidaComponent implements OnInit {
 
   }
 
-  abmUnidadMedida(idElemento: number, accion: string) {
+  crudElemento(idElemento: number, accion: string) {
     console.log("idElemento: ", idElemento);
     console.log("accion: ", accion);
 
