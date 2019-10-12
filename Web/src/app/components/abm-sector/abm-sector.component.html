@@ -1,2 +1,75 @@
-<p>abm-sector works!</p>
-<button routerLink="/home">VOLVER</button>
+<h2 class="titulo">ABM Mesa</h2>
+<hr>
+<div class="container">
+    <div class="form-section">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+                </div>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="form-group row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="cuitUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('cuitUsuario', ['invalid','touched'])}">Nombre del Sector</label>
+                        <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('cuitUsuario', ['invalid','touched'])}" id="cuitUsuario" placeholder="" formControlName="cuitUsuario">
+                        <p class="input-error-msg" *ngIf="verificarValidacionCampo('cuitUsuario', ['invalid','touched'])">
+                            Campo Obligatorio.
+                        </p>
+                        <button type="button" class="btn btn-success traer" (click)="traerUsuario()" *ngIf="usuarioencontrado">Traer</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="cuitUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('cuitUsuario', ['invalid','touched'])}">Código del Sector</label>
+                        <input type="text" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('cuitUsuario', ['invalid','touched'])}" id="cuitUsuario" placeholder="" formControlName="cuitUsuario">
+                        <p class="input-error-msg" *ngIf="verificarValidacionCampo('cuitUsuario', ['invalid','touched'])">
+                            Campo Obligatorio.
+                        </p>
+                        <button type="button" class="btn btn-success traer" (click)="traerUsuario()" *ngIf="usuarioencontrado">Traer</button>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<hr>
+<button routerLink="/home" class="btn btn-primary">Cancelar</button>
