@@ -5,9 +5,9 @@ import { UnidadMedidaService } from '../../../services/unidad-medida/unidad-medi
 import { UnidadMedida } from 'src/app/model/unidad-medida/unidad-medida.model';
 
 @Component({
-  selector: 'app-abm-unidadmedida-create',
-  templateUrl: './abm-unidadmedida-create.component.html',
-  styleUrls: ['./abm-unidadmedida-create.component.css']
+  selector: 'app-abm-unidadmedida-crud',
+  templateUrl: './abm-unidadmedida-crud.component.html',
+  styleUrls: ['./abm-unidadmedida-crud.component.css']
 })
 export class AbmUnidadmedidaCreateComponent implements OnInit {
   form: FormGroup;

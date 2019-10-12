@@ -36,7 +36,7 @@ export class AbmUnidadmedidaComponent implements OnInit {
         if (data != null) {
           console.log("RESULT ----------------->", data);
           this.listaUnidadMedida = data;
-          
+
           // this.listaUnidadMedida.push(data); // Para insertar un solo elemento
         }
       });
@@ -59,7 +59,7 @@ export class AbmUnidadmedidaComponent implements OnInit {
     console.log("idElemento: ", idElemento);
     console.log("accion: ", accion);
 
-    this.router.navigate( [`/unidadmedida_create/${idElemento}/${accion}`] );
+    this.router.navigate( [`/unidadmedida_crud/${idElemento}/${accion}`] );
   }
 
 }

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import { Router } from '@angular/router';
-import { DepartamentoService, Departamento } from '../../services/departamento/departamento.service';
-import { RolService, Rol } from '../../services/rol/rol.service';
-import { EstadoUsuarioService, EstadoUsuario } from '../../services/estadousuario/estadousuario.service';
-import { Usuario } from '../../model/usuario/usuario.model';
-import { UsuarioService } from '../../services/usuario/usuario.service';
+import { DepartamentoService, Departamento } from '../../../services/departamento/departamento.service';
+import { RolService, Rol } from '../../../services/rol/rol.service';
+import { EstadoUsuarioService, EstadoUsuario } from '../../../services/estadousuario/estadousuario.service';
+import { Usuario } from '../../../model/usuario/usuario.model';
+import { UsuarioService } from '../../../services/usuario/usuario.service';
 
 
 
