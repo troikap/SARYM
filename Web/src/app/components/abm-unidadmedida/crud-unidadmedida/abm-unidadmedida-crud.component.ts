@@ -7,7 +7,7 @@ import { UnidadMedida } from 'src/app/model/unidad-medida/unidad-medida.model';
 @Component({
   selector: 'app-abm-unidadmedida-crud',
   templateUrl: './abm-unidadmedida-crud.component.html',
-  styleUrls: ['./abm-unidadmedida-crud.component.css']
+  styleUrls: ['./abm-unidadmedida-crud.component.scss']
 })
 export class AbmUnidadmedidaCreateComponent implements OnInit {
   form: FormGroup;
@@ -130,21 +130,21 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
     console.log(this.form);
     if (this.unidadMedidaEncontrada && this.accionGet === "editar") {
       let unidadMed = this.reemplazarUnidadMedida();
-      this.unidadMedidaService.updateUnidadMedida( unidadMed, "libre" )
+      this.unidadMedidaService.updateUnidadMedida( unidadMed )
       .then( (response) => {
         console.log("ACTUALIZADO", response)
       })
     } 
     if (this.unidadMedidaEncontrada && this.accionGet === "eliminar") {
       let unidadMed = this.reemplazarUnidadMedida();
-      this.unidadMedidaService.deleteUnidadMedida( unidadMed, "libre" )
+      this.unidadMedidaService.deleteUnidadMedida( unidadMed )
       .then( (response) => {
         console.log("BORRADO", response)
       })
     } else {
       let unidadMed = this.reemplazarUnidadMedida();
       console.log("----------------------------- :", unidadMed)
-      this.unidadMedidaService.createUnidadMedida( unidadMed, "libre" )
+      this.unidadMedidaService.createUnidadMedida( unidadMed )
       .then( (response) => {
         console.log("CREADO", response)
 

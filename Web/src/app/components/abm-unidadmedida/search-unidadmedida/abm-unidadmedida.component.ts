@@ -3,12 +3,10 @@ import { Router } from '@angular/router';
 // import { UnidadMedida } from '../../model/unidad-medida/unidad-medida.model'; //Da error
 import { UnidadMedidaService } from '../../../services/unidad-medida/unidad-medida.service';
 
-
-
 @Component({
   selector: 'app-abm-unidadmedida',
   templateUrl: './abm-unidadmedida.component.html',
-  styleUrls: ['./abm-unidadmedida.component.css']
+  styleUrls: ['./abm-unidadmedida.component.scss']
 })
 export class AbmUnidadmedidaComponent implements OnInit {
 
@@ -22,10 +20,10 @@ export class AbmUnidadmedidaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getAllUnidadMedida();
+    this.getAllElements();
   }
 
-  buscarUnidadMedida(termino: string) {
+  buscarElemento(termino: string) {
     
     console.log(termino);
 
@@ -42,20 +40,19 @@ export class AbmUnidadmedidaComponent implements OnInit {
       });
     }
     else {
-      this.getAllUnidadMedida();
+      this.getAllElements();
     }
   }
 
-  getAllUnidadMedida() {
+  getAllElements() {
     this.unidadMedidaService.getAllUnidadMedida()
       .then((res: any) => {
-        // console.log(res);
+        console.log(res);
         this.listaUnidadMedida =  res.data;
       })
-
   }
 
-  abmUnidadMedida(idElemento: number, accion: string) {
+  crudElemento(idElemento: number, accion: string) {
     console.log("idElemento: ", idElemento);
     console.log("accion: ", accion);
 
