@@ -21,6 +21,7 @@ import { GestionarProductoComponent } from './components/gestionar-producto/gest
 import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida-create/abm-unidadmedida-create.component';
+import { AbmSectorAltaComponent } from './components/abm-sector/abm-sector-alta/abm-sector-alta.component';
 
 
 @NgModule({
@@ -39,8 +40,8 @@ import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida-cr
     GestionarProductoComponent,
     GestionarMenupromocionComponent,
     GenerarReporteComponent,
-    AbmUnidadmedidaCreateComponent
-    
+    AbmUnidadmedidaCreateComponent,
+    AbmSectorAltaComponent,    
   ],
   imports: [
     BrowserModule,

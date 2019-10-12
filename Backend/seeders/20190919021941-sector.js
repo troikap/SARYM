@@ -12,6 +12,13 @@ module.exports = {
                 fechaYHoraBajaSector: null,
                 createdAt: currentDate,
                 updatedAt: currentDate
+            }, {
+                idSector: 2,
+                codSector: "B245",
+                nombreSector: "No Fumadores",
+                fechaYHoraBajaSector: currentDate,
+                createdAt: currentDate,
+                updatedAt: currentDate
             }], {}
         );
     },

@@ -13,6 +13,8 @@ import { GestionarProductoComponent } from './components/gestionar-producto/gest
 import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida-create/abm-unidadmedida-create.component';
+import { AbmSectorAltaComponent } from './components/abm-sector/abm-sector-alta/abm-sector-alta.component';
+
 
 
 const routes: Routes = [
@@ -26,6 +28,7 @@ const routes: Routes = [
     { path: 'mesa', component: AbmMesaComponent },
     { path: 'rubro', component: AbmRubroComponent },
     { path: 'sector', component: AbmSectorComponent },
+    { path: 'altaSector', component: AbmSectorAltaComponent },
     { path: 'producto', component: GestionarProductoComponent },
     { path: 'menupromocion', component: GestionarMenupromocionComponent },
     { path: 'reporte', component: GenerarReporteComponent },
