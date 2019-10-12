@@ -33,8 +33,8 @@
             <td>{{lista.rolusuarios[0].rol.nombreRol}}</td>
             <td>{{lista.usuarioestados[0].estadousuario.nombreEstadoUsuario}}</td>
             <td>
-                <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Editar" (click)="crudElemento(lista.idUnidadMedida, 'editar')" style="cursor: pointer;">
-                <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Editar" title="Eliminar" (click)="crudElemento(lista.idUnidadMedida, 'eliminar')" style="cursor: pointer;">
+                <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Editar" (click)="crudElemento(lista.idUsuario, 'editar')" style="cursor: pointer;">
+                <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Eliminar" title="Eliminar" (click)="crudElemento(lista.idUsuario, 'eliminar')" style="cursor: pointer;">
             </td>
         </tr>
     </tbody>
@@ -47,6 +47,6 @@
         <td width="20%">&nbsp;</td>
         <td width="20%">&nbsp;</td>
         <td width="20%">&nbsp;</td>
-        <td align="right" width="20%"><button [routerLink]="['/unidadmedida_crud/0/crear']" class="btn btn-success">Crear</button></td>
+        <td align="right" width="20%"><button [routerLink]="['/usuario_crud/0/crear']" class="btn btn-success">Crear</button></td>
     </tr>
 </table>

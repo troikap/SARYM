@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DepartamentoService, Departamento } from '../../../services/departamento/departamento.service';
 import { RolService, Rol } from '../../../services/rol/rol.service';
 import { EstadoUsuarioService, EstadoUsuario } from '../../../services/estadousuario/estadousuario.service';
@@ -17,12 +17,15 @@ export class CrudUsuarioComponent implements OnInit {
   private departamentos: Departamento[];
   private roles: Rol[];
   private estadosusuarios: EstadoUsuario[];
-  private usuarioencontrado: boolean = false; 
+  private usuarioEncontrado: boolean; 
   private idUsuario: number = null;
   private usuario: Usuario;
   private newForm = {};
 
+  accionGet;
+
   constructor(
+    private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private router: Router,
     private departamnetoservicio: DepartamentoService,
@@ -44,12 +47,28 @@ export class CrudUsuarioComponent implements OnInit {
       'idRol': new FormControl('', Validators.required),
       'idEstadoUsuario': new FormControl('', Validators.required)
     });
+
+    this.activatedRoute.params.subscribe(params => {
+      console.log("PAREMTROS DE URL", params);
+
+      this.accionGet  = params.accion;
+      this.idUsuario = params.id;
+      
+      if (this.accionGet !== "crear") {
+        this.usuarioEncontrado = true;
+        this.traerUsuario();
+      }
+      else {
+        this.usuarioEncontrado = false;
+      }
+      
+    });
+
   }
   ngOnInit() {
     this.traerDepartamentos();
     this.traerRoles();
     this.traerEstadosUsuarios();
-    this.ponerBuscador();
   }
 
   verificarValidacionCampo(pNombreCampo: string, arregloValidaciones: string[]) {
@@ -83,34 +102,13 @@ export class CrudUsuarioComponent implements OnInit {
   buscar() {
     console.log("funcion 'buscar()' ejecutada");
   }
-  ponerBuscador() {
-    this.form.controls.cuitUsuario.valueChanges
-    .subscribe( (res) => {
-      this.usuarioservicio.getUsuarioCuit(res)
-      .then( (response: any) => {
-        if(response.tipo == 1) {
-          this.usuarioencontrado = true;
-          this.idUsuario = response.Usuario.idUsuario;
-          console.log("ENCONTRO ALGO ----------------", response)
-          console.log(this.idUsuario , this.usuarioencontrado)
-
-        } else {
-          console.log("LIMPIANDO ID +++++++++++++++++++++"  , this.idUsuario)
-          this.usuarioencontrado = false;
-          this.idUsuario = null;
-          this.usuario = null;
-          console.log(this.idUsuario , this.usuarioencontrado)
-
-        }
-      }
-      )
-    })
-  }
 
   traerUsuario() {
     console.log("Funcion 'traerUsuario()', ejecutada");
-    let id = this.idUsuario;
-    this.usuarioservicio.getUsuario(id)
+    console.log(this.idUsuario);
+
+    if (this.idUsuario !== 0) {
+      this.usuarioservicio.getUsuario(this.idUsuario)
       .then((res) => {
         console.log("USUARIO TRAIDO: ", res)
         if ( res['tipo'] == 2) {
@@ -136,7 +134,8 @@ export class CrudUsuarioComponent implements OnInit {
           console.log("FORM" , this.form)
         }
       }
-      })
+      });
+    }
   }
 
   reemplazarUsuario(): Usuario {
@@ -161,23 +160,42 @@ export class CrudUsuarioComponent implements OnInit {
       idRol: this.form.value['idRol'],
       idEstadoUsuario: this.form.value['idEstadoUsuario'],
     }
-    return rempUsuario
+    return rempUsuario;
   }
 
   guardar() {
     console.log(this.form);
-    if (this.usuarioencontrado) {
+    if (this.usuarioEncontrado && this.accionGet === "editar") {
       let user = this.reemplazarUsuario();
       this.usuarioservicio.updateUsuario( user )
       .then( (response) => {
         console.log("ACTUALIZADO", response)
       })
-    } else {
+    } 
+    if (this.usuarioEncontrado && this.accionGet === "eliminar") {
       let user = this.reemplazarUsuario();
-      console.log("----------------------------- :", user)
-      this.usuarioservicio.setUsuario( user )
+      this.usuarioservicio.deleteUsuario( user )
+      .then( (response) => {
+        console.log("BORRADO", response)
+      })
+    } else {
+      let unidadMed = this.reemplazarUsuario();
+      console.log("----------------------------- :", unidadMed)
+      this.usuarioservicio.setUsuario( unidadMed )
       .then( (response) => {
         console.log("CREADO", response)
+
+        // Asigno ID al formulario//
+        this.newForm = {
+          id: response.data.idUnidadMedida,
+          codigo:  this.form.value['codigo'],
+          nombre:  this.form.value['nombre'],
+          caracter:  this.form.value['caracter'],
+          descripcion:  this.form.value['descripcion']
+        }
+        this.form.setValue(this.newForm);
+        ////////////////////////////
+
       })
     }
   }

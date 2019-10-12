@@ -116,9 +116,16 @@
                     </p>
                 </div>
             </div>
-            <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+            <hr>
+            <div *ngIf="accionGet != 'eliminar'">
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+            </div>
+            <div *ngIf="accionGet == 'eliminar'">
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+            </div>
+
         </form>
     </div>
 </div>
 <hr>
-<button routerLink="/home" class="btn btn-primary">Cancelar</button>
+<button onclick="history.back()" class="btn btn-primary">Cancelar</button>
