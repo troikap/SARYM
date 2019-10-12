@@ -57,6 +57,7 @@ export class UnidadMedidaService {
     headers = headers.append('token', this.tokenEnviroment);
 
     console.log("Servicio getAllUnidadMedida() Running");
+    console.log("Header: ", headers);
 
     return this.http
       .get(`${this.url}${this.dir}`, {headers})
