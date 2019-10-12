@@ -12,9 +12,7 @@ import { UnidadMedidaService } from '../../../services/unidad-medida/unidad-medi
 })
 export class AbmUnidadmedidaComponent implements OnInit {
 
-  listaUnidadMedida: any;
-
-  unidadMedidaParticular: any;
+  listaUnidadMedida: any = [];
 
   constructor(
     // private unidadMedia: UnidadMedida, //Da error
@@ -32,14 +30,14 @@ export class AbmUnidadmedidaComponent implements OnInit {
     console.log(termino);
 
     if (termino.trim() !== "") {
-      this.unidadMedidaService.getUnidadMedida(termino)
+      this.unidadMedidaService.getUnidadMedidaByName(termino)
       .subscribe((data: any) => { // Llamo a un Observer
         console.log(data);
         if (data != null) {
-          this.unidadMedidaParticular = data;
-          this.listaUnidadMedida = [];
-          // console.log("RESULT ----------------->", this.unidadMedidaParticular);
-          this.listaUnidadMedida.push(data);
+          console.log("RESULT ----------------->", data);
+          this.listaUnidadMedida = data;
+
+          // this.listaUnidadMedida.push(data); // Para insertar un solo elemento
         }
       });
     }
@@ -55,6 +53,13 @@ export class AbmUnidadmedidaComponent implements OnInit {
         this.listaUnidadMedida =  res.data;
       })
 
+  }
+
+  abmUnidadMedida(idElemento: number, accion: string) {
+    console.log("idElemento: ", idElemento);
+    console.log("accion: ", accion);
+
+    this.router.navigate( [`/unidadmedida_crud/${idElemento}/${accion}`] );
   }
 
 }
