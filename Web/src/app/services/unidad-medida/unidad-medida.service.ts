@@ -16,14 +16,22 @@ export class UnidadMedidaService {
   constructor(public http: HttpClient) {}
    
   getUnidadMedida( termino: string) { //Observador
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', 'libre');
-    return this.http
-      .get(`${this.url}${this.dir}/${termino}`, {headers})
-      .pipe( map ((data: any) => {
-        console.log(data.data);
-        return data.data;
+    // console.log("Service getUnidadMedida: Termino = ", termino);
+    if (termino != "") {
+      let headers: HttpHeaders = new HttpHeaders();
+      headers = headers.append('token', 'libre');
+      return this.http
+        .get(`${this.url}${this.dir}/${termino}`, {headers})
+        .pipe( map ((data: any) => {
+          console.log(data.data);
+          if (data != null) {
+            return data.data;
+          }
       }));
+    }
+    else {
+      // console.log("Service getUnidadMedida: SIN TERMINO");
+    }
   }
 
   getAllUnidadMedida() { //Promesa
@@ -39,5 +47,32 @@ export class UnidadMedidaService {
       } );
   }
 
+
+  updateUnidadMedida( datas, token ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', token);
+     let data = {headers}
+     console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}`, datas, data)
+      .toPromise()
+      .then(response => {
+        return response;
+      })
+      .catch(  );
+  }
+
+  createUnidadMedida( datas, token ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', token);
+     let data = {headers}
+    return this.http
+      .post(`${this.url}${this.dir}`, datas, data)
+      .toPromise()
+      .then(response => {
+        return response;
+      })
+      .catch(  );
+  }
 
 }

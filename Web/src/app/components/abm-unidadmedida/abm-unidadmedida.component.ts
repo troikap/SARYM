@@ -35,10 +35,12 @@ export class AbmUnidadmedidaComponent implements OnInit {
       this.unidadMedidaService.getUnidadMedida(termino)
       .subscribe((data: any) => { // Llamo a un Observer
         console.log(data);
-        this.unidadMedidaParticular = data;
-        this.listaUnidadMedida = [];
-        // console.log("RESULT ----------------->", this.unidadMedidaParticular);
-        this.listaUnidadMedida.push(data);
+        if (data != null) {
+          this.unidadMedidaParticular = data;
+          this.listaUnidadMedida = [];
+          // console.log("RESULT ----------------->", this.unidadMedidaParticular);
+          this.listaUnidadMedida.push(data);
+        }
       });
     }
     else {
