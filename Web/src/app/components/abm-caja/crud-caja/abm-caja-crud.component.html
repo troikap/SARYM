@@ -1,0 +1,54 @@
+<h2 class="titulo">ABM Usuario</h2>
+<hr>
+<div class="container">
+    <div class="form-section">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="form-group">
+                <label for="id" class="col col-form-label">Id</label>
+                <input type="text" id="id" placeholder="Identificador" formControlName="id" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="nroCaja" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('nroCaja', ['invalid','touched'])}">Numero de Caja</label>
+                <input type="number" [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('nroCaja', ['invalid','touched'])}" id="nroCaja" placeholder="Ingrese numero de caja" formControlName="nroCaja">
+                <p class="input-error-msg" *ngIf="verificarValidacionCampo('nroCaja', ['invalid','touched'])">
+                    Campo Obligatorio.
+                </p>
+
+            </div>
+
+            <div class="form-group row">
+                <div class="col">
+                    <label for="idEstadoCaja" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('idEstadoCaja', ['invalid','touched'])}">Estado Caja</label>
+                    <select Placeholder='SELECCIONE' formControlName='idEstadoCaja' [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('idEstadoCaja', ['invalid','touched'])}"> 
+                            <option *ngFor='let estadoCaja of listaEstadoCaja' [value]='estadoCaja.idEstadoCaja'>{{estadoCaja.nombreEstadoCaja}}</option>
+                        </select>
+
+                    <p class="input-error-msg" *ngIf="verificarValidacionCampo('idEstadoCaja', ['invalid','touched'])">
+                        Campo Obligatorio.
+                    </p>
+                </div>
+                <div class="col">
+                    <label for="idUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('idUsuario', ['invalid','touched'])}">Usuario</label>
+                    <select Placeholder='SELECCIONE' formControlName='idUsuario' [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('idUsuario', ['invalid','touched'])}"> 
+                            <option *ngFor='let usuario of listaUsuario' [value]='usuario.idUsuario'>{{usuario.nombreUsuario}} {{usuario.apellidoUsuario}}</option>
+                        </select>
+
+                    <p class="input-error-msg" *ngIf="verificarValidacionCampo('idUsuario', ['invalid','touched'])">
+                        Campo Obligatorio.
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <div *ngIf="accionGet != 'eliminar'">
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+            </div>
+            <div *ngIf="accionGet == 'eliminar'">
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+<hr>
+<button onclick="history.back()" class="btn btn-primary">Cancelar</button>

@@ -12,6 +12,8 @@ export class CajaService {
   
   url = environment.urlNgrok || environment.url;
   dir = '/caja';
+  dirNro = '/nroCaja'
+  dirEstado = '/estadocaja';
 
   constructor(public http: HttpClient) {}
    
@@ -30,7 +32,26 @@ export class CajaService {
       }));
     }
     else {
-      // console.log("Service getUnidadMedida: SIN TERMINO");
+      
+    }
+  }
+
+  getUnidadMedidaByNro( termino: string) { //Observador
+    console.log("Service getCajaNro: Termino = ", termino);
+    if (termino != "") {
+      let headers: HttpHeaders = new HttpHeaders();
+      headers = headers.append('token', 'libre');
+      return this.http
+        .get(`${this.url}${this.dir}${this.dirNro}/${termino}`, {headers})
+        .pipe( map ((data: any) => {
+          console.log(data.data);
+          if (data != null) {
+            return data.data;
+          }
+      }));
+    }
+    else {
+     
     }
   }
 
@@ -40,6 +61,19 @@ export class CajaService {
       .toPromise()
       .then(response => {
         console.log("CAJA ", response)
+        return response;
+      })
+      .catch( err => {
+        console.log("ERROR : ",err)
+      } );
+  }
+
+  getAllEstadoCaja() { //Promesa
+    return this.http
+      .get(`${this.url}${this.dirEstado}`)
+      .toPromise()
+      .then(response => {
+        console.log("ESTADO CAJA ", response)
         return response;
       })
       .catch( err => {
@@ -68,6 +102,20 @@ export class CajaService {
      let data = {headers}
     return this.http
       .post(`${this.url}${this.dir}`, datas, data)
+      .toPromise()
+      .then(response => {
+        return response;
+      })
+      .catch(  );
+  }
+
+  deleteCaja( datas, token ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', token);
+     let data = {headers}
+     console.log("data Header:",data)
+    return this.http
+      .post(`${this.url}${this.dir}/${datas.idCaja}`, data)
       .toPromise()
       .then(response => {
         return response;

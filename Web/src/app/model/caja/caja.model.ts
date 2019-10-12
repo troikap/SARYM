@@ -1,4 +1,4 @@
-export interface UnidadMedida {
+export interface Caja {
     idCaja?: number;
     nroCaja: number;
     idUsuario?: number;

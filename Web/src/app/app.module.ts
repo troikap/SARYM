@@ -13,7 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AbmUsuarioComponent } from './components/abm-usuario/search-usuario/abm-usuario.component';
 import { AbmTipomonedaComponent } from './components/abm-tipomoneda/abm-tipomoneda.component';
 import { AbmUnidadmedidaComponent } from './components/abm-unidadmedida/search-unidadmedida/abm-unidadmedida.component';
-import { AbmCajaComponent } from './components/abm-caja/abm-caja.component';
+import { AbmCajaComponent } from './components/abm-caja/search-caja/abm-caja.component';
+import { AbmCajaCreateComponent } from './components/abm-caja/crud-caja/abm-caja-crud.component';
 import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
 import { AbmSectorComponent } from './components/abm-sector/abm-sector.component';
@@ -35,6 +36,7 @@ import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud
     AbmTipomonedaComponent,
     AbmUnidadmedidaComponent,
     AbmCajaComponent,
+    AbmCajaCreateComponent,
     AbmMesaComponent,
     AbmRubroComponent,
     AbmSectorComponent,
