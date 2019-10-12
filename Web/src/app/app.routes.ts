@@ -14,7 +14,6 @@ import { GestionarMenupromocionComponent } from './components/gestionar-menuprom
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 
 
-
 const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginComponent },
@@ -27,7 +26,7 @@ const routes: Routes = [
     { path: 'sector', component: AbmSectorComponent },
     { path: 'producto', component: GestionarProductoComponent },
     { path: 'menupromocion', component: GestionarMenupromocionComponent },
-    { path: 'reporte', component: GestionarMenupromocionComponent },
+    { path: 'reporte', component: GenerarReporteComponent },
     { path: '',  redirectTo: '/login', pathMatch: 'full' },
     { path: '**', redirectTo: 'home'}
 ];
