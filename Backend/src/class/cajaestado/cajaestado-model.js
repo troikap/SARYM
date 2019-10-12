@@ -2,6 +2,7 @@
 
 const Sequelize = require("sequelize");
 const EstadoCajaModelo = require("../estadocaja/estadocaja-model");
+const UsuarioModelo = require("../usuario/usuario-model");
 var sequelize = require("../../database/connection");
 
 // DEFINICION DEL MODELO
@@ -51,6 +52,8 @@ const CajaEstadoModelo = sequelize.define(
 );
 
 CajaEstadoModelo.belongsTo(EstadoCajaModelo, { foreignKey: "idEstadoCaja" });
+CajaEstadoModelo.belongsTo(UsuarioModelo, { foreignKey: "idUsuario" });
+
 // CajaEstadoModelo.belongsTo(CajaModelo, { foreignKey: "idCaja" });
 
 module.exports = CajaEstadoModelo;
