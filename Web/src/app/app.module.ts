@@ -20,7 +20,7 @@ import { AbmSectorComponent } from './components/abm-sector/abm-sector.component
 import { GestionarProductoComponent } from './components/gestionar-producto/gestionar-producto.component';
 import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
-import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida/create-unidadmedida/abm-unidadmedida-create.component';
+import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida/crud-unidadmedida/abm-unidadmedida-create.component';
 
 
 @NgModule({

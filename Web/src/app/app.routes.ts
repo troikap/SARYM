@@ -5,7 +5,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AbmUsuarioComponent } from './components/abm-usuario/abm-usuario.component';
 import { AbmTipomonedaComponent } from './components/abm-tipomoneda/abm-tipomoneda.component';
 import { AbmUnidadmedidaComponent } from './components/abm-unidadmedida/search-unidadmedida/abm-unidadmedida.component';
-import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida/create-unidadmedida/abm-unidadmedida-create.component';
+import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida/crud-unidadmedida/abm-unidadmedida-create.component';
 import { AbmCajaComponent } from './components/abm-caja/abm-caja.component';
 import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
 import { AbmRubroComponent } from './components/abm-rubro/abm-rubro.component';
