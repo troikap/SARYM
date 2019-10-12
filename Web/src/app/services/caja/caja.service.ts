@@ -36,9 +36,9 @@ export class CajaService {
     }
   }
 
-  getUnidadMedidaByNro( termino: string) { //Observador
+  getUnidadMedidaByNro( termino: number) { //Observador
     console.log("Service getCajaNro: Termino = ", termino);
-    if (termino != "") {
+    if (termino != null) {
       let headers: HttpHeaders = new HttpHeaders();
       headers = headers.append('token', 'libre');
       return this.http

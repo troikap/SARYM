@@ -1,36 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 // import { UnidadMedida } from '../../model/unidad-medida/unidad-medida.model'; //Da error
-import { UnidadMedidaService } from '../../../services/unidad-medida/unidad-medida.service';
+import { CajaService } from '../../../services/caja/caja.service';
+import { Caja } from 'src/app/model/caja/caja.model';
 
 
 
 @Component({
-  selector: 'app-abm-unidadmedida',
-  templateUrl: './abm-unidadmedida.component.html',
-  styleUrls: ['./abm-unidadmedida.component.css']
+  selector: 'app-abm-caja',
+  templateUrl: './abm-caja.component.html',
+  styleUrls: ['./abm-caja.component.css']
 })
-export class AbmUnidadmedidaComponent implements OnInit {
+export class AbmCajaComponent implements OnInit {
 
-  listaUnidadMedida: any = [];
+  listaCaja: any = [];
 
   constructor(
     // private unidadMedia: UnidadMedida, //Da error
-    private unidadMedidaService :UnidadMedidaService,
+    private cajaService :CajaService,
     private router: Router,
 
   ) { }
 
   ngOnInit() {
-    this.getAllUnidadMedida();
+    this.getAllCaja();
   }
 
-  buscarUnidadMedida(termino: string) {
+  buscarCaja(termino: string) {
     
     console.log(termino);
 
     if (termino.trim() !== "") {
-      this.unidadMedidaService.getUnidadMedidaByName(termino)
+      this.cajaService.getCajaByName(termino)
       .subscribe((data: any) => { // Llamo a un Observer
         console.log(data);
         if (data != null) {
@@ -42,15 +43,15 @@ export class AbmUnidadmedidaComponent implements OnInit {
       });
     }
     else {
-      this.getAllUnidadMedida();
+      this.getAllCaja();
     }
   }
 
-  getAllUnidadMedida() {
-    this.unidadMedidaService.getAllUnidadMedida()
+  getAllCaja() {
+    this.unidadMedidaService.getAllCaja()
       .then((res: any) => {
         // console.log(res);
-        this.listaUnidadMedida =  res.data;
+        this.listaCaja =  res.data;
       })
 
   }
