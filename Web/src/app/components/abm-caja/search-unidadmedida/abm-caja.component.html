@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col">
+        <input #termino type="text" (keyup)="buscarUnidadMedida(termino.value)" class="form-control mr-sm-2" placeholder="Buscar Unidad de Medida...">
+    </div>
+</div>
+
+<hr>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Código</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Caracter</th>
+            <th scope="col">Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let lista of listaUnidadMedida">
+            <th scope="row">{{lista.idUnidadMedida}}</th>
+            <td>{{lista.codUnidadMedida}}</td>
+            <td>{{lista.nombreUnidadMedida}}</td>
+            <td>{{lista.caracterUnidadMedida}}</td>
+            <td>{{lista.descripcionUnidadMedida}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- <table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+        </tr>
+    </tbody>
+</table> -->
+
+<table class="table">
+
+    <tr>
+        <td width="20%">&nbsp;</td>
+        <td width="20%">&nbsp;</td>
+        <td width="20%">&nbsp;</td>
+        <td align="right" width="20%"><button [routerLink]="['/home']" class="btn btn-primary">Volver</button></td>
+        <td align="right" width="20%"><button [routerLink]="['/unidadmedida_create']" class="btn btn-primary">Crear / Modificar</button></td>
+    </tr>
+
+</table>
