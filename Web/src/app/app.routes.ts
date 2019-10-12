@@ -22,7 +22,7 @@ const routes: Routes = [
     { path: 'usuario', component: AbmUsuarioComponent },
     { path: 'tipomoneda', component: AbmTipomonedaComponent },
     { path: 'unidadmedida', component: AbmUnidadmedidaComponent },
-    { path: 'unidadmedida_create', component: AbmUnidadmedidaCreateComponent },
+    { path: 'unidadmedida_create/:id/:accion', component: AbmUnidadmedidaCreateComponent },
     { path: 'caja', component: AbmCajaComponent },
     { path: 'mesa', component: AbmMesaComponent },
     { path: 'rubro', component: AbmRubroComponent },

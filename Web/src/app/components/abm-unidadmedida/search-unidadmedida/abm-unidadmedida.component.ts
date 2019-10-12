@@ -57,4 +57,11 @@ export class AbmUnidadmedidaComponent implements OnInit {
 
   }
 
+  abmUnidadMedida(idElemento: number, accion: string) {
+    console.log("idElemento: ", idElemento);
+    console.log("accion: ", accion);
+
+    this.router.navigate( [`/unidadmedida_create/${idElemento}/${accion}`] );
+  }
+
 }
