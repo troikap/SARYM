@@ -14,7 +14,7 @@
                 <p class="input-error-msg" *ngIf="verificarValidacionCampo('codigo', ['invalid','touched'])">
                     Campo Obligatorio.
                 </p>
-                <button type="button" class="btn btn-success traer" (click)="traerUnidadMedida()" *ngIf="unidadMedidaEncontrada">Traer</button>
+
             </div>
 
             <div class="form-group">
@@ -41,9 +41,15 @@
                 </p>
             </div>
             <hr>
-            <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+            <div *ngIf="accionGet != 'eliminar'">
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+            </div>
+            <div *ngIf="accionGet == 'eliminar'">
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+            </div>
+
         </form>
     </div>
 </div>
 <hr>
-<button routerLink="/home" class="btn btn-primary">Cancelar</button>
+<button onclick="history.back()" class="btn btn-primary">Cancelar</button>

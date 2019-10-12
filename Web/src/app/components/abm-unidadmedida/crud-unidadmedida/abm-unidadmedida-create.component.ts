@@ -13,18 +13,10 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
   form: FormGroup;
   unidadMedidaEncontrada: boolean;
   idUnidadMedida: string = "";
+  accionGet;
 
   private newForm = {};
   private unidadMedida: UnidadMedida;
-
-
-  /* constructor(private activatedRoute: ActivatedRoute, private heroeService: HeroesService, private router: Router) {
-
-    this.activatedRoute.params.subscribe(params => {
-      this.heroeLocal = this.heroeService.buscarHeroeService(params.termino);
-      this.termino = params.termino;
-    });
-  } */
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -41,13 +33,22 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
 
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params);
+
+      this.accionGet  = params.accion;
+      this.idUnidadMedida = params.id;
+      
+      if (this.accionGet !== "crear") {
+        this.unidadMedidaEncontrada = true;
+        this.traerUnidadMedida();
+      }
+      else {
+        this.unidadMedidaEncontrada = false;
+      }
       
     });
   }
 
-  ngOnInit() {
-    this.ponerBuscador();
-  }
+  ngOnInit() {}
 
   verificarValidacionCampo(pNombreCampo: string, arregloValidaciones: string[]) {
     let countValidate = 0;
@@ -77,39 +78,11 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
     }
   }
 
-  ponerBuscador() {
-  this.form.controls['codigo'].valueChanges
-      .subscribe( (res) => {
-        
-        // console.log("valueChanges ponerBuscador----->" , res);
-
-        if (res != "") {
-          this.unidadMedidaService.getUnidadMedida(res)
-          .subscribe((data: any) => { // Llamo a un Observer
-            // console.log("RESULT ----------------->", data);
-            
-            if (data != null) { // Tengo datos
-              this.unidadMedidaEncontrada = true;
-              this.idUnidadMedida = data['idUnidadMedida'];
-            }
-            else { // No tengo datos
-              this.unidadMedidaEncontrada = false;
-            }
-          });
-        }
-        else {
-          this.unidadMedidaEncontrada = false;
-        }
-
-        
-    })
-  }
-
   traerUnidadMedida() {
     // console.log("Funcion 'traerUnidadMedida()', ejecutada");
     // console.log("valro de idUnidadMedida: ---->", this.idUnidadMedida);
 
-    if (this.idUnidadMedida !== "") {
+    if (this.idUnidadMedida !== "0" && this.idUnidadMedida !== "") {
       this.unidadMedidaService.getUnidadMedida(this.idUnidadMedida)
         .subscribe((data: any) => { // Llamo a un Observer
           console.log(data);
@@ -138,7 +111,7 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
 
     let um = null;
     if( this.unidadMedida && this.unidadMedida.idUnidadMedida) {
-      console.log("SETEO DE ID :", )
+      console.log("SETEO DE ID :", this.unidadMedida)
       um = this.unidadMedida.idUnidadMedida;
     } 
 
@@ -155,11 +128,18 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
 
   guardar() {
     console.log(this.form);
-    if (this.unidadMedidaEncontrada) {
+    if (this.unidadMedidaEncontrada && this.accionGet === "editar") {
       let unidadMed = this.reemplazarUnidadMedida();
       this.unidadMedidaService.updateUnidadMedida( unidadMed, "libre" )
       .then( (response) => {
         console.log("ACTUALIZADO", response)
+      })
+    } 
+    if (this.unidadMedidaEncontrada && this.accionGet === "eliminar") {
+      let unidadMed = this.reemplazarUnidadMedida();
+      this.unidadMedidaService.deleteUnidadMedida( unidadMed, "libre" )
+      .then( (response) => {
+        console.log("BORRADO", response)
       })
     } else {
       let unidadMed = this.reemplazarUnidadMedida();

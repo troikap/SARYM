@@ -80,6 +80,20 @@ export class UsuarioService {
       .catch(  );
   }
 
+  deleteUsuario( datas, token ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', token);
+     let data = {headers}
+     console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .post(`${this.url}${this.dir}`, datas, data)
+      .toPromise()
+      .then(response => {
+        return response as Usuario;
+      })
+      .catch(  );
+  }
+
   setUsuario( datas, token ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', token);
