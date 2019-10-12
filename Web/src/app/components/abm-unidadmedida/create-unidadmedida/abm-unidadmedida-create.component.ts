@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import { Router } from '@angular/router';
-import { UnidadMedidaService } from '../../services/unidad-medida/unidad-medida.service';
+import { UnidadMedidaService } from '../../../services/unidad-medida/unidad-medida.service';
 import { UnidadMedida } from 'src/app/model/unidad-medida/unidad-medida.model';
 
 @Component({

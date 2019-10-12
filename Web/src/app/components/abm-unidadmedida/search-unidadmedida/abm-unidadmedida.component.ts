@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 // import { UnidadMedida } from '../../model/unidad-medida/unidad-medida.model'; //Da error
-import { UnidadMedidaService } from '../../services/unidad-medida/unidad-medida.service';
+import { UnidadMedidaService } from '../../../services/unidad-medida/unidad-medida.service';
 
 
 
