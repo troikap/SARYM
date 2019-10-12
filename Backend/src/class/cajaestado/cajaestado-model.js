@@ -2,7 +2,6 @@
 
 const Sequelize = require("sequelize");
 const EstadoCajaModelo = require("../estadocaja/estadocaja-model");
-const CajaModelo = require("../caja/caja-model");
 var sequelize = require("../../database/connection");
 
 // DEFINICION DEL MODELO
@@ -39,7 +38,11 @@ const CajaEstadoModelo = sequelize.define(
             type: Sequelize.FLOAT,
             allowNull: false
         },
-        fechaYHoraCajaEstado: {
+        fechaYHoraAltaCajaEstado: {
+            type: Sequelize.DATE,
+            allowNull: false
+        },
+        fechaYHoraBajaCajaEstado: {
             type: Sequelize.DATE
         }
     }, {
@@ -48,6 +51,6 @@ const CajaEstadoModelo = sequelize.define(
 );
 
 CajaEstadoModelo.belongsTo(EstadoCajaModelo, { foreignKey: "idEstadoCaja" });
-CajaEstadoModelo.belongsTo(CajaModelo, { foreignKey: "idCaja" });
+// CajaEstadoModelo.belongsTo(CajaModelo, { foreignKey: "idCaja" });
 
 module.exports = CajaEstadoModelo;
