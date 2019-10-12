@@ -10,7 +10,7 @@ import { UsuarioService } from '../../../services/usuario/usuario.service';
 @Component({
   selector: 'app-crud-usuario',
   templateUrl: './crud-usuario.component.html',
-  styleUrls: ['./crud-usuario.component.css']
+  styleUrls: ['./crud-usuario.component.scss']
 })
 export class CrudUsuarioComponent implements OnInit {
   form: FormGroup;

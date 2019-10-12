@@ -8,7 +8,7 @@ import { UnidadMedidaService } from '../../../services/unidad-medida/unidad-medi
 @Component({
   selector: 'app-abm-unidadmedida',
   templateUrl: './abm-unidadmedida.component.html',
-  styleUrls: ['./abm-unidadmedida.component.css']
+  styleUrls: ['./abm-unidadmedida.component.scss']
 })
 export class AbmUnidadmedidaComponent implements OnInit {
 

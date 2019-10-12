@@ -6,7 +6,7 @@ import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 @Component({
   selector: 'app-abm-usuario',
   templateUrl: './abm-usuario.component.html',
-  styleUrls: ['./abm-usuario.component.css']
+  styleUrls: ['./abm-usuario.component.scss']
 })
 export class AbmUsuarioComponent implements OnInit {
 

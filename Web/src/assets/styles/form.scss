@@ -43,14 +43,14 @@ option {
   FORMS
 ############################################################*/
 
-/* .form-group {
+.form-group {
     .form-control {
         border-radius: 10px;
-        &.ion-invalid.ion-touched:not(.has-focus) {
+        &.ng-invalid.ng-touched:not(.has-focus) {
             color: var(--ion-color-danger) !important;
             border: 1px solid var(--ion-color-danger) !important;
         }
-        &.ion-valid.ion-touched:not(.has-focus) {
+        &.ng-valid.ng-touched:not(.has-focus) {
             color: var(--ion-color-tertiary) !important;
             border: 1px solid var(--ion-color-success) !important;
         }
@@ -61,11 +61,11 @@ option {
     }
     select {
         border-radius: 10px;
-        &.ion-invalid.ion-touched:not(.has-focus) {
+        &.ng-invalid.ng-touched:not(.has-focus) {
             color: red !important;
             border: 1px solid red !important;
         }
-        &.ion-valid.ion-touched:not(.has-focus) {
+        &.ng-valid.ng-touched:not(.has-focus) {
             color: green !important;
             border: 1px solid green !important;
         }
@@ -73,5 +73,5 @@ option {
             color: black;
             border: 1px solid yellow !important;
         }
-    } */
- /* }  */
+    }
+}
