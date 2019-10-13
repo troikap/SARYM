@@ -2,16 +2,19 @@
   INPUT
 ############################################################*/
 
-button.traer{
+button.traer {
     margin: 5px;
 }
+
 div.buscar.row {
     margin: 10px 3px;
 }
+
 h2.titulo {
     text-align: center;
     padding-bottom: 15px;
 }
+
 input {
     font-size: 18px !important;
     text-align: center;
@@ -30,8 +33,9 @@ option {
 
 .form-section {
     max-width: 70%;
-    margin:auto;
+    margin: auto;
 }
+
 
 /* ############################################################
   FORMS
@@ -41,12 +45,12 @@ option {
     .form-control {
         border-radius: 10px;
         &.ng-invalid.ng-touched:not(.has-focus) {
-            color: var(--ion-color-danger) !important;
-            border: 1px solid var(--ion-color-danger) !important;
+            color: var(--is-invalid) !important;
+            // border: 1px solid var(--is-invalid) !important;
         }
         &.ng-valid.ng-touched:not(.has-focus) {
             color: var(--ion-color-tertiary) !important;
-            border: 1px solid var(--ion-color-success) !important;
+            // border: 1px solid var(--ion-color-success) !important;
         }
         &.has-focus {
             color: black;
