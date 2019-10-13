@@ -13,7 +13,7 @@ let verificaToken = (req, res, next) => {
         next();
         console.log("Token Nuevo o Libre");
     } else {
-        console.log("WTF!!!!");
+        // console.log("WTF!!!!");
         jwt.verify(token, process.env.SEED, (err, decoded) => {
             if (err) {
                 console.log("Error Nombre: ", err);
