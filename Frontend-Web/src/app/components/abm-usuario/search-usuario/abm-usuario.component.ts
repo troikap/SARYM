@@ -22,7 +22,13 @@ export class AbmUsuarioComponent implements OnInit {
 
   ngOnInit() {
     this.getAllElements();
+    this.cargarOnFocus();
   }
+
+  cargarOnFocus() {
+    $("#botonBuscar").focus();
+  }
+
   buscarElemento(termino: string) {
     
     console.log(termino);
