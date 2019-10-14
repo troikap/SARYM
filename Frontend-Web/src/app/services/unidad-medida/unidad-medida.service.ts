@@ -90,7 +90,7 @@ export class UnidadMedidaService {
      headers = headers.append('token', this.tokenEnviroment);
      console.log("data Header:",datas);
     return this.http
-      .post(`${this.url}${this.dir}/${datas.idUnidadMedida}`, {headers})
+      .delete(`${this.url}${this.dir}/${datas.idUnidadMedida}`, {headers})
       .toPromise()
       .then(response => {
         return response;
