@@ -135,8 +135,9 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
         console.log("ACTUALIZADO", response)
       })
     } 
-    if (this.unidadMedidaEncontrada && this.accionGet === "eliminar") {
+    else if (this.unidadMedidaEncontrada && this.accionGet === "eliminar") {
       let unidadMed = this.reemplazarUnidadMedida();
+      // console.log("Datos a enviar: ", unidadMed);
       this.unidadMedidaService.deleteUnidadMedida( unidadMed )
       .then( (response) => {
         console.log("BORRADO", response)

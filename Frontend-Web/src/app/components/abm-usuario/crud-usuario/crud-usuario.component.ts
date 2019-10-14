@@ -124,9 +124,9 @@ export class CrudUsuarioComponent implements OnInit {
             domicilioUsuario:  this.usuario['domicilioUsuario'],
             emailUsuario:  this.usuario['emailUsuario'],
             idDepartamento:  this.usuario['idDepartamento'],
+            contrasenaUsuario: '',
             nroCelularUsuario: this.usuario['nroCelularUsuario'],
             nroTelefonoUsuario: this.usuario['nroTelefonoUsuario'],
-            contrasenaUsuario: '',
             idRol: this.usuario['rolusuarios'][0].rol.idRol,
             idEstadoUsuario: this.usuario['usuarioestados'][0].estadousuario.idEstadoUsuario
           }
@@ -172,8 +172,9 @@ export class CrudUsuarioComponent implements OnInit {
         console.log("ACTUALIZADO", response)
       })
     } 
-    if (this.usuarioEncontrado && this.accionGet === "eliminar") {
+    else if (this.usuarioEncontrado && this.accionGet === "eliminar") {
       let user = this.reemplazarUsuario();
+      // console.log("Datos A enviar: " + user);
       this.usuarioservicio.deleteUsuario( user )
       .then( (response) => {
         console.log("BORRADO", response)
@@ -184,18 +185,6 @@ export class CrudUsuarioComponent implements OnInit {
       this.usuarioservicio.setUsuario( unidadMed )
       .then( (response) => {
         console.log("CREADO", response)
-
-        // Asigno ID al formulario//
-        this.newForm = {
-          id: response.data.idUnidadMedida,
-          codigo:  this.form.value['codigo'],
-          nombre:  this.form.value['nombre'],
-          caracter:  this.form.value['caracter'],
-          descripcion:  this.form.value['descripcion']
-        }
-        this.form.setValue(this.newForm);
-        ////////////////////////////
-
       })
     }
   }

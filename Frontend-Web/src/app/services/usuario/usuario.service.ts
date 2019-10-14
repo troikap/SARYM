@@ -90,13 +90,12 @@ export class UsuarioService {
       .catch(  );
   }
 
-  updateUsuario( datas ): Promise<any> {
+  updateUsuario( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
-     let data = {headers}
      console.log("DATOS A ENVIAR :",datas)
     return this.http
-      .put(`${this.url}${this.dir}`, datas, data)
+      .put(`${this.url}${this.dir}`, datas, {headers})
       .toPromise()
       .then(response => {
         return response as Usuario;
@@ -104,13 +103,13 @@ export class UsuarioService {
       .catch(  );
   }
 
-  deleteUsuario( datas ): Promise<any> {
+  deleteUsuario( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', this.tokenEnviroment);
-     let data = {headers}
-     console.log("DATOS A ENVIAR :",datas)
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log("valor del Header:",headers)
+    console.log("DATOS A ENVIAR:",datas)
     return this.http
-      .post(`${this.url}${this.dir}`, datas, data)
+      .post(`${this.url}${this.dir}/${datas.idUsuario}`, {headers})
       .toPromise()
       .then(response => {
         return response as Usuario;
@@ -118,12 +117,11 @@ export class UsuarioService {
       .catch(  );
   }
 
-  setUsuario( datas ): Promise<any> {
+  setUsuario( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
-     let data = {headers}
     return this.http
-      .post(`${this.url}${this.dir}`, datas, data)
+      .post(`${this.url}${this.dir}`, datas, {headers})
       .toPromise()
       .then(response => {
         return response as Usuario;

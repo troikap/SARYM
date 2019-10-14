@@ -55,10 +55,6 @@ export class UnidadMedidaService {
   getAllUnidadMedida() { //Promesa
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
-
-    console.log("Servicio getAllUnidadMedida() Running");
-    console.log("Header: ", headers);
-
     return this.http
       .get(`${this.url}${this.dir}`, {headers})
       .toPromise()
@@ -72,10 +68,10 @@ export class UnidadMedidaService {
   }
 
 
-  updateUnidadMedida( datas ): Promise<any> {
+  updateUnidadMedida( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', this.tokenEnviroment);
-     console.log("DATOS A ENVIAR :",datas)
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log("DATOS A ENVIAR :",datas)
     return this.http
       .put(`${this.url}${this.dir}`, datas, {headers})
       .toPromise()
@@ -85,10 +81,11 @@ export class UnidadMedidaService {
       .catch(  );
   }
 
-  deleteUnidadMedida( datas ): Promise<any> {
+  deleteUnidadMedida( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', this.tokenEnviroment);
-     console.log("data Header:",datas);
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log("Valor Header:", headers);
+    console.log("DATOS A ENVIAR :",datas);
     return this.http
       .post(`${this.url}${this.dir}/${datas.idUnidadMedida}`, {headers})
       .toPromise()
@@ -100,7 +97,7 @@ export class UnidadMedidaService {
 
   createUnidadMedida( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', this.tokenEnviroment); 
+    headers = headers.append('token', this.tokenEnviroment); 
     return this.http
       .post(`${this.url}${this.dir}`, datas, {headers})
       .toPromise()
