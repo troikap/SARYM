@@ -1,3 +1,4 @@
+import * as $ from 'jquery'
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 // import { UnidadMedida } from '../../model/unidad-medida/unidad-medida.model'; //Da error
@@ -21,6 +22,11 @@ export class AbmUnidadmedidaComponent implements OnInit {
 
   ngOnInit() {
     this.getAllElements();
+    this.cargarOnFocus();
+  }
+
+  cargarOnFocus() {
+    $("#botonBuscar").focus();
   }
 
   buscarElemento(termino: string) {
