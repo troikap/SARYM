@@ -87,7 +87,7 @@ export class UnidadMedidaService {
     console.log("Valor Header:", headers);
     console.log("DATOS A ENVIAR :",datas);
     return this.http
-      .post(`${this.url}${this.dir}/${datas.idUnidadMedida}`, {headers})
+      .delete(`${this.url}${this.dir}/${datas.idUnidadMedida}`, {headers})
       .toPromise()
       .then(response => {
         return response;
