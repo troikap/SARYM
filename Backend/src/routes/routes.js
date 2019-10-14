@@ -39,8 +39,10 @@ router
     .get('/usuario/:idUsuario', verificaToken, UsuarioController.getOne)
     .get('/usuario/name/:nombreUsuario', verificaToken, UsuarioController.getToName)
     .get('/usuario/cuitUsuario/:cuitUsuario', verificaToken, UsuarioController.getOneCuit)
+    .get('/usuario/todo/:anyAttribute', verificaToken, UsuarioController.getToAllAttributes)
     .post('/usuario/:idUsuario', verificaToken, UsuarioController.delete, UsuarioController.changeState)
     .delete('/usuario/:idUsuario', verificaToken, UsuarioController.destroy)
+    
 
 // estadousuario
 .get('/estadousuario', verificaToken, EstadoUsuarioController.getAll)

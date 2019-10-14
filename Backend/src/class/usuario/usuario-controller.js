@@ -25,11 +25,44 @@ const UsuarioModelo = require("./usuario-model"),
     table = "usuario",
     nombretable = "nombreUsuario";
 
+UsuarioController.getToAllAttributes = (req, res, next) => {
+    UsuarioModelo.findAll({
+        where: {
+            [Op.or]: [
+                {nombreUsuario: {[Op.substring]: req.params.anyAttribute}},
+                {apellidoUsuario: {[Op.substring]: req.params.anyAttribute}},
+                {cuitUsuario: {[Op.substring]: req.params.anyAttribute}},
+                {domicilioUsuario: {[Op.substring]: req.params.anyAttribute}},
+                {emailUsuario: {[Op.substring]: req.params.anyAttribute}},
+                {idUsuario: {[Op.substring]: req.params.anyAttribute}},
+                {nroCelularUsuario: {[Op.substring]: req.params.anyAttribute}},
+                {nroTelefonoUsuario: {[Op.substring]: req.params.anyAttribute}},
+                ]
+            }
+    }).then(project => {
+        if (!project || project == 0) {
+            let locals = {
+                title: "No existe el registro : " + req.params[nombretable]
+            };
+            res.json(locals);
+        } else {
+            let locals = {
+                title: `${legend}`,
+                data: project
+            };
+            res.json(locals);
+        }
+    });
+};
+
 UsuarioController.getToName = (req, res, next) => {
     UsuarioModelo.findAll({
         where: {
-            [nombretable]: {
-                [Op.substring]: req.params[nombretable] } }
+            [Op.or]: [
+                {nombreUsuario: {[Op.substring]: req.params[nombretable]}},
+                {apellidoUsuario: {[Op.substring]: req.params[nombretable]}},
+             ]
+            }
     }).then(project => {
         if (!project || project == 0) {
             let locals = {
