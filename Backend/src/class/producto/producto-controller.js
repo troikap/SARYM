@@ -179,7 +179,7 @@ ProductoController.getToName = (req, res, next) => {
   ],
   }).then(project => {
     if (!project || project == 0) {
-      locals['title'] = "No existe el registro : " + req.params[nombretable];
+      locals['title'] = "No existe ningun registro con la palabra : " + req.params[nombretable];
       locals['tipo'] = 2;
       res.json(locals);
     } else {

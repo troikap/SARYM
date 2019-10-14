@@ -74,6 +74,8 @@ router
 // promocion
     .get('/menupromocion', verificaToken, MenuPromocionController.getAll)
     .get('/menupromocion/:idMenuPromocion', verificaToken, MenuPromocionController.getOne)
+    .get('/menupromocion/name/:nombreMenuPromocion', verificaToken, MenuPromocionController.getToName)
+    .get('/menupromocion/todo/:anyAttribute', verificaToken, MenuPromocionController.getToAllAttributes)
 
 // mesa
     .get('/mesa', verificaToken, MesaController.getAll)
