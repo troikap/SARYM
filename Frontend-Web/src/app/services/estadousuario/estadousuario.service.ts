@@ -10,13 +10,17 @@ const dir = '/estadousuario';
 })
 export class EstadoUsuarioService {
 
+  tokenEnviroment = environment.token;
+
   constructor( 
     public http: HttpClient
   ) { }
 
    getEstadosUsuarios( ): Promise<EstadoUsuario[]> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .get( (url + dir))
+      .get( (url + dir), {headers})
       .toPromise()
       .then(response => {
         console.log('RESPUESTA',response)

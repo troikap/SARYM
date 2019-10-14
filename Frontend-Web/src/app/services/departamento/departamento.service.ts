@@ -10,13 +10,17 @@ const dir = '/departamento';
 })
 export class DepartamentoService {
 
+  tokenEnviroment = environment.token;
+
   constructor( 
     public http: HttpClient
   ) { }
 
    getDepartamentos( ): Promise<Departamento[]> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .get( (url + dir))
+      .get( (url + dir), {headers})
       .toPromise()
       .then(response => {
         return response['Departamento'] as Departamento[];

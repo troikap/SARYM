@@ -11,13 +11,17 @@ const dir = '/rol';
 })
 export class RolService {
 
+  tokenEnviroment = environment.token;
+
   constructor( 
     public http: HttpClient
   ) { }
 
    getRoles( ): Promise<Rol[]> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .get( (url + dir))
+      .get( (url + dir), {headers})
       .toPromise()
       .then(response => {
         console.log('RESPUESTA',response)
