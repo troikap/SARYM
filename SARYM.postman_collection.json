@@ -29,7 +29,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Estado Usuario : id",
+					"name": "Get Estado Usuario :id",
 					"request": {
 						"url": "localhost:3000/estadousuario/29",
 						"method": "GET",
@@ -111,7 +111,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Estado Caja: id",
+					"name": "Get Estado Caja :id",
 					"request": {
 						"url": "localhost:3000/estadocaja/2",
 						"method": "GET",
@@ -156,6 +156,498 @@
 					"name": "Del Estado Caja: id",
 					"request": {
 						"url": "localhost:3000/estadocaja/5",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estado Estadia",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Estado Estadia",
+					"request": {
+						"url": "localhost:3000/estadoestadia",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Estado Estadia :id",
+					"request": {
+						"url": "localhost:3000/estadoestadia/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Estado Estadia",
+					"request": {
+						"url": "localhost:3000/estadoestadia",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idEstadoEstadia\" : 5,\n\t\"nombreEstadoEstadia\": \"Ortro\",\n\t\"codEstadoEstadia\": \"other\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Estado Estadia :id",
+					"request": {
+						"url": "localhost:3000/estadoestadia/5",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estado Menu Promocion",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Estado Menu Promocion",
+					"request": {
+						"url": "localhost:3000/estadomenupromocion",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Estado Menu Promocion :id",
+					"request": {
+						"url": "localhost:3000/estadomenupromocion/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Estado Menu Promocion",
+					"request": {
+						"url": "localhost:3000/estadomenupromocion",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idEstadoMenuPromocion\" : 5,\n\t\"nombreEstadoMenuPromocion\": \"Ortro\",\n\t\"codEstadoMenuPromocion\": \"other\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Estado Menu Promocion :id",
+					"request": {
+						"url": "localhost:3000/estadomenupromocion/5",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estado Reserva",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Estado Reserva",
+					"request": {
+						"url": "localhost:3000/estadoreserva",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Estado Reserva :id",
+					"request": {
+						"url": "localhost:3000/estadoreserva/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Estado Reserva",
+					"request": {
+						"url": "localhost:3000/estadoreserva",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idEstadoReserva\" : 5,\n\t\"nombreEstadoReserva\": \"Ortro\",\n\t\"codEstadoReserva\": \"other\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Estado Reserva :id",
+					"request": {
+						"url": "localhost:3000/estadoreserva/5",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estado Producto",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Estado Producto",
+					"request": {
+						"url": "localhost:3000/estadoproducto",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Estado Producto :id",
+					"request": {
+						"url": "localhost:3000/estadoproducto/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Estado Producto",
+					"request": {
+						"url": "localhost:3000/estadoproducto",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idEstadoProducto\" : 5,\n\t\"nombreEstadoProducto\": \"Ortro\",\n\t\"codEstadoProducto\": \"other\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Estado Producto :id",
+					"request": {
+						"url": "localhost:3000/estadoproducto/5",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estado Pedido",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Estado Pedido",
+					"request": {
+						"url": "localhost:3000/estadopedido",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Estado Pedido :id",
+					"request": {
+						"url": "localhost:3000/estadopedido/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Estado Pedido",
+					"request": {
+						"url": "localhost:3000/estadopedido",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idEstadoPedido\" : 5,\n\t\"nombreEstadoPedido\": \"Ortro\",\n\t\"codEstadoPedido\": \"other\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Estado Pedido :id",
+					"request": {
+						"url": "localhost:3000/estadopedido/5",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estado Mesa",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Estado Mesa",
+					"request": {
+						"url": "localhost:3000/estadomesa",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Estado Mesa :id",
+					"request": {
+						"url": "localhost:3000/estadomesa/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Estado Mesa",
+					"request": {
+						"url": "localhost:3000/estadomesa",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idEstadoMesa\" : 5,\n\t\"nombreEstadoMesa\": \"Ortro\",\n\t\"codEstadoMesa\": \"other\",\n\t\"colorEstadoMesa\" : \"gris\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Estado Mesa :id",
+					"request": {
+						"url": "localhost:3000/estadomesa/6",
 						"method": "DELETE",
 						"header": [
 							{
