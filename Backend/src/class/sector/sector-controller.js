@@ -3,8 +3,55 @@
 const SectorModelo = require("../sector/sector-model"),
   SectorController = () => {},
   legend = "Sector",
-  idtable = "idSector",
-  table = "sector";
+  idtable = `id${legend}`,
+  table = "sector",
+  nombretable = `nombre${legend}`,
+  Sequelize = require('sequelize'),
+  Op = Sequelize.Op;
+
+SectorController.getToAllAttributes = (req, res, next) => {
+  SectorModelo.findAll({
+      where: {
+          [Op.or]: [
+              {codSector: {[Op.substring]: req.params.anyAttribute}},
+              {idSector: {[Op.substring]: req.params.anyAttribute}},
+              {nombreSector: {[Op.substring]: req.params.anyAttribute}},
+              ]
+          }
+  }).then(project => {
+      if (!project || project == 0) {
+          let locals = {
+              title: "No existe el registro : " + req.params[nombretable]
+          };
+          res.json(locals);
+      } else {
+          let locals = {
+              title: `${legend}`,
+              data: project
+          };
+          res.json(locals);
+      }
+  });
+};
+
+SectorController.getToName = (req, res, next) => {
+    SectorModelo.findAll({
+      where: { [nombretable]: { [Op.substring]: req.params[nombretable] }}
+    }).then(project => {
+        if (!project || project == 0) {
+            let locals = {
+                title: "No existe el registro : " + req.params[nombretable]
+            };
+            res.json(locals);
+        } else {
+            let locals = {
+                title: `${legend}`,
+                data: project
+            };
+            res.json(locals);
+        }
+    });
+};
 
 SectorController.getAll = (req, res, next) => {
   SectorModelo.findAll({ raw: true }).then(projects => {

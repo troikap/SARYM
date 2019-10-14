@@ -8,6 +8,32 @@ const UnidadMedidaModelo = require("../unidadmedida/unidadmedida-model"),
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
 
+  UnidadMedidaController.getToAllAttributes = (req, res, next) => {
+    UnidadMedidaModelo.findAll({
+        where: {
+            [Op.or]: [
+                {codUnidadMedida: {[Op.substring]: req.params.anyAttribute}},
+                {idUnidadMedida: {[Op.substring]: req.params.anyAttribute}},
+                {nombreUnidadMedida: {[Op.substring]: req.params.anyAttribute}},
+                {caracterUnidadMedida: {[Op.substring]: req.params.anyAttribute}},
+                ]
+            }
+    }).then(project => {
+        if (!project || project == 0) {
+            let locals = {
+                title: "No existe el registro : " + req.params[nombretable]
+            };
+            res.json(locals);
+        } else {
+            let locals = {
+                title: `${legend}`,
+                data: project
+            };
+            res.json(locals);
+        }
+    });
+};
+
 UnidadMedidaController.getToName = (req, res, next) => {
   let locals = {};
   UnidadMedidaModelo.findAll({

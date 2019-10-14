@@ -9,6 +9,31 @@ const RubroModelo = require("../rubro/rubro-model"),
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
 
+RubroController.getToAllAttributes = (req, res, next) => {
+  RubroModelo.findAll({
+      where: {
+          [Op.or]: [
+              {codRubro: {[Op.substring]: req.params.anyAttribute}},
+              {idRubro: {[Op.substring]: req.params.anyAttribute}},
+              {nombreRubro: {[Op.substring]: req.params.anyAttribute}},
+              ]
+          }
+  }).then(project => {
+      if (!project || project == 0) {
+          let locals = {
+              title: "No existe el registro : " + req.params[nombretable]
+          };
+          res.json(locals);
+      } else {
+          let locals = {
+              title: `${legend}`,
+              data: project
+          };
+          res.json(locals);
+      }
+  });
+};
+
 RubroController.getToName = (req, res, next) => {
   RubroModelo.findAll({
     where: { [nombretable]: { [Op.substring]: req.params[nombretable] }}

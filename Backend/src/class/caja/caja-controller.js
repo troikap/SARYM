@@ -11,6 +11,30 @@ const CajaModelo = require("../caja/caja-model"),
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
 
+CajaController.getToAllAttributes = (req, res, next) => {
+  CajaModelo.findAll({
+      where: {
+          [Op.or]: [
+              {idCaja: {[Op.substring]: req.params.anyAttribute}},
+              {nroCaja: {[Op.substring]: req.params.anyAttribute}},
+              ]
+          }
+  }).then(project => {
+      if (!project || project == 0) {
+          let locals = {
+              title: "No existe el registro : " + req.params[nombretable]
+          };
+          res.json(locals);
+      } else {
+          let locals = {
+              title: `${legend}`,
+              data: project
+          };
+          res.json(locals);
+      }
+  });
+};
+
 CajaController.getToName = (req, res, next) => {
   CajaModelo.findAll({
     where: { [nrotable]: { [Op.substring]: req.params[nrotable] }}

@@ -90,6 +90,88 @@
 			]
 		},
 		{
+			"name": "Estado Caja",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Estado Caja",
+					"request": {
+						"url": "localhost:3000/estadocaja",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Estado Caja: id",
+					"request": {
+						"url": "localhost:3000/estadocaja/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Estado Caja",
+					"request": {
+						"url": "localhost:3000/estadocaja",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idEstadoCaja\" : 5,\n\t\"nombreEstadoCaja\": \"Ortro\",\n\t\"codEstadoCaja\": \"other\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Estado Caja: id",
+					"request": {
+						"url": "localhost:3000/estadocaja/5",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Rol",
 			"description": "",
 			"item": [
@@ -230,6 +312,23 @@
 					"name": "Get Caja : name",
 					"request": {
 						"url": "localhost:3000/caja/name/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Caja : anyAttribute",
+					"request": {
+						"url": "localhost:3000/caja/todo/1",
 						"method": "GET",
 						"header": [
 							{
@@ -411,6 +510,23 @@
 					"name": "Get Rubro : name",
 					"request": {
 						"url": "localhost:3000/rubro/name/se",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rubro : anyAttribute",
+					"request": {
+						"url": "localhost:3000/rubro/name/r",
 						"method": "GET",
 						"header": [
 							{
@@ -767,7 +883,7 @@
 				{
 					"name": "Get Usuario : name",
 					"request": {
-						"url": "localhost:3000/usuario/name/luc",
+						"url": "localhost:3000/usuario/name/a",
 						"method": "GET",
 						"header": [
 							{
@@ -801,7 +917,7 @@
 				{
 					"name": "Get Usuario : anyAttibute",
 					"request": {
-						"url": "localhost:3000/usuario/cuitUsuario/2036850688",
+						"url": "localhost:3000/usuario/todo/mer",
 						"method": "GET",
 						"header": [
 							{

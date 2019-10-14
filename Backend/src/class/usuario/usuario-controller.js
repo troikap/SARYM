@@ -182,51 +182,6 @@ UsuarioController.login = (req, res) => {
     });
 }
 
-UsuarioController.logueo = (req, res) => {
-    let locals = {};
-    let body = req.body;
-    UsuarioModelo.findAll({
-        where: {
-            cuitUsuario: body.cuitUsuario,
-            contrasenaUsuario: body.contrasenaUsuario
-        },
-        attributes: [
-            'descripcionUsuarioEstado',
-            'fechaYHoraAltaUsuarioEstado',
-            'fechaYHoraBajaUsuarioEstado'
-        ],
-        include: [{
-            model: EstadoUsuarioModelo,
-            attribute: [
-                'nombreEstadoUsuario'
-            ]
-        }]
-    }).then(response => {
-        if (response && response != 0) {
-            if (response[0].usuarioestados[0].estadousuario.dataValues.nombreEstadoUsuario != 'Activo') {
-                locals.title = {
-                    descripcion: `Usuario Suspendido o dado de Baja`,
-                    tipo: 3
-                };
-                res.json(locals);
-            } else {
-                locals.title = {
-                    descripcion: `Usuario Logueado`,
-                    tipo: 1
-                };
-                locals[legend2] = response;
-                res.json(locals);
-            }
-        } else {
-            locals.title = {
-                descripcion: `Usuario o Contraseña invalidos`,
-                tipo: 2
-            };
-            res.json(locals);
-        }
-    });
-}
-
 UsuarioController.getAll = (req, res) => {
     let locals = {};
     UsuarioModelo.findAll({
@@ -906,16 +861,3 @@ UsuarioController.error404 = (req, res, next) => {
 };
 
 module.exports = UsuarioController;
-
-// cuitUsuario: req.body.cuitUsuario,
-// nombreUsuario: req.body.nombreUsuario,
-// apellidoUsuario: req.body.apellidoUsuario,
-// contrasenaUsuario: req.body.contrasenaUsuario,
-// dniUsuario: req.body.dniUsuario,
-// domicilioUsuario: req.body.domicilioUsuario,
-// emailUsuario: req.body.emailUsuario,
-// idDepartamento: req.body.idDepartamento,
-// nroCelularUsuario: req.body.nroCelularUsuario,
-// nroTelefonoUsuario: req.body.nroTelefonoUsuario
-// idRol: req.body.idRol,
-// idEstadoUsuario: req.body.idEstadoUsuario
