@@ -28,7 +28,7 @@ export class AbmUnidadmedidaComponent implements OnInit {
     console.log(termino);
 
     if (termino.trim() !== "") {
-      this.unidadMedidaService.getUnidadMedidaByName(termino)
+      this.unidadMedidaService.getUnidadMedidaByAll(termino)
       .subscribe((data: any) => { // Llamo a un Observer
         console.log(data);
         if (data != null) {

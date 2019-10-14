@@ -28,7 +28,7 @@ export class AbmUsuarioComponent implements OnInit {
     console.log(termino);
 
     if (termino.trim() !== "") {
-      this.usuarioService.getUsuarioByName(termino)
+      this.usuarioService.getUsuarioByAll(termino)
       .subscribe((data: any) => { // Llamo a un Observer
         console.log(data);
         if (data != null) {

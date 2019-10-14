@@ -34,6 +34,7 @@ export class CrudUsuarioComponent implements OnInit {
     private usuarioservicio: UsuarioService,
   ) {
     this.form = new FormGroup({
+      'idUsuario': new FormControl({value: '', disabled: true}),
       'apellidoUsuario': new FormControl('', Validators.required),
       'contrasenaUsuario': new FormControl('', Validators.required),
       'cuitUsuario': new FormControl('', Validators.required),
@@ -117,6 +118,7 @@ export class CrudUsuarioComponent implements OnInit {
         if (res) {
           this.usuario = res['Usuario'];
           this.newForm = {
+            idUsuario: this.usuario['idUsuario'],
             cuitUsuario:  this.usuario['cuitUsuario'],
             nombreUsuario:  this.usuario['nombreUsuario'],
             apellidoUsuario:  this.usuario['apellidoUsuario'],
