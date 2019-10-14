@@ -12,7 +12,7 @@ export class UnidadMedidaService {
   
   url = environment.urlNgrok || environment.url;
   dir = '/unidadmedida';
-  dir2 = '/name';
+  dir2 = '/todo';
 
   tokenEnviroment = environment.token;
 
@@ -33,7 +33,7 @@ export class UnidadMedidaService {
     
   }
 
-  getUnidadMedidaByName( termino: string) { //Observador
+  getUnidadMedidaByAll( termino: string) { //Observador
     console.log("Service getUnidadMedidaName: Termino = ", termino);
     if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
