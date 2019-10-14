@@ -133,21 +133,21 @@ export class AbmCajaCreateComponent implements OnInit {
     console.log(this.form);
     if (this.cajaEncontrada && this.accionGet === "editar") {
       let caja = this.reemplazarCaja();
-      this.cajaService.updateCaja( caja, "libre" )
+      this.cajaService.updateCaja( caja)
       .then( (response) => {
         console.log("ACTUALIZADO", response)
       })
     } 
     if (this.cajaEncontrada && this.accionGet === "eliminar") {
       let caja = this.reemplazarCaja();
-      this.cajaService.deleteCaja( caja, "libre" )
+      this.cajaService.deleteCaja( caja)
       .then( (response) => {
         console.log("BORRADO", response)
       })
     } else {
       let caja = this.reemplazarCaja();
       console.log("----------------------------- :", caja)
-      this.cajaService.createCaja( caja, "libre" )
+      this.cajaService.createCaja( caja )
       .then( (response) => {
         console.log("CREADO", response)
 

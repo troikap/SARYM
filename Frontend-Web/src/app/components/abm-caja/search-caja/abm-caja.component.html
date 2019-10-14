@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col">
-        <input #termino type="text" (keyup)="buscarUnidadMedida(termino.value)" class="form-control mr-sm-2" placeholder="Buscar Unidad de Medida...">
+        <input #termino type="number" (keyup)="buscarCaja(termino.value)" class="form-control mr-sm-2" placeholder="Buscar Caja...">
     </div>
 </div>
 
@@ -10,23 +10,21 @@
     <thead class="thead-dark">
         <tr>
             <th scope="col">Id</th>
-            <th scope="col">Código</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Caracter</th>
-            <th scope="col">Descripción</th>
-            <th scope="col">Acción</th>
+            <th scope="col">Numero de Caja</th>
+            <th scope="col">Estado Caja</th>
+            <th scope="col">Usuario</th> 
+            <th scope="col">Accion</th>           
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let lista of listaUnidadMedida">
-            <th scope="row">{{lista.idUnidadMedida}}</th>
-            <td>{{lista.codUnidadMedida}}</td>
-            <td>{{lista.nombreUnidadMedida}}</td>
-            <td>{{lista.caracterUnidadMedida}}</td>
-            <td>{{lista.descripcionUnidadMedida}}</td>
+        <tr *ngFor="let lista of listaCaja">
+            <th scope="row">{{lista.idCaja}}</th>
+            <td>{{lista.nroCaja}}</td>   
+            <td>{{lista.idCaja}}</td>
+            <td>{{lista.nroCaja}}</td>         
             <td>
-                <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Editar" (click)="abmUnidadMedida(lista.idUnidadMedida, 'editar')" style="cursor: pointer;">
-                <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Editar" title="Eliminar" (click)="abmUnidadMedida(lista.idUnidadMedida, 'eliminar')" style="cursor: pointer;">
+                <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Editar" (click)="abmCaja(lista.idCaja, 'editar')" style="cursor: pointer;">
+                <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Editar" title="Eliminar" (click)="abmCaja(lista.idCaja, 'eliminar')" style="cursor: pointer;">
             </td>
         </tr>
     </tbody>
@@ -57,6 +55,6 @@
         <td width="20%">&nbsp;</td>
         <td width="20%">&nbsp;</td>
         <td width="20%">&nbsp;</td>
-        <td align="right" width="20%"><button [routerLink]="['/unidadmedida_crud/0/crear']" class="btn btn-success">Crear</button></td>
+        <td align="right" width="20%"><button [routerLink]="['/caja_crud/0/crear']" class="btn btn-success">Crear</button></td>
     </tr>
 </table>
