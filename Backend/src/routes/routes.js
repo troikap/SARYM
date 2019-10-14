@@ -1,6 +1,6 @@
 'use strict'
 
-var express = require('express');  
+var express = require('express');
 var router = express.Router();
 
 // traer lo global
@@ -21,6 +21,8 @@ var UnidadMedidaController = require('../class/unidadmedida/unidadmedida-control
 var RubroController = require('../class/rubro/rubro-controller');
 var SectorController = require('../class/sector/sector-controller');
 var CajaController = require('../class/caja/caja-controller');
+var EstadoCajaController = require('../class/estadocaja/estadocaja-controller');
+
 
 
 const { verificaToken } = require('../middlewares/autenticacion');
@@ -30,35 +32,35 @@ router
 // utiles
     .post('/login', UsuarioController.login)
     .post('/existUser', UsuarioController.validateExistUser)
-    
+
 // usuario
-    .post('/usuario/logueo', UsuarioController.logueo)
-    .get('/usuario' , UsuarioController.getAll )
-    .post('/usuario',verificaToken, UsuarioController.create)
+    .get('/usuario', verificaToken, UsuarioController.getAll)
+    .post('/usuario', verificaToken, UsuarioController.create)
     .put('/usuario', verificaToken, UsuarioController.update)
-    .get('/usuario/:idUsuario', UsuarioController.getOne)
+    .get('/usuario/:idUsuario', verificaToken, UsuarioController.getOne)
     .get('/usuario/name/:nombreUsuario', verificaToken, UsuarioController.getToName)
-    .get('/usuario/cuitUsuario/:cuitUsuario', UsuarioController.getOneCuit)
-    .post('/usuario/:idUsuario', verificaToken, UsuarioController.validateUser,UsuarioController.delete,UsuarioController.changeState)
+    .get('/usuario/cuitUsuario/:cuitUsuario', verificaToken, UsuarioController.getOneCuit)
+    .get('/usuario/todo/:anyAttribute', verificaToken, UsuarioController.getToAllAttributes)
+    .post('/usuario/:idUsuario', verificaToken, UsuarioController.delete, UsuarioController.changeState)
     .delete('/usuario/:idUsuario', verificaToken, UsuarioController.destroy)
+    
 
 // estadousuario
-    .get('/estadousuario',  EstadoUsuarioController.getAll)
-    .post('/estadousuario', verificaToken,  EstadoUsuarioController.create)
+    .get('/estadousuario', verificaToken, EstadoUsuarioController.getAll)
+    .post('/estadousuario', verificaToken, EstadoUsuarioController.create)
     .get('/estadousuario/:idEstadoUsuario', verificaToken, EstadoUsuarioController.getOne)
-    // .get('/estadousuario/name/:nombreEstadoUsuario', verificaToken, EstadoUsuarioController.getToName)
-    .post('/estadousuario/:idEstadoUsuario', verificaToken,  EstadoUsuarioController.delete)
+    .post('/estadousuario/:idEstadoUsuario', verificaToken, EstadoUsuarioController.delete)
     .delete('/estadousuario/:idEstadoUsuario', verificaToken, EstadoUsuarioController.destroy)
 
 // departamento
-    .get('/departamento', DepartamentoController.getAll)
+    .get('/departamento', verificaToken, DepartamentoController.getAll)
     .post('/departamento', verificaToken, DepartamentoController.create)
-    .get('/departamento/:idDepartamento', DepartamentoController.getOne)
+    .get('/departamento/:idDepartamento', verificaToken, DepartamentoController.getOne)
     .post('/departamento/:idDepartamento', verificaToken, DepartamentoController.delete)
     .delete('/departamento/:idDepartamento', verificaToken, DepartamentoController.destroy)
 
 // rol
-    .get('/rol', RolController.getAll)
+    .get('/rol', verificaToken, RolController.getAll)
     .post('/rol', verificaToken, RolController.create)
     .get('/rol/:idRol', verificaToken, RolController.getOne)
     .get('/rol/name/:nombreRol', verificaToken, RolController.getToName)
@@ -66,19 +68,19 @@ router
     .delete('/rol/:idRol', verificaToken, RolController.destroy)
 
 // producto
-    .get('/producto', ProductoController.getAll)
-    .get('/producto/:idProducto', ProductoController.getOne)
+    .get('/producto', verificaToken, ProductoController.getAll)
+    .get('/producto/:idProducto', verificaToken, ProductoController.getOne)
 
 // promocion
-    .get('/menupromocion', MenuPromocionController.getAll)
-    .get('/menupromocion/:idMenuPromocion', MenuPromocionController.getOne)
+    .get('/menupromocion', verificaToken, MenuPromocionController.getAll)
+    .get('/menupromocion/:idMenuPromocion', verificaToken, MenuPromocionController.getOne)
 
 // mesa
-    .get('/mesa', MesaController.getAll)
-    .get('/mesa/:idMesa', MesaController.getOne)
+    .get('/mesa', verificaToken, MesaController.getAll)
+    .get('/mesa/:idMesa', verificaToken, MesaController.getOne)
 
 // tipomoneda
-    .get('/tipomoneda', TipoMonedaController.getAll)
+    .get('/tipomoneda', verificaToken, TipoMonedaController.getAll)
     .post('/tipomoneda', verificaToken, TipoMonedaController.create)
     .get('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.getOne)
     .get('/tipomoneda/name/:nombreTipoMoneda', verificaToken, TipoMonedaController.getToName)
@@ -86,35 +88,49 @@ router
     .delete('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.destroy)
 
 // unidadmedida
-    .get('/unidadmedida', UnidadMedidaController.getAll)
+    .get('/unidadmedida', verificaToken, UnidadMedidaController.getAll)
     .post('/unidadmedida', verificaToken, UnidadMedidaController.create)
+    .put('/unidadmedida', verificaToken, UnidadMedidaController.update)
     .get('/unidadmedida/:idUnidadMedida', verificaToken, UnidadMedidaController.getOne)
     .get('/unidadmedida/name/:nombreUnidadMedida', verificaToken, UnidadMedidaController.getToName)
+    .get('/unidadmedida/todo/:anyAttribute', verificaToken, UnidadMedidaController.getToAllAttributes)
     .post('/unidadmedida/:idUnidadMedida', verificaToken, UnidadMedidaController.delete)
     .delete('/unidadmedida/:idUnidadMedida', verificaToken, UnidadMedidaController.destroy)
 
 // rubro
-    .get('/rubro', RubroController.getAll)
+    .get('/rubro', verificaToken, RubroController.getAll)
     .post('/rubro', verificaToken, RubroController.create)
     .get('/rubro/:idRubro', verificaToken, RubroController.getOne)
     .get('/rubro/name/:nombreRubro', verificaToken, RubroController.getToName)
+    .get('/rubro/todo/:anyAttribute', verificaToken, RubroController.getToAllAttributes)
     .post('/rubro/:idRubro', verificaToken, RubroController.delete)
     .delete('/rubro/:idRubro', verificaToken, RubroController.destroy)
 
 // sector
-    .get('/sector', SectorController.getAll)
+    .get('/sector', verificaToken, SectorController.getAll)
     .post('/sector', verificaToken, SectorController.create)
     .get('/sector/:idSector', verificaToken, SectorController.getOne)
+    .get('/sector/name/:nombreSector', verificaToken, SectorController.getToName)
+    .get('/sector/todo/:anyAttribute', verificaToken, SectorController.getToAllAttributes)
     .post('/sector/:idSector', verificaToken, SectorController.delete)
     .delete('/sector/:idSector', verificaToken, SectorController.destroy)
 
 // caja
-    .get('/caja', CajaController.getAll)
+    .get('/caja', verificaToken, CajaController.getAll)
     .post('/caja', verificaToken, CajaController.create)
     .get('/caja/:idCaja', verificaToken, CajaController.getOne)
     .get('/caja/name/:nroCaja', verificaToken, CajaController.getToName)
+    .get('/caja/todo/:anyAttribute', verificaToken, CajaController.getToAllAttributes)
     .post('/caja/:idCaja', verificaToken, CajaController.delete)
     .delete('/caja/:idCaja', verificaToken, CajaController.destroy)
+
+// estadocaja
+    .get('/estadocaja', verificaToken, EstadoCajaController.getAll)
+    .post('/estadocaja', verificaToken, EstadoCajaController.create)
+    .get('/estadocaja/:idEstadoCaja', verificaToken, EstadoCajaController.getOne)
+    .post('/estadocaja/:idEstadoCaja', verificaToken, EstadoCajaController.delete)
+    .delete('/estadocaja/:idEstadoCaja', verificaToken, EstadoCajaController.destroy)
+
 
 // use
     .use(EstadoUsuarioController.error404)

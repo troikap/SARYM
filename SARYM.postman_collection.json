@@ -1,507 +1,1273 @@
 {
-	"id": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-	"name": "SARYM",
-	"description": "Proyecto Final\n",
-	"order": [],
-	"folders": [
-		{
-			"name": "Departamento",
-			"description": "",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"order": [
-				"87f83195-ba63-540e-7e70-691db936fc55",
-				"a8dd79f3-e8fa-2ea5-9145-aeec5b153e88",
-				"d2c80708-bcf2-d80d-c298-1ea33839c23f",
-				"c0b01094-6908-0d17-156e-c3bc6b17a903"
-			],
-			"owner": "4724418",
-			"folders_order": [],
-			"id": "a7438a6b-2132-07ae-4c1e-4734fd623d4d"
-		},
+	"variables": [],
+	"info": {
+		"name": "SARYM",
+		"_postman_id": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
+		"description": "Proyecto Final\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
 		{
 			"name": "Estado Usuario",
 			"description": "",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"order": [
-				"0a645a4e-56ce-9a8b-d770-b6c5f2324b94",
-				"383b74a3-e6d9-98d5-2210-7bca56a5ef52",
-				"fff480ce-552b-cdd3-3b20-0cd709901982",
-				"2a2fdffd-5214-2e38-0116-acb9c5bb4de7"
-			],
-			"owner": "4724418",
-			"folders_order": [],
-			"id": "2e24674c-8897-542b-c092-0e47f8259f9e"
+			"item": [
+				{
+					"name": "Get Estado Usuario",
+					"request": {
+						"url": "localhost:3000/estadousuario",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Estado Usuario : id",
+					"request": {
+						"url": "localhost:3000/estadousuario/29",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Estado Usuario",
+					"request": {
+						"url": "localhost:3000/estadousuario",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idEstadoUsuario\" : 3,\n\t\"nombreEstadoUsuario\": \"Eliminado\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Estado Usuario : id",
+					"request": {
+						"url": "localhost:3000/estadousuario/5",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estado Caja",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Estado Caja",
+					"request": {
+						"url": "localhost:3000/estadocaja",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Estado Caja: id",
+					"request": {
+						"url": "localhost:3000/estadocaja/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Estado Caja",
+					"request": {
+						"url": "localhost:3000/estadocaja",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idEstadoCaja\" : 5,\n\t\"nombreEstadoCaja\": \"Ortro\",\n\t\"codEstadoCaja\": \"other\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Estado Caja: id",
+					"request": {
+						"url": "localhost:3000/estadocaja/5",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Rol",
 			"description": "",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"order": [
-				"cd2bf019-746e-95ac-2c67-36cfe6b79eaa",
-				"c0eadec6-c1e0-bc23-ac6d-bd4eee95d988",
-				"e455a964-54a0-a10a-b91b-491c3aba0351",
-				"fb93872d-cf2d-daa1-9ac1-388bdeb35c37"
-			],
-			"owner": "4724418",
-			"folders_order": [],
-			"id": "0b156f28-727a-a148-348e-c5b732b87990"
+			"item": [
+				{
+					"name": "Get Rol",
+					"request": {
+						"url": "localhost:3000/rol",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rol : id",
+					"request": {
+						"url": "localhost:3000/rol/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rol : name",
+					"request": {
+						"url": "localhost:3000/rol/name/i",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Rol",
+					"request": {
+						"url": "localhost:3000/rol",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idRol\" : 6,\n\t\"nombreRol\": \"OTRO\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Rol : id",
+					"request": {
+						"url": "localhost:3000/rol/6",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Caja",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Caja",
+					"request": {
+						"url": "localhost:3000/caja",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Caja : id",
+					"request": {
+						"url": "localhost:3000/caja/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Caja : name",
+					"request": {
+						"url": "localhost:3000/caja/name/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Caja : anyAttribute",
+					"request": {
+						"url": "localhost:3000/caja/todo/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Caja",
+					"request": {
+						"url": "localhost:3000/caja",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idCaja\" : 6,\n\t\"nroCaja\": 4,\n\t\"idEstadoCaja\": null,\n\t\"idUsuario\": null\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Caja : id",
+					"request": {
+						"url": "localhost:3000/caja/6",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sector",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Sector",
+					"request": {
+						"url": "localhost:3000/sector",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sector : id",
+					"request": {
+						"url": "localhost:3000/sector/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Sector",
+					"request": {
+						"url": "localhost:3000/sector",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idRol\" : 6,\n\t\"nombreRol\": \"OTRO\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Sector : id",
+					"request": {
+						"url": "localhost:3000/sector/6",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rubro",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Rubro",
+					"request": {
+						"url": "localhost:3000/rubro",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rubro : id",
+					"request": {
+						"url": "localhost:3000/rubro/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rubro : name",
+					"request": {
+						"url": "localhost:3000/rubro/name/se",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rubro : anyAttribute",
+					"request": {
+						"url": "localhost:3000/rubro/name/r",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Rubro",
+					"request": {
+						"url": "localhost:3000/rubro",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idRubro\" : 100,\n\t\"nombreRubro\": \"OTRO\",\n\t\"codRubro\": \"A4\",\n\t\"descripcionRubro\": \"otra cosa\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Rubro : id",
+					"request": {
+						"url": "localhost:3000/rubro/100",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tipo Moneda",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Tipo Moneda",
+					"request": {
+						"url": "localhost:3000/tipomoneda",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tipo Moneda : id",
+					"request": {
+						"url": "localhost:3000/tipomoneda/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tipo Moneda : name",
+					"request": {
+						"url": "localhost:3000/tipomoneda/name/a",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Tipo Moneda",
+					"request": {
+						"url": "localhost:3000/tipomoneda",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idTipoMoneda\" : 10,\n\t\"nombreTipoMoneda\": \"Merval\",\n\t\"simboloTipoMoneda\": \"MEr\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Tipo Moneda : id",
+					"request": {
+						"url": "localhost:3000/tipomoneda/10",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Departamento",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Departamento",
+					"request": {
+						"url": "localhost:3000/departamento",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Departamento : id",
+					"request": {
+						"url": "localhost:3000/departamento/20",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Departamento",
+					"request": {
+						"url": "localhost:3000/departamento",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idDepartamento\" : 20,\n\t\"nombreDepartamento\": \"ccccccccccc\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Departamento : id",
+					"request": {
+						"url": "localhost:3000/departamento/19",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Usuario",
 			"description": "",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"order": [
-				"9e813312-8375-439d-6391-b1d7f30b3ba8",
-				"825af402-5160-09d4-673c-394dbffdcc1e",
-				"503f6566-7a2b-352a-a4f6-1256273e0b58",
-				"51aba944-cec3-b195-f074-b68f3d9fe3ac",
-				"674ac3e9-6cef-daa4-46d8-4c8c3d7c73b9"
-			],
-			"owner": "4724418",
-			"folders_order": [],
-			"id": "bf90811b-29bd-9089-ce53-e5fde0523233"
-		}
-	],
-	"folders_order": [
-		"2e24674c-8897-542b-c092-0e47f8259f9e",
-		"0b156f28-727a-a148-348e-c5b732b87990",
-		"a7438a6b-2132-07ae-4c1e-4734fd623d4d",
-		"bf90811b-29bd-9089-ce53-e5fde0523233"
-	],
-	"timestamp": 1566883794336,
-	"owner": "4724418",
-	"public": false,
-	"requests": [
-		{
-			"id": "0a645a4e-56ce-9a8b-d770-b6c5f2324b94",
-			"headers": "",
-			"headerData": [],
-			"url": "localhost:3000/estadousuario",
-			"folder": "bf90811b-29bd-9089-ce53-e5fde0523233",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "GET",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1566928058876,
-			"name": "Get Estado Usuario",
-			"description": "Trae todos los Usuarios",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": []
-		},
-		{
-			"id": "2a2fdffd-5214-2e38-0116-acb9c5bb4de7",
-			"headers": "",
-			"headerData": [],
-			"url": "localhost:3000/estadousuario/5",
-			"folder": "2e24674c-8897-542b-c092-0e47f8259f9e",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "DELETE",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1566949001676,
-			"name": "Del Estado Usuario : id",
-			"description": "Trae todos los Usuarios",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": []
-		},
-		{
-			"id": "383b74a3-e6d9-98d5-2210-7bca56a5ef52",
-			"headers": "",
-			"headerData": [],
-			"url": "localhost:3000/estadousuario/29",
-			"folder": "bf90811b-29bd-9089-ce53-e5fde0523233",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "GET",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1566930255587,
-			"name": "Get Estado Usuario : id",
-			"description": "Trae todos los Usuarios",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": []
-		},
-		{
-			"id": "503f6566-7a2b-352a-a4f6-1256273e0b58",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
+			"item": [
 				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "Get Usuario",
+					"request": {
+						"url": "localhost:3000/usuario",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Logueo Usuario",
+					"request": {
+						"url": "localhost:3000/usuario/logueo",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmVVc3VhcmlvIjoiTHVjYXMiLCJhcGVsbGlkb1VzdWFyaW8iOiJQZXJleiIsImlhdCI6MTU2ODA4NzI2OCwiZXhwIjoxNTY4MDg5ODYwfQ.94_yJvk6PpAc0fhTCTQrC6ekEZ2pkn6MQ3kqqD-2aYo",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"cuitUsuario\": 888888888,\n\t\"contrasenaUsuario\": 1234\n}"
+						},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Login Usuario",
+					"request": {
+						"url": "localhost:3000/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "",
+								"value": "",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"cuitUsuario\": 20368506886,\n\t\"contrasenaUsuario\": \"123\"\n}"
+						},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Exist User",
+					"request": {
+						"url": "localhost:3000/existUser",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "",
+								"value": "",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"cuitUsuario\": 20368506886\n}"
+						},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Usuario : id",
+					"request": {
+						"url": "localhost:3000/usuario/8",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Usuario : name",
+					"request": {
+						"url": "localhost:3000/usuario/name/a",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Usuario : cuitUsuario",
+					"request": {
+						"url": "localhost:3000/usuario/cuitUsuario/2036850688",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Usuario : anyAttibute",
+					"request": {
+						"url": "localhost:3000/usuario/todo/mer",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Usuario",
+					"request": {
+						"url": "localhost:3000/usuario",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idUsuario\": 7,\n\t\"cuitUsuario\": 32323232523, \n\t\"nombreUsuario\": \"zzzzzzzzz\", \n\t\"apellidoUsuario\": \"xxxxxxxxxxx\", \n\t\"contrasenaUsuario\": \"1231\",   \n\t\"dniUsuario\": 3685068,\n\t\"domicilioUsuario\": \"Villa Mercedes 1235\",\n\t\"emailUsuario\": \"lucaz_pato@gmail.com\",\n\t\"idDepartamento\": 1, \n\t\"nroCelularUsuario\": 4318023,\n\t\"nroTelefonoUsuario\": 261387547,\n\t\"idRol\": 1,\n\t\"idEstadoUsuario\": 1\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Put Usuario",
+					"request": {
+						"url": "localhost:3000/usuario",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idUsuario\": 500,\n\t\"cuitUsuario\": 5555555555, \n\t\"nombreUsuario\": \"aaaaaa\", \n\t\"apellidoUsuario\": \"Peraaaaaaz\", \n\t\"contrasenaUsuario\": \"123\",   \n\t\"dniUsuario\": 36850688,\n\t\"domicilioUsuario\": \"Villa Mercedes 1235\",\n\t\"emailUsuario\": \"lucaz_pato@gmail.com\",\n\t\"idDepartamento\": 1, \n\t\"nroCelularUsuario\": 4318023,\n\t\"nroTelefonoUsuario\": 2613875470,\n\t\"idRol\": 2,\n\t\"idEstadoUsuario\": 2\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Del Usuario : id",
+					"request": {
+						"url": "localhost:3000/usuario/3",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"descripcion\": \"Por salame\",\n\t\"estado\": \"Eliminado\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Destroy Usuario : id",
+					"request": {
+						"url": "localhost:3000/usuario/",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
 				}
-			],
-			"url": "localhost:3000/usuario",
-			"folder": "2e24674c-8897-542b-c092-0e47f8259f9e",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1567117181059,
-			"name": "Post Usuario",
+			]
+		},
+		{
+			"name": "Producto",
 			"description": "",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": [],
-			"rawModeData": "{\n\t\"cuitUsuario\": 2036850688, \n\t\"nombreUsuario\": \"Lucas\", \n\t\"apellidoUsuario\": \"Perez\", \n\t\"contrasenaUsuario\": \"65412294\",   \n\t\"dniUsuario\": 36850688,\n\t\"domicilioUsuario\": \"Villa Mercedes 1235\",\n\t\"emailUsuario\": \"lucaz_pato@gmail.com\",\n\t\"idDepartamento\": 1, \n\t\"nroCelularUsuario\": 4318023,\n\t\"nroTelefonoUsuario\": 2613875470\n}"
+			"item": [
+				{
+					"name": "Get Producto",
+					"request": {
+						"url": "localhost:3000/producto",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Producto : id",
+					"request": {
+						"url": "localhost:3000/producto/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"id": "51aba944-cec3-b195-f074-b68f3d9fe3ac",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/usuario/3",
-			"folder": "bf90811b-29bd-9089-ce53-e5fde0523233",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1567352957920,
-			"name": "Del Usuario : id",
+			"name": "Mesa",
 			"description": "",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": [],
-			"rawModeData": "{\n\t\"descripcion\": \"Por salame\",\n\t\"estado\": \"Eliminado\"\n}"
+			"item": [
+				{
+					"name": "Get Mesa",
+					"request": {
+						"url": "localhost:3000/mesa",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mesa : id",
+					"request": {
+						"url": "localhost:3000/mesa/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"id": "674ac3e9-6cef-daa4-46d8-4c8c3d7c73b9",
-			"headers": "",
-			"headerData": [],
-			"url": "localhost:3000/usuario/2",
-			"folder": "2e24674c-8897-542b-c092-0e47f8259f9e",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "DELETE",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1567117177096,
-			"name": "Destroy Usuario : id",
+			"name": "Unidad Medida",
 			"description": "",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": []
-		},
-		{
-			"id": "825af402-5160-09d4-673c-394dbffdcc1e",
-			"headers": "",
-			"headerData": [],
-			"url": "localhost:3000/usuario/1",
-			"folder": "bf90811b-29bd-9089-ce53-e5fde0523233",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "GET",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1566991483959,
-			"name": "Get Usuario : id",
-			"description": "Trae todos los Usuarios",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": []
-		},
-		{
-			"id": "87f83195-ba63-540e-7e70-691db936fc55",
-			"headers": "",
-			"headerData": [],
-			"url": "localhost:3000/departamento",
-			"folder": "a7438a6b-2132-07ae-4c1e-4734fd623d4d",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "GET",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1567315149808,
-			"name": "Get Departamento",
-			"description": "Trae todos los Usuarios",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": []
-		},
-		{
-			"id": "9e813312-8375-439d-6391-b1d7f30b3ba8",
-			"headers": "",
-			"headerData": [],
-			"url": "localhost:3000/usuario",
-			"folder": "bf90811b-29bd-9089-ce53-e5fde0523233",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "GET",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1566991480247,
-			"name": "Get Usuario",
-			"description": "Trae todos los Usuarios",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": []
-		},
-		{
-			"id": "a8dd79f3-e8fa-2ea5-9145-aeec5b153e88",
-			"headers": "",
-			"headerData": [],
-			"url": "localhost:3000/departamento/20",
-			"folder": "a7438a6b-2132-07ae-4c1e-4734fd623d4d",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "GET",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1567315348722,
-			"name": "Get Departamento : id",
-			"description": "Trae todos los Usuarios",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": []
-		},
-		{
-			"id": "c0b01094-6908-0d17-156e-c3bc6b17a903",
-			"headers": "",
-			"headerData": [],
-			"url": "localhost:3000/departamento/19",
-			"folder": "a7438a6b-2132-07ae-4c1e-4734fd623d4d",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "DELETE",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1567315341668,
-			"name": "Del Departamento : id",
-			"description": "Trae todos los Usuarios",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": []
-		},
-		{
-			"id": "c0eadec6-c1e0-bc23-ac6d-bd4eee95d988",
-			"headers": "",
-			"headerData": [],
-			"url": "localhost:3000/rol/2",
-			"folder": "0b156f28-727a-a148-348e-c5b732b87990",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "GET",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1567358301088,
-			"name": "Get Rol : id",
-			"description": "Trae todos los Usuarios",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": []
-		},
-		{
-			"id": "cd2bf019-746e-95ac-2c67-36cfe6b79eaa",
-			"headers": "",
-			"headerData": [],
-			"url": "localhost:3000/rol",
-			"folder": "0b156f28-727a-a148-348e-c5b732b87990",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "GET",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1567358301727,
-			"name": "Get Rol",
-			"description": "Trae todos los Usuarios",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": []
-		},
-		{
-			"id": "d2c80708-bcf2-d80d-c298-1ea33839c23f",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
+			"item": [
 				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/departamento",
-			"folder": "a7438a6b-2132-07ae-4c1e-4734fd623d4d",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1567315318256,
-			"name": "Post Departamento",
-			"description": "Puede o no ir el idEstadoUsuario",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": [],
-			"rawModeData": "{\n\t\"idDepartamento\" : 20,\n\t\"nombreDepartamento\": \"ccccccccccc\"\n}"
-		},
-		{
-			"id": "e455a964-54a0-a10a-b91b-491c3aba0351",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
+					"name": "Get Unidad Medida",
+					"request": {
+						"url": "localhost:3000/unidadmedida",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
 				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/rol",
-			"folder": "0b156f28-727a-a148-348e-c5b732b87990",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1567358299715,
-			"name": "Post Rol",
-			"description": "Puede o no ir el idEstadoUsuario",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": [],
-			"rawModeData": "{\n\t\"idRol\" : 10,\n\t\"nombreRol\": \"Eliminado\"\n}"
-		},
-		{
-			"id": "fb93872d-cf2d-daa1-9ac1-388bdeb35c37",
-			"headers": "",
-			"headerData": [],
-			"url": "localhost:3000/rol/10",
-			"folder": "0b156f28-727a-a148-348e-c5b732b87990",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "DELETE",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1567358311901,
-			"name": "Del Rol : id",
-			"description": "Trae todos los Usuarios",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": []
-		},
-		{
-			"id": "fff480ce-552b-cdd3-3b20-0cd709901982",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
+					"name": "Get Unidad Medida : id",
+					"request": {
+						"url": "localhost:3000/unidadmedida/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
 				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "Get Unidad Medida : name",
+					"request": {
+						"url": "localhost:3000/unidadmedida/name/n",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Unidad Medida",
+					"request": {
+						"url": "localhost:3000/unidadmedida",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idUnidadMedida\" : 11,\n\t\"nombreUnidadMedida\": \"OTROaa\",\n\t\"descripcionUnidadMedida\": \"otro  cualquierra\",\n\t\"caracterUnidadMedida\": \"COSO\",\n\t\"codUnidadMedida\": \"CODCOSO\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Unidad Medida",
+					"request": {
+						"url": "localhost:3000/unidadmedida",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idUnidadMedida\" : 10,\n\t\"nombreUnidadMedida\": \"OTRae\",\n\t\"descripcionUnidadMedida\": \"otr2a2  cualquierra\",\n\t\"caracterUnidadMedida\": \"COSa\",\n\t\"codUnidadMedida\": \"CAaaaa2123xaAAaaaaaO\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Unidad Medida : id",
+					"request": {
+						"url": "localhost:3000/unidadmedida/11",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
 				}
-			],
-			"url": "localhost:3000/estadousuario",
-			"folder": "2e24674c-8897-542b-c092-0e47f8259f9e",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1567352960929,
-			"name": "Post Estado Usuario",
-			"description": "Puede o no ir el idEstadoUsuario",
-			"collectionId": "21c2aeec-97f6-0ab4-d830-1d0470bb8403",
-			"responses": [],
-			"rawModeData": "{\n\t\"idEstadoUsuario\" : 3,\n\t\"nombreEstadoUsuario\": \"Eliminado\"\n}"
+			]
+		},
+		{
+			"name": "Menu Promocion",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Menu Promocion",
+					"request": {
+						"url": "localhost:3000/menupromocion",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Menu Promocion: id",
+					"request": {
+						"url": "localhost:3000/menupromocion/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

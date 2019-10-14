@@ -1,0 +1,75 @@
+/* ############################################################
+  INPUT
+############################################################*/
+
+button.traer {
+    margin: 5px;
+}
+
+div.buscar.row {
+    margin: 10px 3px;
+}
+
+h2.titulo {
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+input {
+    font-size: 18px !important;
+    text-align: center;
+}
+
+option {
+    font-size: 20px !important;
+}
+
+.input-error-msg {
+    color: red !important;
+    padding-bottom: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.form-section {
+    max-width: 70%;
+    margin: auto;
+}
+
+
+/* ############################################################
+  FORMS
+############################################################*/
+
+.form-group {
+    .form-control {
+        border-radius: 10px;
+        &.ng-invalid.ng-touched:not(.has-focus) {
+            color: var(--is-invalid) !important;
+            // border: 1px solid var(--is-invalid) !important;
+        }
+        &.ng-valid.ng-touched:not(.has-focus) {
+            color: var(--ion-color-tertiary) !important;
+            // border: 1px solid var(--ion-color-success) !important;
+        }
+        &.has-focus {
+            color: black;
+            border: 1px solid var(--ion-color-tertiary) !important;
+        }
+    }
+    ion-select {
+        border-radius: 10px;
+        &.ng-invalid.ng-touched:not(.has-focus) {
+            color: red !important;
+            border: 1px solid red !important;
+        }
+        &.ng-valid.ng-touched:not(.has-focus) {
+            color: green !important;
+            border: 1px solid green !important;
+        }
+        &.has-focus {
+            color: black;
+            border: 1px solid var(--ion-color-warning) !important;
+        }
+    }
+}

@@ -9,6 +9,31 @@ const TipoMonedaModelo = require("../tipomoneda/tipomoneda-model"),
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
 
+TipoMonedaController.getToAllAttributes = (req, res, next) => {
+  TipoMonedaModelo.findAll({
+    where: {
+      [Op.or]: [
+          {codRubro: {[Op.substring]: req.params.anyAttribute}},
+          {idRubro: {[Op.substring]: req.params.anyAttribute}},
+          {nombreRubro: {[Op.substring]: req.params.anyAttribute}},
+          ]
+      }
+  }).then(project => {
+    if (!project || project == 0) {
+        let locals = {
+            title: "No existe el registro : " + req.params[nombretable]
+        };
+        res.json(locals);
+    } else {
+        let locals = {
+            title: `${legend}`,
+            data: project
+        };
+        res.json(locals);
+    }
+  });
+};
+
 TipoMonedaController.getToName = (req, res, next) => {
   TipoMonedaModelo.findAll({
     where: { [nombretable]: { [Op.substring]: req.params[nombretable] }}

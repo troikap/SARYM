@@ -4,11 +4,36 @@ const CajaModelo = require("../caja/caja-model"),
   CajaController = () => {},
   CajaEstadoModelo = require("../cajaestado/cajaestado-model"),
   EstadoCajaModelo = require("../estadocaja/estadocaja-model"),
+  UsuarioModelo = require("../usuario/usuario-model"),
   legend = "Caja",
   idtable = `id${legend}`,
   nrotable = `nro${legend}`,
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
+
+CajaController.getToAllAttributes = (req, res, next) => {
+  CajaModelo.findAll({
+      where: {
+          [Op.or]: [
+              {idCaja: {[Op.substring]: req.params.anyAttribute}},
+              {nroCaja: {[Op.substring]: req.params.anyAttribute}},
+              ]
+          }
+  }).then(project => {
+      if (!project || project == 0) {
+          let locals = {
+              title: "No existe el registro : " + req.params[nombretable]
+          };
+          res.json(locals);
+      } else {
+          let locals = {
+              title: `${legend}`,
+              data: project
+          };
+          res.json(locals);
+      }
+  });
+};
 
 CajaController.getToName = (req, res, next) => {
   CajaModelo.findAll({
@@ -31,21 +56,39 @@ CajaController.getToName = (req, res, next) => {
 
 CajaController.getAll = (req, res, next) => {
   CajaModelo.findAll({
+    attributes: [
+      'idCaja',
+      'nroCaja',
+    ],
     include: [
       {
         model: CajaEstadoModelo,
-        // where: { fechaYHoraBajaUsuarioEstado: null },
-        // attributes: [
-        //   'descripcionUsuarioEstado',
-        //   'fechaYHoraAltaUsuarioEstado',
-        //   'fechaYHoraBajaUsuarioEstado'
-        // ],
+        where: { fechaYHoraBajaCajaEstado: null },
+        attributes: [
+          'descripcionCajaEstado',
+          'montoAperturaCajaEstado',
+          'montoCierreCajaEstado',
+          'fechaYHoraAltaCajaEstado',
+          'fechaYHoraBajaCajaEstado',
+        ],
         include: [
           {
-            model: CajaEstadoModelo,
-            // attributes: [
-            //   'nombreEstadoUsuario'
-            // ]
+            model: EstadoCajaModelo,
+            attributes: [
+              'codEstadoCaja',
+              'nombreEstadoCaja',
+            ]
+          },
+          {
+            model: UsuarioModelo,
+            attributes: [
+              "idUsuario",
+              "cuitUsuario",
+              "nombreUsuario",
+              "apellidoUsuario",
+              "emailUsuario",
+            ]
+           
           }
         ]
       }
@@ -70,7 +113,45 @@ CajaController.getAll = (req, res, next) => {
 
 CajaController.getOne = (req, res, next) => {
   CajaModelo.findOne({
-    where: { [idtable]: req.params[idtable] }
+    where: { [idtable]: req.params[idtable] },
+    attributes: [
+      'idCaja',
+      'nroCaja',
+    ],
+    include: [
+      {
+        model: CajaEstadoModelo,
+        where: { fechaYHoraBajaCajaEstado: null },
+        attributes: [
+          'descripcionCajaEstado',
+          'montoAperturaCajaEstado',
+          'montoCierreCajaEstado',
+          'fechaYHoraAltaCajaEstado',
+          'fechaYHoraBajaCajaEstado',
+        ],
+        include: [
+          {
+            model: EstadoCajaModelo,
+            attributes: [
+              'codEstadoCaja',
+              'nombreEstadoCaja',
+            ]
+          },
+          {
+            model: UsuarioModelo,
+            attributes: [
+              "idUsuario",
+              "cuitUsuario",
+              "nombreUsuario",
+              "apellidoUsuario",
+              "emailUsuario",
+            ]
+           
+          }
+        ]
+      }
+    ]
+    
   }).then(project => {
     if (!project || project == 0) {
       let locals = {
