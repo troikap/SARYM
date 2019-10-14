@@ -1,32 +1,199 @@
 "use strict";
 
 require('../../config');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const Productomodel = require("./producto-model"),
+const ProductoModelo = require("./producto-model"),
+ProductoController = () => { },
   RubroModelo = require("../rubro/rubro-model"),
   UnidadMedidaModelo = require("../unidadmedida/unidadmedida-model"),
   ProductoEstadoModelo = require("../productoestado/productoestado-model"),
   EstadoProductoModelo = require("../estadoproducto/estadoproducto-model"),
   PrecioProductoModelo = require("../precioproducto/precioproducto-model"),
   TipoMonedaModelo = require("../tipomoneda/tipomoneda-model"),
-  
-  Sequelize = require('sequelize'),
-  sequelize = require('../../database/connection'),
-  Op = Sequelize.Op,
-  ProductoController = () => { },
   legend = "Producto",
-  legend2 = "AAAAAAAAAAAA",
-  legend3 = "BBBBBBBBBBBB",
-  idtable = "idProducto",
-  idtableestado = "idAAAAAAAAAAAAA",
-  idestadotable = "idBBBBBBBBBBBBB",
-  nombreEstado = "nombreAAAAAAAAAAAAAAAAA",
-  table = "producto";
+  idtable = `id${legend}`,
+  nombretable = `nombre${legend}`,
+  Sequelize = require('sequelize'),
+  Op = Sequelize.Op;
+
+ProductoController.getToAllAttributes = (req, res, next) => {
+  let locals = {};
+  ProductoModelo.findAll({
+    where: {
+      [Op.or]: [
+        {codProducto: {[Op.substring]: req.params.anyAttribute}},
+        {idProducto: {[Op.substring]: req.params.anyAttribute}},
+        {nombreProducto: {[Op.substring]: req.params.anyAttribute}},
+      ]
+    },
+    attributes: [
+      "idProducto",
+      "codProducto",
+      "cantidadMedida",
+      "nombreProducto",
+      "descripcionProducto",
+      "pathImagenProducto"
+  ],
+  include: [
+      {
+      model: RubroModelo,
+      attributes: [
+          "idRubro",
+          "codRubro",
+          "nombreRubro",
+          "descripcionRubro"
+      ],
+      },
+      {
+      model: UnidadMedidaModelo,
+      attributes: [
+          "idUnidadMedida",
+          "codUnidadMedida",
+          "nombreUnidadMedida",
+          "descripcionUnidadMedida",
+          "caracterUnidadMedida",
+      ],
+      },
+      {
+        model: ProductoEstadoModelo,
+        attributes: [
+            "idProductoEstado",
+            "descripcionProductoEstado",
+            "fechaYHoraAltaProductoEstado",
+            "fechaYHoraBajaProductoEstado",
+        ],
+        include: [
+            {
+            model: EstadoProductoModelo,
+            attributes: [
+                "idEstadoProducto",
+                "codEstadoProducto",
+                "nombreEstadoProducto",
+            ]
+            }
+        ]
+      },
+      {
+      model: PrecioProductoModelo,
+      attributes: [
+          "idPrecioProducto",
+          "importePrecioProducto",
+          "fechaYHoraDesdePrecioProducto",
+          "fechaYHoraHastaPrecioProducto",
+      ],
+      include: [
+      {
+          model: TipoMonedaModelo,
+          attributes: [
+          "idTipoMoneda",
+          "nombreTipoMoneda",
+          "simboloTipoMoneda",
+          ]
+      }
+      ]
+  },
+  ],
+  }).then(project => {
+      if (!project || project == 0) {
+        locals['title'] = "No existe ningun registro con la palabra : " + req.params.anyAttribute;
+        locals['tipo'] = 2;
+        res.json(locals);
+      } else {
+        locals['title'] = `${legend}`;
+        locals['tipo'] = 1;
+        locals['data'] = project;
+        res.json(locals);
+      }
+  });
+};
+
+ProductoController.getToName = (req, res, next) => {
+  let locals = {};
+  ProductoModelo.findAll({
+    where: { [nombretable]: { [Op.substring]: req.params[nombretable] }},
+    attributes: [
+      "idProducto",
+      "codProducto",
+      "cantidadMedida",
+      "nombreProducto",
+      "descripcionProducto",
+      "pathImagenProducto"
+  ],
+  include: [
+      {
+      model: RubroModelo,
+      attributes: [
+          "idRubro",
+          "codRubro",
+          "nombreRubro",
+          "descripcionRubro"
+      ],
+      },
+      {
+      model: UnidadMedidaModelo,
+      attributes: [
+          "idUnidadMedida",
+          "codUnidadMedida",
+          "nombreUnidadMedida",
+          "descripcionUnidadMedida",
+          "caracterUnidadMedida",
+      ],
+      },
+      {
+      model: ProductoEstadoModelo,
+      attributes: [
+          "idProductoEstado",
+          "descripcionProductoEstado",
+          "fechaYHoraAltaProductoEstado",
+          "fechaYHoraBajaProductoEstado",
+      ],
+      include: [
+          {
+          model: EstadoProductoModelo,
+          attributes: [
+              "idEstadoProducto",
+              "codEstadoProducto",
+              "nombreEstadoProducto",
+          ]
+          }
+      ]
+      },
+      {
+      model: PrecioProductoModelo,
+      attributes: [
+          "idPrecioProducto",
+          "importePrecioProducto",
+          "fechaYHoraDesdePrecioProducto",
+          "fechaYHoraHastaPrecioProducto",
+      ],
+      include: [
+      {
+          model: TipoMonedaModelo,
+          attributes: [
+          "idTipoMoneda",
+          "nombreTipoMoneda",
+          "simboloTipoMoneda",
+          ]
+      }
+      ]
+  },
+  ],
+  }).then(project => {
+    if (!project || project == 0) {
+      locals['title'] = "No existe el registro : " + req.params[nombretable];
+      locals['tipo'] = 2;
+      res.json(locals);
+    } else {
+      locals['title'] = `${legend}`;
+      locals['data'] = project;
+      locals['tipo'] = 1;
+      res.json(locals);
+    }
+  });
+};
 
 ProductoController.getAll = (req, res) => {
   let locals = {};
-  Productomodel.findAll({ 
+  ProductoModelo.findAll({ 
     // BUSCA POR FORANEA 
     attributes: [
         "idProducto",
@@ -114,7 +281,7 @@ ProductoController.getAll = (req, res) => {
 ProductoController.getOne = (req, res) => {
   let locals = {};
   // BUSCA EL USUARIO CON ID INGRESADO
-  Productomodel.findOne({
+  ProductoModelo.findOne({
     where: { [idtable]: req.params[idtable] },
     // BUSCA POR FORANEA 
     attributes: [
