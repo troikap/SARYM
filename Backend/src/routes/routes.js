@@ -39,7 +39,7 @@ router
     .get('/usuario/:idUsuario', verificaToken, UsuarioController.getOne)
     .get('/usuario/name/:nombreUsuario', verificaToken, UsuarioController.getToName)
     .get('/usuario/cuitUsuario/:cuitUsuario', verificaToken, UsuarioController.getOneCuit)
-    .post('/usuario/:idUsuario', verificaToken, UsuarioController.validateUser, UsuarioController.delete, UsuarioController.changeState)
+    .post('/usuario/:idUsuario', verificaToken, UsuarioController.delete, UsuarioController.changeState)
     .delete('/usuario/:idUsuario', verificaToken, UsuarioController.destroy)
 
 // estadousuario
