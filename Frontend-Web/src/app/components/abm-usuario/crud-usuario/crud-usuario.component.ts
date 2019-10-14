@@ -186,7 +186,29 @@ export class CrudUsuarioComponent implements OnInit {
       console.log("----------------------------- :", unidadMed)
       this.usuarioservicio.setUsuario( unidadMed )
       .then( (response) => {
-        console.log("CREADO", response)
+        console.log("CREADO", response);
+
+        alert("Se ha Creado un nuvo registro de usuario");
+        this.router.navigate( ['/usuario/']);
+
+        /* // Asigno ID al formulario//
+        this.newForm = {
+          idUsuario: response.Usuario.idUsuario,
+          cuitUsuario:  this.form.value['cuitUsuario'],
+          nombreUsuario:  this.form.value['nombreUsuario'],
+          apellidoUsuario:  this.form.value['apellidoUsuario'],
+          dniUsuario:  this.form.value['dniUsuario'],
+          domicilioUsuario:  this.form.value['domicilioUsuario'],
+          emailUsuario:  this.form.value['emailUsuario'],
+          idDepartamento:  this.form.value['idDepartamento'],
+          contrasenaUsuario: '',
+          nroCelularUsuario:  this.form.value['nroCelularUsuario'],
+          nroTelefonoUsuario:  this.form.value['nroTelefonoUsuario'],
+          idRol:  this.form.value['idRol'],
+          idEstadoUsuario: this.form.value['idEstadoUsuario']
+        }
+        this.form.setValue(this.newForm);
+        //////////////////////////// */
       })
     }
   }
