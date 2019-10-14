@@ -23,7 +23,7 @@ export class EstadoUsuarioService {
       .get( (url + dir), {headers})
       .toPromise()
       .then(response => {
-        console.log('RESPUESTA',response)
+        // console.log('RESPUESTA',response)
         return response['data'] as EstadoUsuario[];
       })
       .catch(  );

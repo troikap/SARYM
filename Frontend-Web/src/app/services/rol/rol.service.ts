@@ -24,7 +24,7 @@ export class RolService {
       .get( (url + dir), {headers})
       .toPromise()
       .then(response => {
-        console.log('RESPUESTA',response)
+        // console.log('RESPUESTA',response)
         return response['data'] as Rol[];
       })
       .catch(  );
