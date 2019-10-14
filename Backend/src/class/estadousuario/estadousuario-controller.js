@@ -2,7 +2,7 @@
 
 const EstadoUsuarioModelo = require("./estadousuario-model"),
   EstadoUsuarioController = () => {},
-  legend = "Estado Usuario",
+  legend = "EstadoUsuario",
   idtable = "idEstadoUsuario",
   table = "estadousuario";
 
