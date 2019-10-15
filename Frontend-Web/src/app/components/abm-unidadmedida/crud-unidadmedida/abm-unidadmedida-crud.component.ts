@@ -87,7 +87,7 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
       um = this.unidadMedida.idUnidadMedida;
     } 
 
-    let rempUsuario: UnidadMedida = {
+    let rempUnidadMedida: UnidadMedida = {
       idUnidadMedida: um,
       codUnidadMedida:  this.form.value['codigo'],
       nombreUnidadMedida:  this.form.value['nombre'],
@@ -95,7 +95,7 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
       descripcionUnidadMedida:  this.form.value['descripcion']
       
     }
-    return rempUsuario
+    return rempUnidadMedida;
   }
 
   guardar() {
