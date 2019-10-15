@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, ValidationErrors} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DepartamentoService, Departamento } from '../../../services/departamento/departamento.service';
 import { RolService, Rol } from '../../../services/rol/rol.service';
@@ -37,7 +37,8 @@ export class CrudUsuarioComponent implements OnInit {
     this.form = new FormGroup({
       'idUsuario': new FormControl({value: '', disabled: true}),
       'apellidoUsuario': new FormControl('', Validators.required),
-      'contrasenaUsuario': new FormControl('', Validators.required),
+      'contrasenaUsuario': new FormControl(''),
+      'contrasenaUsuarioRepeat': new FormControl(''),
       'cuitUsuario': new FormControl('', Validators.required),
       'dniUsuario': new FormControl('', Validators.required),
       'domicilioUsuario': new FormControl('', Validators.required),
@@ -52,30 +53,36 @@ export class CrudUsuarioComponent implements OnInit {
 
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params);
-
       this.accionGet  = params.accion;
       this.idUsuario = params.id;
-      
       if (this.accionGet !== "crear") {
         this.usuarioEncontrado = true;
         this.traerUsuario();
       }
       else {
         this.usuarioEncontrado = false;
+        this.form.get('contrasenaUsuario').setValidators([
+          Validators.required, 
+          Validators.minLength(5), 
+          Validators.maxLength(25)
+        ]);
+        this.form.get('contrasenaUsuario').updateValueAndValidity();
+        
+        this.form.get('contrasenaUsuarioRepeat').setValidators(Validators.required);
+        this.form.get('contrasenaUsuarioRepeat').updateValueAndValidity();
+        
+        this.setValueChangeContraseñaRepeat();
       }
-      
     });
-
-    
-
   }
+
   ngOnInit() {
     this.traerDepartamentos();
     this.traerRoles();
     this.traerEstadosUsuarios();
   }
 
-  verificarValidacionCampo(pNombreCampo: string, arregloValidaciones: string[]) {
+ /*  verificarValidacionCampo(pNombreCampo: string, arregloValidaciones: string[]) {
     let countValidate = 0;
     for (let validacion of arregloValidaciones) {
       if (validacion === 'valid') {
@@ -94,18 +101,13 @@ export class CrudUsuarioComponent implements OnInit {
         }
       }
     }
-
     if (countValidate === arregloValidaciones.length) {
       return true;
     }
     else {
       return false;
     }
-  }
-
-  buscar() {
-    console.log("funcion 'buscar()' ejecutada");
-  }
+  } */
 
   traerUsuario() {
     console.log("Funcion 'traerUsuario()', ejecutada");
@@ -129,7 +131,8 @@ export class CrudUsuarioComponent implements OnInit {
             domicilioUsuario:  this.usuario['domicilioUsuario'],
             emailUsuario:  this.usuario['emailUsuario'],
             idDepartamento:  this.usuario['idDepartamento'],
-            contrasenaUsuario: '',
+            contrasenaUsuario: null,
+            contrasenaUsuarioRepeat: null,
             nroCelularUsuario: this.usuario['nroCelularUsuario'],
             nroTelefonoUsuario: this.usuario['nroTelefonoUsuario'],
             idRol: this.usuario['rolusuarios'][0].rol.idRol,
@@ -164,101 +167,263 @@ export class CrudUsuarioComponent implements OnInit {
       contrasenaUsuario: this.form.value['contrasenaUsuario'],
       idRol: this.form.value['idRol'],
       idEstadoUsuario: this.form.value['idEstadoUsuario'],
+      
     }
     return rempUsuario;
   }
 
   guardar() {
     console.log(this.form);
+
+    //Variables para mensajes//
+    let _this = this; //Asigno el contexto a una variable, ya que se pierde al ingresar a la función de mensajeria
+    const titulo = "Confirmación";
+    const mensaje = `¿Está seguro que desea ${this.accionGet} el elemento seleccionado?`;
+    ///////////////////////////
+    
     if (this.usuarioEncontrado && this.accionGet === "editar") {
-      let user = this.reemplazarUsuario();
-      this.usuarioservicio.updateUsuario( user )
-      .then( (response) => {
-        console.log("ACTUALIZADO", response);
+      
+      
+      
+      ($ as any).confirm({
+        title: titulo,
+        content: mensaje,
+        type: 'blue',
+        typeAnimated: true,
+        theme: 'material',
+        buttons: {
+            aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-blue',
+                action: function(){
+                  
+                  
+                  let user = _this.reemplazarUsuario();
+                  _this.usuarioservicio.updateUsuario( user )
+                  .then( (response) => {
+                    console.log("ACTUALIZADO", response);
+            
+                    const titulo = "Éxito";
+                    const mensaje = "Se ha actualizado el registro de usuario de forma exitrosa";
+                    
+                    ($ as any).confirm({
+                      title: titulo,
+                      content: mensaje,
+                      type: 'green',
+                      typeAnimated: true,
+                      theme: 'material',
+                      buttons: {
+                          aceptar: {
+                              text: 'Aceptar',
+                              btnClass: 'btn-green',
+                              action: function(){
+            
+                                //ACCION
+                                _this.router.navigate( ['/usuario/']);
+            
+            
+                              }
+                          }
+                      }
+                    });
+            
+            
+                  })
 
-        const titulo = "Éxito";
-        const mensaje = "Se ha actualizado el registro de usuario de forma exitrosa";
-        
-        let routerAux = this.router;
 
-        ($ as any).confirm({
-          title: titulo,
-          content: mensaje,
-          type: 'green',
-          typeAnimated: true,
-          theme: 'material',
-          buttons: {
-              aceptar: {
-                  text: 'Aceptar',
-                  btnClass: 'btn-green',
-                  action: function(){
-                    routerAux.navigate( ['/usuario/']);
-                  }
+
+                }
+            },
+            cerrar: {
+              text: 'Cerrar',
+              action: function(){
+                console.log("Edición Cancelada");
               }
           }
-        });
+        }
+      });
 
 
-      })
+
     } 
     else if (this.usuarioEncontrado && this.accionGet === "eliminar") {
-      let user = this.reemplazarUsuario();
-      // console.log("Datos A enviar: " + user);
-      this.usuarioservicio.deleteUsuario( user )
-      .then( (response) => {
-        console.log("BORRADO", response);
+      
+      
+      ($ as any).confirm({
+        title: titulo,
+        content: mensaje,
+        type: 'blue',
+        typeAnimated: true,
+        theme: 'material',
+        buttons: {
+            aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-blue',
+                action: function(){
+                  
+                  
 
-        const titulo = "Éxito";
-        const mensaje = "Se ha eliminado el registro de usuario de forma exitosa";
-        
-        ($ as any).confirm({
-          title: titulo,
-          content: mensaje,
-          type: 'green',
-          typeAnimated: true,
-          theme: 'material',
-          buttons: {
-              aceptar: {
-                  text: 'Aceptar',
-                  btnClass: 'btn-green',
-                  action: function(){
-                    this.router.navigate( ['/usuario/']);
-                  }
+                  let user = _this.reemplazarUsuario();
+                  // console.log("Datos A enviar: " + user);
+                  _this.usuarioservicio.deleteUsuario( user )
+                  .then( (response) => {
+                    console.log("BORRADO", response);
+            
+                    const titulo = "Éxito";
+                    const mensaje = "Se ha eliminado el registro de usuario de forma exitosa";
+                    
+                    ($ as any).confirm({
+                      title: titulo,
+                      content: mensaje,
+                      type: 'green',
+                      typeAnimated: true,
+                      theme: 'material',
+                      buttons: {
+                          aceptar: {
+                              text: 'Aceptar',
+                              btnClass: 'btn-green',
+                              action: function(){
+            
+                                //ACCION
+                                _this.router.navigate( ['/usuario/']);
+            
+                              }
+                          }
+                      }
+                    });
+            
+                  })
+
+
+
+
+                }
+            },
+            cerrar: {
+              text: 'Cerrar',
+              action: function(){
+                console.log("Eliminación cancelada");
               }
           }
-        });
-
-      })
+        }
+      });
+      
+      
+      
     } else {
-      let unidadMed = this.reemplazarUsuario();
-      console.log("----------------------------- :", unidadMed)
-      this.usuarioservicio.setUsuario( unidadMed )
-      .then( (response) => {
-        console.log("CREADO", response);
-        
-        const titulo = "Éxito";
-        const mensaje = "Se ha Creado un nuvo registro de usuario de forma";
-        
-        ($ as any).confirm({
-          title: titulo,
-          content: mensaje,
-          type: 'green',
-          typeAnimated: true,
-          theme: 'material',
-          buttons: {
-              aceptar: {
-                  text: 'Aceptar',
-                  btnClass: 'btn-green',
-                  action: function(){
-                    this.router.navigate( ['/usuario/']);
-                  }
+      
+      
+      
+      ($ as any).confirm({
+        title: titulo,
+        content: "¿Confirma la creación de un nuevo registro?",
+        type: 'blue',
+        typeAnimated: true,
+        theme: 'material',
+        buttons: {
+            aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-blue',
+                action: function(){
+                  
+                  
+
+                  let unidadMed = _this.reemplazarUsuario();
+                  console.log("----------------------------- :", unidadMed)
+                  _this.usuarioservicio.setUsuario( unidadMed )
+                  .then( (response) => {
+                    
+                    if (response.tipo !== 2) { //TODO CORRECTO
+
+                      console.log("CREADO", response);
+                    
+                      const titulo = "Éxito";
+                      const mensaje = "Se ha Creado un nuevo registro de usuario de forma exitosa";
+                    
+                      ($ as any).confirm({
+                        title: titulo,
+                        content: mensaje,
+                        type: 'green',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-green',
+                                action: function(){
+              
+                                  //ACCION
+                                  _this.router.navigate( ['/usuario/']);
+              
+                                }
+                            }
+                        }
+                      });
+
+
+
+
+                    }
+                    else {
+                      console.log("ERROR", response);
+                      
+                      ($ as any).confirm({
+                        title: "Error",
+                        content: `${response.title}. No es posible realizar esta acción`, 
+                        type: 'red',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-red',
+                                action: function(){
+                                  console.log("Mensaje de error aceptado");
+                                }
+                            }
+                        }
+                      });
+                      
+
+
+
+                    }
+
+                    
+            
+                    
+                  })
+
+
+
+
+                }
+            },
+            cerrar: {
+              text: 'Cerrar',
+              action: function(){
+                console.log("Creación Cancelada");
               }
           }
-        });
-
-        
-      })
+        }
+      });
+      
+      
+      
+      
     }
+  }
+
+  setValueChangeContraseñaRepeat () {
+    this.form.get('contrasenaUsuarioRepeat').valueChanges
+    .subscribe( ( resp ) => {
+      // console.log("RESPUESTA :",resp)
+      if ( resp == this.form.value.contrasenaUsuario ) {
+        this.form.controls.contrasenaUsuarioRepeat.setErrors(null)
+      } else {
+        this.form.controls.contrasenaUsuarioRepeat.setErrors({not_equal: true})
+      }
+    })
   }
 
   traerDepartamentos() {

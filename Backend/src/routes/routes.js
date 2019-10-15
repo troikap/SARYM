@@ -68,10 +68,14 @@ router
 // producto
     .get('/producto', verificaToken, ProductoController.getAll)
     .get('/producto/:idProducto', verificaToken, ProductoController.getOne)
+    .get('/producto/name/:nombreProducto', verificaToken, ProductoController.getToName)
+    .get('/producto/todo/:anyAttribute', verificaToken, ProductoController.getToAllAttributes)
 
 // promocion
     .get('/menupromocion', verificaToken, MenuPromocionController.getAll)
     .get('/menupromocion/:idMenuPromocion', verificaToken, MenuPromocionController.getOne)
+    .get('/menupromocion/name/:nombreMenuPromocion', verificaToken, MenuPromocionController.getToName)
+    .get('/menupromocion/todo/:anyAttribute', verificaToken, MenuPromocionController.getToAllAttributes)
 
 // mesa
     .get('/mesa', verificaToken, MesaController.getAll)
