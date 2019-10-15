@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, ValidationErrors} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DepartamentoService, Departamento } from '../../../services/departamento/departamento.service';
 import { RolService, Rol } from '../../../services/rol/rol.service';
@@ -33,38 +33,46 @@ export class CrudUsuarioComponent implements OnInit {
     private estadousuarioservicio: EstadoUsuarioService,
     private usuarioservicio: UsuarioService,
   ) {
-    this.form = new FormGroup({
-      'apellidoUsuario': new FormControl('', Validators.required),
-      'contrasenaUsuario': new FormControl('', Validators.required),
-      'cuitUsuario': new FormControl('', Validators.required),
-      'dniUsuario': new FormControl('', Validators.required),
-      'domicilioUsuario': new FormControl('', Validators.required),
-      'emailUsuario': new FormControl('',  [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]),
-      'idDepartamento': new FormControl('', Validators.required),
-      'nombreUsuario': new FormControl('', Validators.required),
-      'nroCelularUsuario': new FormControl('', [Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
-      'nroTelefonoUsuario': new FormControl('', [Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
-      'idRol': new FormControl('', Validators.required),
-      'idEstadoUsuario': new FormControl('', Validators.required)
+    this.form = this.formBuilder.group({
+      'idUsuario': [null],
+      'apellidoUsuario': ['', Validators.required],
+      'contrasenaUsuario': [null],
+      'contrasenaUsuarioRepeat': [null],
+      'cuitUsuario': ['', Validators.required],
+      'dniUsuario': ['', Validators.required],
+      'domicilioUsuario': ['', Validators.required],
+      'emailUsuario': ['',  [Validators.compose([Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)])]],
+      'idDepartamento': ['', Validators.required],
+      'nombreUsuario': ['', Validators.required],
+      'nroCelularUsuario': ['', ([Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)])],
+      'nroTelefonoUsuario': ['', ([Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)])],
+      'idRol': ['', Validators.required],
+      'idEstadoUsuario': ['', Validators.required],
+      // 'contrasenaUsuario_group': new FormGroup({
+      //   'contrasenaUsuario': new FormControl('', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(25)])),
+      //   'contrasenaUsuarioRepeat': new FormControl('', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(25)]))
+      // }, { validators: this.equalValidator({ first_control_name: 'contrasenaUsuario', second_control_name: 'contrasenaUsuarioRepeat' }) })
     });
 
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params);
-
       this.accionGet  = params.accion;
       this.idUsuario = params.id;
-      
       if (this.accionGet !== "crear") {
         this.usuarioEncontrado = true;
         this.traerUsuario();
       }
       else {
         this.usuarioEncontrado = false;
+        this.form.get('contrasenaUsuario').setValidators(Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(25)]));
+        this.form.get('contrasenaUsuario').updateValueAndValidity();
+        this.form.get('contrasenaUsuarioRepeat').setValidators([Validators.required]);
+        this.form.get('contrasenaUsuarioRepeat').updateValueAndValidity();
+        this.setValueChangeContraseñaRepeat();
       }
-      
     });
-
   }
+
   ngOnInit() {
     this.traerDepartamentos();
     this.traerRoles();
@@ -90,17 +98,12 @@ export class CrudUsuarioComponent implements OnInit {
         }
       }
     }
-
     if (countValidate === arregloValidaciones.length) {
       return true;
     }
     else {
       return false;
     }
-  }
-
-  buscar() {
-    console.log("funcion 'buscar()' ejecutada");
   }
 
   traerUsuario() {
@@ -117,6 +120,7 @@ export class CrudUsuarioComponent implements OnInit {
         if (res) {
           this.usuario = res['Usuario'];
           this.newForm = {
+            idUsuario: this.usuario['idUsuario'],
             cuitUsuario:  this.usuario['cuitUsuario'],
             nombreUsuario:  this.usuario['nombreUsuario'],
             apellidoUsuario:  this.usuario['apellidoUsuario'],
@@ -124,7 +128,7 @@ export class CrudUsuarioComponent implements OnInit {
             domicilioUsuario:  this.usuario['domicilioUsuario'],
             emailUsuario:  this.usuario['emailUsuario'],
             idDepartamento:  this.usuario['idDepartamento'],
-            contrasenaUsuario: '',
+            contrasenaUsuario: null,
             nroCelularUsuario: this.usuario['nroCelularUsuario'],
             nroTelefonoUsuario: this.usuario['nroTelefonoUsuario'],
             idRol: this.usuario['rolusuarios'][0].rol.idRol,
@@ -159,6 +163,7 @@ export class CrudUsuarioComponent implements OnInit {
       contrasenaUsuario: this.form.value['contrasenaUsuario'],
       idRol: this.form.value['idRol'],
       idEstadoUsuario: this.form.value['idEstadoUsuario'],
+      
     }
     return rempUsuario;
   }
@@ -184,9 +189,46 @@ export class CrudUsuarioComponent implements OnInit {
       console.log("----------------------------- :", unidadMed)
       this.usuarioservicio.setUsuario( unidadMed )
       .then( (response) => {
-        console.log("CREADO", response)
+        console.log("CREADO", response);
+
+        alert("Se ha Creado un nuevo registro de usuario");
+        this.router.navigate( ['/usuario/']);
       })
     }
+  }
+
+  prueba() {
+    console.log(this.form)
+  }
+
+  // setValueChangeContraseña(){
+  //   this.form.controls.contrasenaUsuario.valueChanges
+  //   .subscribe( ( resp ) => {
+  //     console.log("CONTRASEÑA ,", resp)
+  //     if(resp == null && this.accionGet != "crear") {
+  //       this.form.get('contrasenaUsuario').clearValidators();
+  //       this.form.get('contrasenaUsuarioRepeat').clearValidators();
+  //     } else {
+  //       this.form.get('contrasenaUsuario').setValidators(Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(25)]));
+  //       // this.form.get('contrasenaUsuario').updateValueAndValidity();
+  //       this.form.get('contrasenaUsuarioRepeat').setValidators(Validators.required);
+  //       // this.form.get('contrasenaUsuarioRepeat').updateValueAndValidity();
+  //     }
+  //     this.form.get('contrasenaUsuario').updateValueAndValidity();
+  //     this.form.get('contrasenaUsuarioRepeat').updateValueAndValidity();
+  //   });
+  // }
+
+  setValueChangeContraseñaRepeat () {
+    this.form.get('contrasenaUsuarioRepeat').valueChanges
+    .subscribe( ( resp ) => {
+      console.log("RESPUESTA :",resp)
+      if ( resp == this.form.value.contrasenaUsuario ) {
+        this.form.controls.contrasenaUsuarioRepeat.setErrors(null)
+      } else {
+        this.form.controls.contrasenaUsuarioRepeat.setErrors({not_equal: true})
+      }
+    })
   }
 
   traerDepartamentos() {

@@ -1554,6 +1554,40 @@
 						"description": "Trae todos los Usuarios"
 					},
 					"response": []
+				},
+				{
+					"name": "Get Producto :name",
+					"request": {
+						"url": "localhost:3000/producto/name/TERRUÑ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Producto :anyAttribute",
+					"request": {
+						"url": "localhost:3000/menupromocion/todo/TERRUÑ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
 				}
 			]
 		},
@@ -1746,6 +1780,40 @@
 					"name": "Get Menu Promocion: id",
 					"request": {
 						"url": "localhost:3000/menupromocion/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Menu Promocion :name",
+					"request": {
+						"url": "localhost:3000/menupromocion/name/Hamburguesas",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Menu Promocion :anyAttribute",
+					"request": {
+						"url": "localhost:3000/menupromocion/todo/Hamburguesas",
 						"method": "GET",
 						"header": [
 							{

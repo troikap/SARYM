@@ -13,7 +13,7 @@ export class UsuarioService {
    url = environment.urlNgrok || environment.url;
    dir = '/usuario';
    dir2 = '/cuitUsuario';
-   dir3 = '/name';
+   dir3 = '/todo';
 
    tokenEnviroment = environment.token;
 
@@ -47,7 +47,7 @@ export class UsuarioService {
       .catch(  );
   }
 
-  getUsuarioByName( termino: string) { //Observador
+  getUsuarioByAll( termino: string) { //Observador
     console.log("Service getUsuarioByName: Termino = ", termino);
     if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();

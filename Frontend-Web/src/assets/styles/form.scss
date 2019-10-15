@@ -45,31 +45,31 @@ option {
     .form-control {
         border-radius: 10px;
         &.ng-invalid.ng-touched:not(.has-focus) {
-            color: var(--is-invalid) !important;
-            // border: 1px solid var(--is-invalid) !important;
+            color: map-get($theme-colors, danger) !important;
+            border: 1px solid map-get($theme-colors, danger) !important;
         }
         &.ng-valid.ng-touched:not(.has-focus) {
-            color: var(--ion-color-tertiary) !important;
-            // border: 1px solid var(--ion-color-success) !important;
+            color: map-get($theme-colors, success) !important;
+            border: 1px solid  map-get($theme-colors, success) !important;
         }
         &.has-focus {
-            color: black;
-            border: 1px solid var(--ion-color-tertiary) !important;
+            color: dark;
+            border: 1px solid map-get($theme-colors, secondary) !important;
         }
     }
-    ion-select {
+    select {
         border-radius: 10px;
         &.ng-invalid.ng-touched:not(.has-focus) {
-            color: red !important;
-            border: 1px solid red !important;
+            color: map-get($theme-colors, danger) !important;
+            border: 1px solid map-get($theme-colors, danger) !important;
         }
         &.ng-valid.ng-touched:not(.has-focus) {
-            color: green !important;
-            border: 1px solid green !important;
+            color: map-get($theme-colors, success) !important;
+            border: 1px solid  map-get($theme-colors, success) !important;
         }
         &.has-focus {
-            color: black;
-            border: 1px solid var(--ion-color-warning) !important;
+            color: dark;
+            border: 1px solid map-get($theme-colors, secondary) !important;
         }
     }
 }

@@ -37,8 +37,60 @@ UsuarioController.getToAllAttributes = (req, res, next) => {
                 {idUsuario: {[Op.substring]: req.params.anyAttribute}},
                 {nroCelularUsuario: {[Op.substring]: req.params.anyAttribute}},
                 {nroTelefonoUsuario: {[Op.substring]: req.params.anyAttribute}},
+            ]
+        },
+        attributes: [
+            'idUsuario',
+            'cuitUsuario',
+            'nombreUsuario',
+            'apellidoUsuario',
+            'contrasenaUsuario',
+            'dniUsuario',
+            'domicilioUsuario',
+            'emailUsuario',
+            'idDepartamento',
+            'nroCelularUsuario',
+            'nroTelefonoUsuario',
+        ],
+        include: [{
+                model: UsuarioEstadoModelo,
+                where: { fechaYHoraBajaUsuarioEstado: null },
+                attributes: [
+                    'descripcionUsuarioEstado',
+                    'fechaYHoraAltaUsuarioEstado',
+                    'fechaYHoraBajaUsuarioEstado'
+                ],
+                include: [{
+                    model: EstadoUsuarioModelo,
+                    attributes: [
+                        'idEstadoUsuario',
+                        'nombreEstadoUsuario'
+                    ]
+                }]
+            },
+            {
+                model: RolUsuarioModelo,
+                where: { fechaYHoraBajaRolUsuario: null },
+                attributes: [
+                    'fechaYHoraAltaRolUsuario',
+                    'fechaYHoraBajaRolUsuario'
+                ],
+                include: [{
+                    model: RolModelo,
+                    attributes: [
+                        'idRol',
+                        'nombreRol'
+                    ]
+                }]
+            },
+            {
+                model: DepartamentoModelo,
+                attributes: [
+                    'idDepartamento',
+                    'nombreDepartamento'
                 ]
             }
+        ],
     }).then(project => {
         if (!project || project == 0) {
             let locals = {
@@ -61,8 +113,60 @@ UsuarioController.getToName = (req, res, next) => {
             [Op.or]: [
                 {nombreUsuario: {[Op.substring]: req.params[nombretable]}},
                 {apellidoUsuario: {[Op.substring]: req.params[nombretable]}},
-             ]
+            ]
+        },
+        attributes: [
+            'idUsuario',
+            'cuitUsuario',
+            'nombreUsuario',
+            'apellidoUsuario',
+            'contrasenaUsuario',
+            'dniUsuario',
+            'domicilioUsuario',
+            'emailUsuario',
+            'idDepartamento',
+            'nroCelularUsuario',
+            'nroTelefonoUsuario',
+        ],
+        include: [{
+                model: UsuarioEstadoModelo,
+                where: { fechaYHoraBajaUsuarioEstado: null },
+                attributes: [
+                    'descripcionUsuarioEstado',
+                    'fechaYHoraAltaUsuarioEstado',
+                    'fechaYHoraBajaUsuarioEstado'
+                ],
+                include: [{
+                    model: EstadoUsuarioModelo,
+                    attributes: [
+                        'idEstadoUsuario',
+                        'nombreEstadoUsuario'
+                    ]
+                }]
+            },
+            {
+                model: RolUsuarioModelo,
+                where: { fechaYHoraBajaRolUsuario: null },
+                attributes: [
+                    'fechaYHoraAltaRolUsuario',
+                    'fechaYHoraBajaRolUsuario'
+                ],
+                include: [{
+                    model: RolModelo,
+                    attributes: [
+                        'idRol',
+                        'nombreRol'
+                    ]
+                }]
+            },
+            {
+                model: DepartamentoModelo,
+                attributes: [
+                    'idDepartamento',
+                    'nombreDepartamento'
+                ]
             }
+        ],
     }).then(project => {
         if (!project || project == 0) {
             let locals = {
