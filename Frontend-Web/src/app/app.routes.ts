@@ -14,6 +14,7 @@ import { GestionarProductoComponent } from './components/gestionar-producto/gest
 import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud-usuario.component';
+import { CrudRubroComponent } from './components/abm-rubro/crud-rubro/crud-rubro.component';
 
 
 
@@ -28,6 +29,7 @@ const routes: Routes = [
     { path: 'caja', component: AbmCajaComponent },
     { path: 'mesa', component: AbmMesaComponent },
     { path: 'rubro', component: AbmRubroComponent },
+    { path: 'rubro_crud/:id/:accion', component: CrudRubroComponent },
     { path: 'sector', component: AbmSectorComponent },
     { path: 'producto', component: GestionarProductoComponent },
     { path: 'menupromocion', component: GestionarMenupromocionComponent },
