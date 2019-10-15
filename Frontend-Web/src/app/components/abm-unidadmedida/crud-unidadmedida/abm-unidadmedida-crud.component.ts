@@ -50,34 +50,6 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
 
   ngOnInit() {}
 
-  verificarValidacionCampo(pNombreCampo: string, arregloValidaciones: string[]) {
-    let countValidate = 0;
-    for (let validacion of arregloValidaciones) {
-      if (validacion === 'valid') {
-        if (this.form.controls[pNombreCampo].valid) {
-          countValidate ++;
-        }
-      }
-      if (validacion === 'invalid') {
-        if (this.form.controls[pNombreCampo].invalid) {
-          countValidate ++;
-        }
-      }
-      if (validacion === 'touched') {
-        if (this.form.controls[pNombreCampo].touched) {
-          countValidate ++;
-        }
-      }
-    }
-
-    if (countValidate === arregloValidaciones.length) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
   traerUnidadMedida() {
     // console.log("Funcion 'traerUnidadMedida()', ejecutada");
     // console.log("valro de idUnidadMedida: ---->", this.idUnidadMedida);
@@ -128,39 +100,240 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
 
   guardar() {
     console.log(this.form);
+
+    //Variables para mensajes//
+    let _this = this; //Asigno el contexto a una variable, ya que se pierde al ingresar a la función de mensajeria
+    const titulo = "Confirmación";
+    const mensaje = `¿Está seguro que desea ${this.accionGet} el elemento seleccionado?`;
+    ///////////////////////////
+
+
     if (this.unidadMedidaEncontrada && this.accionGet === "editar") {
-      let unidadMed = this.reemplazarUnidadMedida();
-      this.unidadMedidaService.updateUnidadMedida( unidadMed )
-      .then( (response) => {
-        console.log("ACTUALIZADO", response)
-      })
+
+
+
+      ($ as any).confirm({
+        title: titulo,
+        content: mensaje,
+        type: 'blue',
+        typeAnimated: true,
+        theme: 'material',
+        buttons: {
+            aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-blue',
+                action: function(){
+                  
+                  
+                  let unidadMed = _this.reemplazarUnidadMedida();
+                  _this.unidadMedidaService.updateUnidadMedida( unidadMed )
+                  .then( (response) => {
+                    console.log("ACTUALIZADO", response);
+            
+                    const titulo = "Éxito";
+                    const mensaje = "Se ha actualizado el registro de Unidad de Medida de forma exitrosa";
+                    
+                    ($ as any).confirm({
+                      title: titulo,
+                      content: mensaje,
+                      type: 'green',
+                      typeAnimated: true,
+                      theme: 'material',
+                      buttons: {
+                          aceptar: {
+                              text: 'Aceptar',
+                              btnClass: 'btn-green',
+                              action: function(){
+            
+                                //ACCION
+                                _this.router.navigate( ['/unidadmedida/']);
+            
+            
+                              }
+                          }
+                      }
+                    });
+            
+            
+                  })
+
+
+
+                }
+            },
+            cerrar: {
+              text: 'Cerrar',
+              action: function(){
+                console.log("Edición Cancelada");
+              }
+          }
+        }
+      });
+
+
     } 
     else if (this.unidadMedidaEncontrada && this.accionGet === "eliminar") {
-      let unidadMed = this.reemplazarUnidadMedida();
-      // console.log("Datos a enviar: ", unidadMed);
-      this.unidadMedidaService.deleteUnidadMedida( unidadMed )
-      .then( (response) => {
-        console.log("BORRADO", response)
-      })
-    } else {
-      let unidadMed = this.reemplazarUnidadMedida();
-      console.log("----------------------------- :", unidadMed)
-      this.unidadMedidaService.createUnidadMedida( unidadMed )
-      .then( (response) => {
-        console.log("CREADO", response)
+      
+      
+      ($ as any).confirm({
+        title: titulo,
+        content: mensaje,
+        type: 'blue',
+        typeAnimated: true,
+        theme: 'material',
+        buttons: {
+            aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-blue',
+                action: function(){
+                  
+                  
 
-        // Asigno ID al formulario//
-        this.newForm = {
-          id: response.data.idUnidadMedida,
-          codigo:  this.form.value['codigo'],
-          nombre:  this.form.value['nombre'],
-          caracter:  this.form.value['caracter'],
-          descripcion:  this.form.value['descripcion']
+                  let unidadMed = _this.reemplazarUnidadMedida();
+                  // console.log("Datos A enviar: " + unidadMed);
+                  _this.unidadMedidaService.deleteUnidadMedida( unidadMed )
+                  .then( (response) => {
+                    console.log("BORRADO", response);
+            
+                    const titulo = "Éxito";
+                    const mensaje = "Se ha eliminado el registro de Unidad de Medida de forma exitosa";
+                    
+                    ($ as any).confirm({
+                      title: titulo,
+                      content: mensaje,
+                      type: 'green',
+                      typeAnimated: true,
+                      theme: 'material',
+                      buttons: {
+                          aceptar: {
+                              text: 'Aceptar',
+                              btnClass: 'btn-green',
+                              action: function(){
+            
+                                //ACCION
+                                _this.router.navigate( ['/unidadmedida/']);
+            
+                              }
+                          }
+                      }
+                    });
+            
+                  })
+
+
+
+
+                }
+            },
+            cerrar: {
+              text: 'Cerrar',
+              action: function(){
+                console.log("Eliminación cancelada");
+              }
+          }
         }
-        this.form.setValue(this.newForm);
-        ////////////////////////////
+      });
 
-      })
+
+    } else {
+
+
+      ($ as any).confirm({
+        title: titulo,
+        content: "¿Confirma la creación de un nuevo registro?",
+        type: 'blue',
+        typeAnimated: true,
+        theme: 'material',
+        buttons: {
+            aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-blue',
+                action: function(){
+                  
+                  
+
+                  let unidadMed = _this.reemplazarUnidadMedida();
+                  // console.log("----------------------------- :", unidadMed)
+                  _this.unidadMedidaService.createUnidadMedida( unidadMed )
+                  .then( (response) => {
+                    
+                    if (response.tipo !== 2) { //TODO CORRECTO
+
+                      console.log("CREADO", response);
+                    
+                      const titulo = "Éxito";
+                      const mensaje = "Se ha Creado un nuevo registro de Unidad de Medida de forma exitosa";
+                    
+                      ($ as any).confirm({
+                        title: titulo,
+                        content: mensaje,
+                        type: 'green',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-green',
+                                action: function(){
+              
+                                  //ACCION
+                                  _this.router.navigate( ['/unidadmedida/']);
+              
+                                }
+                            }
+                        }
+                      });
+
+
+
+
+                    }
+                    else {
+                      console.log("ERROR", response);
+                      
+                      ($ as any).confirm({
+                        title: "Error",
+                        content: `${response.title}. No es posible realizar esta acción`, 
+                        type: 'red',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-red',
+                                action: function(){
+                                  console.log("Mensaje de error aceptado");
+                                }
+                            }
+                        }
+                      });
+                      
+
+
+
+                    }
+
+                    
+            
+                    
+                  })
+
+
+
+
+                }
+            },
+            cerrar: {
+              text: 'Cerrar',
+              action: function(){
+                console.log("Creación Cancelada");
+              }
+          }
+        }
+      });
+
+
+
     }
   }
 
