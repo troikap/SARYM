@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CajaService } from '../../../services/caja/caja.service';
+import { UsuarioService } from '../../../services/usuario/usuario.service';
 import { Caja } from 'src/app/model/caja/caja.model';
 import { EstadoCaja } from 'src/app/model/estadoCaja/estadoCaja.model';
 import { Usuario } from 'src/app/model/usuario/usuario.model';
@@ -15,9 +16,9 @@ export class AbmCajaCreateComponent implements OnInit {
   form: FormGroup;
   cajaEncontrada: boolean;
   idCaja: string = "";
-  listaEstadoCaja: EstadoCaja[];
+  listaEstadoCaja: any=[];
   estadoCaja: EstadoCaja;
-  listaUsuario: Usuario[];
+  listaUsuario: any =[];
   usuario: Usuario;
   accionGet;
 
@@ -27,6 +28,7 @@ export class AbmCajaCreateComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private cajaService :CajaService,
+    private usuarioService: UsuarioService,
     private router: Router,
   ) { 
     this.form = new FormGroup({
@@ -53,7 +55,10 @@ export class AbmCajaCreateComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getAllEstadoCaja();
+    this.getAllUsuarios();
+  }
 
   verificarValidacionCampo(pNombreCampo: string, arregloValidaciones: string[]) {
     let countValidate = 0;
@@ -163,6 +168,24 @@ export class AbmCajaCreateComponent implements OnInit {
 
       })
     }
+  }
+
+  getAllEstadoCaja() {
+    this.cajaService.getAllEstadoCaja()
+      .then((res: any) => {
+        //console.log(res);
+        this.listaEstadoCaja =  res.data;
+      })
+
+  }
+
+  getAllUsuarios() {
+    this.usuarioService.getUsuarios()
+      .then((res: any) => {
+        // console.log(res);
+        this.listaUsuario =  res.data;
+      })
+
   }
 
 

@@ -17,8 +17,8 @@ export class AbmCajaComponent implements OnInit {
 
   listaCaja: any = [];
   listaEstadoCaja: any = [];  
+  listaCajaEstado: any = [];
   listaUsuario: any = [];
-  
 
   constructor(
     // private unidadMedia: UnidadMedida, //Da error
@@ -57,8 +57,8 @@ export class AbmCajaComponent implements OnInit {
     this.cajaService.getAllCaja()
       .then((res: any) => {
         //console.log(res);
-        this.listaCaja =  res.data;
-        
+        this.listaCaja =  res.data;         
+                
       })
 
   }

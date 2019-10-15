@@ -28,7 +28,7 @@
                         Campo Obligatorio.
                     </p>
                 </div>
-                <div class="col">
+                <!--<div class="col">
                     <label for="idUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('idUsuario', ['invalid','touched'])}">Usuario</label>
                     <select Placeholder='SELECCIONE' formControlName='idUsuario' [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('idUsuario', ['invalid','touched'])}"> 
                             <option *ngFor='let usuario of listaUsuario' [value]='usuario.idUsuario'>{{usuario.nombreUsuario}} {{usuario.apellidoUsuario}}</option>
@@ -38,6 +38,7 @@
                         Campo Obligatorio.
                     </p>
                 </div>
+                -->
             </div>
             <hr>
             <div *ngIf="accionGet != 'eliminar'">
