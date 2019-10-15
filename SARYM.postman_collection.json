@@ -853,7 +853,32 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idCaja\" : 6,\n\t\"nroCaja\": 4,\n\t\"idEstadoCaja\": null,\n\t\"idUsuario\": null\n}"
+							"raw": "{\n\t\"nroCaja\": 4,\n\t\"idEstadoCaja\": 3,\n\t\"idUsuario\": 3\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Caja :id",
+					"request": {
+						"url": "localhost:3000/caja",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idCaja\": 1,\n\t\"nroCaja\": 2,\n\t\"idEstadoCaja\": 3,\n\t\"idUsuario\": 3,\n\t\"descripcionCajaEstado\": \"Ble...........\",\n    \"montoAperturaCajaEstado\": 1000,\n    \"montoCierreCajaEstado\": 1000\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -1058,6 +1083,31 @@
 					"response": []
 				},
 				{
+					"name": "Put Rubro",
+					"request": {
+						"url": "localhost:3000/rubro",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idRubro\" : 1,\n\t\"nombreRubro\": \"OTRO\",\n\t\"codRubro\": \"A4\",\n\t\"descripcionRubro\": \"otra cosa\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
 					"name": "Del Rubro : id",
 					"request": {
 						"url": "localhost:3000/rubro/100",
@@ -1132,6 +1182,23 @@
 					"response": []
 				},
 				{
+					"name": "Get Tipo Moneda : anyAttribute",
+					"request": {
+						"url": "localhost:3000/tipomoneda/name/r",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
 					"name": "Post Tipo Moneda",
 					"request": {
 						"url": "localhost:3000/tipomoneda",
@@ -1151,6 +1218,31 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"idTipoMoneda\" : 10,\n\t\"nombreTipoMoneda\": \"Merval\",\n\t\"simboloTipoMoneda\": \"MEr\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Tipo Moneda",
+					"request": {
+						"url": "localhost:3000/tipomoneda",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idTipoMoneda\": 2,\n    \"nombreTipoMoneda\": \"Peso Argentino\",\n    \"simboloTipoMoneda\": \"$$\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -1730,7 +1822,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idUnidadMedida\" : 10,\n\t\"nombreUnidadMedida\": \"OTRae\",\n\t\"descripcionUnidadMedida\": \"otr2a2  cualquierra\",\n\t\"caracterUnidadMedida\": \"COSa\",\n\t\"codUnidadMedida\": \"CAaaaa2123xaAAaaaaaO\"\n}"
+							"raw": "{\n\t\"idUnidadMedida\" : 6,\n\t\"nombreUnidadMedida\": \"OTRae\",\n\t\"descripcionUnidadMedida\": \"aaaaaaaaaaa\",\n\t\"caracterUnidadMedida\": \"aaaaa\",\n\t\"codUnidadMedida\": \"aaaaaaaaaaaaaaaa\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},

@@ -142,6 +142,56 @@ TipoMonedaController.create = (req, res) => {
   }
 };
 
+TipoMonedaController.update = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  if (body[idtable]) {
+    TipoMonedaModelo.findOne({
+      where: { [idtable]: body[idtable] },
+      attributes: [
+        "idTipoMoneda",
+        "nombreTipoMoneda",
+        "simboloTipoMoneda",
+      ],
+    }).then(response => {
+      if (!response || response == 0) {
+        locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      } else {
+        let actualizar = false;
+        if ( 
+          body.nombreTipoMoneda != response.dataValues.nombreTipoMoneda || 
+          body.simboloTipoMoneda != response.dataValues.simboloTipoMoneda
+          ) {
+            actualizar = true
+          }
+        if (actualizar) {
+          TipoMonedaModelo.update(body, {where: {[idtable]: body[idtable]}})
+            .then(result => {
+              if (result) {
+                locals['title'] = `Registro ${legend} Actualizado`;
+                locals['tipo'] = 1;
+              } else {
+                locals['title'] = `Registro ${legend} NO Actualizado`;
+                locals['tipo'] = 2;
+              }
+              res.json(locals)
+            })
+        } else {
+          locals['title'] = `No ha Modificado ningún Registro de ${legend}`,
+          locals['tipo'] = 2;
+          res.json(locals);
+        }
+      }
+    });
+  } else {
+      locals['title'] = `No envio id de ${legend}`;
+      locals['tipo'] = 2;
+    res.json(locals);
+  }
+};
+
 TipoMonedaController.delete = (req, res, next) => {
   let [idtabla] = req.params[idtabla];
   TipoMonedaModelo.getOne([idtabla], (err, rows) => {

@@ -84,8 +84,10 @@ router
 // tipomoneda
     .get('/tipomoneda', verificaToken, TipoMonedaController.getAll)
     .post('/tipomoneda', verificaToken, TipoMonedaController.create)
+    .put('/tipomoneda', verificaToken, TipoMonedaController.update)
     .get('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.getOne)
     .get('/tipomoneda/name/:nombreTipoMoneda', verificaToken, TipoMonedaController.getToName)
+    .get('/tipomoneda/todo/:anyAttribute', verificaToken, TipoMonedaController.getToAllAttributes)
     .post('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.delete)
     .delete('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.destroy)
 
@@ -102,6 +104,7 @@ router
 // rubro
     .get('/rubro', verificaToken, RubroController.getAll)
     .post('/rubro', verificaToken, RubroController.create)
+    .put('/rubro', verificaToken, RubroController.update)
     .get('/rubro/:idRubro', verificaToken, RubroController.getOne)
     .get('/rubro/name/:nombreRubro', verificaToken, RubroController.getToName)
     .get('/rubro/todo/:anyAttribute', verificaToken, RubroController.getToAllAttributes)
