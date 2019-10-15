@@ -261,10 +261,6 @@ export class CrudUsuarioComponent implements OnInit {
     }
   }
 
-  confirmarAccion() {
-    
-  }
-
   traerDepartamentos() {
     this.departamnetoservicio.getDepartamentos()
       .then((res) => {
