@@ -24,7 +24,6 @@ import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida/cr
 import { CrudRubroComponent } from './components/abm-rubro/crud-rubro/crud-rubro.component';
 import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud-usuario.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +43,6 @@ import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud
     AbmUnidadmedidaCreateComponent,
     CrudRubroComponent,
     CrudUsuarioComponent
-    
   ],
   imports: [
     BrowserModule,

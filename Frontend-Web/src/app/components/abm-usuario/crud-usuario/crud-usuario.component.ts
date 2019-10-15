@@ -13,6 +13,7 @@ import { UsuarioService } from '../../../services/usuario/usuario.service';
   styleUrls: ['./crud-usuario.component.scss']
 })
 export class CrudUsuarioComponent implements OnInit {
+  
   form: FormGroup;
   private departamentos: Departamento[];
   private roles: Rol[];
@@ -23,7 +24,7 @@ export class CrudUsuarioComponent implements OnInit {
   private newForm = {};
 
   accionGet;
-
+  
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -31,7 +32,7 @@ export class CrudUsuarioComponent implements OnInit {
     private departamnetoservicio: DepartamentoService,
     private rolservicio: RolService,
     private estadousuarioservicio: EstadoUsuarioService,
-    private usuarioservicio: UsuarioService,
+    private usuarioservicio: UsuarioService
   ) {
     this.form = new FormGroup({
       'idUsuario': new FormControl({value: '', disabled: true}),
@@ -64,6 +65,8 @@ export class CrudUsuarioComponent implements OnInit {
       }
       
     });
+
+    
 
   }
   ngOnInit() {
@@ -171,7 +174,31 @@ export class CrudUsuarioComponent implements OnInit {
       let user = this.reemplazarUsuario();
       this.usuarioservicio.updateUsuario( user )
       .then( (response) => {
-        console.log("ACTUALIZADO", response)
+        console.log("ACTUALIZADO", response);
+
+        const titulo = "Éxito";
+        const mensaje = "Se ha actualizado el registro de usuario de forma exitrosa";
+        
+        let routerAux = this.router;
+
+        ($ as any).confirm({
+          title: titulo,
+          content: mensaje,
+          type: 'green',
+          typeAnimated: true,
+          theme: 'material',
+          buttons: {
+              aceptar: {
+                  text: 'Aceptar',
+                  btnClass: 'btn-green',
+                  action: function(){
+                    routerAux.navigate( ['/usuario/']);
+                  }
+              }
+          }
+        });
+
+
       })
     } 
     else if (this.usuarioEncontrado && this.accionGet === "eliminar") {
@@ -179,7 +206,28 @@ export class CrudUsuarioComponent implements OnInit {
       // console.log("Datos A enviar: " + user);
       this.usuarioservicio.deleteUsuario( user )
       .then( (response) => {
-        console.log("BORRADO", response)
+        console.log("BORRADO", response);
+
+        const titulo = "Éxito";
+        const mensaje = "Se ha eliminado el registro de usuario de forma exitosa";
+        
+        ($ as any).confirm({
+          title: titulo,
+          content: mensaje,
+          type: 'green',
+          typeAnimated: true,
+          theme: 'material',
+          buttons: {
+              aceptar: {
+                  text: 'Aceptar',
+                  btnClass: 'btn-green',
+                  action: function(){
+                    this.router.navigate( ['/usuario/']);
+                  }
+              }
+          }
+        });
+
       })
     } else {
       let unidadMed = this.reemplazarUsuario();
@@ -187,30 +235,34 @@ export class CrudUsuarioComponent implements OnInit {
       this.usuarioservicio.setUsuario( unidadMed )
       .then( (response) => {
         console.log("CREADO", response);
+        
+        const titulo = "Éxito";
+        const mensaje = "Se ha Creado un nuvo registro de usuario de forma";
+        
+        ($ as any).confirm({
+          title: titulo,
+          content: mensaje,
+          type: 'green',
+          typeAnimated: true,
+          theme: 'material',
+          buttons: {
+              aceptar: {
+                  text: 'Aceptar',
+                  btnClass: 'btn-green',
+                  action: function(){
+                    this.router.navigate( ['/usuario/']);
+                  }
+              }
+          }
+        });
 
-        alert("Se ha Creado un nuvo registro de usuario");
-        this.router.navigate( ['/usuario/']);
-
-        /* // Asigno ID al formulario//
-        this.newForm = {
-          idUsuario: response.Usuario.idUsuario,
-          cuitUsuario:  this.form.value['cuitUsuario'],
-          nombreUsuario:  this.form.value['nombreUsuario'],
-          apellidoUsuario:  this.form.value['apellidoUsuario'],
-          dniUsuario:  this.form.value['dniUsuario'],
-          domicilioUsuario:  this.form.value['domicilioUsuario'],
-          emailUsuario:  this.form.value['emailUsuario'],
-          idDepartamento:  this.form.value['idDepartamento'],
-          contrasenaUsuario: '',
-          nroCelularUsuario:  this.form.value['nroCelularUsuario'],
-          nroTelefonoUsuario:  this.form.value['nroTelefonoUsuario'],
-          idRol:  this.form.value['idRol'],
-          idEstadoUsuario: this.form.value['idEstadoUsuario']
-        }
-        this.form.setValue(this.newForm);
-        //////////////////////////// */
+        
       })
     }
+  }
+
+  confirmarAccion() {
+    
   }
 
   traerDepartamentos() {
