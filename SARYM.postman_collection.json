@@ -1182,6 +1182,23 @@
 					"response": []
 				},
 				{
+					"name": "Get Tipo Moneda : anyAttribute",
+					"request": {
+						"url": "localhost:3000/tipomoneda/name/r",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
 					"name": "Post Tipo Moneda",
 					"request": {
 						"url": "localhost:3000/tipomoneda",
@@ -1209,7 +1226,7 @@
 				{
 					"name": "Put Tipo Moneda",
 					"request": {
-						"url": "localhost:3000/rubro",
+						"url": "localhost:3000/tipomoneda",
 						"method": "PUT",
 						"header": [
 							{
@@ -1225,7 +1242,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idRubro\" : 1,\n\t\"nombreRubro\": \"OTRO\",\n\t\"codRubro\": \"A4\",\n\t\"descripcionRubro\": \"otra cosa\"\n}"
+							"raw": "{\n\t\"idTipoMoneda\": 2,\n    \"nombreTipoMoneda\": \"Peso Argentino\",\n    \"simboloTipoMoneda\": \"$$\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},

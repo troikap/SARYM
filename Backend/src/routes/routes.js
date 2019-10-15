@@ -87,6 +87,7 @@ router
     .put('/tipomoneda', verificaToken, TipoMonedaController.update)
     .get('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.getOne)
     .get('/tipomoneda/name/:nombreTipoMoneda', verificaToken, TipoMonedaController.getToName)
+    .get('/tipomoneda/todo/:anyAttribute', verificaToken, TipoMonedaController.getToAllAttributes)
     .post('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.delete)
     .delete('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.destroy)
 
