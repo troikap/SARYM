@@ -14,11 +14,15 @@ export class DepartamentoService {
     public http: HttpClient
   ) { }
 
-   getDepartamentos( ): Promise<Departamento[]> {
+   getDepartamentos( token: string ): Promise<Departamento[]> {
+     console.log("DEPART BBBBBBB" , token)
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', token);
     return this.http
-      .get( (URL + dir))
+      .get( URL + dir, {headers})
       .toPromise()
       .then(response => {
+        console.log("DEPARTAMENTO AAAAAAA ", response)
         return response['Departamento'] as Departamento[];
       })
       .catch(  );
