@@ -112,7 +112,7 @@
                 </div>
                 <div class="col">
                     <label for="idEstadoUsuario" [ngClass]="{'col': true, 'col-form-label': true, 'input-error-msg': verificarValidacionCampo('idEstadoUsuario', ['invalid','touched'])}">Estado</label>
-                    <select Placeholder='SELECCIONE' formControlName='idEstadoUsuario' [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('idEstadoUsuario', ['invalid','touched'])}"> 
+                    <select Placeholder='Seleccione' formControlName='idEstadoUsuario' [ngClass]="{'form-control': true, 'is-invalid': verificarValidacionCampo('idEstadoUsuario', ['invalid','touched'])}"> 
                             <option *ngFor='let element of estadosusuarios' [value]='element.idEstadoUsuario'>{{element.nombreEstadoUsuario}}</option>
                         </select>
                     <p class="input-error-msg" *ngIf="verificarValidacionCampo('idEstadoUsuario', ['invalid','touched'])">
