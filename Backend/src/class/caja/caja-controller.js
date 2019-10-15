@@ -261,8 +261,6 @@ CajaController.update = (req, res) => {
         locals['data'] = response;
           if (!response || response == 0) {
               locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
-              console.log("EEEEEEEE")
-
               res.json(locals);
           } else {
               var actualizarEstado = false;
@@ -281,7 +279,6 @@ CajaController.update = (req, res) => {
                   check = true;
                   actualizarEstado = true;
               }
-              console.log("ACA -----------")
               // GUARDANDO
               if (check) {
                   CajaModelo.update(body, {
@@ -289,9 +286,7 @@ CajaController.update = (req, res) => {
                           [idtable]: body[idtable]
                       }
                   }).then(result => {
-                    console.log("RESULT , ",result)
                     if (actualizarEstado) {
-                        console.log("ACTUALIZANDO ESTADO o Usuario")
                         CajaEstadoModelo.update({ fechaYHoraBajaCajaEstado: Date() }, {
                             where: {
                                 [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
@@ -299,11 +294,8 @@ CajaController.update = (req, res) => {
                             .then((resp) => {
                                 if (!resp || resp == 0) {
                                     locals['title'] = "Error al Eliminar CajaEstado"
-                      console.log("DDDDDDDDD")
-
                                     res.json(locals)
                                 } else {
-                                    console.log("ELIMINADO ESTADO ANTIGUO")
                                     locals['estado'] = "Actualizado Estado";
                                     let pushEstado = {};
                                     if (body.idEstadoCaja) {
@@ -323,14 +315,12 @@ CajaController.update = (req, res) => {
                                     pushEstado['montoCierreCajaEstado'] = (body.montoCierreCajaEstado || response.montoCierreCajaEstado);
                                     CajaEstadoModelo.create(pushEstado)
                                       .then(result => {
-                                        console.log("LLEGO A ACTUALIZAR")
                                           if (result) {
                                               locals['title'] = `${legend} creado`;
                                               locals[legend2] = result;
                                           } else {
                                               locals[legend2] = "nada";
                                           }
-
                                       });
                                 }
                             })
@@ -339,17 +329,12 @@ CajaController.update = (req, res) => {
                           title: `Registro ${legend} Actualizado`,
                           tipo: 1
                       };
-                      console.log("BBBBBBB")
                       res.json(locals);
                   })
                   .catch((error) => {
                     let locals = {};
                     locals['tipo'] = 2;
-                    console.log("AAAA  ",error.name)
-                    console.log("AAAA  ",error.errors)
-
                     if ( String(error['name']) == 'SequelizeUniqueConstraintError') {
-                      console.log("ENTRANDO")
                       locals['title'] = `${codtable} ya existe.`
                     }
                     res.json(locals);

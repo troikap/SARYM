@@ -853,7 +853,32 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idCaja\" : 6,\n\t\"nroCaja\": 4,\n\t\"idEstadoCaja\": null,\n\t\"idUsuario\": null\n}"
+							"raw": "{\n\t\"nroCaja\": 4,\n\t\"idEstadoCaja\": 3,\n\t\"idUsuario\": 3\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Caja :id",
+					"request": {
+						"url": "localhost:3000/caja",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idCaja\": 1,\n\t\"nroCaja\": 2,\n\t\"idEstadoCaja\": 3,\n\t\"idUsuario\": 3,\n\t\"descripcionCajaEstado\": \"Ble...........\",\n    \"montoAperturaCajaEstado\": 1000,\n    \"montoCierreCajaEstado\": 1000\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
