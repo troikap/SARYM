@@ -120,6 +120,7 @@ router
 // caja
     .get('/caja', verificaToken, CajaController.getAll)
     .post('/caja', verificaToken, CajaController.create)
+    .put('/caja', verificaToken, CajaController.update)
     .get('/caja/:idCaja', verificaToken, CajaController.getOne)
     .get('/caja/name/:nroCaja', verificaToken, CajaController.getToName)
     .get('/caja/todo/:anyAttribute', verificaToken, CajaController.getToAllAttributes)
