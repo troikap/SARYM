@@ -13,9 +13,9 @@ TipoMonedaController.getToAllAttributes = (req, res, next) => {
   TipoMonedaModelo.findAll({
     where: {
       [Op.or]: [
-          {codRubro: {[Op.substring]: req.params.anyAttribute}},
-          {idRubro: {[Op.substring]: req.params.anyAttribute}},
-          {nombreRubro: {[Op.substring]: req.params.anyAttribute}},
+          {nombreTipoMoneda: {[Op.substring]: req.params.anyAttribute}},
+          {simboloTipoMoneda: {[Op.substring]: req.params.anyAttribute}},
+          {idTipoMoneda: {[Op.substring]: req.params.anyAttribute}},
           ]
       }
   }).then(project => {

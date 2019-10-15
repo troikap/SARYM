@@ -21,6 +21,8 @@
     border-radius: 5px;
     border: 4px solid red;
     border-left: 19px solid red;
+    pointer-events: none; 
+    cursor: default;
 }
 .eliminado {
     border-radius: 5px;
