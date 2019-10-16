@@ -14,11 +14,13 @@ const TipoMonedaModelo = sequelize.define('tipomoneda', {
     },
     nombreTipoMoneda: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     simboloTipoMoneda: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     }
 }, {
     // options

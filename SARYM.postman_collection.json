@@ -1150,7 +1150,7 @@
 				{
 					"name": "Get Tipo Moneda : id",
 					"request": {
-						"url": "localhost:3000/tipomoneda/2",
+						"url": "localhost:3000/tipomoneda/6",
 						"method": "GET",
 						"header": [
 							{
@@ -1184,7 +1184,7 @@
 				{
 					"name": "Get Tipo Moneda : anyAttribute",
 					"request": {
-						"url": "localhost:3000/tipomoneda/name/r",
+						"url": "localhost:3000/tipomoneda/todo/a",
 						"method": "GET",
 						"header": [
 							{
@@ -1217,7 +1217,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idTipoMoneda\" : 10,\n\t\"nombreTipoMoneda\": \"Merval\",\n\t\"simboloTipoMoneda\": \"MEr\"\n}"
+							"raw": "{\n\t\"idTipoMoneda\" : 14,\n\t\"nombreTipoMoneda\": \"Merval3\",\n\t\"simboloTipoMoneda\": \"MEr3\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -1242,7 +1242,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idTipoMoneda\": 2,\n    \"nombreTipoMoneda\": \"Peso Argentino\",\n    \"simboloTipoMoneda\": \"$$\"\n}"
+							"raw": "{\n\t\"idTipoMoneda\": 5,\n    \"nombreTipoMoneda\": \"Peso Argentino\",\n    \"simboloTipoMoneda\": \"MEr3\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -1251,7 +1251,7 @@
 				{
 					"name": "Del Tipo Moneda : id",
 					"request": {
-						"url": "localhost:3000/tipomoneda/10",
+						"url": "localhost:3000/tipomoneda/1",
 						"method": "DELETE",
 						"header": [
 							{
@@ -1745,9 +1745,9 @@
 					"response": []
 				},
 				{
-					"name": "Get Unidad Medida : id",
+					"name": "Get Unidad Medida :id",
 					"request": {
-						"url": "localhost:3000/unidadmedida/2",
+						"url": "localhost:3000/unidadmedida/7",
 						"method": "GET",
 						"header": [
 							{
@@ -1762,9 +1762,26 @@
 					"response": []
 				},
 				{
-					"name": "Get Unidad Medida : name",
+					"name": "Get Unidad Medida :name",
 					"request": {
-						"url": "localhost:3000/unidadmedida/name/n",
+						"url": "localhost:3000/unidadmedida/name/a",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Unidad Medida :anyAttribute",
+					"request": {
+						"url": "localhost:3000/unidadmedida/todo/a",
 						"method": "GET",
 						"header": [
 							{
@@ -1797,7 +1814,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idUnidadMedida\" : 11,\n\t\"nombreUnidadMedida\": \"OTROaa\",\n\t\"descripcionUnidadMedida\": \"otro  cualquierra\",\n\t\"caracterUnidadMedida\": \"COSO\",\n\t\"codUnidadMedida\": \"CODCOSO\"\n}"
+							"raw": "{\n\t\"idUnidadMedida\" : 8,\n\t\"nombreUnidadMedida\": \"OTROaaa\",\n\t\"descripcionUnidadMedida\": \"otro  cualquierra\",\n\t\"caracterUnidadMedida\": \"COSO2\",\n\t\"codUnidadMedida\": \"CODCOSOa\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -1822,7 +1839,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idUnidadMedida\" : 6,\n\t\"nombreUnidadMedida\": \"OTRae\",\n\t\"descripcionUnidadMedida\": \"aaaaaaaaaaa\",\n\t\"caracterUnidadMedida\": \"aaaaa\",\n\t\"codUnidadMedida\": \"aaaaaaaaaaaaaaaa\"\n}"
+							"raw": "{\n\t\"idUnidadMedida\" : 8,\n\t\"nombreUnidadMedida\": \"OTRae\",\n\t\"descripcionUnidadMedida\": \"aaaaaaaaaaa\",\n\t\"caracterUnidadMedida\": \"COSO22\",\n\t\"codUnidadMedida\": \"COSO2\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -1831,7 +1848,7 @@
 				{
 					"name": "Del Unidad Medida : id",
 					"request": {
-						"url": "localhost:3000/unidadmedida/11",
+						"url": "localhost:3000/unidadmedida/1",
 						"method": "DELETE",
 						"header": [
 							{

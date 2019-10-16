@@ -137,16 +137,4 @@ DepartamentoController.destroy = (req, res, next) => {
   });
 };
 
-DepartamentoController.error404 = (req, res, next) => {
-  let error = new Error(),
-    locals = {
-      title: "Error 404",
-      description: `Recurso No Encontrado`,
-      error: error
-    };
-  error.status = 404;
-  res.json(locals);
-  next();
-};
-
 module.exports = DepartamentoController;

@@ -7,7 +7,6 @@ require('../config');
 let verificaToken = (req, res, next) => {
     console.log('VERIFICANDO TOKEN')
     let token = req.get('token');
-    console.log("VALOR DE TOKEN: ", token);
     // token = "nada";
     if (token == "nuevo" || token == "libre") {
         next();

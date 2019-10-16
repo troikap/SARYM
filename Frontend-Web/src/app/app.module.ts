@@ -17,13 +17,14 @@ import { AbmCajaComponent } from './components/abm-caja/abm-caja.component';
 import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
 import { AbmSectorComponent } from './components/abm-sector/abm-sector.component';
-import { GestionarProductoComponent } from './components/gestionar-producto/gestionar-producto.component';
+import { GestionarProductoComponent } from './components/gestionar-producto/search-gestionar-producto/gestionar-producto.component';
 import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida/crud-unidadmedida/abm-unidadmedida-crud.component';
 import { CrudRubroComponent } from './components/abm-rubro/crud-rubro/crud-rubro.component';
 import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud-usuario.component';
 import { CrudTipomonedaComponent } from './components/abm-tipomoneda/crud-tipomoneda/crud-tipomoneda.component';
+import { CrudGestionarProductoComponent } from './components/gestionar-producto/crud-gestionar-producto/crud-gestionar-producto.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { CrudTipomonedaComponent } from './components/abm-tipomoneda/crud-tipomo
     AbmUnidadmedidaCreateComponent,
     CrudRubroComponent,
     CrudUsuarioComponent,
-    CrudTipomonedaComponent
+    CrudTipomonedaComponent,
+    CrudGestionarProductoComponent
   ],
   imports: [
     BrowserModule,
