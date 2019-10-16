@@ -95,7 +95,7 @@ export class RegistroUsuarioPage implements OnInit {
       .then((res) => {
         this.activatedRoute.params
           .subscribe(params => {
-            this.traerDepartamentos();
+            this.traerDepartamentos(res);
             this.id = params["id"];
             if (this.id != 0) {
               this.form = this.form1;
@@ -165,8 +165,8 @@ export class RegistroUsuarioPage implements OnInit {
     return data;
   }
 
-  traerDepartamentos() {
-    this.departamnetoservicio.getDepartamentos()
+  traerDepartamentos( token: string) {
+    this.departamnetoservicio.getDepartamentos( token)
       .then((res) => {
         this.departamentos = res;
       })

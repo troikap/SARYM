@@ -12,35 +12,16 @@ export class CajaService {
   
   url = environment.urlNgrok || environment.url;
   dir = '/caja';
-  dirNro = '/nroCaja'
-  dirEstado = '/estadocaja';
-
-  tokenEnviroment = environment.token;
 
   constructor(public http: HttpClient) {}
    
   getCaja( termino: string) { //Observador
     // console.log("Service getCaja: Termino = ", termino);
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    return this.http
-      .get(`${this.url}${this.dir}/${termino}`, {headers})
-      .pipe( map ((data: any) => {
-        console.log(data.data);
-        if (data != null) {
-          return data.data;
-        }
-    }));
-    
-  }
-
-  getCajaByNro( termino: number) { //Observador
-    console.log("Service getCaja: Termino = ", termino);
-    if (termino != null) {
+    if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
-      headers = headers.append('token', this.tokenEnviroment);
+      headers = headers.append('token', 'libre');
       return this.http
-        .get(`${this.url}${this.dir}${this.dirNro}/${termino}`, {headers})
+        .get(`${this.url}${this.dir}/${termino}`, {headers})
         .pipe( map ((data: any) => {
           console.log(data.data);
           if (data != null) {
@@ -53,11 +34,9 @@ export class CajaService {
     }
   }
 
-  getAllCaja() { //Promesa    
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
+  getAllCaja() { //Promesa
     return this.http
-      .get(`${this.url}${this.dir}`, {headers})
+      .get(`${this.url}${this.dir}`)
       .toPromise()
       .then(response => {
         console.log("CAJA ", response)
@@ -68,28 +47,14 @@ export class CajaService {
       } );
   }
 
-  getAllEstadoCaja() { //Promesa
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    return this.http
-      .get(`${this.url}${this.dirEstado}`, {headers})
-      .toPromise()
-      .then(response => {
-        console.log("ESTADO CAJA ", response)
-        return response;
-      })
-      .catch( err => {
-        console.log("ERROR : ",err)
-      } );
-  }
 
-
-  updateCaja( datas: any ): Promise<any> {
+  updateCaja( datas, token ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR :",datas)
+     headers = headers.append('token', token);
+     let data = {headers}
+     console.log("DATOS A ENVIAR :",datas)
     return this.http
-      .put(`${this.url}${this.dir}`, datas, {headers})
+      .put(`${this.url}${this.dir}`, datas, data)
       .toPromise()
       .then(response => {
         return response;
@@ -97,31 +62,17 @@ export class CajaService {
       .catch(  );
   }
 
-  deleteCaja( datas: any ): Promise<any> {
+  createCaja( datas, token ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    console.log("Valor Header:", headers);
-    console.log("DATOS A ENVIAR :",datas);
+     headers = headers.append('token', token);
+     let data = {headers}
     return this.http
-      .delete(`${this.url}${this.dir}/${datas.idCaja}`, {headers})
+      .post(`${this.url}${this.dir}`, datas, data)
       .toPromise()
       .then(response => {
         return response;
       })
       .catch(  );
   }
-
-  createCaja( datas ): Promise<any> {
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment); 
-    return this.http
-      .post(`${this.url}${this.dir}`, datas, {headers})
-      .toPromise()
-      .then(response => {
-        return response;
-      })
-      .catch(  );
-  }
-
 
 }

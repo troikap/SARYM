@@ -14,17 +14,20 @@ const UnidadMedidaModelo = sequelize.define('unidadmedida', {
     },
     codUnidadMedida: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     nombreUnidadMedida: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     descripcionUnidadMedida: {
         type: Sequelize.STRING
     },
     caracterUnidadMedida: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
     }
 }, {
     // options

@@ -1,3 +1,4 @@
+import * as $ from 'jquery'
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuarioService } from 'src/app/services/usuario/usuario.service';
@@ -22,7 +23,13 @@ export class AbmUsuarioComponent implements OnInit {
 
   ngOnInit() {
     this.getAllElements();
+    this.cargarOnFocus();
   }
+
+  cargarOnFocus() {
+    $("#botonBuscar").focus();
+  }
+
   buscarElemento(termino: string) {
     
     console.log(termino);

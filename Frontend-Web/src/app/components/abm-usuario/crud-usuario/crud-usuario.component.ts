@@ -13,6 +13,7 @@ import { UsuarioService } from '../../../services/usuario/usuario.service';
   styleUrls: ['./crud-usuario.component.scss']
 })
 export class CrudUsuarioComponent implements OnInit {
+  
   form: FormGroup;
   private departamentos: Departamento[];
   private roles: Rol[];
@@ -23,7 +24,7 @@ export class CrudUsuarioComponent implements OnInit {
   private newForm = {};
 
   accionGet;
-
+  
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -31,27 +32,23 @@ export class CrudUsuarioComponent implements OnInit {
     private departamnetoservicio: DepartamentoService,
     private rolservicio: RolService,
     private estadousuarioservicio: EstadoUsuarioService,
-    private usuarioservicio: UsuarioService,
+    private usuarioservicio: UsuarioService
   ) {
-    this.form = this.formBuilder.group({
-      'idUsuario': [null],
-      'apellidoUsuario': ['', Validators.required],
-      'contrasenaUsuario': [null],
-      'contrasenaUsuarioRepeat': [null],
-      'cuitUsuario': ['', Validators.required],
-      'dniUsuario': ['', Validators.required],
-      'domicilioUsuario': ['', Validators.required],
-      'emailUsuario': ['',  [Validators.compose([Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)])]],
-      'idDepartamento': ['', Validators.required],
-      'nombreUsuario': ['', Validators.required],
-      'nroCelularUsuario': ['', ([Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)])],
-      'nroTelefonoUsuario': ['', ([Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)])],
-      'idRol': ['', Validators.required],
-      'idEstadoUsuario': ['', Validators.required],
-      // 'contrasenaUsuario_group': new FormGroup({
-      //   'contrasenaUsuario': new FormControl('', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(25)])),
-      //   'contrasenaUsuarioRepeat': new FormControl('', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(25)]))
-      // }, { validators: this.equalValidator({ first_control_name: 'contrasenaUsuario', second_control_name: 'contrasenaUsuarioRepeat' }) })
+    this.form = new FormGroup({
+      'idUsuario': new FormControl({value: '', disabled: true}),
+      'apellidoUsuario': new FormControl('', Validators.required),
+      'contrasenaUsuario': new FormControl(''),
+      'contrasenaUsuarioRepeat': new FormControl(''),
+      'cuitUsuario': new FormControl('', Validators.required),
+      'dniUsuario': new FormControl('', Validators.required),
+      'domicilioUsuario': new FormControl('', Validators.required),
+      'emailUsuario': new FormControl('',  [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]),
+      'idDepartamento': new FormControl('', Validators.required),
+      'nombreUsuario': new FormControl('', Validators.required),
+      'nroCelularUsuario': new FormControl('', [Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
+      'nroTelefonoUsuario': new FormControl('', [Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
+      'idRol': new FormControl('', Validators.required),
+      'idEstadoUsuario': new FormControl('', Validators.required)
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -64,10 +61,16 @@ export class CrudUsuarioComponent implements OnInit {
       }
       else {
         this.usuarioEncontrado = false;
-        this.form.get('contrasenaUsuario').setValidators(Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(25)]));
+        this.form.get('contrasenaUsuario').setValidators([
+          Validators.required, 
+          Validators.minLength(5), 
+          Validators.maxLength(25)
+        ]);
         this.form.get('contrasenaUsuario').updateValueAndValidity();
-        this.form.get('contrasenaUsuarioRepeat').setValidators([Validators.required]);
+        
+        this.form.get('contrasenaUsuarioRepeat').setValidators(Validators.required);
         this.form.get('contrasenaUsuarioRepeat').updateValueAndValidity();
+        
         this.setValueChangeContraseñaRepeat();
       }
     });
@@ -79,7 +82,7 @@ export class CrudUsuarioComponent implements OnInit {
     this.traerEstadosUsuarios();
   }
 
-  verificarValidacionCampo(pNombreCampo: string, arregloValidaciones: string[]) {
+ /*  verificarValidacionCampo(pNombreCampo: string, arregloValidaciones: string[]) {
     let countValidate = 0;
     for (let validacion of arregloValidaciones) {
       if (validacion === 'valid') {
@@ -104,7 +107,7 @@ export class CrudUsuarioComponent implements OnInit {
     else {
       return false;
     }
-  }
+  } */
 
   traerUsuario() {
     console.log("Funcion 'traerUsuario()', ejecutada");
@@ -129,6 +132,7 @@ export class CrudUsuarioComponent implements OnInit {
             emailUsuario:  this.usuario['emailUsuario'],
             idDepartamento:  this.usuario['idDepartamento'],
             contrasenaUsuario: null,
+            contrasenaUsuarioRepeat: null,
             nroCelularUsuario: this.usuario['nroCelularUsuario'],
             nroTelefonoUsuario: this.usuario['nroTelefonoUsuario'],
             idRol: this.usuario['rolusuarios'][0].rol.idRol,
@@ -170,59 +174,250 @@ export class CrudUsuarioComponent implements OnInit {
 
   guardar() {
     console.log(this.form);
+
+    //Variables para mensajes//
+    let _this = this; //Asigno el contexto a una variable, ya que se pierde al ingresar a la función de mensajeria
+    const titulo = "Confirmación";
+    const mensaje = `¿Está seguro que desea ${this.accionGet} el elemento seleccionado?`;
+    ///////////////////////////
+    
     if (this.usuarioEncontrado && this.accionGet === "editar") {
-      let user = this.reemplazarUsuario();
-      this.usuarioservicio.updateUsuario( user )
-      .then( (response) => {
-        console.log("ACTUALIZADO", response)
-      })
+      
+      
+      
+      ($ as any).confirm({
+        title: titulo,
+        content: mensaje,
+        type: 'blue',
+        typeAnimated: true,
+        theme: 'material',
+        buttons: {
+            aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-blue',
+                action: function(){
+                  
+                  
+                  let user = _this.reemplazarUsuario();
+                  _this.usuarioservicio.updateUsuario( user )
+                  .then( (response) => {
+                    console.log("ACTUALIZADO", response);
+            
+                    const titulo = "Éxito";
+                    const mensaje = "Se ha actualizado el registro de usuario de forma exitrosa";
+                    
+                    ($ as any).confirm({
+                      title: titulo,
+                      content: mensaje,
+                      type: 'green',
+                      typeAnimated: true,
+                      theme: 'material',
+                      buttons: {
+                          aceptar: {
+                              text: 'Aceptar',
+                              btnClass: 'btn-green',
+                              action: function(){
+            
+                                //ACCION
+                                _this.router.navigate( ['/usuario/']);
+            
+            
+                              }
+                          }
+                      }
+                    });
+            
+            
+                  })
+
+
+
+                }
+            },
+            cerrar: {
+              text: 'Cerrar',
+              action: function(){
+                console.log("Edición Cancelada");
+              }
+          }
+        }
+      });
+
+
+
     } 
     else if (this.usuarioEncontrado && this.accionGet === "eliminar") {
-      let user = this.reemplazarUsuario();
-      // console.log("Datos A enviar: " + user);
-      this.usuarioservicio.deleteUsuario( user )
-      .then( (response) => {
-        console.log("BORRADO", response)
-      })
-    } else {
-      let unidadMed = this.reemplazarUsuario();
-      console.log("----------------------------- :", unidadMed)
-      this.usuarioservicio.setUsuario( unidadMed )
-      .then( (response) => {
-        console.log("CREADO", response);
+      
+      
+      ($ as any).confirm({
+        title: titulo,
+        content: mensaje,
+        type: 'blue',
+        typeAnimated: true,
+        theme: 'material',
+        buttons: {
+            aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-blue',
+                action: function(){
+                  
+                  
 
-        alert("Se ha Creado un nuevo registro de usuario");
-        this.router.navigate( ['/usuario/']);
-      })
+                  let user = _this.reemplazarUsuario();
+                  // console.log("Datos A enviar: " + user);
+                  _this.usuarioservicio.deleteUsuario( user )
+                  .then( (response) => {
+                    console.log("BORRADO", response);
+            
+                    const titulo = "Éxito";
+                    const mensaje = "Se ha eliminado el registro de usuario de forma exitosa";
+                    
+                    ($ as any).confirm({
+                      title: titulo,
+                      content: mensaje,
+                      type: 'green',
+                      typeAnimated: true,
+                      theme: 'material',
+                      buttons: {
+                          aceptar: {
+                              text: 'Aceptar',
+                              btnClass: 'btn-green',
+                              action: function(){
+            
+                                //ACCION
+                                _this.router.navigate( ['/usuario/']);
+            
+                              }
+                          }
+                      }
+                    });
+            
+                  })
+
+
+
+
+                }
+            },
+            cerrar: {
+              text: 'Cerrar',
+              action: function(){
+                console.log("Eliminación cancelada");
+              }
+          }
+        }
+      });
+      
+      
+      
+    } else {
+      
+      
+      
+      ($ as any).confirm({
+        title: titulo,
+        content: "¿Confirma la creación de un nuevo registro?",
+        type: 'blue',
+        typeAnimated: true,
+        theme: 'material',
+        buttons: {
+            aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-blue',
+                action: function(){
+                  
+                  
+
+                  let unidadMed = _this.reemplazarUsuario();
+                  console.log("----------------------------- :", unidadMed)
+                  _this.usuarioservicio.setUsuario( unidadMed )
+                  .then( (response) => {
+                    
+                    if (response.tipo !== 2) { //TODO CORRECTO
+
+                      console.log("CREADO", response);
+                    
+                      const titulo = "Éxito";
+                      const mensaje = "Se ha Creado un nuevo registro de usuario de forma exitosa";
+                    
+                      ($ as any).confirm({
+                        title: titulo,
+                        content: mensaje,
+                        type: 'green',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-green',
+                                action: function(){
+              
+                                  //ACCION
+                                  _this.router.navigate( ['/usuario/']);
+              
+                                }
+                            }
+                        }
+                      });
+
+
+
+
+                    }
+                    else {
+                      console.log("ERROR", response);
+                      
+                      ($ as any).confirm({
+                        title: "Error",
+                        content: `${response.title}. No es posible realizar esta acción`, 
+                        type: 'red',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-red',
+                                action: function(){
+                                  console.log("Mensaje de error aceptado");
+                                }
+                            }
+                        }
+                      });
+                      
+
+
+
+                    }
+
+                    
+            
+                    
+                  })
+
+
+
+
+                }
+            },
+            cerrar: {
+              text: 'Cerrar',
+              action: function(){
+                console.log("Creación Cancelada");
+              }
+          }
+        }
+      });
+      
+      
+      
+      
     }
   }
-
-  prueba() {
-    console.log(this.form)
-  }
-
-  // setValueChangeContraseña(){
-  //   this.form.controls.contrasenaUsuario.valueChanges
-  //   .subscribe( ( resp ) => {
-  //     console.log("CONTRASEÑA ,", resp)
-  //     if(resp == null && this.accionGet != "crear") {
-  //       this.form.get('contrasenaUsuario').clearValidators();
-  //       this.form.get('contrasenaUsuarioRepeat').clearValidators();
-  //     } else {
-  //       this.form.get('contrasenaUsuario').setValidators(Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(25)]));
-  //       // this.form.get('contrasenaUsuario').updateValueAndValidity();
-  //       this.form.get('contrasenaUsuarioRepeat').setValidators(Validators.required);
-  //       // this.form.get('contrasenaUsuarioRepeat').updateValueAndValidity();
-  //     }
-  //     this.form.get('contrasenaUsuario').updateValueAndValidity();
-  //     this.form.get('contrasenaUsuarioRepeat').updateValueAndValidity();
-  //   });
-  // }
 
   setValueChangeContraseñaRepeat () {
     this.form.get('contrasenaUsuarioRepeat').valueChanges
     .subscribe( ( resp ) => {
-      console.log("RESPUESTA :",resp)
+      // console.log("RESPUESTA :",resp)
       if ( resp == this.form.value.contrasenaUsuario ) {
         this.form.controls.contrasenaUsuarioRepeat.setErrors(null)
       } else {

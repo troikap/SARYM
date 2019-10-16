@@ -142,6 +142,58 @@ RubroController.create = (req, res) => {
   }
 };
 
+RubroController.update = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  if (body[idtable]) {
+    RubroModelo.findOne({
+      where: { [idtable]: body[idtable] },
+      attributes: [
+        "idRubro",
+        "codRubro",
+        "nombreRubro",
+        "descripcionRubro"
+      ],
+    }).then(response => {
+      if (!response || response == 0) {
+        locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      } else {
+        let actualizar = false;
+        if ( 
+          body.codRubro != response.dataValues.codRubro || 
+          body.nombreRubro != response.dataValues.nombreRubro ||
+          body.descripcionRubro != response.dataValues.descripcionRubro
+          ) {
+            actualizar = true
+          }
+        if (actualizar) {
+          RubroModelo.update(body, {where: {[idtable]: body[idtable]}})
+            .then(result => {
+              if (result) {
+                locals['title'] = `Registro ${legend} Actualizado`;
+                locals['tipo'] = 1;
+              } else {
+                locals['title'] = `Registro ${legend} NO Actualizado`;
+                locals['tipo'] = 2;
+              }
+              res.json(locals)
+            })
+        } else {
+          locals['title'] = `No ha Modificado ningún Registro de ${legend}`,
+          locals['tipo'] = 2;
+          res.json(locals);
+        }
+      }
+    });
+  } else {
+      locals['title'] = `No envio id de ${legend}`;
+      locals['tipo'] = 2;
+    res.json(locals);
+  }
+};
+
 RubroController.delete = (req, res, next) => {
   let [idtabla] = req.params[idtabla];
   RubroModelo.getOne([idtabla], (err, rows) => {
@@ -180,18 +232,6 @@ RubroController.destroy = (req, res, next) => {
       res.json(locals);
     }
   });
-};
-
-RubroController.error404 = (req, res, next) => {
-  let error = new Error(),
-    locals = {
-      title: "Error 404",
-      description: `Recurso No Encontrado`,
-      error: error
-    };
-  error.status = 404;
-  res.json(locals);
-  next();
 };
 
 module.exports = RubroController;
