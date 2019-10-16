@@ -88,7 +88,6 @@ router
     .get('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.getOne)
     .get('/tipomoneda/name/:nombreTipoMoneda', verificaToken, TipoMonedaController.getToName)
     .get('/tipomoneda/todo/:anyAttribute', verificaToken, TipoMonedaController.getToAllAttributes)
-    .post('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.delete)
     .delete('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.destroy)
 
 // unidadmedida
@@ -98,7 +97,6 @@ router
     .get('/unidadmedida/:idUnidadMedida', verificaToken, UnidadMedidaController.getOne)
     .get('/unidadmedida/name/:nombreUnidadMedida', verificaToken, UnidadMedidaController.getToName)
     .get('/unidadmedida/todo/:anyAttribute', verificaToken, UnidadMedidaController.getToAllAttributes)
-    .post('/unidadmedida/:idUnidadMedida', verificaToken, UnidadMedidaController.delete)
     .delete('/unidadmedida/:idUnidadMedida', verificaToken, UnidadMedidaController.destroy)
 
 // rubro
@@ -189,21 +187,6 @@ router
     .delete('/estadomesa/:idEstadoMesa', verificaToken, EstadoMesaController.destroy)
 
 // use
-    .use(EstadoUsuarioController.error404)
-    .use(UsuarioController.error404)
-    .use(DepartamentoController.error404)
-    .use(RolController.error404)
-    .use(ProductoController.error404)
     .use(TipoMonedaController.error404)
-    .use(UnidadMedidaController.error404)
-    .use(RubroController.error404)
-    .use(SectorController.error404)
-    .use(CajaController.error404)
-    .use(EstadoEstadiaController.error404)
-    .use(EstadoMenuPromocionController.error404)
-    .use(EstadoReservaController.error404)
-    .use(EstadoProductoController.error404)
-    .use(EstadoPedidoController.error404)
-    .use(EstadoMesaController.error404)
 
 module.exports = router

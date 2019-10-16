@@ -1,5 +1,6 @@
 "use strict";
 
+let tratarError = require("../../middlewares/handleError");
 const CajaModelo = require("../caja/caja-model"),
   CajaController = () => {},
   CajaEstadoModelo = require("../cajaestado/cajaestado-model"),
@@ -330,13 +331,8 @@ CajaController.update = (req, res) => {
                           tipo: 1
                       };
                       res.json(locals);
-                  })
-                  .catch((error) => {
-                    let locals = {};
-                    locals['tipo'] = 2;
-                    if ( String(error['name']) == 'SequelizeUniqueConstraintError') {
-                      locals['title'] = `${codtable} ya existe.`
-                    }
+                  }).catch((error) => {
+                    let locals = tratarError.tratarError(error, legend);
                     res.json(locals);
                   });
               } else {
@@ -386,18 +382,6 @@ CajaController.destroy = (req, res, next) => {
       res.json(locals);
     }
   });
-};
-
-CajaController.error404 = (req, res, next) => {
-  let error = new Error(),
-    locals = {
-      title: "Error 404",
-      description: `Recurso No Encontrado`,
-      error: error
-    };
-  error.status = 404;
-  res.json(locals);
-  next();
 };
 
 module.exports = CajaController;
