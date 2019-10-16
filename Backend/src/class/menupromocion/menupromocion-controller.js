@@ -640,16 +640,4 @@ MenuPromocionController.getOne = (req, res) => {
   });
 };
 
-MenuPromocionController.error404 = (req, res, next) => {
-  let error = new Error(),
-    locals = {
-      title: "Error 404",
-      description: `Recurso ${legend} No Encontrado`,
-      error: error
-    };
-  error.status = 404;
-  res.json(locals);
-  next();
-};
-
 module.exports = MenuPromocionController;

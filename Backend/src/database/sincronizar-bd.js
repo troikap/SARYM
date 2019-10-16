@@ -61,6 +61,8 @@ sequelize.sync({ force: false }); // force = false  crea nuevos modelos/tablas d
 //  node_modules/.bin/sequelize seed:generate --name demo-user          crea nueva semilla
 // node_modules/.bin/sequelize db:seed:all        para correr la semilla
 
+// npx sequelize migration:create --name Departamento
+// 
 
 // bcrypt.compare("123", encrypt, function(err, res) {
 //     // res == true
