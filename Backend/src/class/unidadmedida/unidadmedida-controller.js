@@ -8,162 +8,237 @@ const UnidadMedidaModelo = require("../unidadmedida/unidadmedida-model"),
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
 
+UnidadMedidaController.getToAllAttributes = (req, res, next) => {
+  UnidadMedidaModelo.findAll({
+    where: {
+      [Op.or]: [
+        {codUnidadMedida: {[Op.substring]: req.params.anyAttribute}},
+        {idUnidadMedida: {[Op.substring]: req.params.anyAttribute}},
+        {nombreUnidadMedida: {[Op.substring]: req.params.anyAttribute}},
+        {caracterUnidadMedida: {[Op.substring]: req.params.anyAttribute}},
+      ]
+    }
+  }).then(project => {
+      if (!project || project == 0) {
+          let locals = {
+              title: "No existe el registro : " + req.params[nombretable]
+          };
+          res.json(locals);
+      } else {
+          let locals = {
+              title: `${legend}`,
+              data: project
+          };
+          res.json(locals);
+      }
+  });
+};
+
 UnidadMedidaController.getToName = (req, res, next) => {
+  let locals = {};
   UnidadMedidaModelo.findAll({
     where: { [nombretable]: { [Op.substring]: req.params[nombretable] }}
   }).then(project => {
     if (!project || project == 0) {
-      let locals = {
-        title: "No existe el registro : " + req.params[nombretable]
-      };
+      locals['title'] = "No existe el registro : " + req.params[nombretable];
+      locals['tipo'] = 2;
       res.json(locals);
     } else {
-      let locals = {
-        title: `${legend}`,
-        data: project
-      };
+      locals['title'] = `${legend}`;
+      locals['data'] = project;
+      locals['tipo'] = 1;
       res.json(locals);
     }
   });
 };
   
 UnidadMedidaController.getAll = (req, res, next) => {
+  let locals = {};
   UnidadMedidaModelo.findAll({ raw: true }).then(projects => {
     if (!projects || projects == 0) {
-      let locals = {
-        title: `No existen registros de ${legend}`
-      };
+      locals['title'] = `No existen registros de ${legend}`;
+      locals['tipo'] = 2;
       res.json(locals);
     } else {
-      let locals = {
-        title: `${legend}`,
-        data: projects
-      };
+      locals['title'] = `${legend}`,
+      locals['data'] = projects;
+      locals['tipo'] = 1;
       res.json(locals);
     }
   });
 };
 
+UnidadMedidaController.update = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  if (body[idtable]) {
+    UnidadMedidaModelo.findOne({
+      where: { [idtable]: body[idtable] },
+      attributes: [
+        'codUnidadMedida',
+        'descripcionUnidadMedida',
+        'nombreUnidadMedida',
+        'caracterUnidadMedida',
+      ],
+    }).then(response => {
+      if (!response || response == 0) {
+        locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      } else {
+        let actualizar = false;
+        let actualizarCod = false;
+        if ( 
+          body.codUnidadMedida != response.dataValues.codUnidadMedida || 
+          body.descripcionUnidadMedida != response.dataValues.descripcionUnidadMedida ||
+          body.nombreUnidadMedida != response.dataValues.nombreUnidadMedida ||
+          body.caracterUnidadMedida != response.dataValues.caracterUnidadMedida
+          ) {
+            if (body.codUnidadMedida != response.dataValues.codUnidadMedida) {
+              actualizarCod = true;
+            }
+            actualizar = true
+          }
+        if (actualizar) {
+          if (actualizarCod){
+            UnidadMedidaModelo.findOne({
+              where: { codUnidadMedida: body.codUnidadMedida },
+            })
+            .then( (resp) => {
+              if (!resp || resp == null) {
+                UnidadMedidaModelo.update(body, {where: {[idtable]: body[idtable]}})
+                .then(result => {
+                  if (result) {
+                    locals['title'] = `Registro ${legend} Actualizado`;
+                    locals['tipo'] = 1;
+                  } else {
+                    locals['title'] = `Registro ${legend} NO Actualizado`;
+                    locals['tipo'] = 2;
+                  }
+                  res.json(locals)
+                })
+              } else {
+                locals['title'] = `Codigo de ${legend} ya existe.`,
+                locals['tipo'] = 2;
+                res.json(locals)
+              }
+            })
+          } else {
+            UnidadMedidaModelo.update(body, {where: {[idtable]: body[idtable]}}).then(result => {
+              if (result) {
+                locals['title'] =  `Registro ${legend} Actualizado`;
+                locals['tipo'] = 1;
+              } else {
+                locals['title'] =  `Registro ${legend} NO Actualizado`,
+                locals['tipo'] = 2;
+              }
+              res.json(locals)
+            })
+          }
+        } else {
+          locals['title'] = `No ha Modificado ningún Registro de ${legend}`,
+          locals['tipo'] = 2;
+          res.json(locals);
+        }
+      }
+    });
+  } else {
+      locals['title'] = `No envio id de ${legend}`;
+      locals['tipo'] = 2;
+    res.json(locals);
+  }
+};
+
 UnidadMedidaController.getOne = (req, res, next) => {
+  let locals = {};
   UnidadMedidaModelo.findOne({
     where: { [idtable]: req.params[idtable] }
   }).then(project => {
     if (!project || project == 0) {
-      let locals = {
-        title: "No existe el registro : " + req.params[idtable]
-      };
+      locals['title'] = "No existe el registro : " + req.params[idtable];
+      locals['tipo'] = 2;
       res.json(locals);
     } else {
-      let locals = {
-        title: `${legend}`,
-        data: project.dataValues
-      };
+      locals['title'] = `${legend}`;
+      locals['data'] = project.dataValues;
+      locals['tipo'] = 1;
       res.json(locals);
     }
   });
 };
 
 UnidadMedidaController.create = (req, res) => {
+  let locals = {};
   if (req.body[idtable]) {
     UnidadMedidaModelo.findOne({
       where: { [idtable]: req.body[idtable] }
     }).then(project => {
       if (!project || project == 0) {
         UnidadMedidaModelo.create(req.body).then(result => {
-          let locals = {
-            title: `Creando ${legend}`,
-            id: result[idtable],
-            data: result
-          };
+          locals['title'] = `Creando ${legend}`;
+          locals['id'] = result[idtable];
+          locals['data'] = result;
+          locals['tipo'] = 1;
           res.json(locals);
         });
       } else {
-        var check = false;
-        for (let attribute in req.body) {
-          if (
-            String(req.body[attribute]) != String(project.dataValues[attribute])
-          ) {
-            check = true;
-          }
-        }
-        if (check) {
-          UnidadMedidaModelo.update(req.body, {
-            where: {
-              [idtable]: req.body[idtable]
-            }
-          }).then(result => {
-            let locals = {
-              title: `Actualizando ${legend}: ${req.body[idtable]}`
-            };
-            res.json(locals);
-          });
-        } else {
-          let locals = {
-            title: `No existe ninguna modificación de ${legend}: ${req.body[idtable]}`
-          };
-          res.json(locals);
-        }
+        locals['title'] = "Registro Existente.";
+        locals['tipo'] = 2;
+        res.json(locals);
       }
     });
   } else {
     UnidadMedidaModelo.create(req.body).then(result => {
-      let locals = {
-        title: `Creando Nuevo ${legend}: ${result[idtable]}`,
-        data: result
-      };
+      locals['title'] = `Creando Nuevo ${legend}: ${result[idtable]}`;
+      locals['data'] = result;
+      locals['tipo'] = 1;
       res.json(locals);
     });
   }
 };
 
 UnidadMedidaController.delete = (req, res, next) => {
+  let locals = {};
   let [idtabla] = req.params[idtabla];
   UnidadMedidaModelo.getOne([idtabla], (err, rows) => {
     if (err) {
-      let locals = {
-        title: `Error al buscar el registro con el id: ${[idtabla]}`,
-        description: "Error de Sintaxis SQL",
-        error: err
-      };
+      locals['title'] = `Error al buscar el registro con el id: ${[idtabla]}`;
+      locals['data'] = err;
+      locals['tipo'] = 2;
       res.json(locals);
     } else {
-      let locals = {
-        title: `${leyenda}: ${[idtabla]}`,
-        data: rows
-      };
+      locals['title'] = `${leyenda}: ${[idtabla]}`;
+      locals['data'] = rows;
+      locals['tipo'] = 1;
       res.json(locals);
     }
   });
 };
 
 UnidadMedidaController.destroy = (req, res, next) => {
+  let locals = {};
   UnidadMedidaModelo.destroy({
     where: {
       [idtable]: req.params[idtable]
     }
   }).then(response => {
     if (!response || response == 0) {
-      let locals = {
-        title: `No existe el registro de ${legend}: ` + req.params[idtable]
-      };
+      locals['title'] = `No existe el registro de ${legend}: ` + req.params[idtable];
+      locals['tipo'] = 2;
       res.json(locals);
     } else {
-      let locals = {
-        title: `${legend} Eliminado Fisicamente`
-      };
+      locals['title'] = `${legend} Eliminado Fisicamente`
+      locals['tipo'] = 1;
       res.json(locals);
     }
   });
 };
 
 UnidadMedidaController.error404 = (req, res, next) => {
-  let error = new Error(),
-    locals = {
-      title: "Error 404",
-      description: `Recurso No Encontrado`,
-      error: error
-    };
-  error.status = 404;
+  let locals = {};
+  locals['title'] = "Error 404";
+  locals['data'] = `Recurso No Encontrado`;
+  locals['tipo'] = 2;
   res.json(locals);
   next();
 };

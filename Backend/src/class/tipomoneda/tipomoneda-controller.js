@@ -9,6 +9,31 @@ const TipoMonedaModelo = require("../tipomoneda/tipomoneda-model"),
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
 
+TipoMonedaController.getToAllAttributes = (req, res, next) => {
+  TipoMonedaModelo.findAll({
+    where: {
+      [Op.or]: [
+          {nombreTipoMoneda: {[Op.substring]: req.params.anyAttribute}},
+          {simboloTipoMoneda: {[Op.substring]: req.params.anyAttribute}},
+          {idTipoMoneda: {[Op.substring]: req.params.anyAttribute}},
+          ]
+      }
+  }).then(project => {
+    if (!project || project == 0) {
+        let locals = {
+            title: "No existe el registro : " + req.params[nombretable]
+        };
+        res.json(locals);
+    } else {
+        let locals = {
+            title: `${legend}`,
+            data: project
+        };
+        res.json(locals);
+    }
+  });
+};
+
 TipoMonedaController.getToName = (req, res, next) => {
   TipoMonedaModelo.findAll({
     where: { [nombretable]: { [Op.substring]: req.params[nombretable] }}
@@ -114,6 +139,56 @@ TipoMonedaController.create = (req, res) => {
       };
       res.json(locals);
     });
+  }
+};
+
+TipoMonedaController.update = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  if (body[idtable]) {
+    TipoMonedaModelo.findOne({
+      where: { [idtable]: body[idtable] },
+      attributes: [
+        "idTipoMoneda",
+        "nombreTipoMoneda",
+        "simboloTipoMoneda",
+      ],
+    }).then(response => {
+      if (!response || response == 0) {
+        locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      } else {
+        let actualizar = false;
+        if ( 
+          body.nombreTipoMoneda != response.dataValues.nombreTipoMoneda || 
+          body.simboloTipoMoneda != response.dataValues.simboloTipoMoneda
+          ) {
+            actualizar = true
+          }
+        if (actualizar) {
+          TipoMonedaModelo.update(body, {where: {[idtable]: body[idtable]}})
+            .then(result => {
+              if (result) {
+                locals['title'] = `Registro ${legend} Actualizado`;
+                locals['tipo'] = 1;
+              } else {
+                locals['title'] = `Registro ${legend} NO Actualizado`;
+                locals['tipo'] = 2;
+              }
+              res.json(locals)
+            })
+        } else {
+          locals['title'] = `No ha Modificado ningún Registro de ${legend}`,
+          locals['tipo'] = 2;
+          res.json(locals);
+        }
+      }
+    });
+  } else {
+      locals['title'] = `No envio id de ${legend}`;
+      locals['tipo'] = 2;
+    res.json(locals);
   }
 };
 

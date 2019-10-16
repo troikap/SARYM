@@ -9,6 +9,31 @@ const RubroModelo = require("../rubro/rubro-model"),
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
 
+RubroController.getToAllAttributes = (req, res, next) => {
+  RubroModelo.findAll({
+      where: {
+          [Op.or]: [
+              {codRubro: {[Op.substring]: req.params.anyAttribute}},
+              {idRubro: {[Op.substring]: req.params.anyAttribute}},
+              {nombreRubro: {[Op.substring]: req.params.anyAttribute}},
+              ]
+          }
+  }).then(project => {
+      if (!project || project == 0) {
+          let locals = {
+              title: "No existe el registro : " + req.params[nombretable]
+          };
+          res.json(locals);
+      } else {
+          let locals = {
+              title: `${legend}`,
+              data: project
+          };
+          res.json(locals);
+      }
+  });
+};
+
 RubroController.getToName = (req, res, next) => {
   RubroModelo.findAll({
     where: { [nombretable]: { [Op.substring]: req.params[nombretable] }}
@@ -114,6 +139,58 @@ RubroController.create = (req, res) => {
       };
       res.json(locals);
     });
+  }
+};
+
+RubroController.update = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  if (body[idtable]) {
+    RubroModelo.findOne({
+      where: { [idtable]: body[idtable] },
+      attributes: [
+        "idRubro",
+        "codRubro",
+        "nombreRubro",
+        "descripcionRubro"
+      ],
+    }).then(response => {
+      if (!response || response == 0) {
+        locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      } else {
+        let actualizar = false;
+        if ( 
+          body.codRubro != response.dataValues.codRubro || 
+          body.nombreRubro != response.dataValues.nombreRubro ||
+          body.descripcionRubro != response.dataValues.descripcionRubro
+          ) {
+            actualizar = true
+          }
+        if (actualizar) {
+          RubroModelo.update(body, {where: {[idtable]: body[idtable]}})
+            .then(result => {
+              if (result) {
+                locals['title'] = `Registro ${legend} Actualizado`;
+                locals['tipo'] = 1;
+              } else {
+                locals['title'] = `Registro ${legend} NO Actualizado`;
+                locals['tipo'] = 2;
+              }
+              res.json(locals)
+            })
+        } else {
+          locals['title'] = `No ha Modificado ningún Registro de ${legend}`,
+          locals['tipo'] = 2;
+          res.json(locals);
+        }
+      }
+    });
+  } else {
+      locals['title'] = `No envio id de ${legend}`;
+      locals['tipo'] = 2;
+    res.json(locals);
   }
 };
 
