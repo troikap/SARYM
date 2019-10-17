@@ -2,6 +2,8 @@
 
 const Sequelize = require("sequelize");
 const MovimientoCajaModelo = require("../movimientocaja/movimientocaja-model");
+const CajaEstadoModelo = require("../cajaestado/cajaestado-model");
+
 var sequelize = require("../../database/connection");
 
 // DEFINICION DEL MODELO
@@ -16,7 +18,8 @@ const CajaModelo = sequelize.define(
     },
     nroCaja: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        unique: true,
     }
 }, {
     // options
@@ -25,5 +28,7 @@ const CajaModelo = sequelize.define(
 
 //ASOCIACIONES
 CajaModelo.hasMany(MovimientoCajaModelo, { foreignKey: "idCaja" });
+CajaModelo.hasMany(CajaEstadoModelo, { foreignKey: "idCaja" });
+
 
 module.exports = CajaModelo;

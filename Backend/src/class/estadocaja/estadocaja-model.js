@@ -14,11 +14,13 @@ const EstadoCajaModelo = sequelize.define('estadocaja', {
     },
     codEstadoCaja: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     nombreEstadoCaja: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     }
 }, {
     // options

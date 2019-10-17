@@ -1,0 +1,115 @@
+<h2 class="titulo">ABM Usuario</h2>
+<hr>
+<div class="container">
+    <div class="form-section">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="form-group">
+                <label for="idUsuario" class="col col-form-label">Id</label>
+                <input type="text" id="idUsuario" placeholder="Identificador" formControlName="idUsuario" class="form-control">
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="cuitUsuario" class="col col-form-label">Cuit</label>
+                        <input type="text" class="form-control" id="cuitUsuario" placeholder="Ingrese Respuesta" formControlName="cuitUsuario">
+                        <p class="input-error-msg" *ngIf="form.controls.cuitUsuario.errors?.required && form.controls.cuitUsuario.touched">Campo Obligatorio.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="dniUsuario" class="col col-form-label">DNI</label>
+                        <input type="text" class="form-control" id="dniUsuario" placeholder="Ingrese Respuesta" formControlName="dniUsuario">
+                        <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.required && form.controls.dniUsuario.touched">Campo Obligatorio.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <label for="nombreUsuario" class="col col-form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese Respuesta" formControlName="nombreUsuario">
+                    <p class="input-error-msg" *ngIf="form.controls.nombreUsuario.errors?.required && form.controls.nombreUsuario.touched">Campo Obligatorio.</p>
+                </div>
+                <div class="col">
+                    <label for="apellidoUsuario" class="col col-form-label">Apellido</label>
+                    <input type="text" class="form-control" id="apellidoUsuario" placeholder="Ingrese Respuesta" formControlName="apellidoUsuario">
+                    <p class="input-error-msg" *ngIf="form.controls.apellidoUsuario.errors?.required && form.controls.apellidoUsuario.touched">Campo Obligatorio.</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <label for="emailUsuario" class="col col-form-label">Email</label>
+                    <input type="text" class="form-control" id="emailUsuario" placeholder="Ingrese Respuesta" formControlName="emailUsuario">
+                    <p class="input-error-msg" *ngIf="form.controls.emailUsuario.errors?.required && form.controls.emailUsuario.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="form.controls.emailUsuario.errors?.pattern && form.controls.emailUsuario.touched">Por Ejemplo: sarymresto@gmail.com.</p>
+                </div>
+                <div class="col">
+                    <label for="domicilioUsuario" class="col col-form-label">Domicilio</label>
+                    <input type="text" class="form-control" id="domicilioUsuario" placeholder="Ingrese Respuesta" formControlName="domicilioUsuario">
+                    <p class="input-error-msg" *ngIf="form.controls.domicilioUsuario.errors?.required && form.controls.domicilioUsuario.touched">Campo Obligatorio.</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <label for="nroCelularUsuario" class="col col-form-label">Celular</label>
+                    <input type="text" class="form-control" id="nroCelularUsuario" placeholder="Ingrese Respuesta" formControlName="nroCelularUsuario">
+                    <p class="input-error-msg" *ngIf="form.controls.nroCelularUsuario.errors?.required && form.controls.nroCelularUsuario.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="form.controls.nroCelularUsuario.errors?.pattern && form.controls.nroCelularUsuario.touched">Por Ejemplo: 2616123456</p>
+                </div>
+                <div class="col">
+                    <label for="nroTelefonoUsuario" class="col col-form-label">Telefono</label>
+                    <input type="text" class="form-control" id="nroTelefonoUsuario" placeholder="Ingrese Respuesta" formControlName="nroTelefonoUsuario">
+                    <p class="input-error-msg" *ngIf="form.controls.nroTelefonoUsuario.errors?.required && form.controls.nroTelefonoUsuario.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="form.controls.nroTelefonoUsuario.errors?.pattern && form.controls.nroTelefonoUsuario.touched">Por Ejemplo: 2614123456</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <label for="idDepartamento" class="col col-form-label">Departamento</label>
+                    <select Placeholder='Seleccione' formControlName='idDepartamento' class="form-control"> 
+                        <option *ngFor='let element of departamentos' [value]='element.idDepartamento'>{{element.nombreDepartamento}}</option>
+                    </select>
+                    <p class="input-error-msg" *ngIf="form.controls.idDepartamento.errors?.required && form.controls.idDepartamento.touched">Campo Obligatorio.</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <label for="idRol" class="col col-form-label">Rol</label>
+                    <select Placeholder='Seleccione' formControlName='idRol' class="form-control"> 
+                        <option *ngFor='let element of roles' [value]='element.idRol'>{{element.nombreRol}}</option>
+                    </select>
+                    <p class="input-error-msg" *ngIf="form.controls.idRol.errors?.required && form.controls.idRol.touched">Campo Obligatorio.</p>
+                </div>
+                <div class="col">
+                    <label for="idEstadoUsuario" class="col col-form-label">Estado</label>
+                    <select Placeholder='Seleccione' formControlName='idEstadoUsuario' class="form-control"> 
+                        <option *ngFor='let element of estadosusuarios' [value]='element.idEstadoUsuario'>{{element.nombreEstadoUsuario}}</option>
+                    </select>
+                    <p class="input-error-msg" *ngIf="form.controls.idEstadoUsuario.errors?.required && form.controls.idEstadoUsuario.touched">Campo Obligatorio.</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <label for="contrasenaUsuario" class="col col-form-label">Contraseña</label>
+                    <input class="form-control" type="password" id="contrasenaUsuario" placeholder="Ingrese Respuesta" formControlName="contrasenaUsuario">
+                    <p class="input-error-msg" *ngIf="form.controls.contrasenaUsuario.errors?.required && form.controls.contrasenaUsuario.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="(form.controls.contrasenaUsuario.errors?.minlength || form.controls.contrasenaUsuario.errors?.maxlength) && form.controls.contrasenaUsuario.touched">Mayor a 5 y menor a 25 letras.</p>
+                </div>
+                <div class="col" *ngIf="form.value.contrasenaUsuario != null">
+                    <label for="contrasenaUsuarioRepeat" class="col col-form-label">Repetir Contraseña</label>
+                    <input class="form-control" type="password" id="contrasenaUsuarioRepeat" placeholder="Ingrese Respuesta" formControlName="contrasenaUsuarioRepeat">
+                    <p class="input-error-msg" *ngIf="form.controls.contrasenaUsuarioRepeat.errors?.required && form.controls.contrasenaUsuarioRepeat.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="form.controls.contrasenaUsuarioRepeat.errors?.not_equal && form.controls.contrasenaUsuarioRepeat.touched">Las contraseñas no coinciden.</p>
+                </div>
+            </div>
+            <hr>
+            <div *ngIf="accionGet != 'eliminar'">
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+            </div>
+            <div *ngIf="accionGet == 'eliminar'">
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<hr>
+<button onclick="history.back()" class="btn btn-primary">Cancelar</button>

@@ -63,7 +63,7 @@ const UsuarioModelo = sequelize.define(
 
 UsuarioModelo.hasMany(UsuarioEstadoModelo, { foreignKey: "idUsuario" });
 UsuarioModelo.hasMany(RolUsuarioModelo, { foreignKey: "idUsuario" });
-UsuarioModelo.hasMany(CajaEstadoModelo, { foreignKey: "idUsuario" });
+// UsuarioModelo.hasMany(CajaEstadoModelo, { foreignKey: "idUsuario" });
 UsuarioModelo.hasMany(MozoEstadiaModelo, { foreignKey: "idUsuario" });
 UsuarioModelo.hasMany(ClienteEstadiaModelo, { foreignKey: "idUsuario" });
 UsuarioModelo.hasMany(ReservaModelo, { foreignKey: "idUsuario" });

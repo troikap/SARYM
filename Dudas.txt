@@ -1,7 +1,0 @@
-usuario POST (crear)
-   Si pasa ID por Body -> verifica si no existe ningun otro usuario con el mismo cuit
-      Verifica que exista Estado Activo.
-   Verifica si no existe ningun otro usuario con el mismo cuit
-usuario PUT (actualizar)
-   Si pasa ID por Body -> actualiza 
-   Busca usuario por el cuit -> actualiza

@@ -9,6 +9,18 @@ module.exports = {
             "nroCaja": 1,
             "createdAt": currentDate,
             "updatedAt": currentDate
+        },
+        {
+            "idCaja": 2,
+            "nroCaja": 2,
+            "createdAt": currentDate,
+            "updatedAt": currentDate
+        },
+        {
+            "idCaja": 3,
+            "nroCaja": 3,
+            "createdAt": currentDate,
+            "updatedAt": currentDate
         }], {});
     },
 

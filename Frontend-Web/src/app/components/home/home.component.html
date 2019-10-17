@@ -1,0 +1,10 @@
+<!-- https://icon-icons.com -->
+
+<div class="card-columns" style="max-width: 50rem;">
+    <div class="card animated fadeIn fast" *ngFor="let iconos of iconosHome">
+        <img [src]="iconos.img" class="card-img-top" [alt]="iconos.nombre" (click)="goTo(iconos.clave)" style="cursor: pointer;">
+        <div class="card-body">
+            <h4 class="card-title" style="text-align: center; font-weight: bold; cursor: pointer;" (click)="goTo(iconos.clave)">{{iconos.nombre}}</h4>
+        </div>
+    </div>
+</div>

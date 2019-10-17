@@ -2,7 +2,7 @@
 
 const Sequelize = require("sequelize");
 const EstadoCajaModelo = require("../estadocaja/estadocaja-model");
-const CajaModelo = require("../caja/caja-model");
+const UsuarioModelo = require("../usuario/usuario-model");
 var sequelize = require("../../database/connection");
 
 // DEFINICION DEL MODELO
@@ -29,7 +29,6 @@ const CajaEstadoModelo = sequelize.define(
         },
         descripcionCajaEstado: {
             type: Sequelize.STRING,
-            allowNull: false
         },
         montoAperturaCajaEstado: {
             type: Sequelize.FLOAT,
@@ -37,9 +36,12 @@ const CajaEstadoModelo = sequelize.define(
         },
         montoCierreCajaEstado: {
             type: Sequelize.FLOAT,
+        },
+        fechaYHoraAltaCajaEstado: {
+            type: Sequelize.DATE,
             allowNull: false
         },
-        fechaYHoraCajaEstado: {
+        fechaYHoraBajaCajaEstado: {
             type: Sequelize.DATE
         }
     }, {
@@ -48,6 +50,8 @@ const CajaEstadoModelo = sequelize.define(
 );
 
 CajaEstadoModelo.belongsTo(EstadoCajaModelo, { foreignKey: "idEstadoCaja" });
-CajaEstadoModelo.belongsTo(CajaModelo, { foreignKey: "idCaja" });
+CajaEstadoModelo.belongsTo(UsuarioModelo, { foreignKey: "idUsuario" });
+
+// CajaEstadoModelo.belongsTo(CajaModelo, { foreignKey: "idCaja" });
 
 module.exports = CajaEstadoModelo;
