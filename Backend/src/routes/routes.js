@@ -165,58 +165,74 @@ router
 
 // estadocaja
     .get('/estadocaja', verificaToken, EstadoCajaController.getAll)
-    .post('/estadocaja', verificaToken, EstadoCajaController.create)
     .get('/estadocaja/:idEstadoCaja', verificaToken, EstadoCajaController.getOne)
-    .post('/estadocaja/:idEstadoCaja', verificaToken, EstadoCajaController.delete)
+    .get('/estadocaja/name/:nombreEstadoCaja', verificaToken, EstadoCajaController.getToName)
+    .get('/estadocaja/todo/:anyAttribute', verificaToken, EstadoCajaController.getToAllAttributes)
+    .post('/estadocaja', verificaToken, EstadoCajaController.create)
+    .put('/estadocaja', verificaToken, EstadoCajaController.update)
     .delete('/estadocaja/:idEstadoCaja', verificaToken, EstadoCajaController.destroy)
 
 // estadousuario
     .get('/estadousuario', verificaToken, EstadoUsuarioController.getAll)
-    .post('/estadousuario', verificaToken, EstadoUsuarioController.create)
     .get('/estadousuario/:idEstadoUsuario', verificaToken, EstadoUsuarioController.getOne)
-    .post('/estadousuario/:idEstadoUsuario', verificaToken, EstadoUsuarioController.delete)
+    .get('/estadousuario/name/:nombreEstadoUsuario', verificaToken, EstadoUsuarioController.getToName)
+    .get('/estadousuario/todo/:anyAttribute', verificaToken, EstadoUsuarioController.getToAllAttributes)
+    .post('/estadousuario', verificaToken, EstadoUsuarioController.create)
+    .put('/estadousuario', verificaToken, EstadoUsuarioController.update)
     .delete('/estadousuario/:idEstadoUsuario', verificaToken, EstadoUsuarioController.destroy)
 
 // estadoestadia
     .get('/estadoestadia', verificaToken, EstadoEstadiaController.getAll)
-    .post('/estadoestadia', verificaToken, EstadoEstadiaController.create)
     .get('/estadoestadia/:idEstadoEstadia', verificaToken, EstadoEstadiaController.getOne)
-    .post('/estadoestadia/:idEstadoEstadia', verificaToken, EstadoEstadiaController.delete)
+    .get('/estadoestadia/name/:nombreEstadoEstadia', verificaToken, EstadoEstadiaController.getToName)
+    .get('/estadoestadia/todo/:anyAttribute', verificaToken, EstadoEstadiaController.getToAllAttributes)
+    .post('/estadoestadia', verificaToken, EstadoEstadiaController.create)
+    .put('/estadoestadia', verificaToken, EstadoEstadiaController.update)
     .delete('/estadoestadia/:idEstadoEstadia', verificaToken, EstadoEstadiaController.destroy)
 
 // estadomenupromocion
     .get('/estadomenupromocion', verificaToken, EstadoMenuPromocionController.getAll)
-    .post('/estadomenupromocion', verificaToken, EstadoMenuPromocionController.create)
     .get('/estadomenupromocion/:idEstadoMenuPromocion', verificaToken, EstadoMenuPromocionController.getOne)
-    .post('/estadomenupromocion/:idEstadoMenuPromocion', verificaToken, EstadoMenuPromocionController.delete)
+    .get('/estadomenupromocion/name/:nombreEstadoMenuPromocion', verificaToken, EstadoMenuPromocionController.getToName)
+    .get('/estadomenupromocion/todo/:anyAttribute', verificaToken, EstadoMenuPromocionController.getToAllAttributes)
+    .post('/estadomenupromocion', verificaToken, EstadoMenuPromocionController.create)
+    .put('/estadomenupromocion', verificaToken, EstadoMenuPromocionController.update)
     .delete('/estadomenupromocion/:idEstadoMenuPromocion', verificaToken, EstadoMenuPromocionController.destroy)
 
 // estadoreserva
     .get('/estadoreserva', verificaToken, EstadoReservaController.getAll)
-    .post('/estadoreserva', verificaToken, EstadoReservaController.create)
     .get('/estadoreserva/:idEstadoReserva', verificaToken, EstadoReservaController.getOne)
-    .post('/estadoreserva/:idEstadoReserva', verificaToken, EstadoReservaController.delete)
+    .get('/estadoreserva/name/:nombreEstadoReserva', verificaToken, EstadoReservaController.getToName)
+    .get('/estadoreserva/todo/:anyAttribute', verificaToken, EstadoReservaController.getToAllAttributes)
+    .post('/estadoreserva', verificaToken, EstadoReservaController.create)
+    .put('/estadoreserva', verificaToken, EstadoReservaController.update)
     .delete('/estadoreserva/:idEstadoReserva', verificaToken, EstadoReservaController.destroy)
 
 // estadoproducto
     .get('/estadoproducto', verificaToken, EstadoProductoController.getAll)
-    .post('/estadoproducto', verificaToken, EstadoProductoController.create)
     .get('/estadoproducto/:idEstadoProducto', verificaToken, EstadoProductoController.getOne)
-    .post('/estadoproducto/:idEstadoProducto', verificaToken, EstadoProductoController.delete)
+    .get('/estadoproducto/name/:nombreEstadoProducto', verificaToken, EstadoProductoController.getToName)
+    .get('/estadoproducto/todo/:anyAttribute', verificaToken, EstadoProductoController.getToAllAttributes)
+    .post('/estadoproducto', verificaToken, EstadoProductoController.create)
+    .put('/estadoproducto', verificaToken, EstadoProductoController.update)
     .delete('/estadoproducto/:idEstadoProducto', verificaToken, EstadoProductoController.destroy)
 
 // estadopedido
     .get('/estadopedido', verificaToken, EstadoPedidoController.getAll)
-    .post('/estadopedido', verificaToken, EstadoPedidoController.create)
     .get('/estadopedido/:idEstadoPedido', verificaToken, EstadoPedidoController.getOne)
-    .post('/estadopedido/:idEstadoPedido', verificaToken, EstadoPedidoController.delete)
+    .get('/estadopedido/name/:nombreEstadoPedido', verificaToken, EstadoPedidoController.getToName)
+    .get('/estadopedido/todo/:anyAttribute', verificaToken, EstadoPedidoController.getToAllAttributes)
+    .post('/estadopedido', verificaToken, EstadoPedidoController.create)
+    .put('/estadopedido', verificaToken, EstadoPedidoController.update)
     .delete('/estadopedido/:idEstadoPedido', verificaToken, EstadoPedidoController.destroy)
 
 // estadomesa
     .get('/estadomesa', verificaToken, EstadoMesaController.getAll)
-    .post('/estadomesa', verificaToken, EstadoMesaController.create)
     .get('/estadomesa/:idEstadoMesa', verificaToken, EstadoMesaController.getOne)
-    .post('/estadomesa/:idEstadoMesa', verificaToken, EstadoMesaController.delete)
+    .get('/estadomesa/name/:nombreEstadoMesa', verificaToken, EstadoMesaController.getToName)
+    .get('/estadomesa/todo/:anyAttribute', verificaToken, EstadoMesaController.getToAllAttributes)
+    .post('/estadomesa', verificaToken, EstadoMesaController.create)
+    .put('/estadomesa', verificaToken, EstadoMesaController.update)
     .delete('/estadomesa/:idEstadoMesa', verificaToken, EstadoMesaController.destroy)
 
 // use

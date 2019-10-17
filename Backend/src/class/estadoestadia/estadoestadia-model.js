@@ -14,11 +14,13 @@ const EstadoEstadiaModelo = sequelize.define('estadoestadia', {
     },
     codEstadoEstadia: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     nombreEstadoEstadia: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     }
 }, {
     // options

@@ -14,15 +14,18 @@ const EstadoMesaModelo = sequelize.define('estadomesa', {
     },
     codEstadoMesa: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     nombreEstadoMesa: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     colorEstadoMesa: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     }
 }, {
     // options
