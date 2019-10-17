@@ -15,23 +15,20 @@ import { UsuarioService } from '../../../services/usuario/usuario.service';
 })
 export class AbmCajaComponent implements OnInit {
 
-  listaCaja: any = [];
+  listaCaja: Caja [];
   listaEstadoCaja: any = [];  
-  listaCajaEstado: any = [];
-  listaUsuario: any = [];
+  
 
   constructor(
     // private unidadMedia: UnidadMedida, //Da error
-    private cajaService :CajaService,
-    private usuarioService: UsuarioService,
+    private cajaService :CajaService,    
     private router: Router,
 
   ) { }
 
   ngOnInit() {
-    this.getAllCaja();
-    this.getAllEstadoCaja();
-    this.getAllUsuarios();
+    this.getAllCaja();   
+    this.getAllEstadoCaja();   
   }
 
   buscarCaja(termino: string) {
@@ -56,9 +53,9 @@ export class AbmCajaComponent implements OnInit {
   getAllCaja() {    
     this.cajaService.getCajas()
       .then((res: any) => {
-        //console.log(res);
+       
         this.listaCaja =  res.data;         
-                
+        console.log(res); 
       })
 
   }
@@ -71,15 +68,7 @@ export class AbmCajaComponent implements OnInit {
       })
 
   }
-
-  getAllUsuarios() {
-    this.usuarioService.getUsuarios()
-      .then((res: any) => {
-        // console.log(res);
-        this.listaUsuario =  res.data;
-      })
-
-  }
+  
 
   abmCaja(idElemento: number, accion: string) {
     console.log("idElemento: ", idElemento);

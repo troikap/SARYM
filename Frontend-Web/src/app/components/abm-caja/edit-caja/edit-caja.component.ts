@@ -12,7 +12,7 @@ import { UsuarioService } from '../../../services/usuario/usuario.service';
   templateUrl: './crud-caja.component.html',
   styleUrls: ['./crud-caja.component.scss']
 })
-export class CrudCajaComponent implements OnInit {
+export class EditCajaComponent implements OnInit {
   
   form: FormGroup; 
   private usuarios: Usuario[];

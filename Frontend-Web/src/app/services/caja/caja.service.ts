@@ -64,6 +64,7 @@ export class CajaService {
       .toPromise()
       .then(response => {
         return response as Caja[];
+        
       })
       .catch(  );
   }
@@ -72,7 +73,7 @@ export class CajaService {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .get(this.url + this.dir, {headers})
+      .get(this.url + this.dirEstado, {headers})
       .toPromise()
       .then(response => {
         return response as EstadoCaja[];
