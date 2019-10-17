@@ -25,6 +25,9 @@ import { CrudRubroComponent } from './components/abm-rubro/crud-rubro/crud-rubro
 import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud-usuario.component';
 import { CrudTipomonedaComponent } from './components/abm-tipomoneda/crud-tipomoneda/crud-tipomoneda.component';
 import { CrudGestionarProductoComponent } from './components/gestionar-producto/crud-gestionar-producto/crud-gestionar-producto.component';
+import { ConsultaGestionarProductoComponent } from './components/gestionar-producto/consulta-gestionar-producto/consulta-gestionar-producto.component';
+import { NoimagePipe } from './pipes/noimage-producto.pipe';
+
 
 @NgModule({
   declarations: [
@@ -46,7 +49,9 @@ import { CrudGestionarProductoComponent } from './components/gestionar-producto/
     CrudRubroComponent,
     CrudUsuarioComponent,
     CrudTipomonedaComponent,
-    CrudGestionarProductoComponent
+    CrudGestionarProductoComponent,
+    ConsultaGestionarProductoComponent,
+    NoimagePipe
   ],
   imports: [
     BrowserModule,

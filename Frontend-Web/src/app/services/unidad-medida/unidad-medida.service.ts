@@ -34,7 +34,7 @@ export class UnidadMedidaService {
   }
 
   getUnidadMedidaByAll( termino: string) { //Observador
-    console.log("Service getUnidadMedidaName: Termino = ", termino);
+    console.log("Service getUnidadMedidaByAll: Termino = ", termino);
     if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
       headers = headers.append('token', this.tokenEnviroment);
@@ -48,7 +48,7 @@ export class UnidadMedidaService {
       }));
     }
     else {
-      // console.log("Service getUnidadMedida: SIN TERMINO");
+      // console.log("Service getUnidadMedidaByAll: SIN TERMINO");
     }
   }
 

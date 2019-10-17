@@ -16,7 +16,7 @@ export class AbmUnidadmedidaComponent implements OnInit {
   constructor(
     // private unidadMedia: UnidadMedida, //Da error
     private unidadMedidaService :UnidadMedidaService,
-    private router: Router,
+    private router: Router
 
   ) { }
 
