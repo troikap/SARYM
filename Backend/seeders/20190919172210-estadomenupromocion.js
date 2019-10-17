@@ -6,25 +6,25 @@ module.exports = {
         return queryInterface.bulkInsert(
             "estadomenupromocions", [{
                     idEstadoMenuPromocion: 1,
-                    codEstadoMenuPromocion: "A1",
+                    codEstadoMenuPromocion: "AC",
                     nombreEstadoMenuPromocion: "Activo",
                     createdAt: currentDate,
                     updatedAt: currentDate
                 }, {
                     idEstadoMenuPromocion: 2,
-                    codEstadoMenuPromocion: "E1",
+                    codEstadoMenuPromocion: "EF",
                     nombreEstadoMenuPromocion: "En Falta",
                     createdAt: currentDate,
                     updatedAt: currentDate
                 }, {
                     idEstadoMenuPromocion: 3,
-                    codEstadoMenuPromocion: "I1",
+                    codEstadoMenuPromocion: "IN",
                     nombreEstadoMenuPromocion: "Inactivo",
                     createdAt: currentDate,
                     updatedAt: currentDate
                 }, {
                     idEstadoMenuPromocion: 4,
-                    codEstadoMenuPromocion: "E1",
+                    codEstadoMenuPromocion: "El",
                     nombreEstadoMenuPromocion: "Eliminado",
                     createdAt: currentDate,
                     updatedAt: currentDate
