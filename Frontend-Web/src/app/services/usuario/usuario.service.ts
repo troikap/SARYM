@@ -73,9 +73,10 @@ export class UsuarioService {
       .get(this.url + this.dir, {headers})
       .toPromise()
       .then(response => {
+        console.log("Devuelve Usuarios: ", response);
         return response as Usuario[];
       })
-      .catch(  );
+      .catch();
   }
 
   getUsuario( id: number ): Promise<any> {
