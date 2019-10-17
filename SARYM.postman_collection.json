@@ -719,6 +719,48 @@
 					"response": []
 				},
 				{
+					"name": "Get Rol :anyAttribute",
+					"request": {
+						"url": "localhost:3000/rol/todo/a",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Rol",
+					"request": {
+						"url": "localhost:3000/rol",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idRol\": 1,\n    \"nombreRol\": \"Administradora\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
 					"name": "Post Rol",
 					"request": {
 						"url": "localhost:3000/rol",
@@ -927,7 +969,7 @@
 				{
 					"name": "Get Sector : id",
 					"request": {
-						"url": "localhost:3000/sector/2",
+						"url": "localhost:3000/sector/1",
 						"method": "GET",
 						"header": [
 							{
@@ -938,6 +980,65 @@
 						],
 						"body": {},
 						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sector :name",
+					"request": {
+						"url": "localhost:3000/sector/name/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sector :anyAttribute",
+					"request": {
+						"url": "localhost:3000/sector/todo/a",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Sector",
+					"request": {
+						"url": "localhost:3000/ubicacion",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idUbicacion\": 1,\n    \"nroUbicacion\": \"5\",\n    \"descripcionUbicacion\": \"Ubicacion Random\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
 					},
 					"response": []
 				},
@@ -960,7 +1061,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idRol\" : 6,\n\t\"nombreRol\": \"OTRO\"\n}"
+							"raw": "{\n\t\"idSector\": 3,\n    \"codSector\": \"AA3a52\",\n    \"nombreSector\": \"Fumadore2s2\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -969,7 +1070,24 @@
 				{
 					"name": "Del Sector : id",
 					"request": {
-						"url": "localhost:3000/sector/6",
+						"url": "localhost:3000/sector/2",
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Sector : id",
+					"request": {
+						"url": "localhost:3000/sector/3",
 						"method": "DELETE",
 						"header": [
 							{
@@ -1007,7 +1125,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Rubro : id",
+					"name": "Get Rubro :id",
 					"request": {
 						"url": "localhost:3000/rubro/2",
 						"method": "GET",
@@ -1024,7 +1142,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Rubro : name",
+					"name": "Get Rubro :name",
 					"request": {
 						"url": "localhost:3000/rubro/name/se",
 						"method": "GET",
@@ -1041,7 +1159,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Rubro : anyAttribute",
+					"name": "Get Rubro :anyAttribute",
 					"request": {
 						"url": "localhost:3000/rubro/name/r",
 						"method": "GET",
@@ -1054,31 +1172,6 @@
 						],
 						"body": {},
 						"description": "Trae todos los Usuarios"
-					},
-					"response": []
-				},
-				{
-					"name": "Post Rubro",
-					"request": {
-						"url": "localhost:3000/rubro",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"idRubro\" : 100,\n\t\"nombreRubro\": \"OTRO\",\n\t\"codRubro\": \"A4\",\n\t\"descripcionRubro\": \"otra cosa\"\n}"
-						},
-						"description": "Puede o no ir el idEstadoUsuario"
 					},
 					"response": []
 				},
@@ -1108,9 +1201,175 @@
 					"response": []
 				},
 				{
+					"name": "Post Rubro",
+					"request": {
+						"url": "localhost:3000/rubro",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idRubro\" : 100,\n\t\"nombreRubro\": \"OTRO\",\n\t\"codRubro\": \"A4\",\n\t\"descripcionRubro\": \"otra cosa\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
 					"name": "Del Rubro : id",
 					"request": {
 						"url": "localhost:3000/rubro/100",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Medio Pago",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Medio Pago",
+					"request": {
+						"url": "localhost:3000/mediopago",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Medio Pago :id",
+					"request": {
+						"url": "localhost:3000/mediopago/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Medio Pago :name",
+					"request": {
+						"url": "localhost:3000/mediopago/name/e",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Medio Pago :anyAttribute",
+					"request": {
+						"url": "localhost:3000/mediopago/name/e",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Medio Pago",
+					"request": {
+						"url": "localhost:3000/mediopago",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idMedioPago\": 2,\n    \"nombreMedioPago\": \"Tarjeta2\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Medio Pago",
+					"request": {
+						"url": "localhost:3000/mediopago",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idMedioPago\": 2,\n    \"nombreMedioPago\": \"Tarjeta\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Medio Pago : id",
+					"request": {
+						"url": "localhost:3000/mediopago/2",
 						"method": "DELETE",
 						"header": [
 							{
@@ -1268,6 +1527,147 @@
 			]
 		},
 		{
+			"name": "Tipo Movimiento Caja",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Tipo Movimiento Caja",
+					"request": {
+						"url": "localhost:3000/tipomovimientocaja",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tipo Movimiento Caja :id",
+					"request": {
+						"url": "localhost:3000/tipomovimientocaja/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tipo Movimiento Caja :name",
+					"request": {
+						"url": "localhost:3000/tipomovimientocaja/name/i",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tipo Movimiento Caja :anyAttribute",
+					"request": {
+						"url": "localhost:3000/tipomovimientocaja/todo/i",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Tipo Movimiento Caja",
+					"request": {
+						"url": "localhost:3000/tipomovimientocaja",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idTipoMovimientoCaja\": 2,\n    \"nombreTipoMovimientoCaja\": \"Ingreso2\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Tipo Movimiento Caja",
+					"request": {
+						"url": "localhost:3000/tipomovimientocaja",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idTipoMovimientoCaja\": 2,\n    \"nombreTipoMovimientoCaja\": \"Ingreso\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Tipo Movimiento Caja :id",
+					"request": {
+						"url": "localhost:3000/tipomovimientocaja/2",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Departamento",
 			"description": "",
 			"item": [
@@ -1289,7 +1689,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Departamento : id",
+					"name": "Get Departamento :id",
 					"request": {
 						"url": "localhost:3000/departamento/20",
 						"method": "GET",
@@ -1302,6 +1702,65 @@
 						],
 						"body": {},
 						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Departamento :name",
+					"request": {
+						"url": "localhost:3000/departamento/name/s",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Departamento :anyAttribute",
+					"request": {
+						"url": "localhost:3000/departamento/name/r",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Departamento",
+					"request": {
+						"url": "localhost:3000/departamento",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idDepartamento\" : 15,\n\t\"nombreDepartamento\": \"ccccccccccc\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
 					},
 					"response": []
 				},
@@ -1333,7 +1792,7 @@
 				{
 					"name": "Del Departamento : id",
 					"request": {
-						"url": "localhost:3000/departamento/19",
+						"url": "localhost:3000/departamento/20",
 						"method": "DELETE",
 						"header": [
 							{
@@ -1839,7 +2298,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idUnidadMedida\" : 8,\n\t\"nombreUnidadMedida\": \"OTRae\",\n\t\"descripcionUnidadMedida\": \"aaaaaaaaaaa\",\n\t\"caracterUnidadMedida\": \"COSO22\",\n\t\"codUnidadMedida\": \"COSO2\"\n}"
+							"raw": "{\n\t\"idUnidadMedida\" : 9,\n\t\"nombreUnidadMedida\": \"OTaRae\",\n\t\"descripcionUnidadMedida\": \"aaaaaaaaaaa\",\n\t\"caracterUnidadMedida\": \"COSaO22\",\n\t\"codUnidadMedida\": \"COSaO2\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -1849,6 +2308,147 @@
 					"name": "Del Unidad Medida : id",
 					"request": {
 						"url": "localhost:3000/unidadmedida/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ubicacion",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Ubicacion",
+					"request": {
+						"url": "localhost:3000/ubicacion",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ubicacion :id",
+					"request": {
+						"url": "localhost:3000/ubicacion/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ubicacion :name",
+					"request": {
+						"url": "localhost:3000/ubicacion/name/3",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ubicacion :anyAttribute",
+					"request": {
+						"url": "localhost:3000/ubicacion/todo/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Ubicacion",
+					"request": {
+						"url": "localhost:3000/ubicacion",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idUbicacion\": 3,\n    \"nroUbicacion\": \"2\",\n    \"descripcionUbicacion\": \"Ubicacion Random\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Ubicacion",
+					"request": {
+						"url": "localhost:3000/ubicacion",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idUbicacion\": 1,\n    \"nroUbicacion\": \"5\",\n    \"descripcionUbicacion\": \"Ubicacion Random\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Ubicacion : id",
+					"request": {
+						"url": "localhost:3000/ubicacion/3",
 						"method": "DELETE",
 						"header": [
 							{

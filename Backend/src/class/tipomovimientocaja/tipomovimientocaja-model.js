@@ -14,7 +14,8 @@ const TipoMovimientoCajaModelo = sequelize.define('tipomovimientocaja', {
     },
     nombreTipoMovimientoCaja: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     }
 }, {
     // options
