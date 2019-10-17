@@ -14,11 +14,13 @@ const SectorModelo = sequelize.define('sector', {
     },
     codSector: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     nombreSector: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     fechaYHoraBajaSector: {
         type: Sequelize.DATE
