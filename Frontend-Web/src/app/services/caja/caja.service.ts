@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-// import { UnidadMedida } from '../../model/unidad-medida/unidad-medida.model'; // Da error
+import { Caja } from 'src/app/model/caja/caja.model';
+import { EstadoCaja } from 'src/app/model/estadocaja/estadocaja.model';
 
 import { map } from 'rxjs/operators';
 
@@ -12,16 +13,37 @@ export class CajaService {
   
   url = environment.urlNgrok || environment.url;
   dir = '/caja';
+  dirNro = '/nroCaja'
+  dirEstado = '/estadocaja';
+  dir3 = '/todo';
+  tokenEnviroment = environment.token;
 
   constructor(public http: HttpClient) {}
    
   getCaja( termino: string) { //Observador
-    // console.log("Service getCaja: Termino = ", termino);
+    // console.log("Service getTipoMoneda: Termino = ", termino);
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    return this.http
+      .get(`${this.url}${this.dir}/${termino}`, {headers})
+      .pipe( map ((data: any) => {
+        console.log(data.data);
+        if (data != null) {
+          return data.data;
+        }
+    }));
+    
+  }
+
+  
+
+  getCajasByAll( termino: string) { //Observador
+    console.log("Service getCajaByNro: Termino = ", termino);
     if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
-      headers = headers.append('token', 'libre');
+      headers = headers.append('token', this.tokenEnviroment);
       return this.http
-        .get(`${this.url}${this.dir}/${termino}`, {headers})
+        .get(`${this.url}${this.dir}${this.dir3}/${termino}`, {headers})
         .pipe( map ((data: any) => {
           console.log(data.data);
           if (data != null) {
@@ -34,43 +56,67 @@ export class CajaService {
     }
   }
 
-  getAllCaja() { //Promesa
-    return this.http
-      .get(`${this.url}${this.dir}`)
-      .toPromise()
-      .then(response => {
-        console.log("CAJA ", response)
-        return response;
-      })
-      .catch( err => {
-        console.log("ERROR : ",err)
-      } );
-  }
-
-
-  updateCaja( datas, token ): Promise<any> {
+  getCajas(): Promise<Caja[]> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
-     let data = {headers}
-     console.log("DATOS A ENVIAR :",datas)
+     headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .put(`${this.url}${this.dir}`, datas, data)
+      .get(this.url + this.dir, {headers})
       .toPromise()
       .then(response => {
-        return response;
+        return response as Caja[];
       })
       .catch(  );
   }
 
-  createCaja( datas, token ): Promise<any> {
+  getEstadosCaja(): Promise<EstadoCaja[]> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
-     let data = {headers}
+     headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .post(`${this.url}${this.dir}`, datas, data)
+      .get(this.url + this.dir, {headers})
       .toPromise()
       .then(response => {
-        return response;
+        return response as EstadoCaja[];
+      })
+      .catch(  );
+  }
+
+  
+
+  updateCaja( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', this.tokenEnviroment);
+     console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        return response as Caja;
+      })
+      .catch(  );
+  }
+
+  deleteCaja( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log("valor del Header:",headers)
+    console.log("DATOS A ENVIAR:",datas)
+    return this.http
+      .delete(`${this.url}${this.dir}/${datas.idUsuario}`, {headers})
+      .toPromise()
+      .then(response => {
+        return response as Caja;
+      })
+      .catch(  );
+  }
+
+  setCaja( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', this.tokenEnviroment);
+    return this.http
+      .post(`${this.url}${this.dir}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        return response as Caja;
       })
       .catch(  );
   }

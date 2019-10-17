@@ -34,12 +34,12 @@ export class AbmCajaComponent implements OnInit {
     this.getAllUsuarios();
   }
 
-  buscarCaja(termino: number) {
+  buscarCaja(termino: string) {
     
     console.log(termino);
 
     if (termino !== null) {
-      this.cajaService.getCajaByNro(termino)
+      this.cajaService.getCajasByAll(termino)
       .subscribe((data: any) => { // Llamo a un Observer
         console.log(data);
         if (data != null) {
@@ -54,7 +54,7 @@ export class AbmCajaComponent implements OnInit {
   }
 
   getAllCaja() {    
-    this.cajaService.getAllCaja()
+    this.cajaService.getCajas()
       .then((res: any) => {
         //console.log(res);
         this.listaCaja =  res.data;         
@@ -64,7 +64,7 @@ export class AbmCajaComponent implements OnInit {
   }
 
   getAllEstadoCaja() {
-    this.cajaService.getAllEstadoCaja()
+    this.cajaService.getEstadosCaja()
       .then((res: any) => {
         //console.log(res);
         this.listaEstadoCaja =  res.data;

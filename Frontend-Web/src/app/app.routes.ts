@@ -7,7 +7,7 @@ import { AbmTipomonedaComponent } from './components/abm-tipomoneda/search-tipom
 import { AbmUnidadmedidaComponent } from './components/abm-unidadmedida/search-unidadmedida/abm-unidadmedida.component';
 import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida/crud-unidadmedida/abm-unidadmedida-crud.component';
 import { AbmCajaComponent } from './components/abm-caja/search-caja/abm-caja.component';
-import { AbmCajaCreateComponent } from './components/abm-caja/crud-caja/abm-caja-crud.component';
+import { CrudCajaComponent } from './components/abm-caja/crud-caja/crud-caja.component';
 import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
 import { AbmSectorComponent } from './components/abm-sector/abm-sector.component';
@@ -31,7 +31,7 @@ const routes: Routes = [
     { path: 'unidadmedida', component: AbmUnidadmedidaComponent },
     { path: 'unidadmedida_crud/:id/:accion', component: AbmUnidadmedidaCreateComponent},
     { path: 'caja', component: AbmCajaComponent },
-    { path: 'caja_crud/:id/:accion', component: AbmCajaCreateComponent},
+    { path: 'caja_crud/:id/:accion', component: CrudCajaComponent},
     { path: 'mesa', component: AbmMesaComponent },
     { path: 'rubro', component: AbmRubroComponent },
     { path: 'rubro_crud/:id/:accion', component: CrudRubroComponent },
