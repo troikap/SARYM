@@ -5,3 +5,14 @@ Rubro
 TipoMoneda
 Rol
 Departamento
+TipoMovimientoCaja
+MedioPago
+// estados
+EstadoCaja
+EstadoUsuario
+EstadoEstadia
+EstadoMenuPromocion
+EstadoReserva
+EstadoProducto
+EstadoPedido
+EstadoMesa

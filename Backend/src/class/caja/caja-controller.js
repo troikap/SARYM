@@ -1,8 +1,9 @@
 "use strict";
 
-let tratarError = require("../../middlewares/handleError");
-const CajaModelo = require("../caja/caja-model"),
+const tratarError = require("../../middlewares/handleError"),
+  CajaModelo = require("../caja/caja-model"),
   CajaController = () => {},
+  attributes = require('../attributes'),
   CajaEstadoModelo = require("../cajaestado/cajaestado-model"),
   EstadoCajaModelo = require("../estadocaja/estadocaja-model"),
   UsuarioModelo = require("../usuario/usuario-model"),
@@ -21,17 +22,39 @@ CajaController.getToAllAttributes = (req, res, next) => {
           [Op.or]: [
               {idCaja: {[Op.substring]: req.params.anyAttribute}},
               {nroCaja: {[Op.substring]: req.params.anyAttribute}},
+              // Sequelize.literal("`departamento`.`nombreDepartamento` LIKE '%"+ req.params.anyAttribute + "%'"),
+              Sequelize.literal("`cajaestados->estadocaja`.`nombreEstadoCaja` LIKE '%" + req.params.anyAttribute + "%'"),
+              // Sequelize.literal("`usuarioestados->estadousuario`.`nombreEstadoUsuario` LIKE '%" + req.params.anyAttribute + "%'"),
               ]
-          }
+          },
+      attributes: attributes.caja,
+      include: [
+        {
+          model: CajaEstadoModelo,
+          where: { fechaYHoraBajaCajaEstado: null },
+          attributes: attributes.cajaestado,
+          include: [
+            {
+              model: EstadoCajaModelo,
+              attributes: attributes.estadocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
+        }
+      ]
   }).then(project => {
       if (!project || project == 0) {
-        locals['title'] = "No existe el registro : " + req.params[nombretable];
-        res.json(locals);
+        locals['title'] = `No existe registro con valor : ${req.params.anyAttribute}.`;
+        locals['tipo'] = 2;
       } else {
         locals['title'] = `${legend}`;
         locals['data'] = project;
-        res.json(locals);
+        locals['tipo'] = 1;
       }
+      res.json(locals);
   });
 };
 
@@ -54,38 +77,20 @@ CajaController.getToName = (req, res, next) => {
 CajaController.getAll = (req, res, next) => {
   let locals = {};
   CajaModelo.findAll({
-    attributes: [
-      'idCaja',
-      'nroCaja',
-    ],
+    attributes: attributes.caja,
     include: [
       {
         model: CajaEstadoModelo,
         where: { fechaYHoraBajaCajaEstado: null },
-        attributes: [
-          'descripcionCajaEstado',
-          'montoAperturaCajaEstado',
-          'montoCierreCajaEstado',
-          'fechaYHoraAltaCajaEstado',
-          'fechaYHoraBajaCajaEstado',
-        ],
+        attributes: attributes.cajaestado,
         include: [
           {
             model: EstadoCajaModelo,
-            attributes: [
-              'codEstadoCaja',
-              'nombreEstadoCaja',
-            ]
+            attributes: attributes.estadocaja
           },
           {
             model: UsuarioModelo,
-            attributes: [
-              "idUsuario",
-              "cuitUsuario",
-              "nombreUsuario",
-              "apellidoUsuario",
-              "emailUsuario",
-            ]
+            attributes: attributes.usuario
           }
         ]
       }
@@ -222,38 +227,20 @@ CajaController.update = (req, res) => {
     CajaModelo.findOne({
       where: {
         [idtable]: body[idtable] },
-        attributes: [
-          'idCaja',
-          'nroCaja',
-        ],
+        attributes: attributes.caja,
         include: [
           {
             model: CajaEstadoModelo,
             where: { fechaYHoraBajaCajaEstado: null },
-            attributes: [
-              'descripcionCajaEstado',
-              'montoAperturaCajaEstado',
-              'montoCierreCajaEstado',
-              'fechaYHoraAltaCajaEstado',
-              'fechaYHoraBajaCajaEstado',
-            ],
+            attributes: attributes.cajaestado,
             include: [
               {
                 model: EstadoCajaModelo,
-                attributes: [
-                  'codEstadoCaja',
-                  'nombreEstadoCaja',
-                ]
+                attributes: attributes.estadocaja
               },
               {
                 model: UsuarioModelo,
-                attributes: [
-                  "idUsuario",
-                  "cuitUsuario",
-                  "nombreUsuario",
-                  "apellidoUsuario",
-                  "emailUsuario",
-                ]
+                attributes: attributes.usuario
               }
             ]
           }

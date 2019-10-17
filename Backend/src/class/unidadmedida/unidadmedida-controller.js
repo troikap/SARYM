@@ -1,20 +1,14 @@
 "use strict";
 
-let tratarError = require("../../middlewares/handleError");
-const UnidadMedidaModelo = require("../unidadmedida/unidadmedida-model"),
+const tratarError = require("../../middlewares/handleError"),
+  UnidadMedidaModelo = require("../unidadmedida/unidadmedida-model"),
   UnidadMedidaController = () => {},
+  attributes = require('../attributes'),
   legend = "UnidadMedida",
   idtable = `id${legend}`,
   nombretable = `nombre${legend}`,
   Sequelize = require('sequelize'),
-  Op = Sequelize.Op,
-  attributesPersonalizados = [
-    "idUnidadMedida",
-    "codUnidadMedida",
-    "nombreUnidadMedida",
-    "descripcionUnidadMedida",
-    "caracterUnidadMedida",
-  ];
+  Op = Sequelize.Op;
 
 UnidadMedidaController.getToAllAttributes = (req, res, next) => {
   let locals = {};
@@ -27,7 +21,7 @@ UnidadMedidaController.getToAllAttributes = (req, res, next) => {
         {caracterUnidadMedida: {[Op.substring]: req.params.anyAttribute}},
       ]
     },
-    attributes: attributesPersonalizados}).then(project => {
+    attributes: attributes.unidadmedida}).then(project => {
       if (!project || project == 0) {
         locals['title'] = `Registro no encontrado con valor: ${req.params[nombretable]}`;
         locals['tipo'] = 2;
@@ -44,7 +38,7 @@ UnidadMedidaController.getToName = (req, res, next) => {
   let locals = {};
   UnidadMedidaModelo.findAll({
     where: { [nombretable]: { [Op.substring]: req.params[nombretable] }},
-    attributes: attributesPersonalizados}).then(project => {
+    attributes: attributes.unidadmedida}).then(project => {
     if (!project || project == 0) {
       locals['title'] = `Registro no encontrado con valor: ${req.params[nombretable]}`;
       locals['tipo'] = 2;
@@ -60,7 +54,7 @@ UnidadMedidaController.getToName = (req, res, next) => {
 UnidadMedidaController.getAll = (req, res, next) => {
   let locals = {};
   UnidadMedidaModelo.findAll({ 
-    attributes: attributesPersonalizados}).then(projects => {
+    attributes: attributes.unidadmedida}).then(projects => {
     if (!projects || projects == 0) {
       locals['title'] = `No existen registros de ${legend}`;
       locals['tipo'] = 2;
@@ -77,7 +71,7 @@ UnidadMedidaController.getOne = (req, res, next) => {
   let locals = {};
   UnidadMedidaModelo.findOne({
     where: {[idtable]: req.params[idtable]},
-    attributes: attributesPersonalizados}).then(project => {
+    attributes: attributes.unidadmedida}).then(project => {
     if (!project || project == 0) {
       locals['title'] = `No existe el registro : ${req.params[idtable]}` ;
       locals['tipo'] = 2;
@@ -95,7 +89,7 @@ UnidadMedidaController.create = (req, res) => {
   if (req.body[idtable]) {
     UnidadMedidaModelo.findOne({
       where: {[idtable]: req.body[idtable]},
-      attributes: attributesPersonalizados}).then(project => {
+      attributes: attributes.unidadmedida}).then(project => {
       if (!project || project == 0) {
         UnidadMedidaModelo.create(req.body).then(result => {
           locals['title'] = `${legend} creado.`;
@@ -133,7 +127,7 @@ UnidadMedidaController.update = (req, res) => {
   if (body[idtable]) {
     UnidadMedidaModelo.findOne({
       where: {[idtable]: body[idtable]},
-      attributes: attributesPersonalizados}).then(response => {
+      attributes: attributes.unidadmedida}).then(response => {
       if (!response || response == 0) {
         locals['title'] = `No existe ${legend} con id ${body[idtable]}.`;
         locals['tipo'] = 2;
