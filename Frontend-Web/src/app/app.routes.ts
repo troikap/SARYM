@@ -17,6 +17,7 @@ import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud
 import { CrudRubroComponent } from './components/abm-rubro/crud-rubro/crud-rubro.component';
 import { CrudTipomonedaComponent } from './components/abm-tipomoneda/crud-tipomoneda/crud-tipomoneda.component';
 import { CrudGestionarProductoComponent } from './components/gestionar-producto/crud-gestionar-producto/crud-gestionar-producto.component';
+import { ConsultaGestionarProductoComponent } from './components/gestionar-producto/consulta-gestionar-producto/consulta-gestionar-producto.component';
 
 
 
@@ -35,6 +36,7 @@ const routes: Routes = [
     { path: 'rubro_crud/:id/:accion', component: CrudRubroComponent },
     { path: 'sector', component: AbmSectorComponent },
     { path: 'producto', component: GestionarProductoComponent },
+    { path: 'producto_consulta/:id', component: ConsultaGestionarProductoComponent },
     { path: 'producto_crud/:id/:accion', component: CrudGestionarProductoComponent },
     { path: 'menupromocion', component: GestionarMenupromocionComponent },
     { path: 'reporte', component: GenerarReporteComponent },
