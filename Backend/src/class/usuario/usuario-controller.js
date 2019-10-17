@@ -23,9 +23,23 @@ const UsuarioModelo = require("./usuario-model"),
     idestadotable = "idEstadoUsuario",
     nombreEstado = "nombreEstadoUsuario",
     table = "usuario",
-    nombretable = "nombreUsuario";
+    nombretable = "nombreUsuario",
+    attributesPersonalizados = [
+        'idUsuario',
+        'cuitUsuario',
+        'nombreUsuario',
+        'apellidoUsuario',
+        'contrasenaUsuario',
+        'dniUsuario',
+        'domicilioUsuario',
+        'emailUsuario',
+        'idDepartamento',
+        'nroCelularUsuario',
+        'nroTelefonoUsuario',
+      ];
 
 UsuarioController.getToAllAttributes = (req, res, next) => {
+    let locals = {};
     UsuarioModelo.findAll({
         where: {
             [Op.or]: [
@@ -36,22 +50,12 @@ UsuarioController.getToAllAttributes = (req, res, next) => {
                 {emailUsuario: {[Op.substring]: req.params.anyAttribute}},
                 {idUsuario: {[Op.substring]: req.params.anyAttribute}},
                 {nroCelularUsuario: {[Op.substring]: req.params.anyAttribute}},
-                {nroTelefonoUsuario: {[Op.substring]: req.params.anyAttribute}},
-            ]
+                Sequelize.literal("`departamento`.`nombreDepartamento` LIKE '%"+ req.params.anyAttribute + "%'"),
+                // Sequelize.literal("`rolusuarios`.`rol`.`nombreRol` LIKE '%" + req.params.anyAttribute + "%'"),
+                // Sequelize.literal(`estadousuario.nombreDepartamento LIKE '%${req.params.anyAttribute}%'`),
+            ],
         },
-        attributes: [
-            'idUsuario',
-            'cuitUsuario',
-            'nombreUsuario',
-            'apellidoUsuario',
-            'contrasenaUsuario',
-            'dniUsuario',
-            'domicilioUsuario',
-            'emailUsuario',
-            'idDepartamento',
-            'nroCelularUsuario',
-            'nroTelefonoUsuario',
-        ],
+        attributes: attributesPersonalizados,
         include: [{
                 model: UsuarioEstadoModelo,
                 where: { fechaYHoraBajaUsuarioEstado: null },
@@ -65,7 +69,12 @@ UsuarioController.getToAllAttributes = (req, res, next) => {
                     attributes: [
                         'idEstadoUsuario',
                         'nombreEstadoUsuario'
-                    ]
+                    ],
+                    // where: {
+                    //     [Op.or]: [
+                    //         {nombreEstadoUsuario: {[Op.substring]: req.params.anyAttribute}},
+                    //     ]
+                    // },
                 }]
             },
             {
@@ -80,7 +89,12 @@ UsuarioController.getToAllAttributes = (req, res, next) => {
                     attributes: [
                         'idRol',
                         'nombreRol'
-                    ]
+                    ],
+                    // where: {
+                    //     [Op.or]: [
+                    //         {nombreRol: {[Op.substring]: req.params.anyAttribute}},
+                    //     ]
+                    // },
                 }]
             },
             {
@@ -88,22 +102,24 @@ UsuarioController.getToAllAttributes = (req, res, next) => {
                 attributes: [
                     'idDepartamento',
                     'nombreDepartamento'
-                ]
+                ],
+                // where: {
+                //     [Op.or]: [
+                //         {nombreDepartamento: {[Op.substring]: req.params.anyAttribute}},
+                //     ]
+                // },
             }
         ],
     }).then(project => {
         if (!project || project == 0) {
-            let locals = {
-                title: "No existe el registro : " + req.params[nombretable]
-            };
-            res.json(locals);
+            locals['title'] = `No existe registro con valor : ${req.params.anyAttribute}`;
+            locals['tipo'] = 2;
         } else {
-            let locals = {
-                title: `${legend}`,
-                data: project
-            };
-            res.json(locals);
+            locals['title'] = `${legend}`;
+            locals['data'] = project;
+            locals['tipo'] = 1;
         }
+        res.json(locals);
     });
 };
 
