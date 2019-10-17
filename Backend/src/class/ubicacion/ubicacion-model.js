@@ -14,7 +14,8 @@ const UbicacionModelo = sequelize.define('ubicacion', {
     },
     nroUbicacion: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     descripcionUbicacion: {
         type: Sequelize.STRING

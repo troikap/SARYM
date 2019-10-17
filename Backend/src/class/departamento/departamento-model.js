@@ -13,7 +13,8 @@ const DepartamentoModelo = sequelize.define('departamento', {
 	},
 	nombreDepartamento: {
 		type: Sequelize.STRING,
-		allowNull: false
+		allowNull: false,
+		unique: true
 	}
 }, {
 	// options

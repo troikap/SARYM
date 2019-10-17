@@ -1,1 +1,38 @@
-<p>Search Producto</p>
+<div class="row">
+    <div class="col">
+        <input #termino id="botonBuscar" type="text" (keyup)="buscarElemento(termino.value)" class="form-control mr-sm-2" placeholder="Buscar Producto...">
+    </div>
+</div>
+
+<hr>
+
+<div class="row animated fadeIn fast" *ngIf="listaProductos.length == 0 ">
+    <div class="col-md-12">
+        <div class="alert alert-info" role="alert">
+            No existen productos con el término <strong>{{termino.value}}</strong>
+        </div>
+    </div>
+</div>
+
+<div class="card-columns" style="max-width: 55rem;">
+    <div class="card animated fadeIn fast border" *ngFor="let producto of listaProductos" [ngClass]="{
+            'border-success': producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Activo' , 
+            'border-warning': producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'En Falta' , 
+            'border-danger': producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Inactivo', 
+            'border-dark': producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Eliminado'
+        }">
+        <img [src]="producto.pathImagenProducto | noimage" class="card-img-top img-fluid text-primary" [alt]="producto.nombreProducto" (click)="consultarElemento(producto.idProducto)" style="cursor:pointer">
+        <div class="card-body">
+            <p class="card-title" style="font-size: 18px;"><strong>{{producto.nombreProducto}} - {{producto.rubro?.nombreRubro}}</strong></p>
+            <p class="card-text" style="font-size: 14px;">{{producto.cantidadMedida}} {{producto.unidadmedida?.nombreUnidadMedida}}</p>
+            <p class="card-text" style="font-size: 14px;"><strong class=" text-muted ">{{producto.precioproductos[0]?.tipomoneda?.simboloTipoMoneda}} {{producto.precioproductos[0]?.importePrecioProducto}}</strong>&nbsp;-&nbsp;
+                <span class="badge badge-pill" [ngClass]="{
+                    'badge-success': producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Activo' , 
+                    'badge-warning': producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'En Falta' , 
+                    'badge-danger': producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Inactivo', 
+                    'badge-dark': producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Eliminado'
+                }">{{producto.productoestados[0].estadoproducto.nombreEstadoProducto}}</span></p>
+            <button (click)="consultarElemento(producto.idProducto) " class="btn btn-outline-primary btn-block ">Consultar</button>
+        </div>
+    </div>
+</div>
