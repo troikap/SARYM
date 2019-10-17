@@ -35,8 +35,6 @@ export class CajaService {
     
   }
 
-  
-
   getCajasByAll( termino: string) { //Observador
     console.log("Service getCajaByNro: Termino = ", termino);
     if (termino != "") {
@@ -63,6 +61,7 @@ export class CajaService {
       .get(this.url + this.dir, {headers})
       .toPromise()
       .then(response => {
+        console.log("Trae Cajas: ", response);
         return response as Caja[];
         
       })
@@ -71,17 +70,16 @@ export class CajaService {
 
   getEstadosCaja(): Promise<EstadoCaja[]> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', this.tokenEnviroment);
+    headers = headers.append('token', this.tokenEnviroment);
     return this.http
       .get(this.url + this.dirEstado, {headers})
       .toPromise()
       .then(response => {
+        console.log("Trae estados Caja: ", response);
         return response as EstadoCaja[];
       })
-      .catch(  );
+      .catch();
   }
-
-  
 
   updateCaja( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();

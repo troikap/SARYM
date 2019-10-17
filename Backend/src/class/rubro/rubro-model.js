@@ -14,11 +14,13 @@ const RubroModelo = sequelize.define('rubro', {
     },
     codRubro: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     nombreRubro: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     descripcionRubro: {
         type: Sequelize.STRING

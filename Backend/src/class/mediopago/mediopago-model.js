@@ -14,7 +14,8 @@ const MedioPagoModelo = sequelize.define('mediopago', {
   },
   nombreMedioPago: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true
   }
 }, {
   // options

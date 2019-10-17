@@ -15,12 +15,12 @@ import { UsuarioService } from '../../../services/usuario/usuario.service';
 export class CrudCajaComponent implements OnInit {
   
   form: FormGroup; 
-  private usuarios: Usuario[];
-  private estadosCaja: EstadoCaja [];
-  private cajaEncontrada: boolean; 
-  private idCaja: string = "";  
-  private caja: Caja;
-  private newForm = {};
+  usuarios: Usuario[];
+  estadosCaja: EstadoCaja[];
+  cajaEncontrada: boolean; 
+  idCaja: string = "";  
+  caja: Caja;
+  newForm = {};
 
   accionGet;
   
@@ -57,33 +57,6 @@ export class CrudCajaComponent implements OnInit {
   ngOnInit() {
     this.traerEstadosCaja();       
   }
-
- /*  verificarValidacionCampo(pNombreCampo: string, arregloValidaciones: string[]) {
-    let countValidate = 0;
-    for (let validacion of arregloValidaciones) {
-      if (validacion === 'valid') {
-        if (this.form.controls[pNombreCampo].valid) {
-          countValidate ++;
-        }
-      }
-      if (validacion === 'invalid') {
-        if (this.form.controls[pNombreCampo].invalid) {
-          countValidate ++;
-        }
-      }
-      if (validacion === 'touched') {
-        if (this.form.controls[pNombreCampo].touched) {
-          countValidate ++;
-        }
-      }
-    }
-    if (countValidate === arregloValidaciones.length) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  } */
 
   traerCaja() {
     if (this.idCaja !== "0" && this.idCaja !== "") {

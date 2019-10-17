@@ -16,7 +16,7 @@ export class AbmUnidadmedidaComponent implements OnInit {
   constructor(
     // private unidadMedia: UnidadMedida, //Da error
     private unidadMedidaService :UnidadMedidaService,
-    private router: Router,
+    private router: Router
 
   ) { }
 
@@ -42,6 +42,9 @@ export class AbmUnidadmedidaComponent implements OnInit {
           this.listaUnidadMedida = data;
 
           // this.listaUnidadMedida.push(data); // Para insertar un solo elemento
+        }
+        else {
+          this.listaUnidadMedida = [];
         }
       });
     }
