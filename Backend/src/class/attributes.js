@@ -3,7 +3,6 @@ usuario = [
     'cuitUsuario',
     'nombreUsuario',
     'apellidoUsuario',
-    'contrasenaUsuario',
     'dniUsuario',
     'domicilioUsuario',
     'emailUsuario',
@@ -46,6 +45,24 @@ unidadmedida = [
     "caracterUnidadMedida",
   ]
 
+caja = [
+    "idCaja",
+    "nroCaja",
+]
+
+cajaestado = [
+    'descripcionCajaEstado',
+    'montoAperturaCajaEstado',
+    'montoCierreCajaEstado',
+    'fechaYHoraAltaCajaEstado',
+    'fechaYHoraBajaCajaEstado',
+]
+
+estadocaja = [
+    'codEstadoCaja',
+    'nombreEstadoCaja',
+]
+
 module.exports = {
     usuario, 
     usuarioestado, 
@@ -54,4 +71,7 @@ module.exports = {
     rol, 
     departamento,
     unidadmedida,
+    caja,
+    cajaestado,
+    estadocaja
 }
