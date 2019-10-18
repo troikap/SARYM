@@ -1,5 +1,6 @@
 function tratarError( error, legend) {
     let locals = {};
+    console.log("ERROR INESPERADO : ", error)
     if ( error['name'] == 'SequelizeUniqueConstraintError') {
         locals['title'] = `${legend} ya existe. ${error.errors[0].message}`;
     } else if ( error['name'] == 'SequelizeForeignKeyConstraintError') {

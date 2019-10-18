@@ -9,8 +9,13 @@ const tratarError = require("../../middlewares/handleError"),
   UsuarioModelo = require("../usuario/usuario-model"),
   legend = "Caja",
   legend2 = "CajaEstado",
+  legend3 = "EstadoCaja",
+  legend4 = "Usuario",
   idtable = `id${legend}`,
-  nrotable = `nro${legend}`,
+  idtable2 = `id${legend2}`,
+  idtable3 = `id${legend3}`,
+  idtable4 = `id${legend4}`,
+  nametable = `nro${legend}`,
   codtable = `nro${legend}`,
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
@@ -22,9 +27,9 @@ CajaController.getToAllAttributes = (req, res, next) => {
           [Op.or]: [
               {idCaja: {[Op.substring]: req.params.anyAttribute}},
               {nroCaja: {[Op.substring]: req.params.anyAttribute}},
-              // Sequelize.literal("`departamento`.`nombreDepartamento` LIKE '%"+ req.params.anyAttribute + "%'"),
               Sequelize.literal("`cajaestados->estadocaja`.`nombreEstadoCaja` LIKE '%" + req.params.anyAttribute + "%'"),
-              // Sequelize.literal("`usuarioestados->estadousuario`.`nombreEstadoUsuario` LIKE '%" + req.params.anyAttribute + "%'"),
+              Sequelize.literal("`cajaestados->usuario`.`nombreUsuario` LIKE '%" + req.params.anyAttribute + "%'"),
+              Sequelize.literal("`cajaestados->usuario`.`apellidoUsuario` LIKE '%" + req.params.anyAttribute + "%'"),
               ]
           },
       attributes: attributes.caja,
@@ -60,17 +65,35 @@ CajaController.getToAllAttributes = (req, res, next) => {
 
 CajaController.getToName = (req, res, next) => {
   let locals = {};
-  CajaModelo.findAll({
-    where: { [nrotable]: { [Op.substring]: req.params[nrotable] }}
+  CajaModelo.findAll({where: { [nametable]: { [Op.substring]: req.params[nametable] }},
+    attributes: attributes.caja,
+    include: [
+      {
+        model: CajaEstadoModelo,
+        where: { fechaYHoraBajaCajaEstado: null },
+        attributes: attributes.cajaestado,
+        include: [
+          {
+            model: EstadoCajaModelo,
+            attributes: attributes.estadocaja
+          },
+          {
+            model: UsuarioModelo,
+            attributes: attributes.usuario
+          }
+        ]
+      }
+    ]
   }).then(project => {
     if (!project || project == 0) {
-      locals['title'] = "No existe el registro : " + req.params[nrotable];
-      res.json(locals);
+      locals['title'] = `No existe registro con valor : ${req.params[nametable]}.`;
+      locals['tipo'] = 2;
     } else {
       locals['title'] = `${legend}`;
       locals['data'] = project;
-      res.json(locals);
+      locals['tipo'] = 1;
     }
+    res.json(locals);
   });
 };
 
@@ -95,17 +118,17 @@ CajaController.getAll = (req, res, next) => {
         ]
       }
     ]
-  }
-  )
+  })
   .then(projects => {
     if (!projects || projects == 0) {
-      locals['title'] = `No existen registros de ${legend}`;
-      res.json(locals);
+      locals['title'] = `No existen registros de ${legend}.`;
+      locals['tipo'] = 2;
     } else {
       locals['title'] = `${legend}`;
       locals['data'] = projects;
-      res.json(locals);
+      locals['tipo'] = 1;
     }
+    res.json(locals);
   });
 };
 
@@ -113,111 +136,318 @@ CajaController.getOne = (req, res, next) => {
   let locals = {};
   CajaModelo.findOne({
     where: { [idtable]: req.params[idtable] },
-    attributes: [
-      'idCaja',
-      'nroCaja',
-    ],
     include: [
       {
         model: CajaEstadoModelo,
         where: { fechaYHoraBajaCajaEstado: null },
-        attributes: [
-          'descripcionCajaEstado',
-          'montoAperturaCajaEstado',
-          'montoCierreCajaEstado',
-          'fechaYHoraAltaCajaEstado',
-          'fechaYHoraBajaCajaEstado',
-        ],
+        attributes: attributes.cajaestado,
         include: [
           {
             model: EstadoCajaModelo,
-            attributes: [
-              'codEstadoCaja',
-              'nombreEstadoCaja',
-            ]
+            attributes: attributes.estadocaja
           },
           {
             model: UsuarioModelo,
-            attributes: [
-              "idUsuario",
-              "cuitUsuario",
-              "nombreUsuario",
-              "apellidoUsuario",
-              "emailUsuario",
-            ]
+            attributes: attributes.usuario
           }
         ]
       }
     ]
-    
   }).then(project => {
     if (!project || project == 0) {
-      locals['title'] = "No existe el registro : " + req.params[idtable]
-      res.json(locals);
+      locals['title'] = `No existe registro con id: ${req.params[idtable]}.`;
+      locals['tipo'] = 2;
     } else {
       locals['title'] = `${legend}`;
-      locals['data'] = project.dataValues;
-      res.json(locals);
+      locals['data'] = project;
+      locals['tipo'] = 1;
     }
+    res.json(locals);
   });
 };
 
 CajaController.create = (req, res) => {
   let locals = {};
-  if ( req.body[codtable] ) {
-    CajaModelo.findOne({
-      where: {[codtable]: req.body[codtable]} 
-    }).then( resp => {
-      if ( !resp ) {
-        if (req.body[idtable]) {
-          CajaModelo.findOne({
-            where: { [idtable]: req.body[idtable] }
-          }).then(project => {
-            if (!project || project == 0) {
-              CajaModelo.create(req.body).then(result => {
-                locals['title'] = `Creando ${legend}`;
-                locals['id'] = result[idtable];
-                locals['data'] = result;
+  if ( req.body[idtable] ) {
+    CajaModelo.findOne({ where: {[idtable]: req.body[idtable]} }).then( resp => {
+      if ( !resp || resp == 0 ) {        
+        EstadoCajaModelo.findOne({ where: {[idtable3]: 1 } }).then( responses => {
+          if ( !responses || responses == 0 ) {
+              locals['title'] = `No existe instancia de ${legend3} con ${idtable3}.`;
+              locals['tipo'] = 2;
+              res.json(locals);
+          } else {
+            UsuarioModelo.findOne({ where: {[idtable4]: req.body[idtable4]} }).then( respo => {
+              if ( !respo || respo == 0 ) {
+                locals['title'] = `No existe instancia de ${legend4} con ${idtable4}.`;
+                locals['tipo'] = 2;
                 res.json(locals);
-              });
-            } else {
-              var check = false;
-              for (let attribute in req.body) {
-                if (
-                  String(req.body[attribute]) != String(project.dataValues[attribute])
-                ) {
-                  check = true;
-                }
-              }
-              if (check) {
-                CajaModelo.update(req.body, {
-                  where: {
-                    [idtable]: req.body[idtable]
-                  }
-                }).then(result => {
-                  locals['title'] = `Actualizando ${legend}: ${req.body[idtable]}`;
+              } else {
+                CajaModelo.create(req.body).then(result => {
+                  locals['title'] = `${legend} creada.`;
+                  locals['data'] = result;
+                  locals['id'] = result[idtable];
+                  locals['tipo'] = 1;
+                  let pushCajaEstado = {};
+                  pushCajaEstado['descripcionCajaEstado'] = "Reciente.";
+                  pushCajaEstado['montoAperturaCajaEstado'] = 0;
+                  pushCajaEstado['montoCierreCajaEstado'] = 0;
+                  // pushCajaEstado['descripcionCajaEstado'] = req.body['descripcionCajaEstado'];
+                  // pushCajaEstado['montoAperturaCajaEstado'] = req.body['montoAperturaCajaEstado'];
+                  // pushCajaEstado['montoCierreCajaEstado'] = req.body['montoCierreCajaEstado'];
+                  pushCajaEstado[idtable] = result[idtable];
+                  pushCajaEstado['fechaYHoraAltaCajaEstado'] = new Date();
+                  pushCajaEstado[idtable3] = 1;
+                  pushCajaEstado[idtable4] = req.body[idtable4];
+                  CajaEstadoModelo.create(pushCajaEstado).then( response => {
+                    locals['title'] = `${legend} creado. ${legend2} creado.`;
+                    locals['data'] = response;
+                    locals['tipo'] = 1;
+                    res.json(locals);
+                  }).catch((error) => {
+                    locals = tratarError.tratarError(error, legend);
+                    res.json(locals);
+                  });
+                }).catch((error) => {
+                  locals = tratarError.tratarError(error, legend);
                   res.json(locals);
                 });
-              } else {
-                locals['title'] = `No existe ninguna modificación de ${legend}: ${req.body[idtable]}`;
-                res.json(locals);
               }
-            }
-          });
-        } else {
-          CajaModelo.create(req.body).then(result => {
-            locals['title'] = `Creando Nuevo ${legend}: ${result[idtable]}`;
-            locals['data'] = result;
-            res.json(locals);
-          });
-        }
+            })
+          }
+        })
       } else {
-        locals['title'] = `Codigo ${req.body[codtable]} ya existe`;
+        locals['title'] = `Ya existe registro con ${idtable}: ${req.body[idtable]}.`;
         locals['tipo'] = 2;
         res.json(locals);
       }
     })
+  } else {
+    EstadoCajaModelo.findOne({ where: {[idtable3]: 1 } }).then( responses => {
+      if ( !responses || responses == 0 ) {
+          locals['title'] = `No existe instancia de ${legend3} con ${idtable3}.`;
+          locals['tipo'] = 2;
+          res.json(locals);
+      } else {
+        UsuarioModelo.findOne({ where: {[idtable4]: req.body[idtable4]} }).then( respo => {
+          if ( !respo || respo == 0 ) {
+            locals['title'] = `No existe instancia de ${legend4} con ${idtable4}.`;
+            locals['tipo'] = 2;
+            res.json(locals);
+          } else {
+            CajaModelo.create(req.body).then(result => {
+              locals['title'] = `${legend} creada.`;
+              locals['data'] = result;
+              locals['id'] = result[idtable];
+              locals['tipo'] = 1;
+              let pushCajaEstado = {};
+              pushCajaEstado['descripcionCajaEstado'] = "Reciente.";
+              pushCajaEstado['montoAperturaCajaEstado'] = 0;
+              pushCajaEstado['montoCierreCajaEstado'] = 0;
+              // pushCajaEstado['descripcionCajaEstado'] = req.body['descripcionCajaEstado'];
+              // pushCajaEstado['montoAperturaCajaEstado'] = req.body['montoAperturaCajaEstado'];
+              // pushCajaEstado['montoCierreCajaEstado'] = req.body['montoCierreCajaEstado'];
+              pushCajaEstado[idtable] = result[idtable];
+              pushCajaEstado['fechaYHoraAltaCajaEstado'] = new Date();
+              pushCajaEstado[idtable3] = 1;
+              pushCajaEstado[idtable4] = req.body[idtable4];
+              CajaEstadoModelo.create(pushCajaEstado).then( response => {
+                locals['title'] = `${legend} creado. ${legend2} creado.`;
+                locals['data'] = response;
+                locals['tipo'] = 1;
+                res.json(locals);
+              }).catch((error) => {
+                locals = tratarError.tratarError(error, legend);
+                res.json(locals);
+              });
+            }).catch((error) => {
+              locals = tratarError.tratarError(error, legend);
+              res.json(locals);
+            });
+          }
+        })
+      }
+    })
   }
+};
+
+CajaController.actualizarDatos = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  CajaModelo.findOne({
+    where: {
+      [idtable]: body[idtable] },
+      attributes: attributes.caja,
+      include: [
+        {
+          model: CajaEstadoModelo,
+          where: { fechaYHoraBajaCajaEstado: null },
+          attributes: attributes.cajaestado,
+          include: [
+            {
+              model: EstadoCajaModelo,
+              attributes: attributes.estadocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
+        }
+      ]
+    }).then(response => {
+      if (!response || response == 0) {
+        locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      } else {
+        CajaModelo.update(body, {
+            where: {
+                [idtable]: body[idtable]
+            }
+        }).then(result => {
+          CajaEstadoModelo.update({ 
+            descripcionCajaEstado: body['descripcionCajaEstado'],
+            montoAperturaCajaEstado: body['montoAperturaCajaEstado'],
+            montoCierreCajaEstado: body['montoCierreCajaEstado'],
+           }, {where: {[idtable]: body[idtable], 
+                      fechaYHoraBajaCajaEstado: null}
+          }).then((resp) => {
+          if (!resp || resp == 0) {
+              locals['title'] = `No se actualizo ${legend2}.`;
+              locals['tipo'] = 2;
+          } else {
+            locals['title'] = `Se actualizo ${legend2}.`;
+            locals['tipo'] = 1;
+          }
+          res.json(locals);
+        });
+      }).catch((error) => {
+        let locals = tratarError.tratarError(error, legend);
+        res.json(locals);
+      });
+    }
+  });
+};
+
+CajaController.cambiarEstado = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  CajaModelo.findOne({
+    where: {
+      [idtable]: body[idtable] },
+      attributes: attributes.caja,
+      include: [
+        {
+          model: CajaEstadoModelo,
+          where: { fechaYHoraBajaCajaEstado: null },
+          attributes: attributes.cajaestado,
+          include: [
+            {
+              model: EstadoCajaModelo,
+              attributes: attributes.estadocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
+        }
+      ]
+    }).then(response => {
+    if (!response || response == 0) {
+      locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+      locals['tipo'] = 2;
+      res.json(locals);
+    } else {
+      let pushCajaEstado = {};
+      pushCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
+        CajaEstadoModelo.update(pushCajaEstado , {
+          where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
+      }).then((respons) => {
+        if(!respons || respons == 0) {
+          locals['title'] = `No existe ${legend2} habilitado.`;
+          locals['tipo'] = 2;
+          res.json(locals);
+        } else {
+          body['fechaYHoraAltaCajaEstado'] = new Date();
+          CajaEstadoModelo.create(body).then((resp) => {
+            if (!resp || resp == 0 ){
+              locals['title'] = `No se pudo crear ${legend2}.`;
+              locals['tipo'] = 2;
+            } else {
+              locals['title'] = `Se creo correctamente ${legend2}.`;
+              locals['tipo'] = 1;
+            }
+            res.json(locals);
+          })
+        }
+      })
+    }
+  });
+};
+
+CajaController.abrirCaja = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  CajaModelo.findOne({
+    where: {
+      [idtable]: body[idtable] },
+      attributes: attributes.caja,
+      include: [
+        {
+          model: CajaEstadoModelo,
+          where: { fechaYHoraBajaCajaEstado: null },
+          attributes: attributes.cajaestado,
+          include: [
+            {
+              model: EstadoCajaModelo,
+              attributes: attributes.estadocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
+        }
+      ]
+    }).then(response => {
+    if (!response || response == 0) {
+      locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+      locals['tipo'] = 2;
+      res.json(locals);
+    } else {
+      
+      let pushCajaEstado = {};
+      pushCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
+      pushCajaEstado['descripcionCajaEstado'] = body['descripcionCajaEstado'] || response.dataValues.cajaestados[0].dataValues.descripcionCajaEstad;
+      pushCajaEstado['montoAperturaCajaEstado'] = body['montoAperturaCajaEstado'] || response.dataValues.cajaestados[0].dataValues.montoAperturaCajaEstado;
+
+      console.log("RESPUESTA !!!!!!!!!!! ,",response.dataValues.cajaestados[0].dataValues)
+
+      //   CajaEstadoModelo.update(pushCajaEstado , {
+      //     where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
+      // }).then((respons) => {
+      //   if(!respons || respons == 0) {
+      //     locals['title'] = `No existe ${legend2} habilitado.`;
+      //     locals['tipo'] = 2;
+      //     res.json(locals);
+      //   } else {
+      //     body['fechaYHoraAltaCajaEstado'] = new Date();
+      //     CajaEstadoModelo.create(body).then((resp) => {
+      //       if (!resp || resp == 0 ){
+      //         locals['title'] = `No se pudo crear ${legend2}.`;
+      //         locals['tipo'] = 2;
+      //       } else {
+      //         locals['title'] = `Se creo correctamente ${legend2}.`;
+      //         locals['tipo'] = 1;
+      //       }
+      //       res.json(locals);
+      //     })
+      //   }
+      // })
+    }
+  });
 };
 
 CajaController.update = (req, res) => {
@@ -337,38 +567,5 @@ CajaController.update = (req, res) => {
   }
 };
 
-CajaController.delete = (req, res, next) => {
-  let locals = {};
-  let [idtabla] = req.params[idtabla];
-  CajaModelo.getOne([idtabla], (err, rows) => {
-    if (err) {
-      locals['title'] = `Error al buscar el registro con el id: ${[idtabla]}`;
-      locals['description'] = "Error de Sintaxis SQL";
-      locals['error'] = err;
-      res.json(locals);
-    } else {
-      locals['title'] = `${leyenda}: ${[idtabla]}`;
-      locals['data'] = rows;
-      res.json(locals);
-    }
-  });
-};
-
-CajaController.destroy = (req, res, next) => {
-  let locals = {};
-  CajaModelo.destroy({
-    where: {
-      [idtable]: req.params[idtable]
-    }
-  }).then(response => {
-    if (!response || response == 0) {
-      locals['title'] = `No existe el registro de ${legend}: ` + req.params[idtable];
-      res.json(locals);
-    } else {
-      locals['title'] = `${legend} Eliminado Fisicamente`;
-      res.json(locals);
-    }
-  });
-};
 
 module.exports = CajaController;

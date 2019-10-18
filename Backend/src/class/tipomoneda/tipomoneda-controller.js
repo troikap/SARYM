@@ -191,7 +191,7 @@ TipoMonedaController.destroy = (req, res, next) => {
 
 TipoMonedaController.error404 = (req, res, next) => {
   let locals = {};
-  locals['title'] = `Error 404 en ${legend}.`;
+  locals['title'] = `Error 404 No existe esa Ruta.`;
   locals['tipo'] = 0;
   res.status(404).send(locals);
 };

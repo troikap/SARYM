@@ -144,13 +144,13 @@ router
 
 // caja
     .get('/caja', verificaToken, CajaController.getAll)
-    .post('/caja', verificaToken, CajaController.create)
-    .put('/caja', verificaToken, CajaController.update)
     .get('/caja/:idCaja', verificaToken, CajaController.getOne)
     .get('/caja/name/:nroCaja', verificaToken, CajaController.getToName)
     .get('/caja/todo/:anyAttribute', verificaToken, CajaController.getToAllAttributes)
-    .post('/caja/:idCaja', verificaToken, CajaController.delete)
-    .delete('/caja/:idCaja', verificaToken, CajaController.destroy)
+    .post('/caja', verificaToken, CajaController.create)
+    .put('/caja/actualizarDatos', verificaToken, CajaController.actualizarDatos)
+    .put('/caja/cambiarEstado', verificaToken, CajaController.cambiarEstado)
+    .put('/caja/abrirCaja', verificaToken, CajaController.abrirCaja)
 
 // ubicacion
     .get('/ubicacion', verificaToken, UbicacionController.getAll)
