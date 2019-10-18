@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, ValidationErrors} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CajaService } from '../../../services/caja/caja.service';
-import { Caja } from 'src/app/model/caja/caja.model';
+import { CajaCreate } from 'src/app/model/caja/caja.model';
 import { EstadoCaja } from 'src/app/model/estadoCaja/estadoCaja.model';
 import { Usuario } from '../../../model/usuario/usuario.model';
 import { UsuarioService } from '../../../services/usuario/usuario.service';
@@ -19,7 +19,7 @@ export class CrudCajaComponent implements OnInit {
   estadosCaja: EstadoCaja[];
   cajaEncontrada: boolean; 
   idCaja: string = "";  
-  caja: Caja;
+  caja: CajaCreate;
   newForm = {};
 
   accionGet;
@@ -33,8 +33,7 @@ export class CrudCajaComponent implements OnInit {
   ) {
     this.form = new FormGroup({
       'idCaja': new FormControl({value: '', disabled: true}),
-      'nroCaja': new FormControl('', Validators.required),
-      'idEstadoCaja': new FormControl('', Validators.required),
+      'nroCaja': new FormControl('', Validators.required),      
       'idUsuario': new FormControl('', Validators.required)
       
     });
@@ -71,9 +70,8 @@ export class CrudCajaComponent implements OnInit {
     
             this.newForm = {
               idCaja: this.caja['idCaja'],
-              nroCaja:  this.caja['nroCaja'],
-              idEstadoCaja:  this.caja['cajaestados'][0].estadocaja.idEstadoCaja,
-              idUsuario: this.caja['cajaestados'][0].usuario.idUsuario
+              nroCaja:  this.caja['nroCaja'],              
+              idUsuario: 1
             }
   
             this.form.setValue(this.newForm);
@@ -83,17 +81,16 @@ export class CrudCajaComponent implements OnInit {
     }
   }
 
-  reemplazarCaja(): Caja {
+  reemplazarCaja(): CajaCreate {
     console.log("Funcion 'reemplazarCaja()', ejecutada");
     let us = null;
     if( this.caja && this.caja.idCaja) {
       console.log("SETEO DE ID :", )
       us = this.caja.idCaja;
     } 
-    let rempCaja: Caja = {
+    let rempCaja: CajaCreate = {
       idCaja: us,
-      nroCaja:  this.form.value['nroCaja'],     
-      idEstadoCaja: this.form.value['idEstadoCaja'],
+      nroCaja:  this.form.value['nroCaja'],   
       idUsuario: this.form.value['idUsuario']
       
     }

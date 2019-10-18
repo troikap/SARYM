@@ -15,6 +15,7 @@ import { AbmTipomonedaComponent } from './components/abm-tipomoneda/search-tipom
 import { AbmUnidadmedidaComponent } from './components/abm-unidadmedida/search-unidadmedida/abm-unidadmedida.component';
 import { AbmCajaComponent } from './components/abm-caja/search-caja/abm-caja.component';
 import { CrudCajaComponent } from './components/abm-caja/crud-caja/crud-caja.component';
+import { EditCajaComponent } from './components/abm-caja/edit-caja/edit-caja.component';
 import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
 import { AbmSectorComponent } from './components/abm-sector/abm-sector.component';
@@ -41,6 +42,7 @@ import { NoimagePipe } from './pipes/noimage-producto.pipe';
     AbmUnidadmedidaComponent,
     AbmCajaComponent,
     CrudCajaComponent,
+    EditCajaComponent,
     AbmMesaComponent,
     AbmRubroComponent,
     AbmSectorComponent,

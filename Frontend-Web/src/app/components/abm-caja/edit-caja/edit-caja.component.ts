@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, ValidationErrors} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CajaService } from '../../../services/caja/caja.service';
-import { Caja } from 'src/app/model/caja/caja.model';
+import { CajaEdit } from 'src/app/model/caja/caja.model';
 import { EstadoCaja } from 'src/app/model/estadoCaja/estadoCaja.model';
 import { Usuario } from '../../../model/usuario/usuario.model';
 import { UsuarioService } from '../../../services/usuario/usuario.service';
 
 @Component({
   selector: 'app-caja-usuario',
-  templateUrl: './crud-caja.component.html',
-  styleUrls: ['./crud-caja.component.scss']
+  templateUrl: './edit-caja.component.html',
+  styleUrls: ['./edit-caja.component.scss']
 })
 export class EditCajaComponent implements OnInit {
   
@@ -19,7 +19,7 @@ export class EditCajaComponent implements OnInit {
   private estadosCaja: EstadoCaja [];
   private cajaEncontrada: boolean; 
   private idCaja: string = "";  
-  private caja: Caja;
+  private caja: CajaEdit;
   private newForm = {};
 
   accionGet;
@@ -34,9 +34,10 @@ export class EditCajaComponent implements OnInit {
     this.form = new FormGroup({
       'idCaja': new FormControl({value: '', disabled: true}),
       'nroCaja': new FormControl('', Validators.required),
-      'codEstadoCaja': new FormControl('', Validators.required),
-      'idUsuario': new FormControl('', Validators.required)
-      
+      'idEstadoCaja': new FormControl('', Validators.required),
+      'idUsuario': new FormControl('', Validators.required),
+      'descripcionCajaEstado': new FormControl('', Validators.required),
+      'montoAperturaCajaEstado': new FormControl('', Validators.required)
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -99,8 +100,10 @@ export class EditCajaComponent implements OnInit {
             this.newForm = {
               idCaja: this.caja['idCaja'],
               nroCaja:  this.caja['nroCaja'],
-              codEstadoCaja:  this.caja['cajaestados'][0].estadocaja.codEstadoCaja,
-              idUsuario: this.caja['cajaestados'][0].usuario.idUsuario
+              idEstadoCaja:  this.caja['cajaestados'][0].estadocaja.idEstadoCaja,
+              idUsuario: this.caja['cajaestados'][0].usuario.idUsuario,
+              descripcionCajaEstado: this.caja['cajaestados'][0].descripcionCajaEstado,
+              montoAperturaCajaEstado: this.caja['cajaestados'][0].montoAperturaCajaEstado
             }
   
             this.form.setValue(this.newForm);
@@ -110,18 +113,20 @@ export class EditCajaComponent implements OnInit {
     }
   }
 
-  reemplazarCaja(): Caja {
+  reemplazarCaja(): CajaEdit {
     console.log("Funcion 'reemplazarCaja()', ejecutada");
     let us = null;
     if( this.caja && this.caja.idCaja) {
       console.log("SETEO DE ID :", )
       us = this.caja.idCaja;
     } 
-    let rempCaja: Caja = {
+    let rempCaja: CajaEdit = {
       idCaja: us,
       nroCaja:  this.form.value['nroCaja'],     
       idEstadoCaja: this.form.value['idEstadoCaja'],
-      idUsuario: this.form.value['idUsuario']
+      idUsuario: this.form.value['idUsuario'],
+      descripcionCajaEstado: this.form.value['descripcionCajaEstado'],
+      montoAperturaCajaEstado: this.form.value['montoAperturaCajaEstado'],
       
     }
     return rempCaja;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CajaService } from '../../../services/caja/caja.service';
-import { Caja } from 'src/app/model/caja/caja.model';
+import { CajaEdit } from 'src/app/model/caja/caja.model';
 import { EstadoCaja } from 'src/app/model/estadoCaja/estadoCaja.model';
 import { Usuario } from 'src/app/model/usuario/usuario.model';
 import { UsuarioService } from '../../../services/usuario/usuario.service';
@@ -15,7 +15,7 @@ import { UsuarioService } from '../../../services/usuario/usuario.service';
 })
 export class AbmCajaComponent implements OnInit {
 
-  listaCaja: Caja [];
+  listaCaja: CajaEdit [];
   listaEstadoCaja: any = [];  
   
 
@@ -72,9 +72,10 @@ export class AbmCajaComponent implements OnInit {
 
   abmCaja(idElemento: number, accion: string) {
     console.log("idElemento: ", idElemento);
-    console.log("accion: ", accion);
+    console.log("accion: ", accion);   
 
-    this.router.navigate( [`/caja_crud/${idElemento}/${accion}`] );
+  this.router.navigate( [`/caja_edit/${idElemento}/${accion}`] );
+
   }
 
 }

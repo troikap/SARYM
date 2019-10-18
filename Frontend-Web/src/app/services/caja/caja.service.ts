@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Caja } from 'src/app/model/caja/caja.model';
+import { CajaCreate, CajaEdit } from 'src/app/model/caja/caja.model';
 import { EstadoCaja } from 'src/app/model/estadocaja/estadocaja.model';
 
 import { map } from 'rxjs/operators';
@@ -54,7 +54,7 @@ export class CajaService {
     }
   }
 
-  getCajas(): Promise<Caja[]> {
+  getCajas(): Promise<any[]> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
     return this.http
@@ -62,7 +62,7 @@ export class CajaService {
       .toPromise()
       .then(response => {
         console.log("Trae Cajas: ", response);
-        return response as Caja[];
+        return response as any[];
         
       })
       .catch(  );
@@ -89,7 +89,7 @@ export class CajaService {
       .put(`${this.url}${this.dir}`, datas, {headers})
       .toPromise()
       .then(response => {
-        return response as Caja;
+        return response as any;
       })
       .catch(  );
   }
@@ -103,7 +103,7 @@ export class CajaService {
       .delete(`${this.url}${this.dir}/${datas.idUsuario}`, {headers})
       .toPromise()
       .then(response => {
-        return response as Caja;
+        return response as any;
       })
       .catch(  );
   }
@@ -115,7 +115,7 @@ export class CajaService {
       .post(`${this.url}${this.dir}`, datas, {headers})
       .toPromise()
       .then(response => {
-        return response as Caja;
+        return response as any;
       })
       .catch(  );
   }

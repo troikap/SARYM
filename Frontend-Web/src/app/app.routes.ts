@@ -8,6 +8,7 @@ import { AbmUnidadmedidaComponent } from './components/abm-unidadmedida/search-u
 import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida/crud-unidadmedida/abm-unidadmedida-crud.component';
 import { AbmCajaComponent } from './components/abm-caja/search-caja/abm-caja.component';
 import { CrudCajaComponent } from './components/abm-caja/crud-caja/crud-caja.component';
+import { EditCajaComponent } from './components/abm-caja/edit-caja/edit-caja.component';
 import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
 import { AbmSectorComponent } from './components/abm-sector/abm-sector.component';
@@ -33,6 +34,7 @@ const routes: Routes = [
     { path: 'unidadmedida_crud/:id/:accion', component: AbmUnidadmedidaCreateComponent},
     { path: 'caja', component: AbmCajaComponent },
     { path: 'caja_crud/:id/:accion', component: CrudCajaComponent},
+    { path: 'caja_edit/:id/:accion', component: EditCajaComponent},
     { path: 'mesa', component: AbmMesaComponent },
     { path: 'rubro', component: AbmRubroComponent },
     { path: 'rubro_crud/:id/:accion', component: CrudRubroComponent },

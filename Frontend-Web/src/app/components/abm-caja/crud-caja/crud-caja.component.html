@@ -16,16 +16,7 @@
                     </div>
                 </div>
             </div>
-
-            <div class="form-group row">
-                <div class="col">
-                    <label for="idEstadoCaja" class="col col-form-label">Estado de Caja</label>
-                    <select Placeholder='Seleccione' formControlName='idEstadoCaja' class="form-control"> 
-                        <option *ngFor='let element of estadosCaja' [value]='element.idEstadoCaja'>{{element.nombreEstadoCaja}}</option>
-                    </select>
-                    <p class="input-error-msg" *ngIf="form.controls.idEstadoCaja.errors?.required && form.controls.idEstadoCaja.touched">Campo Obligatorio.</p>
-                </div>
-            </div>
+           
             
             <hr>
             <div *ngIf="accionGet != 'eliminar'">
