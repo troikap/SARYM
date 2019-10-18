@@ -247,7 +247,32 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idCaja\": 16,\n\t\"idUsuario\": 3,\n\t\"descripcionCajaEstado\": \"Abriendo por Roberto Carlos\",\n\t\"montoAperturaCajaEstado\": 100\n\n}"
+							"raw": "{\n\t\"idCaja\": 1,\n\t\"idUsuario\": 2,\n\t\"descripcionCajaEstado\": \"Abriendo por id 22\",\n\t\"montoAperturaCajaEstado\": 10055\n\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Caja Cerrar Caja",
+					"request": {
+						"url": "localhost:3000/caja/cerrarCaja",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idCaja\": 1,\n\t\"idUsuario\": 3,\n\t\"descripcionCajaEstado\": \"Cerrando Caja por id 2\",\n\t\"montoCierreCajaEstado\": 400\n\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},

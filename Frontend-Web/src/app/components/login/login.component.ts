@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private usuarioservicio: UsuarioService,
     private router: Router,
-    private rout: RouterModule
+    private rout: RouterModule,
 
   ) {
     this.form = this.formBuilder.group({
@@ -33,9 +33,14 @@ export class LoginComponent implements OnInit {
     console.log("FORMULARIO , ",this.form)
     this.usuarioservicio.loguear(this.form.value.username , this.form.value.password )
     .then(algo => {
-    // this.algo = algo;
-    console.log("LOGUEADO", algo)
-    this.router.navigate(['/home']);
+      if (algo.tipo == 2){ 
+        console.log( "MENSAJE " ,algo.title)
+      } else if (algo.tipo == 1) {
+        // this.storage.set( 'logeo', algo);
+        // this.storage.get('logeo')
+
+      }
+    // this.router.navigate(['/home']);
 
       // if (algo.title.tipo == 1) {
       //   console.log("LOGUEADO")

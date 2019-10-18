@@ -151,6 +151,8 @@ router
     .put('/caja/actualizarDatos', verificaToken, CajaController.actualizarDatos)
     .put('/caja/cambiarEstado', verificaToken, CajaController.cambiarEstado)
     .put('/caja/abrirCaja', verificaToken, CajaController.abrirCaja)
+    .put('/caja/cerrarCaja', verificaToken, CajaController.cerrarCaja)
+
 
 // ubicacion
     .get('/ubicacion', verificaToken, UbicacionController.getAll)
