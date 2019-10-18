@@ -59,6 +59,7 @@ cajaestado = [
 ]
 
 estadocaja = [
+    'idEstadoCaja',
     'codEstadoCaja',
     'nombreEstadoCaja',
 ]

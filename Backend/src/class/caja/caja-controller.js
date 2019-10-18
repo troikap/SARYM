@@ -271,6 +271,185 @@ CajaController.create = (req, res) => {
   }
 };
 
+CajaController.actualizarDatos = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  CajaModelo.findOne({
+    where: {
+      [idtable]: body[idtable] },
+      attributes: attributes.caja,
+      include: [
+        {
+          model: CajaEstadoModelo,
+          where: { fechaYHoraBajaCajaEstado: null },
+          attributes: attributes.cajaestado,
+          include: [
+            {
+              model: EstadoCajaModelo,
+              attributes: attributes.estadocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
+        }
+      ]
+    }).then(response => {
+      if (!response || response == 0) {
+        locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      } else {
+        CajaModelo.update(body, {
+            where: {
+                [idtable]: body[idtable]
+            }
+        }).then(result => {
+          CajaEstadoModelo.update({ 
+            descripcionCajaEstado: body['descripcionCajaEstado'],
+            montoAperturaCajaEstado: body['montoAperturaCajaEstado'],
+            montoCierreCajaEstado: body['montoCierreCajaEstado'],
+           }, {where: {[idtable]: body[idtable], 
+                      fechaYHoraBajaCajaEstado: null}
+          }).then((resp) => {
+          if (!resp || resp == 0) {
+              locals['title'] = `No se actualizo ${legend2}.`;
+              locals['tipo'] = 2;
+          } else {
+            locals['title'] = `Se actualizo ${legend2}.`;
+            locals['tipo'] = 1;
+          }
+          res.json(locals);
+        });
+      }).catch((error) => {
+        let locals = tratarError.tratarError(error, legend);
+        res.json(locals);
+      });
+    }
+  });
+};
+
+CajaController.cambiarEstado = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  CajaModelo.findOne({
+    where: {
+      [idtable]: body[idtable] },
+      attributes: attributes.caja,
+      include: [
+        {
+          model: CajaEstadoModelo,
+          where: { fechaYHoraBajaCajaEstado: null },
+          attributes: attributes.cajaestado,
+          include: [
+            {
+              model: EstadoCajaModelo,
+              attributes: attributes.estadocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
+        }
+      ]
+    }).then(response => {
+    if (!response || response == 0) {
+      locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+      locals['tipo'] = 2;
+      res.json(locals);
+    } else {
+      let pushCajaEstado = {};
+      pushCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
+        CajaEstadoModelo.update(pushCajaEstado , {
+          where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
+      }).then((respons) => {
+        if(!respons || respons == 0) {
+          locals['title'] = `No existe ${legend2} habilitado.`;
+          locals['tipo'] = 2;
+          res.json(locals);
+        } else {
+          body['fechaYHoraAltaCajaEstado'] = new Date();
+          CajaEstadoModelo.create(body).then((resp) => {
+            if (!resp || resp == 0 ){
+              locals['title'] = `No se pudo crear ${legend2}.`;
+              locals['tipo'] = 2;
+            } else {
+              locals['title'] = `Se creo correctamente ${legend2}.`;
+              locals['tipo'] = 1;
+            }
+            res.json(locals);
+          })
+        }
+      })
+    }
+  });
+};
+
+CajaController.abrirCaja = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  CajaModelo.findOne({
+    where: {
+      [idtable]: body[idtable] },
+      attributes: attributes.caja,
+      include: [
+        {
+          model: CajaEstadoModelo,
+          where: { fechaYHoraBajaCajaEstado: null },
+          attributes: attributes.cajaestado,
+          include: [
+            {
+              model: EstadoCajaModelo,
+              attributes: attributes.estadocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
+        }
+      ]
+    }).then(response => {
+    if (!response || response == 0) {
+      locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+      locals['tipo'] = 2;
+      res.json(locals);
+    } else {
+      
+      let pushCajaEstado = {};
+      pushCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
+      pushCajaEstado['descripcionCajaEstado'] = body['descripcionCajaEstado'] || response.dataValues.cajaestados[0].dataValues.descripcionCajaEstad;
+      pushCajaEstado['montoAperturaCajaEstado'] = body['montoAperturaCajaEstado'] || response.dataValues.cajaestados[0].dataValues.montoAperturaCajaEstado;
+
+      console.log("RESPUESTA !!!!!!!!!!! ,",response.dataValues.cajaestados[0].dataValues)
+
+      //   CajaEstadoModelo.update(pushCajaEstado , {
+      //     where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
+      // }).then((respons) => {
+      //   if(!respons || respons == 0) {
+      //     locals['title'] = `No existe ${legend2} habilitado.`;
+      //     locals['tipo'] = 2;
+      //     res.json(locals);
+      //   } else {
+      //     body['fechaYHoraAltaCajaEstado'] = new Date();
+      //     CajaEstadoModelo.create(body).then((resp) => {
+      //       if (!resp || resp == 0 ){
+      //         locals['title'] = `No se pudo crear ${legend2}.`;
+      //         locals['tipo'] = 2;
+      //       } else {
+      //         locals['title'] = `Se creo correctamente ${legend2}.`;
+      //         locals['tipo'] = 1;
+      //       }
+      //       res.json(locals);
+      //     })
+      //   }
+      // })
+    }
+  });
+};
+
 CajaController.update = (req, res) => {
   let locals = {};
   let body = req.body;
@@ -388,38 +567,5 @@ CajaController.update = (req, res) => {
   }
 };
 
-CajaController.delete = (req, res, next) => {
-  let locals = {};
-  let [idtabla] = req.params[idtabla];
-  CajaModelo.getOne([idtabla], (err, rows) => {
-    if (err) {
-      locals['title'] = `Error al buscar el registro con el id: ${[idtabla]}`;
-      locals['description'] = "Error de Sintaxis SQL";
-      locals['error'] = err;
-      res.json(locals);
-    } else {
-      locals['title'] = `${leyenda}: ${[idtabla]}`;
-      locals['data'] = rows;
-      res.json(locals);
-    }
-  });
-};
-
-CajaController.destroy = (req, res, next) => {
-  let locals = {};
-  CajaModelo.destroy({
-    where: {
-      [idtable]: req.params[idtable]
-    }
-  }).then(response => {
-    if (!response || response == 0) {
-      locals['title'] = `No existe el registro de ${legend}: ` + req.params[idtable];
-      res.json(locals);
-    } else {
-      locals['title'] = `${legend} Eliminado Fisicamente`;
-      res.json(locals);
-    }
-  });
-};
 
 module.exports = CajaController;
