@@ -14,12 +14,6 @@
                         <input type="text" class="form-control" id="nroCaja" placeholder="Ingrese Respuesta" formControlName="nroCaja">
                         <p class="input-error-msg" *ngIf="form.controls.nroCaja.errors?.required && form.controls.nroCaja.touched">Campo Obligatorio.</p>
                     </div>
-<<<<<<< HEAD
-                </div>                
-            </div>     
-                
-            
-=======
                 </div>
             </div>
 
@@ -32,16 +26,7 @@
                     <p class="input-error-msg" *ngIf="form.controls.idEstadoCaja.errors?.required && form.controls.idEstadoCaja.touched">Campo Obligatorio.</p>
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col">
-                    <label for="idUsuario" class="col col-form-label">Usuario</label>
-                    <select Placeholder='Seleccione' formControlName='idUsuario' class="form-control"> 
-                        <option *ngFor='let element of usuarios' [value]='element.idUsuario'>{{element.nombreUsuario}} {{element.apellidoUsuario}}</option>
-                    </select>
-                    <p class="input-error-msg" *ngIf="form.controls.idUsuario.errors?.required && form.controls.idUsuario.touched">Campo Obligatorio.</p>
-                </div>
-            </div>
->>>>>>> 432d649f04ec07be424ad092ecb2e1c1a4e73ac1
+            
             <hr>
             <div *ngIf="accionGet != 'eliminar'">
                 <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>

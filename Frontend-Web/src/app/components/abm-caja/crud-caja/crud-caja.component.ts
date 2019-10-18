@@ -34,7 +34,7 @@ export class CrudCajaComponent implements OnInit {
     this.form = new FormGroup({
       'idCaja': new FormControl({value: '', disabled: true}),
       'nroCaja': new FormControl('', Validators.required),
-      'codEstadoCaja': new FormControl('', Validators.required),
+      'idEstadoCaja': new FormControl('', Validators.required),
       'idUsuario': new FormControl('', Validators.required)
       
     });
@@ -72,7 +72,7 @@ export class CrudCajaComponent implements OnInit {
             this.newForm = {
               idCaja: this.caja['idCaja'],
               nroCaja:  this.caja['nroCaja'],
-              codEstadoCaja:  this.caja['cajaestados'][0].estadocaja.codEstadoCaja,
+              idEstadoCaja:  this.caja['cajaestados'][0].estadocaja.idEstadoCaja,
               idUsuario: this.caja['cajaestados'][0].usuario.idUsuario
             }
   
