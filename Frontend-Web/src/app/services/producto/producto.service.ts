@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Producto } from 'src/app/model/producto/producto.model';
 
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,21 @@ export class ProductoService {
       .catch( err => {
         console.log("ERROR : ",err)
       } );
+  }
+
+
+  getProducto( id: number ): Promise<Producto> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    return this.http
+      .get(`${this.url}${this.dir}/${id}`, {headers}) 
+      .toPromise()
+      .then(response => {
+        let prod = response as Producto;
+        console.log("Datos Obtenidos del Servicio:", prod['Producto']);
+        return prod['Producto'];
+      })
+      .catch(  );
   }
 
   updateProductos( datas: any ): Promise<any> {
