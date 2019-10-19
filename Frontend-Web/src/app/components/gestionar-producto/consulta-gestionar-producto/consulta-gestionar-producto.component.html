@@ -1,1 +1,72 @@
-<p>consulta-gestionar-producto works!</p>
+<h1 class="animated fadeIn"># {{producto.idProducto}} - {{producto.nombreProducto}}</h1>
+<hr>
+
+<div class="row animated fadeIn fast">
+    <div class="col-md-4">
+        <div class="card-body">
+            <img [src]="producto.pathImagenProducto | noimage" class="card-img-top img-fluid text-primary" [alt]=producto.nombreProducto>
+            <br><br>
+            <a [routerLink]="['/producto']" class="btn btn-outline-primary btn-block">Regresar</a>
+        </div>
+
+    </div>
+
+    <div class="col-md-8">
+        <h3>
+            <span class="badge badge-pill" [ngClass]="{
+                'badge-success': estadoProducto == 'Activo' , 
+                'badge-warning': estadoProducto == 'En Falta' , 
+                'badge-danger': estadoProducto == 'Inactivo', 
+                'badge-dark': estadoProducto == 'Eliminado'
+            }">
+                {{estadoProducto}}
+            </span> - {{producto.nombreProducto}} ({{producto.codProducto}})
+        </h3>
+        <hr>
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">Rubro</th>
+                    <th scope="col">Unidad de Medida</th>
+                    <th scope="col">Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="row">{{producto.rubro?.nombreRubro}}</td>
+                    <td scope="row">{{producto.cantidadMedida}} {{producto.unidadmedida?.nombreUnidadMedida}}</td>
+                    <td scope="row">{{producto.nombreProducto}} - {{producto.precioproductos[0]?.tipomoneda?.simboloTipoMoneda}} {{producto.precioproductos[0]?.importePrecioProducto}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">Descripción</th>
+                </tr>
+                <tr>
+                    <td scope="row">{{producto.descripcionProducto}}</td>
+                </tr>
+            </thead>
+        </table>
+
+        <hr>
+        <div>
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <td width="20%"><button type="button" class="btn btn-outline-danger btn-block" (click)="generarAccion('eliminar')">Eliminar</button></td>
+                        <td width="20%"><button type="button" class="btn btn-outline-success btn-block" (click)="generarAccion('editar')">Editar</button></td>
+                        <td width="40%"><button type="button" class="btn btn-outline-warning btn-block" (click)="generarAccion('estado')">Cambiar Estado</button></td>
+                        <td width="20%">&nbsp;</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+    </div>
+
+</div>

@@ -39,6 +39,9 @@ export class AbmRubroComponent implements OnInit {
           console.log("RESULT ----------------->", data);
           this.listaRubro = data;
         }
+        else {
+          this.listaRubro = [];
+        }
       });
     }
     else {

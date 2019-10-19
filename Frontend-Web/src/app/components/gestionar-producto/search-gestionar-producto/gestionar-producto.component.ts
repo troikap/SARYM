@@ -64,4 +64,7 @@ export class GestionarProductoComponent implements OnInit {
     this.router.navigate( [`/producto_consulta/${idElemento}`] );
   }
 
+  crearProducto() {
+    this.router.navigate( ['/producto_crud/0/crear']);
+  }
 }

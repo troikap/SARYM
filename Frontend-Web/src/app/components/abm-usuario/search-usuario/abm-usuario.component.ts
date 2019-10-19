@@ -44,6 +44,9 @@ export class AbmUsuarioComponent implements OnInit {
 
           // this.listaUnidadMedida.push(data); // Para insertar un solo elemento
         }
+        else {
+          this.listaUsuarios = [];
+        }
       });
     }
     else {
