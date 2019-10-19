@@ -70,8 +70,8 @@
                 <div class="col">
                     <label for="idEstadoProducto" class="col col-form-label">Estado</label>
                     <select Placeholder='Seleccione' formControlName='idEstadoProducto' class="form-control"> 
-                            <option *ngFor='let element of tipoMoneda' [value]='element.idEstadoProducto'>{{element.nombreEstadoProducto}}</option>
-                        </select>
+                        <option *ngFor='let element of estadoProducto' [value]='element.idEstadoProducto'>{{element.nombreEstadoProducto}}</option>
+                    </select>
                     <p class="input-error-msg" *ngIf="form.controls.idEstadoProducto.errors?.required && form.controls.idEstadoProducto.touched">Campo Obligatorio.</p>
                 </div>
             </div>
