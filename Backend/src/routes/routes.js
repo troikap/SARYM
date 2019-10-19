@@ -22,7 +22,7 @@ var UnidadMedidaController = require('../class/unidadmedida/unidadmedida-control
 var RubroController = require('../class/rubro/rubro-controller');
 var SectorController = require('../class/sector/sector-controller');
 var CajaController = require('../class/caja/caja-controller');
-var UbicacionController = require('../class/ubicacion/ubicacion-controller');
+// var UbicacionController = require('../class/ubicacion/ubicacion-controller');
 var TipoMovimientoCajaController = require('../class/tipomovimientocaja/tipomovimientocaja-controller');
 var MedioPagoController = require('../class/mediopago/mediopago-controller');
 
@@ -160,13 +160,13 @@ router
 
 
 // ubicacion
-    .get('/ubicacion', verificaToken, UbicacionController.getAll)
-    .get('/ubicacion/:idUbicacion', verificaToken, UbicacionController.getOne)
-    .get('/ubicacion/name/:nroUbicacion', verificaToken, UbicacionController.getToName)
-    .get('/ubicacion/todo/:anyAttribute', verificaToken, UbicacionController.getToAllAttributes)
-    .post('/ubicacion', verificaToken, UbicacionController.create)
-    .put('/ubicacion', verificaToken, UbicacionController.update)
-    .delete('/ubicacion/:idUbicacion', verificaToken, UbicacionController.destroy)
+    // .get('/ubicacion', verificaToken, UbicacionController.getAll)
+    // .get('/ubicacion/:idUbicacion', verificaToken, UbicacionController.getOne)
+    // .get('/ubicacion/name/:nroUbicacion', verificaToken, UbicacionController.getToName)
+    // .get('/ubicacion/todo/:anyAttribute', verificaToken, UbicacionController.getToAllAttributes)
+    // .post('/ubicacion', verificaToken, UbicacionController.create)
+    // .put('/ubicacion', verificaToken, UbicacionController.update)
+    // .delete('/ubicacion/:idUbicacion', verificaToken, UbicacionController.destroy)
 
 // ESTADOS ------------------------------------------------------------------------------------------------
 

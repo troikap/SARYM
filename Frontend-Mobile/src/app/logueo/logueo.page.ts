@@ -58,8 +58,10 @@ export class LogueoPage implements OnInit {
   }
 
   loguear() {
+    console.log("ALGO "+this.form.value.cuitUsuario+this.form.value.contrasenaUsuario )
     this.usuarioservicio.loguear(this.form.value.cuitUsuario , this.form.value.contrasenaUsuario )
     .then(algo => {
+      console.log("ALGO ",algo)
     this.algo = algo;
       if (algo.title.tipo == 1) {
         console.log("LOGUEADO")
@@ -72,7 +74,6 @@ export class LogueoPage implements OnInit {
         this.alert();
         this.menu.enable(true);
         this.navController.navigateRoot('/home')
-        //  this.router.navigate(["/home"])
       } else {
         if (algo.title.tipo == 2){
           console.log("INVALIDOS")

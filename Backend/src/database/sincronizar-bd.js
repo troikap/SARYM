@@ -47,7 +47,6 @@ require('../class/sector/sector-model');
 require('../class/tipomenupromocion/tipomenupromocion-model');
 require('../class/tipomoneda/tipomoneda-model');
 require('../class/tipomovimientocaja/tipomovimientocaja-model');
-require('../class/ubicacion/ubicacion-model');
 require('../class/unidadmedida/unidadmedida-model');
 require('../class/usuario/usuario-model');
 require('../class/usuarioestado/usuarioestado-model');

@@ -14,9 +14,13 @@ const tratarError = require("../../middlewares/handleError"),
   legend = "Producto",
   legend2 = "ProductoEstado",
   legend3 = "EstadoProducto",
+  legend4 = "PrecioProducto",
+  legend5 = "TipoMoneda",
   idtable = `id${legend}`,
   idtable2 = `id${legend2}`,
   idtable3 = `id${legend3}`,
+  idtable4 = `id${legend4}`,
+  idtable5 = `id${legend5}`,
   nombretable = `nombre${legend}`,
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
@@ -261,40 +265,20 @@ ProductoController.actualizarDatos = (req, res) => {
       ],
     }).then(response => {
       if (!response || response == 0) {
-        locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+        locals['title'] = `No existe ${legend} con id ${body[idtable]}.`;
         locals['tipo'] = 2;
         res.json(locals);
       } else {
-        if (body[codtable] == null) {
-          body[codtable] = response.dataValues[codtable]
-        }
-        ProductoModelo.update(body, {
-            where: {
-                [idtable]: body[idtable]
-            }
-        }).then(result => {
-          if (!result || result == 0) {
-            locals['title'] = `No se Actualizo ${legend} con id ${body[idtable]}`;
-            locals['tipo'] = 2;
-            res.json(locals);
-          } else {
-          CajaEstadoModelo.update({ 
-            descripcionCajaEstado: body['descripcionCajaEstado'] || response.dataValues.cajaestados[0].dataValues.descripcionCajaEstado,
-            montoAperturaCajaEstado: body['montoAperturaCajaEstado'] || response.dataValues.cajaestados[0].dataValues.montoAperturaCajaEstado,
-            montoCierreCajaEstado: body['montoCierreCajaEstado'] || response.dataValues.cajaestados[0].dataValues.montoCierreCajaEstado,
-            [idtable4]: body[idtable4] || response.dataValues.cajaestados[0].dataValues[idtable4], // Usuario
-           }, {where: {[idtable]: body[idtable], 
-                      fechaYHoraBajaCajaEstado: null}
-          }).then((resp) => {
-          if (!resp || resp == 0) {
-              locals['title'] = `No se actualizo ${legend2}.`;
-              locals['tipo'] = 2;
-          } else {
-            locals['title'] = `Se actualizo ${legend2}.`;
-            locals['tipo'] = 1;
-          }
+      ProductoModelo.update(body, {
+          where: { [idtable]: body[idtable]}
+      }).then(result => {
+        if (!result || result == 0) {
+          locals['title'] = `No se Actualizo ${legend} con id ${body[idtable]}.`;
+          locals['tipo'] = 2;
           res.json(locals);
-        });
+        } else {
+          locals['title'] = `Se Actualizo ${legend} con id ${body[idtable]}.`;
+          locals['tipo'] = 1;
         }
       }).catch((error) => {
         let locals = tratarError.tratarError(error, legend);
@@ -310,23 +294,36 @@ ProductoController.cambiarEstado = (req, res) => {
   ProductoModelo.findOne({
     where: {
       [idtable]: body[idtable] },
-      attributes: attributes.caja,
+      attributes: attributes.producto,
       include: [
         {
-          model: CajaEstadoModelo,
-          where: { fechaYHoraBajaCajaEstado: null },
-          attributes: attributes.cajaestado,
+        model: RubroModelo,
+        attributes: attributes.rubro,
+        },
+        {
+        model: UnidadMedidaModelo,
+        attributes: attributes.unidadmedida,
+        },
+        {
+          model: ProductoEstadoModelo,
+          attributes: attributes.productoestado,
+          include: [
+              {
+              model: EstadoProductoModelo,
+              attributes: attributes.estadoproducto
+              }
+          ]
+        },
+        {
+          model: PrecioProductoModelo,
+          attributes: attributes.precioproducto,
           include: [
             {
-              model: EstadoProductoModelo,
-              attributes: attributes.estadocaja
-            },
-            {
-              model: UsuarioModelo,
-              attributes: attributes.usuario
+                model: TipoMonedaModelo,
+                attributes: attributes.tipomoneda
             }
           ]
-        }
+        },
       ]
     }).then(response => {
     if (!response || response == 0) {
@@ -334,29 +331,119 @@ ProductoController.cambiarEstado = (req, res) => {
       locals['tipo'] = 2;
       res.json(locals);
     } else {
-      if (!body[idtable4]) {
-        locals['title'] = `No se envia ${legend4}.`;
+      if (!body[idtable3]) {
+        locals['title'] = `No se envia ${legend3}.`;
         locals['tipo'] = 2;
         res.json(locals);
       } else {
-        EstadoProductoModelo.findOne({where: { [idtable3]: body[idtable3] }}).then((estadocaja) =>{
-          if(!estadocaja || estadocaja == 0) {
+        EstadoProductoModelo.findOne({where: { [idtable3]: body[idtable3] }}).then((estadoproducto) =>{
+          if(!estadoproducto || estadoproducto == 0) {
             locals['title'] = `No existe ${legend3} con id ${idtable3}.`;
             locals['tipo'] = 2;
             res.json(locals);
           } else {
-            let pushCajaEstado = {};
-            pushCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
-              CajaEstadoModelo.update(pushCajaEstado , {
-                where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
+            let pushProductoEstado = {};
+            pushProductoEstado['fechaYHoraBajaProductoEstado'] = new Date();
+              ProductoEstadoModelo.update(pushProductoEstado , {
+                where: { [idtable]: body[idtable], fechaYHoraBajaProductoEstado: null }
             }).then((respons) => {
               if(!respons || respons == 0) {
                 locals['title'] = `No existe ${legend2} habilitado.`;
                 locals['tipo'] = 2;
                 res.json(locals);
               } else {
-                body['fechaYHoraAltaCajaEstado'] = new Date();
-                CajaEstadoModelo.create(body).then((resp) => {
+                body['fechaYHoraAltaProductoEstado'] = new Date();
+                ProductoEstadoModelo.create(body).then((resp) => {
+                  if (!resp || resp == 0 ){
+                    locals['title'] = `No se pudo crear ${legend2}.`;
+                    locals['tipo'] = 2;
+                  } else {
+                    locals['title'] = `Se creo correctamente ${legend2}.`;
+                    locals['tipo'] = 1;
+                  }
+                  res.json(locals);
+                }).catch((error) => {
+                  locals = tratarError.tratarError(error, legend);
+                  res.json(locals);
+                });
+              }
+            }).catch((error) => {
+              locals = tratarError.tratarError(error, legend);
+              res.json(locals);
+            });
+          }
+        })
+      }
+    }
+  });
+};
+
+ProductoController.cambiarPrecio = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  ProductoModelo.findOne({
+    where: {
+      [idtable]: body[idtable] },
+      attributes: attributes.producto,
+      include: [
+        {
+        model: RubroModelo,
+        attributes: attributes.rubro,
+        },
+        {
+        model: UnidadMedidaModelo,
+        attributes: attributes.unidadmedida,
+        },
+        {
+          model: ProductoEstadoModelo,
+          attributes: attributes.productoestado,
+          include: [
+              {
+              model: EstadoProductoModelo,
+              attributes: attributes.estadoproducto
+              }
+          ]
+        },
+        {
+          model: PrecioProductoModelo,
+          attributes: attributes.precioproducto,
+          include: [
+            {
+                model: TipoMonedaModelo,
+                attributes: attributes.tipomoneda
+            }
+          ]
+        },
+      ]
+    }).then(response => {
+    if (!response || response == 0) {
+      locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+      locals['tipo'] = 2;
+      res.json(locals);
+    } else {
+      if (!body[idtable3]) {
+        locals['title'] = `No se envia ${legend3}.`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      } else {
+        EstadoProductoModelo.findOne({where: { [idtable3]: body[idtable3] }}).then((estadoproducto) =>{
+          if(!estadoproducto || estadoproducto == 0) {
+            locals['title'] = `No existe ${legend3} con id ${idtable3}.`;
+            locals['tipo'] = 2;
+            res.json(locals);
+          } else {
+            let pushProductoEstado = {};
+            pushProductoEstado['fechaYHoraBajaProductoEstado'] = new Date();
+              ProductoEstadoModelo.update(pushProductoEstado , {
+                where: { [idtable]: body[idtable], fechaYHoraBajaProductoEstado: null }
+            }).then((respons) => {
+              if(!respons || respons == 0) {
+                locals['title'] = `No existe ${legend2} habilitado.`;
+                locals['tipo'] = 2;
+                res.json(locals);
+              } else {
+                body['fechaYHoraAltaProductoEstado'] = new Date();
+                ProductoEstadoModelo.create(body).then((resp) => {
                   if (!resp || resp == 0 ){
                     locals['title'] = `No se pudo crear ${legend2}.`;
                     locals['tipo'] = 2;

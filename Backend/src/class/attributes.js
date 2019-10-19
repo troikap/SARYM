@@ -66,6 +66,7 @@ estadocaja = [
 
 mesa = [
     "idMesa",
+    "nroUbicacion",
     "nroMesa",
     "capacidadMesa",
 ]
@@ -75,12 +76,6 @@ sector = [
     "codSector",
     "nombreSector",
     "fechaYHoraBajaSector",
-]
-
-ubicacion = [
-    "idUbicacion",
-    "nroUbicacion",
-    "descripcionUbicacion",
 ]
 
 mesaestado = [
@@ -154,7 +149,6 @@ module.exports = {
     mesa,
     mesaestado,
     estadomesa,
-    ubicacion,
     sector,
     producto,
     productoestado,
