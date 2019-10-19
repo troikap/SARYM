@@ -42,6 +42,9 @@ export class AbmTipomonedaComponent implements OnInit {
 
           // this.listaTipoMoneda.push(data); // Para insertar un solo elemento
         }
+        else {
+          this.listaTipoMoneda = [];
+        }
       });
     }
     else {

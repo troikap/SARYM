@@ -43,6 +43,9 @@ export class AbmUnidadmedidaComponent implements OnInit {
 
           // this.listaUnidadMedida.push(data); // Para insertar un solo elemento
         }
+        else {
+          this.listaUnidadMedida = [];
+        }
       });
     }
     else {
