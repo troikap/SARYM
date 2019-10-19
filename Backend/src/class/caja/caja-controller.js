@@ -300,10 +300,16 @@ CajaController.actualizarDatos = (req, res) => {
                 [idtable]: body[idtable]
             }
         }).then(result => {
+          if (!response || response == 0) {
+            locals['title'] = `No se Actualizo ${legend} con id ${body[idtable]}`;
+            locals['tipo'] = 2;
+            res.json(locals);
+          } else {
           CajaEstadoModelo.update({ 
-            descripcionCajaEstado: body['descripcionCajaEstado'],
-            montoAperturaCajaEstado: body['montoAperturaCajaEstado'],
-            montoCierreCajaEstado: body['montoCierreCajaEstado'],
+            descripcionCajaEstado: body['descripcionCajaEstado'] || response.dataValues.cajaestados[0].dataValues.descripcionCajaEstado,
+            montoAperturaCajaEstado: body['montoAperturaCajaEstado'] || response.dataValues.cajaestados[0].dataValues.montoAperturaCajaEstado,
+            montoCierreCajaEstado: body['montoCierreCajaEstado'] || response.dataValues.cajaestados[0].dataValues.montoCierreCajaEstado,
+            [idtable4]: body[idtable4] || response.dataValues.cajaestados[0].dataValues[idtable4], // Usuario
            }, {where: {[idtable]: body[idtable], 
                       fechaYHoraBajaCajaEstado: null}
           }).then((resp) => {
@@ -316,6 +322,7 @@ CajaController.actualizarDatos = (req, res) => {
           }
           res.json(locals);
         });
+        }
       }).catch((error) => {
         let locals = tratarError.tratarError(error, legend);
         res.json(locals);
