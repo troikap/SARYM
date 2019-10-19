@@ -8,7 +8,7 @@ module.exports = {
             {
                 "idMesa": 1,
                 "idSector": 1,
-                "idUbicacion": 1,
+                "nroUbicacion": 1,
                 "nroMesa": 1,
                 "capacidadMesa": 4,
                 "createdAt": currentDate,
@@ -17,7 +17,7 @@ module.exports = {
             {
                 "idMesa": 2,
                 "idSector": 2,
-                "idUbicacion": 2,
+                "nroUbicacion": 2,
                 "nroMesa": 2,
                 "capacidadMesa": 6,
                 "createdAt": currentDate,
@@ -26,7 +26,7 @@ module.exports = {
             {
                 "idMesa": 3,
                 "idSector": 3,
-                "idUbicacion": 3,
+                "nroUbicacion": 3,
                 "nroMesa": 3,
                 "capacidadMesa": 8,
                 "createdAt": currentDate,
