@@ -16,18 +16,17 @@ import { AbmUnidadmedidaComponent } from './components/abm-unidadmedida/search-u
 import { AbmCajaComponent } from './components/abm-caja/abm-caja.component';
 import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
-import { AbmSectorComponent } from './components/abm-sector/abm-sector.component';
 import { GestionarProductoComponent } from './components/gestionar-producto/search-gestionar-producto/gestionar-producto.component';
 import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida/crud-unidadmedida/abm-unidadmedida-crud.component';
 import { CrudRubroComponent } from './components/abm-rubro/crud-rubro/crud-rubro.component';
 import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud-usuario.component';
+import { CrudSectorComponent } from './components/abm-sector/crud-sector/crud-sector.component';
 import { CrudTipomonedaComponent } from './components/abm-tipomoneda/crud-tipomoneda/crud-tipomoneda.component';
 import { CrudGestionarProductoComponent } from './components/gestionar-producto/crud-gestionar-producto/crud-gestionar-producto.component';
 import { ConsultaGestionarProductoComponent } from './components/gestionar-producto/consulta-gestionar-producto/consulta-gestionar-producto.component';
 import { NoimagePipe } from './pipes/noimage-producto.pipe';
-import { AbmSectorAltaComponent } from './components/abm-sector/abm-sector-alta/abm-sector-alta.component';
 
 
 @NgModule({
@@ -42,7 +41,6 @@ import { AbmSectorAltaComponent } from './components/abm-sector/abm-sector-alta/
     AbmCajaComponent,
     AbmMesaComponent,
     AbmRubroComponent,
-    AbmSectorComponent,
     GestionarProductoComponent,
     GestionarMenupromocionComponent,
     GenerarReporteComponent,
@@ -53,7 +51,7 @@ import { AbmSectorAltaComponent } from './components/abm-sector/abm-sector-alta/
     CrudGestionarProductoComponent,
     ConsultaGestionarProductoComponent,
     NoimagePipe,
-    AbmSectorAltaComponent
+    CrudSectorComponent,
   ],
   imports: [
     BrowserModule,

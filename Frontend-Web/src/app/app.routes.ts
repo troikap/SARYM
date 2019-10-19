@@ -9,16 +9,16 @@ import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida/cr
 import { AbmCajaComponent } from './components/abm-caja/abm-caja.component';
 import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
-import { AbmSectorComponent } from './components/abm-sector/abm-sector.component';
-import { AbmSectorAltaComponent } from './components/abm-sector/abm-sector-alta/abm-sector-alta.component';
 import { GestionarProductoComponent } from './components/gestionar-producto/search-gestionar-producto/gestionar-producto.component';
 import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud-usuario.component';
+import { CrudSectorComponent } from './components/abm-sector/crud-sector/crud-sector.component';
 import { CrudRubroComponent } from './components/abm-rubro/crud-rubro/crud-rubro.component';
 import { CrudTipomonedaComponent } from './components/abm-tipomoneda/crud-tipomoneda/crud-tipomoneda.component';
 import { CrudGestionarProductoComponent } from './components/gestionar-producto/crud-gestionar-producto/crud-gestionar-producto.component';
 import { ConsultaGestionarProductoComponent } from './components/gestionar-producto/consulta-gestionar-producto/consulta-gestionar-producto.component';
+import { AbmSectorComponent } from './components/abm-sector/search-sector/abm-sector.component';
 
 
 
@@ -27,6 +27,8 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'usuario', component: AbmUsuarioComponent },
     { path: 'usuario_crud/:id/:accion', component: CrudUsuarioComponent },
+    { path: 'sector', component: AbmSectorComponent },
+    { path: 'sector_crud/:id/:accion', component: CrudSectorComponent },
     { path: 'tipomoneda', component: AbmTipomonedaComponent },
     { path: 'tipomoneda_crud/:id/:accion', component: CrudTipomonedaComponent},
     { path: 'unidadmedida', component: AbmUnidadmedidaComponent },
@@ -35,8 +37,6 @@ const routes: Routes = [
     { path: 'mesa', component: AbmMesaComponent },
     { path: 'rubro', component: AbmRubroComponent },
     { path: 'rubro_crud/:id/:accion', component: CrudRubroComponent },
-    { path: 'sector', component: AbmSectorComponent },
-    { path: 'altaSector', component: AbmSectorAltaComponent },
     { path: 'producto', component: GestionarProductoComponent },
     { path: 'producto_consulta/:id', component: ConsultaGestionarProductoComponent },
     { path: 'producto_crud/:id/:accion', component: CrudGestionarProductoComponent },
