@@ -5,7 +5,8 @@
         <form [formGroup]="form" (ngSubmit)="guardar()">
             <div class="form-group">
                 <label for="idSector" class="col col-form-label">Id</label>
-                <input type="text" id="idSector" placeholder="Identificador" formControlName="idSector" class="form-control" disabled>
+                <input type="text" id="idSector" placeholder="Identificador" formControlName="idSector"
+                    class="form-control" disabled>
             </div>
             <div class="form-group row">
                 <div class="col">
@@ -29,24 +30,20 @@
                         Obligatorio.</p>
                 </div>
             </div>
-            <div class="form-group row">
-                    <div class="col">
-                        <label for="fechaYHoraBajaSector" class="col col-form-label">Fecha Deshabilitación</label>
-                        <input type="checkbox" class="form-control" id="fechaYHoraBajaSector"
-                            formControlName="fechaYHoraBajaSector">
-                        <p class="input-error-msg"
-                            *ngIf="form.controls.fechaYHoraBajaSector.errors?.required && form.controls.fechaYHoraBajaSector.touched">Campo
-                            Obligatorio.</p>
-                    </div>
+            <div class="form-group row" *ngIf="accionGet!='crear'">
+                <div class="col">
+                    <label for="fechaYHoraBajaSector" class="col col-form-label">Fecha Deshabilitación</label>
+                    <input type="checkbox" class="form-control" id="fechaYHoraBajaSector" formControlName="fechaYHoraBajaSector">
+                    <p class="input-error-msg"
+                        *ngIf="form.controls.fechaYHoraBajaSector.errors?.required && form.controls.fechaYHoraBajaSector.touched"> Campo Obligatorio.</p>
                 </div>
+            </div>
             <hr>
             <div *ngIf="accionGet != 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block"
-                    [disabled]="!form.valid">Guardar</button>
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
             </div>
-            <div *ngIf="accionGet == 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block"
-                    [disabled]="!form.valid">Eliminar</button>
+            <div *ngIf="accionGet == 'eliminar'"> 
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
             </div>
         </form>
     </div>

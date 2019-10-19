@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Sector  } from '../../../model/sector/sector.model';
+import { Sector } from '../../../model/sector/sector.model';
 import { SectorService } from '../../../services/sector/sector.service';
 
 @Component({
@@ -27,10 +27,10 @@ export class CrudSectorComponent implements OnInit {
 
   ) {
     this.form = this.formBuilder.group({
-      idSector: ['', Validators.required],
+      idSector: [''],
       codSector: ['', Validators.required],
-      nombreSector: ['',Validators.required],
-      fechaYHoraBajaSector: ['', Validators.required]
+      nombreSector: ['', Validators.required],
+      fechaYHoraBajaSector: ['']
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -99,7 +99,7 @@ export class CrudSectorComponent implements OnInit {
       idSector: us,
       codSector: this.form.value['codSector'],
       nombreSector: this.form.value['nombreSector'],
-      fechaYHoraBajaSector: this.form.value['fechaYHoraBajaSector'],
+      bajaSector: this.form.value['fechaYHoraBajaSector']
     }
     return rempSector;
   }
@@ -213,8 +213,8 @@ export class CrudSectorComponent implements OnInit {
             text: 'Aceptar',
             btnClass: 'btn-blue',
             action: function () {
-              let unidadMed = _this.reemplazarSector();
-              _this.sectorService.setSector(unidadMed)
+              let sector = _this.reemplazarSector();
+              _this.sectorService.setSector(sector)
                 .then((response) => {
                   if (response.tipo !== 2) { //TODO CORRECTO
                     console.log("CREADO", response);
