@@ -301,6 +301,81 @@
 						"description": "Trae todos los Usuarios"
 					},
 					"response": []
+				},
+				{
+					"name": "Put Producto Actualizar Datos",
+					"request": {
+						"url": "localhost:3000/producto/actualizarDatos",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idProducto\":1,\n    \"codProducto\":\"PIZZA\",\n    \"cantidadMedida\":5,\n    \"nombreProducto\":\"Roberto\",\n    \"descripcionProducto\": \"JAAJAJJAJA \",\n    \"pathImagenProducto\": \"jajaja.png\",\n    \"idRubro\": 2,\n    \"idUnidadMedida\": 2\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Producto Cambiar Estado",
+					"request": {
+						"url": "localhost:3000/producto/cambiarEstado",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idMesa\": 6,\n\t\"idEstadoCaja\": 2\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Producto Cambiar Precio",
+					"request": {
+						"url": "localhost:3000/producto/cambiarEstado",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idMesa\": 6,\n\t\"idEstadoCaja\": 2\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
 				}
 			]
 		},

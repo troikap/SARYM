@@ -279,6 +279,7 @@ ProductoController.actualizarDatos = (req, res) => {
         } else {
           locals['title'] = `Se Actualizo ${legend} con id ${body[idtable]}.`;
           locals['tipo'] = 1;
+          res.json(locals);
         }
       }).catch((error) => {
         let locals = tratarError.tratarError(error, legend);
