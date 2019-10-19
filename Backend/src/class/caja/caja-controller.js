@@ -295,15 +295,26 @@ CajaController.actualizarDatos = (req, res) => {
         locals['tipo'] = 2;
         res.json(locals);
       } else {
+        // console.log("BODY", body)
+        // console.log("response", response.dataValues)
+        if (body[codtable] == null) {
+          body[codtable] = response.dataValues[codtable]
+        }
         CajaModelo.update(body, {
             where: {
                 [idtable]: body[idtable]
             }
         }).then(result => {
+          if (!result || result == 0) {
+            locals['title'] = `No se Actualizo ${legend} con id ${body[idtable]}`;
+            locals['tipo'] = 2;
+            res.json(locals);
+          } else {
           CajaEstadoModelo.update({ 
-            descripcionCajaEstado: body['descripcionCajaEstado'],
-            montoAperturaCajaEstado: body['montoAperturaCajaEstado'],
-            montoCierreCajaEstado: body['montoCierreCajaEstado'],
+            descripcionCajaEstado: body['descripcionCajaEstado'] || response.dataValues.cajaestados[0].dataValues.descripcionCajaEstado,
+            montoAperturaCajaEstado: body['montoAperturaCajaEstado'] || response.dataValues.cajaestados[0].dataValues.montoAperturaCajaEstado,
+            montoCierreCajaEstado: body['montoCierreCajaEstado'] || response.dataValues.cajaestados[0].dataValues.montoCierreCajaEstado,
+            [idtable4]: body[idtable4] || response.dataValues.cajaestados[0].dataValues[idtable4], // Usuario
            }, {where: {[idtable]: body[idtable], 
                       fechaYHoraBajaCajaEstado: null}
           }).then((resp) => {
@@ -316,6 +327,7 @@ CajaController.actualizarDatos = (req, res) => {
           }
           res.json(locals);
         });
+        }
       }).catch((error) => {
         let locals = tratarError.tratarError(error, legend);
         res.json(locals);
@@ -354,35 +366,49 @@ CajaController.cambiarEstado = (req, res) => {
       locals['tipo'] = 2;
       res.json(locals);
     } else {
-      let pushCajaEstado = {};
-      pushCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
-        CajaEstadoModelo.update(pushCajaEstado , {
-          where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
-      }).then((respons) => {
-        if(!respons || respons == 0) {
-          locals['title'] = `No existe ${legend2} habilitado.`;
-          locals['tipo'] = 2;
-          res.json(locals);
-        } else {
-          body['fechaYHoraAltaCajaEstado'] = new Date();
-          CajaEstadoModelo.create(body).then((resp) => {
-            if (!resp || resp == 0 ){
-              locals['title'] = `No se pudo crear ${legend2}.`;
-              locals['tipo'] = 2;
-            } else {
-              locals['title'] = `Se creo correctamente ${legend2}.`;
-              locals['tipo'] = 1;
-            }
-            res.json(locals);
-          }).catch((error) => {
-            locals = tratarError.tratarError(error, legend);
-            res.json(locals);
-          });
-        }
-      }).catch((error) => {
-        locals = tratarError.tratarError(error, legend);
+      if (!body[idtable4]) {
+        locals['title'] = `No se envia ${legend4}.`;
+        locals['tipo'] = 2;
         res.json(locals);
-      });
+      } else {
+        EstadoCajaModelo.findOne({where: { [idtable3]: body[idtable3] }}).then((estadocaja) =>{
+          if(!estadocaja || estadocaja == 0) {
+            locals['title'] = `No existe ${legend3} con id ${idtable3}.`;
+            locals['tipo'] = 2;
+            res.json(locals);
+          } else {
+            let pushCajaEstado = {};
+            pushCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
+              CajaEstadoModelo.update(pushCajaEstado , {
+                where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
+            }).then((respons) => {
+              if(!respons || respons == 0) {
+                locals['title'] = `No existe ${legend2} habilitado.`;
+                locals['tipo'] = 2;
+                res.json(locals);
+              } else {
+                body['fechaYHoraAltaCajaEstado'] = new Date();
+                CajaEstadoModelo.create(body).then((resp) => {
+                  if (!resp || resp == 0 ){
+                    locals['title'] = `No se pudo crear ${legend2}.`;
+                    locals['tipo'] = 2;
+                  } else {
+                    locals['title'] = `Se creo correctamente ${legend2}.`;
+                    locals['tipo'] = 1;
+                  }
+                  res.json(locals);
+                }).catch((error) => {
+                  locals = tratarError.tratarError(error, legend);
+                  res.json(locals);
+                });
+              }
+            }).catch((error) => {
+              locals = tratarError.tratarError(error, legend);
+              res.json(locals);
+            });
+          }
+        })
+      }
     }
   });
 };

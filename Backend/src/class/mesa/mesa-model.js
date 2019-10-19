@@ -25,7 +25,8 @@ const MesaModelo = sequelize.define('mesa', {
   },
   nroMesa: {
     type: Sequelize.INTEGER,
-    allowNull: false
+    allowNull: false,
+    unique:true
   },
   capacidadMesa: {
     type: Sequelize.INTEGER,
