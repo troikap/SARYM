@@ -197,7 +197,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idCaja\": 20,\n\t\"nroCaja\": 100,\n\t\"descripcionCajaEstado\": \"Ble...........\",\n    \"montoAperturaCajaEstado\": 1000,\n    \"montoCierreCajaEstado\": 1000\n}"
+							"raw": "{\n\t\"idCaja\": 20,\n\t\"nroCaja\": 102,\n\t\"descripcionCajaEstado\": \"AAAAAAAAAAAAAAAAAAA\",\n    \"montoCierreCajaEstado\": 700\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
