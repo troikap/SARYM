@@ -54,13 +54,10 @@ export class UsuarioService {
 
   loguear( cuit: number, pass: string ): Promise<any> {
     let value = { cuitUsuario: cuit, contrasenaUsuario: pass}
-    console.log("VALUE", value)
     return this.http
       .post(`${URL}/login`, value)
       .toPromise()
       .then( (response: any) => {
-        console.log("RESP ", response)
-        console.log("RESPUESTA ",response['title'].token)
         return response as Usuario;
       })
       .catch( err => {

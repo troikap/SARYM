@@ -63,10 +63,10 @@ export class LogueoPage implements OnInit {
     .then(algo => {
       console.log("ALGO ",algo)
     this.algo = algo;
-      if (algo.title.tipo == 1) {
+      if (algo.tipo == 1) {
         console.log("LOGUEADO")
-        this.logueo = {cuit: this.form.value.cuitUsuario, pass: this.form.value.contrasenaUsuario, id: algo.title.idUsuario , date: null}
-        this.storage.setOneObject( 'token',algo.title.token)
+        this.logueo = {cuit: this.form.value.cuitUsuario, pass: this.form.value.contrasenaUsuario, id: algo.Usuario , date: null}
+        this.storage.setOneObject( 'token',algo.token)
         if (this.form.value.checkRecordar){
           this.actualizarLog(this.logueo);
         }
@@ -75,7 +75,7 @@ export class LogueoPage implements OnInit {
         this.menu.enable(true);
         this.navController.navigateRoot('/home')
       } else {
-        if (algo.title.tipo == 2){
+        if (algo.tipo == 2){
           console.log("INVALIDOS")
         } else {
           console.log("SUSPENDIDO INHAVILITAD")
@@ -115,7 +115,7 @@ export class LogueoPage implements OnInit {
   }
 
   async alert() {
-    if (this.algo.title.tipo == 1) {
+    if (this.algo.tipo == 1) {
       // console.log("CORROBORANDO2 :", ((this.algo.UsuarioEstado[0].nombreUsuario) || (this.algo.UsuarioEstado.nombreUsuario) ))
       const alert = await this.alertController.create({
         header: this.valtitle,
@@ -125,7 +125,7 @@ export class LogueoPage implements OnInit {
       });
       await alert.present();
     } 
-    if (this.algo.title.tipo == 2) {
+    if (this.algo.tipo == 2) {
       const alert = await this.alertController.create({
         header: this.invalidotitle,
         message: this.invalidomsj,
@@ -134,7 +134,7 @@ export class LogueoPage implements OnInit {
       });
       await alert.present();
     } 
-    if (this.algo.title.tipo == 3){
+    if (this.algo.tipo == 3){
       const alert = await this.alertController.create({
         header: this.susptitle,
         message: this.suspmsj,

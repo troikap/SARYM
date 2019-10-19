@@ -11,6 +11,19 @@ usuario = [
     'nroTelefonoUsuario',
   ];
 
+usuario2 = [
+    'idUsuario',
+    'cuitUsuario',
+    'nombreUsuario',
+    'apellidoUsuario',
+    'dniUsuario',
+    'domicilioUsuario',
+    'emailUsuario',
+    'idDepartamento',
+    'nroCelularUsuario',
+    'nroTelefonoUsuario',
+];
+
 usuarioestado = [
     'descripcionUsuarioEstado',
     'fechaYHoraAltaUsuarioEstado',

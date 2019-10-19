@@ -147,11 +147,9 @@ UsuarioController.validateExistUser = (req, res) => {
 UsuarioController.login = (req, res) => {
     let locals = {};
     let body = req.body;
-    console.log("BACK END")
-    console.log("BACK ",body)
     UsuarioModelo.findOne({
         where: { cuitUsuario: body.cuitUsuario },
-        attributes: attributes.usuario,
+        attributes: attributes.usuario2,
         include: [{
                 model: UsuarioEstadoModelo,
                 where: { fechaYHoraBajaUsuarioEstado: null },
@@ -173,24 +171,12 @@ UsuarioController.login = (req, res) => {
             },
         ],
     }).then(response => {
-        console.log("BODY",body)
-        console.log("BACK END aa" , response)
         if (response && response != 0) {
-            console.log("AAAAAAAAAAAAAA" )
-            
             if (bcrypt.compareSync(body.contrasenaUsuario, response.dataValues.contrasenaUsuario)) {
-            console.log("BBBBBBBBBBBBBBBBBBBB" )
-
                 if (response.dataValues.usuarioestados[0].estadousuario.dataValues.nombreEstadoUsuario != 'Activo') {
-            console.log("CCCCCCCCCCC" )
-
                     locals['title'] = `${legend} Suspendido o dado de Baja`;
                     locals['tipo'] = 3;
-                    // res.json(locals);
-                    console.log("POR ACA ")
                 } else {
-                    console.log("POR AQUI ")
-
                     let token = jwt.sign({
                             cuitUsuario: response.dataValues.cuitUsuario,
                             nombreUsuario: response.dataValues.nombreUsuario,
@@ -204,19 +190,12 @@ UsuarioController.login = (req, res) => {
                     locals['rol'] = {nombreRol: response.dataValues.rolusuarios[0].dataValues.rol.dataValues.idRol,
                                     idRol: response.dataValues.rolusuarios[0].dataValues.rol.dataValues.nombreRol};
                     locals[legend2] = response;
-                    // res.json(locals);
                 }
-                res.json(locals);
             } else {
-            console.log("WTF-------- ")
-
                 locals['title'] = `${legend} o (Contraseña) invalidos`;
                 locals['tipo'] = 2;
-                // res.json(locals);
             }
-            res.json(locals);
         } else {
-            console.log("QUE ONDA ---------")
             locals['title'] = `(${legend}) o Contraseña invalidos`;
             locals['tipo'] = 2;
         }
