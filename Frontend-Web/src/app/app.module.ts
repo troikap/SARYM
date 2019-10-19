@@ -17,7 +17,6 @@ import { AbmUnidadmedidaComponent } from './components/abm-unidadmedida/search-u
 import { AbmCajaComponent } from './components/abm-caja/search-caja/abm-caja.component';
 import { CrudCajaComponent } from './components/abm-caja/crud-caja/crud-caja.component';
 import { EditCajaComponent } from './components/abm-caja/edit-caja/edit-caja.component';
-import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
 import { GestionarProductoComponent } from './components/gestionar-producto/search-gestionar-producto/gestionar-producto.component';
 import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/gestionar-menupromocion.component';
@@ -30,6 +29,8 @@ import { CrudTipomonedaComponent } from './components/abm-tipomoneda/crud-tipomo
 import { CrudGestionarProductoComponent } from './components/gestionar-producto/crud-gestionar-producto/crud-gestionar-producto.component';
 import { ConsultaGestionarProductoComponent } from './components/gestionar-producto/consulta-gestionar-producto/consulta-gestionar-producto.component';
 import { NoimagePipe } from './pipes/noimage-producto.pipe';
+import { CrudMesaComponent } from './components/abm-mesa/crud-mesa/crud-mesa.component';
+import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.component';
 
 
 @NgModule({
@@ -45,7 +46,6 @@ import { NoimagePipe } from './pipes/noimage-producto.pipe';
     AbmCajaComponent,
     CrudCajaComponent,
     EditCajaComponent,
-    AbmMesaComponent,
     AbmRubroComponent,
     GestionarProductoComponent,
     GestionarMenupromocionComponent,
@@ -58,6 +58,8 @@ import { NoimagePipe } from './pipes/noimage-producto.pipe';
     ConsultaGestionarProductoComponent,
     NoimagePipe,
     CrudSectorComponent,
+    CrudMesaComponent,
+    AbmMesaComponent,
   ],
   imports: [
     BrowserModule,
