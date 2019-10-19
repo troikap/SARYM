@@ -2,23 +2,68 @@
 
 require('../../config');
 const MesaModel = require("./mesa-model"),
- SectorModel = require("../sector/sector-model"),
- UbicacionModel = require("../ubicacion/ubicacion-model"),
- MesaEstadoModel = require("../mesaestado/mesaestado-model"),
- EstadoMesaModel = require("../estadomesa/estadomesa-model"),
-  
-  
+  MesaController = () => { },
+  tratarError = require("../../middlewares/handleError"),
+  SectorModel = require("../sector/sector-model"),
+  UbicacionModel = require("../ubicacion/ubicacion-model"),
+  MesaEstadoModel = require("../mesaestado/mesaestado-model"),
+  EstadoMesaModel = require("../estadomesa/estadomesa-model"),
   Sequelize = require('sequelize'),
   Op = Sequelize.Op,
-  MesaController = () => { },
   legend = "Mesa",
-  legend2 = "AAAAAAAAAAAA",
-  legend3 = "BBBBBBBBBBBB",
-  idtable = "idMesa",
-  idtableestado = "idAAAAAAAAAAAAA",
-  idestadotable = "idBBBBBBBBBBBBB",
-  nombreEstado = "nombreAAAAAAAAAAAAAAAAA",
-  table = "mesa";
+  legend2 = "MesaEstado",
+  legend3 = "EstadoMesa",
+  legend4 = "Ubicacion",
+  legend4 = "Sector",
+  idtable = `id${legend}`,
+  idtable2 = `id${legend2}`,
+  idtable3 = `id${legend3}`,
+  idtable4 = `id${legend4}`,
+  idtable5 = `id${legend5}`,
+  nametable = `nro${legend}`;
+
+  MesaController.getToAllAttributes = (req, res, next) => {
+    let locals = {};
+    MesaModelo.findAll({
+        where: {
+            [Op.or]: [
+                {idMesa: {[Op.substring]: req.params.anyAttribute}},
+                {nroMesa: {[Op.substring]: req.params.anyAttribute}},
+                {capacidadMesa: {[Op.substring]: req.params.anyAttribute}},
+                Sequelize.literal("`mesaestados->estadomesa`.`nombreEstadoMesa` LIKE '%" + req.params.anyAttribute + "%'"),
+                Sequelize.literal("`mesaestados->estadomesa`.`colorEstadoMesa` LIKE '%" + req.params.anyAttribute + "%'"),
+                ]
+            },
+        attributes: attributes.caja,
+        include: [
+          {
+            model: MesaEstadoModel,
+            where: { fechaYHoraBajaCajaEstado: null },
+            attributes: attributes.mesaestado,
+            include: [
+              {
+                model: EstadoMesaModelo,
+                attributes: attributes.estadomesa
+              },
+              {
+                model: UbicacionModelo,
+                attributes: attributes.ubicacion
+              }
+            ]
+          }
+        ]
+    }).then(project => {
+        if (!project || project == 0) {
+          locals['title'] = `No existe registro con valor : ${req.params.anyAttribute}.`;
+          locals['tipo'] = 2;
+        } else {
+          locals['title'] = `${legend}`;
+          locals['data'] = project;
+          locals['tipo'] = 1;
+        }
+        res.json(locals);
+    });
+  };
 
 MesaController.getAll = (req, res) => {
   let locals = {};

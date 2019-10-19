@@ -64,6 +64,13 @@ estadocaja = [
     'nombreEstadoCaja',
 ]
 
+mesa = [
+    "idMesa",
+    "idUbicacion",
+    "nroMesa",
+    "capacidadMesa",
+]
+
 module.exports = {
     usuario, 
     usuarioestado, 

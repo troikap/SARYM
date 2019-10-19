@@ -68,6 +68,8 @@ router
 // mesa
     .get('/mesa', verificaToken, MesaController.getAll)
     .get('/mesa/:idMesa', verificaToken, MesaController.getOne)
+    .get('/mesa/todo/:anyAttribute', verificaToken, MesaController.getToAllAttributes)
+
 
 // mediopago
     .get('/mediopago', verificaToken, MedioPagoController.getAll)
