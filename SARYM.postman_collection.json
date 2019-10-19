@@ -222,9 +222,83 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idCaja\": 20,\n\t\"idEstadoCaja\": 2,\n\t\"idUsuario\": 3,\n\t\"descripcionCajaEstado\": \"hola hernin\",\n\t\"montoAperturaCajaEstado\": 100\n}"
+							"raw": "{\n\t\"idCaja\": 20,\n\t\"idEstadoCaja\": 2,\n\t\"descripcionCajaEstado\": \"hola hernin\",\n\t\"montoAperturaCajaEstado\": 100\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Producto",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Producto",
+					"request": {
+						"url": "localhost:3000/producto",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Producto : id",
+					"request": {
+						"url": "localhost:3000/producto/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Producto :name",
+					"request": {
+						"url": "localhost:3000/producto/name/TERRUÑ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Producto :anyAttribute",
+					"request": {
+						"url": "localhost:3000/producto/todo/TERRUÑ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
 					},
 					"response": []
 				}
@@ -880,7 +954,7 @@
 				{
 					"name": "Put Sector",
 					"request": {
-						"url": "localhost:3000/ubicacion",
+						"url": "localhost:3000/sector",
 						"method": "PUT",
 						"header": [
 							{
@@ -896,26 +970,9 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idUbicacion\": 1,\n    \"nroUbicacion\": \"5\",\n    \"descripcionUbicacion\": \"Ubicacion Random\"\n}"
+							"raw": "{\n\t\"idSector\": 1,\n    \"codSector\": \"SF\",\n    \"nombreSector\": \"Fumadores\",\n    \"bajaSector\": false\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
-					},
-					"response": []
-				},
-				{
-					"name": "Del Sector : id",
-					"request": {
-						"url": "localhost:3000/sector/2",
-						"method": "POST",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"description": ""
-							}
-						],
-						"body": {},
-						"description": "Trae todos los Usuarios"
 					},
 					"response": []
 				},
@@ -1612,80 +1669,6 @@
 					"request": {
 						"url": "localhost:3000/departamento/20",
 						"method": "DELETE",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"description": ""
-							}
-						],
-						"body": {},
-						"description": "Trae todos los Usuarios"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Producto",
-			"description": "",
-			"item": [
-				{
-					"name": "Get Producto",
-					"request": {
-						"url": "localhost:3000/producto",
-						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"description": ""
-							}
-						],
-						"body": {},
-						"description": "Trae todos los Usuarios"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Producto : id",
-					"request": {
-						"url": "localhost:3000/producto/1",
-						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"description": ""
-							}
-						],
-						"body": {},
-						"description": "Trae todos los Usuarios"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Producto :name",
-					"request": {
-						"url": "localhost:3000/producto/name/TERRUÑ",
-						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"description": ""
-							}
-						],
-						"body": {},
-						"description": "Trae todos los Usuarios"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Producto :anyAttribute",
-					"request": {
-						"url": "localhost:3000/menupromocion/todo/TERRUÑ",
-						"method": "GET",
 						"header": [
 							{
 								"key": "token",
