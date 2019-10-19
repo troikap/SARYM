@@ -35,4 +35,21 @@ export class ConsultaGestionarProductoComponent implements OnInit {
   ngOnInit() {
   }
 
+  generarAccion(accion: string) {
+    console.log("accion: ", accion);
+
+    if (accion != "estado") {
+      this.router.navigate( [`/producto_crud/${this.producto.idProducto}/${accion}`] );
+    }
+    else {
+      this.cambiarEstado();
+    }
+    
+  }
+
+  cambiarEstado() {
+    console.log("Cambiar estado del producto");
+    
+  }
+
 }

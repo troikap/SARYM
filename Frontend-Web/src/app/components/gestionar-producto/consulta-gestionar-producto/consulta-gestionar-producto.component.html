@@ -58,9 +58,9 @@
             <table class="table table-borderless">
                 <thead>
                     <tr>
-                        <td width="20%"><button type="button" class="btn btn-outline-danger btn-block">Eliminar</button></td>
-                        <td width="20%"><button type="button" class="btn btn-outline-success btn-block">Editar</button></td>
-                        <td width="40%"><button type="button" class="btn btn-outline-warning btn-block">Cambiar Estado</button></td>
+                        <td width="20%"><button type="button" class="btn btn-outline-danger btn-block" (click)="generarAccion('eliminar')">Eliminar</button></td>
+                        <td width="20%"><button type="button" class="btn btn-outline-success btn-block" (click)="generarAccion('editar')">Editar</button></td>
+                        <td width="40%"><button type="button" class="btn btn-outline-warning btn-block" (click)="generarAccion('estado')">Cambiar Estado</button></td>
                         <td width="20%">&nbsp;</td>
                     </tr>
                 </thead>
