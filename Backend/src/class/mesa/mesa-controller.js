@@ -297,22 +297,26 @@ MesaController.cambiarEstado = (req, res) => {
   MesaModelo.findOne({
     where: {
       [idtable]: body[idtable] },
-      attributes: attributes.Mesa,
+      attributes: attributes.mesa,
       include: [
         {
           model: MesaEstadoModelo,
           where: { fechaYHoraBajaMesaEstado: null },
-          attributes: attributes.Mesaestado,
+          attributes: attributes.mesaestado,
           include: [
             {
               model: EstadoMesaModelo,
-              attributes: attributes.estadoMesa
+              attributes: attributes.estadomesa
             },
-            {
-              model: UsuarioModelo,
-              attributes: attributes.usuario
-            }
           ]
+        },
+        {
+          model: SectorModelo,
+          attributes: attributes.sector
+        },
+        {
+          model: UbicacionModelo,
+          attributes: attributes.ubicacion
         }
       ]
     }).then(response => {
@@ -321,151 +325,42 @@ MesaController.cambiarEstado = (req, res) => {
       locals['tipo'] = 2;
       res.json(locals);
     } else {
-      let pushMesaEstado = {};
-      pushMesaEstado['fechaYHoraBajaMesaEstado'] = new Date();
-        MesaEstadoModelo.update(pushMesaEstado , {
-          where: { [idtable]: body[idtable], fechaYHoraBajaMesaEstado: null }
-      }).then((respons) => {
-        if(!respons || respons == 0) {
-          locals['title'] = `No existe ${legend2} habilitado.`;
+      EstadoMesaModelo.findOne({where: { [idtable3]: body[idtable3] }}).then((estadomesa) =>{
+        if(!estadomesa || estadomesa == 0) {
+          locals['title'] = `No existe ${legend3} con id ${idtable3}.`;
           locals['tipo'] = 2;
           res.json(locals);
         } else {
-          body['fechaYHoraAltaMesaEstado'] = new Date();
-          MesaEstadoModelo.create(body).then((resp) => {
-            if (!resp || resp == 0 ){
-              locals['title'] = `No se pudo crear ${legend2}.`;
+          let pushMesaEstado = {};
+          pushMesaEstado['fechaYHoraBajaMesaEstado'] = new Date();
+            MesaEstadoModelo.update(pushMesaEstado , {
+              where: { [idtable]: body[idtable], fechaYHoraBajaMesaEstado: null }}).then((respons) => {
+            if(!respons || respons == 0) {
+              locals['title'] = `No existe ${legend2} habilitado.`;
               locals['tipo'] = 2;
+              res.json(locals);
             } else {
-              locals['title'] = `Se creo correctamente ${legend2}.`;
-              locals['tipo'] = 1;
+              body['fechaYHoraAltaMesaEstado'] = new Date();
+              MesaEstadoModelo.create(body).then((resp) => {
+                if (!resp || resp == 0 ){
+                  locals['title'] = `No se pudo crear ${legend2}.`;
+                  locals['tipo'] = 2;
+                } else {
+                  locals['title'] = `Se creo correctamente ${legend2}.`;
+                  locals['tipo'] = 1;
+                }
+                res.json(locals);
+              }).catch((error) => {
+                locals = tratarError.tratarError(error, legend);
+                res.json(locals);
+              });
             }
-            res.json(locals);
           }).catch((error) => {
             locals = tratarError.tratarError(error, legend);
             res.json(locals);
           });
         }
-      }).catch((error) => {
-        locals = tratarError.tratarError(error, legend);
-        res.json(locals);
-      });
-    }
-  });
-};
-
-
-
-MesaController.getAll = (req, res) => {
-  let locals = {};
-  MesaModelo.findAll({ 
-    // BUSCA POR FORANEA 
-    attributes: attributes.mesa,
-    include: [
-      {
-        model: MesaEstadoModelo,
-        where: { fechaYHoraBajaMesaEstado: null },
-        attributes: attributes.mesaestado,
-        include: [
-          {
-            model: EstadoMesaModelo,
-            attributes: attributes.estadomesa
-          },
-        ]
-      },
-      {
-        model: SectorModelo,
-        attributes: attributes.sector
-      },
-      {
-        model: UbicacionModelo,
-        attributes: attributes.ubicacion
-      }
-    ]
-  }).then(response => {
-      console.log("MESAS ", response)
-    if (!response || response == 0) {
-      // SI NO EXISTEN REGISTROS DE USUARIO
-      locals.title = {
-        descripcion: `No existen registros de ${legend}`
-      };
-      res.json(locals);
-    } else {
-      // SI EXISTE EL USUARIO REGRESARLOS CON SUS ASOCIACIONES
-      locals.title = `${legend}/s encontrado/s`;
-      locals[legend] = response;
-      res.json(locals)
-    }
-  })
-}
-
-MesaController.getOne = (req, res) => {
-  let locals = {};
-  // BUSCA EL USUARIO CON ID INGRESADO
-  console.log("req.params , ",req.params)
-  MesaModelo.findOne({
-    where: { [idtable]: req.params[idtable] },
-    // BUSCA POR FORANEA 
-    attributes: [
-        "idMesa",
-        "idUbicacion",
-        "nroMesa",
-        "capacidadMesa",
-    ],
-    include: [
-        {
-            model: SectorModelo,
-            attributes: [
-                "idSector",
-                "codSector",
-                "nombreSector",
-                "fechaYHoraBajaSector",
-            ],
-        },
-        {
-            model: UbicacionModelo,
-            attributes: [
-                "idUbicacion",
-                "nroUbicacion",
-                "descripcionUbicacion",
-            ],
-        },
-        {
-            model: MesaEstadoModelo,
-            attributes: [
-                "idMesaEstado",
-                "idMesa",
-                "idEstadoMesa",
-                "fechaYHoraAltaMesaEstado",
-                "fechaYHoraBajaMesaEstado",
-            ],
-            include: [
-                {
-                    model: EstadoMesaModelo,
-                    attributes: [
-                        "idEstadoMesa",
-                        "codEstadoMesa",
-                        "nombreEstadoMesa",
-                        "colorEstadoMesa",
-                    ], 
-                }
-            ]
-        },
-    ],
-  }).then(response => {
-    if (!response || response == 0) {
-      // SI NO EXISTE EL USUARIO
-      locals.title = {
-        descripcion: `No existe el registro : ${req.params[idtable]}`,
-        tipo: 2
-      };
-      res.json(locals);
-    } else {
-      // SI EXISTE EL USUARIO AGREGAMOS A LA VARIABLE EL MISMO
-      // locals.title = `${legend} encontrado`;
-      locals[legend] = response.dataValues;
-      locals['tipo'] = 1
-      res.json(locals)
+      })
     }
   });
 };
