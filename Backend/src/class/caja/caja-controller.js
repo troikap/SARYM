@@ -300,10 +300,16 @@ CajaController.actualizarDatos = (req, res) => {
                 [idtable]: body[idtable]
             }
         }).then(result => {
+          if (!response || response == 0) {
+            locals['title'] = `No se Actualizo ${legend} con id ${body[idtable]}`;
+            locals['tipo'] = 2;
+            res.json(locals);
+          } else {
           CajaEstadoModelo.update({ 
-            descripcionCajaEstado: body['descripcionCajaEstado'],
-            montoAperturaCajaEstado: body['montoAperturaCajaEstado'],
-            montoCierreCajaEstado: body['montoCierreCajaEstado'],
+            descripcionCajaEstado: body['descripcionCajaEstado'] || response.dataValues.cajaestados[0].dataValues.descripcionCajaEstado,
+            montoAperturaCajaEstado: body['montoAperturaCajaEstado'] || response.dataValues.cajaestados[0].dataValues.montoAperturaCajaEstado,
+            montoCierreCajaEstado: body['montoCierreCajaEstado'] || response.dataValues.cajaestados[0].dataValues.montoCierreCajaEstado,
+            [idtable4]: body[idtable4] || response.dataValues.cajaestados[0].dataValues[idtable4], // Usuario
            }, {where: {[idtable]: body[idtable], 
                       fechaYHoraBajaCajaEstado: null}
           }).then((resp) => {
@@ -316,6 +322,7 @@ CajaController.actualizarDatos = (req, res) => {
           }
           res.json(locals);
         });
+        }
       }).catch((error) => {
         let locals = tratarError.tratarError(error, legend);
         res.json(locals);
@@ -374,9 +381,15 @@ CajaController.cambiarEstado = (req, res) => {
               locals['tipo'] = 1;
             }
             res.json(locals);
-          })
+          }).catch((error) => {
+            locals = tratarError.tratarError(error, legend);
+            res.json(locals);
+          });
         }
-      })
+      }).catch((error) => {
+        locals = tratarError.tratarError(error, legend);
+        res.json(locals);
+      });
     }
   });
 };
@@ -515,5 +528,91 @@ CajaController.cerrarCaja = (req, res) => {
     }
   });
 };
+
+// return sequelize.transaction(t => {
+
+//   // chain all your queries here. make sure you return them.
+//   return User.create({
+//     firstName: 'Abraham',
+//     lastName: 'Lincoln'
+//   }, {transaction: t}).then(user => {
+//     return user.setShooter({
+//       firstName: 'John',
+//       lastName: 'Boothe'
+//     }, {transaction: t});
+//   });
+
+// }).then(result => {
+//   // Transaction has been committed
+//   // result is whatever the result of the promise chain returned to the transaction callback
+// }).catch(err => {
+//   // Transaction has been rolled back
+//   // err is whatever rejected the promise chain returned to the transaction callback
+// });
+
+// CajaController.cambiarEstado = (req, res) => {
+//   let locals = {};
+//   let body = req.body;
+//   CajaModelo.findOne({
+//     where: {
+//       [idtable]: body[idtable] },
+//       attributes: attributes.caja,
+//       include: [
+//         {
+//           model: CajaEstadoModelo,
+//           where: { fechaYHoraBajaCajaEstado: null },
+//           attributes: attributes.cajaestado,
+//           include: [
+//             {
+//               model: EstadoCajaModelo,
+//               attributes: attributes.estadocaja
+//             },
+//             {
+//               model: UsuarioModelo,
+//               attributes: attributes.usuario
+//             }
+//           ]
+//         }
+//       ]
+//     }).then(response => {
+//     if (!response || response == 0) {
+//       locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+//       locals['tipo'] = 2;
+//       res.json(locals);
+//     } else {
+//       sequelize.transaction(t => {
+//         let pushCajaEstado = {};
+//         pushCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
+//           CajaEstadoModelo.update(pushCajaEstado , {
+//             where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
+//         }, {transaction: t}).then((respons) => {
+//           if(!respons || respons == 0) {
+//             locals['title'] = `No existe ${legend2} habilitado.`;
+//             locals['tipo'] = 2;
+//             res.json(locals);
+//           } else {
+//             body['fechaYHoraAltaCajaEstado'] = new Date();
+//             CajaEstadoModelo.create(body,{transaction: t}).then((resp) => {
+//               if (!resp || resp == 0 ){
+//                 locals['title'] = `No se pudo crear ${legend2}.`;
+//                 locals['tipo'] = 2;
+//               } else {
+//                 locals['title'] = `Se creo correctamente ${legend2}.`;
+//                 locals['tipo'] = 1;
+//               }
+//               res.json(locals);
+//             }).catch((error) => {
+//               locals = tratarError.tratarError(error, legend);
+//               res.json(locals);
+//             });
+//           }
+//         }).catch((error) => {
+//           locals = tratarError.tratarError(error, legend);
+//           res.json(locals);
+//         });
+//       });
+//     }
+//   });
+// };
 
 module.exports = CajaController;
