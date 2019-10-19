@@ -1,0 +1,76 @@
+<div class="row">
+    <div class="col">
+        <input #termino id="botonBuscar" type="text" (keyup)="buscarElemento(termino.value)" class="form-control mr-sm-2" placeholder="Buscar MenuPrmocion...">
+    </div>
+</div>
+
+<hr>
+
+<div class="row animated fadeIn fast" *ngIf="listaMenuPrmocions.length == 0 ">
+    <div class="col-md-12">
+        <div class="alert alert-info" role="alert">
+            No existen menuPromocions con el término <strong>{{termino.value}}</strong>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div>
+            <button (click)="crearMenuPrmocion() " class="btn btn-success">Crear Nuevo Menú-Prmoción</button>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="card-columns" style="max-width: 55rem;">
+    <div class="card animated fadeIn fast border" *ngFor="let menuPromocion of listaMenuPrmocions" [ngClass]="{
+                'border-success': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPrmocion == 'Activo' , 
+                'border-warning': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPrmocion == 'En Falta' , 
+                'border-danger': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPrmocion == 'Inactivo', 
+                'border-dark': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPrmocion == 'Eliminado'
+            }">
+        <img [src]="menuPromocion.pathImagenMenuPrmocion | noimage" class="card-img-top img-fluid text-primary" [alt]="menuPromocion.nombreMenuPrmocion" (click)="consultarElemento(menuPromocion.idMenuPrmocion)" style="cursor:pointer">
+        <div class="card-body">
+            <p class="card-title" style="font-size: 18px;"><strong>{{menuPromocion.nombreMenuPrmocion}} - {{menuPromocion.rubro?.nombreRubro}}</strong></p>
+            <p class="card-text" style="font-size: 14px;">{{menuPromocion.tipomenupromocion.nombreTipoMenuPromocion}}</p>
+            <p class="card-text" style="font-size: 14px;"><strong class=" text-muted ">{{menuPromocion.preciomenupromocions[0]?.tipomoneda?.simboloTipoMoneda}} {{menuPromocion.preciomenupromocions[0]?.importePrecioMenuPrmocion}}</strong>&nbsp;-&nbsp;
+                <span class="badge badge-pill" [ngClass]="{
+                        'badge-success': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPrmocion == 'Activo' , 
+                        'badge-warning': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPrmocion == 'En Falta' , 
+                        'badge-danger': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPrmocion == 'Inactivo', 
+                        'badge-dark': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPrmocion == 'Eliminado'
+                    }">{{menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPrmocion}}
+                </span>
+            </p>
+
+            <p>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#botonVerProductos" aria-expanded="false" aria-controls="botonVerProductos">Ver Productos</button>
+            </p>
+            <div class="collapse" id="botonVerProductos">
+
+                <div class="card card-body">
+                    <div class="card mb-3" style="max-width: 45rem;">
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <img src="..." class="card-img" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <p class="card-title text-muted" style="font-size: 9px;">
+                                        x{{menuPromocion.detallemenupromocionproductos.cantidadProductoMenuPromocion}} - {{producto.nombreProducto}} - {{producto.rubro?.nombreRubro}}
+                                    </p>
+                                    <p class="card-text text-muted" style="font-size: 9px;"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <button (click)="consultarElemento(menuPromocion.idMenuPrmocion) " class="btn btn-outline-primary btn-block ">Consultar</button>
+        </div>
+    </div>
+</div>
