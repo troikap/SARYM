@@ -16,6 +16,8 @@ export class CajaService {
   dirNro = '/nroCaja'
   dirEstado = '/estadocaja';
   dir3 = '/todo';
+  dirUpdateDatos = '/actualizarDatos';
+  dirUpdateEstado= '/cambiarEstado';
   tokenEnviroment = environment.token;
 
   constructor(public http: HttpClient) {}
@@ -86,7 +88,20 @@ export class CajaService {
      headers = headers.append('token', this.tokenEnviroment);
      console.log("DATOS A ENVIAR :",datas)
     return this.http
-      .put(`${this.url}${this.dir}`, datas, {headers})
+      .put(`${this.url}${this.dir}${this.dirUpdateDatos}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        return response as any;
+      })
+      .catch(  );
+  }
+
+  updateCajaEstado( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', this.tokenEnviroment);
+     console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}${this.dirUpdateEstado}`, datas, {headers})
       .toPromise()
       .then(response => {
         return response as any;

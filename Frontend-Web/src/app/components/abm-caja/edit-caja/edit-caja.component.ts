@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, ValidationErrors} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CajaService } from '../../../services/caja/caja.service';
-import { CajaEdit } from 'src/app/model/caja/caja.model';
+import { CajaEdit, CajaCreate } from 'src/app/model/caja/caja.model';
 import { EstadoCaja } from 'src/app/model/estadoCaja/estadoCaja.model';
 import { Usuario } from '../../../model/usuario/usuario.model';
 import { UsuarioService } from '../../../services/usuario/usuario.service';
@@ -19,8 +19,12 @@ export class EditCajaComponent implements OnInit {
   private estadosCaja: EstadoCaja [];
   private cajaEncontrada: boolean; 
   private idCaja: string = "";  
-  private caja: CajaEdit;
+  private caja: any;
   private newForm = {};
+  private idEstadoCaja1: any;
+  private idEstadoform: any;
+  
+  
 
   accionGet;
   
@@ -90,10 +94,10 @@ export class EditCajaComponent implements OnInit {
     if (this.idCaja !== "0" && this.idCaja !== "") {
       this.cajaServicio.getCaja(this.idCaja)
         .subscribe((data: any) => { // Llamo a un Observer
-          console.log(data);
+          //console.log(data['cajaestados'][0].estadocaja.idEstadoCaja);
           if (data != null) {
             console.log("RESULT ----------------->", data);
-          
+          this.idEstadoCaja1 = data['cajaestados'][0].estadocaja.idEstadoCaja;
             this.caja = data;
             console.log(this.caja['cajaestados'][0]);
     
@@ -119,17 +123,31 @@ export class EditCajaComponent implements OnInit {
     if( this.caja && this.caja.idCaja) {
       console.log("SETEO DE ID :", )
       us = this.caja.idCaja;
-    } 
+    }   
+    
+    this.idEstadoform = this.form.value['idEstadoCaja'];
+    console.log(this.idEstadoform);
+    if(this.idEstadoCaja1 === this.idEstadoform){
     let rempCaja: CajaEdit = {
       idCaja: us,
-      nroCaja:  this.form.value['nroCaja'],     
-      idEstadoCaja: this.form.value['idEstadoCaja'],
+      nroCaja:  this.form.value['nroCaja'],    
       idUsuario: this.form.value['idUsuario'],
       descripcionCajaEstado: this.form.value['descripcionCajaEstado'],
       montoAperturaCajaEstado: this.form.value['montoAperturaCajaEstado'],
       
     }
     return rempCaja;
+  }else{
+    let rempCaja: any = {
+      idCaja: us,         
+      idEstadoCaja: this.form.value['idEstadoCaja'],
+      idUsuario: 1    
+      
+      
+    }
+    return rempCaja;
+  }
+    
   }
 
   guardar() {
@@ -159,6 +177,8 @@ export class EditCajaComponent implements OnInit {
                   
                   
                   let caja = _this.reemplazarCaja();
+                  console.log(this.idEstadoform);
+                  if(this.idEstadoCaja1 === this.idEstadoform){
                   _this.cajaServicio.updateCaja( caja )
                   .then( (response) => {
                     console.log("ACTUALIZADO", response);
@@ -189,7 +209,38 @@ export class EditCajaComponent implements OnInit {
             
             
                   })
-
+                }else{
+                  _this.cajaServicio.updateCajaEstado( caja )
+                  .then( (response) => {
+                    console.log("ACTUALIZADO", response);
+            
+                    const titulo = "Éxito";
+                    const mensaje = "Se ha actualizado el registro de usuario de forma exitrosa";
+                    
+                    ($ as any).confirm({
+                      title: titulo,
+                      content: mensaje,
+                      type: 'green',
+                      typeAnimated: true,
+                      theme: 'material',
+                      buttons: {
+                          aceptar: {
+                              text: 'Aceptar',
+                              btnClass: 'btn-green',
+                              action: function(){
+            
+                                //ACCION
+                                _this.router.navigate( ['/caja/']);
+            
+            
+                              }
+                          }
+                      }
+                    });
+            
+            
+                  })
+                }
 
 
                 }

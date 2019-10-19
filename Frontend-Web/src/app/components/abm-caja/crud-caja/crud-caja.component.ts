@@ -32,7 +32,6 @@ export class CrudCajaComponent implements OnInit {
     private usuarioservicio: UsuarioService
   ) {
     this.form = new FormGroup({
-      'idCaja': new FormControl({value: '', disabled: true}),
       'nroCaja': new FormControl('', Validators.required),      
       'idUsuario': new FormControl('', Validators.required)
       
@@ -69,7 +68,6 @@ export class CrudCajaComponent implements OnInit {
             console.log(this.caja['cajaestados'][0]);
     
             this.newForm = {
-              idCaja: this.caja['idCaja'],
               nroCaja:  this.caja['nroCaja'],              
               idUsuario: 1
             }
@@ -88,10 +86,9 @@ export class CrudCajaComponent implements OnInit {
       console.log("SETEO DE ID :", )
       us = this.caja.idCaja;
     } 
-    let rempCaja: CajaCreate = {
-      idCaja: us,
+    let rempCaja: CajaCreate = {      
       nroCaja:  this.form.value['nroCaja'],   
-      idUsuario: this.form.value['idUsuario']
+      idUsuario: 1
       
     }
     return rempCaja;
