@@ -15,6 +15,7 @@ export class ProductoService {
   url = environment.urlNgrok || environment.url;
   dir = '/producto';
   dir2 = '/todo';
+  dirEstado = '/estadoproducto';
 
   tokenEnviroment = environment.token;
 
@@ -108,5 +109,22 @@ export class ProductoService {
         return response;
       })
       .catch(  );
+  }
+
+
+
+  getAllEstadoProducto() {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    return this.http
+      .get(`${this.url}${this.dirEstado}`, {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Estado Productos Obtenidos: ", response)
+        return response;
+      })
+      .catch( err => {
+        console.log("ERROR : ",err)
+      } );
   }
 }

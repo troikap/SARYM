@@ -5,7 +5,7 @@
         <form [formGroup]="form" (ngSubmit)="guardar()">
             <div class="form-group">
                 <label for="idProducto" class="col col-form-label">Id</label>
-                <input type="text" id="idUsuario" placeholder="Identificador" formControlName="idUsuario" class="form-control">
+                <input type="text" placeholder="Identificador" formControlName="idProducto" class="form-control">
             </div>
             <div class="form-group row">
                 <div class="col">
@@ -46,16 +46,16 @@
 
             <div class="form-group row">
                 <div class="col">
+                    <label for="idTipoMoneda" class="col col-form-label">Tipo de Moneda</label>
+                    <select Placeholder='Seleccione' formControlName='idTipoMoneda' class="form-control"> 
+                        <option *ngFor='let element of tipoMoneda' [value]='element.idTipoMoneda'><strong>{{element.simboloTipoMoneda}}</strong>&nbsp;&nbsp;&nbsp;({{element.nombreTipoMoneda}})</option>
+                    </select>
+                    <p class="input-error-msg" *ngIf="form.controls.idTipoMoneda.errors?.required && form.controls.idTipoMoneda.touched">Campo Obligatorio.</p>
+                </div>
+                <div class="col">
                     <label for="importePrecioProducto" class="col col-form-label">Precio</label>
                     <input type="text" class="form-control" id="importePrecioProducto" placeholder="Ingrese el Precio del Producto" formControlName="importePrecioProducto">
                     <p class="input-error-msg" *ngIf="form.controls.importePrecioProducto.errors?.required && form.controls.importePrecioProducto.touched">Campo Obligatorio.</p>
-                </div>
-                <div class="col">
-                    <label for="idTipoMoneda" class="col col-form-label">Tipo de Moneda</label>
-                    <select Placeholder='Seleccione' formControlName='idTipoMoneda' class="form-control"> 
-                        <option *ngFor='let element of tipoMoneda' [value]='element.idTipoMoneda'>{{element.simboloTipoMoneda}} ({{element.nombreTipoMoneda}})</option>
-                    </select>
-                    <p class="input-error-msg" *ngIf="form.controls.idTipoMoneda.errors?.required && form.controls.idTipoMoneda.touched">Campo Obligatorio.</p>
                 </div>
             </div>
 
@@ -77,19 +77,19 @@
             </div>
 
             <div class="form-group">
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="imgProducto" formControlName='imgProducto'>
-                    <label class="custom-file-label" for="imgProducto" data-browse="Bestand kiezen">Cargar Imgagen</label>
-                </div>
+                <label for="imgProducto" class="col col-form-label">Cargar Imagen</label>
+                <input type="file" class="form-control-file" id="imgProducto">
             </div>
 
             <hr>
+
             <div *ngIf="accionGet != 'eliminar'">
                 <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
             </div>
             <div *ngIf="accionGet == 'eliminar'">
                 <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
             </div>
+
         </form>
     </div>
 </div>

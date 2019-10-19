@@ -28,7 +28,7 @@ export class CrudGestionarProductoComponent implements OnInit {
   estadoProducto: any;
   
 
-  private accionGet: string;
+  accionGet: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -47,6 +47,7 @@ export class CrudGestionarProductoComponent implements OnInit {
       'descripcionProducto': new FormControl('', Validators.required),
       'importePrecioProducto': new FormControl('', Validators.required),
       'idTipoMoneda': new FormControl('',  Validators.required),
+      'idRubro': new FormControl('',  Validators.required),
       'idEstadoProducto': new FormControl('', Validators.required),
       'imgProducto': new FormControl('')
     });
@@ -75,7 +76,7 @@ export class CrudGestionarProductoComponent implements OnInit {
 
   traerProducto() {
     console.log("Funcion 'traerProducto()', ejecutada");
-    console.log(this.idProducto);
+    console.log("Productos Obtenidos: ", this.idProducto);
 
     if (this.idProducto !== 0) {
       this.productoServicio.getProducto(this.idProducto)
@@ -84,7 +85,6 @@ export class CrudGestionarProductoComponent implements OnInit {
         if ( res['tipo'] == 2) {
           console.log("Raro");
         } else {
-        if (res) {
           this.producto = res;
           this.newForm = {
             idProducto: this.producto.idProducto,
@@ -95,39 +95,50 @@ export class CrudGestionarProductoComponent implements OnInit {
             descripcionProducto:  this.producto.descripcionProducto,
             importePrecioProducto:  this.producto.precioproductos[0].importePrecioProducto,
             idTipoMoneda:  this.producto.precioproductos[0].tipomoneda.idTipoMoneda,
-            idEstadoProducto: this.producto.productoestados[0].estadoproducto.nombreEstadoProducto,
+            idRubro: this.producto.rubro.idRubro,
+            idEstadoProducto: this.producto.productoestados[0].estadoproducto.idEstadoProducto,
             imgProducto: this.producto.pathImagenProducto
           }
           this.form.setValue(this.newForm)
-          console.log("Formulario nuevo: " , this.form)
+          console.log("Formulario nuevo: " , this.form);
         }
-      }
       });
     }
   }
   getUnidadMedida() {
     this.unidadMedidaService.getAllUnidadMedida()
-    .then((res: UnidadMedida) => {
-      this.unidadMedida = res;
+    .then((res: any) => {
+      console.log("Unidad de Medida: ", res.data);
+      this.unidadMedida = res.data;
     })
   }
   getTipoMoneda() {
     this.tipoMonedaService.getAllTipoMoneda()
-    .then((res: TipoMoneda) => {
-      this.tipoMoneda = res;
+    .then((res: any) => {
+      console.log("Tipo de Moneda: ", res.data);
+      this.tipoMoneda = res.data;
     })
   }
   getRubro() {
     this.rubroService.getAllRubro()
-    .then((res: Rubro) => {
-      this.rubros = res;
+    .then((res: any) => {
+      console.log("Rubros: ", res.data);
+      this.rubros = res.data;
     })
   }
   getEstadoProducto() {
-    /* this.productoServicio.getAllRubro()
-    .then((res: Rubro) => {
-      this.rubros = res;
-    }) */
+    this.productoServicio.getAllEstadoProducto()
+    .then((res: any) => {
+      console.log("Estado Productos: ", res.data);
+      this.estadoProducto = res.data;
+    })
+  }
+
+  guardar() {
+    // console.log("Form Value: ", this.form.value);
+    // console.log("Form: ", this.form);
+
+    
   }
 
 }
