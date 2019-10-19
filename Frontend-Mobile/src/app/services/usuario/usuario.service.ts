@@ -58,7 +58,6 @@ export class UsuarioService {
       .post(`${URL}/login`, value)
       .toPromise()
       .then( (response: any) => {
-        console.log("RESPUESTA ",response['title'].token)
         return response as Usuario;
       })
       .catch( err => {

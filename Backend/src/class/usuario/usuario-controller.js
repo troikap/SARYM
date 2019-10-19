@@ -149,7 +149,7 @@ UsuarioController.login = (req, res) => {
     let body = req.body;
     UsuarioModelo.findOne({
         where: { cuitUsuario: body.cuitUsuario },
-        attributes: attributes.usuario,
+        attributes: attributes.usuario2,
         include: [{
                 model: UsuarioEstadoModelo,
                 where: { fechaYHoraBajaUsuarioEstado: null },
@@ -176,7 +176,6 @@ UsuarioController.login = (req, res) => {
                 if (response.dataValues.usuarioestados[0].estadousuario.dataValues.nombreEstadoUsuario != 'Activo') {
                     locals['title'] = `${legend} Suspendido o dado de Baja`;
                     locals['tipo'] = 3;
-                    // res.json(locals);
                 } else {
                     let token = jwt.sign({
                             cuitUsuario: response.dataValues.cuitUsuario,
@@ -191,15 +190,11 @@ UsuarioController.login = (req, res) => {
                     locals['rol'] = {nombreRol: response.dataValues.rolusuarios[0].dataValues.rol.dataValues.idRol,
                                     idRol: response.dataValues.rolusuarios[0].dataValues.rol.dataValues.nombreRol};
                     locals[legend2] = response;
-                    // res.json(locals);
                 }
-                res.json(locals);
             } else {
                 locals['title'] = `${legend} o (Contraseña) invalidos`;
                 locals['tipo'] = 2;
-                // res.json(locals);
             }
-            res.json(locals);
         } else {
             locals['title'] = `(${legend}) o Contraseña invalidos`;
             locals['tipo'] = 2;

@@ -11,6 +11,19 @@ usuario = [
     'nroTelefonoUsuario',
   ];
 
+usuario2 = [
+    'idUsuario',
+    'cuitUsuario',
+    'nombreUsuario',
+    'apellidoUsuario',
+    'dniUsuario',
+    'domicilioUsuario',
+    'emailUsuario',
+    'idDepartamento',
+    'nroCelularUsuario',
+    'nroTelefonoUsuario',
+];
+
 usuarioestado = [
     'descripcionUsuarioEstado',
     'fechaYHoraAltaUsuarioEstado',
@@ -66,6 +79,7 @@ estadocaja = [
 
 mesa = [
     "idMesa",
+    "nroUbicacion",
     "nroMesa",
     "capacidadMesa",
 ]
@@ -75,12 +89,6 @@ sector = [
     "codSector",
     "nombreSector",
     "fechaYHoraBajaSector",
-]
-
-ubicacion = [
-    "idUbicacion",
-    "nroUbicacion",
-    "descripcionUbicacion",
 ]
 
 mesaestado = [
@@ -154,7 +162,6 @@ module.exports = {
     mesa,
     mesaestado,
     estadomesa,
-    ubicacion,
     sector,
     producto,
     productoestado,

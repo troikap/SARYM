@@ -6,7 +6,6 @@ const MesaModelo = require("./mesa-model"),
   attributes = require('../attributes'),
   tratarError = require("../../middlewares/handleError"),
   SectorModelo = require("../sector/sector-model"),
-  UbicacionModelo = require("../ubicacion/ubicacion-model"),
   MesaEstadoModelo = require("../mesaestado/mesaestado-model"),
   EstadoMesaModelo = require("../estadomesa/estadomesa-model"),
   Sequelize = require('sequelize'),
@@ -14,12 +13,12 @@ const MesaModelo = require("./mesa-model"),
   legend = "Mesa",
   legend2 = "MesaEstado",
   legend3 = "EstadoMesa",
-  legend4 = "Ubicacion",
+  // legend4 = "Ubicacion",
   legend5 = "Sector",
   idtable = `id${legend}`,
   idtable2 = `id${legend2}`,
   idtable3 = `id${legend3}`,
-  idtable4 = `id${legend4}`,
+  // idtable4 = `id${legend4}`,
   idtable5 = `id${legend5}`,
   nametable = `nro${legend}`;
 
@@ -34,7 +33,7 @@ MesaController.getToAllAttributes = (req, res, next) => {
             Sequelize.literal("`mesaestados->estadomesa`.`nombreEstadoMesa` LIKE '%" + req.params.anyAttribute + "%'"),
             Sequelize.literal("`mesaestados->estadomesa`.`colorEstadoMesa` LIKE '%" + req.params.anyAttribute + "%'"),
             Sequelize.literal("`sector`.`nombreSector` LIKE '%" + req.params.anyAttribute + "%'"),
-            Sequelize.literal("`ubicacion`.`descripcionUbicacion` LIKE '%" + req.params.anyAttribute + "%'"),
+            // Sequelize.literal("`ubicacion`.`descripcionUbicacion` LIKE '%" + req.params.anyAttribute + "%'"),
             ]
         },
     attributes: attributes.mesa,
@@ -54,10 +53,10 @@ MesaController.getToAllAttributes = (req, res, next) => {
         model: SectorModelo,
         attributes: attributes.sector
       },
-      {
-        model: UbicacionModelo,
-        attributes: attributes.ubicacion
-      }
+      // {
+      //   model: UbicacionModelo,
+      //   attributes: attributes.ubicacion
+      // }
     ]
   }).then(project => {
       if (!project || project == 0) {
@@ -92,10 +91,10 @@ MesaController.getToName = (req, res, next) => {
         model: SectorModelo,
         attributes: attributes.sector
       },
-      {
-        model: UbicacionModelo,
-        attributes: attributes.ubicacion
-      }
+      // {
+      //   model: UbicacionModelo,
+      //   attributes: attributes.ubicacion
+      // }
     ]
   }).then(project => {
     if (!project || project == 0) {
@@ -130,10 +129,10 @@ MesaController.getAll = (req, res, next) => {
         model: SectorModelo,
         attributes: attributes.sector
       },
-      {
-        model: UbicacionModelo,
-        attributes: attributes.ubicacion
-      }
+      // {
+      //   model: UbicacionModelo,
+      //   attributes: attributes.ubicacion
+      // }
     ]
   })
   .then(projects => {
@@ -170,10 +169,10 @@ MesaController.getOne = (req, res, next) => {
         model: SectorModelo,
         attributes: attributes.sector
       },
-      {
-        model: UbicacionModelo,
-        attributes: attributes.ubicacion
-      }
+      // {
+      //   model: UbicacionModelo,
+      //   attributes: attributes.ubicacion
+      // }
     ]
   }).then(project => {
     if (!project || project == 0) {
@@ -196,12 +195,12 @@ MesaController.create = (req, res) => {
         locals['tipo'] = 2;
         res.json(locals);
     } else {
-      UbicacionModelo.findOne({ where: {[idtable4]: req.body[idtable4]} }).then( respo => {
-        if ( !respo || respo == 0 ) {
-          locals['title'] = `No existe instancia de ${legend4} con ${idtable4}.`;
-          locals['tipo'] = 2;
-          res.json(locals);
-        } else {
+      // UbicacionModelo.findOne({ where: {[idtable4]: req.body[idtable4]} }).then( respo => {
+      //   if ( !respo || respo == 0 ) {
+      //     locals['title'] = `No existe instancia de ${legend4} con ${idtable4}.`;
+      //     locals['tipo'] = 2;
+      //     res.json(locals);
+      //   } else {
           SectorModelo.findOne({ where: {[idtable5]: req.body[idtable5]} }).then( respon => {
             if ( !respon || respon == 0 ) {
               locals['title'] = `No existe instancia de ${legend5} con ${idtable5}.`;
@@ -232,8 +231,8 @@ MesaController.create = (req, res) => {
               });
             }
           })
-        }
-      })
+        //} //-
+      //}) //-
     }
   })
 };
@@ -261,10 +260,10 @@ MesaController.actualizarDatos = (req, res) => {
           model: SectorModelo,
           attributes: attributes.sector
         },
-        {
-          model: UbicacionModelo,
-          attributes: attributes.ubicacion
-        }
+        // {
+        //   model: UbicacionModelo,
+        //   attributes: attributes.ubicacion
+        // }
       ]
     }).then(response => {
       if (!response || response == 0) {
@@ -314,10 +313,10 @@ MesaController.cambiarEstado = (req, res) => {
           model: SectorModelo,
           attributes: attributes.sector
         },
-        {
-          model: UbicacionModelo,
-          attributes: attributes.ubicacion
-        }
+        // {
+        //   model: UbicacionModelo,
+        //   attributes: attributes.ubicacion
+        // }
       ]
     }).then(response => {
     if (!response || response == 0) {

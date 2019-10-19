@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Producto } from 'src/app/model/producto/producto.model';
 
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class ProductoService {
   url = environment.urlNgrok || environment.url;
   dir = '/producto';
   dir2 = '/todo';
+  dirEstado = '/estadoproducto';
 
   tokenEnviroment = environment.token;
 
@@ -55,6 +57,21 @@ export class ProductoService {
       } );
   }
 
+
+  getProducto( id: number ): Promise<Producto> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    return this.http
+      .get(`${this.url}${this.dir}/${id}`, {headers}) 
+      .toPromise()
+      .then(response => {
+        let prod = response as Producto;
+        console.log("Datos Obtenidos del Servicio:", prod['Producto']);
+        return prod['Producto'];
+      })
+      .catch(  );
+  }
+
   updateProductos( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
@@ -92,5 +109,22 @@ export class ProductoService {
         return response;
       })
       .catch(  );
+  }
+
+
+
+  getAllEstadoProducto() {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    return this.http
+      .get(`${this.url}${this.dirEstado}`, {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Estado Productos Obtenidos: ", response)
+        return response;
+      })
+      .catch( err => {
+        console.log("ERROR : ",err)
+      } );
   }
 }
