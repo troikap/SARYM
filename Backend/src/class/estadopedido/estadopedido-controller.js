@@ -1,137 +1,192 @@
 "use strict";
 
-const EstadoPedidoModelo = require("./estadopedido-model"),
+let tratarError = require("../../middlewares/handleError");
+const EstadoPedidoModelo = require("../estadopedido/estadopedido-model"),
   EstadoPedidoController = () => {},
   legend = "EstadoPedido",
-  idtable = "idEstadoPedido",
-  table = "estadopedido";
+  idtable = `id${legend}`,
+  nombretable = `nombre${legend}`,
+  Sequelize = require('sequelize'),
+  Op = Sequelize.Op,
+  attributesPersonalizados = [
+    "idEstadoPedido",
+    "codEstadoPedido",
+    "nombreEstadoPedido",
+  ];
+
+EstadoPedidoController.getToAllAttributes = (req, res, next) => {
+  let locals = {};
+  EstadoPedidoModelo.findAll({
+    where: {
+      [Op.or]: [
+        {idEstadoPedido: {[Op.substring]: req.params.anyAttribute}},
+        {codEstadoPedido: {[Op.substring]: req.params.anyAttribute}},
+        {nombreEstadoPedido: {[Op.substring]: req.params.anyAttribute}},
+      ]
+    },
+    attributes: attributesPersonalizados}).then(project => {
+      if (!project || project == 0) {
+        locals['title'] = `Registro no encontrado con valor: ${req.params[nombretable]}`;
+        locals['tipo'] = 2;
+      } else {
+        locals['title'] = `${legend}`;
+        locals['data'] = project;
+        locals['tipo'] = 1;
+      }
+      res.json(locals);
+  });
+};
+
+EstadoPedidoController.getToName = (req, res, next) => {
+  let locals = {};
+  EstadoPedidoModelo.findAll({
+    where: { [nombretable]: { [Op.substring]: req.params[nombretable] }},
+    attributes: attributesPersonalizados}).then(project => {
+    if (!project || project == 0) {
+      locals['title'] = `Registro no encontrado con valor: ${req.params[nombretable]}`;
+      locals['tipo'] = 2;
+    } else {
+      locals['title'] = `${legend}`;
+      locals['data'] = project;
+      locals['tipo'] = 1;
+    }
+    res.json(locals);
+  });
+};
 
 EstadoPedidoController.getAll = (req, res, next) => {
-  EstadoPedidoModelo.findAll({ raw: true }).then(projects => {
+  let locals = {};
+  EstadoPedidoModelo.findAll({ 
+    attributes: attributesPersonalizados}).then(projects => {
     if (!projects || projects == 0) {
-      let locals = {
-        title: `No existen registros de ${legend}`
-      };
-      res.json(locals);
+      locals['title'] = `No existen registros de ${legend}`;
+      locals['tipo'] = 2;
     } else {
-      let locals = {
-        title: `${legend}`,
-        data: projects
-      };
-      res.json(locals);
+      locals['title'] = `${legend}`;
+      locals['data'] = projects;
+      locals['tipo'] = 1;
     }
+    res.json(locals);
   });
 };
 
 EstadoPedidoController.getOne = (req, res, next) => {
+  let locals = {};
   EstadoPedidoModelo.findOne({
-    where: { [idtable]: req.params[idtable] }
-  }).then(project => {
+    where: {[idtable]: req.params[idtable]},
+    attributes: attributesPersonalizados}).then(project => {
     if (!project || project == 0) {
-      let locals = {
-        title: "No existe el registro : " + req.params[idtable]
-      };
-      res.json(locals);
+      locals['title'] = `No existe el registro : ${req.params[idtable]}` ;
+      locals['tipo'] = 2;
     } else {
-      let locals = {
-        title: `${legend}`,
-        data: project.dataValues
-      };
-      res.json(locals);
+      locals['title'] = `${legend}`;
+      locals['data'] = project.dataValues;
+      locals['tipo'] = 1;
     }
+    res.json(locals);
   });
 };
 
 EstadoPedidoController.create = (req, res) => {
+  let locals = {};
   if (req.body[idtable]) {
     EstadoPedidoModelo.findOne({
-      where: { [idtable]: req.body[idtable] }
-    }).then(project => {
+      where: {[idtable]: req.body[idtable]},
+      attributes: attributesPersonalizados}).then(project => {
       if (!project || project == 0) {
         EstadoPedidoModelo.create(req.body).then(result => {
-          let locals = {
-            title: `Creando ${legend}`,
-            id: result[idtable],
-            data: result
-          };
+          locals['title'] = `${legend} creado.`;
+          locals['data'] = result;
+          locals['id'] = result[idtable];
+          locals['tipo'] = 1;
+          res.json(locals);
+        }).catch((error) => {
+          let locals = tratarError.tratarError(error, legend);
           res.json(locals);
         });
       } else {
-        var check = false;
-        for (let attribute in req.body) {
-          if (
-            String(req.body[attribute]) != String(project.dataValues[attribute])
-          ) {
-            check = true;
-          }
-        }
-        if (check) {
-          EstadoPedidoModelo.update(req.body, {
-            where: {
-              [idtable]: req.body[idtable]
-            }
-          }).then(result => {
-            let locals = {
-              title: `Actualizando ${legend}: ${req.body[idtable]}`
-            };
-            res.json(locals);
-          });
-        } else {
-          let locals = {
-            title: `No existe ninguna modificación de ${legend}: ${req.body[idtable]}`
-          };
-          res.json(locals);
-        }
+        locals['title'] = `${[idtable]} ya existe.`;
+        locals['tipo'] = 2;
+        res.json(locals);
       }
     });
   } else {
     EstadoPedidoModelo.create(req.body).then(result => {
-      let locals = {
-        title: `Creando Nuevo ${legend}: ${result[idtable]}`,
-        data: result
-      };
+      locals['title'] = `${legend} creado.`;
+      locals['data'] = result;
+      locals['id'] = result[idtable];
+      locals['tipo'] = 1;
+      res.json(locals);
+    }).catch((error) => {
+      let locals = tratarError.tratarError(error, legend);
       res.json(locals);
     });
   }
 };
 
-EstadoPedidoController.delete = (req, res, next) => {
-  let [idtabla] = req.params[idtabla];
-  UsuarioEstadoPedidoModelo.getOne([idtabla], (err, rows) => {
-    if (err) {
-      let locals = {
-        title: `Error al buscar el registro con el id: ${[idtabla]}`,
-        description: "Error de Sintaxis SQL",
-        error: err
-      };
-      res.json(locals);
-    } else {
-      let locals = {
-        title: `${leyenda}: ${[idtabla]}`,
-        data: rows
-      };
-      res.json(locals);
-    }
-  });
+EstadoPedidoController.update = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  if (body[idtable]) {
+    EstadoPedidoModelo.findOne({
+      where: {[idtable]: body[idtable]},
+      attributes: attributesPersonalizados}).then(response => {
+      if (!response || response == 0) {
+        locals['title'] = `No existe ${legend} con id ${body[idtable]}.`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      } else {
+        let actualizar = false;
+        if ( 
+          body.codEstadoPedido != response.dataValues.codEstadoPedido || 
+          body.descripcionEstadoPedido != response.dataValues.descripcionEstadoPedido ||
+          body.nombreEstadoPedido != response.dataValues.nombreEstadoPedido
+          ) {actualizar = true}
+        if (actualizar) {
+          EstadoPedidoModelo.update(
+            body, 
+            {where: {[idtable]: body[idtable]}}).then(result => {
+              if (result) {
+                locals['title'] = `Registro ${legend} Actualizado`;
+                locals['tipo'] = 1;
+              } else {
+                locals['title'] = `Registro ${legend} NO Actualizado`;
+                locals['tipo'] = 2;
+              }
+              res.json(locals)
+            }).catch((error) => {
+              let locals = tratarError.tratarError(error, legend);
+              res.json(locals);
+            });
+        } else {
+          locals['title'] = `No ha Modificado ningún Registro de ${legend}.`;
+          locals['tipo'] = 2;
+          res.json(locals);
+        }
+      }
+    });
+  } else {
+    locals['title'] = `No envio id de ${legend}.`;
+    locals['tipo'] = 2;
+    res.json(locals);
+  }
 };
 
 EstadoPedidoController.destroy = (req, res, next) => {
+  let locals = {};
   EstadoPedidoModelo.destroy({
-    where: {
-      [idtable]: req.params[idtable]
-    }
-  }).then(response => {
+    where: {[idtable]: req.params[idtable]}}).then(response => {
     if (!response || response == 0) {
-      let locals = {
-        title: `No existe el registro de ${legend}: ` + req.params[idtable]
-      };
-      res.json(locals);
+      locals['title'] = `No existe el registro de ${legend}: ${req.params[idtable]}`;
+      locals['tipo'] = 2;
     } else {
-      let locals = {
-        title: `${legend} Eliminado Fisicamente`
-      };
-      res.json(locals);
+      locals['title'] = `${legend} Eliminado Fisicamente`;
+      locals['tipo'] = 1;
     }
+    res.json(locals);
+  }).catch((error) => {
+    let locals = tratarError.tratarError(error, legend);
+    res.json(locals);
   });
 };
 

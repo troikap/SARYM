@@ -29,15 +29,12 @@ const CajaEstadoModelo = sequelize.define(
         },
         descripcionCajaEstado: {
             type: Sequelize.STRING,
-            allowNull: false
         },
         montoAperturaCajaEstado: {
             type: Sequelize.FLOAT,
-            allowNull: false
         },
         montoCierreCajaEstado: {
             type: Sequelize.FLOAT,
-            allowNull: false
         },
         fechaYHoraAltaCajaEstado: {
             type: Sequelize.DATE,

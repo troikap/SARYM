@@ -13,7 +13,8 @@ const EstadoUsuarioModelo = sequelize.define('estadousuario', {
 	},
 	nombreEstadoUsuario: {
 		type: Sequelize.STRING,
-		allowNull: false
+		allowNull: false,
+		unique: true
 	}
 }, {
 	// options

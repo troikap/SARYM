@@ -13,7 +13,8 @@ const RolModelo = sequelize.define('rol', {
 	},
 	nombreRol: {
 		type: Sequelize.STRING,
-		allowNull: false
+		allowNull: false,
+		unique: true
 	}
 }, {
 	// options

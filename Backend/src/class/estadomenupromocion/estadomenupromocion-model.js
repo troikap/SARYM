@@ -14,11 +14,13 @@ const EstadoMenuPromocionModelo = sequelize.define('estadomenupromocion', {
     },
     codEstadoMenuPromocion: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     nombreEstadoMenuPromocion: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     }
 }, {
     // options

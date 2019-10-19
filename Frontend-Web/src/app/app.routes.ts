@@ -10,12 +10,14 @@ import { AbmCajaComponent } from './components/abm-caja/abm-caja.component';
 import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
 import { AbmSectorComponent } from './components/abm-sector/abm-sector.component';
-import { GestionarProductoComponent } from './components/gestionar-producto/gestionar-producto.component';
+import { GestionarProductoComponent } from './components/gestionar-producto/search-gestionar-producto/gestionar-producto.component';
 import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud-usuario.component';
 import { CrudRubroComponent } from './components/abm-rubro/crud-rubro/crud-rubro.component';
 import { CrudTipomonedaComponent } from './components/abm-tipomoneda/crud-tipomoneda/crud-tipomoneda.component';
+import { CrudGestionarProductoComponent } from './components/gestionar-producto/crud-gestionar-producto/crud-gestionar-producto.component';
+import { ConsultaGestionarProductoComponent } from './components/gestionar-producto/consulta-gestionar-producto/consulta-gestionar-producto.component';
 
 
 
@@ -34,6 +36,8 @@ const routes: Routes = [
     { path: 'rubro_crud/:id/:accion', component: CrudRubroComponent },
     { path: 'sector', component: AbmSectorComponent },
     { path: 'producto', component: GestionarProductoComponent },
+    { path: 'producto_consulta/:id', component: ConsultaGestionarProductoComponent },
+    { path: 'producto_crud/:id/:accion', component: CrudGestionarProductoComponent },
     { path: 'menupromocion', component: GestionarMenupromocionComponent },
     { path: 'reporte', component: GenerarReporteComponent },
     { path: '',  redirectTo: '/login', pathMatch: 'full' },
