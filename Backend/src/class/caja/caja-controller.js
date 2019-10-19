@@ -295,8 +295,6 @@ CajaController.actualizarDatos = (req, res) => {
         locals['tipo'] = 2;
         res.json(locals);
       } else {
-        // console.log("BODY", body)
-        // console.log("response", response.dataValues)
         if (body[codtable] == null) {
           body[codtable] = response.dataValues[codtable]
         }

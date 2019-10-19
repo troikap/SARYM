@@ -1,8 +1,10 @@
 "use strict";
 
 require('../../config');
-const ProductoModelo = require("./producto-model"),
-ProductoController = () => { },
+const tratarError = require("../../middlewares/handleError"),
+  ProductoModelo = require("./producto-model"),
+  ProductoController = () => { },
+  attributes = require('../attributes'),
   RubroModelo = require("../rubro/rubro-model"),
   UnidadMedidaModelo = require("../unidadmedida/unidadmedida-model"),
   ProductoEstadoModelo = require("../productoestado/productoestado-model"),
@@ -10,7 +12,11 @@ ProductoController = () => { },
   PrecioProductoModelo = require("../precioproducto/precioproducto-model"),
   TipoMonedaModelo = require("../tipomoneda/tipomoneda-model"),
   legend = "Producto",
+  legend2 = "ProductoEstado",
+  legend3 = "EstadoProducto",
   idtable = `id${legend}`,
+  idtable2 = `id${legend2}`,
+  idtable3 = `id${legend3}`,
   nombretable = `nombre${legend}`,
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
@@ -23,86 +29,53 @@ ProductoController.getToAllAttributes = (req, res, next) => {
         {codProducto: {[Op.substring]: req.params.anyAttribute}},
         {idProducto: {[Op.substring]: req.params.anyAttribute}},
         {nombreProducto: {[Op.substring]: req.params.anyAttribute}},
+        Sequelize.literal("`rubro`.`nombreRubro` LIKE '%" + req.params.anyAttribute + "%'"),
+        Sequelize.literal("`unidadmedida`.`nombreUnidadMedida` LIKE '%" + req.params.anyAttribute + "%'"),
+        Sequelize.literal("`unidadmedida`.`nombreUnidadMedida` LIKE '%" + req.params.anyAttribute + "%'"),
+        Sequelize.literal("`productoestados->estadoproducto`.`nombreEstadoProducto` LIKE '%" + req.params.anyAttribute + "%'"),
       ]
     },
-    attributes: [
-      "idProducto",
-      "codProducto",
-      "cantidadMedida",
-      "nombreProducto",
-      "descripcionProducto",
-      "pathImagenProducto"
-  ],
-  include: [
+    attributes: attributes.producto,
+    include: [
       {
       model: RubroModelo,
-      attributes: [
-          "idRubro",
-          "codRubro",
-          "nombreRubro",
-          "descripcionRubro"
-      ],
+      attributes: attributes.rubro,
       },
       {
       model: UnidadMedidaModelo,
-      attributes: [
-          "idUnidadMedida",
-          "codUnidadMedida",
-          "nombreUnidadMedida",
-          "descripcionUnidadMedida",
-          "caracterUnidadMedida",
-      ],
+      attributes: attributes.unidadmedida,
       },
       {
         model: ProductoEstadoModelo,
-        attributes: [
-            "idProductoEstado",
-            "descripcionProductoEstado",
-            "fechaYHoraAltaProductoEstado",
-            "fechaYHoraBajaProductoEstado",
-        ],
+        attributes: attributes.productoestado,
         include: [
             {
             model: EstadoProductoModelo,
-            attributes: [
-                "idEstadoProducto",
-                "codEstadoProducto",
-                "nombreEstadoProducto",
-            ]
+            attributes: attributes.estadoproducto
             }
         ]
       },
       {
-      model: PrecioProductoModelo,
-      attributes: [
-          "idPrecioProducto",
-          "importePrecioProducto",
-          "fechaYHoraDesdePrecioProducto",
-          "fechaYHoraHastaPrecioProducto",
-      ],
-      include: [
-      {
-          model: TipoMonedaModelo,
-          attributes: [
-          "idTipoMoneda",
-          "nombreTipoMoneda",
-          "simboloTipoMoneda",
-          ]
-      }
-      ]
-  },
-  ],
+        model: PrecioProductoModelo,
+        attributes: attributes.precioproducto,
+        include: [
+          {
+              model: TipoMonedaModelo,
+              attributes: attributes.tipomoneda
+          }
+        ]
+      },
+    ],
   }).then(project => {
-      if (!project || project == 0) {
-        locals['title'] = "No existe ningun registro con la palabra : " + req.params.anyAttribute;
-        locals['tipo'] = 2;
-        res.json(locals);
-      } else {
-        locals['title'] = `${legend}`;
-        locals['tipo'] = 1;
-        locals['data'] = project;
-        res.json(locals);
-      }
+    if (!project || project == 0) {
+      locals['title'] = `No existe registro con valor : ${req.params[nametable]}.`;
+      locals['tipo'] = 2;
+    } else {
+      locals['title'] = `${legend}`;
+      locals['data'] = project;
+      locals['tipo'] = 1;
+    }
+    res.json(locals);
   });
 };
 
@@ -110,72 +83,36 @@ ProductoController.getToName = (req, res, next) => {
   let locals = {};
   ProductoModelo.findAll({
     where: { [nombretable]: { [Op.substring]: req.params[nombretable] }},
-    attributes: [
-      "idProducto",
-      "codProducto",
-      "cantidadMedida",
-      "nombreProducto",
-      "descripcionProducto",
-      "pathImagenProducto"
-  ],
-  include: [
+    attributes: attributes.producto,
+    include: [
       {
       model: RubroModelo,
-      attributes: [
-          "idRubro",
-          "codRubro",
-          "nombreRubro",
-          "descripcionRubro"
-      ],
+      attributes: attributes.rubro,
       },
       {
       model: UnidadMedidaModelo,
-      attributes: [
-          "idUnidadMedida",
-          "codUnidadMedida",
-          "nombreUnidadMedida",
-          "descripcionUnidadMedida",
-          "caracterUnidadMedida",
-      ],
+      attributes: attributes.unidadmedida,
       },
       {
-      model: ProductoEstadoModelo,
-      attributes: [
-          "idProductoEstado",
-          "descripcionProductoEstado",
-          "fechaYHoraAltaProductoEstado",
-          "fechaYHoraBajaProductoEstado",
-      ],
-      include: [
-          {
-          model: EstadoProductoModelo,
-          attributes: [
-              "idEstadoProducto",
-              "codEstadoProducto",
-              "nombreEstadoProducto",
-          ]
-          }
-      ]
+        model: ProductoEstadoModelo,
+        attributes: attributes.productoestado,
+        include: [
+            {
+            model: EstadoProductoModelo,
+            attributes: attributes.estadoproducto
+            }
+        ]
       },
       {
       model: PrecioProductoModelo,
-      attributes: [
-          "idPrecioProducto",
-          "importePrecioProducto",
-          "fechaYHoraDesdePrecioProducto",
-          "fechaYHoraHastaPrecioProducto",
-      ],
+      attributes: attributes.precioproducto,
       include: [
-      {
-          model: TipoMonedaModelo,
-          attributes: [
-          "idTipoMoneda",
-          "nombreTipoMoneda",
-          "simboloTipoMoneda",
-          ]
-      }
+        {
+            model: TipoMonedaModelo,
+            attributes: attributes.tipomoneda
+        }
       ]
-  },
+    },
   ],
   }).then(project => {
     if (!project || project == 0) {
@@ -194,178 +131,95 @@ ProductoController.getToName = (req, res, next) => {
 ProductoController.getAll = (req, res) => {
   let locals = {};
   ProductoModelo.findAll({ 
-    // BUSCA POR FORANEA 
-    attributes: [
-        "idProducto",
-        "codProducto",
-        "cantidadMedida",
-        "nombreProducto",
-        "descripcionProducto",
-        "pathImagenProducto"
-    ],
+    attributes: attributes.producto,
     include: [
       {
-        model: RubroModelo,
-        attributes: [
-            "idRubro",
-            "codRubro",
-            "nombreRubro",
-            "descripcionRubro"
-        ],
+      model: RubroModelo,
+      attributes: attributes.rubro,
       },
       {
-        model: UnidadMedidaModelo,
-        attributes: [
-            "idUnidadMedida",
-            "codUnidadMedida",
-            "nombreUnidadMedida",
-            "descripcionUnidadMedida",
-            "caracterUnidadMedida",
-        ],
+      model: UnidadMedidaModelo,
+      attributes: attributes.unidadmedida,
       },
       {
-      model: ProductoEstadoModelo,
-        attributes: [
-            "idProductoEstado",
-            "descripcionProductoEstado",
-            "fechaYHoraAltaProductoEstado",
-            "fechaYHoraBajaProductoEstado",
-        ],
+        model: ProductoEstadoModelo,
+        attributes: attributes.productoestado,
         include: [
-          {
+            {
             model: EstadoProductoModelo,
-            attributes: [
-                "idEstadoProducto",
-                "codEstadoProducto",
-                "nombreEstadoProducto",
-            ]
-          }
+            attributes: attributes.estadoproducto
+            }
         ]
       },
       {
-      model: PrecioProductoModelo,
-      attributes: [
-            "idPrecioProducto",
-            "importePrecioProducto",
-            "fechaYHoraDesdePrecioProducto",
-            "fechaYHoraHastaPrecioProducto",
-      ],
-      include: [
-        {
-          model: TipoMonedaModelo,
-          attributes: [
-            "idTipoMoneda",
-            "nombreTipoMoneda",
-            "simboloTipoMoneda",
-          ]
-        }
-      ]
-    },
+        model: PrecioProductoModelo,
+        attributes: attributes.precioproducto,
+        include: [
+          {
+              model: TipoMonedaModelo,
+              attributes: attributes.tipomoneda
+          }
+        ]
+      },
     ],
-  }).then(response => {
-    if (!response || response == 0) {
-      // SI NO EXISTEN REGISTROS DE USUARIO
-      locals.title = {
-        descripcion: `No existen registros de ${legend}`
-      };
-      res.json(locals);
+  }).then(projects => {
+    if (!projects || projects == 0) {
+      locals['title'] = `No existen registros de ${legend}.`;
+      locals['tipo'] = 2;
     } else {
-      // SI EXISTE EL USUARIO REGRESARLOS CON SUS ASOCIACIONES
-      locals.title = `${legend}/s encontrado/s`;
-      locals[legend] = response;
-      res.json(locals)
+      locals['title'] = `${legend}`;
+      locals['data'] = projects;
+      locals['tipo'] = 1;
     }
-  })
+    res.json(locals);
+  });
 }
 
 ProductoController.getOne = (req, res) => {
   let locals = {};
-  // BUSCA EL USUARIO CON ID INGRESADO
   ProductoModelo.findOne({
     where: { [idtable]: req.params[idtable] },
-    // BUSCA POR FORANEA 
-    attributes: [
-        "idProducto",
-        "codProducto",
-        "cantidadMedida",
-        "nombreProducto",
-        "descripcionProducto",
-        "pathImagenProducto"
-    ],
+    attributes: attributes.producto,
     include: [
-        {
-        model: RubroModelo,
-        attributes: [
-            "idRubro",
-            "codRubro",
-            "nombreRubro",
-            "descripcionRubro"
-        ],
-        },
-        {
-        model: UnidadMedidaModelo,
-        attributes: [
-            "idUnidadMedida",
-            "codUnidadMedida",
-            "nombreUnidadMedida",
-            "descripcionUnidadMedida",
-            "caracterUnidadMedida",
-        ],
-        },
-        {
+      {
+      model: RubroModelo,
+      attributes: attributes.rubro,
+      },
+      {
+      model: UnidadMedidaModelo,
+      attributes: attributes.unidadmedida,
+      },
+      {
         model: ProductoEstadoModelo,
-        attributes: [
-            "idProductoEstado",
-            "descripcionProductoEstado",
-            "fechaYHoraAltaProductoEstado",
-            "fechaYHoraBajaProductoEstado",
-        ],
+        attributes: attributes.productoestado,
         include: [
             {
             model: EstadoProductoModelo,
-            attributes: [
-                "idEstadoProducto",
-                "codEstadoProducto",
-                "nombreEstadoProducto",
-            ]
+            attributes: attributes.estadoproducto
             }
         ]
-        },
-        {
+      },
+      {
         model: PrecioProductoModelo,
-        attributes: [
-            "idPrecioProducto",
-            "importePrecioProducto",
-            "fechaYHoraDesdePrecioProducto",
-            "fechaYHoraHastaPrecioProducto",
-        ],
+        attributes: attributes.precioproducto,
         include: [
-        {
-            model: TipoMonedaModelo,
-            attributes: [
-            "idTipoMoneda",
-            "nombreTipoMoneda",
-            "simboloTipoMoneda",
-            ]
-        }
+          {
+              model: TipoMonedaModelo,
+              attributes: attributes.tipomoneda
+          }
         ]
-    },
+      },
     ],
-  }).then(response => {
-    if (!response || response == 0) {
-      // SI NO EXISTE EL USUARIO
-      locals.title = {
-        descripcion: `No existe el registro : ${req.params[idtable]}`,
-        tipo: 2
-      };
-      res.json(locals);
+  }).then(project => {
+    if (!project || project == 0) {
+      locals['title'] = `No existe registro con id: ${req.params[idtable]}.`;
+      locals['tipo'] = 2;
     } else {
-      // SI EXISTE EL USUARIO AGREGAMOS A LA VARIABLE EL MISMO
-      // locals.title = `${legend} encontrado`;
-      locals[legend] = response.dataValues;
-      locals['tipo'] = 1
-      res.json(locals)
+      locals['title'] = `${legend}`;
+      locals['data'] = project;
+      locals['tipo'] = 1;
     }
+    res.json(locals);
   });
 };
 

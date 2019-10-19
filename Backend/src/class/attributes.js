@@ -98,6 +98,48 @@ estadomesa = [
     "colorEstadoMesa",
 ]
 
+producto = [
+    "idProducto",
+    "codProducto",
+    "cantidadMedida",
+    "nombreProducto",
+    "descripcionProducto",
+    "pathImagenProducto"
+]
+
+rubro = [
+    "idRubro",
+    "codRubro",
+    "nombreRubro",
+    "descripcionRubro"
+]
+
+productoestado = [
+    "idProductoEstado",
+    "descripcionProductoEstado",
+    "fechaYHoraAltaProductoEstado",
+    "fechaYHoraBajaProductoEstado",
+]
+
+estadoproducto = [
+    "idEstadoProducto",
+    "codEstadoProducto",
+    "nombreEstadoProducto",
+]
+
+precioproducto = [
+    "idPrecioProducto",
+    "importePrecioProducto",
+    "fechaYHoraDesdePrecioProducto",
+    "fechaYHoraHastaPrecioProducto",
+]
+
+tipomoneda = [
+    "idTipoMoneda",
+    "nombreTipoMoneda",
+    "simboloTipoMoneda",
+]
+
 module.exports = {
     usuario, 
     usuarioestado, 
@@ -113,5 +155,11 @@ module.exports = {
     mesaestado,
     estadomesa,
     ubicacion,
-    sector
+    sector,
+    producto,
+    productoestado,
+    estadoproducto,
+    rubro,
+    precioproducto,
+    tipomoneda
 }

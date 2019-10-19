@@ -142,9 +142,17 @@ SectorController.update = (req, res) => {
         let actualizar = false;
         if ( 
           body.codSector != response.dataValues.codSector || 
-          body.nombreSector != response.dataValues.nombreSector ||
-          body.fechaYHoraBajaSector != response.dataValues.fechaYHoraBajaSector
+          body.nombreSector != response.dataValues.nombreSector
           ) {actualizar = true}
+        if (body['bajaSector'] != null) {
+          if ( body['bajaSector'] == true && response.dataValues.fechaYHoraBajaSector == null) {
+            body['fechaYHoraBajaSector'] = new Date();
+            actualizar = true
+          } else if ( body['bajaSector'] == false && response.dataValues.fechaYHoraBajaSector != null) {
+            body['fechaYHoraBajaSector'] = null;
+            actualizar = true
+          }
+        }
         if (actualizar) {
           SectorModelo.update(
             body, 
@@ -175,27 +183,27 @@ SectorController.update = (req, res) => {
   }
 };
 
-SectorController.delete = (req, res, next) => {
-  let locals = {};
-  let body = {};
-  let idtabla = req.params[idtable];
-  body[bajatable] = date;
-  SectorModelo.update(
-    body, 
-    {where: {[idtable]: idtabla}}).then(result => {
-      if (result && result != 0) {
-        locals['title'] = `Registro ${legend} Actualizado`;
-        locals['tipo'] = 1;
-      } else {
-        locals['title'] = `Registro ${legend} NO Actualizado`;
-        locals['tipo'] = 2;
-      }
-      res.json(locals)
-    }).catch((error) => {
-      let locals = tratarError.tratarError(error, legend);
-      res.json(locals);
-  });
-}
+// SectorController.delete = (req, res, next) => {
+//   let locals = {};
+//   let body = {};
+//   let idtabla = req.params[idtable];
+//   body[bajatable] = date;
+//   SectorModelo.update(
+//     body, 
+//     {where: {[idtable]: idtabla}}).then(result => {
+//       if (result && result != 0) {
+//         locals['title'] = `Registro ${legend} Actualizado`;
+//         locals['tipo'] = 1;
+//       } else {
+//         locals['title'] = `Registro ${legend} NO Actualizado`;
+//         locals['tipo'] = 2;
+//       }
+//       res.json(locals)
+//     }).catch((error) => {
+//       let locals = tratarError.tratarError(error, legend);
+//       res.json(locals);
+//   });
+// }
 
 SectorController.destroy = (req, res, next) => {
   let locals = {};
