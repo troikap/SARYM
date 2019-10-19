@@ -27,6 +27,7 @@ import { CrudTipomonedaComponent } from './components/abm-tipomoneda/crud-tipomo
 import { CrudGestionarProductoComponent } from './components/gestionar-producto/crud-gestionar-producto/crud-gestionar-producto.component';
 import { ConsultaGestionarProductoComponent } from './components/gestionar-producto/consulta-gestionar-producto/consulta-gestionar-producto.component';
 import { NoimagePipe } from './pipes/noimage-producto.pipe';
+import { AbmSectorAltaComponent } from './components/abm-sector/abm-sector-alta/abm-sector-alta.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { NoimagePipe } from './pipes/noimage-producto.pipe';
     CrudTipomonedaComponent,
     CrudGestionarProductoComponent,
     ConsultaGestionarProductoComponent,
-    NoimagePipe
+    NoimagePipe,
+    AbmSectorAltaComponent
   ],
   imports: [
     BrowserModule,

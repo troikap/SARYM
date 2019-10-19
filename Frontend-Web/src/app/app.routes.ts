@@ -10,6 +10,7 @@ import { AbmCajaComponent } from './components/abm-caja/abm-caja.component';
 import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
 import { AbmSectorComponent } from './components/abm-sector/abm-sector.component';
+import { AbmSectorAltaComponent } from './components/abm-sector/abm-sector-alta/abm-sector-alta.component';
 import { GestionarProductoComponent } from './components/gestionar-producto/search-gestionar-producto/gestionar-producto.component';
 import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
@@ -35,6 +36,7 @@ const routes: Routes = [
     { path: 'rubro', component: AbmRubroComponent },
     { path: 'rubro_crud/:id/:accion', component: CrudRubroComponent },
     { path: 'sector', component: AbmSectorComponent },
+    { path: 'altaSector', component: AbmSectorAltaComponent },
     { path: 'producto', component: GestionarProductoComponent },
     { path: 'producto_consulta/:id', component: ConsultaGestionarProductoComponent },
     { path: 'producto_crud/:id/:accion', component: CrudGestionarProductoComponent },
