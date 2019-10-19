@@ -16,3 +16,5 @@ EstadoReserva
 EstadoProducto
 EstadoPedido
 EstadoMesa
+// medios
+Caja - CajaEstado - EstadoCaja - Usuario

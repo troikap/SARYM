@@ -64,6 +64,40 @@ estadocaja = [
     'nombreEstadoCaja',
 ]
 
+mesa = [
+    "idMesa",
+    "nroMesa",
+    "capacidadMesa",
+]
+
+sector = [
+    "idSector",
+    "codSector",
+    "nombreSector",
+    "fechaYHoraBajaSector",
+]
+
+ubicacion = [
+    "idUbicacion",
+    "nroUbicacion",
+    "descripcionUbicacion",
+]
+
+mesaestado = [
+    "idMesaEstado",
+    "idMesa",
+    "idEstadoMesa",
+    "fechaYHoraAltaMesaEstado",
+    "fechaYHoraBajaMesaEstado",
+]
+
+estadomesa = [
+    "idEstadoMesa",
+    "codEstadoMesa",
+    "nombreEstadoMesa",
+    "colorEstadoMesa",
+]
+
 module.exports = {
     usuario, 
     usuarioestado, 
@@ -74,5 +108,10 @@ module.exports = {
     unidadmedida,
     caja,
     cajaestado,
-    estadocaja
+    estadocaja,
+    mesa,
+    mesaestado,
+    estadomesa,
+    ubicacion,
+    sector
 }

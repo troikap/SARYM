@@ -192,9 +192,6 @@ CajaController.create = (req, res) => {
                   pushCajaEstado['descripcionCajaEstado'] = "Reciente.";
                   pushCajaEstado['montoAperturaCajaEstado'] = 0;
                   pushCajaEstado['montoCierreCajaEstado'] = 0;
-                  // pushCajaEstado['descripcionCajaEstado'] = req.body['descripcionCajaEstado'];
-                  // pushCajaEstado['montoAperturaCajaEstado'] = req.body['montoAperturaCajaEstado'];
-                  // pushCajaEstado['montoCierreCajaEstado'] = req.body['montoCierreCajaEstado'];
                   pushCajaEstado[idtable] = result[idtable];
                   pushCajaEstado['fechaYHoraAltaCajaEstado'] = new Date();
                   pushCajaEstado[idtable3] = 1;
@@ -244,9 +241,6 @@ CajaController.create = (req, res) => {
               pushCajaEstado['descripcionCajaEstado'] = "Reciente.";
               pushCajaEstado['montoAperturaCajaEstado'] = 0;
               pushCajaEstado['montoCierreCajaEstado'] = 0;
-              // pushCajaEstado['descripcionCajaEstado'] = req.body['descripcionCajaEstado'];
-              // pushCajaEstado['montoAperturaCajaEstado'] = req.body['montoAperturaCajaEstado'];
-              // pushCajaEstado['montoCierreCajaEstado'] = req.body['montoCierreCajaEstado'];
               pushCajaEstado[idtable] = result[idtable];
               pushCajaEstado['fechaYHoraAltaCajaEstado'] = new Date();
               pushCajaEstado[idtable3] = 1;
@@ -306,10 +300,16 @@ CajaController.actualizarDatos = (req, res) => {
                 [idtable]: body[idtable]
             }
         }).then(result => {
+          if (!response || response == 0) {
+            locals['title'] = `No se Actualizo ${legend} con id ${body[idtable]}`;
+            locals['tipo'] = 2;
+            res.json(locals);
+          } else {
           CajaEstadoModelo.update({ 
-            descripcionCajaEstado: body['descripcionCajaEstado'],
-            montoAperturaCajaEstado: body['montoAperturaCajaEstado'],
-            montoCierreCajaEstado: body['montoCierreCajaEstado'],
+            descripcionCajaEstado: body['descripcionCajaEstado'] || response.dataValues.cajaestados[0].dataValues.descripcionCajaEstado,
+            montoAperturaCajaEstado: body['montoAperturaCajaEstado'] || response.dataValues.cajaestados[0].dataValues.montoAperturaCajaEstado,
+            montoCierreCajaEstado: body['montoCierreCajaEstado'] || response.dataValues.cajaestados[0].dataValues.montoCierreCajaEstado,
+            [idtable4]: body[idtable4] || response.dataValues.cajaestados[0].dataValues[idtable4], // Usuario
            }, {where: {[idtable]: body[idtable], 
                       fechaYHoraBajaCajaEstado: null}
           }).then((resp) => {
@@ -322,6 +322,7 @@ CajaController.actualizarDatos = (req, res) => {
           }
           res.json(locals);
         });
+        }
       }).catch((error) => {
         let locals = tratarError.tratarError(error, legend);
         res.json(locals);
@@ -380,9 +381,15 @@ CajaController.cambiarEstado = (req, res) => {
               locals['tipo'] = 1;
             }
             res.json(locals);
-          })
+          }).catch((error) => {
+            locals = tratarError.tratarError(error, legend);
+            res.json(locals);
+          });
         }
-      })
+      }).catch((error) => {
+        locals = tratarError.tratarError(error, legend);
+        res.json(locals);
+      });
     }
   });
 };
@@ -417,155 +424,195 @@ CajaController.abrirCaja = (req, res) => {
       locals['tipo'] = 2;
       res.json(locals);
     } else {
-      
-      let pushCajaEstado = {};
-      pushCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
-      pushCajaEstado['descripcionCajaEstado'] = body['descripcionCajaEstado'] || response.dataValues.cajaestados[0].dataValues.descripcionCajaEstad;
-      pushCajaEstado['montoAperturaCajaEstado'] = body['montoAperturaCajaEstado'] || response.dataValues.cajaestados[0].dataValues.montoAperturaCajaEstado;
-
-      console.log("RESPUESTA !!!!!!!!!!! ,",response.dataValues.cajaestados[0].dataValues)
-
-      //   CajaEstadoModelo.update(pushCajaEstado , {
-      //     where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
-      // }).then((respons) => {
-      //   if(!respons || respons == 0) {
-      //     locals['title'] = `No existe ${legend2} habilitado.`;
-      //     locals['tipo'] = 2;
-      //     res.json(locals);
-      //   } else {
-      //     body['fechaYHoraAltaCajaEstado'] = new Date();
-      //     CajaEstadoModelo.create(body).then((resp) => {
-      //       if (!resp || resp == 0 ){
-      //         locals['title'] = `No se pudo crear ${legend2}.`;
-      //         locals['tipo'] = 2;
-      //       } else {
-      //         locals['title'] = `Se creo correctamente ${legend2}.`;
-      //         locals['tipo'] = 1;
-      //       }
-      //       res.json(locals);
-      //     })
-      //   }
-      // })
+      if (response.dataValues.cajaestados[0].dataValues.estadocaja.dataValues.nombreEstadoCaja == 'Cerrada' || 
+      response.dataValues.cajaestados[0].dataValues.estadocaja.dataValues.nombreEstadoCaja == 'Creada') {
+        let delCajaEstado = {};
+        delCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
+        CajaEstadoModelo.update(delCajaEstado , { where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
+        }).then((respons) => {
+          if (!respons || respons == 0) {
+            locals['title'] = `No se pudo dar de baja la ${legend} con id ${body[idtable]}.`;
+            locals['tipo'] = 2;
+          } else {
+            let pushCajaEstado = {};
+            pushCajaEstado[idtable] = body[idtable];
+            pushCajaEstado['fechaYHoraAltaCajaEstado'] = new Date();
+            pushCajaEstado[idtable3] = 2;
+            pushCajaEstado[idtable4] = body[idtable4];
+            pushCajaEstado['descripcionCajaEstado'] = body['descripcionCajaEstado'] || response.dataValues.cajaestados[0].dataValues.descripcionCajaEstado;
+            pushCajaEstado['montoAperturaCajaEstado'] = body['montoAperturaCajaEstado'] || response.dataValues.cajaestados[0].dataValues.montoAperturaCajaEstado;
+            CajaEstadoModelo.create(pushCajaEstado).then((resp) => {
+              if (!resp || resp == 0 ){
+                locals['title'] = `No se pudo crear ${legend2}.`;
+                locals['tipo'] = 2;
+              } else {
+                locals['title'] = `Se creo correctamente ${legend2}.`;
+                locals['tipo'] = 1;
+              }
+              res.json(locals);
+            })
+          }
+        })
+      } else {
+        locals['title'] = `No puede pasar a ese estado.`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      }
     }
   });
 };
 
-CajaController.update = (req, res) => {
+CajaController.cerrarCaja = (req, res) => {
   let locals = {};
   let body = req.body;
-  if (body[idtable]) {
-    CajaModelo.findOne({
-      where: {
-        [idtable]: body[idtable] },
-        attributes: attributes.caja,
-        include: [
-          {
-            model: CajaEstadoModelo,
-            where: { fechaYHoraBajaCajaEstado: null },
-            attributes: attributes.cajaestado,
-            include: [
-              {
-                model: EstadoCajaModelo,
-                attributes: attributes.estadocaja
-              },
-              {
-                model: UsuarioModelo,
-                attributes: attributes.usuario
-              }
-            ]
-          }
-        ]
-      }).then(response => {
-        locals['data'] = response;
-          if (!response || response == 0) {
-              locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
-              res.json(locals);
+  CajaModelo.findOne({
+    where: {
+      [idtable]: body[idtable] },
+      attributes: attributes.caja,
+      include: [
+        {
+          model: CajaEstadoModelo,
+          where: { fechaYHoraBajaCajaEstado: null },
+          attributes: attributes.cajaestado,
+          include: [
+            {
+              model: EstadoCajaModelo,
+              attributes: attributes.estadocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
+        }
+      ]
+    }).then(response => {
+      if (!response || response == 0) {
+        locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      } else {
+        if (response.dataValues.cajaestados[0].dataValues.estadocaja.dataValues.nombreEstadoCaja == 'Abierta'){
+          let delCajaEstado = {};
+          delCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
+          CajaEstadoModelo.update(delCajaEstado , { where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
+        }).then((respons) => {
+          if (!respons || respons == 0) {
+            locals['title'] = `No se pudo dar de baja la ${legend} con id ${body[idtable]}.`;
+            locals['tipo'] = 2;
           } else {
-              var actualizarEstado = false;
-              var check = false;
-              if (
-                  body.nroCaja != response.dataValues.nroCaja
-              ) {
-                  check = true
-              }
-              if ((body.idEstadoCaja != response.dataValues.cajaestados[0].dataValues.estadocaja.dataValues.idEstadoCaja) ||
-                  (body.idUsuario != response.dataValues.cajaestados[0].dataValues.usuario.dataValues.idUsuario) ||
-                  body['descripcionCajaEstado'] != response.dataValues.cajaestados[0].descripcionCajaEstado ||
-                  body['montoAperturaCajaEstado'] != response.dataValues.cajaestados[0].montoAperturaCajaEstado ||
-                  body['montoCierreCajaEstado'] != response.dataValues.cajaestados[0].montoCierreCajaEstado
-              ) {
-                  check = true;
-                  actualizarEstado = true;
-              }
-              // GUARDANDO
-              if (check) {
-                  CajaModelo.update(body, {
-                      where: {
-                          [idtable]: body[idtable]
-                      }
-                  }).then(result => {
-                    if (actualizarEstado) {
-                        CajaEstadoModelo.update({ fechaYHoraBajaCajaEstado: Date() }, {
-                            where: {
-                                [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
-                            })
-                            .then((resp) => {
-                                if (!resp || resp == 0) {
-                                    locals['title'] = "Error al Eliminar CajaEstado"
-                                    res.json(locals)
-                                } else {
-                                    locals['estado'] = "Actualizado Estado";
-                                    let pushEstado = {};
-                                    if (body.idEstadoCaja) {
-                                        pushEstado['idEstadoCaja'] = body.idEstadoCaja
-                                    } else {
-                                        pushEstado['idEstadoCaja'] = response.idEstadoCaja
-                                    }
-                                    if (body.idUsuario) {
-                                      pushEstado['idUsuario'] = body.idUsuario
-                                    } else {
-                                      pushEstado['idUsuario'] = response.idUsuario
-                                    }
-                                    pushEstado[idtable] = body[idtable];
-                                    pushEstado['fechaYHoraAltaCajaEstado'] = new Date();
-                                    pushEstado['descripcionCajaEstado'] = (body.descripcionCajaEstado || response.descripcionCajaEstado);
-                                    pushEstado['montoAperturaCajaEstado'] = (body.montoAperturaCajaEstado || response.montoAperturaCajaEstado);
-                                    pushEstado['montoCierreCajaEstado'] = (body.montoCierreCajaEstado || response.montoCierreCajaEstado);
-                                    CajaEstadoModelo.create(pushEstado)
-                                      .then(result => {
-                                          if (result) {
-                                              locals['title'] = `${legend} creado`;
-                                              locals[legend2] = result;
-                                          } else {
-                                              locals[legend2] = "nada";
-                                          }
-                                      });
-                                }
-                            })
-                      }
-                      let locals = {
-                          title: `Registro ${legend} Actualizado`,
-                          tipo: 1
-                      };
-                      res.json(locals);
-                  }).catch((error) => {
-                    let locals = tratarError.tratarError(error, legend);
-                    res.json(locals);
-                  });
+            let pushCajaEstado = {};
+            pushCajaEstado[idtable] = body[idtable];
+            pushCajaEstado['fechaYHoraAltaCajaEstado'] = new Date();
+            pushCajaEstado[idtable3] = 3;
+            pushCajaEstado[idtable4] = body[idtable4];
+            pushCajaEstado['descripcionCajaEstado'] = body['descripcionCajaEstado'] || response.dataValues.cajaestados[0].dataValues.descripcionCajaEstado;
+            pushCajaEstado['montoCierreCajaEstado'] = body['montoCierreCajaEstado'] || response.dataValues.cajaestados[0].dataValues.montoAperturaCajaEstado;
+            CajaEstadoModelo.create(pushCajaEstado).then((resp) => {
+              if (!resp || resp == 0 ){
+                locals['title'] = `No se pudo crear ${legend2}.`;
+                locals['tipo'] = 2;
               } else {
-                  let locals = {
-                      title: `No ha Modificado ningún Registro de ${legend}`,
-                      tipo: 2
-                  };
-                  res.json(locals);
+                locals['title'] = `Se creo correctamente ${legend2}.`;
+                locals['tipo'] = 1;
               }
+              res.json(locals);
+            })
           }
-      });
-  } else {
-      locals['title'] = `No envio id de ${legend}`;
-      res.json(locals);
-  }
+        })
+      } else {
+        locals['title'] = `No puede pasar a ese estado.`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      }
+    }
+  });
 };
 
+// return sequelize.transaction(t => {
+
+//   // chain all your queries here. make sure you return them.
+//   return User.create({
+//     firstName: 'Abraham',
+//     lastName: 'Lincoln'
+//   }, {transaction: t}).then(user => {
+//     return user.setShooter({
+//       firstName: 'John',
+//       lastName: 'Boothe'
+//     }, {transaction: t});
+//   });
+
+// }).then(result => {
+//   // Transaction has been committed
+//   // result is whatever the result of the promise chain returned to the transaction callback
+// }).catch(err => {
+//   // Transaction has been rolled back
+//   // err is whatever rejected the promise chain returned to the transaction callback
+// });
+
+// CajaController.cambiarEstado = (req, res) => {
+//   let locals = {};
+//   let body = req.body;
+//   CajaModelo.findOne({
+//     where: {
+//       [idtable]: body[idtable] },
+//       attributes: attributes.caja,
+//       include: [
+//         {
+//           model: CajaEstadoModelo,
+//           where: { fechaYHoraBajaCajaEstado: null },
+//           attributes: attributes.cajaestado,
+//           include: [
+//             {
+//               model: EstadoCajaModelo,
+//               attributes: attributes.estadocaja
+//             },
+//             {
+//               model: UsuarioModelo,
+//               attributes: attributes.usuario
+//             }
+//           ]
+//         }
+//       ]
+//     }).then(response => {
+//     if (!response || response == 0) {
+//       locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+//       locals['tipo'] = 2;
+//       res.json(locals);
+//     } else {
+//       sequelize.transaction(t => {
+//         let pushCajaEstado = {};
+//         pushCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
+//           CajaEstadoModelo.update(pushCajaEstado , {
+//             where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
+//         }, {transaction: t}).then((respons) => {
+//           if(!respons || respons == 0) {
+//             locals['title'] = `No existe ${legend2} habilitado.`;
+//             locals['tipo'] = 2;
+//             res.json(locals);
+//           } else {
+//             body['fechaYHoraAltaCajaEstado'] = new Date();
+//             CajaEstadoModelo.create(body,{transaction: t}).then((resp) => {
+//               if (!resp || resp == 0 ){
+//                 locals['title'] = `No se pudo crear ${legend2}.`;
+//                 locals['tipo'] = 2;
+//               } else {
+//                 locals['title'] = `Se creo correctamente ${legend2}.`;
+//                 locals['tipo'] = 1;
+//               }
+//               res.json(locals);
+//             }).catch((error) => {
+//               locals = tratarError.tratarError(error, legend);
+//               res.json(locals);
+//             });
+//           }
+//         }).catch((error) => {
+//           locals = tratarError.tratarError(error, legend);
+//           res.json(locals);
+//         });
+//       });
+//     }
+//   });
+// };
 
 module.exports = CajaController;

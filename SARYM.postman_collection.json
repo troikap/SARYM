@@ -172,7 +172,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idCaja\": 16,\n\t\"nroCaja\": 16,\n\t\"idUsuario\": 1\n\t\n}"
+							"raw": "{\n\t\"idCaja\": 20,\n\t\"nroCaja\": 20,\n\t\"idUsuario\": 1\n\t\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -197,7 +197,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idCaja\": 15,\n\t\"nroCaja\": 100,\n\t\"descripcionCajaEstado\": \"Ble...........\",\n    \"montoAperturaCajaEstado\": 1000,\n    \"montoCierreCajaEstado\": 1000\n}"
+							"raw": "{\n\t\"idCaja\": 20,\n\t\"nroCaja\": 100,\n\t\"descripcionCajaEstado\": \"Ble...........\",\n    \"montoAperturaCajaEstado\": 1000,\n    \"montoCierreCajaEstado\": 1000\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -222,32 +222,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idCaja\": 16,\n\t\"idEstadoCaja\": 3,\n\t\"idUsuario\": 3\n}"
-						},
-						"description": "Puede o no ir el idEstadoUsuario"
-					},
-					"response": []
-				},
-				{
-					"name": "Put Caja Abrir Caja",
-					"request": {
-						"url": "localhost:3000/caja/abrirCaja",
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							},
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"idCaja\": 16,\n\t\"idUsuario\": 3,\n\t\"descripcionCajaEstado\": \"Abriendo por Roberto Carlos\",\n\t\"montoAperturaCajaEstado\": 100\n\n}"
+							"raw": "{\n\t\"idCaja\": 20,\n\t\"idEstadoCaja\": 2,\n\t\"idUsuario\": 3,\n\t\"descripcionCajaEstado\": \"hola hernin\",\n\t\"montoAperturaCajaEstado\": 100\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -290,6 +265,115 @@
 						],
 						"body": {},
 						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mesa :name",
+					"request": {
+						"url": "localhost:3000/caja/name/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mesa :anyAttribute",
+					"request": {
+						"url": "localhost:3000/mesa/todo/primera",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Mesa",
+					"request": {
+						"url": "localhost:3000/mesa",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nroMesa\": 21,\n\t\"capacidadMesa\": 4,\n\t\"idSector\": 1,\n\t\"idUbicacion\": 1\n\t\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Mesa Actualizar Datos",
+					"request": {
+						"url": "localhost:3000/mesa/actualizarDatos",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idMesa\": 6,\n    \"nroMesa\": 10,\n    \"capacidadMesa\": 4,\n    \"idUbicacion\": 1,\n    \"idSector\":1\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Mesa Cambiar Estado",
+					"request": {
+						"url": "localhost:3000/caja/cambiarEstado",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idMesa\": 6,\n\t\"idEstadoCaja\": 2\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
 					},
 					"response": []
 				}
