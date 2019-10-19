@@ -11,10 +11,11 @@
             <th scope="col">Nombre de Sector</th>
             <th scope="col">Código de Sector</th>
             <th scope="col">Fecha deshabilitación</th>
+            <th scope="col">Acción</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let lista of listaSector">
+        <tr *ngFor="let lista of listaSectores">
             <th scope="row">{{lista.idSector}}</th>
             <td>{{lista.nombreSector}}</td>
             <td>{{lista.codSector}}</td>
@@ -34,6 +35,6 @@
         <td width="20%">&nbsp;</td>
         <td width="20%">&nbsp;</td>
         <td width="20%">&nbsp;</td>
-        <td align="right" width="20%"><button [routerLink]="['/usuario_crud/0/crear']" class="btn btn-success">Crear</button></td>
+        <td align="right" width="20%"><button [routerLink]="['/sector_crud/0/crear']" class="btn btn-success">Crear</button></td>
     </tr>
 </table>

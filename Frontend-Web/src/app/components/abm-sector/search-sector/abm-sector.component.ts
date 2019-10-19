@@ -51,8 +51,8 @@ export class AbmSectorComponent implements OnInit {
   getAllElements() {
     this.sectorService.getSectores()
       .then((res: any) => {
-        console.log("TRAIGO: ", res.Sector);
-        this.listaSectores = res.Sector;
+        console.log("TRAIGO: ", res);
+        this.listaSectores = res.data;
       })
 
   }

@@ -11,6 +11,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AbmUsuarioComponent } from './components/abm-usuario/search-usuario/abm-usuario.component';
+import { AbmSectorComponent } from './components/abm-sector/search-sector/abm-sector.component';
 import { AbmTipomonedaComponent } from './components/abm-tipomoneda/search-tipomoneda/abm-tipomoneda.component';
 import { AbmUnidadmedidaComponent } from './components/abm-unidadmedida/search-unidadmedida/abm-unidadmedida.component';
 import { AbmCajaComponent } from './components/abm-caja/search-caja/abm-caja.component';
@@ -38,6 +39,7 @@ import { NoimagePipe } from './pipes/noimage-producto.pipe';
     NavbarComponent,
     HomeComponent,
     AbmUsuarioComponent,
+    AbmSectorComponent,
     AbmTipomonedaComponent,
     AbmUnidadmedidaComponent,
     AbmCajaComponent,
