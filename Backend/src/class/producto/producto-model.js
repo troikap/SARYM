@@ -5,7 +5,6 @@ const sequelize = require('../../database/connection');
 
 const RubroModelo = require('../rubro/rubro-model');
 const UnidadMedidaModelo = require('../unidadmedida/unidadmedida-model');
-const DetallePedidoProductoModelo = require('../detallepedidoproducto/detallepedidoproducto-model');
 const ProductoEstadoModelo = require('../productoestado/productoestado-model');
 const PrecioProductoModelo = require('../precioproducto/precioproducto-model');
 
@@ -28,11 +27,11 @@ const ProductoModelo = sequelize.define('producto', {
     },
     cantidadMedida: {
         type: Sequelize.INTEGER,
-        allowNull: false
     },
     codProducto: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     nombreProducto: {
         type: Sequelize.STRING,
@@ -40,7 +39,6 @@ const ProductoModelo = sequelize.define('producto', {
     },
     descripcionProducto: {
         type: Sequelize.STRING,
-        allowNull: false
     },
     pathImagenProducto: {
         type: Sequelize.STRING
@@ -51,7 +49,6 @@ const ProductoModelo = sequelize.define('producto', {
 
 ProductoModelo.belongsTo(RubroModelo, { foreignKey: "idRubro" });
 ProductoModelo.belongsTo(UnidadMedidaModelo, { foreignKey: "idUnidadMedida" });
-ProductoModelo.hasMany(DetallePedidoProductoModelo, { foreignKey: "idProducto" });
 ProductoModelo.hasMany(ProductoEstadoModelo, { foreignKey: "idProducto" });
 ProductoModelo.hasMany(PrecioProductoModelo, { foreignKey: "idProducto" });
 

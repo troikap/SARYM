@@ -18,3 +18,4 @@ EstadoPedido
 EstadoMesa
 // medios
 Caja - CajaEstado - EstadoCaja - Usuario
+Mesa - MesaEstado - EstadoMesa - Sector - Ubicacion

@@ -144,7 +144,7 @@ router
     .get('/sector/todo/:anyAttribute', verificaToken, SectorController.getToAllAttributes)
     .post('/sector', verificaToken, SectorController.create)
     .put('/sector', verificaToken, SectorController.update)
-    .post('/sector/:idSector', verificaToken, SectorController.delete)
+    // .post('/sector/:idSector', verificaToken, SectorController.delete)
     .delete('/sector/:idSector', verificaToken, SectorController.destroy)
 
 // caja

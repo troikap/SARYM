@@ -295,12 +295,15 @@ CajaController.actualizarDatos = (req, res) => {
         locals['tipo'] = 2;
         res.json(locals);
       } else {
+        if (body[codtable] == null) {
+          body[codtable] = response.dataValues[codtable]
+        }
         CajaModelo.update(body, {
             where: {
                 [idtable]: body[idtable]
             }
         }).then(result => {
-          if (!response || response == 0) {
+          if (!result || result == 0) {
             locals['title'] = `No se Actualizo ${legend} con id ${body[idtable]}`;
             locals['tipo'] = 2;
             res.json(locals);
@@ -361,35 +364,49 @@ CajaController.cambiarEstado = (req, res) => {
       locals['tipo'] = 2;
       res.json(locals);
     } else {
-      let pushCajaEstado = {};
-      pushCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
-        CajaEstadoModelo.update(pushCajaEstado , {
-          where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
-      }).then((respons) => {
-        if(!respons || respons == 0) {
-          locals['title'] = `No existe ${legend2} habilitado.`;
-          locals['tipo'] = 2;
-          res.json(locals);
-        } else {
-          body['fechaYHoraAltaCajaEstado'] = new Date();
-          CajaEstadoModelo.create(body).then((resp) => {
-            if (!resp || resp == 0 ){
-              locals['title'] = `No se pudo crear ${legend2}.`;
-              locals['tipo'] = 2;
-            } else {
-              locals['title'] = `Se creo correctamente ${legend2}.`;
-              locals['tipo'] = 1;
-            }
-            res.json(locals);
-          }).catch((error) => {
-            locals = tratarError.tratarError(error, legend);
-            res.json(locals);
-          });
-        }
-      }).catch((error) => {
-        locals = tratarError.tratarError(error, legend);
+      if (!body[idtable4]) {
+        locals['title'] = `No se envia ${legend4}.`;
+        locals['tipo'] = 2;
         res.json(locals);
-      });
+      } else {
+        EstadoCajaModelo.findOne({where: { [idtable3]: body[idtable3] }}).then((estadocaja) =>{
+          if(!estadocaja || estadocaja == 0) {
+            locals['title'] = `No existe ${legend3} con id ${idtable3}.`;
+            locals['tipo'] = 2;
+            res.json(locals);
+          } else {
+            let pushCajaEstado = {};
+            pushCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
+              CajaEstadoModelo.update(pushCajaEstado , {
+                where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
+            }).then((respons) => {
+              if(!respons || respons == 0) {
+                locals['title'] = `No existe ${legend2} habilitado.`;
+                locals['tipo'] = 2;
+                res.json(locals);
+              } else {
+                body['fechaYHoraAltaCajaEstado'] = new Date();
+                CajaEstadoModelo.create(body).then((resp) => {
+                  if (!resp || resp == 0 ){
+                    locals['title'] = `No se pudo crear ${legend2}.`;
+                    locals['tipo'] = 2;
+                  } else {
+                    locals['title'] = `Se creo correctamente ${legend2}.`;
+                    locals['tipo'] = 1;
+                  }
+                  res.json(locals);
+                }).catch((error) => {
+                  locals = tratarError.tratarError(error, legend);
+                  res.json(locals);
+                });
+              }
+            }).catch((error) => {
+              locals = tratarError.tratarError(error, legend);
+              res.json(locals);
+            });
+          }
+        })
+      }
     }
   });
 };
