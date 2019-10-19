@@ -58,6 +58,10 @@ router
     .get('/producto/:idProducto', verificaToken, ProductoController.getOne)
     .get('/producto/name/:nombreProducto', verificaToken, ProductoController.getToName)
     .get('/producto/todo/:anyAttribute', verificaToken, ProductoController.getToAllAttributes)
+    .put('/producto/actualizarDatos', verificaToken, ProductoController.actualizarDatos)
+    .put('/producto/cambiarEstado', verificaToken, ProductoController.cambiarEstado)
+    .put('/producto/cambiarPrecio', verificaToken, ProductoController.cambiarPrecio)
+
 
 // promocion
     .get('/menupromocion', verificaToken, MenuPromocionController.getAll)
