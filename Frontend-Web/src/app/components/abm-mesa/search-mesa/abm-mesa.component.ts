@@ -50,7 +50,7 @@ export class AbmMesaComponent implements OnInit {
   getAllElements() {
     this.mesaService.getMesas()
       .then((res: any) => {
-        console.log("TRAIGO: ", res);
+        console.log("MESAS: ", res.data);
         this.listaMesas = res.data;
       })
   }

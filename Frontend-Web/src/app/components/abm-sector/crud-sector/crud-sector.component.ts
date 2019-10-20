@@ -69,7 +69,7 @@ export class CrudSectorComponent implements OnInit {
         .then((res) => {
           console.log("SECTOR TRAIDO: ", res)
           if (res['tipo'] == 2) {
-            console.log("Error")
+            console.log("Error de base de datos, tipo 2")
           } else {
             if (res) {
               this.sector = res['data'];
