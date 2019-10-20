@@ -38,7 +38,7 @@ export class ProductoService {
       }));
     }
     else {
-      // console.log("Service getProductos: SIN TERMINO");
+      // console.log("Service getProductosByAll: SIN TERMINO");
     }
   }
 
