@@ -81,6 +81,9 @@ export class CrudSectorComponent implements OnInit {
                 fechaYHoraBajaSector: this.sector['fechaYHoraBajaSector']
               }
               this.form.setValue(this.newForm)
+              if (this.accionGet == "eliminar") {
+                this.form.disable();
+              }
               console.log("FORM", this.form)
             }
           }

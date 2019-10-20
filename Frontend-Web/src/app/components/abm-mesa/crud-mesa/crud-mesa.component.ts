@@ -1,9 +1,19 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder,FormGroup,Validators,FormControl,ValidatorFn,ValidationErrors} from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+  ValidatorFn,
+  ValidationErrors
+} from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { MesaService } from "../../../services/mesa/mesa.service";
 import { Mesa } from "../../../model/mesa/mesa.model";
-import { EstadoMesaService, EstadoMesa } from "../../../services/estadomesa/estadomesa.service";
+import {
+  EstadoMesaService,
+  EstadoMesa
+} from "../../../services/estadomesa/estadomesa.service";
 import { SectorService } from "../../../services/sector/sector.service";
 import { Sector } from "../../../model/sector/sector.model";
 
@@ -33,7 +43,7 @@ export class CrudMesaComponent implements OnInit {
   ) {
     this.form = this.formBuilder.group({
       idMesa: [""],
-      nroMesa: ["", Validators.required],      
+      nroMesa: ["", Validators.required],
       capacidadMesa: ["", Validators.required],
       nroUbicacion: ["", Validators.required],
       idEstadoMesa: ["", Validators.required],
@@ -72,9 +82,12 @@ export class CrudMesaComponent implements OnInit {
               capacidadMesa: this.mesa["capacidadMesa"],
               nroUbicacion: this.mesa["nroUbicacion"],
               idEstadoMesa: this.mesa["mesaestados"][0].estadomesa.idEstadoMesa,
-              idSector: this.mesa["sector"].idSector,
-         };
+              idSector: this.mesa["sector"].idSector
+            };
             this.form.setValue(this.newForm);
+            if (this.accionGet == "eliminar") {
+              this.form.disable();
+            }
             console.log("FORM", this.form);
           }
         }
@@ -270,7 +283,7 @@ export class CrudMesaComponent implements OnInit {
   }
   traerSectorMesa() {
     this.sectorService.getSectores().then(res => {
-      this.sectores = res['data'];
+      this.sectores = res["data"];
     });
   }
 }
