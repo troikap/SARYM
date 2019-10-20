@@ -61,20 +61,18 @@ export class CrudMesaComponent implements OnInit {
     console.log(this.idMesa);
     if (this.idMesa !== 0) {
       this.mesaService.getMesa(this.idMesa).then(res => {
-        console.log("MESA TRAIDA: ", res);
         if (res["tipo"] == 2) {
           console.log("Error de base de datos, tipo 2");
         } else {
           if (res) {
             this.mesa = res["data"];
-            console.log("asdadasdasdasdasd", this.mesa)
             this.newForm = {
               idMesa: this.mesa["idMesa"],
               nroMesa: this.mesa["nroMesa"],
               capacidadMesa: this.mesa["capacidadMesa"],
               nroUbicacion: this.mesa["nroUbicacion"],
               idEstadoMesa: this.mesa["mesaestados"][0].estadomesa.idEstadoMesa,
-              idSector: this.mesa["sector"].nombreSector,
+              idSector: this.mesa["sector"].idSector,
          };
             this.form.setValue(this.newForm);
             console.log("FORM", this.form);
@@ -268,13 +266,11 @@ export class CrudMesaComponent implements OnInit {
   traerEstadoMesa() {
     this.estadoMesaService.getEstadosMesas().then(res => {
       this.estadoMesas = res;
-      console.log("ESTADOS", res)
     });
   }
   traerSectorMesa() {
     this.sectorService.getSectores().then(res => {
       this.sectores = res['data'];
-      console.log("SECTORES ENCONTRADOS", res['data'])
     });
   }
 }
