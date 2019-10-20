@@ -470,7 +470,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"nroMesa\": 21,\n\t\"capacidadMesa\": 4,\n\t\"idSector\": 1,\n\t\"idUbicacion\": 1\n\t\n}"
+							"raw": "{\n\t\"nroMesa\": 21,\n\t\"capacidadMesa\": 4,\n\t\"idSector\": 1,\n\t\"nroUbicacion\": 4\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -504,7 +504,7 @@
 				{
 					"name": "Put Mesa Cambiar Estado",
 					"request": {
-						"url": "localhost:3000/caja/cambiarEstado",
+						"url": "localhost:3000/mesa/cambiarEstado",
 						"method": "PUT",
 						"header": [
 							{
@@ -520,7 +520,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idMesa\": 6,\n\t\"idEstadoCaja\": 2\n}"
+							"raw": "{\n\t\"idMesa\": 6,\n\t\"idEstadoMesa\": 2\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
