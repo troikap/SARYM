@@ -2,7 +2,6 @@
 
 const Sequelize = require('sequelize');
 const TipoMenuPromocionModelo = require('../tipomenupromocion/tipomenupromocion-model');
-const DetallePedidoProductoModelo = require('../detallepedidoproducto/detallepedidoproducto-model');
 const MenuPromocionEstadoModelo = require('../menupromocionestado/menupromocionestado-model');
 const PrecioMenuPromocionModelo = require('../preciomenupromocion/preciomenupromocion-model');
 const DetalleMenuPromocionProductoModelo = require('../detallemenupromocionproducto/detallemenupromocionproducto-model');
@@ -24,7 +23,8 @@ const MenuPromocionModelo = sequelize.define('menupromocion', {
     },
     codMenuPromocion: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     nombreMenuPromocion: {
         type: Sequelize.STRING,
@@ -42,7 +42,6 @@ const MenuPromocionModelo = sequelize.define('menupromocion', {
 });
 
 MenuPromocionModelo.belongsTo(TipoMenuPromocionModelo, { foreignKey: "idTipoMenuPromocion" });
-MenuPromocionModelo.hasMany(DetallePedidoProductoModelo, { foreignKey: "idMenuPromocion" });
 MenuPromocionModelo.hasMany(MenuPromocionEstadoModelo, { foreignKey: "idMenuPromocion" });
 MenuPromocionModelo.hasMany(PrecioMenuPromocionModelo, { foreignKey: "idMenuPromocion" });
 MenuPromocionModelo.hasMany(DetalleMenuPromocionProductoModelo, { foreignKey: "idMenuPromocion" });

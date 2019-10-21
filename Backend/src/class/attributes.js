@@ -148,6 +148,44 @@ tipomoneda = [
     "simboloTipoMoneda",
 ]
 
+menupromocion = [
+    "idMenuPromocion",
+    "codMenuPromocion",
+    "nombreMenuPromocion",
+    "descripcionMenuPromocion",
+    "pathImagenMenuPromocion",
+]
+
+tipomenupromocion = [
+    "idTipoMenuPromocion",
+    "nombreTipoMenuPromocion",
+]
+
+menupromocionestado = [
+    "idMenuPromocionEstado",
+    "descripcionMenuPromocionEstado",
+    "fechaYHoraAltaMenuPromocionEstado",
+    "fechaYHoraBajaMenuPromocionEstado",
+]
+
+estadomenupromocion = [
+    "idEstadoMenuPromocion",
+    "codEstadoMenuPromocion",
+    "nombreEstadoMenuPromocion",
+]
+
+preciomenupromocion = [
+    "idPrecioMenuPromocion",
+    "importePrecioMenuPromocion",
+    "fechaYHoraDesdePrecioMenuPromocion",
+    "fechaYHoraHastaPrecioMenuPromocion",
+]
+
+detallemenupromocionproducto = [
+    "idDetalleMenuPromocionProducto",
+    "cantidadProductoMenuPromocion",
+]
+
 module.exports = {
     usuario, 
     usuarioestado, 
@@ -168,5 +206,11 @@ module.exports = {
     estadoproducto,
     rubro,
     precioproducto,
-    tipomoneda
+    tipomoneda,
+    menupromocion,
+    tipomenupromocion,
+    menupromocionestado,
+    estadomenupromocion,
+    preciomenupromocion,
+    detallemenupromocionproducto
 }
