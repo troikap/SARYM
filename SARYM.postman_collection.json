@@ -254,7 +254,7 @@
 				{
 					"name": "Get Producto : id",
 					"request": {
-						"url": "localhost:3000/producto/1",
+						"url": "localhost:3000/producto/20",
 						"method": "GET",
 						"header": [
 							{
@@ -303,6 +303,31 @@
 					"response": []
 				},
 				{
+					"name": "Post Producto",
+					"request": {
+						"url": "localhost:3000/producto",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codProducto\": \"PRUEBA4\",\n    \"cantidadMedida\": 5,\n    \"nombreProducto\": \"PRUEBA3\",\n    \"descripcionProducto\": \"JAAJAJJAJA \",\n    \"pathImagenProducto\": \"jajaja.png\",\n    \"idRubro\": 2,\n    \"idUnidadMedida\": 2,\n    \n    \"idEstadoProducto\": 1,\n    \n    \"idTipoMoneda\": 1,\n    \"importePrecioProducto\": 99.98,\n    \"fechaYHoraDesdePrecioProducto\": \"2019-10-19T21:52:49.000Z\",\n    \"fechaYHoraHastaPrecioProducto\": null\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
 					"name": "Put Producto Actualizar Datos",
 					"request": {
 						"url": "localhost:3000/producto/actualizarDatos",
@@ -321,7 +346,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idProducto\":1,\n    \"codProducto\":\"PIZZA\",\n    \"cantidadMedida\":5,\n    \"nombreProducto\":\"Roberto\",\n    \"descripcionProducto\": \"JAAJAJJAJA \",\n    \"pathImagenProducto\": \"jajaja.png\",\n    \"idRubro\": 2,\n    \"idUnidadMedida\": 2\n}"
+							"raw": "{\n\t\"idProducto\":20,\n    \"codProducto\":\"PRUEBA5\",\n    \"cantidadMedida\":5,\n    \"nombreProducto\":\"aaaaaaaa\",\n    \"descripcionProducto\": \"aaaaaaaaaaaaaa \",\n    \"pathImagenProducto\": \"aaaaaaaaaaa.png\",\n    \"idRubro\": 2,\n    \"idUnidadMedida\": 2\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -346,7 +371,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idMesa\": 6,\n\t\"idEstadoCaja\": 2\n}"
+							"raw": "{\n\t\"idProducto\": 20,\n\t\"idEstadoProducto\": 2,\n\t\"descripcionProductoEstado\": \"Cambio a estado 2 .\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -355,7 +380,7 @@
 				{
 					"name": "Put Producto Cambiar Precio",
 					"request": {
-						"url": "localhost:3000/producto/cambiarEstado",
+						"url": "localhost:3000/producto/cambiarPrecio",
 						"method": "PUT",
 						"header": [
 							{
@@ -371,7 +396,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idMesa\": 6,\n\t\"idEstadoCaja\": 2\n}"
+							"raw": "{\n\t\"idProducto\": 20,\n\t\"idTipoMoneda\": 2,\n\t\"importePrecioProducto\": 100,\n    \"fechaYHoraDesdePrecioProducto\":\"2019-10-20T23:23:53.000Z\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -495,7 +520,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idMesa\": 6,\n    \"nroMesa\": 10,\n    \"capacidadMesa\": 4,\n    \"idUbicacion\": 1,\n    \"idSector\":1\n}"
+							"raw": "{\n\t\"idMesa\": 6,\n    \"nroMesa\": 10,\n    \"capacidadMesa\": 4,\n    \"nroUbicacion\": 1,\n    \"idSector\":1\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -520,7 +545,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idMesa\": 6,\n\t\"idEstadoMesa\": 2\n}"
+							"raw": "{\n\t\"idMesa\": 5,\n\t\"idEstadoMesa\": 2\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
