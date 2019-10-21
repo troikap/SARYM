@@ -64,10 +64,10 @@ export class ProductoService {
     return this.http
       .get(`${this.url}${this.dir}/${id}`, {headers}) 
       .toPromise()
-      .then(response => {
-        let prod = response as Producto;
-        console.log("Datos Obtenidos del Servicio:", prod['Producto']);
-        return prod['Producto'];
+      .then((response: any) => {
+        let prod = response.data as Producto;
+        console.log("Datos Obtenidos del Servicio getProducto:", prod);
+        return prod;
       })
       .catch(  );
   }
