@@ -53,8 +53,8 @@ export class GestionarProductoComponent implements OnInit {
   getAllElements() {
     this.productoService.getAllProductos()
       .then((res: any) => {
-        console.log(res.Producto);
-        this.listaProductos =  res.Producto;
+        console.log("getAllElements", res.data);
+        this.listaProductos =  res.data;
       })
   }
 

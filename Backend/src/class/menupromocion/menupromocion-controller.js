@@ -1,8 +1,10 @@
 "use strict";
 
 require('../../config');
-const MenuPromocionModelo = require("./menupromocion-model"),
+const tratarError = require("../../middlewares/handleError"),
+  MenuPromocionModelo = require("./menupromocion-model"),
   MenuPromocionController = () => { },
+  attributes = require('../attributes'),
   RubroModelo = require("../rubro/rubro-model"),
   UnidadMedidaModelo = require("../unidadmedida/unidadmedida-model"),
   MenuPromocionEstadoModelo = require("../menupromocionestado/menupromocionestado-model"),
@@ -17,7 +19,18 @@ const MenuPromocionModelo = require("./menupromocion-model"),
   EstadoProductoModelo = require("../estadoproducto/estadoproducto-model"),
  
   legend = "MenuPromocion",
+  legend2 = "ProductoEstado",
+  legend3 = "EstadoProducto",
+  legend4 = "TipoMoneda",
+  legend5 = "Rubro",
+  legend6 = "UnidadMedida",
+  legend7 = "PrecioProducto",
   idtable = `id${legend}`,
+  idtable2 = `id${legend2}`,
+  idtable3 = `id${legend3}`,
+  idtable4 = `id${legend4}`,
+  idtable5 = `id${legend5}`,
+  idtable6 = `id${legend6}`,
   nombretable = `nombre${legend}`,
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
@@ -30,133 +43,73 @@ MenuPromocionController.getToAllAttributes = (req, res, next) => {
             {codMenuPromocion: {[Op.substring]: req.params.anyAttribute}},
             {idMenuPromocion: {[Op.substring]: req.params.anyAttribute}},
             {nombreMenuPromocion: {[Op.substring]: req.params.anyAttribute}},
+            Sequelize.literal("`tipomenupromocion`.`nombreTipoMenuPromocion` LIKE '%" + req.params.anyAttribute + "%'"),
+            Sequelize.literal("`menupromocionestados->estadomenupromocion`.`nombreEstadoMenuPromocion` LIKE '%" + req.params.anyAttribute + "%'"),
+            Sequelize.literal("`preciomenupromocions->tipomoneda`.`nombreTipoMoneda` LIKE '%" + req.params.anyAttribute + "%'"),
+            Sequelize.literal("`detallemenupromocionproductos->producto`.`nombreProducto` LIKE '%" + req.params.anyAttribute + "%'"),
         ]
     },
-    attributes: [
-        "idMenuPromocion",
-        "codMenuPromocion",
-        "nombreMenuPromocion",
-        "descripcionMenuPromocion",
-        "pathImagenMenuPromocion",
-    ],
+    attributes: attributes.menupromocion,
     include: [
         {
             model: TipoMenuPromocionModelo,
-            attributes: [
-                "idTipoMenuPromocion",
-                "nombreTipoMenuPromocion",
-            ],
+            attributes: attributes.tipomenupromocion,
         },
         {
             model: MenuPromocionEstadoModelo,
-            attributes: [
-                "idMenuPromocionEstado",
-                "descripcionMenuPromocionEstado",
-                "fechaYHoraAltaMenuPromocionEstado",
-                "fechaYHoraBajaMenuPromocionEstado",
-            ],
+            where: { fechaYHoraBajaMenuPromocionEstado: null },
+            attributes: attributes.menupromocionestado,
             include: [
                 {
                 model: EstadoMenuPromocionModelo,
-                attributes: [
-                    "idEstadoMenuPromocion",
-                    "codEstadoMenuPromocion",
-                    "nombreEstadoMenuPromocion",
-                ]
+                attributes: attributes.estadomenupromocion
                 }
             ]
         },
         {
             model: PrecioMenuPromocionModelo,
-            attributes: [
-                "idPrecioMenuPromocion",
-                "importePrecioMenuPromocion",
-                "fechaYHoraDesdePrecioMenuPromocion",
-                "fechaYHoraHastaPrecioMenuPromocion",
-            ],
+            where: { fechaYHoraHastaMenuPromocionEstado: null },
+            attributes: attributes.preciomenupromocion,
             include: [
                 {
                     model: TipoMonedaModelo,
-                    attributes: [
-                    "idTipoMoneda",
-                    "nombreTipoMoneda",
-                    "simboloTipoMoneda",
-                    ]
+                    attributes: attributes.tipomoneda
                 }
             ],
         },
         {
             model: DetalleMenuPromocionProductoModelo,
-            attributes: [
-                "idDetalleMenuPromocionProducto",
-                "cantidadProductoMenuPromocion",
-            ],
+            attributes: attributes.detallemenupromocionproducto,
             include: [
                 {
                     model: ProductoModelo,
-                    attributes: [
-                        "idProducto",
-                        "codProducto",
-                        "nombreProducto",
-                        "descripcionProducto",
-                        "pathImagenProducto",
-                        "cantidadMedida"
-                    ],
+                    attributes: attributes.producto,
                     include: [
                         {
-                        model: RubroModelo,
-                        attributes: [
-                            "idRubro",
-                            "codRubro",
-                            "nombreRubro",
-                            "descripcionRubro"
-                        ],
+                            model: RubroModelo,
+                            attributes: attributes.rubro,
                         },
                         {
-                        model: UnidadMedidaModelo,
-                        attributes: [
-                            "idUnidadMedida",
-                            "codUnidadMedida",
-                            "nombreUnidadMedida",
-                            "descripcionUnidadMedida",
-                            "caracterUnidadMedida",
-                        ],
+                            model: UnidadMedidaModelo,
+                            attributes: attributes.unidadmedida,
                         },
                         {
                             model: ProductoEstadoModelo,
-                            attributes: [
-                                "idProductoEstado",
-                                "descripcionProductoEstado",
-                                "fechaYHoraAltaProductoEstado",
-                                "fechaYHoraBajaProductoEstado",
-                            ],
+                            attributes: attributes.productoestado,
                             include: [
                                 {
-                                model: EstadoProductoModelo,
-                                attributes: [
-                                    "idEstadoProducto",
-                                    "codEstadoProducto",
-                                    "nombreEstadoProducto",
-                                    ]
+                                    model: EstadoProductoModelo,
+                                    attributes: attributes.estadoproducto
                                 }
                             ]
                         },
                         {
                             model: PrecioProductoModelo,
-                            attributes: [
-                                "idPrecioProducto",
-                                "importePrecioProducto",
-                                "fechaYHoraDesdePrecioProducto",
-                                "fechaYHoraHastaPrecioProducto",
-                            ],
+                            attributes: attributes.precioproducto,
                             include: [
                                 {
                                     model: TipoMonedaModelo,
-                                    attributes: [
-                                    "idTipoMoneda",
-                                    "nombreTipoMoneda",
-                                    "simboloTipoMoneda",
-                                    ]
+                                    attributes: attributes.tipomoneda
                                 }
                             ]
                         }
@@ -169,296 +122,165 @@ MenuPromocionController.getToAllAttributes = (req, res, next) => {
         if (!project || project == 0) {
             locals['title'] = "No existe ningun registro con la palabra : " + req.params.anyAttribute;
             locals['tipo'] = 2;
-            res.json(locals);
         } else {
             locals['title'] = `${legend}`;
             locals['tipo'] = 1;
             locals['data'] = project;
-            res.json(locals);
         }
+        res.json(locals);
     });
 };
 
 MenuPromocionController.getToName = (req, res, next) => {
     let locals = {};
     MenuPromocionModelo.findAll({
-      where: { [nombretable]: { [Op.substring]: req.params[nombretable] }},
-      attributes: [
-        "idMenuPromocion",
-        "codMenuPromocion",
-        "nombreMenuPromocion",
-        "descripcionMenuPromocion",
-        "pathImagenMenuPromocion",
-    ],
-    include: [
-        {
-            model: TipoMenuPromocionModelo,
-            attributes: [
-                "idTipoMenuPromocion",
-                "nombreTipoMenuPromocion",
-            ],
-        },
-        {
-            model: MenuPromocionEstadoModelo,
-            attributes: [
-                "idMenuPromocionEstado",
-                "descripcionMenuPromocionEstado",
-                "fechaYHoraAltaMenuPromocionEstado",
-                "fechaYHoraBajaMenuPromocionEstado",
-            ],
-            include: [
-                {
-                model: EstadoMenuPromocionModelo,
-                attributes: [
-                    "idEstadoMenuPromocion",
-                    "codEstadoMenuPromocion",
-                    "nombreEstadoMenuPromocion",
+        where: { [nombretable]: { [Op.substring]: req.params[nombretable] }},
+        attributes: attributes.menupromocion,
+        include: [
+            {
+                model: TipoMenuPromocionModelo,
+                attributes: attributes.tipomenupromocion,
+            },
+            {
+                model: MenuPromocionEstadoModelo,
+                where: { fechaYHoraBajaMenuPromocionEstado: null },
+                attributes: attributes.menupromocionestado,
+                include: [
+                    {
+                    model: EstadoMenuPromocionModelo,
+                    attributes: attributes.estadomenupromocion
+                    }
                 ]
-                }
-            ]
-        },
-        {
-            model: PrecioMenuPromocionModelo,
-            attributes: [
-                "idPrecioMenuPromocion",
-                "importePrecioMenuPromocion",
-                "fechaYHoraDesdePrecioMenuPromocion",
-                "fechaYHoraHastaPrecioMenuPromocion",
-            ],
-            include: [
-                {
-                    model: TipoMonedaModelo,
-                    attributes: [
-                    "idTipoMoneda",
-                    "nombreTipoMoneda",
-                    "simboloTipoMoneda",
-                    ]
-                }
-            ],
-        },
-        {
-            model: DetalleMenuPromocionProductoModelo,
-            attributes: [
-                "idDetalleMenuPromocionProducto",
-                "cantidadProductoMenuPromocion",
-            ],
-            include: [
-                {
-                    model: ProductoModelo,
-                    attributes: [
-                        "idProducto",
-                        "codProducto",
-                        "nombreProducto",
-                        "descripcionProducto",
-                        "pathImagenProducto",
-                        "cantidadMedida"
-                    ],
-                    include: [
-                        {
-                        model: RubroModelo,
-                        attributes: [
-                            "idRubro",
-                            "codRubro",
-                            "nombreRubro",
-                            "descripcionRubro"
-                        ],
-                        },
-                        {
-                        model: UnidadMedidaModelo,
-                        attributes: [
-                            "idUnidadMedida",
-                            "codUnidadMedida",
-                            "nombreUnidadMedida",
-                            "descripcionUnidadMedida",
-                            "caracterUnidadMedida",
-                        ],
-                        },
-                        {
-                            model: ProductoEstadoModelo,
-                            attributes: [
-                                "idProductoEstado",
-                                "descripcionProductoEstado",
-                                "fechaYHoraAltaProductoEstado",
-                                "fechaYHoraBajaProductoEstado",
-                            ],
-                            include: [
-                                {
-                                model: EstadoProductoModelo,
-                                attributes: [
-                                    "idEstadoProducto",
-                                    "codEstadoProducto",
-                                    "nombreEstadoProducto",
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            model: PrecioProductoModelo,
-                            attributes: [
-                                "idPrecioProducto",
-                                "importePrecioProducto",
-                                "fechaYHoraDesdePrecioProducto",
-                                "fechaYHoraHastaPrecioProducto",
-                            ],
-                            include: [
-                                {
-                                    model: TipoMonedaModelo,
-                                    attributes: [
-                                    "idTipoMoneda",
-                                    "nombreTipoMoneda",
-                                    "simboloTipoMoneda",
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ],
-        },
-    ],
+            },
+            {
+                model: PrecioMenuPromocionModelo,
+                where: { fechaYHoraHastaMenuPromocionEstado: null },
+                attributes: attributes.preciomenupromocion,
+                include: [
+                    {
+                        model: TipoMonedaModelo,
+                        attributes: attributes.tipomoneda
+                    }
+                ],
+            },
+            {
+                model: DetalleMenuPromocionProductoModelo,
+                attributes: attributes.detallemenupromocionproducto,
+                include: [
+                    {
+                        model: ProductoModelo,
+                        attributes: attributes.producto,
+                        include: [
+                            {
+                                model: RubroModelo,
+                                attributes: attributes.rubro,
+                            },
+                            {
+                                model: UnidadMedidaModelo,
+                                attributes: attributes.unidadmedida,
+                            },
+                            {
+                                model: ProductoEstadoModelo,
+                                attributes: attributes.productoestado,
+                                include: [
+                                    {
+                                        model: EstadoProductoModelo,
+                                        attributes: attributes.estadoproducto
+                                    }
+                                ]
+                            },
+                            {
+                                model: PrecioProductoModelo,
+                                attributes: attributes.precioproducto,
+                                include: [
+                                    {
+                                        model: TipoMonedaModelo,
+                                        attributes: attributes.tipomoneda
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+            },
+        ],
     }).then(project => {
       if (!project || project == 0) {
-        locals['title'] = "No existe ningun registro con la palabra : " + req.params[nombretable];
+        locals['title'] = "No existe ningun registro valor : " + req.params[nombretable];
         locals['tipo'] = 2;
-        res.json(locals);
       } else {
         locals['title'] = `${legend}`;
         locals['data'] = project;
         locals['tipo'] = 1;
-        res.json(locals);
       }
+      res.json(locals);
     });
   };
 
 MenuPromocionController.getAll = (req, res) => {
   let locals = {};
   MenuPromocionModelo.findAll({ 
-    // BUSCA POR FORANEA 
-    attributes: [
-        "idMenuPromocion",
-        "codMenuPromocion",
-        "nombreMenuPromocion",
-        "descripcionMenuPromocion",
-        "pathImagenMenuPromocion",
-    ],
+    attributes: attributes.menupromocion,
     include: [
         {
             model: TipoMenuPromocionModelo,
-            attributes: [
-                "idTipoMenuPromocion",
-                "nombreTipoMenuPromocion",
-            ],
+            attributes: attributes.tipomenupromocion,
         },
         {
-          model: MenuPromocionEstadoModelo,
-            attributes: [
-                "idMenuPromocionEstado",
-                "descripcionMenuPromocionEstado",
-                "fechaYHoraAltaMenuPromocionEstado",
-                "fechaYHoraBajaMenuPromocionEstado",
-            ],
+            model: MenuPromocionEstadoModelo,
+            where: { fechaYHoraBajaMenuPromocionEstado: null },
+            attributes: attributes.menupromocionestado,
             include: [
-              {
+                {
                 model: EstadoMenuPromocionModelo,
-                attributes: [
-                    "idEstadoMenuPromocion",
-                    "codEstadoMenuPromocion",
-                    "nombreEstadoMenuPromocion",
-                ]
-              }
+                attributes: attributes.estadomenupromocion
+                }
             ]
         },
         {
             model: PrecioMenuPromocionModelo,
-            attributes: [
-                "idPrecioMenuPromocion",
-                "importePrecioMenuPromocion",
-                "fechaYHoraDesdePrecioMenuPromocion",
-                "fechaYHoraHastaPrecioMenuPromocion",
-            ],
+            where: { fechaYHoraHastaMenuPromocionEstado: null },
+            attributes: attributes.preciomenupromocion,
             include: [
                 {
                     model: TipoMonedaModelo,
-                    attributes: [
-                    "idTipoMoneda",
-                    "nombreTipoMoneda",
-                    "simboloTipoMoneda",
-                    ]
+                    attributes: attributes.tipomoneda
                 }
             ],
         },
         {
             model: DetalleMenuPromocionProductoModelo,
-            attributes: [
-                "idDetalleMenuPromocionProducto",
-                "cantidadProductoMenuPromocion",
-            ],
+            attributes: attributes.detallemenupromocionproducto,
             include: [
                 {
                     model: ProductoModelo,
-                    attributes: [
-                        "idProducto",
-                        "codProducto",
-                        "nombreProducto",
-                        "descripcionProducto",
-                        "pathImagenProducto",
-                        "cantidadMedida"
-                    ],
+                    attributes: attributes.producto,
                     include: [
                         {
-                        model: RubroModelo,
-                        attributes: [
-                            "idRubro",
-                            "codRubro",
-                            "nombreRubro",
-                            "descripcionRubro"
-                        ],
+                            model: RubroModelo,
+                            attributes: attributes.rubro,
                         },
                         {
-                        model: UnidadMedidaModelo,
-                        attributes: [
-                            "idUnidadMedida",
-                            "codUnidadMedida",
-                            "nombreUnidadMedida",
-                            "descripcionUnidadMedida",
-                            "caracterUnidadMedida",
-                        ],
+                            model: UnidadMedidaModelo,
+                            attributes: attributes.unidadmedida,
                         },
                         {
                             model: ProductoEstadoModelo,
-                            attributes: [
-                                "idProductoEstado",
-                                "descripcionProductoEstado",
-                                "fechaYHoraAltaProductoEstado",
-                                "fechaYHoraBajaProductoEstado",
-                            ],
+                            attributes: attributes.productoestado,
                             include: [
                                 {
-                                model: EstadoProductoModelo,
-                                attributes: [
-                                    "idEstadoProducto",
-                                    "codEstadoProducto",
-                                    "nombreEstadoProducto",
-                                    ]
+                                    model: EstadoProductoModelo,
+                                    attributes: attributes.estadoproducto
                                 }
                             ]
                         },
                         {
                             model: PrecioProductoModelo,
-                            attributes: [
-                                "idPrecioProducto",
-                                "importePrecioProducto",
-                                "fechaYHoraDesdePrecioProducto",
-                                "fechaYHoraHastaPrecioProducto",
-                            ],
+                            attributes: attributes.precioproducto,
                             include: [
                                 {
                                     model: TipoMonedaModelo,
-                                    attributes: [
-                                    "idTipoMoneda",
-                                    "nombreTipoMoneda",
-                                    "simboloTipoMoneda",
-                                    ]
+                                    attributes: attributes.tipomoneda
                                 }
                             ]
                         }
@@ -469,151 +291,82 @@ MenuPromocionController.getAll = (req, res) => {
     ],
   }).then(response => {
     if (!response || response == 0) {
-      // SI NO EXISTEN REGISTROS DE USUARIO
-      locals.title = {
-        descripcion: `No existen registros de ${legend}`
-      };
-      res.json(locals);
+        locals['title'] = `No existen registros de ${legend}`
+        locals['tipo'] = 2;
     } else {
-      // SI EXISTE EL USUARIO REGRESARLOS CON SUS ASOCIACIONES
-      locals.title = `${legend}/s encontrado/s`;
-      locals[legend] = response;
-      res.json(locals)
+        locals['title'] = `${legend}/s encontrado/s`;
+        locals['data'] = response;
+        locals['tipo'] = 1;response;
     }
+    res.json(locals)
   })
 }
 
 MenuPromocionController.getOne = (req, res) => {
   let locals = {};
-  // BUSCA EL USUARIO CON ID INGRESADO
   MenuPromocionModelo.findOne({
     where: { [idtable]: req.params[idtable] },
-    // BUSCA POR FORANEA 
-    attributes: [
-        "idMenuPromocion",
-        "codMenuPromocion",
-        "nombreMenuPromocion",
-        "descripcionMenuPromocion",
-        "pathImagenMenuPromocion",
-    ],
+    attributes: attributes.menupromocion,
     include: [
         {
             model: TipoMenuPromocionModelo,
-            attributes: [
-                "idTipoMenuPromocion",
-                "nombreTipoMenuPromocion",
-            ],
+            attributes: attributes.tipomenupromocion,
         },
         {
-          model: MenuPromocionEstadoModelo,
-            attributes: [
-                "idMenuPromocionEstado",
-                "descripcionMenuPromocionEstado",
-                "fechaYHoraAltaMenuPromocionEstado",
-                "fechaYHoraBajaMenuPromocionEstado",
-            ],
+            model: MenuPromocionEstadoModelo,
+            where: { fechaYHoraBajaMenuPromocionEstado: null },
+            attributes: attributes.menupromocionestado,
             include: [
-              {
+                {
                 model: EstadoMenuPromocionModelo,
-                attributes: [
-                    "idEstadoMenuPromocion",
-                    "codEstadoMenuPromocion",
-                    "nombreEstadoMenuPromocion",
-                ]
-              }
+                attributes: attributes.estadomenupromocion
+                }
             ]
         },
         {
             model: PrecioMenuPromocionModelo,
-            attributes: [
-                "idPrecioMenuPromocion",
-                "importePrecioMenuPromocion",
-                "fechaYHoraDesdePrecioMenuPromocion",
-                "fechaYHoraHastaPrecioMenuPromocion",
-            ],
+            where: { fechaYHoraHastaMenuPromocionEstado: null },
+            attributes: attributes.preciomenupromocion,
             include: [
                 {
                     model: TipoMonedaModelo,
-                    attributes: [
-                    "idTipoMoneda",
-                    "nombreTipoMoneda",
-                    "simboloTipoMoneda",
-                    ]
+                    attributes: attributes.tipomoneda
                 }
             ],
         },
         {
             model: DetalleMenuPromocionProductoModelo,
-            attributes: [
-                "idDetalleMenuPromocionProducto",
-                "cantidadProductoMenuPromocion",
-            ],
+            attributes: attributes.detallemenupromocionproducto,
             include: [
                 {
                     model: ProductoModelo,
-                    attributes: [
-                        "idProducto",
-                        "codProducto",
-                        "nombreProducto",
-                        "descripcionProducto",
-                        "pathImagenProducto",
-                        "cantidadMedida"
-                    ],
+                    attributes: attributes.producto,
                     include: [
                         {
-                        model: RubroModelo,
-                        attributes: [
-                            "idRubro",
-                            "codRubro",
-                            "nombreRubro",
-                            "descripcionRubro"
-                        ],
+                            model: RubroModelo,
+                            attributes: attributes.rubro,
                         },
                         {
-                        model: UnidadMedidaModelo,
-                        attributes: [
-                            "idUnidadMedida",
-                            "codUnidadMedida",
-                            "nombreUnidadMedida",
-                            "descripcionUnidadMedida",
-                            "caracterUnidadMedida",
-                        ],
+                            model: UnidadMedidaModelo,
+                            attributes: attributes.unidadmedida,
                         },
                         {
                             model: ProductoEstadoModelo,
-                            attributes: [
-                                "idProductoEstado",
-                                "descripcionProductoEstado",
-                                "fechaYHoraAltaProductoEstado",
-                                "fechaYHoraBajaProductoEstado",
-                            ],
+                            attributes: attributes.productoestado,
                             include: [
                                 {
-                                model: EstadoProductoModelo,
-                                attributes: [
-                                    "idEstadoProducto",
-                                    "codEstadoProducto",
-                                    "nombreEstadoProducto",
-                                    ]
+                                    model: EstadoProductoModelo,
+                                    attributes: attributes.estadoproducto
                                 }
                             ]
                         },
                         {
                             model: PrecioProductoModelo,
-                            attributes: [
-                                "idPrecioProducto",
-                                "importePrecioProducto",
-                                "fechaYHoraDesdePrecioProducto",
-                                "fechaYHoraHastaPrecioProducto",
-                            ],
+                            attributes: attributes.precioproducto,
                             include: [
                                 {
                                     model: TipoMonedaModelo,
-                                    attributes: [
-                                    "idTipoMoneda",
-                                    "nombreTipoMoneda",
-                                    "simboloTipoMoneda",
-                                    ]
+                                    attributes: attributes.tipomoneda
                                 }
                             ]
                         }
@@ -624,19 +377,14 @@ MenuPromocionController.getOne = (req, res) => {
     ],
   }).then(response => {
     if (!response || response == 0) {
-      // SI NO EXISTE EL USUARIO
-      locals.title = {
-        descripcion: `No existe el registro : ${req.params[idtable]}`,
-        tipo: 2
-      };
-      res.json(locals);
+        locals['title'] = `No existe el registro : ${req.params[idtable]}`,
+        locals['tipo'] = 2;
     } else {
-      // SI EXISTE EL USUARIO AGREGAMOS A LA VARIABLE EL MISMO
-      // locals.title = `${legend} encontrado`;
-      locals[legend] = response.dataValues;
-      locals['tipo'] = 1
-      res.json(locals)
+        locals['title'] = `${legend}/s encontrado/s`;
+        locals['data'] = response.dataValues;
+        locals['tipo'] = 1;response;
     }
+    res.json(locals)
   });
 };
 

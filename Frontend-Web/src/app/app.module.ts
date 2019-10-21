@@ -19,7 +19,6 @@ import { CrudCajaComponent } from './components/abm-caja/crud-caja/crud-caja.com
 import { EditCajaComponent } from './components/abm-caja/edit-caja/edit-caja.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
 import { GestionarProductoComponent } from './components/gestionar-producto/search-gestionar-producto/gestionar-producto.component';
-import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida/crud-unidadmedida/abm-unidadmedida-crud.component';
 import { CrudRubroComponent } from './components/abm-rubro/crud-rubro/crud-rubro.component';
@@ -29,6 +28,9 @@ import { CrudTipomonedaComponent } from './components/abm-tipomoneda/crud-tipomo
 import { CrudGestionarProductoComponent } from './components/gestionar-producto/crud-gestionar-producto/crud-gestionar-producto.component';
 import { ConsultaGestionarProductoComponent } from './components/gestionar-producto/consulta-gestionar-producto/consulta-gestionar-producto.component';
 import { NoimagePipe } from './pipes/noimage-producto.pipe';
+import { CrudGestionarMenupromocionComponent } from './components/gestionar-menupromocion/crud-gestionar-menupromocion/crud-gestionar-menupromocion.component';
+import { ConsultaGestionarMenupromocionComponent } from './components/gestionar-menupromocion/consulta-gestionar-menupromocion/consulta-gestionar-menupromocion.component';
+import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/search-gestionar-menupromocion/gestionar-menupromocion.component';
 import { CrudMesaComponent } from './components/abm-mesa/crud-mesa/crud-mesa.component';
 import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.component';
 
@@ -57,6 +59,8 @@ import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.com
     CrudGestionarProductoComponent,
     ConsultaGestionarProductoComponent,
     NoimagePipe,
+    CrudGestionarMenupromocionComponent,
+    ConsultaGestionarMenupromocionComponent,
     CrudSectorComponent,
     CrudMesaComponent,
     AbmMesaComponent,

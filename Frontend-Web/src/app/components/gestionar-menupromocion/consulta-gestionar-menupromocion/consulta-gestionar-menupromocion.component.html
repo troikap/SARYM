@@ -1,0 +1,179 @@
+<h1 class="animated fadeIn"># {{menuPromocion.idMenuPromocion}} - {{menuPromocion.nombreMenuPromocion}}</h1>
+<hr>
+
+<div class="row animated fadeIn fast">
+    <div class="col-md-4">
+        <div class="card-body">
+            <img [src]="menuPromocion.pathImagenMenuPromocion | noimage" class="card-img-top img-fluid text-primary" [alt]=menuPromocion.nombreMenuPromocion>
+            <br><br>
+            <a [routerLink]="['/menuPromocion']" class="btn btn-outline-primary btn-block">Regresar</a>
+        </div>
+
+    </div>
+
+    <div class="col-md-8">
+        <h3>
+            <span class="badge badge-pill" [ngClass]="{
+                'badge-success': estadoMenuPromocion == 'Activo' , 
+                'badge-warning': estadoMenuPromocion == 'En Falta' , 
+                'badge-danger': estadoMenuPromocion == 'Inactivo', 
+                'badge-dark': estadoMenuPromocion == 'Eliminado'
+            }">
+                {{estadoMenuPromocion}}
+            </span> - {{menuPromocion.nombreMenuPromocion}} ({{menuPromocion.codMenuPromocion}})
+        </h3>
+        <hr>
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="row">{{menuPromocion.tipomenupromocion.nombreTipoMenuPromocion}}</td>
+                    <td scope="row">{{menuPromocion.preciomenupromocions[0]?.tipomoneda?.simboloTipoMoneda}} {{menuPromocion.preciomenupromocions[0]?.importePrecioMenuPromocion}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">Descripción</th>
+                </tr>
+                <tr>
+                    <td scope="row">{{menuPromocion.descripcionMenuPromocion}}</td>
+                </tr>
+            </thead>
+        </table>
+
+
+        <div>
+
+            <p>
+                <a href="#VerProducto" class="btn btn-primary" data-toggle="collapse">Ver Productos</a>
+            </p>
+
+            <hr>
+
+            <div id="VerProducto" class="collapse">
+
+
+                <div class="row animated fadeIn fast" *ngIf="menuPromocion.detallemenupromocionproductos.length == 0">
+                    <div class="col-md-12">
+                        <div class="alert alert-info" role="alert">
+                            No contiene Productos asociados
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-title" style="font-size: 14px;" *ngIf="menuPromocion.detallemenupromocionproductos.length != 0"><strong>Listado de Productos:</strong><br></div>
+
+                <div class="card mb-3" style="background-color: #e9ecef;">
+                    <div class="row no-gutters animated fadeIn fast" *ngFor="let detalleMenuPromocionProducto of menuPromocion.detallemenupromocionproductos">
+                        <div class="col-md-4">
+                            <strong>x {{detalleMenuPromocionProducto.cantidadProductoMenuPromocion}}</strong>
+                            <img [src]="detalleMenuPromocionProducto.producto.pathImagenProducto | noimage" class="card-img-top img-fluid text-primary" [alt]="detalleMenuPromocionProducto.producto.nombreProducto">
+                        </div>
+
+
+
+
+
+                        <div class="col-md-8">
+                            <div class="card-body">
+
+                                <span class="badge badge-pill" style="font-size: 11px;" [ngClass]="{
+                                    'badge-success': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Activo' , 
+                                    'badge-warning': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'En Falta' , 
+                                    'badge-danger': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Inactivo', 
+                                    'badge-dark': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Eliminado'
+                                }">{{detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto}}
+                                </span> - {{detalleMenuPromocionProducto.producto.nombreProducto}} ({{detalleMenuPromocionProducto.producto.codProducto}})
+
+                                <hr>
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="font-size: 11px;">Rubro</th>
+                                            <th scope="col" style="font-size: 11px;">Unidad de Medida</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td scope="row" style="font-size: 11px;">{{detalleMenuPromocionProducto.producto.rubro?.nombreRubro}}</td>
+                                            <td scope="row" style="font-size: 11px;">{{detalleMenuPromocionProducto.producto.cantidadMedida}} {{detalleMenuPromocionProducto.producto.unidadmedida?.nombreUnidadMedida}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <hr>
+
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Descripción</th>
+                                        </tr>
+                                        <tr>
+                                            <td scope="row">{{detalleMenuPromocionProducto.producto.descripcionProducto}}</td>
+                                        </tr>
+                                    </thead>
+                                </table>
+
+
+                            </div>
+                            <hr>
+                        </div>
+
+                        <!-- 
+
+
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                
+                                <p class="card-title" style="font-size: 11px;"><strong>{{detalleMenuPromocionProducto.producto.nombreProducto}} - {{detalleMenuPromocionProducto.producto.rubro?.nombreRubro}}</strong></p>
+                                <p class="card-text" style="font-size: 11px;">{{detalleMenuPromocionProducto.producto.cantidadMedida}} {{detalleMenuPromocionProducto.producto.unidadmedida?.nombreUnidadMedida}}</p>
+                                <p class="card-text" style="font-size: 11px;">
+                                    <span class="badge badge-pill" [ngClass]="{
+                                                    'badge-success': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Activo' , 
+                                                    'badge-warning': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'En Falta' , 
+                                                    'badge-danger': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Inactivo', 
+                                                    'badge-dark': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Eliminado'
+                                                }">{{detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto}}
+                                            </span>
+                                </p>
+                            </div>
+                            <hr>
+                        </div> -->
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+
+        <hr>
+        <div>
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <td width="20%"><button type="button" class="btn btn-outline-danger btn-block" (click)="generarAccion('eliminar')">Eliminar</button></td>
+                        <td width="20%"><button type="button" class="btn btn-outline-success btn-block" (click)="generarAccion('editar')">Editar</button></td>
+                        <td width="40%"><button type="button" class="btn btn-outline-warning btn-block" (click)="generarAccion('estado')">Cambiar Estado</button></td>
+                        <td width="20%">&nbsp;</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+    </div>
+
+</div>
