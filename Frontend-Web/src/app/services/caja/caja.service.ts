@@ -50,10 +50,7 @@ export class CajaService {
             return data.data;
           }
       }));
-    }
-    else {
-      // console.log("Service getUnidadMedida: SIN TERMINO");
-    }
+    }    
   }
 
   getCajas(): Promise<any[]> {

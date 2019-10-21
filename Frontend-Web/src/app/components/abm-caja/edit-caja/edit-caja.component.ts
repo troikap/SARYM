@@ -19,7 +19,7 @@ export class EditCajaComponent implements OnInit {
   private usuarios: Usuario[];
   private estadosCaja: EstadoCaja[];
   private cajaEncontrada: boolean;
-  private idCaja: string = "";
+  private idCaja: string;
   private caja: any;
   private newForm = {};
   idEstadoCaja1: any;
@@ -100,7 +100,7 @@ export class EditCajaComponent implements OnInit {
             console.log("RESULT ----------------->", data);
             this.idEstadoCaja1 = data['cajaestados'][0].estadocaja.idEstadoCaja;
             this.caja = data;
-            //console.log(this.caja['cajaestados'][0]);
+            console.log(this.caja['cajaestados'][0]);
 
             this.newForm = {
               idCaja: this.caja['idCaja'],
@@ -118,7 +118,7 @@ export class EditCajaComponent implements OnInit {
     }
   }
 
-  reemplazarCaja(): CajaEdit {
+  reemplazarCaja(): any {
     console.log("Funcion 'reemplazarCaja()', ejecutada");
     let us = null;
     if (this.caja && this.caja.idCaja) {
@@ -165,7 +165,9 @@ export class EditCajaComponent implements OnInit {
     const titulo = "Confirmación";
     const mensaje = `¿Está seguro que desea ${this.accionGet} el elemento seleccionado?`;
     let _idEstadoCajaLocal = this.idEstadoCaja1;
-    
+    let _idEstadoDeCambio = this.form.value['idEstadoCaja'];
+    console.log(_idEstadoDeCambio);
+
     
     if (this.cajaEncontrada && this.accionGet === "editar") {
       
@@ -181,8 +183,9 @@ export class EditCajaComponent implements OnInit {
             btnClass: 'btn-blue',
             action: function () {
               let caja = _this.reemplazarCaja(); 
-              console.log("el idEstadoCaja anterior es",_idEstadoCajaLocal);           
-              if (_idEstadoCajaLocal === caja.idEstadoCaja) {
+              console.log("el idEstadoCaja anterior es",_idEstadoCajaLocal);
+              //console.log(caja);           
+              if (_idEstadoCajaLocal === _idEstadoDeCambio) {
                 console.log("esta en datos");
                 _this.cajaServicio.updateCaja(caja)
                   .then((response) => {

@@ -16,7 +16,11 @@ import { AbmUnidadmedidaComponent } from './components/abm-unidadmedida/search-u
 import { AbmCajaComponent } from './components/abm-caja/search-caja/abm-caja.component';
 import { CrudCajaComponent } from './components/abm-caja/crud-caja/crud-caja.component';
 import { EditCajaComponent } from './components/abm-caja/edit-caja/edit-caja.component';
+import { AbmAbrirCajaComponent } from './components/abrir-caja/search-abrir-caja/abm-abrir-caja.component';
+import { EditAbrirCajaComponent } from './components/abrir-caja/edit-abrir-caja/edit-abrir-caja.component';
 import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
+import { AbmCerrarCajaComponent } from './components/cerrar-caja/search-cerrar-caja/abm-cerrar-caja.component';
+import { EditCerrarCajaComponent } from './components/cerrar-caja/edit-cerrar-caja/edit-cerrar-caja.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
 import { AbmSectorComponent } from './components/abm-sector/abm-sector.component';
 import { GestionarProductoComponent } from './components/gestionar-producto/search-gestionar-producto/gestionar-producto.component';
@@ -42,6 +46,10 @@ import { NoimagePipe } from './pipes/noimage-producto.pipe';
     AbmUnidadmedidaComponent,
     AbmCajaComponent,
     CrudCajaComponent,
+    AbmAbrirCajaComponent,
+    EditAbrirCajaComponent,
+    AbmCerrarCajaComponent,
+    EditCerrarCajaComponent,
     EditCajaComponent,
     AbmMesaComponent,
     AbmRubroComponent,
