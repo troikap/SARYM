@@ -63,10 +63,9 @@ export class MenuPromocionService {
     return this.http
       .get(`${this.url}${this.dir}/${id}`, {headers}) 
       .toPromise()
-      .then(response => {
-        let prod = response as MenuPromocion;
-        console.log("Datos Obtenidos del Servicio:", prod['MenuPromocion']);
-        return prod['MenuPromocion'];
+      .then((response: any) => {
+        console.log("Servicio getMenuPromocion: ", response.MenuPromocion);
+        return response.MenuPromocion;
       })
       .catch(  );
   }
