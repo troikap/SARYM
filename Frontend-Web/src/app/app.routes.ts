@@ -11,13 +11,15 @@ import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
 import { AbmSectorComponent } from './components/abm-sector/abm-sector.component';
 import { GestionarProductoComponent } from './components/gestionar-producto/search-gestionar-producto/gestionar-producto.component';
-import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/gestionar-menupromocion.component';
+import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/search-gestionar-menupromocion/gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud-usuario.component';
 import { CrudRubroComponent } from './components/abm-rubro/crud-rubro/crud-rubro.component';
 import { CrudTipomonedaComponent } from './components/abm-tipomoneda/crud-tipomoneda/crud-tipomoneda.component';
 import { CrudGestionarProductoComponent } from './components/gestionar-producto/crud-gestionar-producto/crud-gestionar-producto.component';
 import { ConsultaGestionarProductoComponent } from './components/gestionar-producto/consulta-gestionar-producto/consulta-gestionar-producto.component';
+import { ConsultaGestionarMenupromocionComponent } from './components/gestionar-menupromocion/consulta-gestionar-menupromocion/consulta-gestionar-menupromocion.component';
+import { CrudGestionarMenupromocionComponent } from './components/gestionar-menupromocion/crud-gestionar-menupromocion/crud-gestionar-menupromocion.component';
 
 
 
@@ -39,6 +41,8 @@ const routes: Routes = [
     { path: 'producto_consulta/:id', component: ConsultaGestionarProductoComponent },
     { path: 'producto_crud/:id/:accion', component: CrudGestionarProductoComponent },
     { path: 'menupromocion', component: GestionarMenupromocionComponent },
+    { path: 'menupromocion_consulta/:id', component: ConsultaGestionarMenupromocionComponent },
+    { path: 'menupromocion_crud/:id/:accion', component: CrudGestionarMenupromocionComponent },
     { path: 'reporte', component: GenerarReporteComponent },
     { path: '',  redirectTo: '/login', pathMatch: 'full' },
     { path: '**', redirectTo: 'home'}
