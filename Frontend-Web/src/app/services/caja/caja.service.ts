@@ -1,54 +1,44 @@
 import { Injectable } from '@angular/core';
-import { HttpClient , HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Usuario } from '../../model/usuario/usuario.model';
+import { CajaCreate, CajaEdit } from 'src/app/model/caja/caja.model';
+import { EstadoCaja } from 'src/app/model/estadocaja/estadocaja.model';
 
 import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioService {
+export class CajaService {
+  
+  url = environment.urlNgrok || environment.url;
+  dir = '/caja';
+  dirNro = '/nroCaja'
+  dirEstado = '/estadocaja';
+  dir3 = '/todo';
+  dirUpdateDatos = '/actualizarDatos';
+  dirUpdateEstado= '/cambiarEstado';
+  tokenEnviroment = environment.token;
 
-   url = environment.urlNgrok || environment.url;
-   dir = '/usuario';
-   dir2 = '/cuitUsuario';
-   dir3 = '/todo';
-
-   tokenEnviroment = environment.token;
-
-  constructor(
-    public http: HttpClient
-  ) { }
-
-  loguear( cuit: number, pass: string ): Promise<any> {
-    let value = { cuitUsuario: cuit, contrasenaUsuario: pass}
-    return this.http
-      .post(`${this.url}/login`, value )
-      .toPromise()
-      .then(response => {
-        // console.log("USUARIO ", response)
-        return response as Usuario;
-      })
-      .catch( err => {
-        console.log("ERROR : ",err)
-      } );
-  }
-
-  getUsuarioCuit(cuit: number): Promise<Usuario> {
+  constructor(public http: HttpClient) {}
+   
+  getCaja( termino: string) { //Observador
+    // console.log("Service getTipoMoneda: Termino = ", termino);
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', this.tokenEnviroment);
+    headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .get(`${this.url}${this.dir}${this.dir2}/${cuit}`, {headers})
-      .toPromise()
-      .then(response => {
-        return response as Usuario;
-      })
-      .catch(  );
+      .get(`${this.url}${this.dir}/${termino}`, {headers})
+      .pipe( map ((data: any) => {
+        console.log(data.data);
+        if (data != null) {
+          return data.data;
+        }
+    }));
+    
   }
 
-  getUsuarioByAll( termino: string) { //Observador
-    console.log("Service getUsuarioByName: Termino = ", termino);
+  getCajasByAll( termino: string) { //Observador
+    console.log("Service getCajaByNro: Termino = ", termino);
     if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
       headers = headers.append('token', this.tokenEnviroment);
@@ -66,45 +56,60 @@ export class UsuarioService {
     }
   }
 
-  getUsuarios(): Promise<Usuario[]> {
+  getCajas(): Promise<any[]> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
     return this.http
       .get(this.url + this.dir, {headers})
       .toPromise()
       .then(response => {
-        console.log("Devuelve Usuarios: ", response);
-        return response as Usuario[];
+        console.log("Trae Cajas: ", response);
+        return response as any[];
+        
+      })
+      .catch(  );
+  }
+
+  getEstadosCaja(): Promise<EstadoCaja[]> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    return this.http
+      .get(this.url + this.dirEstado, {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Trae estados Caja: ", response);
+        return response as EstadoCaja[];
       })
       .catch();
   }
 
-  getUsuario( id: number ): Promise<any> {
-    let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', this.tokenEnviroment);
-    return this.http
-      .get(`${this.url}${this.dir}/${id}`, {headers})
-      .toPromise()
-      .then(response => {
-        return response as Usuario;
-      })
-      .catch(  );
-  }
-
-  updateUsuario( datas: any ): Promise<any> {
+  updateCaja( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
      console.log("DATOS A ENVIAR :",datas)
     return this.http
-      .put(`${this.url}${this.dir}`, datas, {headers})
+      .put(`${this.url}${this.dir}${this.dirUpdateDatos}`, datas, {headers})
       .toPromise()
       .then(response => {
-        return response as Usuario;
+        return response as any;
       })
       .catch(  );
   }
 
-  deleteUsuario( datas: any ): Promise<any> {
+  updateCajaEstado( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', this.tokenEnviroment);
+     console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}${this.dirUpdateEstado}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        return response as any;
+      })
+      .catch(  );
+  }
+
+  deleteCaja( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
     console.log("valor del Header:",headers)
@@ -113,20 +118,21 @@ export class UsuarioService {
       .delete(`${this.url}${this.dir}/${datas.idUsuario}`, {headers})
       .toPromise()
       .then(response => {
-        return response as Usuario;
+        return response as any;
       })
       .catch(  );
   }
 
-  setUsuario( datas: any ): Promise<any> {
+  setCaja( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
     return this.http
       .post(`${this.url}${this.dir}`, datas, {headers})
       .toPromise()
       .then(response => {
-        return response as Usuario;
+        return response as any;
       })
       .catch(  );
   }
+
 }

@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Usuario } from '../../model/usuario/usuario.model';
+import { Mesa } from '../../model/mesa/mesa.model';
 
 import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioService {
+export class MesaService {
 
    url = environment.urlNgrok || environment.url;
-   dir = '/usuario';
-   dir2 = '/cuitUsuario';
+   dir = '/mesa';
+   dir2 = '/codMesa';
    dir3 = '/todo';
 
    tokenEnviroment = environment.token;
@@ -21,33 +21,19 @@ export class UsuarioService {
     public http: HttpClient
   ) { }
 
-  loguear( cuit: number, pass: string ): Promise<any> {
-    let value = { cuitUsuario: cuit, contrasenaUsuario: pass}
-    return this.http
-      .post(`${this.url}/login`, value )
-      .toPromise()
-      .then(response => {
-        // console.log("USUARIO ", response)
-        return response as Usuario;
-      })
-      .catch( err => {
-        console.log("ERROR : ",err)
-      } );
-  }
-
-  getUsuarioCuit(cuit: number): Promise<Usuario> {
+  getMesaCod(cod: number): Promise<Mesa> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .get(`${this.url}${this.dir}${this.dir2}/${cuit}`, {headers})
+      .get(`${this.url}${this.dir}${this.dir2}/${cod}`, {headers})
       .toPromise()
       .then(response => {
-        return response as Usuario;
+        return response as Mesa;
       })
       .catch(  );
   }
 
-  getUsuarioByAll( termino: string) { //Observador
+  getMesaByAll( termino: string) { //Observador
     console.log("Service getUsuarioByName: Termino = ", termino);
     if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
@@ -62,36 +48,34 @@ export class UsuarioService {
       }));
     }
     else {
-      // console.log("Service getUnidadMedida: SIN TERMINO");
     }
   }
 
-  getUsuarios(): Promise<Usuario[]> {
+  getMesas(): Promise<Mesa[]> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
     return this.http
       .get(this.url + this.dir, {headers})
       .toPromise()
       .then(response => {
-        console.log("Devuelve Usuarios: ", response);
-        return response as Usuario[];
+        return response as Mesa[];
       })
       .catch();
   }
 
-  getUsuario( id: number ): Promise<any> {
+  getMesa( id: number ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
     return this.http
       .get(`${this.url}${this.dir}/${id}`, {headers})
       .toPromise()
       .then(response => {
-        return response as Usuario;
+        return response as Mesa;
       })
       .catch(  );
   }
 
-  updateUsuario( datas: any ): Promise<any> {
+  updateMesa( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
      console.log("DATOS A ENVIAR :",datas)
@@ -99,34 +83,34 @@ export class UsuarioService {
       .put(`${this.url}${this.dir}`, datas, {headers})
       .toPromise()
       .then(response => {
-        return response as Usuario;
+        return response as Mesa;
       })
       .catch(  );
   }
 
-  deleteUsuario( datas: any ): Promise<any> {
+  deleteMesa( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
     console.log("valor del Header:",headers)
     console.log("DATOS A ENVIAR:",datas)
     return this.http
-      .delete(`${this.url}${this.dir}/${datas.idUsuario}`, {headers})
+      .delete(`${this.url}${this.dir}/${datas.idMesa}`, {headers})
       .toPromise()
       .then(response => {
-        return response as Usuario;
+        return response as Mesa;
       })
-      .catch(  );
+      .catch();
   }
 
-  setUsuario( datas: any ): Promise<any> {
+  setMesa( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
     return this.http
       .post(`${this.url}${this.dir}`, datas, {headers})
       .toPromise()
       .then(response => {
-        return response as Usuario;
+        return response as Mesa;
       })
-      .catch(  );
+      .catch();
   }
 }
