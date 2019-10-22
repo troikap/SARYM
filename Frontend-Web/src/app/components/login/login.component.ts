@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, RouterModule } from "@angular/router";
+import { Router } from "@angular/router";
 import { UsuarioService } from "../../services/usuario/usuario.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
@@ -11,20 +11,12 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 export class LoginComponent implements OnInit {
   private form: FormGroup;
   private logueo: any;
-  private invalidotitle = "Datos Inválidos";
-  private invalidomsj = "Combinación de Usuario y Contraseña incorrectos.";
-  private susptitle = "Usuario Suspendido";
-  private suspmsj =
-    "El Usuario ingresado se encuentra Suspendido o dado de Baja.";
-  private valtitle = "Bienvenido";
-  private valmsj = "Le damos la bienvenida ";
-  private algo = null;
+  private rol: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private usuarioservicio: UsuarioService,
     private router: Router,
-    private rout: RouterModule
   ) {
     this.form = this.formBuilder.group({
       cuitUsuario: ["", Validators.required],
@@ -51,18 +43,19 @@ export class LoginComponent implements OnInit {
             date: null
           };
           localStorage.setItem("token", algo.token);
-          //localStorage.setOneObject("token", algo.token);
           if (this.form.value.checkRecordar) {
             this.actualizarLog(this.logueo);
           }
           localStorage.setItem("currentUsuario", this.logueo);
           console.log("roooooooool", algo.rol.idRol);
 
-          if (algo.rol.idRol == "Administrador") {
+          this.rol = algo.rol.idRol;
+
+          if (this.rol == "Administrador") {
             this.router.navigate(["/home"]);
-          } else if (algo.rol.idRol == "Encargado") {
+          } else if (this.rol == "Encargado") {
             this.router.navigate(["/home"]);
-          } else if (algo.rol.idRol == "Cocina") {
+          } else if (this.rol == "Cocina") {
             this.router.navigate(["/home"]);
           } else {
             //mostrar mensaje de error, se logeo con otro idRol distinto a los anteriores
