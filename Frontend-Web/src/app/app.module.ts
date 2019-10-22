@@ -39,6 +39,8 @@ import { ConsultaGestionarMenupromocionComponent } from './components/gestionar-
 import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/search-gestionar-menupromocion/gestionar-menupromocion.component';
 import { CrudMesaComponent } from './components/abm-mesa/crud-mesa/crud-mesa.component';
 import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.component';
+import { UploadService } from './services/upload/upload.service';
+
 
 @NgModule({
   declarations: [
@@ -82,7 +84,7 @@ import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.com
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [UploadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
