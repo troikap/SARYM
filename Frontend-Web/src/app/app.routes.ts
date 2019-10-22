@@ -7,6 +7,12 @@ import { AbmTipomonedaComponent } from './components/abm-tipomoneda/search-tipom
 import { AbmUnidadmedidaComponent } from './components/abm-unidadmedida/search-unidadmedida/abm-unidadmedida.component';
 import { AbmUnidadmedidaCreateComponent } from './components/abm-unidadmedida/crud-unidadmedida/abm-unidadmedida-crud.component';
 import { AbmCajaComponent } from './components/abm-caja/search-caja/abm-caja.component';
+import { AbmAbrirCajaComponent } from './components/abrir-caja/search-abrir-caja/abm-abrir-caja.component';
+import { EditAbrirCajaComponent } from './components/abrir-caja/edit-abrir-caja/edit-abrir-caja.component';
+import { AbmCerrarCajaComponent } from './components/cerrar-caja/search-cerrar-caja/abm-cerrar-caja.component';
+import { EditCerrarCajaComponent } from './components/cerrar-caja/edit-cerrar-caja/edit-cerrar-caja.component';
+import { AbmGenerarMovimientoCajaComponent } from './components/generar-movimiento-caja/search-generar-movimiento-caja/abm-generar-movimiento-caja.component';
+import { EditGenerarMovimientoCajaComponent } from './components/generar-movimiento-caja/edit-generar-movimiento-caja/edit-generar-movimiento-caja.component';
 import { CrudCajaComponent } from './components/abm-caja/crud-caja/crud-caja.component';
 import { EditCajaComponent } from './components/abm-caja/edit-caja/edit-caja.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
@@ -42,6 +48,12 @@ const routes: Routes = [
     { path: 'caja', component: AbmCajaComponent },
     { path: 'caja_crud/:id/:accion', component: CrudCajaComponent},
     { path: 'caja_edit/:id/:accion', component: EditCajaComponent},
+    { path: 'generarmovimientocaja/:id/:accion', component: EditGenerarMovimientoCajaComponent },
+    { path: 'generarmovimientocaja', component: AbmGenerarMovimientoCajaComponent },
+    { path: 'cerrarcaja/:id/:accion', component: EditCerrarCajaComponent },
+    { path: 'cerrarcaja', component: AbmCerrarCajaComponent },
+    { path: 'abrircaja/:id/:accion', component: EditAbrirCajaComponent },
+    { path: 'abrircaja', component: AbmAbrirCajaComponent },
     { path: 'rubro', component: AbmRubroComponent },
     { path: 'rubro_crud/:id/:accion', component: CrudRubroComponent },
     { path: 'producto', component: GestionarProductoComponent },

@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent implements OnInit {
-
+  variableRol = "Encargado";
+  variableLibre = false;
   constructor() { }
 
   ngOnInit() {

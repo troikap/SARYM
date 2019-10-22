@@ -22,6 +22,10 @@ import { HomeService, IconoHome } from 'src/app/services/home/home.service';
 export class HomeComponent implements OnInit {
   
   iconosHome: IconoHome [];
+  iconosEncargado: IconoHome [];
+
+  variableRol = "Encargado";
+  variableLibre = false;
 
   constructor( private activatedRoute: ActivatedRoute, 
                private homeSercie: HomeService, 
@@ -29,6 +33,7 @@ export class HomeComponent implements OnInit {
     { 
       this.activatedRoute.params.subscribe(params => {
         this.iconosHome = this.homeSercie.getIconosHome();
+        this.iconosEncargado = this.homeSercie.getIconosEncargado();
       });
     }
 
@@ -70,6 +75,27 @@ export class HomeComponent implements OnInit {
     break;
     case 'generar-reporte':
       next = '/reporte';
+    break;
+    case 'abrir-caja':
+      next = '/abrircaja';
+    break;
+    case 'cerrar-caja':
+      next = '/cerrarcaja';
+    break;
+    case 'generar-movimiento-caja':
+      next = '/generarmovimientocaja';
+    break;
+    case 'reasignar-mozo-a-estadia':
+      next = '/reasignarmozoaestadia';
+    break;
+    case 'habilitar-deshabilitar-producto':
+      next = '/habilitardeshabilitarproducto';
+    break;
+    case 'anular-pedido':
+      next = '/anularpedido';
+    break;
+    case 'gestionar-estado-estadia':
+      next = '/gestionarestadoestadia';
     break;
     }
     this.routes.navigate([next]);
