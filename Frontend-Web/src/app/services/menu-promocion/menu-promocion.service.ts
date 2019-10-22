@@ -64,8 +64,8 @@ export class MenuPromocionService {
       .get(`${this.url}${this.dir}/${id}`, {headers}) 
       .toPromise()
       .then((response: any) => {
-        console.log("Servicio getMenuPromocion: ", response.MenuPromocion);
-        return response.MenuPromocion;
+        console.log("Servicio getMenuPromocion: ", response.data);
+        return response.data;
       })
       .catch(  );
   }
