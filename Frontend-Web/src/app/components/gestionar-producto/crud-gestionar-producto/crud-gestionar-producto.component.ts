@@ -68,7 +68,7 @@ export class CrudGestionarProductoComponent implements OnInit {
         this.productoEncontrado = false;
       }
 
-      if (this.accionGet !== "estado") {
+      if (this.accionGet !== "estado" && this.accionGet !== "crear") {
         this.form.get('idEstadoProducto').setValidators(Validators.required);
         this.form.get('idEstadoProducto').updateValueAndValidity();
       }
