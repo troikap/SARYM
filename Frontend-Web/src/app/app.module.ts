@@ -17,6 +17,12 @@ import { AbmUnidadmedidaComponent } from './components/abm-unidadmedida/search-u
 import { AbmCajaComponent } from './components/abm-caja/search-caja/abm-caja.component';
 import { CrudCajaComponent } from './components/abm-caja/crud-caja/crud-caja.component';
 import { EditCajaComponent } from './components/abm-caja/edit-caja/edit-caja.component';
+import { AbmAbrirCajaComponent } from './components/abrir-caja/search-abrir-caja/abm-abrir-caja.component';
+import { EditAbrirCajaComponent } from './components/abrir-caja/edit-abrir-caja/edit-abrir-caja.component';
+import { AbmCerrarCajaComponent } from './components/cerrar-caja/search-cerrar-caja/abm-cerrar-caja.component';
+import { EditCerrarCajaComponent } from './components/cerrar-caja/edit-cerrar-caja/edit-cerrar-caja.component';
+import { AbmGenerarMovimientoCajaComponent } from './components/generar-movimiento-caja/search-generar-movimiento-caja/abm-generar-movimiento-caja.component';
+import { EditGenerarMovimientoCajaComponent } from './components/generar-movimiento-caja/edit-generar-movimiento-caja/edit-generar-movimiento-caja.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
 import { GestionarProductoComponent } from './components/gestionar-producto/search-gestionar-producto/gestionar-producto.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
@@ -46,6 +52,12 @@ import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.com
     AbmUnidadmedidaComponent,
     AbmCajaComponent,
     CrudCajaComponent,
+    AbmAbrirCajaComponent,
+    EditAbrirCajaComponent,
+    AbmCerrarCajaComponent,
+    EditCerrarCajaComponent,
+    AbmGenerarMovimientoCajaComponent,
+    EditGenerarMovimientoCajaComponent,
     EditCajaComponent,
     AbmRubroComponent,
     GestionarProductoComponent,
