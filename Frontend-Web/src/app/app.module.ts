@@ -34,7 +34,6 @@ import { GestionarMenupromocionComponent } from './components/gestionar-menuprom
 import { CrudMesaComponent } from './components/abm-mesa/crud-mesa/crud-mesa.component';
 import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,7 +62,7 @@ import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.com
     ConsultaGestionarMenupromocionComponent,
     CrudSectorComponent,
     CrudMesaComponent,
-    AbmMesaComponent,
+    AbmMesaComponent
   ],
   imports: [
     BrowserModule,
