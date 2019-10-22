@@ -9,7 +9,8 @@ var express = require('express'),
     faviconURL = `${__dirname}/public/img/node-favicon.png`,
     publicDir = express.static(`${__dirname}/public`),
     port = (process.env.PORT || 3000),
-    app = express();
+    app = express(),
+    fileUpload = require('express-fileupload');
 
 // settings
 app
@@ -31,6 +32,7 @@ app
     .use(restFul)
 	.use( morgan('dev') )
     .use(publicDir)
+    .use(fileUpload())
     .use(routes)
 
 module.exports = app;

@@ -25,6 +25,8 @@ var CajaController = require('../class/caja/caja-controller');
 // var UbicacionController = require('../class/ubicacion/ubicacion-controller');
 var TipoMovimientoCajaController = require('../class/tipomovimientocaja/tipomovimientocaja-controller');
 var MedioPagoController = require('../class/mediopago/mediopago-controller');
+var UploadController = require('../class/upload/upload-controller');
+
 
 // estados
 var EstadoUsuarioController = require('../class/estadousuario/estadousuario-controller');
@@ -41,6 +43,7 @@ router
 // utiles
     .post('/login', UsuarioController.login)
     .post('/existUser', UsuarioController.validateExistUser)
+    .put('/subirImagen', UploadController.subirImagen)
 
 // usuario
     .get('/usuario', verificaToken, UsuarioController.getAll)
