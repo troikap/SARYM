@@ -14,6 +14,7 @@ export class GenerarReporteComponent implements OnInit {
   ngOnInit() {
   }
 
+  /*
   generarPDF() {
     let self = this;//use this variable to access your class members inside then().
     html2canvas(document.body).then(canvas => {
@@ -26,6 +27,7 @@ export class GenerarReporteComponent implements OnInit {
       doc.save('reportes.pdf');
     });
   }
+  */
   //http://blog.nubecolectiva.com/generar-pdf-con-angular-js-5/
   //https://stackoverflow.com/questions/44088988/html2canvas-in-angular-4
 

@@ -12,6 +12,16 @@ export class LoginComponent implements OnInit {
   private form: FormGroup;
   private logueo: any;
   private rol: string;
+  private nombreUsuarioLog: string;
+  private apellidoUsuarioLog: string;
+
+  private invalidotitle = 'Datos Inválidos';
+  private invalidomsj = 'Combinación de Usuario y Contraseña incorrectos.';
+  private susptitle = 'Usuario Suspendido';
+  private suspmsj = 'El Usuario ingresado se encuentra Suspendido o dado de Baja.';
+  private valtitle = 'Bienvenido';
+  private valmsj = 'Le damos la bienvenida ';
+  private algo = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,7 +35,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   loguear() {
     console.log("FORMULARIO , ", this.form);
@@ -34,6 +44,24 @@ export class LoginComponent implements OnInit {
       .then(algo => {
         if (algo.tipo == 2) {
           console.log("MENSAJE ", algo.title);
+          let titulo = `${this.invalidotitle}`;
+          let mensaje = `${this.invalidomsj}`;
+          ($ as any).confirm({
+            title: titulo,
+            content: mensaje,
+            type: 'red',
+            typeAnimated: true,
+            theme: 'material',
+            buttons: {
+              aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-red',
+                action: function () {
+                }
+              }
+            }
+          });
+
         } else if (algo.tipo == 1) {
           console.log(algo.title);
           this.logueo = {
@@ -44,44 +72,77 @@ export class LoginComponent implements OnInit {
           };
           localStorage.setItem("token", algo.token);
           if (this.form.value.checkRecordar) {
-            this.actualizarLog(this.logueo);
+           // this.actualizarLog(this.logueo);
           }
           localStorage.setItem("currentUsuario", this.logueo);
-          console.log("roooooooool", algo.rol.idRol);
-
+          this.nombreUsuarioLog = algo.UsuarioEstado.nombreUsuario;
+          this.apellidoUsuarioLog = algo.UsuarioEstado.apellidoUsuario;
           this.rol = algo.rol.idRol;
 
+          let _this = this;
+
           if (this.rol == "Administrador") {
-            this.router.navigate(["/home"]);
+            let titulo = `${this.valtitle}`;
+            let mensaje = `${this.valmsj} ${_this.nombreUsuarioLog} ${_this.apellidoUsuarioLog} `;
+            ($ as any).confirm({
+              title: titulo,
+              content: mensaje,
+              type: 'blue',
+              typeAnimated: true,
+              theme: 'material',
+              buttons: {
+                aceptar: {
+                  text: 'Aceptar',
+                  btnClass: 'btn-blue',
+                  action: function () {
+                    _this.router.navigate(["/home"]);
+                  }
+                }
+              }
+            });
           } else if (this.rol == "Encargado") {
             this.router.navigate(["/home"]);
           } else if (this.rol == "Cocina") {
             this.router.navigate(["/home"]);
           } else {
-            //mostrar mensaje de error, se logeo con otro idRol distinto a los anteriores
+            //Error, se logeo con otro idRol distinto a los anteriores
+            ($ as any).confirm({
+              title: "Error",
+              content: "Ud. no tiene acceso al sistema",
+              type: 'red',
+              typeAnimated: true,
+              theme: 'material',
+              buttons: {
+                  aceptar: {
+                      text: 'Aceptar',
+                      btnClass: 'btn-red',
+                      action: function(){
+                      }
+                  }
+              }
+            });
           }
         } else {
-          if (algo.tipo == 2) {
-            console.log("INVALIDOS");
-          } else {
-            console.log("SUSPENDIDO INHAVILITAD");
+          //algo.tipo==3 usuario suspendido
+          ($ as any).confirm({
+            title: `${this.susptitle}`,
+            content: `${this.suspmsj}`,
+            type: 'orange',
+            typeAnimated: true,
+            theme: 'material',
+            buttons: {
+                aceptar: {
+                    text: 'Aceptar',
+                    btnClass: 'btn-orange',
+                    action: function(){
+                    }
+                }
+            }
+          });          
           }
-        }
       });
   }
-
-  /*
-  async alert() {
-    if (this.algo.tipo == 1) {
-      const alert = await this.alertController.create({
-        header: this.valtitle,
-        message: `${this.valmsj} ${this.algo.UsuarioEstado.nombreUsuario} ${this.algo.UsuarioEstado.apellidoUsuario}`,
-        buttons: ['OK'],
-        cssClass: 'alert',
-      });
-      await alert.present();
-    }
-*/
+/*
   actualizarLog(log: any) {
     log.date = new Date();
     localStorage.actualizarLog(log).then(res => {
@@ -92,12 +153,5 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-
-  next() {
-    console.log("SIGUIENTE");
-    this.router.navigate(["/usuario"]);
-  }
-  next2() {
-    console.log("SIGUIENTE2");
-  }
+*/
 }
