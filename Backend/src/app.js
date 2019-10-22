@@ -11,6 +11,12 @@ var express = require('express'),
     port = (process.env.PORT || 3000),
     app = express(),
     fileUpload = require('express-fileupload');
+    
+const multipart = require('connect-multiparty'),
+    multiPartMiddleware = multipart({
+        uploadDir: '../../subidas'
+    });
+
 
 // settings
 app
@@ -28,7 +34,7 @@ app
     .use( favicon(faviconURL) )
     .use( bodyParser.json() )
 	// parse application/x-www-form-urlencoded
-    .use( bodyParser.urlencoded({extended: false}))
+    .use( bodyParser.urlencoded({extended: true}))
     .use(restFul)
 	.use( morgan('dev') )
     .use(publicDir)

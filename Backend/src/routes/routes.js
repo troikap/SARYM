@@ -26,7 +26,7 @@ var CajaController = require('../class/caja/caja-controller');
 var TipoMovimientoCajaController = require('../class/tipomovimientocaja/tipomovimientocaja-controller');
 var MedioPagoController = require('../class/mediopago/mediopago-controller');
 var UploadController = require('../class/upload/upload-controller');
-
+var TipoMenuPromocionController = require('../class/tipomenupromocion/tipomenupromocion-controller');
 
 // estados
 var EstadoUsuarioController = require('../class/estadousuario/estadousuario-controller');
@@ -38,12 +38,22 @@ var EstadoProductoController = require('../class/estadoproducto/estadoproducto-c
 var EstadoPedidoController = require('../class/estadopedido/estadopedido-controller');
 var EstadoMesaController = require('../class/estadomesa/estadomesa-controller');
 
+
+const multipart = require('connect-multiparty'),
+    multiPartMiddleware = multipart({
+        uploadDir: '../../subidas'
+    });
+
 router
 
 // utiles
     .post('/login', UsuarioController.login)
     .post('/existUser', UsuarioController.validateExistUser)
-    .put('/subirImagen', UploadController.subirImagen)
+    .post('/subirImagen',multiPartMiddleware, (req, res) => {
+        res.json({
+            'mensage': 'Fichero subido correctamente.'
+        })
+    })
 
 // usuario
     .get('/usuario', verificaToken, UsuarioController.getAll)
@@ -131,6 +141,15 @@ router
     .post('/tipomoneda', verificaToken, TipoMonedaController.create)
     .put('/tipomoneda', verificaToken, TipoMonedaController.update)
     .delete('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.destroy)
+
+// tipomenupromocion
+    .get('/tipomenupromocion', verificaToken, TipoMenuPromocionController.getAll)
+    .get('/tipomenupromocion/:idTipoMenuPromocion', verificaToken, TipoMenuPromocionController.getOne)
+    .get('/tipomenupromocion/name/:nombreTipMenuPromocion', verificaToken, TipoMenuPromocionController.getToName)
+    .get('/tipomenupromocion/todo/:anyAttribute', verificaToken, TipoMenuPromocionController.getToAllAttributes)
+    .post('/tipomenupromocion', verificaToken, TipoMenuPromocionController.create)
+    .put('/tipomenupromocion', verificaToken, TipoMenuPromocionController.update)
+    .delete('/tipomenupromocion/:idTipoMenuPromocion', verificaToken, TipoMenuPromocionController.destroy)
 
 // unidadmedida
     .get('/unidadmedida', verificaToken, UnidadMedidaController.getAll)

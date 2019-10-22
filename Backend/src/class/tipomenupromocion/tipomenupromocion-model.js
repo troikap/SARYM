@@ -13,7 +13,8 @@ const TipoMenuPromocionModelo = sequelize.define('tipomenupromocion', {
     },
     nombreTipoMenuPromocion: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique:true
     }
 }, {
     // options

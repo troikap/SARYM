@@ -281,7 +281,7 @@ ProductoController.create = (req, res) => {
                       locals['data'] = response;
                       locals['tipo'] = 1;
                       let pushPrecioProducto = {};
-                      pushPrecioProducto['importePrecioProducto'] = 99;
+                      pushPrecioProducto['importePrecioProducto'] = body['importePrecioProducot'];
                       pushPrecioProducto[idtable] = result[idtable];
                       pushPrecioProducto['fechaYHoraDesdePrecioProducto'] = body['fechaYHoraDesdePrecioProducto'] || new Date();
                       pushPrecioProducto['fechaYHoraHastaPrecioProducto'] = body['fechaYHoraHastaPrecioProducto'] || null;

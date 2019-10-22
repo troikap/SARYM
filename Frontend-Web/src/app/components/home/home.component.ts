@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HomeService, IconoHome } from 'src/app/services/home/home.service';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+
+import { UploadService } from 'src/app/services/upload/upload.service';
+
 
 // import { AbmUsuarioComponent } from '../abm-usuario/abm-usuario.component';
 // import { AbmTipomonedaComponent } from '../abm-tipomoneda/abm-tipomoneda.component';
@@ -17,7 +21,9 @@ import { HomeService, IconoHome } from 'src/app/services/home/home.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
+
 })
 export class HomeComponent implements OnInit {
   
@@ -26,22 +32,85 @@ export class HomeComponent implements OnInit {
 
   variableRol = "Encargado";
   variableLibre = false;
+  public respuestaImagenEnviada;
+  public resultadoCarga;
+  private myForm: FormGroup;
 
   constructor( private activatedRoute: ActivatedRoute, 
-               private homeSercie: HomeService, 
-               private routes: Router ) 
+               private homeService: HomeService, 
+               private routes: Router,
+               private formBuilder: FormBuilder,
+               public uploadService: UploadService ) 
     { 
       this.activatedRoute.params.subscribe(params => {
-        this.iconosHome = this.homeSercie.getIconosHome();
-        this.iconosEncargado = this.homeSercie.getIconosEncargado();
+        this.iconosHome = this.homeService.getIconosHome();
+        this.iconosEncargado = this.homeService.getIconosEncargado();
+      });
+
+      this.myForm = this.formBuilder.group({
       });
     }
 
   ngOnInit() {
     /* Hacer lógica que verifique si se encuentra logueado. En caso de no estar 
     logueado, redirige a pantalla de login */
-    
   }
+
+  subirImagen() {
+    console.log("MOSTRANDO ENVIAR")
+    console.log("MOSTRANDO ENVIAR", document.getElementById('imagen'))
+
+  }
+
+
+  // public cargandoImagen(file: File ){
+  //   console.log("IMAGEN :", file)
+	// 	this.uploadService.uploadFile(file).then(
+	// 	// this.enviandoImagen.postFileImagen(files[0]).subscribe(
+	// 		response => {
+	// 			this.respuestaImagenEnviada = response; 
+	// 			if(this.respuestaImagenEnviada <= 1){
+	// 				console.log("Error en el servidor"); 
+	// 			}else{
+	// 				if(this.respuestaImagenEnviada.code == 200 && this.respuestaImagenEnviada.status == "success"){
+	// 					this.resultadoCarga = 1;
+	// 				}else{
+	// 					this.resultadoCarga = 2;
+	// 				}
+	// 			}
+	// 		},
+	// 		error => {
+	// 			console.log(<any>error);
+	// 		}
+	// 	);//FIN DE METODO SUBSCRIBE
+  // }
+  
+
+  uploadedFiles: Array<File> = [];
+
+  onUpload(){
+    console.log("Upload");
+    var formData = new FormData();
+    for (let i=0; i < this.uploadedFiles.length; i++) {
+      console.log( "DENTRO ,",this.uploadedFiles[i])
+      formData.append('archivo', this.uploadedFiles[i]);
+      // formData.append(this.uploadedFiles[i].name,this.uploadedFiles[i])
+      console.log("ARMANDO FORM DATA ,", formData)
+    }
+    console.log("FORM DATA ;" ,formData)
+    // this.uploadService.uploadFile( formData ).then((res) => {
+    //   console.log('RESPUESTA ; ',res)
+    // })
+  }
+
+  onFileChange(e) {
+    console.log('FileChange ', e.target.files)
+    this.uploadedFiles = e.target.files;
+    console.log(" OK " ,this.uploadedFiles)
+  }
+
+
+
 
   goTo( ruta: string) {
     let next;

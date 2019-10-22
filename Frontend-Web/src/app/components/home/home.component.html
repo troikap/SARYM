@@ -1,4 +1,31 @@
 <!-- https://icon-icons.com -->
+<!-- <div>Para Cargar Imagen</div>
+<input type="file" (change)="cargandoImagen($event.target.files)" > 
+<button (click)="subirImagen()">Enviar</button> -->
+
+<div>
+    <h1>File Upload</h1>
+</div>
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span id="btnUpload" class="input-group-text upload" (click)="onUpload()">
+                    Subir
+                </span>
+            </div>
+            <div class="custom-file"> 
+                <form action="/subirImagen" method="post" enctype="multipart/form-data" [formGroup]="myForm">
+                    <input type="file" class="custom-file-input" id="input-custom-file" (change)="onFileChange($event)">
+                    <label class="custom-file-label" for="input-custom-file">Elige un archivo</label>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
 
 <div class="card-columns" style="max-width: 50rem;" *ngIf="variableRol=='Administrador' || variableLibre">
     <div class="card animated fadeIn fast" *ngFor="let iconos of iconosHome">
