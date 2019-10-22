@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
+import * as jsPDF from 'jspdf';
+import * as html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-reporte-top-producto',
@@ -43,4 +45,20 @@ export class ReporteTopProductoComponent implements OnInit {
   public randomize(): void {
     this.barChartType = this.barChartType === 'bar' ? 'line' : 'bar';
   }
+
+  generarPDF() {
+    html2canvas(document.getElementById('contenido'), {
+      // Opciones
+      allowTaint: true,
+      useCORS: false,
+      // Calidad del PDF
+      scale: 1
+    }).then(function (canvas) {
+      var img = canvas.toDataURL("image/png");
+      var doc = new jsPDF();
+      doc.addImage(img, 'PNG', 7, 20, 195, 105);
+      doc.save('REPORTE.pdf');
+    });
+  }
+//http://blog.nubecolectiva.com/generar-pdf-con-angular-js-5/
 }

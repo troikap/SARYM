@@ -4,10 +4,12 @@
 <div>
     <div>
         <div>
-            <div style="display: block">
+            <div style="display: block" id="contenido">
                 <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
             </div>
             <button mat-button mat-raised-button color="primary" (click)="randomize()">Update</button>
+            <hr>     
         </div>
+        <button (click)="generarPDF()" class="btn btn-info">Crear PDF</button>
     </div>
 </div>
