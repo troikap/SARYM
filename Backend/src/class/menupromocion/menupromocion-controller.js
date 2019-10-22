@@ -28,7 +28,6 @@ const tratarError = require("../../middlewares/handleError"),
   legend8 = "DetalleMenuPromocionProducto",
   legend9 = "Producto",
 
-
   idtable = `id${legend}`,
   idtable2 = `id${legend2}`,
   idtable3 = `id${legend3}`,

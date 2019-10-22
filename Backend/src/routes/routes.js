@@ -63,7 +63,6 @@ router
     .put('/producto/cambiarEstado', verificaToken, ProductoController.cambiarEstado)
     .put('/producto/cambiarPrecio', verificaToken, ProductoController.cambiarPrecio)
 
-
 // menupromocion
     .get('/menupromocion', verificaToken, MenuPromocionController.getAll)
     .get('/menupromocion/:idMenuPromocion', verificaToken, MenuPromocionController.getOne)
@@ -74,7 +73,6 @@ router
     .put('/menupromocion/cambiarEstado', verificaToken, MenuPromocionController.cambiarEstado)
     .put('/menupromocion/cambiarPrecio', verificaToken, MenuPromocionController.cambiarPrecio)
     .put('/menupromocion/editarProductos', verificaToken, MenuPromocionController.editarProductos)
-
 
 
 // mesa
@@ -169,7 +167,7 @@ router
     .put('/caja/cambiarEstado', verificaToken, CajaController.cambiarEstado)
     .put('/caja/abrirCaja', verificaToken, CajaController.abrirCaja)
     .put('/caja/cerrarCaja', verificaToken, CajaController.cerrarCaja)
-
+    .put('/caja/realizarMovimiento', verificaToken, CajaController.realizarMovimiento)
 
 // ubicacion
     // .get('/ubicacion', verificaToken, UbicacionController.getAll)

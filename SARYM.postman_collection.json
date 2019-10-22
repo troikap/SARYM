@@ -230,7 +230,7 @@
 				{
 					"name": "Get Caja :id",
 					"request": {
-						"url": "localhost:3000/caja/4",
+						"url": "localhost:3000/caja/2",
 						"method": "GET",
 						"header": [
 							{
@@ -348,6 +348,31 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"idCaja\": 20,\n\t\"idEstadoCaja\": 2,\n\t\"descripcionCajaEstado\": \"hola hernin\",\n\t\"montoAperturaCajaEstado\": 100\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Caja Realizar Movimiento",
+					"request": {
+						"url": "localhost:3000/caja/realizarMovimiento",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idCaja\": 2,\n\t\"idUsuario\": 2,\n\t\"idTipoMovimientoCaja\": 2,\n\t\"fechaYHoraMovimientoCaja\": \"2019-10-22T01:17:41.000Z\",\n\t\"montoMovimientoCaja\": 5000,\n\t\"descripcionMovimientoCaja\": \"Ingresando Monto a Caja 1 por Propinas Extras.\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
