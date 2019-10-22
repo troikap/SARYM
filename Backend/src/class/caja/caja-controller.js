@@ -7,14 +7,23 @@ const tratarError = require("../../middlewares/handleError"),
   CajaEstadoModelo = require("../cajaestado/cajaestado-model"),
   EstadoCajaModelo = require("../estadocaja/estadocaja-model"),
   UsuarioModelo = require("../usuario/usuario-model"),
+  MovimientoCajaModelo = require("../movimientocaja/movimientocaja-model"),
+  TipoMovimientoCajaModelo = require("../tipomovimientocaja/tipomovimientocaja-model"),
+
   legend = "Caja",
   legend2 = "CajaEstado",
   legend3 = "EstadoCaja",
   legend4 = "Usuario",
+  legend5 = "TipoMovimientoCaja",
+  legend6 = "MovimientoCaja",
+
   idtable = `id${legend}`,
   idtable2 = `id${legend2}`,
   idtable3 = `id${legend3}`,
   idtable4 = `id${legend4}`,
+  idtable5 = `id${legend5}`,
+  idtable6 = `id${legend6}`,
+
   nametable = `nro${legend}`,
   codtable = `nro${legend}`,
   Sequelize = require('sequelize'),
@@ -23,33 +32,47 @@ const tratarError = require("../../middlewares/handleError"),
 CajaController.getToAllAttributes = (req, res, next) => {
   let locals = {};
   CajaModelo.findAll({
-      where: {
-          [Op.or]: [
-              {idCaja: {[Op.substring]: req.params.anyAttribute}},
-              {nroCaja: {[Op.substring]: req.params.anyAttribute}},
-              Sequelize.literal("`cajaestados->estadocaja`.`nombreEstadoCaja` LIKE '%" + req.params.anyAttribute + "%'"),
-              Sequelize.literal("`cajaestados->usuario`.`nombreUsuario` LIKE '%" + req.params.anyAttribute + "%'"),
-              Sequelize.literal("`cajaestados->usuario`.`apellidoUsuario` LIKE '%" + req.params.anyAttribute + "%'"),
-              ]
+    where: {
+    [Op.or]: [
+        {idCaja: {[Op.substring]: req.params.anyAttribute}},
+        {nroCaja: {[Op.substring]: req.params.anyAttribute}},
+        Sequelize.literal("`cajaestados->estadocaja`.`nombreEstadoCaja` LIKE '%" + req.params.anyAttribute + "%'"),
+        Sequelize.literal("`cajaestados->usuario`.`nombreUsuario` LIKE '%" + req.params.anyAttribute + "%'"),
+        Sequelize.literal("`cajaestados->usuario`.`apellidoUsuario` LIKE '%" + req.params.anyAttribute + "%'"),
+        ]
+    },
+    attributes: attributes.caja,
+    include: [
+      {
+        model: CajaEstadoModelo,
+        where: { fechaYHoraBajaCajaEstado: null },
+        attributes: attributes.cajaestado,
+        include: [
+          {
+            model: EstadoCajaModelo,
+            attributes: attributes.estadocaja
           },
-      attributes: attributes.caja,
-      include: [
-        {
-          model: CajaEstadoModelo,
-          where: { fechaYHoraBajaCajaEstado: null },
-          attributes: attributes.cajaestado,
-          include: [
-            {
-              model: EstadoCajaModelo,
-              attributes: attributes.estadocaja
-            },
-            {
-              model: UsuarioModelo,
-              attributes: attributes.usuario
-            }
-          ]
-        }
-      ]
+          {
+            model: UsuarioModelo,
+            attributes: attributes.usuario
+          }
+        ]
+      },
+      { 
+        model: MovimientoCajaModelo,
+        attributes: attributes.movimientocaja,
+        include: [
+          {
+            model: TipoMovimientoCajaModelo,
+            attributes: attributes.tipomovimientocaja
+          },
+          {
+            model: UsuarioModelo,
+            attributes: attributes.usuario
+          }
+        ]
+      }
+    ]
   }).then(project => {
       if (!project || project == 0) {
         locals['title'] = `No existe registro con valor : ${req.params.anyAttribute}.`;
@@ -67,23 +90,37 @@ CajaController.getToName = (req, res, next) => {
   let locals = {};
   CajaModelo.findAll({where: { [nametable]: { [Op.substring]: req.params[nametable] }},
     attributes: attributes.caja,
-    include: [
-      {
-        model: CajaEstadoModelo,
-        where: { fechaYHoraBajaCajaEstado: null },
-        attributes: attributes.cajaestado,
-        include: [
-          {
-            model: EstadoCajaModelo,
-            attributes: attributes.estadocaja
-          },
-          {
-            model: UsuarioModelo,
-            attributes: attributes.usuario
-          }
-        ]
-      }
-    ]
+      include: [
+        {
+          model: CajaEstadoModelo,
+          where: { fechaYHoraBajaCajaEstado: null },
+          attributes: attributes.cajaestado,
+          include: [
+            {
+              model: EstadoCajaModelo,
+              attributes: attributes.estadocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
+        },
+        { 
+          model: MovimientoCajaModelo,
+          attributes: attributes.movimientocaja,
+          include: [
+            {
+              model: TipoMovimientoCajaModelo,
+              attributes: attributes.tipomovimientocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
+        }
+      ]
   }).then(project => {
     if (!project || project == 0) {
       locals['title'] = `No existe registro con valor : ${req.params[nametable]}.`;
@@ -101,23 +138,37 @@ CajaController.getAll = (req, res, next) => {
   let locals = {};
   CajaModelo.findAll({
     attributes: attributes.caja,
-    include: [
-      {
-        model: CajaEstadoModelo,
-        where: { fechaYHoraBajaCajaEstado: null },
-        attributes: attributes.cajaestado,
-        include: [
-          {
-            model: EstadoCajaModelo,
-            attributes: attributes.estadocaja
-          },
-          {
-            model: UsuarioModelo,
-            attributes: attributes.usuario
-          }
-        ]
-      }
-    ]
+      include: [
+        {
+          model: CajaEstadoModelo,
+          where: { fechaYHoraBajaCajaEstado: null },
+          attributes: attributes.cajaestado,
+          include: [
+            {
+              model: EstadoCajaModelo,
+              attributes: attributes.estadocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
+        },
+        { 
+          model: MovimientoCajaModelo,
+          attributes: attributes.movimientocaja,
+          include: [
+            {
+              model: TipoMovimientoCajaModelo,
+              attributes: attributes.tipomovimientocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
+        }
+      ]
   })
   .then(projects => {
     if (!projects || projects == 0) {
@@ -136,6 +187,7 @@ CajaController.getOne = (req, res, next) => {
   let locals = {};
   CajaModelo.findOne({
     where: { [idtable]: req.params[idtable] },
+    attributes: attributes.caja,
     include: [
       {
         model: CajaEstadoModelo,
@@ -145,6 +197,20 @@ CajaController.getOne = (req, res, next) => {
           {
             model: EstadoCajaModelo,
             attributes: attributes.estadocaja
+          },
+          {
+            model: UsuarioModelo,
+            attributes: attributes.usuario
+          }
+        ]
+      },
+      { 
+        model: MovimientoCajaModelo,
+        attributes: attributes.movimientocaja,
+        include: [
+          {
+            model: TipoMovimientoCajaModelo,
+            attributes: attributes.tipomovimientocaja
           },
           {
             model: UsuarioModelo,
@@ -287,6 +353,20 @@ CajaController.actualizarDatos = (req, res) => {
               attributes: attributes.usuario
             }
           ]
+        },
+        { 
+          model: MovimientoCajaModelo,
+          attributes: attributes.movimientocaja,
+          include: [
+            {
+              model: TipoMovimientoCajaModelo,
+              attributes: attributes.tipomovimientocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
         }
       ]
     }).then(response => {
@@ -350,6 +430,20 @@ CajaController.cambiarEstado = (req, res) => {
             {
               model: EstadoCajaModelo,
               attributes: attributes.estadocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
+        },
+        { 
+          model: MovimientoCajaModelo,
+          attributes: attributes.movimientocaja,
+          include: [
+            {
+              model: TipoMovimientoCajaModelo,
+              attributes: attributes.tipomovimientocaja
             },
             {
               model: UsuarioModelo,
@@ -433,6 +527,20 @@ CajaController.abrirCaja = (req, res) => {
               attributes: attributes.usuario
             }
           ]
+        },
+        { 
+          model: MovimientoCajaModelo,
+          attributes: attributes.movimientocaja,
+          include: [
+            {
+              model: TipoMovimientoCajaModelo,
+              attributes: attributes.tipomovimientocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
         }
       ]
     }).then(response => {
@@ -501,6 +609,20 @@ CajaController.cerrarCaja = (req, res) => {
               attributes: attributes.usuario
             }
           ]
+        },
+        { 
+          model: MovimientoCajaModelo,
+          attributes: attributes.movimientocaja,
+          include: [
+            {
+              model: TipoMovimientoCajaModelo,
+              attributes: attributes.tipomovimientocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
         }
       ]
     }).then(response => {
@@ -542,6 +664,70 @@ CajaController.cerrarCaja = (req, res) => {
         locals['tipo'] = 2;
         res.json(locals);
       }
+    }
+  });
+};
+
+CajaController.realizarMovimiento = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  CajaModelo.findOne({
+    where: {
+      [idtable]: body[idtable] },
+      attributes: attributes.caja,
+      include: [
+        {
+          model: CajaEstadoModelo,
+          where: { fechaYHoraBajaCajaEstado: null },
+          attributes: attributes.cajaestado,
+          include: [
+            {
+              model: EstadoCajaModelo,
+              attributes: attributes.estadocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
+        },
+        { 
+          model: MovimientoCajaModelo,
+          attributes: attributes.movimientocaja,
+          include: [
+            {
+              model: TipoMovimientoCajaModelo,
+              attributes: attributes.tipomovimientocaja
+            },
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+            }
+          ]
+        }
+      ]
+    }).then(response => {
+    if (!response || response == 0) {
+      locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+      locals['tipo'] = 2;
+      res.json(locals);
+    } else {
+      if (body['fechaYHoraMovimientoCaja'] == null ) {
+        body['fechaYHoraMovimientoCaja'] = new Date();
+      }
+      MovimientoCajaModelo.create(body).then((resp) => {
+        if (!resp || resp == 0 ){
+          locals['title'] = `No se pudo crear ${legend6}.`;
+          locals['tipo'] = 2;
+        } else {
+          locals['title'] = `Se creo correctamente ${legend6}.`;
+          locals['tipo'] = 1;
+        }
+        res.json(locals);
+      }).catch((error) => {
+        locals = tratarError.tratarError(error, legend);
+        res.json(locals);
+      });
     }
   });
 };

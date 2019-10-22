@@ -89,6 +89,65 @@ export class HomeService {
           responsable: 'Administrador'
         },
     ];
+    private encargado: IconoHome[] = [
+      {
+        id: '0',
+        nombre: 'Abrir Caja',
+        clave: 'abrir-caja',
+        path: '/abrircaja',
+        img: 'assets/imagenes/caja.png',
+        responsable: 'Encargado'
+      },
+      {
+        id: '1',
+        nombre: 'Cerrar Caja',
+        clave: 'cerrar-caja',
+        path: '/cerrarcaja',
+        img: 'assets/imagenes/caja.png',
+        responsable: 'Encargado'
+      },
+      {
+        id: '2',
+        nombre: 'Generar Movimiento Caja',
+        clave: 'generar-movimiento-caja',
+        path: '/generarmovimientocaja',
+        img: 'assets/imagenes/caja.png',
+        responsable: 'Encargado'
+      },
+      {
+        id: '3',
+        nombre: 'Reasignar Mozo a Estadia',
+        clave: 'reasignar-mozo-a-estadia',
+        path: '/reasignarmozoaestadia',
+        img: 'assets/imagenes/caja.png',
+        responsable: 'Encargado'
+      },
+      {
+        id: '4',
+        nombre: 'Habilitar/Deshabilitar Producto',
+        clave: 'habilitar-deshabilitar-producto',
+        path: '/habilitardeshabilitarproducto',
+        img: 'assets/imagenes/producto.png',
+        responsable: 'Encargado'
+      },
+      {
+        id: '5',
+        nombre: 'Anular Pedido',
+        clave: 'anular-pedido',
+        path: '/anularpedido',
+        img: 'assets/imagenes/menu-promocion.png',
+        responsable: 'Encargado'
+      },
+      {
+        id: '6',
+        nombre: 'Gestionar Estado Estadia',
+        clave: 'gestionar-estado-estadia',
+        path: '/gestionarestadoestadia',
+        img: 'assets/imagenes/menu-promocion.png',
+        responsable: 'Encargado'
+      },
+      
+  ];
 
     constructor() {
         console.log('Servicio funcionando');
@@ -97,6 +156,9 @@ export class HomeService {
     getIconosHome(): IconoHome[] {
         return this.iconos;
     }
+    getIconosEncargado(): IconoHome[] {
+      return this.encargado;
+  }
     getIconoHomeParticular( idx: number ): IconoHome {
       return this.iconos[idx];
     }

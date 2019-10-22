@@ -25,6 +25,8 @@ var CajaController = require('../class/caja/caja-controller');
 // var UbicacionController = require('../class/ubicacion/ubicacion-controller');
 var TipoMovimientoCajaController = require('../class/tipomovimientocaja/tipomovimientocaja-controller');
 var MedioPagoController = require('../class/mediopago/mediopago-controller');
+var UploadController = require('../class/upload/upload-controller');
+
 
 // estados
 var EstadoUsuarioController = require('../class/estadousuario/estadousuario-controller');
@@ -41,6 +43,7 @@ router
 // utiles
     .post('/login', UsuarioController.login)
     .post('/existUser', UsuarioController.validateExistUser)
+    .put('/subirImagen', UploadController.subirImagen)
 
 // usuario
     .get('/usuario', verificaToken, UsuarioController.getAll)
@@ -63,12 +66,17 @@ router
     .put('/producto/cambiarEstado', verificaToken, ProductoController.cambiarEstado)
     .put('/producto/cambiarPrecio', verificaToken, ProductoController.cambiarPrecio)
 
-
-// promocion
+// menupromocion
     .get('/menupromocion', verificaToken, MenuPromocionController.getAll)
     .get('/menupromocion/:idMenuPromocion', verificaToken, MenuPromocionController.getOne)
     .get('/menupromocion/name/:nombreMenuPromocion', verificaToken, MenuPromocionController.getToName)
     .get('/menupromocion/todo/:anyAttribute', verificaToken, MenuPromocionController.getToAllAttributes)
+    .post('/menupromocion', verificaToken, MenuPromocionController.create)
+    .put('/menupromocion/actualizarDatos', verificaToken, MenuPromocionController.actualizarDatos)
+    .put('/menupromocion/cambiarEstado', verificaToken, MenuPromocionController.cambiarEstado)
+    .put('/menupromocion/cambiarPrecio', verificaToken, MenuPromocionController.cambiarPrecio)
+    .put('/menupromocion/editarProductos', verificaToken, MenuPromocionController.editarProductos)
+
 
 // mesa
     .get('/mesa', verificaToken, MesaController.getAll)
@@ -162,7 +170,7 @@ router
     .put('/caja/cambiarEstado', verificaToken, CajaController.cambiarEstado)
     .put('/caja/abrirCaja', verificaToken, CajaController.abrirCaja)
     .put('/caja/cerrarCaja', verificaToken, CajaController.cerrarCaja)
-
+    .put('/caja/realizarMovimiento', verificaToken, CajaController.realizarMovimiento)
 
 // ubicacion
     // .get('/ubicacion', verificaToken, UbicacionController.getAll)

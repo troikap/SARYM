@@ -31,7 +31,7 @@
 				{
 					"name": "Get Menu Promocion: id",
 					"request": {
-						"url": "localhost:3000/menupromocion/1",
+						"url": "localhost:3000/menupromocion/35",
 						"method": "GET",
 						"header": [
 							{
@@ -65,7 +65,7 @@
 				{
 					"name": "Get Menu Promocion :anyAttribute",
 					"request": {
-						"url": "localhost:3000/menupromocion/todo/Hamburguesas",
+						"url": "localhost:3000/menupromocion/todo/promocion",
 						"method": "GET",
 						"header": [
 							{
@@ -76,6 +76,131 @@
 						],
 						"body": {},
 						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Menu Promocion",
+					"request": {
+						"url": "localhost:3000/menupromocion",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codMenuPromocion\": \"PRUEBA1\",\n    \"nombreMenuPromocion\": \"PRUEBA1\",\n    \"descripcionMenuPromocion\": \"PRUEBA1 \",\n    \"pathImagenMenuPromocion\": \"PRUEBA1.png\",\n    \"idTipoMenuPromocion\": 1,\n    \n    \"idEstadoMenuPromocion\": 1,\n    \n    \"idTipoMoneda\": 1,\n    \"importePrecioMenuPromocion\": 99.98,\n    \"fechaYHoraDesdePrecioMenuPromocion\": \"2019-10-19T21:52:49.000Z\",\n    \"fechaYHoraHastaPrecioMenuPromocion\": null\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Menu Promocion Actualizar Datos",
+					"request": {
+						"url": "localhost:3000/menupromocion/actualizarDatos",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idMenuPromocion\":35,\n    \"codMenuPromocion\": \"PRUEBA2\",\n    \"nombreMenuPromocion\": \"PRUEBA2\",\n    \"descripcionMenuPromocion\": \"PRUEBA2 \",\n    \"pathImagenMenuPromocion\": \"PRUEBA2.png\",\n    \"idTipoMenuPromocion\": 2\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Menu Promocion cambiarEstado",
+					"request": {
+						"url": "localhost:3000/menupromocion/cambiarEstado",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idMenuPromocion\":35,\n    \"idEstadoMenuPromocion\": 2,\n    \"descripcionMenuPromocionEstado\": \"Modificado.....\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Menu Promocion cambarPrecio",
+					"request": {
+						"url": "localhost:3000/menupromocion/cambiarPrecio",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idMenuPromocion\":35,\n    \"idTipoMoneda\": 2,\n    \"importePrecioMenuPromocion\": 200\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Menu Promocion editarProductos",
+					"request": {
+						"url": "localhost:3000/menupromocion/editarProductos",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idMenuPromocion\":35,\n\t\"producto\": [\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 8,\n\t\t\t\"idProducto\": 3,\n\t\t\t\"cantidadProductoMenuPromocion\": 10\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 9,\n\t\t\t\"idProducto\": 3,\n\t\t\t\"cantidadProductoMenuPromocion\": 20\n\t\t}\n\t],\n\t\"productos PARA EDITAR\" :[\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 100,\n\t\t\t\"idProducto\": 2,\n\t\t\t\"cantidadProductoMenuPromocion\": 2\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 101,\n\t\t\t\"idProducto\": 2,\n\t\t\t\"cantidadProductoMenuPromocion\": 2\n\t\t}\n\t],\n\t\"productos PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 100,\n\t\t\t\"bajaProducto\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 101,\n\t\t\t\"bajaProducto\": true\n\t\t}\n\t],\n\t\"productos PARA CREAR\" :[\n\t\t{\n\t\t\t\"idProducto\": 4,\n\t\t\t\"cantidadProductoMenuPromocion\": 6\n\t\t},\n\t\t{\n\t\t\t\"idProducto\": 5,\n\t\t\t\"cantidadProductoMenuPromocion\": 7\n\t\t}\n\t]\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
 					},
 					"response": []
 				}
@@ -105,7 +230,7 @@
 				{
 					"name": "Get Caja :id",
 					"request": {
-						"url": "localhost:3000/caja/4",
+						"url": "localhost:3000/caja/2",
 						"method": "GET",
 						"header": [
 							{
@@ -223,6 +348,31 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"idCaja\": 20,\n\t\"idEstadoCaja\": 2,\n\t\"descripcionCajaEstado\": \"hola hernin\",\n\t\"montoAperturaCajaEstado\": 100\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Caja Realizar Movimiento",
+					"request": {
+						"url": "localhost:3000/caja/realizarMovimiento",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idCaja\": 2,\n\t\"idUsuario\": 2,\n\t\"idTipoMovimientoCaja\": 2,\n\t\"fechaYHoraMovimientoCaja\": \"2019-10-22T01:17:41.000Z\",\n\t\"montoMovimientoCaja\": 5000,\n\t\"descripcionMovimientoCaja\": \"Ingresando Monto a Caja 1 por Propinas Extras.\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -353,7 +503,7 @@
 					"response": []
 				},
 				{
-					"name": "Put Producto Cambiar Estado",
+					"name": "Put Producto cambiarEstado",
 					"request": {
 						"url": "localhost:3000/producto/cambiarEstado",
 						"method": "PUT",
@@ -371,14 +521,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idProducto\": 20,\n\t\"idEstadoProducto\": 2,\n\t\"descripcionProductoEstado\": \"Cambio a estado 2 .\"\n}"
+							"raw": "{\n\t\"idProducto\":20,\n    \"idEstadoProducto\": 3,\n    \"descripcionProductoEstado\": \"Modificado.....\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
 					"response": []
 				},
 				{
-					"name": "Put Producto Cambiar Precio",
+					"name": "Put Producto cambarPrecio",
 					"request": {
 						"url": "localhost:3000/producto/cambiarPrecio",
 						"method": "PUT",
@@ -396,7 +546,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idProducto\": 20,\n\t\"idTipoMoneda\": 2,\n\t\"importePrecioProducto\": 100,\n    \"fechaYHoraDesdePrecioProducto\":\"2019-10-20T23:23:53.000Z\"\n}"
+							"raw": "{\n\t\"idProducto\":20,\n    \"idTipoMoneda\": 1,\n    \"importePrecioProducto\": 200\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},

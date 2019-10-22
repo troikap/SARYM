@@ -186,6 +186,19 @@ detallemenupromocionproducto = [
     "cantidadProductoMenuPromocion",
 ]
 
+tipomovimientocaja = [
+    "idTipoMovimientoCaja",
+    "nombreTipoMovimientoCaja"
+]
+
+movimientocaja = [
+    "idMovimientoCaja",
+    "fechaYHoraMovimientoCaja",
+    "idUsuario",
+    "montoMovimientoCaja",
+    "descripcionMovimientoCaja"
+]
+
 module.exports = {
     usuario, 
     usuarioestado, 
@@ -212,5 +225,7 @@ module.exports = {
     menupromocionestado,
     estadomenupromocion,
     preciomenupromocion,
-    detallemenupromocionproducto
+    detallemenupromocionproducto,
+    tipomovimientocaja,
+    movimientocaja
 }
