@@ -133,7 +133,7 @@ export class ProductoService {
     headers = headers.append('token', this.tokenEnviroment);
     console.log("DATOS A ENVIAR :",datas)
     return this.http
-      .put(`${this.url}${this.dir}${this.dirCambiarPrecio}`, datas, {headers})
+      .put(`${this.url}${this.dir}gi ${this.dirCambiarPrecio}`, datas, {headers})
       .toPromise()
       .then(response => {
         console.log("Servicio cambiarPrecio()", response);
