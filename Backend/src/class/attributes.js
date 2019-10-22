@@ -11,6 +11,19 @@ usuario = [
     'nroTelefonoUsuario',
   ];
 
+usuario2 = [
+    'idUsuario',
+    'cuitUsuario',
+    'nombreUsuario',
+    'apellidoUsuario',
+    'dniUsuario',
+    'domicilioUsuario',
+    'emailUsuario',
+    'idDepartamento',
+    'nroCelularUsuario',
+    'nroTelefonoUsuario',
+];
+
 usuarioestado = [
     'descripcionUsuarioEstado',
     'fechaYHoraAltaUsuarioEstado',
@@ -66,6 +79,7 @@ estadocaja = [
 
 mesa = [
     "idMesa",
+    "nroUbicacion",
     "nroMesa",
     "capacidadMesa",
 ]
@@ -75,12 +89,6 @@ sector = [
     "codSector",
     "nombreSector",
     "fechaYHoraBajaSector",
-]
-
-ubicacion = [
-    "idUbicacion",
-    "nroUbicacion",
-    "descripcionUbicacion",
 ]
 
 mesaestado = [
@@ -98,6 +106,99 @@ estadomesa = [
     "colorEstadoMesa",
 ]
 
+producto = [
+    "idProducto",
+    "codProducto",
+    "cantidadMedida",
+    "nombreProducto",
+    "descripcionProducto",
+    "pathImagenProducto"
+]
+
+rubro = [
+    "idRubro",
+    "codRubro",
+    "nombreRubro",
+    "descripcionRubro"
+]
+
+productoestado = [
+    "idProductoEstado",
+    "descripcionProductoEstado",
+    "fechaYHoraAltaProductoEstado",
+    "fechaYHoraBajaProductoEstado",
+]
+
+estadoproducto = [
+    "idEstadoProducto",
+    "codEstadoProducto",
+    "nombreEstadoProducto",
+]
+
+precioproducto = [
+    "idPrecioProducto",
+    "importePrecioProducto",
+    "fechaYHoraDesdePrecioProducto",
+    "fechaYHoraHastaPrecioProducto",
+]
+
+tipomoneda = [
+    "idTipoMoneda",
+    "nombreTipoMoneda",
+    "simboloTipoMoneda",
+]
+
+menupromocion = [
+    "idMenuPromocion",
+    "codMenuPromocion",
+    "nombreMenuPromocion",
+    "descripcionMenuPromocion",
+    "pathImagenMenuPromocion",
+]
+
+tipomenupromocion = [
+    "idTipoMenuPromocion",
+    "nombreTipoMenuPromocion",
+]
+
+menupromocionestado = [
+    "idMenuPromocionEstado",
+    "descripcionMenuPromocionEstado",
+    "fechaYHoraAltaMenuPromocionEstado",
+    "fechaYHoraBajaMenuPromocionEstado",
+]
+
+estadomenupromocion = [
+    "idEstadoMenuPromocion",
+    "codEstadoMenuPromocion",
+    "nombreEstadoMenuPromocion",
+]
+
+preciomenupromocion = [
+    "idPrecioMenuPromocion",
+    "importePrecioMenuPromocion",
+    "fechaYHoraDesdePrecioMenuPromocion",
+    "fechaYHoraHastaPrecioMenuPromocion",
+]
+
+detallemenupromocionproducto = [
+    "idDetalleMenuPromocionProducto",
+    "cantidadProductoMenuPromocion",
+]
+
+tipomovimientocaja = [
+    "idTipoMovimientoCaja",
+    "nombreTipoMovimientoCaja"
+]
+
+movimientocaja = [
+    "idMovimientoCaja",
+    "fechaYHoraMovimientoCaja",
+    "idUsuario",
+    "montoMovimientoCaja",
+    "descripcionMovimientoCaja"
+]
+
 module.exports = {
     usuario, 
     usuarioestado, 
@@ -112,6 +213,19 @@ module.exports = {
     mesa,
     mesaestado,
     estadomesa,
-    ubicacion,
-    sector
+    sector,
+    producto,
+    productoestado,
+    estadoproducto,
+    rubro,
+    precioproducto,
+    tipomoneda,
+    menupromocion,
+    tipomenupromocion,
+    menupromocionestado,
+    estadomenupromocion,
+    preciomenupromocion,
+    detallemenupromocionproducto,
+    tipomovimientocaja,
+    movimientocaja
 }

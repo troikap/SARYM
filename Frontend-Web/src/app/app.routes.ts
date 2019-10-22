@@ -15,18 +15,21 @@ import { AbmGenerarMovimientoCajaComponent } from './components/generar-movimien
 import { EditGenerarMovimientoCajaComponent } from './components/generar-movimiento-caja/edit-generar-movimiento-caja/edit-generar-movimiento-caja.component';
 import { CrudCajaComponent } from './components/abm-caja/crud-caja/crud-caja.component';
 import { EditCajaComponent } from './components/abm-caja/edit-caja/edit-caja.component';
-import { AbmMesaComponent } from './components/abm-mesa/abm-mesa.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
-import { AbmSectorComponent } from './components/abm-sector/abm-sector.component';
 import { GestionarProductoComponent } from './components/gestionar-producto/search-gestionar-producto/gestionar-producto.component';
-import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/gestionar-menupromocion.component';
+import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/search-gestionar-menupromocion/gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud-usuario.component';
+import { CrudSectorComponent } from './components/abm-sector/crud-sector/crud-sector.component';
+import { CrudMesaComponent } from './components/abm-mesa/crud-mesa/crud-mesa.component';
 import { CrudRubroComponent } from './components/abm-rubro/crud-rubro/crud-rubro.component';
 import { CrudTipomonedaComponent } from './components/abm-tipomoneda/crud-tipomoneda/crud-tipomoneda.component';
 import { CrudGestionarProductoComponent } from './components/gestionar-producto/crud-gestionar-producto/crud-gestionar-producto.component';
 import { ConsultaGestionarProductoComponent } from './components/gestionar-producto/consulta-gestionar-producto/consulta-gestionar-producto.component';
-
+import { ConsultaGestionarMenupromocionComponent } from './components/gestionar-menupromocion/consulta-gestionar-menupromocion/consulta-gestionar-menupromocion.component';
+import { CrudGestionarMenupromocionComponent } from './components/gestionar-menupromocion/crud-gestionar-menupromocion/crud-gestionar-menupromocion.component';
+import { AbmSectorComponent } from './components/abm-sector/search-sector/abm-sector.component';
+import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.component';
 
 
 const routes: Routes = [
@@ -34,6 +37,10 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'usuario', component: AbmUsuarioComponent },
     { path: 'usuario_crud/:id/:accion', component: CrudUsuarioComponent },
+    { path: 'sector', component: AbmSectorComponent },
+    { path: 'sector_crud/:id/:accion', component: CrudSectorComponent },
+    { path: 'mesa', component: AbmMesaComponent },
+    { path: 'mesa_crud/:id/:accion', component: CrudMesaComponent },
     { path: 'tipomoneda', component: AbmTipomonedaComponent },
     { path: 'tipomoneda_crud/:id/:accion', component: CrudTipomonedaComponent},
     { path: 'unidadmedida', component: AbmUnidadmedidaComponent },
@@ -41,20 +48,20 @@ const routes: Routes = [
     { path: 'caja', component: AbmCajaComponent },
     { path: 'caja_crud/:id/:accion', component: CrudCajaComponent},
     { path: 'caja_edit/:id/:accion', component: EditCajaComponent},
-    { path: 'abrircaja', component: AbmAbrirCajaComponent },
-    { path: 'cerrarcaja', component: AbmCerrarCajaComponent },
-    { path: 'generarmovimientocaja', component: AbmGenerarMovimientoCajaComponent },
     { path: 'generarmovimientocaja/:id/:accion', component: EditGenerarMovimientoCajaComponent },
-    { path: 'abrircaja/:id/:accion', component: EditAbrirCajaComponent },
+    { path: 'generarmovimientocaja', component: AbmGenerarMovimientoCajaComponent },
     { path: 'cerrarcaja/:id/:accion', component: EditCerrarCajaComponent },
-    { path: 'mesa', component: AbmMesaComponent },
+    { path: 'cerrarcaja', component: AbmCerrarCajaComponent },
+    { path: 'abrircaja/:id/:accion', component: EditAbrirCajaComponent },
+    { path: 'abrircaja', component: AbmAbrirCajaComponent },
     { path: 'rubro', component: AbmRubroComponent },
     { path: 'rubro_crud/:id/:accion', component: CrudRubroComponent },
-    { path: 'sector', component: AbmSectorComponent },
     { path: 'producto', component: GestionarProductoComponent },
     { path: 'producto_consulta/:id', component: ConsultaGestionarProductoComponent },
     { path: 'producto_crud/:id/:accion', component: CrudGestionarProductoComponent },
     { path: 'menupromocion', component: GestionarMenupromocionComponent },
+    { path: 'menupromocion_consulta/:id', component: ConsultaGestionarMenupromocionComponent },
+    { path: 'menupromocion_crud/:id/:accion', component: CrudGestionarMenupromocionComponent },
     { path: 'reporte', component: GenerarReporteComponent },
     { path: '',  redirectTo: '/login', pathMatch: 'full' },
     { path: '**', redirectTo: 'home'}

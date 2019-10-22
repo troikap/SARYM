@@ -53,8 +53,8 @@ export class GestionarProductoComponent implements OnInit {
   getAllElements() {
     this.productoService.getAllProductos()
       .then((res: any) => {
-        console.log(res.Producto);
-        this.listaProductos =  res.Producto;
+        console.log("getAllElements", res.data);
+        this.listaProductos =  res.data;
       })
   }
 
@@ -64,4 +64,7 @@ export class GestionarProductoComponent implements OnInit {
     this.router.navigate( [`/producto_consulta/${idElemento}`] );
   }
 
+  crearProducto() {
+    this.router.navigate( ['/producto_crud/0/crear']);
+  }
 }

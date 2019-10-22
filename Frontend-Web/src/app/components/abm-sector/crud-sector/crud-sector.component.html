@@ -1,0 +1,50 @@
+<h2 class="titulo">ABM Sector</h2>
+<hr>
+<div class="container">
+    <div class="form-section">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="form-group">
+                <label for="idSector" class="col col-form-label">Id</label>
+                <input type="text" id="idSector" placeholder="Identificador" formControlName="idSector"
+                    class="form-control" disabled>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="codSector" class="col col-form-label">Código de Sector</label>
+                        <input type="text" class="form-control" id="codSector" placeholder="Ingrese Respuesta"
+                            formControlName="codSector">
+                        <p class="input-error-msg"
+                            *ngIf="form.controls.codSector.errors?.required && form.controls.codSector.touched">
+                            Campo Obligatorio.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <label for="nombreSector" class="col col-form-label">Nombre de Sector</label>
+                    <input type="text" class="form-control" id="nombreSector" placeholder="Ingrese Respuesta"
+                        formControlName="nombreSector">
+                    <p class="input-error-msg"
+                        *ngIf="form.controls.nombreSector.errors?.required && form.controls.nombreSector.touched">Campo
+                        Obligatorio.</p>
+                </div>
+            </div>
+            <div class="form-group row" *ngIf="accionGet=='editar'">
+                <div class="col">
+                    <label for="fechaYHoraBajaSector" class="col col-form-label">Fecha Deshabilitación</label>
+                    <input type="checkbox" class="form-control" id="fechaYHoraBajaSector" formControlName="fechaYHoraBajaSector">
+                </div>
+            </div>
+            <hr>
+            <div *ngIf="accionGet != 'eliminar'">
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+            </div>
+            <div *ngIf="accionGet == 'eliminar'"> 
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<hr>
+<button onclick="history.back()" class="btn btn-primary">Cancelar</button>

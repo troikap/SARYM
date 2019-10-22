@@ -31,7 +31,7 @@
 				{
 					"name": "Get Menu Promocion: id",
 					"request": {
-						"url": "localhost:3000/menupromocion/1",
+						"url": "localhost:3000/menupromocion/35",
 						"method": "GET",
 						"header": [
 							{
@@ -65,7 +65,7 @@
 				{
 					"name": "Get Menu Promocion :anyAttribute",
 					"request": {
-						"url": "localhost:3000/menupromocion/todo/Hamburguesas",
+						"url": "localhost:3000/menupromocion/todo/promocion",
 						"method": "GET",
 						"header": [
 							{
@@ -76,6 +76,131 @@
 						],
 						"body": {},
 						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Menu Promocion",
+					"request": {
+						"url": "localhost:3000/menupromocion",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codMenuPromocion\": \"PRUEBA1\",\n    \"nombreMenuPromocion\": \"PRUEBA1\",\n    \"descripcionMenuPromocion\": \"PRUEBA1 \",\n    \"pathImagenMenuPromocion\": \"PRUEBA1.png\",\n    \"idTipoMenuPromocion\": 1,\n    \n    \"idEstadoMenuPromocion\": 1,\n    \n    \"idTipoMoneda\": 1,\n    \"importePrecioMenuPromocion\": 99.98,\n    \"fechaYHoraDesdePrecioMenuPromocion\": \"2019-10-19T21:52:49.000Z\",\n    \"fechaYHoraHastaPrecioMenuPromocion\": null\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Menu Promocion Actualizar Datos",
+					"request": {
+						"url": "localhost:3000/menupromocion/actualizarDatos",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idMenuPromocion\":35,\n    \"codMenuPromocion\": \"PRUEBA2\",\n    \"nombreMenuPromocion\": \"PRUEBA2\",\n    \"descripcionMenuPromocion\": \"PRUEBA2 \",\n    \"pathImagenMenuPromocion\": \"PRUEBA2.png\",\n    \"idTipoMenuPromocion\": 2\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Menu Promocion cambiarEstado",
+					"request": {
+						"url": "localhost:3000/menupromocion/cambiarEstado",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idMenuPromocion\":35,\n    \"idEstadoMenuPromocion\": 2,\n    \"descripcionMenuPromocionEstado\": \"Modificado.....\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Menu Promocion cambarPrecio",
+					"request": {
+						"url": "localhost:3000/menupromocion/cambiarPrecio",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idMenuPromocion\":35,\n    \"idTipoMoneda\": 2,\n    \"importePrecioMenuPromocion\": 200\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Menu Promocion editarProductos",
+					"request": {
+						"url": "localhost:3000/menupromocion/editarProductos",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idMenuPromocion\":35,\n\t\"producto\": [\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 8,\n\t\t\t\"idProducto\": 3,\n\t\t\t\"cantidadProductoMenuPromocion\": 10\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 9,\n\t\t\t\"idProducto\": 3,\n\t\t\t\"cantidadProductoMenuPromocion\": 20\n\t\t}\n\t],\n\t\"productos PARA EDITAR\" :[\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 100,\n\t\t\t\"idProducto\": 2,\n\t\t\t\"cantidadProductoMenuPromocion\": 2\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 101,\n\t\t\t\"idProducto\": 2,\n\t\t\t\"cantidadProductoMenuPromocion\": 2\n\t\t}\n\t],\n\t\"productos PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 100,\n\t\t\t\"bajaProducto\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 101,\n\t\t\t\"bajaProducto\": true\n\t\t}\n\t],\n\t\"productos PARA CREAR\" :[\n\t\t{\n\t\t\t\"idProducto\": 4,\n\t\t\t\"cantidadProductoMenuPromocion\": 6\n\t\t},\n\t\t{\n\t\t\t\"idProducto\": 5,\n\t\t\t\"cantidadProductoMenuPromocion\": 7\n\t\t}\n\t]\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
 					},
 					"response": []
 				}
@@ -105,7 +230,7 @@
 				{
 					"name": "Get Caja :id",
 					"request": {
-						"url": "localhost:3000/caja/4",
+						"url": "localhost:3000/caja/2",
 						"method": "GET",
 						"header": [
 							{
@@ -197,7 +322,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idCaja\": 20,\n\t\"nroCaja\": 100,\n\t\"descripcionCajaEstado\": \"Ble...........\",\n    \"montoAperturaCajaEstado\": 1000,\n    \"montoCierreCajaEstado\": 1000\n}"
+							"raw": "{\n\t\"idCaja\": 20,\n\t\"nroCaja\": 102,\n\t\"descripcionCajaEstado\": \"AAAAAAAAAAAAAAAAAAA\",\n    \"montoCierreCajaEstado\": 700\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -222,7 +347,206 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idCaja\": 20,\n\t\"idEstadoCaja\": 2,\n\t\"idUsuario\": 3,\n\t\"descripcionCajaEstado\": \"hola hernin\",\n\t\"montoAperturaCajaEstado\": 100\n}"
+							"raw": "{\n\t\"idCaja\": 20,\n\t\"idEstadoCaja\": 2,\n\t\"descripcionCajaEstado\": \"hola hernin\",\n\t\"montoAperturaCajaEstado\": 100\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Caja Realizar Movimiento",
+					"request": {
+						"url": "localhost:3000/caja/realizarMovimiento",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idCaja\": 2,\n\t\"idUsuario\": 2,\n\t\"idTipoMovimientoCaja\": 2,\n\t\"fechaYHoraMovimientoCaja\": \"2019-10-22T01:17:41.000Z\",\n\t\"montoMovimientoCaja\": 5000,\n\t\"descripcionMovimientoCaja\": \"Ingresando Monto a Caja 1 por Propinas Extras.\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Producto",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Producto",
+					"request": {
+						"url": "localhost:3000/producto",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Producto : id",
+					"request": {
+						"url": "localhost:3000/producto/20",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Producto :name",
+					"request": {
+						"url": "localhost:3000/producto/name/TERRUÑ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Producto :anyAttribute",
+					"request": {
+						"url": "localhost:3000/producto/todo/TERRUÑ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Producto",
+					"request": {
+						"url": "localhost:3000/producto",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codProducto\": \"PRUEBA4\",\n    \"cantidadMedida\": 5,\n    \"nombreProducto\": \"PRUEBA3\",\n    \"descripcionProducto\": \"JAAJAJJAJA \",\n    \"pathImagenProducto\": \"jajaja.png\",\n    \"idRubro\": 2,\n    \"idUnidadMedida\": 2,\n    \n    \"idEstadoProducto\": 1,\n    \n    \"idTipoMoneda\": 1,\n    \"importePrecioProducto\": 99.98,\n    \"fechaYHoraDesdePrecioProducto\": \"2019-10-19T21:52:49.000Z\",\n    \"fechaYHoraHastaPrecioProducto\": null\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Producto Actualizar Datos",
+					"request": {
+						"url": "localhost:3000/producto/actualizarDatos",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idProducto\":20,\n    \"codProducto\":\"PRUEBA5\",\n    \"cantidadMedida\":5,\n    \"nombreProducto\":\"aaaaaaaa\",\n    \"descripcionProducto\": \"aaaaaaaaaaaaaa \",\n    \"pathImagenProducto\": \"aaaaaaaaaaa.png\",\n    \"idRubro\": 2,\n    \"idUnidadMedida\": 2\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Producto cambiarEstado",
+					"request": {
+						"url": "localhost:3000/producto/cambiarEstado",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idProducto\":20,\n    \"idEstadoProducto\": 3,\n    \"descripcionProductoEstado\": \"Modificado.....\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Producto cambarPrecio",
+					"request": {
+						"url": "localhost:3000/producto/cambiarPrecio",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idProducto\":20,\n    \"idTipoMoneda\": 1,\n    \"importePrecioProducto\": 200\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -321,7 +645,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"nroMesa\": 21,\n\t\"capacidadMesa\": 4,\n\t\"idSector\": 1,\n\t\"idUbicacion\": 1\n\t\n}"
+							"raw": "{\n\t\"nroMesa\": 21,\n\t\"capacidadMesa\": 4,\n\t\"idSector\": 1,\n\t\"nroUbicacion\": 4\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -346,7 +670,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idMesa\": 6,\n    \"nroMesa\": 10,\n    \"capacidadMesa\": 4,\n    \"idUbicacion\": 1,\n    \"idSector\":1\n}"
+							"raw": "{\n\t\"idMesa\": 6,\n    \"nroMesa\": 10,\n    \"capacidadMesa\": 4,\n    \"nroUbicacion\": 1,\n    \"idSector\":1\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -355,7 +679,7 @@
 				{
 					"name": "Put Mesa Cambiar Estado",
 					"request": {
-						"url": "localhost:3000/caja/cambiarEstado",
+						"url": "localhost:3000/mesa/cambiarEstado",
 						"method": "PUT",
 						"header": [
 							{
@@ -371,7 +695,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idMesa\": 6,\n\t\"idEstadoCaja\": 2\n}"
+							"raw": "{\n\t\"idMesa\": 5,\n\t\"idEstadoMesa\": 2\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -880,7 +1204,7 @@
 				{
 					"name": "Put Sector",
 					"request": {
-						"url": "localhost:3000/ubicacion",
+						"url": "localhost:3000/sector",
 						"method": "PUT",
 						"header": [
 							{
@@ -896,26 +1220,9 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idUbicacion\": 1,\n    \"nroUbicacion\": \"5\",\n    \"descripcionUbicacion\": \"Ubicacion Random\"\n}"
+							"raw": "{\n\t\"idSector\": 1,\n    \"codSector\": \"SF\",\n    \"nombreSector\": \"Fumadores\",\n    \"bajaSector\": false\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
-					},
-					"response": []
-				},
-				{
-					"name": "Del Sector : id",
-					"request": {
-						"url": "localhost:3000/sector/2",
-						"method": "POST",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"description": ""
-							}
-						],
-						"body": {},
-						"description": "Trae todos los Usuarios"
 					},
 					"response": []
 				},
@@ -1612,80 +1919,6 @@
 					"request": {
 						"url": "localhost:3000/departamento/20",
 						"method": "DELETE",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"description": ""
-							}
-						],
-						"body": {},
-						"description": "Trae todos los Usuarios"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Producto",
-			"description": "",
-			"item": [
-				{
-					"name": "Get Producto",
-					"request": {
-						"url": "localhost:3000/producto",
-						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"description": ""
-							}
-						],
-						"body": {},
-						"description": "Trae todos los Usuarios"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Producto : id",
-					"request": {
-						"url": "localhost:3000/producto/1",
-						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"description": ""
-							}
-						],
-						"body": {},
-						"description": "Trae todos los Usuarios"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Producto :name",
-					"request": {
-						"url": "localhost:3000/producto/name/TERRUÑ",
-						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"description": ""
-							}
-						],
-						"body": {},
-						"description": "Trae todos los Usuarios"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Producto :anyAttribute",
-					"request": {
-						"url": "localhost:3000/menupromocion/todo/TERRUÑ",
-						"method": "GET",
 						"header": [
 							{
 								"key": "token",

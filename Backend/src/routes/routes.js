@@ -22,9 +22,11 @@ var UnidadMedidaController = require('../class/unidadmedida/unidadmedida-control
 var RubroController = require('../class/rubro/rubro-controller');
 var SectorController = require('../class/sector/sector-controller');
 var CajaController = require('../class/caja/caja-controller');
-var UbicacionController = require('../class/ubicacion/ubicacion-controller');
+// var UbicacionController = require('../class/ubicacion/ubicacion-controller');
 var TipoMovimientoCajaController = require('../class/tipomovimientocaja/tipomovimientocaja-controller');
 var MedioPagoController = require('../class/mediopago/mediopago-controller');
+var UploadController = require('../class/upload/upload-controller');
+
 
 // estados
 var EstadoUsuarioController = require('../class/estadousuario/estadousuario-controller');
@@ -41,6 +43,7 @@ router
 // utiles
     .post('/login', UsuarioController.login)
     .post('/existUser', UsuarioController.validateExistUser)
+    .put('/subirImagen', UploadController.subirImagen)
 
 // usuario
     .get('/usuario', verificaToken, UsuarioController.getAll)
@@ -58,12 +61,22 @@ router
     .get('/producto/:idProducto', verificaToken, ProductoController.getOne)
     .get('/producto/name/:nombreProducto', verificaToken, ProductoController.getToName)
     .get('/producto/todo/:anyAttribute', verificaToken, ProductoController.getToAllAttributes)
+    .post('/producto', verificaToken, ProductoController.create)
+    .put('/producto/actualizarDatos', verificaToken, ProductoController.actualizarDatos)
+    .put('/producto/cambiarEstado', verificaToken, ProductoController.cambiarEstado)
+    .put('/producto/cambiarPrecio', verificaToken, ProductoController.cambiarPrecio)
 
-// promocion
+// menupromocion
     .get('/menupromocion', verificaToken, MenuPromocionController.getAll)
     .get('/menupromocion/:idMenuPromocion', verificaToken, MenuPromocionController.getOne)
     .get('/menupromocion/name/:nombreMenuPromocion', verificaToken, MenuPromocionController.getToName)
     .get('/menupromocion/todo/:anyAttribute', verificaToken, MenuPromocionController.getToAllAttributes)
+    .post('/menupromocion', verificaToken, MenuPromocionController.create)
+    .put('/menupromocion/actualizarDatos', verificaToken, MenuPromocionController.actualizarDatos)
+    .put('/menupromocion/cambiarEstado', verificaToken, MenuPromocionController.cambiarEstado)
+    .put('/menupromocion/cambiarPrecio', verificaToken, MenuPromocionController.cambiarPrecio)
+    .put('/menupromocion/editarProductos', verificaToken, MenuPromocionController.editarProductos)
+
 
 // mesa
     .get('/mesa', verificaToken, MesaController.getAll)
@@ -144,7 +157,7 @@ router
     .get('/sector/todo/:anyAttribute', verificaToken, SectorController.getToAllAttributes)
     .post('/sector', verificaToken, SectorController.create)
     .put('/sector', verificaToken, SectorController.update)
-    .post('/sector/:idSector', verificaToken, SectorController.delete)
+    // .post('/sector/:idSector', verificaToken, SectorController.delete)
     .delete('/sector/:idSector', verificaToken, SectorController.destroy)
 
 // caja
@@ -157,16 +170,16 @@ router
     .put('/caja/cambiarEstado', verificaToken, CajaController.cambiarEstado)
     .put('/caja/abrirCaja', verificaToken, CajaController.abrirCaja)
     .put('/caja/cerrarCaja', verificaToken, CajaController.cerrarCaja)
-
+    .put('/caja/realizarMovimiento', verificaToken, CajaController.realizarMovimiento)
 
 // ubicacion
-    .get('/ubicacion', verificaToken, UbicacionController.getAll)
-    .get('/ubicacion/:idUbicacion', verificaToken, UbicacionController.getOne)
-    .get('/ubicacion/name/:nroUbicacion', verificaToken, UbicacionController.getToName)
-    .get('/ubicacion/todo/:anyAttribute', verificaToken, UbicacionController.getToAllAttributes)
-    .post('/ubicacion', verificaToken, UbicacionController.create)
-    .put('/ubicacion', verificaToken, UbicacionController.update)
-    .delete('/ubicacion/:idUbicacion', verificaToken, UbicacionController.destroy)
+    // .get('/ubicacion', verificaToken, UbicacionController.getAll)
+    // .get('/ubicacion/:idUbicacion', verificaToken, UbicacionController.getOne)
+    // .get('/ubicacion/name/:nroUbicacion', verificaToken, UbicacionController.getToName)
+    // .get('/ubicacion/todo/:anyAttribute', verificaToken, UbicacionController.getToAllAttributes)
+    // .post('/ubicacion', verificaToken, UbicacionController.create)
+    // .put('/ubicacion', verificaToken, UbicacionController.update)
+    // .delete('/ubicacion/:idUbicacion', verificaToken, UbicacionController.destroy)
 
 // ESTADOS ------------------------------------------------------------------------------------------------
 

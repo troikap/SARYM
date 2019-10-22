@@ -2,7 +2,6 @@
 
 const Sequelize = require('sequelize');
 const MesaEstadoModelo = require('../mesaestado/mesaestado-model');
-const UbicacionModelo = require('../ubicacion/ubicacion-model');
 const SectorModelo = require('../sector/sector-model');
 var sequelize = require('../../database/connection');
 
@@ -19,9 +18,10 @@ const MesaModelo = sequelize.define('mesa', {
     type: Sequelize.INTEGER,
     allowNull: false
   },
-  idUbicacion: {
+  nroUbicacion: {
     type: Sequelize.INTEGER,
-    allowNull: false
+    allowNull: false,
+    unique: true
   },
   nroMesa: {
     type: Sequelize.INTEGER,
@@ -37,7 +37,6 @@ const MesaModelo = sequelize.define('mesa', {
 });
 
 MesaModelo.hasMany(MesaEstadoModelo, { foreignKey: "idMesa" });
-MesaModelo.belongsTo(UbicacionModelo, { foreignKey: "idUbicacion" });
 MesaModelo.belongsTo(SectorModelo, { foreignKey: "idSector" });
 
 module.exports = MesaModelo;
