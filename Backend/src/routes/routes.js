@@ -64,11 +64,18 @@ router
     .put('/producto/cambiarPrecio', verificaToken, ProductoController.cambiarPrecio)
 
 
-// promocion
+// menupromocion
     .get('/menupromocion', verificaToken, MenuPromocionController.getAll)
     .get('/menupromocion/:idMenuPromocion', verificaToken, MenuPromocionController.getOne)
     .get('/menupromocion/name/:nombreMenuPromocion', verificaToken, MenuPromocionController.getToName)
     .get('/menupromocion/todo/:anyAttribute', verificaToken, MenuPromocionController.getToAllAttributes)
+    .post('/menupromocion', verificaToken, MenuPromocionController.create)
+    .put('/menupromocion/actualizarDatos', verificaToken, MenuPromocionController.actualizarDatos)
+    .put('/menupromocion/cambiarEstado', verificaToken, MenuPromocionController.cambiarEstado)
+    .put('/menupromocion/cambiarPrecio', verificaToken, MenuPromocionController.cambiarPrecio)
+    .put('/menupromocion/editarProductos', verificaToken, MenuPromocionController.editarProductos)
+
+
 
 // mesa
     .get('/mesa', verificaToken, MesaController.getAll)
