@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
     { 
       this.activatedRoute.params.subscribe(params => {
         this.iconosHome = this.homeSercie.getIconosHome();
-        this.iconosEncargado = this.homeSercie.getIconosEncargado();
+        this.iconosEncargado = this.homeSercie.getIconosEncargado();      
       });
     }
 
