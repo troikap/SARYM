@@ -6,6 +6,8 @@ import { TipoMoneda } from '../../../model/tipo-moneda/tipo-moneda.model';
 import { MenuPromocionService } from '../../../services/menu-promocion/menu-promocion.service';
 import { MenuPromocion } from 'src/app/model/menu-promocion/menu-promocion.model';
 import { TipoMenuPromocion } from '../../../model/tipo-menu-promocion/tipo-menu-promocion.model';
+import { TipoMenuPromocionService } from '../../../services/tipo-menu-promocion/tipo-menu-promocion.service';
+import { EstadoMenuPromocion } from 'src/app/model/estado-menu-promocion/estado-menu-promocion.model';
 
 @Component({
   selector: 'app-crud-gestionar-menupromocion',
@@ -21,7 +23,7 @@ export class CrudGestionarMenupromocionComponent implements OnInit {
   menuPromocionEncontrado: boolean;
   tipoMoneda: TipoMoneda;
   tipoMenuPromocion: TipoMenuPromocion;
-  estadoMenuPromocion: any;
+  estadoMenuPromocion: EstadoMenuPromocion;
   menuPromocion: MenuPromocion;
   
 
@@ -31,6 +33,7 @@ export class CrudGestionarMenupromocionComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private tipoMonedaService: TipoMonedaService,
+    private tipoMenuPromocionSercice: TipoMenuPromocionService,
     private menuPromocionServicio: MenuPromocionService
   ) { 
     this.form = new FormGroup({
@@ -69,6 +72,8 @@ export class CrudGestionarMenupromocionComponent implements OnInit {
 
   ngOnInit() {
     this.getTipoMoneda();
+    this.getTipoMenuPromocion();
+    this.getEstadoMenuPrmocion();
   }
 
   traerMenuPromocion() {
@@ -109,6 +114,26 @@ export class CrudGestionarMenupromocionComponent implements OnInit {
       console.log("Tipo de Moneda: ", res.data);
       this.tipoMoneda = res.data;
     })
+  }
+
+  getTipoMenuPromocion() {
+    this.tipoMenuPromocionSercice.getAllTipoMenuPromocion()
+    .then((res: any) => {
+      console.log("Tipo Menú Prmoción: ", res.data);
+      this.tipoMenuPromocion = res.data as TipoMenuPromocion;
+    })
+  }
+
+  getEstadoMenuPrmocion() {
+    this.tipoMenuPromocionSercice.getAllEstadoMenuPromocion()
+    .then((res: any) => {
+      console.log("Estado Productos: ", res.data);
+      this.estadoMenuPromocion = res.data as EstadoMenuPromocion;
+    })
+  }
+
+  agregarProductos() {
+    this.router.navigate( [`/menupromocion_agregarproducto/${this.menuPromocion.idMenuPromocion}`] );
   }
 
 }

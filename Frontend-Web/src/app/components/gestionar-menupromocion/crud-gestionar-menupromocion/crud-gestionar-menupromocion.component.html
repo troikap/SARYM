@@ -38,7 +38,7 @@
             <div class="form-group">
                 <label for="idTipoMenuPromocion" class="col col-form-label">Tipo de Menú - Promoción</label>
                 <select Placeholder='Seleccione' formControlName='idTipoMenuPromocion' class="form-control"> 
-                    <option *ngFor='let element of tipoMenuPrmocion' [value]='element.idTipoMenuPromocion'><strong>{{element.nombreTipoMenuPromocion}}</strong>&nbsp;&nbsp;&nbsp;({{element.nombreTipoMoneda}})</option>
+                    <option *ngFor='let element of tipoMenuPromocion' [value]='element.idTipoMenuPromocion'><strong>{{element.nombreTipoMenuPromocion}}</strong></option>
                 </select>
                 <p class="input-error-msg" *ngIf="form.controls.idTipoMoneda.errors?.required && form.controls.idTipoMoneda.touched">Campo Obligatorio.</p>
             </div>
@@ -72,6 +72,103 @@
             </div>
 
             <hr>
+
+
+            <div *ngIf="accionGet != 'crear'">
+
+                <div class="row">
+                    <div class="col">
+                        <a href="#VerProducto" class="btn btn-primary" data-toggle="collapse">Ver Productos</a>
+                    </div>
+                    <div class="col text-right">
+                        <button type="button" class="btn btn-success" (click)="agregarProductos()">Agregar/Editar Productos</button>
+                    </div>
+                </div>
+
+
+                <hr>
+
+                <div id="VerProducto" class="collapse">
+
+
+                    <div class="row animated fadeIn fast" *ngIf="menuPromocion.detallemenupromocionproductos.length == 0">
+                        <div class="col-md-12">
+                            <div class="alert alert-info" role="alert">
+                                No contiene Productos asociados
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-title" style="font-size: 14px;" *ngIf="menuPromocion.detallemenupromocionproductos.length != 0"><strong>Listado de Productos:</strong><br></div>
+
+                    <div class="card mb-3" style="background-color: #e9ecef;">
+                        <div class="row no-gutters animated fadeIn fast" *ngFor="let detalleMenuPromocionProducto of menuPromocion.detallemenupromocionproductos">
+                            <div class="col-md-4">
+                                <strong>x {{detalleMenuPromocionProducto.cantidadProductoMenuPromocion}}</strong>
+                                <img [src]="detalleMenuPromocionProducto.producto.pathImagenProducto | noimage" class="card-img-top img-fluid text-primary" [alt]="detalleMenuPromocionProducto.producto.nombreProducto">
+                            </div>
+
+
+
+
+
+                            <div class="col-md-8">
+                                <div class="card-body">
+
+                                    <span class="badge badge-pill" style="font-size: 11px;" [ngClass]="{
+                                        'badge-success': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Activo' , 
+                                        'badge-warning': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'En Falta' , 
+                                        'badge-danger': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Inactivo', 
+                                        'badge-dark': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Eliminado'
+                                    }">{{detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto}}
+                                    </span> - {{detalleMenuPromocionProducto.producto.nombreProducto}} ({{detalleMenuPromocionProducto.producto.codProducto}})
+
+                                    <hr>
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" style="font-size: 11px;">Rubro</th>
+                                                <th scope="col" style="font-size: 11px;">Unidad de Medida</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td scope="row" style="font-size: 11px;">{{detalleMenuPromocionProducto.producto.rubro?.nombreRubro}}</td>
+                                                <td scope="row" style="font-size: 11px;">{{detalleMenuPromocionProducto.producto.cantidadMedida}} {{detalleMenuPromocionProducto.producto.unidadmedida?.nombreUnidadMedida}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <hr>
+
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Descripción</th>
+                                            </tr>
+                                            <tr>
+                                                <td scope="row">{{detalleMenuPromocionProducto.producto.descripcionProducto}}</td>
+                                            </tr>
+                                        </thead>
+                                    </table>
+
+
+                                </div>
+                                <hr>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <br><br>
 
             <div *ngIf="accionGet != 'eliminar'">
                 <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
