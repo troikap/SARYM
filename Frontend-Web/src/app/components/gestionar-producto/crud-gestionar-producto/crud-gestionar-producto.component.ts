@@ -444,7 +444,7 @@ export class CrudGestionarProductoComponent implements OnInit {
                     console.log("Cambio de Estado a Eliminado, respuesta: ", response);
             
                     const titulo = "Éxito";
-                    const mensaje = "Se ha eliminado el registro de producto de forma exitosa";
+                    const mensaje = "Se ha cambiado el estado del registro de producto de forma exitosa";
                     
                     ($ as any).confirm({
                       title: titulo,

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Producto } from 'src/app/model/producto/producto.model';
 
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { MenuPromocion } from 'src/app/model/menu-promocion/menu-promocion.model';
 
 @Injectable({
@@ -15,6 +13,10 @@ export class MenuPromocionService {
   url = environment.urlNgrok || environment.url;
   dir = '/menupromocion';
   dir2 = '/todo';
+  dirEstado = '/estadomenupromocion';
+  ditActalizarDatos = '/actualizarDatos'
+  dirCambiarEstado = '/cambiarEstado';
+  dirCambiarPrecio = '/cambiarPrecio';
 
   tokenEnviroment = environment.token;
 
@@ -57,7 +59,7 @@ export class MenuPromocionService {
   }
 
 
-  getMenuPromocion( id: number ): Promise<MenuPromocion> {
+  getMenuPromocion( id: number ) {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
     return this.http
@@ -73,9 +75,9 @@ export class MenuPromocionService {
   updateMenuPromocion( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR :",datas)
+    console.log("DATOS A ENVIAR:", datas)
     return this.http
-      .put(`${this.url}${this.dir}`, datas, {headers})
+      .put(`${this.url}${this.dir}${this.ditActalizarDatos}`, datas, {headers})
       .toPromise()
       .then(response => {
         return response;
@@ -97,7 +99,7 @@ export class MenuPromocionService {
       .catch(  );
   }
 
-  createMenuPromocion( datas ): Promise<any> {
+  crearMenuPromocion( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment); 
     return this.http
@@ -109,4 +111,32 @@ export class MenuPromocionService {
       .catch(  );
   }
   
+  cambiarEstado( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}${this.dirCambiarEstado}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Servicio cambiarEstado()", response);
+        return response;
+      })
+      .catch(  );
+  }
+
+  cambiarPrecio( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}${this.dirCambiarPrecio}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Servicio cambiarPrecio()", response);
+        return response;
+      })
+      .catch(  );
+  }
+
 }
