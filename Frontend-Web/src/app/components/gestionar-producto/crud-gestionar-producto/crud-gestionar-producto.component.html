@@ -82,7 +82,7 @@
                 <p class="input-error-msg" *ngIf="form.controls.idRubro.errors?.required && form.controls.idRubro.touched">Campo Obligatorio.</p>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" *ngIf="productoCreado == true">
                 <label for="imgProducto" class="col col-form-label">Cargar Imagen</label>
                 <input type="file" class="form-control-file" id="imgProducto">
             </div>

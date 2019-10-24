@@ -20,7 +20,7 @@ export class CrudGestionarProductoComponent implements OnInit {
   private producto: Producto;
   private idProducto: number;
   private newForm = {};
-
+  
   idTipoMonedaLoad;
   importePrecioProductoLoad;
 
@@ -29,7 +29,7 @@ export class CrudGestionarProductoComponent implements OnInit {
   tipoMoneda: TipoMoneda;
   rubros: Rubro;
   estadoProducto: any;
-  
+  productoCreado: boolean = false;
 
   accionGet: string;
 
@@ -223,6 +223,8 @@ export class CrudGestionarProductoComponent implements OnInit {
     }
     return dtoCambiarPrecio;
   }
+
+
 
   guardar() {
     // console.log("Form Value: ", this.form.value);
@@ -526,8 +528,51 @@ export class CrudGestionarProductoComponent implements OnInit {
                                 btnClass: 'btn-green',
                                 action: function(){
               
-                                  //ACCION
-                                  _this.router.navigate( ['/producto/']);
+                                 
+                                  ($ as any).confirm({
+                                    title: "Confirmar",
+                                    content: "¿Desea Cargar la imagen del nuevo Producto?",
+                                    type: 'blue',
+                                    typeAnimated: true,
+                                    theme: 'material',
+                                    buttons: {
+                                        aceptar: {
+                                            text: 'Aceptar',
+                                            btnClass: 'btn-blue',
+                                            action: function(){
+
+                                              _this.productoCreado = true;
+                                              _this.form.get('imgProducto').setValidators(Validators.required);
+                                              _this.form.get('imgProducto').updateValueAndValidity();
+                                              
+                                              
+                                              
+
+
+                                              
+                                            }
+                                        },
+                                        cerrar: {
+                                          text: 'Cerrar',
+                                          action: function(){
+                                             //ACCION
+                                            _this.router.navigate( ['/producto/']);
+                                          }
+                                      }
+                                    }
+                                  });
+
+
+
+
+
+
+
+
+
+
+
+                                 
               
                                 }
                             }
