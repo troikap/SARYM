@@ -388,7 +388,7 @@ MenuPromocionController.getOne = (req, res) => {
     } else {
         locals['title'] = `${legend}/s encontrado/s`;
         locals['data'] = response.dataValues;
-        locals['tipo'] = 1;response;
+        locals['tipo'] = 1;
     }
     res.json(locals)
   });

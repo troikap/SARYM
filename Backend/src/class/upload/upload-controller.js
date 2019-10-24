@@ -58,6 +58,9 @@ function modificar(req, res){
                                     locals['tipo'] = 2;
                                 } else {
                                     locals['title'] = "Se modifico PATH de Imagen de Producto.";
+                                    locals['path'] = rutaImagen;
+                                    locals['carpeta'] = carpeta;
+                                    locals['ruta'] = ruta;
                                     locals['tipo'] = 1;
                                 }
                                 res.json(locals)
@@ -71,6 +74,9 @@ function modificar(req, res){
                                     locals['tipo'] = 2;
                                 } else {
                                     locals['title'] = "Se modifico PATH de Imagen de Menu o Promocion.";
+                                    locals['path'] = rutaImagen;
+                                    locals['carpeta'] = carpeta;
+                                    locals['ruta'] = ruta;
                                     locals['tipo'] = 1;
                                 }
                                 res.json(locals)

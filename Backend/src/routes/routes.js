@@ -27,6 +27,7 @@ var TipoMovimientoCajaController = require('../class/tipomovimientocaja/tipomovi
 var MedioPagoController = require('../class/mediopago/mediopago-controller');
 var UploadController = require('../class/upload/upload-controller');
 var TipoMenuPromocionController = require('../class/tipomenupromocion/tipomenupromocion-controller');
+var PedidoController = require('../class/pedido/pedido-controller');
 
 // estados
 var EstadoUsuarioController = require('../class/estadousuario/estadousuario-controller');
@@ -67,6 +68,17 @@ router
     .put('/producto/actualizarDatos', verificaToken, ProductoController.actualizarDatos)
     .put('/producto/cambiarEstado', verificaToken, ProductoController.cambiarEstado)
     .put('/producto/cambiarPrecio', verificaToken, ProductoController.cambiarPrecio)
+
+// pedido
+    .get('/pedido', verificaToken, PedidoController.getAll)
+    .get('/pedido/:idPedido', verificaToken, PedidoController.getOne)
+    .get('/pedido/name/:codPedido', verificaToken, PedidoController.getToName)
+    .get('/pedido/todo/:anyAttribute', verificaToken, PedidoController.getToAllAttributes)
+    .post('/pedido', verificaToken, PedidoController.create)
+    .put('/pedido/actualizarDatos', verificaToken, PedidoController.actualizarDatos)
+    .put('/pedido/cambiarEstado', verificaToken, PedidoController.cambiarEstado)
+    .put('/pedido/cambiarPrecio', verificaToken, PedidoController.cambiarPrecio)
+    .put('/pedido/editarProductos', verificaToken, PedidoController.editarProductos)
 
 // menupromocion
     .get('/menupromocion', verificaToken, MenuPromocionController.getAll)
