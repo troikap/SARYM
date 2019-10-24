@@ -88,8 +88,8 @@ import { AgregarProductoGestionarMenupromocionComponent } from './components/ges
     ReporteTopProductoComponent,
     ReporteTopMenuComponent,
     ReporteTopPromocionComponent,
-    UploadComponent,
-    AgregarProductoGestionarMenupromocionComponent
+    AgregarProductoGestionarMenupromocionComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,
