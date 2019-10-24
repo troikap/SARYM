@@ -1,13 +1,12 @@
 "use strict";
 
 const Sequelize = require("sequelize");
-const PedidoModelo = require("../pedido/pedido-model");
+// const PedidoModelo = require("../pedido/pedido-model");
 const EstadoPedidoModelo = require("../estadopedido/estadopedido-model");
 var sequelize = require("../../database/connection");
 
 // DEFINICION DEL MODELO
-const PedidoEstadoModelo = sequelize.define(
-    "pedidoestado", {
+const PedidoEstadoModelo = sequelize.define("pedidoestado", {
         // attributes
         idPedidoEstado: {
             type: Sequelize.INTEGER,
@@ -38,9 +37,7 @@ const PedidoEstadoModelo = sequelize.define(
     }
 );
 
-PedidoEstadoModelo.belongsTo(PedidoModelo, { foreignKey: "idPedido" });
-PedidoEstadoModelo.belongsTo(EstadoPedidoModelo, {
-    foreignKey: "idEstadoPedido"
-});
+// PedidoEstadoModelo.belongsTo(PedidoModelo, { foreignKey: "idPedido" });
+PedidoEstadoModelo.belongsTo(EstadoPedidoModelo, {foreignKey: "idEstadoPedido"});
 
 module.exports = PedidoEstadoModelo;

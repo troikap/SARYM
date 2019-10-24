@@ -47,21 +47,20 @@ PedidoController.getToAllAttributes = (req, res, next) => {
     PedidoModelo.findAll({
         where: {
         [Op.or]: [
-            // {codMenuPromocion: {[Op.substring]: req.params.anyAttribute}},
-            // {idMenuPromocion: {[Op.substring]: req.params.anyAttribute}},
-            // {nombreMenuPromocion: {[Op.substring]: req.params.anyAttribute}},
+            {codPedido: {[Op.substring]: req.params.anyAttribute}},
+            {idPedido: {[Op.substring]: req.params.anyAttribute}},
+            Sequelize.literal("`pedidoestados->estadopedido`.`nombreEstadoPedido` LIKE '%" + req.params.anyAttribute + "%'"),
             // Sequelize.literal("`tipomenupromocion`.`nombreTipoMenuPromocion` LIKE '%" + req.params.anyAttribute + "%'"),
-            // Sequelize.literal("`menupromocionestados->estadomenupromocion`.`nombreEstadoMenuPromocion` LIKE '%" + req.params.anyAttribute + "%'"),
             // Sequelize.literal("`preciomenupromocions->tipomoneda`.`nombreTipoMoneda` LIKE '%" + req.params.anyAttribute + "%'"),
             // Sequelize.literal("`detallemenupromocionproductos->producto`.`nombreProducto` LIKE '%" + req.params.anyAttribute + "%'"),
         ]
     },
     attributes: attributes.pedido,
     include: [
-        {
-            model: ComensalModelo,
-            attributes: attributes.comensal,
-        },
+        // {
+        //     model: ComensalModelo,
+        //     attributes: attributes.comensal,
+        // },
         {
             model: PedidoEstadoModelo,
             attributes: attributes.pedidoestado,
