@@ -6,11 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent implements OnInit {
-<<<<<<< HEAD
   variableRol: string;
-=======
-  variableRol = "Administrador";
->>>>>>> Emilio
   variableLibre = false;
   constructor() {
     this.variableRol = localStorage.getItem("rolUsuario");

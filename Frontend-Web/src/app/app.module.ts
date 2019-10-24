@@ -45,12 +45,8 @@ import { ReporteTopProductoComponent } from './components/generar-reporte/report
 import { ReporteTopMenuComponent } from './components/generar-reporte/reporte-top-menu/reporte-top-menu.component';
 import { ReporteTopPromocionComponent } from './components/generar-reporte/reporte-top-promocion/reporte-top-promocion.component';
 import { UploadService } from './services/upload/upload.service';
-<<<<<<< HEAD
 import { UploadComponent } from './upload/upload.component';
-=======
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
->>>>>>> Emilio
-
 
 @NgModule({
   declarations: [
@@ -87,15 +83,12 @@ import { AgregarProductoGestionarMenupromocionComponent } from './components/ges
     CrudSectorComponent,
     CrudMesaComponent,
     AbmMesaComponent,
-<<<<<<< HEAD
     ReporteEdadComponent,
     ReportePedidoPorEdadComponent,
     ReporteTopProductoComponent,
     ReporteTopMenuComponent,
     ReporteTopPromocionComponent,
-=======
     AgregarProductoGestionarMenupromocionComponent
->>>>>>> Emilio
   ],
   imports: [
     BrowserModule,
