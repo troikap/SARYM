@@ -64,7 +64,7 @@ export class AbmCerrarCajaComponent implements OnInit {
     console.log("idElemento: ", idElemento);
     console.log("accion: ", accion);   
 
-  this.router.navigate( [`/abrircaja/${idElemento}/${accion}`] );
+  this.router.navigate( [`/cerrarcaja/${idElemento}/${accion}`] );
 
   }
 

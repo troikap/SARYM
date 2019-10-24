@@ -24,6 +24,7 @@ export class EditCerrarCajaComponent implements OnInit {
   private newForm = {};
   montoCierreCaja: any;
   idEstadoform: any;
+  listaMovimientoCaja: any[];
 
 
 
@@ -53,6 +54,7 @@ export class EditCerrarCajaComponent implements OnInit {
         console.log("editar")
         this.cajaEncontrada = true;
         this.traerCaja();
+        this.buscarMovimientosCaja();
       }
       else {
         this.cajaEncontrada = false;
@@ -80,7 +82,7 @@ export class EditCerrarCajaComponent implements OnInit {
               nroCaja: this.caja['nroCaja'],
               idEstadoCaja: this.caja['cajaestados'][0].estadocaja.idEstadoCaja,
               idUsuario: this.caja['cajaestados'][0].usuario.idUsuario,
-              descripcionCajaEstado: "Apertura de Caja",
+              descripcionCajaEstado: "Cierre de Caja",
               montoAperturaCajaEstado: this.caja['cajaestados'][0].montoCierreCajaEstado
             }
 
@@ -149,7 +151,7 @@ export class EditCerrarCajaComponent implements OnInit {
                     console.log("ACTUALIZADO", response);
 
                     const titulo = "Éxito";
-                    const mensaje = "Se ha abierto la caja de forma exitrosa";
+                    const mensaje = "Se ha cerrado la caja de forma exitrosa";
 
                     ($ as any).confirm({
                       title: titulo,
@@ -164,7 +166,7 @@ export class EditCerrarCajaComponent implements OnInit {
                           action: function () {
 
                             //ACCION
-                            _this.router.navigate(['/abrircaja/']);
+                            _this.router.navigate(['/cerrarcaja/']);
 
 
                           }
@@ -180,7 +182,7 @@ export class EditCerrarCajaComponent implements OnInit {
                  
 
                     const titulo = "Error";
-                    const mensaje = "No coincide el monto de apertura con el monto de cierre del dia anterior";
+                    const mensaje = "No coincide el monto de cierre con la suma de movimientos de caja del dia anterior";
 
                     ($ as any).confirm({
                       title: titulo,
@@ -224,5 +226,23 @@ export class EditCerrarCajaComponent implements OnInit {
     
   }
 
+
+  buscarMovimientosCaja() {
+    
+    console.log(this.idCaja);
+
+    if (this.idCaja !== "") {
+      this.cajaServicio.getCaja(this.idCaja)
+      .subscribe((data: any) => { // Llamo a un Observer
+        console.log(data);
+        if (data != "") {
+          //console.log("RESULT ----------------->", data);
+          this.caja = data;
+          this.listaMovimientoCaja = this.caja.movimientocajas; 
+          console.log("Estos son los Movimientos",this.listaMovimientoCaja);                
+        }
+      });
+    }   
+  }
 
 }
