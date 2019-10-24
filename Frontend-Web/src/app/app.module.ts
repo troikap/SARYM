@@ -88,6 +88,7 @@ import { UploadComponent } from './upload/upload.component';
     ReporteTopProductoComponent,
     ReporteTopMenuComponent,
     ReporteTopPromocionComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,
