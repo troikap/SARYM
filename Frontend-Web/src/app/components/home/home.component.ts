@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HomeService, IconoHome } from 'src/app/services/home/home.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl} from '@angular/forms';
-
 import { UploadService } from 'src/app/services/upload/upload.service';
 
 
