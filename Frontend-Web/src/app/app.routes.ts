@@ -68,10 +68,10 @@ const routes: Routes = [
     { path: 'menupromocion_agregarproducto/:id', component: AgregarProductoGestionarMenupromocionComponent },
     { path: 'reporte', component: GenerarReporteComponent },
     { path: 'upload', component: UploadComponent },
-    { path: '**', redirectTo: 'upload'},
+    { path: '**', redirectTo: 'home'},
 
-    { path: '',  redirectTo: '/login', pathMatch: 'full' },
-    // { path: '**', redirectTo: 'home'}
+    { path: '',  redirectTo: '/home', pathMatch: 'full' },
+
 ];
 
 @NgModule({

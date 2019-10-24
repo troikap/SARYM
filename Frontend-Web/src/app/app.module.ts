@@ -96,7 +96,7 @@ import { AgregarProductoGestionarMenupromocionComponent } from './components/ges
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    ChartsModule
+    ChartsModule,
   ],
   providers: [UploadService],
   bootstrap: [AppComponent]
