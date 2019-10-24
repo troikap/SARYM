@@ -44,6 +44,8 @@ import { ReportePedidoPorEdadComponent } from './components/generar-reporte/repo
 import { ReporteTopProductoComponent } from './components/generar-reporte/reporte-top-producto/reporte-top-producto.component';
 import { ReporteTopMenuComponent } from './components/generar-reporte/reporte-top-menu/reporte-top-menu.component';
 import { ReporteTopPromocionComponent } from './components/generar-reporte/reporte-top-promocion/reporte-top-promocion.component';
+import { UploadService } from './services/upload/upload.service';
+import { UploadComponent } from './upload/upload.component';
 
 
 @NgModule({
@@ -94,7 +96,7 @@ import { ReporteTopPromocionComponent } from './components/generar-reporte/repor
     AppRoutingModule,
     ChartsModule
   ],
-  providers: [],
+  providers: [UploadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

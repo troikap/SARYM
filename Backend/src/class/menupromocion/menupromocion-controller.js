@@ -430,7 +430,7 @@ MenuPromocionController.create = (req, res) => {
                     locals['data'] = response;
                     locals['tipo'] = 1;
                     let pushPrecioMenuPromocion = {};
-                    pushPrecioMenuPromocion['importePrecioMenuPromocion'] = 99;
+                    pushPrecioMenuPromocion['importePrecioMenuPromocion'] = body['importePrecioMenuPromocion'];
                     pushPrecioMenuPromocion[idtable] = result[idtable];
                     pushPrecioMenuPromocion['fechaYHoraDesdePrecioMenuPromocion'] = body['fechaYHoraDesdePrecioMenuPromocion'] || new Date();
                     pushPrecioMenuPromocion['fechaYHoraHastaPrecioMenuPromocion'] = body['fechaYHoraHastaPrecioMenuPromocion'] || null;

@@ -5,12 +5,11 @@
     <div class="col-md-4">
         <div class="card-body">
             <img [src]="producto.pathImagenProducto | noimage" class="card-img-top img-fluid text-primary" [alt]=producto.nombreProducto>
+            <img [src]="urlAlternativo | noimage" class="card-img-top img-fluid text-primary" [alt]=producto.nombreProducto>
             <br><br>
             <a [routerLink]="['/producto']" class="btn btn-outline-primary btn-block">Regresar</a>
         </div>
-
     </div>
-
     <div class="col-md-8">
         <h3>
             <span class="badge badge-pill" [ngClass]="{
@@ -39,9 +38,7 @@
                 </tr>
             </tbody>
         </table>
-
         <hr>
-
         <table class="table table-borderless">
             <thead>
                 <tr>
@@ -52,7 +49,6 @@
                 </tr>
             </thead>
         </table>
-
         <hr>
         <div>
             <table class="table table-borderless">
@@ -66,7 +62,5 @@
                 </thead>
             </table>
         </div>
-
     </div>
-
 </div>

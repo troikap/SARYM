@@ -1,0 +1,59 @@
+
+<div>
+    <h1>File Upload</h1>
+</div>
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div>
+            <div > 
+                <form [formGroup]="myForm">
+                    <div class="row">
+                        <div class="col">
+                            <label>Imagen</label>
+                        </div>
+                        <div class="col">
+                            <input type="file" name="archivo" (change)="onFileChange($event)">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>ID</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" formControlName="id">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>Nombre</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" formControlName="nombre">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>Carpeta</label>
+                        </div>
+                        <div class="col">
+                            <select formControlName="carpeta" placeholder="Seleccione">
+                                <option [value]="element.key" *ngFor="let element of carpetas">{{element.value}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <label >{{mostrarfoto}}</label>
+                    <button [disabled]="!myForm.valid" (click)="onUpload()">ENVIAR</button>
+                    <button  (click)="prueba()">PRUEBA</button>
+                </form>
+
+                <div>TRAER IMAGEN</div>
+                <div>
+                    <img [src]=url alt="">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>

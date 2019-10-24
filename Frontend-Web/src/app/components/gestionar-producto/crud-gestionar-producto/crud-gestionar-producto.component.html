@@ -7,6 +7,21 @@
                 <label for="idProducto" class="col col-form-label">Id</label>
                 <input type="text" placeholder="Identificador" formControlName="idProducto" class="form-control">
             </div>
+
+            <div class="form-group" *ngIf="accionGet == 'estado'">
+                <hr>
+                <label for="idEstadoProducto" class="col col-form-label">Estado</label>
+                <select Placeholder='Seleccione' formControlName='idEstadoProducto' class="form-control"> 
+                    <option *ngFor='let element of estadoProducto' [value]='element.idEstadoProducto'>{{element.nombreEstadoProducto}}</option>
+                </select>
+            </div>
+
+            <div class="form-group" *ngIf="accionGet == 'estado'">
+                <label for="descripcionCambioEstado" class="col col-form-label">Descripción Cambio de Estado</label>
+                <textarea aria-label="Ingrese Descripción del Cambio de estado" id="descripcionCambioEstado" formControlName="descripcionCambioEstado" class="form-control"></textarea>
+                <hr>
+            </div>
+
             <div class="form-group row">
                 <div class="col">
                     <label for="codProducto" class="col col-form-label">Código</label>
@@ -59,21 +74,12 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <div class="col">
-                    <label for="idRubro" class="col col-form-label">Rubro</label>
-                    <select Placeholder='Seleccione' formControlName='idRubro' class="form-control"> 
-                        <option *ngFor='let element of rubros' [value]='element.idRubro'>{{element.nombreRubro}}</option>
-                    </select>
-                    <p class="input-error-msg" *ngIf="form.controls.idRubro.errors?.required && form.controls.idRubro.touched">Campo Obligatorio.</p>
-                </div>
-                <div class="col">
-                    <label for="idEstadoProducto" class="col col-form-label">Estado</label>
-                    <select Placeholder='Seleccione' formControlName='idEstadoProducto' class="form-control"> 
-                        <option *ngFor='let element of estadoProducto' [value]='element.idEstadoProducto'>{{element.nombreEstadoProducto}}</option>
-                    </select>
-                    <p class="input-error-msg" *ngIf="form.controls.idEstadoProducto.errors?.required && form.controls.idEstadoProducto.touched">Campo Obligatorio.</p>
-                </div>
+            <div class="form-group">
+                <label for="idRubro" class="col col-form-label">Rubro</label>
+                <select Placeholder='Seleccione' formControlName='idRubro' class="form-control"> 
+                    <option *ngFor='let element of rubros' [value]='element.idRubro'>{{element.nombreRubro}}</option>
+                </select>
+                <p class="input-error-msg" *ngIf="form.controls.idRubro.errors?.required && form.controls.idRubro.touched">Campo Obligatorio.</p>
             </div>
 
             <div class="form-group">

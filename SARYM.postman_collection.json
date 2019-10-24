@@ -404,7 +404,7 @@
 				{
 					"name": "Get Producto : id",
 					"request": {
-						"url": "localhost:3000/producto/20",
+						"url": "localhost:3000/producto/1",
 						"method": "GET",
 						"header": [
 							{
@@ -1636,6 +1636,147 @@
 					"name": "Del Tipo Moneda : id",
 					"request": {
 						"url": "localhost:3000/tipomoneda/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tipo Menu Promocion",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Tipo Menu Promocion",
+					"request": {
+						"url": "localhost:3000/tipomenupromocion",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tipo Menu Promocion : id",
+					"request": {
+						"url": "localhost:3000/tipomenupromocion/6",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tipo Menu Promocion : name",
+					"request": {
+						"url": "localhost:3000/tipomenupromocion/name/a",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tipo Menu Promocion : anyAttribute",
+					"request": {
+						"url": "localhost:3000/tipomenupromocion/todo/a",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Tipo Menu Promocion",
+					"request": {
+						"url": "localhost:3000/tipomenupromocion",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idTipoMenuPromocion\" : 14,\n\t\"nombreTipoMenuPromocion\": \"Merval3\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Tipo Menu Promocion",
+					"request": {
+						"url": "localhost:3000/tipomenupromocion",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idTipoMenuPromocion\" : 14,\n\t\"nombreTipoMenuPromocion\": \"Merval3\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Tipo Menu Promocion : id",
+					"request": {
+						"url": "localhost:3000/tipomenupromocion/1",
 						"method": "DELETE",
 						"header": [
 							{
@@ -3354,6 +3495,90 @@
 						}
 					],
 					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "Upload",
+			"description": "",
+			"item": [
+				{
+					"name": "Post Subir Imagen",
+					"request": {
+						"url": "localhost:3000/subirImagen",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "archivo",
+									"description": "",
+									"type": "file",
+									"src": "Cone.jpeg"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "carpeta",
+									"value": "menu",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "nombre",
+									"value": "Roberto",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Traer Imagen",
+					"request": {
+						"url": "localhost:3000/traerImagen/producto/BBBBBBBBB-2-9.jpeg",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"archivo\": \"loco\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
 				}
 			]
 		}

@@ -9,8 +9,8 @@ var express = require('express'),
     faviconURL = `${__dirname}/public/img/node-favicon.png`,
     publicDir = express.static(`${__dirname}/public`),
     port = (process.env.PORT || 3000),
-    app = express(),
-    fileUpload = require('express-fileupload');
+    app = express();
+const fileUpload = require('express-fileupload');
 
 // settings
 app
@@ -18,7 +18,7 @@ app
     .all('*', function(req, res, next) {
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-        res.header('Access-Control-Allow-Headers', 'Content-Type, token');
+        res.header('Access-Control-Allow-Headers', 'Content-Type, token, Accept, enctype');
         if ('OPTIONS' == req.method) {
             res.sendStatus(200);
         } else {
@@ -26,13 +26,12 @@ app
         }
       })
     .use( favicon(faviconURL) )
+    .use(fileUpload())
     .use( bodyParser.json() )
-	// parse application/x-www-form-urlencoded
     .use( bodyParser.urlencoded({extended: false}))
     .use(restFul)
 	.use( morgan('dev') )
     .use(publicDir)
-    .use(fileUpload())
     .use(routes)
 
 module.exports = app;
