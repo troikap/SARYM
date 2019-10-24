@@ -10,11 +10,11 @@ import { ProductoService } from 'src/app/services/producto/producto.service';
 })
 export class GestionarProductoComponent implements OnInit {
 
-  listaProductos: any [] = [];
+  public listaProductos: any [] = [];
 
   constructor(
     public productoService: ProductoService,
-    private router: Router
+    private router: Router,
     ) { }
 
   ngOnInit() {
