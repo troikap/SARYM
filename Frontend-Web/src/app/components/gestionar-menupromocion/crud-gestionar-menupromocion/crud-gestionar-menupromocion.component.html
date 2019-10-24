@@ -1,1 +1,184 @@
-<p>crud-gestionar-menupromocion works!</p>
+<h2 class="titulo">Gestionar Menú Promoción</h2>
+<hr>
+<div class="container">
+    <div class="form-section">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="form-group">
+                <label for="idMenuPromocion" class="col col-form-label">Id</label>
+                <input type="text" placeholder="Identificador" formControlName="idMenuPromocion" class="form-control">
+            </div>
+
+            <div class="form-group" *ngIf="accionGet == 'estado'">
+                <hr>
+                <label for="idEstadoMenuPromocion" class="col col-form-label">Estado</label>
+                <select Placeholder='Seleccione' formControlName='idEstadoMenuPromocion' class="form-control"> 
+                    <option *ngFor='let element of estadoMenuPromocion' [value]='element.idEstadoMenuPromocion'>{{element.nombreEstadoMenuPromocion}}</option>
+                </select>
+            </div>
+
+            <div class="form-group" *ngIf="accionGet == 'estado'">
+                <label for="descripcionCambioEstado" class="col col-form-label">Descripción Cambio de Estado</label>
+                <textarea aria-label="Ingrese Descripción del Cambio de estado" id="descripcionCambioEstado" formControlName="descripcionCambioEstado" class="form-control"></textarea>
+                <hr>
+            </div>
+
+            <div class="form-group row">
+                <div class="col">
+                    <label for="codMenuPromocion" class="col col-form-label">Código</label>
+                    <input type="text" class="form-control" id="codMenuPromocion" placeholder="Ingrese Código" formControlName="codMenuPromocion">
+                    <p class="input-error-msg" *ngIf="form.controls.codMenuPromocion.errors?.required && form.controls.codMenuPromocion.touched">Campo Obligatorio.</p>
+                </div>
+                <div class="col">
+                    <label for="nombreMenuPromocion" class="col col-form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombreMenuPromocion" placeholder="Ingrese Nombre" formControlName="nombreMenuPromocion">
+                    <p class="input-error-msg" *ngIf="form.controls.nombreMenuPromocion.errors?.required && form.controls.nombreMenuPromocion.touched">Campo Obligatorio.</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="idTipoMenuPromocion" class="col col-form-label">Tipo de Menú - Promoción</label>
+                <select Placeholder='Seleccione' formControlName='idTipoMenuPromocion' class="form-control"> 
+                    <option *ngFor='let element of tipoMenuPromocion' [value]='element.idTipoMenuPromocion'><strong>{{element.nombreTipoMenuPromocion}}</strong></option>
+                </select>
+                <p class="input-error-msg" *ngIf="form.controls.idTipoMoneda.errors?.required && form.controls.idTipoMoneda.touched">Campo Obligatorio.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="descripcionMenuPromocion" class="col col-form-label">Descripción</label>
+                <textarea aria-label="Ingrese Descripción del MenuPromocion" id="descripcionMenuPromocion" formControlName="descripcionMenuPromocion" class="form-control"></textarea>
+                <p class="input-error-msg" *ngIf="form.controls.descripcionMenuPromocion.errors?.required && form.controls.descripcionMenuPromocion.touched">
+                    Campo Obligatorio.
+                </p>
+            </div>
+
+            <div class="form-group row">
+                <div class="col">
+                    <label for="idTipoMoneda" class="col col-form-label">Tipo de Moneda</label>
+                    <select Placeholder='Seleccione' formControlName='idTipoMoneda' class="form-control"> 
+                        <option *ngFor='let element of tipoMoneda' [value]='element.idTipoMoneda'><strong>{{element.simboloTipoMoneda}}</strong>&nbsp;&nbsp;&nbsp;({{element.nombreTipoMoneda}})</option>
+                    </select>
+                    <p class="input-error-msg" *ngIf="form.controls.idTipoMoneda.errors?.required && form.controls.idTipoMoneda.touched">Campo Obligatorio.</p>
+                </div>
+                <div class="col">
+                    <label for="importePrecioMenuPromocion" class="col col-form-label">Precio</label>
+                    <input type="text" class="form-control" id="importePrecioMenuPromocion" placeholder="Ingrese el Precio del Menú-Promoción" formControlName="importePrecioMenuPromocion">
+                    <p class="input-error-msg" *ngIf="form.controls.importePrecioMenuPromocion.errors?.required && form.controls.importePrecioMenuPromocion.touched">Campo Obligatorio.</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="imgMenuPromocion" class="col col-form-label">Cargar Imagen</label>
+                <input type="file" class="form-control-file" id="imgMenuPromocion">
+            </div>
+
+            <hr>
+
+
+            <div *ngIf="accionGet != 'crear'">
+
+                <div class="row">
+                    <div class="col">
+                        <a href="#VerProducto" class="btn btn-primary" data-toggle="collapse">Ver Productos</a>
+                    </div>
+                    <div class="col text-right">
+                        <button type="button" class="btn btn-success" (click)="agregarProductos()">Agregar/Editar Productos</button>
+                    </div>
+                </div>
+
+
+                <hr>
+
+                <div id="VerProducto" class="collapse">
+
+
+                    <div class="row animated fadeIn fast" *ngIf="menuPromocion.detallemenupromocionproductos.length == 0">
+                        <div class="col-md-12">
+                            <div class="alert alert-info" role="alert">
+                                No contiene Productos asociados
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-title" style="font-size: 14px;" *ngIf="menuPromocion.detallemenupromocionproductos.length != 0"><strong>Listado de Productos:</strong><br></div>
+
+                    <div class="card mb-3" style="background-color: #e9ecef;">
+                        <div class="row no-gutters animated fadeIn fast" *ngFor="let detalleMenuPromocionProducto of menuPromocion.detallemenupromocionproductos">
+                            <div class="col-md-4">
+                                <strong>x {{detalleMenuPromocionProducto.cantidadProductoMenuPromocion}}</strong>
+                                <img [src]="detalleMenuPromocionProducto.producto.pathImagenProducto | noimage" class="card-img-top img-fluid text-primary" [alt]="detalleMenuPromocionProducto.producto.nombreProducto">
+                            </div>
+
+
+
+
+
+                            <div class="col-md-8">
+                                <div class="card-body">
+
+                                    <span class="badge badge-pill" style="font-size: 11px;" [ngClass]="{
+                                        'badge-success': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Activo' , 
+                                        'badge-warning': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'En Falta' , 
+                                        'badge-danger': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Inactivo', 
+                                        'badge-dark': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Eliminado'
+                                    }">{{detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto}}
+                                    </span> - {{detalleMenuPromocionProducto.producto.nombreProducto}} ({{detalleMenuPromocionProducto.producto.codProducto}})
+
+                                    <hr>
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" style="font-size: 11px;">Rubro</th>
+                                                <th scope="col" style="font-size: 11px;">Unidad de Medida</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td scope="row" style="font-size: 11px;">{{detalleMenuPromocionProducto.producto.rubro?.nombreRubro}}</td>
+                                                <td scope="row" style="font-size: 11px;">{{detalleMenuPromocionProducto.producto.cantidadMedida}} {{detalleMenuPromocionProducto.producto.unidadmedida?.nombreUnidadMedida}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <hr>
+
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Descripción</th>
+                                            </tr>
+                                            <tr>
+                                                <td scope="row">{{detalleMenuPromocionProducto.producto.descripcionProducto}}</td>
+                                            </tr>
+                                        </thead>
+                                    </table>
+
+
+                                </div>
+                                <hr>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <br><br>
+
+            <div *ngIf="accionGet != 'eliminar'">
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+            </div>
+            <div *ngIf="accionGet == 'eliminar'">
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+<hr>
+<button onclick="history.back()" class="btn btn-primary">Cancelar</button>

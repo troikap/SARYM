@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { ChartsModule } from 'ng2-charts';
 
 
 import { AppComponent } from './app.component';
@@ -39,8 +39,15 @@ import { ConsultaGestionarMenupromocionComponent } from './components/gestionar-
 import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/search-gestionar-menupromocion/gestionar-menupromocion.component';
 import { CrudMesaComponent } from './components/abm-mesa/crud-mesa/crud-mesa.component';
 import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.component';
+import { ReporteEdadComponent } from './components/generar-reporte/reporte-edad/reporte-edad.component';
+import { ReportePedidoPorEdadComponent } from './components/generar-reporte/reporte-pedido-por-edad/reporte-pedido-por-edad.component';
+import { ReporteTopProductoComponent } from './components/generar-reporte/reporte-top-producto/reporte-top-producto.component';
+import { ReporteTopMenuComponent } from './components/generar-reporte/reporte-top-menu/reporte-top-menu.component';
+import { ReporteTopPromocionComponent } from './components/generar-reporte/reporte-top-promocion/reporte-top-promocion.component';
 import { UploadService } from './services/upload/upload.service';
 import { UploadComponent } from './upload/upload.component';
+import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,13 +83,20 @@ import { UploadComponent } from './upload/upload.component';
     CrudSectorComponent,
     CrudMesaComponent,
     AbmMesaComponent,
+    ReporteEdadComponent,
+    ReportePedidoPorEdadComponent,
+    ReporteTopProductoComponent,
+    ReporteTopMenuComponent,
+    ReporteTopPromocionComponent,
+    AgregarProductoGestionarMenupromocionComponent,
     UploadComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ChartsModule
   ],
   providers: [UploadService],
   bootstrap: [AppComponent]

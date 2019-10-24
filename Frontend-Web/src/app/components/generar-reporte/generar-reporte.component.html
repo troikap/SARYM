@@ -1,2 +1,26 @@
-<p>generar-reporte works!</p>
-<button routerLink="/home">VOLVER</button>
+<div class="container">
+
+    <div class="text-center"  id="contenido">
+        <h1>Módulo de Reportes <small>Mi Restó</small> </h1>
+    </div>
+    <hr>
+    <app-reporte-top-producto></app-reporte-top-producto>
+    <hr>
+    <app-reporte-top-menu></app-reporte-top-menu>
+    <hr>
+    <app-reporte-top-promocion></app-reporte-top-promocion>
+    <hr>
+    <app-reporte-pedido-por-edad></app-reporte-pedido-por-edad>
+    <hr>
+    <app-reporte-edad></app-reporte-edad>
+</div>
+
+<table class="table">
+    <tr>
+        <td align="right" width="20%"><button [routerLink]="['/home']" class="btn btn-primary">Volver</button></td>
+        <td width="20%">&nbsp;</td>
+        <td width="20%">&nbsp;</td>
+        <td width="20%">&nbsp;</td>
+        <td align="right" width="20%"><button (click)="generarPDF()" class="btn btn-info">Exportar a PDF</button> </td>
+    </tr>
+</table>

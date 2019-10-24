@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HomeService, IconoHome } from 'src/app/services/home/home.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl} from '@angular/forms';
-
 import { UploadService } from 'src/app/services/upload/upload.service';
 
 
@@ -30,8 +29,8 @@ export class HomeComponent implements OnInit {
   iconosHome: IconoHome [];
   iconosEncargado: IconoHome [];
 
-  variableRol = "Encargado";
-  variableLibre = true;
+  variableRol: string;
+  variableLibre = false;
   public respuestaImagenEnviada;
   public resultadoCarga;
   private myForm: FormGroup;
@@ -51,11 +50,14 @@ export class HomeComponent implements OnInit {
       this.myForm = this.formBuilder.group({
         'archivo': new FormControl()
       });
+      this.variableRol = localStorage.getItem("rolUsuario");
+
     }
 
   ngOnInit() {
     /* Hacer lógica que verifique si se encuentra logueado. En caso de no estar 
-    logueado, redirige a pantalla de login */
+    logueado, redirige a pant alla de login */
+    console.log("LALALALAL", localStorage.getItem("rolUsuario"));
   }
 
   onUpload(){
