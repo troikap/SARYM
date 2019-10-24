@@ -36,19 +36,7 @@ export class ConsultaGestionarMenupromocionComponent implements OnInit {
 
   generarAccion(accion: string) {
     console.log("accion: ", accion);
-
-    if (accion != "estado") {
-      this.router.navigate( [`/menupromocion_crud/${this.menuPromocion.idMenuPromocion}/${accion}`] );
-    }
-    else {
-      this.cambiarEstado();
-    }
-    
-  }
-
-  cambiarEstado() {
-    console.log("Cambiar estado del Menú - Promoción");
-    
+    this.router.navigate( [`/menupromocion_crud/${this.menuPromocion.idMenuPromocion}/${accion}`] );
   }
 
 }

@@ -21,6 +21,9 @@ export class CrudGestionarProductoComponent implements OnInit {
   private idProducto: number;
   private newForm = {};
 
+  idTipoMonedaLoad;
+  importePrecioProductoLoad;
+
   productoEncontrado: boolean;
   unidadMedida: UnidadMedida;
   tipoMoneda: TipoMoneda;
@@ -65,7 +68,7 @@ export class CrudGestionarProductoComponent implements OnInit {
         this.productoEncontrado = false;
       }
 
-      if (this.accionGet !== "estado") {
+      if (this.accionGet !== "estado" && this.accionGet !== "crear") {
         this.form.get('idEstadoProducto').setValidators(Validators.required);
         this.form.get('idEstadoProducto').updateValueAndValidity();
       }
@@ -109,6 +112,11 @@ export class CrudGestionarProductoComponent implements OnInit {
           }
           this.form.setValue(this.newForm)
           console.log("Formulario nuevo: " , this.form);
+
+          if (this.accionGet === "editar") {
+            this.idTipoMonedaLoad = this.producto.precioproductos[0].tipomoneda.idTipoMoneda;
+            this.importePrecioProductoLoad = this.producto.precioproductos[0].importePrecioProducto;
+          }
         }
       });
     }
@@ -249,12 +257,51 @@ export class CrudGestionarProductoComponent implements OnInit {
                     
                     console.log("updateProducto ejecutado: ", response);
 
-                    let dtoCambiarPrecio = _this.getDTOCambiarPrecio();
-                    _this.productoServicio.cambiarPrecio( dtoCambiarPrecio )
-                    .then( (response) => {
-                      console.log("cambiarPrecio ejecutado: ", response);
+                    let importePrecioProducto = _this.form.value['importePrecioProducto'];
+                    let idTipoMoneda = _this.form.value['idTipoMoneda'];
+                
+                    if (importePrecioProducto != _this.importePrecioProductoLoad || idTipoMoneda != _this.idTipoMonedaLoad) {
                       
-            
+                      let dtoCambiarPrecio = _this.getDTOCambiarPrecio();
+                      _this.productoServicio.cambiarPrecio( dtoCambiarPrecio )
+                      .then( (response) => {
+                        console.log("cambiarPrecio ejecutado: ", response);
+                        
+              
+                        const titulo = "Éxito";
+                        const mensaje = "Se ha actualizado el registro de producto de forma exitrosa";
+                        
+                        ($ as any).confirm({
+                          title: titulo,
+                          content: mensaje,
+                          type: 'green',
+                          typeAnimated: true,
+                          theme: 'material',
+                          buttons: {
+                              aceptar: {
+                                  text: 'Aceptar',
+                                  btnClass: 'btn-green',
+                                  action: function(){
+                
+                                    //ACCION
+                                    _this.router.navigate( ['/producto/']);
+                
+                
+                                  }
+                              }
+                          }
+                        });
+  
+  
+  
+  
+                      });
+
+
+                    }
+                    else { //No se genera Intermedia de Precio-Producto
+
+
                       const titulo = "Éxito";
                       const mensaje = "Se ha actualizado el registro de producto de forma exitrosa";
                       
@@ -280,9 +327,10 @@ export class CrudGestionarProductoComponent implements OnInit {
                       });
 
 
+                    }
+                    
 
-
-                    });
+                    
 
 
                     
@@ -396,7 +444,7 @@ export class CrudGestionarProductoComponent implements OnInit {
                     console.log("Cambio de Estado a Eliminado, respuesta: ", response);
             
                     const titulo = "Éxito";
-                    const mensaje = "Se ha eliminado el registro de producto de forma exitosa";
+                    const mensaje = "Se ha cambiado el estado del registro de producto de forma exitosa";
                     
                     ($ as any).confirm({
                       title: titulo,
@@ -539,6 +587,5 @@ export class CrudGestionarProductoComponent implements OnInit {
       
     }
   }
-
 
 }
