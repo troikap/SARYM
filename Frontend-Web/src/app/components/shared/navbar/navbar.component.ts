@@ -35,11 +35,12 @@ export class NavbarComponent implements OnInit {
   }
 
   cerrarSesion() {
-    console.log("cerrar sesion presionado")
-    localStorage.removeItem("rolUsuario");
+    /*localStorage.removeItem("rolUsuario");
     localStorage.removeItem("token");
+    */
+    localStorage.clear();
     this.variableRol = "";
-
+    
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/login']);
     }); 
