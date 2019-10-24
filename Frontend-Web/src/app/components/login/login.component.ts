@@ -74,10 +74,11 @@ export class LoginComponent implements OnInit {
           if (this.form.value.checkRecordar) {
            // this.actualizarLog(this.logueo);
           }
-          localStorage.setItem("currentUsuario", this.logueo);
+          
           this.nombreUsuarioLog = algo.UsuarioEstado.nombreUsuario;
           this.apellidoUsuarioLog = algo.UsuarioEstado.apellidoUsuario;
           this.rol = algo.rol.idRol;
+          localStorage.setItem("rolUsuario", this.rol);
 
           let _this = this;
 
@@ -95,7 +96,7 @@ export class LoginComponent implements OnInit {
                   text: 'Aceptar',
                   btnClass: 'btn-blue',
                   action: function () {
-                    _this.router.navigate(["/home"]);
+                  _this.router.navigate([`/home`]);
                   }
                 }
               }

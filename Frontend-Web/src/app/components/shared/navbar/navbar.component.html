@@ -1,3 +1,4 @@
+<!--
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand" href="#">
         <img src="assets\imagenes\logo-sarym_no_title.png" width="30" height="30" alt="Logo">
@@ -6,7 +7,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="variableRol=='Administrador' || variableLibre">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="variableRol=='Administrador'">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link" [routerLink]="['/home']">Inicio</a>
@@ -43,7 +44,7 @@
             </li>
         </ul>
     </div>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="variableRol=='Encargado' || variableLibre">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="variableRol=='Encargado'">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item" routerLinkActive="active">
                     <a class="nav-link" [routerLink]="['/home']">Inicio</a>
@@ -71,4 +72,25 @@
                 </li>
             </ul>
     </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+</nav>
+
+-->
+
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Navbar</a>
+    </nav>
+  </div>
+</nav>
+
+<nav class="navbar navbar-dark bg-primary">
+  <!-- Navbar content -->
+</nav>
+
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+  <!-- Navbar content -->
 </nav>

@@ -6,9 +6,12 @@ import { Router } from '@angular/router';
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent implements OnInit {
-  variableRol = "Encargado";
+  variableRol: string;
   variableLibre = false;
-  constructor() { }
+  constructor() {
+    this.variableRol = localStorage.getItem("rolUsuario");
+    console.log("navbar: ", this.variableRol);
+   }
 
   ngOnInit() {
   }

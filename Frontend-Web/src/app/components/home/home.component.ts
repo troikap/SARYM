@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   iconosHome: IconoHome [];
   iconosEncargado: IconoHome [];
 
-  variableRol = "Encargado";
+  variableRol: string;
   variableLibre = false;
 
   constructor( private activatedRoute: ActivatedRoute, 
@@ -35,12 +35,14 @@ export class HomeComponent implements OnInit {
         this.iconosHome = this.homeSercie.getIconosHome();
         this.iconosEncargado = this.homeSercie.getIconosEncargado();
       });
+      this.variableRol = localStorage.getItem("rolUsuario");
+
     }
 
   ngOnInit() {
     /* Hacer lógica que verifique si se encuentra logueado. En caso de no estar 
-    logueado, redirige a pantalla de login */
-    
+    logueado, redirige a pant alla de login */
+    console.log("LALALALAL", localStorage.getItem("rolUsuario"));
   }
 
   goTo( ruta: string) {
