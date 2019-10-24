@@ -38,22 +38,14 @@ var EstadoProductoController = require('../class/estadoproducto/estadoproducto-c
 var EstadoPedidoController = require('../class/estadopedido/estadopedido-controller');
 var EstadoMesaController = require('../class/estadomesa/estadomesa-controller');
 
-
-const multipart = require('connect-multiparty'),
-    multiPartMiddleware = multipart({
-        uploadDir: '../../subidas'
-    });
-
 router
 
 // utiles
     .post('/login', UsuarioController.login)
     .post('/existUser', UsuarioController.validateExistUser)
-    .post('/subirImagen',multiPartMiddleware, (req, res) => {
-        res.json({
-            'mensage': 'Fichero subido correctamente.'
-        })
-    })
+    .post('/subirImagen', UploadController.subirImagen)
+    .get('/traerImagen/:tipo/:img', UploadController.traerImagen)
+
 
 // usuario
     .get('/usuario', verificaToken, UsuarioController.getAll)
@@ -86,7 +78,6 @@ router
     .put('/menupromocion/cambiarEstado', verificaToken, MenuPromocionController.cambiarEstado)
     .put('/menupromocion/cambiarPrecio', verificaToken, MenuPromocionController.cambiarPrecio)
     .put('/menupromocion/editarProductos', verificaToken, MenuPromocionController.editarProductos)
-
 
 // mesa
     .get('/mesa', verificaToken, MesaController.getAll)

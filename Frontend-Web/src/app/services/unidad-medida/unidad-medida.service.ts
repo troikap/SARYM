@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-// import { UnidadMedida } from '../../model/unidad-medida/unidad-medida.model'; // Da error
 
 import { map } from 'rxjs/operators';
 
@@ -18,8 +17,7 @@ export class UnidadMedidaService {
 
   constructor(public http: HttpClient) {}
    
-  getUnidadMedida( termino: string) { //Observador
-    // console.log("Service getUnidadMedida: Termino = ", termino);
+  getUnidadMedida( termino: string) { 
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
     return this.http

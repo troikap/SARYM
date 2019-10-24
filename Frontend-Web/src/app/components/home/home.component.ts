@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HomeService, IconoHome } from 'src/app/services/home/home.service';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl} from '@angular/forms';
 
 import { UploadService } from 'src/app/services/upload/upload.service';
 
@@ -31,10 +31,11 @@ export class HomeComponent implements OnInit {
   iconosEncargado: IconoHome [];
 
   variableRol = "Encargado";
-  variableLibre = false;
+  variableLibre = true;
   public respuestaImagenEnviada;
   public resultadoCarga;
   private myForm: FormGroup;
+  uploadedFiles: Array<File> = [];
 
   constructor( private activatedRoute: ActivatedRoute, 
                private homeService: HomeService, 
@@ -48,6 +49,7 @@ export class HomeComponent implements OnInit {
       });
 
       this.myForm = this.formBuilder.group({
+        'archivo': new FormControl()
       });
     }
 
@@ -56,51 +58,12 @@ export class HomeComponent implements OnInit {
     logueado, redirige a pantalla de login */
   }
 
-  subirImagen() {
-    console.log("MOSTRANDO ENVIAR")
-    console.log("MOSTRANDO ENVIAR", document.getElementById('imagen'))
-
-  }
-
-
-  // public cargandoImagen(file: File ){
-  //   console.log("IMAGEN :", file)
-	// 	this.uploadService.uploadFile(file).then(
-	// 	// this.enviandoImagen.postFileImagen(files[0]).subscribe(
-	// 		response => {
-	// 			this.respuestaImagenEnviada = response; 
-	// 			if(this.respuestaImagenEnviada <= 1){
-	// 				console.log("Error en el servidor"); 
-	// 			}else{
-	// 				if(this.respuestaImagenEnviada.code == 200 && this.respuestaImagenEnviada.status == "success"){
-	// 					this.resultadoCarga = 1;
-	// 				}else{
-	// 					this.resultadoCarga = 2;
-	// 				}
-	// 			}
-	// 		},
-	// 		error => {
-	// 			console.log(<any>error);
-	// 		}
-	// 	);//FIN DE METODO SUBSCRIBE
-  // }
-  
-
-  uploadedFiles: Array<File> = [];
-
   onUpload(){
     console.log("Upload");
-    var formData = new FormData();
-    for (let i=0; i < this.uploadedFiles.length; i++) {
-      console.log( "DENTRO ,",this.uploadedFiles[i])
-      formData.append('archivo', this.uploadedFiles[i]);
-      // formData.append(this.uploadedFiles[i].name,this.uploadedFiles[i])
-      console.log("ARMANDO FORM DATA ,", formData)
-    }
-    console.log("FORM DATA ;" ,formData)
-    // this.uploadService.uploadFile( formData ).then((res) => {
-    //   console.log('RESPUESTA ; ',res)
-    // })
+    console.log("this From :",this.myForm)
+    this.uploadService.uploadFile( this.myForm ).then((res) => {
+      console.log('RESPUESTA ; ',res)
+    })
   }
 
   onFileChange(e) {
@@ -165,6 +128,9 @@ export class HomeComponent implements OnInit {
     break;
     case 'gestionar-estado-estadia':
       next = '/gestionarestadoestadia';
+    break;
+    case 'upload':
+      next = '/upload';
     break;
     }
     this.routes.navigate([next]);

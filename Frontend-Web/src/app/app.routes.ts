@@ -30,6 +30,8 @@ import { ConsultaGestionarMenupromocionComponent } from './components/gestionar-
 import { CrudGestionarMenupromocionComponent } from './components/gestionar-menupromocion/crud-gestionar-menupromocion/crud-gestionar-menupromocion.component';
 import { AbmSectorComponent } from './components/abm-sector/search-sector/abm-sector.component';
 import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.component';
+import { UploadComponent } from './upload/upload.component';
+
 
 
 const routes: Routes = [
@@ -63,8 +65,11 @@ const routes: Routes = [
     { path: 'menupromocion_consulta/:id', component: ConsultaGestionarMenupromocionComponent },
     { path: 'menupromocion_crud/:id/:accion', component: CrudGestionarMenupromocionComponent },
     { path: 'reporte', component: GenerarReporteComponent },
+    { path: 'upload', component: UploadComponent },
+    { path: '**', redirectTo: 'upload'},
+
     { path: '',  redirectTo: '/login', pathMatch: 'full' },
-    { path: '**', redirectTo: 'home'}
+    // { path: '**', redirectTo: 'home'}
 ];
 
 @NgModule({

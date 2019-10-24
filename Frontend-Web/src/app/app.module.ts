@@ -40,8 +40,7 @@ import { GestionarMenupromocionComponent } from './components/gestionar-menuprom
 import { CrudMesaComponent } from './components/abm-mesa/crud-mesa/crud-mesa.component';
 import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.component';
 import { UploadService } from './services/upload/upload.service';
-
-
+import { UploadComponent } from './upload/upload.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,7 +75,8 @@ import { UploadService } from './services/upload/upload.service';
     ConsultaGestionarMenupromocionComponent,
     CrudSectorComponent,
     CrudMesaComponent,
-    AbmMesaComponent
+    AbmMesaComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,

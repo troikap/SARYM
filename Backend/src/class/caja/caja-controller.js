@@ -712,7 +712,7 @@ CajaController.realizarMovimiento = (req, res) => {
       locals['tipo'] = 2;
       res.json(locals);
     } else {
-      if (body['fechaYHoraMovimientoCaja'] == null ) {
+      if (body['fechaYHoraMovimientoCaja'] == null || !body['fechaYHoraMovimientoCaja'] ) {
         body['fechaYHoraMovimientoCaja'] = new Date();
       }
       MovimientoCajaModelo.create(body).then((resp) => {

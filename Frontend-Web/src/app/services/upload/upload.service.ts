@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +15,11 @@ export class UploadService {
 
   constructor(public http: HttpClient) { }
 
-
-  uploadFile( formData ) { //Observador
+  uploadFile( archivo) { 
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
-    console.log("IMAGEN ENVIADA:",formData)
     return this.http
-      .post(`${this.url}${this.dir}`, formData )
+      .post(`${this.url}${this.dir}`, archivo , {headers})
       .toPromise()
       .then(response => {
         return response;
@@ -29,17 +27,18 @@ export class UploadService {
       .catch(  );
   }
 
-  // subirImagen( datas: any ) { //Observador
-  //   let headers: HttpHeaders = new HttpHeaders();
-  //   headers = headers.append('token', this.tokenEnviroment);
-  //   console.log("IMAGEN ENVIADA:",datas)
-  //   return this.http
-  //     .put(`${this.url}${this.dir}`, datas, {headers})
-  //     .toPromise()
-  //     .then(response => {
-  //       return response;
-  //     })
-  //     .catch(  );
-  // }
-
+  getFile( carpeta: string, img: string) { 
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    return this.http
+      .get(`${this.url}${this.dir}/${carpeta}/${img}`, {headers})
+      .pipe( map ((data: any) => {
+        console.log(data.data);
+        if (data != null) {
+          return data.data;
+        }
+    }));
+    
+  }
+  
 }

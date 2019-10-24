@@ -404,7 +404,7 @@
 				{
 					"name": "Get Producto : id",
 					"request": {
-						"url": "localhost:3000/producto/20",
+						"url": "localhost:3000/producto/1",
 						"method": "GET",
 						"header": [
 							{
@@ -3511,7 +3511,60 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
-								"description": ""
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "archivo",
+									"description": "",
+									"type": "file",
+									"src": "Cone.jpeg"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "carpeta",
+									"value": "menu",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "nombre",
+									"value": "Roberto",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Traer Imagen",
+					"request": {
+						"url": "localhost:3000/traerImagen/producto/BBBBBBBBB-2-9.jpeg",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "",
+								"disabled": true
 							},
 							{
 								"key": "token",
