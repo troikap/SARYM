@@ -68,9 +68,9 @@ const routes: Routes = [
     { path: 'menupromocion_agregarproducto/:id', component: AgregarProductoGestionarMenupromocionComponent },
     { path: 'reporte', component: GenerarReporteComponent },
     { path: 'upload', component: UploadComponent },
-    { path: '**', redirectTo: 'home'},
+    { path: '**', redirectTo: 'login'},
 
-    { path: '',  redirectTo: '/home', pathMatch: 'full' },
+    { path: '',  redirectTo: '/login', pathMatch: 'full' },
 
 ];
 
