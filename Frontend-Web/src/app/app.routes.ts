@@ -67,11 +67,9 @@ const routes: Routes = [
     { path: 'menupromocion_crud/:id/:accion', component: CrudGestionarMenupromocionComponent },
     { path: 'menupromocion_agregarproducto/:id', component: AgregarProductoGestionarMenupromocionComponent },
     { path: 'reporte', component: GenerarReporteComponent },
-    { path: 'upload', component: UploadComponent },
-    { path: '**', redirectTo: 'upload'},
-
+    { path: 'upload/:id/:nombre/:path/:retorno', component: UploadComponent },
     { path: '',  redirectTo: '/login', pathMatch: 'full' },
-    // { path: '**', redirectTo: 'home'}
+    { path: '**', redirectTo: 'home'}
 ];
 
 @NgModule({

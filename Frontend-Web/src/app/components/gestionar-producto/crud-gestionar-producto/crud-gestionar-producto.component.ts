@@ -9,6 +9,7 @@ import { RubroService } from '../../../services/rubro/rubro.service';
 import { UnidadMedida } from 'src/app/model/unidad-medida/unidad-medida.model';
 import { TipoMoneda } from '../../../model/tipo-moneda/tipo-moneda.model';
 import { Rubro } from 'src/app/model/rubro/rubro.model';
+import { UploadComponent } from 'src/app/upload/upload.component';
 
 @Component({
   selector: 'app-crud-gestionar-producto',
@@ -20,6 +21,8 @@ export class CrudGestionarProductoComponent implements OnInit {
   private producto: Producto;
   private idProducto: number;
   private newForm = {};
+
+  public uploadComponents: UploadComponent;
   
   idTipoMonedaLoad;
   importePrecioProductoLoad;
@@ -223,8 +226,6 @@ export class CrudGestionarProductoComponent implements OnInit {
     }
     return dtoCambiarPrecio;
   }
-
-
 
   guardar() {
     // console.log("Form Value: ", this.form.value);
@@ -540,16 +541,19 @@ export class CrudGestionarProductoComponent implements OnInit {
                                             text: 'Aceptar',
                                             btnClass: 'btn-blue',
                                             action: function(){
-
                                               _this.productoCreado = true;
-                                              _this.form.get('imgProducto').setValidators(Validators.required);
-                                              _this.form.get('imgProducto').updateValueAndValidity();
-                                              
-                                              
-                                              
+                                              _this.form.disabled;
 
+                                              let idProductoCreado = response.id;
+                                              let nombreImagen = _this.form.value['codProducto'];
+                                              let path = 'producto';
+                                              let retorno = 'producto'
 
-                                              
+                                              _this.router.navigate( [`/upload/${idProductoCreado}/${nombreImagen}/${path}/${retorno}`] );
+
+                                              // _this.form.get('imgProducto').setValidators(Validators.required);
+                                              // _this.form.get('codProducto').disable();
+                                              // _this.form.get('imgProducto').updateValueAndValidity();
                                             }
                                         },
                                         cerrar: {

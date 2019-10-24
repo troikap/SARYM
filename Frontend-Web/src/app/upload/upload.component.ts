@@ -14,51 +14,61 @@ import { UploadService } from 'src/app/services/upload/upload.service';
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit {
-  
-  iconosHome: IconoHome [];
-  iconosEncargado: IconoHome [];
 
-  variableRol = "Encargado";
-  variableLibre = false;
-  public respuestaImagenEnviada;
-  public resultadoCarga;
   private myForm: FormGroup;
-  uploadedFiles;
-  mostrarfoto;
-  url = "http://localhost:3000/traerImagen/producto/BBBBBBBBB-2-9.jpeg";
+  public uploadedFiles;
+  public mostrarfoto;
 
-  carpetas= 
+  public url = "http://localhost:3000/traerImagen/producto/BBBBBBBBB-2-9.jpeg";
+
+  public carpetas= 
   [
     { key: 'producto', value: 'producto' },
     { key: 'menu', value: 'menu' },
     { key: 'promocion', value: 'promocion' },
   ]
 
-  constructor( private activatedRoute: ActivatedRoute, 
-    private homeService: HomeService, 
-    private routes: Router,
-    private formBuilder: FormBuilder,
-    public uploadService: UploadService ) 
-{ 
-this.activatedRoute.params.subscribe(params => {
-this.iconosHome = this.homeService.getIconosHome();
-this.iconosEncargado = this.homeService.getIconosEncargado();
-});
+  public idElemento;
+  public nombreElemento;
+  public pathElemento;
+  public archivoCargado;
+  public redirigir;
 
-this.myForm = this.formBuilder.group({
-'archivo': new FormControl( Validators.required),
-'nombre': new FormControl('', Validators.required),
-'carpeta': new FormControl( Validators.required),
-'id': new FormControl('', Validators.required),
-'mostrarfoto': new FormControl(),
-});
-}
+  constructor( 
+    private activatedRoute: ActivatedRoute, 
+    public uploadService: UploadService,
+    private router: Router
+  ) 
+{ 
+
+  // this.myForm = this.formBuilder.group({
+  //   'archivo': new FormControl( Validators.required),
+  //   'nombre': new FormControl('', Validators.required),
+  //   'carpeta': new FormControl( Validators.required),
+  //   'id': new FormControl('', Validators.required),
+  //   'mostrarfoto': new FormControl(),
+  //   });
+
+    this.myForm = new FormGroup({
+      'archivo': new FormControl('', Validators.required)
+    });
+
+    this.activatedRoute.params.subscribe(params => {
+      console.log("PAREMTROS DE URL", params.id);
+      this.idElemento  = params.id;
+      this.nombreElemento = params.nombre;
+      this.pathElemento = params.path;
+      this.redirigir = params.retorno;
+    });
+
+
+  }
 
   ngOnInit() {
   }
 
   prueba() {
-    console.log(this.myForm)
+    console.log(this.myForm);
   }
 
   onUpload(){
@@ -67,16 +77,47 @@ this.myForm = this.formBuilder.group({
       const foto = this.uploadedFiles;
       const formData = new FormData();
       formData.append('archivo', foto);
-      formData.append('nombre', this.myForm.value.nombre)
-      formData.append('carpeta', this.myForm.value.carpeta)
-      formData.append('id', this.myForm.value.id)
+      formData.append('nombre', this.nombreElemento)
+      formData.append('carpeta', this.pathElemento)
+      formData.append('id', this.idElemento)
       this.uploadService.uploadFile( formData ).then((res) => {
-        console.log('RESPUESTA ; ',res)
-        this.mostrarfoto = res['data'];
+        console.log('RESPUESTA ; ',res);
+        console.log('res ',res['data']);
+        this.mostrarfoto = res['data']; // Path del archivo creado
+        
+        //Obtener Imagen
+        this.uploadService.getFile(this.pathElemento, this.mostrarfoto)
+        .subscribe((data: any) => { // Llamo a un Observer
+          console.log(data);
+          this.archivoCargado = data;
+        });
+
+
       })
     } else {
-      alert('Seleccione Imagen.')
+      
+      ($ as any).confirm({
+        title: "Error",
+        content: "Seleccione imagen..",
+        type: 'red',
+        typeAnimated: true,
+        theme: 'material',
+        buttons: {
+            aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-red',
+                action: function(){
+                  console.log("Confirmación de error, por usuario.");
+                }
+            }
+        }
+      });
+
     }
+  }
+
+  cerrar() {
+    this.router.navigate( [`/${this.redirigir}`] );
   }
 
   onFileChange(e) {
