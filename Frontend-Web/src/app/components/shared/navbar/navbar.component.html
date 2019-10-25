@@ -1,22 +1,18 @@
-<div class="" *ngIf="variableRol!=''">
+<div class="" *ngIf="variableRol!=null">
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <a class="navbar-brand">
             <img src="assets\imagenes\logo-sarym_no_title.png" width="30" height="30" alt="Logo">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown bg-dark">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                        routerLinkActive="active">Inicio</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" *ngIf="variableRol=='Encargado'">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" routerLinkActive="active">Inicio</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" *ngIf="variableRol=='Administrador'">
                         <a class="nav-link" [routerLink]="['/home']">Home</a>
                         <div class="dropdown-divider bg-dark"></div>
                         <a class="dropdown-item" [routerLink]="['/usuario']">Usuario</a>
@@ -29,8 +25,7 @@
                         <a class="dropdown-item" [routerLink]="['/menupromocion']">Gestionar Menu Promocion</a>
                         <a class="dropdown-item" [routerLink]="['/reporte']">Generar Reporte</a>
                     </div>
-                    <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown"
-                        *ngIf="variableRol=='Administrador'">
+                    <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown" *ngIf="variableRol=='Encargado'">
                         <a class="nav-link" [routerLink]="['/home']">Home</a>
                         <div class="dropdown-divider bg-dark"></div>
                         <a class="nav-link" [routerLink]="['/abrircaja']">Abrir Caja</a>
@@ -42,13 +37,12 @@
                         <a class="nav-link" [routerLink]="['/anularpedido']">Anular Pedido</a>
                         <a class="nav-link" [routerLink]="['/gestionarestadoestadia']">Gestionar Estado Estadia</a>
                     </div>
-                    <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown"
-                    *ngIf="variableRol=='Cocinero'">
-                    <a class="nav-link" [routerLink]="['/home']">Home</a>
-                    <div class="dropdown-divider bg-dark"></div>
-                    <!-- AGREGAR RUTA - AGREGAR BOTON Y VER INTERFACES DEL COCINERO-->
-                    <a class="nav-link" [routerLink]="['/']">LINK RUTA</a>
-                </div>
+                    <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown" *ngIf="variableRol=='Cocinero'">
+                        <a class="nav-link" [routerLink]="['/home']">Home</a>
+                        <div class="dropdown-divider bg-dark"></div>
+                        <!-- AGREGAR RUTA - AGREGAR BOTON Y VER INTERFACES DEL COCINERO-->
+                        <a class="nav-link" [routerLink]="['/']">LINK RUTA</a>
+                    </div>
                 </li>
             </ul>
             <a class="nav-link" href=upload>Upload Image</a>

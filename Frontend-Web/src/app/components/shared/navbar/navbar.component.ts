@@ -14,15 +14,6 @@ export class NavbarComponent implements OnInit {
     this.variableRol = localStorage.getItem("rolUsuario");
     console.log("navbar: ", this.variableRol);
 
-    this.router.routeReuseStrategy.shouldReuseRoute = function () {
-      return false;
-    };
-    this.mySubscription = this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.router.navigated = false;
-      }
-    });
-
   }
 
   ngOnInit() {
@@ -39,16 +30,9 @@ export class NavbarComponent implements OnInit {
     localStorage.removeItem("token");
     */
     localStorage.clear();
-    this.variableRol = "";
-    
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/login']);
-    }); 
+    this.variableRol = "";    
 
-    //this.router.navigate([`/login`]);
-
-
-
+    this.router.navigate([`/login`]);
   }
 
 }
