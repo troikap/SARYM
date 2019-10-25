@@ -1,4 +1,4 @@
-<h2 class="titulo">Abrir Caja</h2>
+<h2 class="titulo">Cerrar Caja</h2>
 <hr>
 <div class="container">
     <div class="form-section">
@@ -23,12 +23,14 @@
             <div class="form-group row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="montoAperturaCajaEstado" class="col col-form-label">Monto de Apertura de Caja</label>
-                        <input type="number" class="form-control" id="montoAperturaCajaEstado" placeholder="Ingrese Respuesta" formControlName="montoAperturaCajaEstado">
-                        <p class="input-error-msg" *ngIf="form.controls.montoAperturaCajaEstado.errors?.required && form.controls.montoAperturaCajaEstado.touched">Campo Obligatorio.</p>
+                        <label for="montoCierreCajaEstado" class="col col-form-label">Monto de Cierre de Caja</label>
+                        <input type="number" class="form-control" id="montoCierreCajaEstado" placeholder="Ingrese Respuesta" formControlName="montoCierreCajaEstado">
+                        <p class="input-error-msg" *ngIf="form.controls.montoCierreCajaEstado.errors?.required && form.controls.montoCierreCajaEstado.touched">Campo Obligatorio.</p>
+                        <p class="input-error-msg" *ngIf="form.controls.montoCierreCajaEstado.errors?.pattern && form.controls.montoCierreCajaEstado.touched">Debe ser Positivo.</p>
                     </div>
                 </div>                
-            </div>                 
+            </div>      
+            <button (click) = "prueba()"></button>           
                            
             <hr>
             <div *ngIf="accionGet != 'eliminar'">

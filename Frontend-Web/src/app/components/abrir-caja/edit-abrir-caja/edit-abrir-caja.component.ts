@@ -42,7 +42,7 @@ export class EditAbrirCajaComponent implements OnInit {
       'idEstadoCaja': new FormControl('', Validators.required),
       'idUsuario': new FormControl('', Validators.required),
       'descripcionCajaEstado': new FormControl('', Validators.required),
-      'montoAperturaCajaEstado': new FormControl('', Validators.required),     
+      'montoAperturaCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^[0-9]+$/)]),     
     });
 
     this.activatedRoute.params.subscribe(params => {

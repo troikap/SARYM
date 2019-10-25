@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   iconosHome: IconoHome [];
   iconosEncargado: IconoHome [];
 
-  variableRol = "Encargado";
+  variableRol = "Administrador";
   variableLibre = false;
 
   constructor( private activatedRoute: ActivatedRoute, 

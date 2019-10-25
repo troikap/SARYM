@@ -20,6 +20,7 @@
                         <label for="montoMovimientoCaja" class="col col-form-label">Monto del Movimiento</label>
                         <input type="number" class="form-control" id="montoMovimientoCaja" placeholder="Ingrese Respuesta" formControlName="montoMovimientoCaja">
                         <p class="input-error-msg" *ngIf="form.controls.montoMovimientoCaja.errors?.required && form.controls.montoMovimientoCaja.touched">Campo Obligatorio.</p>
+                        <p class="input-error-msg" *ngIf="form.controls.montoMovimientoCaja.errors?.pattern && form.controls.montoMovimientoCaja.touched">Debe ser Positivo.</p>
                     </div>
                 </div>                
             </div>

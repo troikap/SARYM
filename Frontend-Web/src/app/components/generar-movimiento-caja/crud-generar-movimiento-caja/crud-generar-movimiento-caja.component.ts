@@ -31,7 +31,7 @@ export class CrudGenerarMovimientoCajaComponent implements OnInit {
   ) {
     this.form = new FormGroup({              
       'idTipoMovimientoCaja': new FormControl('', Validators.required),      
-      'montoMovimientoCaja': new FormControl('', Validators.required),
+      'montoMovimientoCaja': new FormControl('', [Validators.required, Validators.pattern(/^[0-9]+$/)]),
       'descripcionMovimientoCaja':  new FormControl('', Validators.required)
       
     });
