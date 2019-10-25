@@ -13,10 +13,10 @@
                 <li class="nav-item dropdown bg-dark">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" routerLinkActive="active">Inicio</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown" *ngIf="variableRol=='Administrador'">
-                        <a class="nav-link" [routerLink]="['/home']">Home</a>
+                        <a class="dropdown-item" [routerLink]="['/home']">Home</a>
                         <div class="dropdown-divider bg-dark"></div>
                         <a class="dropdown-item" [routerLink]="['/usuario']">Usuario</a>
-                        <a class="dropdown-itemt" [routerLink]="['/unidadmedida']">Unidad Medida</a>
+                        <a class="dropdown-item" [routerLink]="['/unidadmedida']">Unidad Medida</a>
                         <a class="dropdown-item" [routerLink]="['/caja']">Caja</a>
                         <a class="dropdown-item" [routerLink]="['/mesa']">Mesa</a>
                         <a class="dropdown-item" [routerLink]="['/rubro']">Rubro</a>
