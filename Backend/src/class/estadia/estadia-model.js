@@ -21,7 +21,6 @@ const EstadiaModelo = sequelize.define(
     },
     idReserva: {
         type: Sequelize.INTEGER,
-        allowNull: false
     },
     idMozoEstadia: {
         type: Sequelize.INTEGER,

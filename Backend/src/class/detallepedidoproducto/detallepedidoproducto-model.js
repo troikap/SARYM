@@ -19,15 +19,14 @@ const DetallePedidoProductoModelo = sequelize.define('detallepedidoproducto', {
         allowNull: false
     },
     idMenuPromocion: {
-        type: Sequelize.INTEGER,
-        allowNull: true
+        type: Sequelize.INTEGER
     },
     idProducto: {
-        type: Sequelize.INTEGER,
-        allowNull: true
+        type: Sequelize.INTEGER
     },
     cantidadPedidoProducto: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false
     },
     fechaYHoraInicioPedidoProducto: {
         type: Sequelize.DATE,
@@ -42,6 +41,5 @@ const DetallePedidoProductoModelo = sequelize.define('detallepedidoproducto', {
 
 DetallePedidoProductoModelo.belongsTo(ProductoModelo, { foreignKey: "idProducto" });
 DetallePedidoProductoModelo.belongsTo(MenuPromocionModelo, { foreignKey: "idMenuPromocion" });
-
 
 module.exports = DetallePedidoProductoModelo;

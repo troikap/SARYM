@@ -3,8 +3,8 @@ var currentDate = new Date();
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.bulkInsert(
-            "estadopedidos", [{
+        return queryInterface.bulkInsert("estadopedidos", [
+            {
                 idEstadoPedido: 1,
                 codEstadoPedido: "R1",
                 nombreEstadoPedido: "Reservado",

@@ -23,7 +23,8 @@ const ReservaModelo = sequelize.define(
         },
         codReserva: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         cantPersonas: {
             type: Sequelize.INTEGER,
