@@ -289,7 +289,7 @@ export class CrudGestionarMenupromocionComponent implements OnInit {
                                   action: function(){
                 
                                     //ACCION
-                                    _this.router.navigate( ['/menuromocion/']);
+                                    _this.router.navigate( ['/menupromocion/']);
                 
                 
                                   }
