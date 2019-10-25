@@ -104,7 +104,7 @@ function encontrar(id, clase, req , res) {
                 return 1;
             }
         })
-    } else if (clase == 'menu' || clase == 'promocion') {
+    } else if (clase == 'menupromocion') {
         console.log("imagen "+ clase)
         let idClase = `idMenuPromocion`;
         MenuPromocionModelo.findOne({where: { [idClase]: id },}).then(response => {
