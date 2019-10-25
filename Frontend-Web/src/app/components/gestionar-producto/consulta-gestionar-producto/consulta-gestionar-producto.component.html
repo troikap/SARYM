@@ -4,8 +4,7 @@
 <div class="row animated fadeIn fast">
     <div class="col-md-4">
         <div class="card-body">
-            <img [src]="producto.pathImagenProducto | noimage" class="card-img-top img-fluid text-primary" [alt]=producto.nombreProducto>
-            <img [src]="urlAlternativo | noimage" class="card-img-top img-fluid text-primary" [alt]=producto.nombreProducto>
+            <img src="{{rutaImagen}}{{producto.pathImagenProducto}}" class="card-img-top img-fluid text-primary" [alt]=producto.nombreProducto>
             <br><br>
             <a [routerLink]="['/producto']" class="btn btn-outline-primary btn-block">Regresar</a>
         </div>

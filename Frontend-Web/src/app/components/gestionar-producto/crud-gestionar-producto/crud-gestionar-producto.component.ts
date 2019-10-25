@@ -10,6 +10,7 @@ import { UnidadMedida } from 'src/app/model/unidad-medida/unidad-medida.model';
 import { TipoMoneda } from '../../../model/tipo-moneda/tipo-moneda.model';
 import { Rubro } from 'src/app/model/rubro/rubro.model';
 import { UploadComponent } from 'src/app/upload/upload.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-crud-gestionar-producto',
@@ -36,6 +37,11 @@ export class CrudGestionarProductoComponent implements OnInit {
 
   accionGet: string;
 
+  //Elementos para traer imagen//
+  tipoElemento = "producto";
+  public rutaImagen = `${environment.urlNgrok || environment.url}/traerImagen/${this.tipoElemento}/`;
+  ////////////////////////////////
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -55,7 +61,6 @@ export class CrudGestionarProductoComponent implements OnInit {
       'idTipoMoneda': new FormControl('',  Validators.required),
       'idRubro': new FormControl('',  Validators.required),
       'idEstadoProducto': new FormControl(''),
-      'imgProducto': new FormControl(''),
       'descripcionCambioEstado': new FormControl('')
     });
 
@@ -110,7 +115,6 @@ export class CrudGestionarProductoComponent implements OnInit {
             idTipoMoneda:  this.producto.precioproductos[0].tipomoneda.idTipoMoneda,
             idRubro: this.producto.rubro.idRubro,
             idEstadoProducto: this.producto.productoestados[0].estadoproducto.idEstadoProducto,
-            imgProducto: this.producto.pathImagenProducto,
             descripcionCambioEstado: ''
           }
           this.form.setValue(this.newForm)
@@ -169,8 +173,7 @@ export class CrudGestionarProductoComponent implements OnInit {
       importePrecioProducto:  this.form.value['importePrecioProducto'],
       idTipoMoneda:  this.form.value['idTipoMoneda'],
       idRubro: this.form.value['idRubro'],
-      idEstadoProducto: this.form.value['idEstadoProducto'],
-      imgProducto: this.form.value['imgProducto']
+      idEstadoProducto: this.form.value['idEstadoProducto']
     }
     return dtoCrearProducto;
   }
@@ -186,8 +189,7 @@ export class CrudGestionarProductoComponent implements OnInit {
       idUnidadMedida:  this.form.value['idUnidadMedida'],
       cantidadMedida:  this.form.value['cantidadMedida'],
       descripcionProducto:  this.form.value['descripcionProducto'],
-      idRubro: this.form.value['idRubro'],
-      imgProducto: this.form.value['imgProducto']
+      idRubro: this.form.value['idRubro']
     }
     return dtoEditarProducto;
   }
@@ -225,6 +227,18 @@ export class CrudGestionarProductoComponent implements OnInit {
       idTipoMoneda: this.form.value['idTipoMoneda']
     }
     return dtoCambiarPrecio;
+  }
+
+  goUploadImagen(idProducto) {
+    let nombreImagen = this.form.value['codProducto'];
+    let path = 'producto';
+    let retorno = 'producto';
+
+    this.router.navigate( [`/upload/${idProducto}/${nombreImagen}/${path}/${retorno}`] );
+  }
+
+  editarImagenProducto(idProductoImg) {
+    this.goUploadImagen(idProductoImg);
   }
 
   guardar() {
@@ -541,19 +555,10 @@ export class CrudGestionarProductoComponent implements OnInit {
                                             text: 'Aceptar',
                                             btnClass: 'btn-blue',
                                             action: function(){
-                                              _this.productoCreado = true;
-                                              _this.form.disabled;
 
                                               let idProductoCreado = response.id;
-                                              let nombreImagen = _this.form.value['codProducto'];
-                                              let path = 'producto';
-                                              let retorno = 'producto'
+                                              _this.goUploadImagen(idProductoCreado);
 
-                                              _this.router.navigate( [`/upload/${idProductoCreado}/${nombreImagen}/${path}/${retorno}`] );
-
-                                              // _this.form.get('imgProducto').setValidators(Validators.required);
-                                              // _this.form.get('codProducto').disable();
-                                              // _this.form.get('imgProducto').updateValueAndValidity();
                                             }
                                         },
                                         cerrar: {

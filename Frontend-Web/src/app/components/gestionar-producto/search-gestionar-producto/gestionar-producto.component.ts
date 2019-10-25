@@ -2,6 +2,8 @@ import * as $ from 'jquery'
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductoService } from 'src/app/services/producto/producto.service';
+import { UploadService } from 'src/app/services/upload/upload.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-gestionar-producto',
@@ -12,9 +14,14 @@ export class GestionarProductoComponent implements OnInit {
 
   public listaProductos: any [] = [];
 
+  tipoElemento = "producto";
+
+  public rutaImagen = `${environment.urlNgrok || environment.url}/traerImagen/${this.tipoElemento}/`;
+
   constructor(
     public productoService: ProductoService,
     private router: Router,
+    public uploadService: UploadService
     ) { }
 
   ngOnInit() {

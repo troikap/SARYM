@@ -82,12 +82,31 @@
                 <p class="input-error-msg" *ngIf="form.controls.idRubro.errors?.required && form.controls.idRubro.touched">Campo Obligatorio.</p>
             </div>
 
-            <div class="form-group" *ngIf="productoCreado == true">
-                <label for="imgProducto" class="col col-form-label">Cargar Imagen</label>
-                <input type="file" class="form-control-file" id="imgProducto">
+            <div class="form-group" *ngIf="accionGet == 'editar'">
+                <hr>
+
+                <p>
+                    <a href="#VerImagen" class="btn btn-primary" data-toggle="collapse">Ver Imagen</a>
+                </p>
+                <hr>
+
+                <div id="VerImagen" class="collapse">
+
+                    <div class="card mb-3">
+                        <div class="row no-gutters animated fadeIn fast">
+                            <div class="col-md-4">
+                                <img src="{{rutaImagen}}{{producto.pathImagenProducto}}" class="card-img-top img-fluid text-primary" [alt]="producto.nombreProducto">
+                            </div>
+                            <div class="card-body">
+                                <button (click)="editarImagenProducto(producto.idProducto) " class="btn btn-success btn-block ">Editar / Cargar Imagen</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
             </div>
 
-            <hr>
 
             <div *ngIf="accionGet != 'eliminar'">
                 <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
