@@ -65,7 +65,7 @@ function modificar(req, res){
                                 }
                                 res.json(locals)
                             })
-                    } else if (carpeta == "menu" || carpeta == "promocion") {
+                    } else if (carpeta == "menupromocion") {
                         MenuPromocionModelo.update({ pathImagenMenuPromocion: rutaImagen }, {
                             where: { idMenuPromocion: id }})
                             .then( resp => {

@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 const PagoModelo = require('../pago/pago-model');
-const PedidoModelo = require('../pedido/pedido-model');
+// const PedidoModelo = require('../pedido/pedido-model');
 var sequelize = require('../../database/connection');
 
 const ComensalModelo = sequelize.define('comensal', {
@@ -14,16 +14,13 @@ const ComensalModelo = sequelize.define('comensal', {
         autoIncrement: true
     },
     idUsuario: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+        type: Sequelize.INTEGER
     },
     idReserva: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+        type: Sequelize.INTEGER
     },
     idEstadia: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+        type: Sequelize.INTEGER
     },
     aliasComensal: {
         type: Sequelize.STRING,
@@ -38,6 +35,6 @@ const ComensalModelo = sequelize.define('comensal', {
 });
 
 ComensalModelo.hasMany(PagoModelo, { foreignKey: "idComensal" });
-ComensalModelo.hasMany(PedidoModelo, { foreignKey: "idComensal" });
+// ComensalModelo.hasMany(PedidoModelo, { foreignKey: "idComensal" });
 
 module.exports = ComensalModelo;

@@ -18,6 +18,8 @@ const tratarError = require("../../middlewares/handleError"),
   ProductoEstadoModelo = require("../productoestado/productoestado-model"),
   EstadoProductoModelo = require("../estadoproducto/estadoproducto-model"),
   ComensalModelo = require("../comensal/comensal-model"),
+  DetallePedidoProductoModelo = require("../detallepedidoproducto/detallepedidoproducto-model"),
+  MenuPromocionModelo = require("../menupromocion/menupromocion-model"),
  
   legend = "Pedido",
   legend2 = "PedidoEstado",
@@ -50,17 +52,13 @@ PedidoController.getToAllAttributes = (req, res, next) => {
             {codPedido: {[Op.substring]: req.params.anyAttribute}},
             {idPedido: {[Op.substring]: req.params.anyAttribute}},
             Sequelize.literal("`pedidoestados->estadopedido`.`nombreEstadoPedido` LIKE '%" + req.params.anyAttribute + "%'"),
-            // Sequelize.literal("`tipomenupromocion`.`nombreTipoMenuPromocion` LIKE '%" + req.params.anyAttribute + "%'"),
-            // Sequelize.literal("`preciomenupromocions->tipomoneda`.`nombreTipoMoneda` LIKE '%" + req.params.anyAttribute + "%'"),
-            // Sequelize.literal("`detallemenupromocionproductos->producto`.`nombreProducto` LIKE '%" + req.params.anyAttribute + "%'"),
+            Sequelize.literal("`comensal`.`aliasComensal` LIKE '%" + req.params.anyAttribute + "%'"),
+            Sequelize.literal("`detallepedidoproductos->menupromocion`.`nombreMenuPromocion` LIKE '%" + req.params.anyAttribute + "%'"),
+            Sequelize.literal("`detallepedidoproductos->producto`.`nombreProducto` LIKE '%" + req.params.anyAttribute + "%'"),
         ]
     },
     attributes: attributes.pedido,
     include: [
-        // {
-        //     model: ComensalModelo,
-        //     attributes: attributes.comensal,
-        // },
         {
             model: PedidoEstadoModelo,
             attributes: attributes.pedidoestado,
@@ -71,77 +69,26 @@ PedidoController.getToAllAttributes = (req, res, next) => {
                     attributes: attributes.estadopedido
                 }
             ]
-        }
+        },
+        {
+            model: DetallePedidoProductoModelo,
+            attributes: attributes.detallepedidoproducto,
+            include: [
+                {
+                    model: ProductoModelo,
+                    attributes: attributes.producto,
+                },
+                {
+                    model: MenuPromocionModelo,
+                    attributes: attributes.menupromocion,
+                }
+            ]
+        },
+        {
+            model: ComensalModelo,
+            attributes: attributes.comensal,
+        },
     ]
-    // attributes: attributes.menupromocion,
-    // include: [
-    //     {
-    //         model: TipoMenuPromocionModelo,
-    //         attributes: attributes.tipomenupromocion,
-    //     },
-    //     {
-    //         model: MenuPromocionEstadoModelo,
-    //         where: { fechaYHoraBajaMenuPromocionEstado: null },
-    //         attributes: attributes.menupromocionestado,
-    //         include: [
-    //             {
-    //             model: EstadoMenuPromocionModelo,
-    //             attributes: attributes.estadomenupromocion
-    //             }
-    //         ]
-    //     },
-    //     {
-    //         model: PrecioMenuPromocionModelo,
-    //         where: { fechaYHoraHastaPrecioMenuPromocion: null },
-    //         attributes: attributes.preciomenupromocion,
-    //         include: [
-    //             {
-    //                 model: TipoMonedaModelo,
-    //                 attributes: attributes.tipomoneda
-    //             }
-    //         ],
-    //     },
-    //     {
-    //         model: DetalleMenuPromocionProductoModelo,
-    //         attributes: attributes.detallemenupromocionproducto,
-    //         include: [
-    //             {
-    //                 model: ProductoModelo,
-    //                 attributes: attributes.producto,
-    //                 include: [
-    //                     {
-    //                         model: RubroModelo,
-    //                         attributes: attributes.rubro,
-    //                     },
-    //                     {
-    //                         model: UnidadMedidaModelo,
-    //                         attributes: attributes.unidadmedida,
-    //                     },
-    //                     {
-    //                         model: ProductoEstadoModelo,
-    //                         attributes: attributes.productoestado,
-    //                         include: [
-    //                             {
-    //                                 model: EstadoProductoModelo,
-    //                                 attributes: attributes.estadoproducto
-    //                             }
-    //                         ]
-    //                     },
-    //                     {
-    //                         model: PrecioProductoModelo,
-    //                         attributes: attributes.precioproducto,
-    //                         include: [
-    //                             {
-    //                                 model: TipoMonedaModelo,
-    //                                 attributes: attributes.tipomoneda
-    //                             }
-    //                         ]
-    //                     }
-    //                 ]
-    //             }
-    //         ],
-    //     },
-    // ],
     }).then(project => {
         if (!project || project == 0) {
             locals['title'] = "No existe ningun registro con la palabra : " + req.params.anyAttribute;
@@ -160,76 +107,37 @@ PedidoController.getToName = (req, res, next) => {
     PedidoModelo.findAll({
         where: { [nombretable]: { [Op.substring]: req.params[nombretable] }},
         attributes: attributes.pedido,
-
-        // attributes: attributes.menupromocion,
-        // include: [
-        //     {
-        //         model: TipoMenuPromocionModelo,
-        //         attributes: attributes.tipomenupromocion,
-        //     },
-        //     {
-        //         model: MenuPromocionEstadoModelo,
-        //         where: { fechaYHoraBajaMenuPromocionEstado: null },
-        //         attributes: attributes.menupromocionestado,
-        //         include: [
-        //             {
-        //             model: EstadoMenuPromocionModelo,
-        //             attributes: attributes.estadomenupromocion
-        //             }
-        //         ]
-        //     },
-        //     {
-        //         model: PrecioMenuPromocionModelo,
-        //         where: { fechaYHoraHastaPrecioMenuPromocion: null },
-        //         attributes: attributes.preciomenupromocion,
-        //         include: [
-        //             {
-        //                 model: TipoMonedaModelo,
-        //                 attributes: attributes.tipomoneda
-        //             }
-        //         ],
-        //     },
-        //     {
-        //         model: DetalleMenuPromocionProductoModelo,
-        //         attributes: attributes.detallemenupromocionproducto,
-        //         include: [
-        //             {
-        //                 model: ProductoModelo,
-        //                 attributes: attributes.producto,
-        //                 include: [
-        //                     {
-        //                         model: RubroModelo,
-        //                         attributes: attributes.rubro,
-        //                     },
-        //                     {
-        //                         model: UnidadMedidaModelo,
-        //                         attributes: attributes.unidadmedida,
-        //                     },
-        //                     {
-        //                         model: ProductoEstadoModelo,
-        //                         attributes: attributes.productoestado,
-        //                         include: [
-        //                             {
-        //                                 model: EstadoProductoModelo,
-        //                                 attributes: attributes.estadoproducto
-        //                             }
-        //                         ]
-        //                     },
-        //                     {
-        //                         model: PrecioProductoModelo,
-        //                         attributes: attributes.precioproducto,
-        //                         include: [
-        //                             {
-        //                                 model: TipoMonedaModelo,
-        //                                 attributes: attributes.tipomoneda
-        //                             }
-        //                         ]
-        //                     }
-        //                 ]
-        //             }
-        //         ],
-        //     },
-        // ],
+    include: [
+        {
+            model: PedidoEstadoModelo,
+            attributes: attributes.pedidoestado,
+            where: { fechaYHoraBajaPedidoEstado: null },
+            include: [
+                {
+                    model: EstadoPedidoModelo,
+                    attributes: attributes.estadopedido
+                }
+            ]
+        },
+        {
+            model: DetallePedidoProductoModelo,
+            attributes: attributes.detallepedidoproducto,
+            include: [
+                {
+                    model: ProductoModelo,
+                    attributes: attributes.producto,
+                },
+                {
+                    model: MenuPromocionModelo,
+                    attributes: attributes.menupromocion,
+                }
+            ]
+        },
+        {
+            model: ComensalModelo,
+            attributes: attributes.comensal,
+        },
+    ]
     }).then(project => {
       if (!project || project == 0) {
         locals['title'] = "No existe ningun registro valor : " + req.params[nombretable];
@@ -246,76 +154,38 @@ PedidoController.getToName = (req, res, next) => {
 PedidoController.getAll = (req, res) => {
   let locals = {};
   PedidoModelo.findAll({ 
-      attributes: attributes.pedido
-    // attributes: attributes.menupromocion,
-    // include: [
-    //     {
-    //         model: TipoMenuPromocionModelo,
-    //         attributes: attributes.tipomenupromocion,
-    //     },
-    //     {
-    //         model: MenuPromocionEstadoModelo,
-    //         where: { fechaYHoraBajaMenuPromocionEstado: null },
-    //         attributes: attributes.menupromocionestado,
-    //         include: [
-    //             {
-    //             model: EstadoMenuPromocionModelo,
-    //             attributes: attributes.estadomenupromocion
-    //             }
-    //         ]
-    //     },
-    //     {
-    //         model: PrecioMenuPromocionModelo,
-    //         where: { fechaYHoraHastaPrecioMenuPromocion: null },
-    //         attributes: attributes.preciomenupromocion,
-    //         include: [
-    //             {
-    //                 model: TipoMonedaModelo,
-    //                 attributes: attributes.tipomoneda
-    //             }
-    //         ],
-    //     },
-    //     {
-    //         model: DetalleMenuPromocionProductoModelo,
-    //         attributes: attributes.detallemenupromocionproducto,
-    //         include: [
-    //             {
-    //                 model: ProductoModelo,
-    //                 attributes: attributes.producto,
-    //                 include: [
-    //                     {
-    //                         model: RubroModelo,
-    //                         attributes: attributes.rubro,
-    //                     },
-    //                     {
-    //                         model: UnidadMedidaModelo,
-    //                         attributes: attributes.unidadmedida,
-    //                     },
-    //                     {
-    //                         model: ProductoEstadoModelo,
-    //                         attributes: attributes.productoestado,
-    //                         include: [
-    //                             {
-    //                                 model: EstadoProductoModelo,
-    //                                 attributes: attributes.estadoproducto
-    //                             }
-    //                         ]
-    //                     },
-    //                     {
-    //                         model: PrecioProductoModelo,
-    //                         attributes: attributes.precioproducto,
-    //                         include: [
-    //                             {
-    //                                 model: TipoMonedaModelo,
-    //                                 attributes: attributes.tipomoneda
-    //                             }
-    //                         ]
-    //                     }
-    //                 ]
-    //             }
-    //         ],
-    //     },
-    // ],
+    attributes: attributes.pedido,
+    include: [
+        {
+            model: PedidoEstadoModelo,
+            attributes: attributes.pedidoestado,
+            where: { fechaYHoraBajaPedidoEstado: null },
+            include: [
+                {
+                    model: EstadoPedidoModelo,
+                    attributes: attributes.estadopedido
+                }
+            ]
+        },
+        {
+            model: DetallePedidoProductoModelo,
+            attributes: attributes.detallepedidoproducto,
+            include: [
+                {
+                    model: ProductoModelo,
+                    attributes: attributes.producto,
+                },
+                {
+                    model: MenuPromocionModelo,
+                    attributes: attributes.menupromocion,
+                }
+            ]
+        },
+        {
+            model: ComensalModelo,
+            attributes: attributes.comensal,
+        },
+    ]
   }).then(response => {
     if (!response || response == 0) {
         locals['title'] = `No existen registros de ${legend}`
@@ -333,76 +203,38 @@ PedidoController.getOne = (req, res) => {
   let locals = {};
   PedidoModelo.findOne({
     where: { [idtable]: req.params[idtable] },
-    attributes: attributes.pedido
-    // attributes: attributes.menupromocion,
-    // include: [
-    //     {
-    //         model: TipoMenuPromocionModelo,
-    //         attributes: attributes.tipomenupromocion,
-    //     },
-    //     {
-    //         model: MenuPromocionEstadoModelo,
-    //         where: { fechaYHoraBajaMenuPromocionEstado: null },
-    //         attributes: attributes.menupromocionestado,
-    //         include: [
-    //             {
-    //             model: EstadoMenuPromocionModelo,
-    //             attributes: attributes.estadomenupromocion
-    //             }
-    //         ]
-    //     },
-    //     {
-    //         model: PrecioMenuPromocionModelo,
-    //         where: { fechaYHoraHastaPrecioMenuPromocion: null },
-    //         attributes: attributes.preciomenupromocion,
-    //         include: [
-    //             {
-    //                 model: TipoMonedaModelo,
-    //                 attributes: attributes.tipomoneda
-    //             }
-    //         ],
-    //     },
-    //     {
-    //         model: DetalleMenuPromocionProductoModelo,
-    //         attributes: attributes.detallemenupromocionproducto,
-    //         include: [
-    //             {
-    //                 model: ProductoModelo,
-    //                 attributes: attributes.producto,
-    //                 include: [
-    //                     {
-    //                         model: RubroModelo,
-    //                         attributes: attributes.rubro,
-    //                     },
-    //                     {
-    //                         model: UnidadMedidaModelo,
-    //                         attributes: attributes.unidadmedida,
-    //                     },
-    //                     {
-    //                         model: ProductoEstadoModelo,
-    //                         attributes: attributes.productoestado,
-    //                         include: [
-    //                             {
-    //                                 model: EstadoProductoModelo,
-    //                                 attributes: attributes.estadoproducto
-    //                             }
-    //                         ]
-    //                     },
-    //                     {
-    //                         model: PrecioProductoModelo,
-    //                         attributes: attributes.precioproducto,
-    //                         include: [
-    //                             {
-    //                                 model: TipoMonedaModelo,
-    //                                 attributes: attributes.tipomoneda
-    //                             }
-    //                         ]
-    //                     }
-    //                 ]
-    //             }
-    //         ],
-    //     },
-    // ],
+    attributes: attributes.pedido,
+    include: [
+        {
+            model: PedidoEstadoModelo,
+            attributes: attributes.pedidoestado,
+            where: { fechaYHoraBajaPedidoEstado: null },
+            include: [
+                {
+                    model: EstadoPedidoModelo,
+                    attributes: attributes.estadopedido
+                }
+            ]
+        },
+        {
+            model: DetallePedidoProductoModelo,
+            attributes: attributes.detallepedidoproducto,
+            include: [
+                {
+                    model: ProductoModelo,
+                    attributes: attributes.producto,
+                },
+                {
+                    model: MenuPromocionModelo,
+                    attributes: attributes.menupromocion,
+                }
+            ]
+        },
+        {
+            model: ComensalModelo,
+            attributes: attributes.comensal,
+        },
+    ]
   }).then(response => {
     if (!response || response == 0) {
         locals['title'] = `No existe el registro : ${req.params[idtable]}`,
@@ -419,7 +251,8 @@ PedidoController.getOne = (req, res) => {
 PedidoController.create = (req, res) => {
     let body = req.body;
     let locals = {};
-    EstadoMenuPromocionModelo.findOne({ where: {[idtable3]: 1 } }).then( responses => {
+    // if ( body['idReserva'])
+    EstadoPedidoModelo.findOne({ where: {[idtable3]: 1 } }).then( responses => {
       if ( !responses || responses == 0 ) {
         locals['title'] = `No existe instancia de ${legend3} con ${idtable3}.`;
         locals['tipo'] = 2;
@@ -487,75 +320,38 @@ PedidoController.actualizarDatos = (req, res) => {
     let body = req.body;
     PedidoModelo.findOne({
       where: { [idtable]: body[idtable] },
-      attributes: attributes.menupromocion,
-      include: [
-          {
-              model: TipoMenuPromocionModelo,
-              attributes: attributes.tipomenupromocion,
-          },
-          {
-              model: MenuPromocionEstadoModelo,
-              where: { fechaYHoraBajaMenuPromocionEstado: null },
-              attributes: attributes.menupromocionestado,
-              include: [
-                  {
-                  model: EstadoMenuPromocionModelo,
-                  attributes: attributes.estadomenupromocion
-                  }
-              ]
-          },
-          {
-              model: PrecioMenuPromocionModelo,
-              where: { fechaYHoraHastaPrecioMenuPromocion: null },
-              attributes: attributes.preciomenupromocion,
-              include: [
-                  {
-                      model: TipoMonedaModelo,
-                      attributes: attributes.tipomoneda
-                  }
-              ],
-          },
-          {
-              model: DetalleMenuPromocionProductoModelo,
-              attributes: attributes.detallemenupromocionproducto,
-              include: [
-                  {
-                      model: ProductoModelo,
-                      attributes: attributes.producto,
-                      include: [
-                          {
-                              model: RubroModelo,
-                              attributes: attributes.rubro,
-                          },
-                          {
-                              model: UnidadMedidaModelo,
-                              attributes: attributes.unidadmedida,
-                          },
-                          {
-                              model: ProductoEstadoModelo,
-                              attributes: attributes.productoestado,
-                              include: [
-                                  {
-                                      model: EstadoProductoModelo,
-                                      attributes: attributes.estadoproducto
-                                  }
-                              ]
-                          },
-                          {
-                              model: PrecioProductoModelo,
-                              attributes: attributes.precioproducto,
-                              include: [
-                                  {
-                                      model: TipoMonedaModelo,
-                                      attributes: attributes.tipomoneda
-                                  }
-                              ]
-                          }
-                      ]
-                  }
-              ],
-          },
-      ],
+      attributes: attributes.pedido,
+        include: [
+            {
+                model: PedidoEstadoModelo,
+                attributes: attributes.pedidoestado,
+                where: { fechaYHoraBajaPedidoEstado: null },
+                include: [
+                    {
+                        model: EstadoPedidoModelo,
+                        attributes: attributes.estadopedido
+                    }
+                ]
+            },
+            {
+                model: DetallePedidoProductoModelo,
+                attributes: attributes.detallepedidoproducto,
+                include: [
+                    {
+                        model: ProductoModelo,
+                        attributes: attributes.producto,
+                    },
+                    {
+                        model: MenuPromocionModelo,
+                        attributes: attributes.menupromocion,
+                    }
+                ]
+            },
+            {
+                model: ComensalModelo,
+                attributes: attributes.comensal,
+            },
+        ]
       }).then(response => {
         if (!response || response == 0) {
           locals['title'] = `No existe ${legend} con id ${body[idtable]}.`;
@@ -588,75 +384,38 @@ let body = req.body;
     PedidoModelo.findOne({
     where: {
     [idtable]: body[idtable] },
-    attributes: attributes.menupromocion,
+    attributes: attributes.pedido,
     include: [
         {
-            model: TipoMenuPromocionModelo,
-            attributes: attributes.tipomenupromocion,
-        },
-        {
-            model: MenuPromocionEstadoModelo,
-            where: { fechaYHoraBajaMenuPromocionEstado: null },
-            attributes: attributes.menupromocionestado,
+            model: PedidoEstadoModelo,
+            attributes: attributes.pedidoestado,
+            where: { fechaYHoraBajaPedidoEstado: null },
             include: [
                 {
-                model: EstadoMenuPromocionModelo,
-                attributes: attributes.estadomenupromocion
+                    model: EstadoPedidoModelo,
+                    attributes: attributes.estadopedido
                 }
             ]
         },
         {
-            model: PrecioMenuPromocionModelo,
-            where: { fechaYHoraHastaPrecioMenuPromocion: null },
-            attributes: attributes.preciomenupromocion,
-            include: [
-                {
-                    model: TipoMonedaModelo,
-                    attributes: attributes.tipomoneda
-                }
-            ],
-        },
-        {
-            model: DetalleMenuPromocionProductoModelo,
-            attributes: attributes.detallemenupromocionproducto,
+            model: DetallePedidoProductoModelo,
+            attributes: attributes.detallepedidoproducto,
             include: [
                 {
                     model: ProductoModelo,
                     attributes: attributes.producto,
-                    include: [
-                        {
-                            model: RubroModelo,
-                            attributes: attributes.rubro,
-                        },
-                        {
-                            model: UnidadMedidaModelo,
-                            attributes: attributes.unidadmedida,
-                        },
-                        {
-                            model: ProductoEstadoModelo,
-                            attributes: attributes.productoestado,
-                            include: [
-                                {
-                                    model: EstadoProductoModelo,
-                                    attributes: attributes.estadoproducto
-                                }
-                            ]
-                        },
-                        {
-                            model: PrecioProductoModelo,
-                            attributes: attributes.precioproducto,
-                            include: [
-                                {
-                                    model: TipoMonedaModelo,
-                                    attributes: attributes.tipomoneda
-                                }
-                            ]
-                        }
-                    ]
+                },
+                {
+                    model: MenuPromocionModelo,
+                    attributes: attributes.menupromocion,
                 }
-            ],
+            ]
         },
-    ],
+        {
+            model: ComensalModelo,
+            attributes: attributes.comensal,
+        },
+    ]
     }).then(response => {
     if (!response || response == 0) {
     locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
@@ -716,75 +475,38 @@ let body = req.body;
     PedidoModelo.findOne({
     where: {
     [idtable]: body[idtable] },
-    attributes: attributes.menupromocion,
+    attributes: attributes.pedido,
     include: [
         {
-            model: TipoMenuPromocionModelo,
-            attributes: attributes.tipomenupromocion,
-        },
-        {
-            model: MenuPromocionEstadoModelo,
-            where: { fechaYHoraBajaMenuPromocionEstado: null },
-            attributes: attributes.menupromocionestado,
+            model: PedidoEstadoModelo,
+            attributes: attributes.pedidoestado,
+            where: { fechaYHoraBajaPedidoEstado: null },
             include: [
                 {
-                model: EstadoMenuPromocionModelo,
-                attributes: attributes.estadomenupromocion
+                    model: EstadoPedidoModelo,
+                    attributes: attributes.estadopedido
                 }
             ]
         },
         {
-            model: PrecioMenuPromocionModelo,
-            where: { fechaYHoraHastaPrecioMenuPromocion: null },
-            attributes: attributes.preciomenupromocion,
-            include: [
-                {
-                    model: TipoMonedaModelo,
-                    attributes: attributes.tipomoneda
-                }
-            ],
-        },
-        {
-            model: DetalleMenuPromocionProductoModelo,
-            attributes: attributes.detallemenupromocionproducto,
+            model: DetallePedidoProductoModelo,
+            attributes: attributes.detallepedidoproducto,
             include: [
                 {
                     model: ProductoModelo,
                     attributes: attributes.producto,
-                    include: [
-                        {
-                            model: RubroModelo,
-                            attributes: attributes.rubro,
-                        },
-                        {
-                            model: UnidadMedidaModelo,
-                            attributes: attributes.unidadmedida,
-                        },
-                        {
-                            model: ProductoEstadoModelo,
-                            attributes: attributes.productoestado,
-                            include: [
-                                {
-                                    model: EstadoProductoModelo,
-                                    attributes: attributes.estadoproducto
-                                }
-                            ]
-                        },
-                        {
-                            model: PrecioProductoModelo,
-                            attributes: attributes.precioproducto,
-                            include: [
-                                {
-                                    model: TipoMonedaModelo,
-                                    attributes: attributes.tipomoneda
-                                }
-                            ]
-                        }
-                    ]
+                },
+                {
+                    model: MenuPromocionModelo,
+                    attributes: attributes.menupromocion,
                 }
-            ],
+            ]
         },
-    ],
+        {
+            model: ComensalModelo,
+            attributes: attributes.comensal,
+        },
+    ]
     }).then(response => {
     if (!response || response == 0) {
     locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
@@ -844,75 +566,38 @@ PedidoController.editarProductos = (req, res) => {
     PedidoModelo.findOne({
         where: {
         [idtable]: body[idtable] },
-        attributes: attributes.menupromocion,
-        include: [
-            {
-                model: TipoMenuPromocionModelo,
-                attributes: attributes.tipomenupromocion,
-            },
-            {
-                model: MenuPromocionEstadoModelo,
-                where: { fechaYHoraBajaMenuPromocionEstado: null },
-                attributes: attributes.menupromocionestado,
-                include: [
-                    {
-                    model: EstadoMenuPromocionModelo,
-                    attributes: attributes.estadomenupromocion
-                    }
-                ]
-            },
-            {
-                model: PrecioMenuPromocionModelo,
-                where: { fechaYHoraHastaPrecioMenuPromocion: null },
-                attributes: attributes.preciomenupromocion,
-                include: [
-                    {
-                        model: TipoMonedaModelo,
-                        attributes: attributes.tipomoneda
-                    }
-                ],
-            },
-            {
-                model: DetalleMenuPromocionProductoModelo,
-                attributes: attributes.detallemenupromocionproducto,
-                include: [
-                    {
-                        model: ProductoModelo,
-                        attributes: attributes.producto,
-                        include: [
-                            {
-                                model: RubroModelo,
-                                attributes: attributes.rubro,
-                            },
-                            {
-                                model: UnidadMedidaModelo,
-                                attributes: attributes.unidadmedida,
-                            },
-                            {
-                                model: ProductoEstadoModelo,
-                                attributes: attributes.productoestado,
-                                include: [
-                                    {
-                                        model: EstadoProductoModelo,
-                                        attributes: attributes.estadoproducto
-                                    }
-                                ]
-                            },
-                            {
-                                model: PrecioProductoModelo,
-                                attributes: attributes.precioproducto,
-                                include: [
-                                    {
-                                        model: TipoMonedaModelo,
-                                        attributes: attributes.tipomoneda
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ],
-            },
-        ],
+        attributes: attributes.pedido,
+    include: [
+        {
+            model: PedidoEstadoModelo,
+            attributes: attributes.pedidoestado,
+            where: { fechaYHoraBajaPedidoEstado: null },
+            include: [
+                {
+                    model: EstadoPedidoModelo,
+                    attributes: attributes.estadopedido
+                }
+            ]
+        },
+        {
+            model: DetallePedidoProductoModelo,
+            attributes: attributes.detallepedidoproducto,
+            include: [
+                {
+                    model: ProductoModelo,
+                    attributes: attributes.producto,
+                },
+                {
+                    model: MenuPromocionModelo,
+                    attributes: attributes.menupromocion,
+                }
+            ]
+        },
+        {
+            model: ComensalModelo,
+            attributes: attributes.comensal,
+        },
+    ]
     }).then(response => {
         if(!response || response == 0) {
             locals['title'] = `No existe ${legend} con id ${idtable}.`;
