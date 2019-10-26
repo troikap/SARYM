@@ -19,3 +19,7 @@ EstadoMesa
 // medios
 Caja - CajaEstado - EstadoCaja - Usuario
 Mesa - MesaEstado - EstadoMesa - Sector - Ubicacion
+Producto - ProductoEstado - EstadoProducto - PrecioProducto - TipoMoneda - Rubro - UnidadMedida
+MenuPromocion - MenuPromocionEstado - EstadoMenuPromocion - TipoMenuPromocion - DetalleMenuPromocionProducto 
+	- Producto - PrecioMenuPromocion - TipoMoneda
+Pedido - PedidoEstado - EstadoPedido - Comensal - DetallePedidoProducto - Producto/MenuPromocion - Reserva - Estadia
