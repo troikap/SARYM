@@ -87,7 +87,9 @@ router
     .post('/reserva', verificaToken, ReservaController.create)
     .put('/reserva/actualizarDatos', verificaToken, ReservaController.actualizarDatos)
     .put('/reserva/cambiarEstado', verificaToken, ReservaController.cambiarEstado)
-    .put('/reserva/cambiarMesa', verificaToken, ReservaController.cambiarPrecio)
+    .put('/reserva/editarComensal', verificaToken, ReservaController.editarComensal)
+    .put('/reserva/editarPedido', verificaToken, ReservaController.editarPedido)
+    .put('/reserva/editarMesa', verificaToken, ReservaController.editarMesa)
 
 // menupromocion
     .get('/menupromocion', verificaToken, MenuPromocionController.getAll)

@@ -460,21 +460,17 @@ ReservaController.cambiarEstado = (req, res) => {
   });
 };
 
-ReservaController.cambiarPrecio = (req, res) => {
+ReservaController.editarMesa = (req, res) => {
   let locals = {};
   let body = req.body;
   ReservaModelo.findOne({
     where: {
       [idtable]: body[idtable] },
-      attributes: attributes.producto,
+      attributes: attributes.reserva,
       include: [
         {
-        model: RubroModelo,
-        attributes: attributes.rubro,
-        },
-        {
-        model: UnidadMedidaModelo,
-        attributes: attributes.unidadmedida,
+        model: UsuarioModelo,
+        attributes: attributes.usuario,
         },
         {
           model: ReservaEstadoModelo,
@@ -483,20 +479,27 @@ ReservaController.cambiarPrecio = (req, res) => {
           include: [
               {
               model: EstadoReservaModelo,
-              attributes: attributes.estadoproducto
+              attributes: attributes.estadoreserva
               }
           ]
         },
         {
           model: DetalleReservaMesaModelo,
-          where: { fechaYHoraHastaPrecioProducto: null },
-          attributes: attributes.precioproducto,
+          attributes: attributes.precioreserva,
           include: [
             {
                 model: MesaModelo,
-                attributes: attributes.tipomoneda
+                attributes: attributes.mesa
             }
           ]
+        },
+        {
+          model: PedidoModelo,
+          attributes: attributes.pedido,
+        },
+        {
+          model: ComensalModelo,
+          attributes: attributes.comensal,
         },
       ],
     }).then(response => {
@@ -552,4 +555,198 @@ ReservaController.cambiarPrecio = (req, res) => {
   });
 };
 
+ReservaController.editarPedido = (req, res) => {
+    let locals = {};
+    let body = req.body;
+    ReservaModelo.findOne({
+      where: {
+        [idtable]: body[idtable] },
+        attributes: attributes.reserva,
+        include: [
+          {
+          model: UsuarioModelo,
+          attributes: attributes.usuario,
+          },
+          {
+            model: ReservaEstadoModelo,
+            where: { fechaYHoraBajaReservaEstado: null },
+            attributes: attributes.reservaestado,
+            include: [
+                {
+                model: EstadoReservaModelo,
+                attributes: attributes.estadoreserva
+                }
+            ]
+          },
+          {
+            model: DetalleReservaMesaModelo,
+            attributes: attributes.precioreserva,
+            include: [
+              {
+                  model: MesaModelo,
+                  attributes: attributes.mesa
+              }
+            ]
+          },
+          {
+            model: PedidoModelo,
+            attributes: attributes.pedido,
+          },
+          {
+            model: ComensalModelo,
+            attributes: attributes.comensal,
+          },
+        ],
+      }).then(response => {
+      if (!response || response == 0) {
+        locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      } else {
+        if (!body[idtable4]) {
+          locals['title'] = `No se envia ${legend4}.`;
+          locals['tipo'] = 2;
+          res.json(locals);
+        } else {
+          MesaModelo.findOne({where: { [idtable4]: body[idtable4] }}).then((tipomoneda) =>{
+            if(!tipomoneda || tipomoneda == 0) {
+              locals['title'] = `No existe ${legend4} con id ${idtable4}.`;
+              locals['tipo'] = 2;
+              res.json(locals);
+            } else {
+              let pushPrecioProducto = {};
+              pushPrecioProducto['fechaYHoraHastaPrecioProducto'] = new Date();
+                DetalleReservaMesaModelo.update(pushPrecioProducto , {
+                  where: { [idtable]: body[idtable], fechaYHoraHastaPrecioProducto: null }
+              }).then((respons) => {
+                if(!respons || respons == 0) {
+                  locals['title'] = `No existe ${legend2} habilitado.`;
+                  locals['tipo'] = 2;
+                  res.json(locals);
+                } else {
+                  body['fechaYHoraDesdePrecioProducto'] = new Date();
+                  DetalleReservaMesaModelo.create(body).then((resp) => {
+                    if (!resp || resp == 0 ){
+                      locals['title'] = `No se pudo crear ${legend2}.`;
+                      locals['tipo'] = 2;
+                    } else {
+                      locals['title'] = `Se creo correctamente ${legend2}.`;
+                      locals['tipo'] = 1;
+                    }
+                    res.json(locals);
+                  }).catch((error) => {
+                    locals = tratarError.tratarError(error, legend);
+                    res.json(locals);
+                  });
+                }
+              }).catch((error) => {
+                locals = tratarError.tratarError(error, legend);
+                res.json(locals);
+              });
+            }
+          })
+        }
+      }
+    });
+  };
+
+  ReservaController.editarComensal = (req, res) => {
+    let locals = {};
+    let body = req.body;
+    ReservaModelo.findOne({
+      where: {
+        [idtable]: body[idtable] },
+        attributes: attributes.reserva,
+        include: [
+          {
+          model: UsuarioModelo,
+          attributes: attributes.usuario,
+          },
+          {
+            model: ReservaEstadoModelo,
+            where: { fechaYHoraBajaReservaEstado: null },
+            attributes: attributes.reservaestado,
+            include: [
+                {
+                model: EstadoReservaModelo,
+                attributes: attributes.estadoreserva
+                }
+            ]
+          },
+          {
+            model: DetalleReservaMesaModelo,
+            attributes: attributes.precioreserva,
+            include: [
+              {
+                  model: MesaModelo,
+                  attributes: attributes.mesa
+              }
+            ]
+          },
+          {
+            model: PedidoModelo,
+            attributes: attributes.pedido,
+          },
+          {
+            model: ComensalModelo,
+            attributes: attributes.comensal,
+          },
+        ],
+      }).then(response => {
+      if (!response || response == 0) {
+        locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      } else {
+        if (!body[idtable4]) {
+          locals['title'] = `No se envia ${legend4}.`;
+          locals['tipo'] = 2;
+          res.json(locals);
+        } else {
+          MesaModelo.findOne({where: { [idtable4]: body[idtable4] }}).then((tipomoneda) =>{
+            if(!tipomoneda || tipomoneda == 0) {
+              locals['title'] = `No existe ${legend4} con id ${idtable4}.`;
+              locals['tipo'] = 2;
+              res.json(locals);
+            } else {
+              let pushPrecioProducto = {};
+              pushPrecioProducto['fechaYHoraHastaPrecioProducto'] = new Date();
+                DetalleReservaMesaModelo.update(pushPrecioProducto , {
+                  where: { [idtable]: body[idtable], fechaYHoraHastaPrecioProducto: null }
+              }).then((respons) => {
+                if(!respons || respons == 0) {
+                  locals['title'] = `No existe ${legend2} habilitado.`;
+                  locals['tipo'] = 2;
+                  res.json(locals);
+                } else {
+                  body['fechaYHoraDesdePrecioProducto'] = new Date();
+                  DetalleReservaMesaModelo.create(body).then((resp) => {
+                    if (!resp || resp == 0 ){
+                      locals['title'] = `No se pudo crear ${legend2}.`;
+                      locals['tipo'] = 2;
+                    } else {
+                      locals['title'] = `Se creo correctamente ${legend2}.`;
+                      locals['tipo'] = 1;
+                    }
+                    res.json(locals);
+                  }).catch((error) => {
+                    locals = tratarError.tratarError(error, legend);
+                    res.json(locals);
+                  });
+                }
+              }).catch((error) => {
+                locals = tratarError.tratarError(error, legend);
+                res.json(locals);
+              });
+            }
+          })
+        }
+      }
+    });
+  };
+
 module.exports = ReservaController;
+
+// "detallereservamesas": [],
+// "pedidos": [],
+// "comensals": [
