@@ -232,6 +232,33 @@ estadopedido = [
     "nombreEstadoPedido"
 ]
 
+reserva = [
+    "idReserva",
+    "codReserva",
+    "cantPersonas",
+    "fechaReserva",
+    "horaEntradaReserva",
+    "horaSalidaReserva",
+    "tokenReserva",
+]
+
+reservaestado = [
+    "idReservaEstado",
+    "descripcionReservaEstado",
+    "fechaYHoraAltaReservaEstado",
+    "fechaYHoraBajaReservaEstado",
+]
+
+estadoreserva = [
+    "idEstadoReserva",
+    "codEstadoReserva",
+    "nombreEstadoReserva",
+]
+
+detallereservamesa = [
+    "idDetalleReservaMesa",
+]
+
 module.exports = {
     usuario, 
     usuarioestado, 
@@ -265,5 +292,9 @@ module.exports = {
     detallepedidoproducto,
     comensal,
     pedidoestado,
-    estadopedido
+    estadopedido,
+    reserva,
+    reservaestado,
+    estadoreserva,
+    detallereservamesa,
 }

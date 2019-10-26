@@ -6,18 +6,17 @@ const tratarError = require("../../middlewares/handleError"),
   ReservaController = () => { },
   attributes = require('../attributes'),
   UsuarioModelo = require("../usuario/usuario-model"),
-  UnidadMedidaModelo = require("../unidadmedida/unidadmedida-model"),
   ReservaEstadoModelo = require("../reservaestado/reservaestado-model"),
   EstadoReservaModelo = require("../estadoreserva/estadoreserva-model"),
   DetalleReservaMesaModelo = require("../detallereservamesa/detallereservamesa-model"),
   MesaModelo = require("../mesa/mesa-model"),
   
-  legend = "Producto",
+  legend = "Reserva",
   legend2 = "ReservaEstado",
   legend3 = "EstadoReserva",
   legend4 = "Mesa",
   legend5 = "Usuario",
-  legend6 = "UnidadMedida",
+//   legend6 = "UnidadMedida",
   legend7 = "DetalleReservaMesa",
 
   idtable = `id${legend}`,
@@ -25,7 +24,7 @@ const tratarError = require("../../middlewares/handleError"),
   idtable3 = `id${legend3}`,
   idtable4 = `id${legend4}`,
   idtable5 = `id${legend5}`,
-  idtable6 = `id${legend6}`,
+//   idtable6 = `id${legend6}`,
   nombretable = `cod${legend}`,
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
@@ -35,52 +34,44 @@ ReservaController.getToAllAttributes = (req, res, next) => {
   ReservaModelo.findAll({
     where: {
       [Op.or]: [
-        {codProducto: {[Op.substring]: req.params.anyAttribute}},
-        {idProducto: {[Op.substring]: req.params.anyAttribute}},
-        {nombreProducto: {[Op.substring]: req.params.anyAttribute}},
-        Sequelize.literal("`rubro`.`nombreRubro` LIKE '%" + req.params.anyAttribute + "%'"),
-        Sequelize.literal("`unidadmedida`.`nombreUnidadMedida` LIKE '%" + req.params.anyAttribute + "%'"),
-        Sequelize.literal("`unidadmedida`.`nombreUnidadMedida` LIKE '%" + req.params.anyAttribute + "%'"),
-        Sequelize.literal("`productoestados->estadoproducto`.`nombreEstadoProducto` LIKE '%" + req.params.anyAttribute + "%'"),
-        Sequelize.literal("`precioproductos->tipomoneda`.`nombreTipoMoneda` LIKE '%" + req.params.anyAttribute + "%'"),
+        {codReserva: {[Op.eq]: req.params.anyAttribute}},
+        {idReserva: {[Op.eq]: req.params.anyAttribute}},
+        Sequelize.literal("`usuario`.`nombreUsuario` LIKE '%" + req.params.anyAttribute + "%'"),
+        Sequelize.literal("`usuario`.`apellidoUsuario` LIKE '%" + req.params.anyAttribute + "%'"),
+        Sequelize.literal("`reservaestados->estadoreserva`.`nombreEstadoReserva` LIKE '%" + req.params.anyAttribute + "%'"),
       ]
     },
-    attributes: attributes.producto,
+    attributes: attributes.reserva,
     include: [
       {
-      model: RubroModelo,
-      attributes: attributes.rubro,
-      },
-      {
-      model: UnidadMedidaModelo,
-      attributes: attributes.unidadmedida,
+      model: UsuarioModelo,
+      attributes: attributes.usuario,
       },
       {
         model: ReservaEstadoModelo,
-        where: { fechaYHoraBajaProductoEstado: null },
-        attributes: attributes.productoestado,
+        where: { fechaYHoraBajaReservaEstado: null },
+        attributes: attributes.reservaestado,
         include: [
             {
             model: EstadoReservaModelo,
-            attributes: attributes.estadoproducto
+            attributes: attributes.estadoreserva
             }
         ]
       },
       {
         model: DetalleReservaMesaModelo,
-        where: { fechaYHoraHastaPrecioProducto: null },
-        attributes: attributes.precioproducto,
+        attributes: attributes.precioreserva,
         include: [
           {
               model: MesaModelo,
-              attributes: attributes.tipomoneda
+              attributes: attributes.mesa
           }
         ]
       },
     ],
   }).then(project => {
     if (!project || project == 0) {
-      locals['title'] = `No existe registro con valor : ${req.params[nametable]}.`;
+      locals['title'] = `No existe registro con valor : ${req.params["anyAttribute"]}.`;
       locals['tipo'] = 2;
     } else {
       locals['title'] = `${legend}`;
@@ -95,35 +86,30 @@ ReservaController.getToName = (req, res, next) => {
   let locals = {};
   ReservaModelo.findAll({
     where: { [nombretable]: { [Op.substring]: req.params[nombretable] }},
-    attributes: attributes.producto,
+    attributes: attributes.reserva,
     include: [
       {
-      model: RubroModelo,
-      attributes: attributes.rubro,
-      },
-      {
-      model: UnidadMedidaModelo,
-      attributes: attributes.unidadmedida,
+      model: UsuarioModelo,
+      attributes: attributes.usuario,
       },
       {
         model: ReservaEstadoModelo,
-        where: { fechaYHoraBajaProductoEstado: null },
-        attributes: attributes.productoestado,
+        where: { fechaYHoraBajaReservaEstado: null },
+        attributes: attributes.reservaestado,
         include: [
             {
             model: EstadoReservaModelo,
-            attributes: attributes.estadoproducto
+            attributes: attributes.estadoreserva
             }
         ]
       },
       {
         model: DetalleReservaMesaModelo,
-        where: { fechaYHoraHastaPrecioProducto: null },
-        attributes: attributes.precioproducto,
+        attributes: attributes.precioreserva,
         include: [
           {
               model: MesaModelo,
-              attributes: attributes.tipomoneda
+              attributes: attributes.mesa
           }
         ]
       },
@@ -145,35 +131,30 @@ ReservaController.getToName = (req, res, next) => {
 ReservaController.getAll = (req, res) => {
   let locals = {};
   ReservaModelo.findAll({ 
-    attributes: attributes.producto,
+    attributes: attributes.reserva,
     include: [
       {
-      model: RubroModelo,
-      attributes: attributes.rubro,
-      },
-      {
-      model: UnidadMedidaModelo,
-      attributes: attributes.unidadmedida,
+      model: UsuarioModelo,
+      attributes: attributes.usuario,
       },
       {
         model: ReservaEstadoModelo,
-        where: { fechaYHoraBajaProductoEstado: null },
-        attributes: attributes.productoestado,
+        where: { fechaYHoraBajaReservaEstado: null },
+        attributes: attributes.reservaestado,
         include: [
             {
             model: EstadoReservaModelo,
-            attributes: attributes.estadoproducto
+            attributes: attributes.estadoreserva
             }
         ]
       },
       {
         model: DetalleReservaMesaModelo,
-        where: { fechaYHoraHastaPrecioProducto: null },
-        attributes: attributes.precioproducto,
+        attributes: attributes.precioreserva,
         include: [
           {
               model: MesaModelo,
-              attributes: attributes.tipomoneda
+              attributes: attributes.mesa
           }
         ]
       },
@@ -195,35 +176,30 @@ ReservaController.getOne = (req, res) => {
   let locals = {};
   ReservaModelo.findOne({
     where: { [idtable]: req.params[idtable] },
-    attributes: attributes.producto,
+    attributes: attributes.reserva,
     include: [
       {
-      model: RubroModelo,
-      attributes: attributes.rubro,
-      },
-      {
-      model: UnidadMedidaModelo,
-      attributes: attributes.unidadmedida,
+      model: UsuarioModelo,
+      attributes: attributes.usuario,
       },
       {
         model: ReservaEstadoModelo,
-        where: { fechaYHoraBajaProductoEstado: null },
-        attributes: attributes.productoestado,
+        where: { fechaYHoraBajaReservaEstado: null },
+        attributes: attributes.reservaestado,
         include: [
             {
             model: EstadoReservaModelo,
-            attributes: attributes.estadoproducto
+            attributes: attributes.estadoreserva
             }
         ]
       },
       {
         model: DetalleReservaMesaModelo,
-        where: { fechaYHoraHastaPrecioProducto: null },
-        attributes: attributes.precioproducto,
+        attributes: attributes.precioreserva,
         include: [
           {
               model: MesaModelo,
-              attributes: attributes.tipomoneda
+              attributes: attributes.mesa
           }
         ]
       },
@@ -395,7 +371,7 @@ ReservaController.cambiarEstado = (req, res) => {
         },
         {
           model: ReservaEstadoModelo,
-          where: { fechaYHoraBajaProductoEstado: null },
+          where: { fechaYHoraBajaReservaEstado: null },
           attributes: attributes.productoestado,
           include: [
               {
@@ -434,9 +410,9 @@ ReservaController.cambiarEstado = (req, res) => {
             res.json(locals);
           } else {
             let pushProductoEstado = {};
-            pushProductoEstado['fechaYHoraBajaProductoEstado'] = new Date();
+            pushProductoEstado['fechaYHoraBajaReservaEstado'] = new Date();
               ReservaEstadoModelo.update(pushProductoEstado , {
-                where: { [idtable]: body[idtable], fechaYHoraBajaProductoEstado: null }
+                where: { [idtable]: body[idtable], fechaYHoraBajaReservaEstado: null }
             }).then((respons) => {
               if(!respons || respons == 0) {
                 locals['title'] = `No existe ${legend2} habilitado.`;
@@ -487,8 +463,8 @@ ReservaController.cambiarPrecio = (req, res) => {
         },
         {
           model: ReservaEstadoModelo,
-          where: { fechaYHoraBajaProductoEstado: null },
-          attributes: attributes.productoestado,
+          where: { fechaYHoraBajaReservaEstado: null },
+          attributes: attributes.reservaestado,
           include: [
               {
               model: EstadoReservaModelo,

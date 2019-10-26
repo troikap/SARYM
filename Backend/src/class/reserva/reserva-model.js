@@ -5,6 +5,8 @@ const DetalleReservaMesaModelo = require("../detallereservamesa/detallereservame
 const ComensalModelo = require("../comensal/comensal-model");
 const PedidoModelo = require("../pedido/pedido-model");
 const ReservaEstadoModelo = require("../reservaestado/reservaestado-model");
+const UsuarioModelo = require("../usuario/usuario-model");
+
 var sequelize = require("../../database/connection");
 
 // DEFINICION DEL MODELO
@@ -54,5 +56,6 @@ ReservaModelo.hasMany(DetalleReservaMesaModelo, { foreignKey: "idReserva" });
 ReservaModelo.hasMany(ComensalModelo, { foreignKey: "idReserva" });
 ReservaModelo.hasMany(PedidoModelo, { foreignKey: "idReserva" });
 ReservaModelo.hasMany(ReservaEstadoModelo, { foreignKey: "idReserva" });
+ReservaModelo.belongsTo(UsuarioModelo, { foreignKey: "idUsuario" })
 
 module.exports = ReservaModelo;

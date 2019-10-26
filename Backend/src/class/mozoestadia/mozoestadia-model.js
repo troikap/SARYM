@@ -28,6 +28,6 @@ const MozoEstadiaModelo = sequelize.define('mozoestadia', {
   // options
 });
 
-MozoEstadiaModelo.hasMany(EstadiaModelo, { foreignKey: "idMozoEstadia" });
+// MozoEstadiaModelo.hasMany(EstadiaModelo, { foreignKey: "idMozoEstadia" });
 
 module.exports = MozoEstadiaModelo;
