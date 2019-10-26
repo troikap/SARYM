@@ -22,12 +22,12 @@ var UnidadMedidaController = require('../class/unidadmedida/unidadmedida-control
 var RubroController = require('../class/rubro/rubro-controller');
 var SectorController = require('../class/sector/sector-controller');
 var CajaController = require('../class/caja/caja-controller');
-// var UbicacionController = require('../class/ubicacion/ubicacion-controller');
 var TipoMovimientoCajaController = require('../class/tipomovimientocaja/tipomovimientocaja-controller');
 var MedioPagoController = require('../class/mediopago/mediopago-controller');
 var UploadController = require('../class/upload/upload-controller');
 var TipoMenuPromocionController = require('../class/tipomenupromocion/tipomenupromocion-controller');
 var PedidoController = require('../class/pedido/pedido-controller');
+var ReservaController = require('../class/reserva/reserva-controller');
 
 // estados
 var EstadoUsuarioController = require('../class/estadousuario/estadousuario-controller');
@@ -46,7 +46,6 @@ router
     .post('/existUser', UsuarioController.validateExistUser)
     .post('/subirImagen', UploadController.subirImagen)
     .get('/traerImagen/:tipo/:img?', UploadController.traerImagen)
-
 
 
 // usuario
@@ -79,6 +78,16 @@ router
     .put('/pedido/actualizarDatos', verificaToken, PedidoController.actualizarDatos)
     .put('/pedido/cambiarEstado', verificaToken, PedidoController.cambiarEstado)
     .put('/pedido/editarDetallePedidoProducto', verificaToken, PedidoController.editarDetallePedidoProducto)
+
+// reserva
+    .get('/reserva', verificaToken, ReservaController.getAll)
+    .get('/reserva/:idReserva', verificaToken, ReservaController.getOne)
+    .get('/reserva/name/:codReserva', verificaToken, ReservaController.getToName)
+    .get('/reserva/todo/:anyAttribute', verificaToken, ReservaController.getToAllAttributes)
+    .post('/reserva', verificaToken, ReservaController.create)
+    .put('/reserva/actualizarDatos', verificaToken, ReservaController.actualizarDatos)
+    .put('/reserva/cambiarEstado', verificaToken, ReservaController.cambiarEstado)
+    .put('/reserva/cambiarMesa', verificaToken, ReservaController.cambiarPrecio)
 
 // menupromocion
     .get('/menupromocion', verificaToken, MenuPromocionController.getAll)
