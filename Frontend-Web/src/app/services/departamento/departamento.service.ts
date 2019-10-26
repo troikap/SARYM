@@ -22,8 +22,9 @@ export class DepartamentoService {
     return this.http
       .get( (url + dir), {headers})
       .toPromise()
-      .then(response => {
-        return response['Departamento'] as Departamento[];
+      .then((response: any) => {
+        console.log("Servicio Departamentos:", response.data);
+        return response.data as Departamento[];
       })
       .catch(  );
   }

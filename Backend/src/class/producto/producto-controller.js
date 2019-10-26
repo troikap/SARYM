@@ -38,7 +38,6 @@ ProductoController.getToAllAttributes = (req, res, next) => {
         {nombreProducto: {[Op.substring]: req.params.anyAttribute}},
         Sequelize.literal("`rubro`.`nombreRubro` LIKE '%" + req.params.anyAttribute + "%'"),
         Sequelize.literal("`unidadmedida`.`nombreUnidadMedida` LIKE '%" + req.params.anyAttribute + "%'"),
-        Sequelize.literal("`unidadmedida`.`nombreUnidadMedida` LIKE '%" + req.params.anyAttribute + "%'"),
         Sequelize.literal("`productoestados->estadoproducto`.`nombreEstadoProducto` LIKE '%" + req.params.anyAttribute + "%'"),
         Sequelize.literal("`precioproductos->tipomoneda`.`nombreTipoMoneda` LIKE '%" + req.params.anyAttribute + "%'"),
       ]
@@ -78,7 +77,7 @@ ProductoController.getToAllAttributes = (req, res, next) => {
     ],
   }).then(project => {
     if (!project || project == 0) {
-      locals['title'] = `No existe registro con valor : ${req.params[nametable]}.`;
+      locals['title'] = `No existe registro con valor : ${req.params[anyAttribute]}.`;
       locals['tipo'] = 2;
     } else {
       locals['title'] = `${legend}`;

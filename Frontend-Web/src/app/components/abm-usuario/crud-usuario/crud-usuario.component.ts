@@ -429,6 +429,7 @@ export class CrudUsuarioComponent implements OnInit {
   traerDepartamentos() {
     this.departamnetoservicio.getDepartamentos()
       .then((res) => {
+        console.log("Departamentos:", res);
         this.departamentos = res;
       })
   }
