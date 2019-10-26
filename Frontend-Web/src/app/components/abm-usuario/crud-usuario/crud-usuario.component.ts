@@ -36,7 +36,7 @@ export class CrudUsuarioComponent implements OnInit {
   ) {
     this.form = new FormGroup({
       'idUsuario': new FormControl({value: '', disabled: true}),
-      'apellidoUsuario': new FormControl('', Validators.required),
+      'apellidoUsuario': new FormControl('',  [Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)]),
       'contrasenaUsuario': new FormControl(''),
       'contrasenaUsuarioRepeat': new FormControl(''),
       'cuitUsuario': new FormControl('', Validators.required),
