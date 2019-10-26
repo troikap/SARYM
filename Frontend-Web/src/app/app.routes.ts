@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { AbmUsuarioComponent } from './components/abm-usuario/search-usuario/abm-usuario.component';
@@ -34,9 +34,11 @@ import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.com
 import { UploadComponent } from './upload/upload.component';
 
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
+import { LoginGuardGuard } from './components/login-guard.guard';
 
 
-const routes: Routes = [
+
+const routes: Routes = [ 
     { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'usuario', component: AbmUsuarioComponent },
@@ -59,7 +61,7 @@ const routes: Routes = [
     { path: 'cerrarcaja', component: AbmCerrarCajaComponent },
     { path: 'abrircaja/:id/:accion', component: EditAbrirCajaComponent },
     { path: 'abrircaja', component: AbmAbrirCajaComponent },
-    { path: 'rubro', component: AbmRubroComponent },
+    { path: 'rubro', component: AbmRubroComponent, canActivate: [LoginGuardGuard]},
     { path: 'rubro_crud/:id/:accion', component: CrudRubroComponent },
     { path: 'producto', component: GestionarProductoComponent },
     { path: 'producto_consulta/:id', component: ConsultaGestionarProductoComponent },
@@ -70,8 +72,10 @@ const routes: Routes = [
     { path: 'menupromocion_agregarproducto/:id', component: AgregarProductoGestionarMenupromocionComponent },
     { path: 'reporte', component: GenerarReporteComponent },
     { path: 'upload/:id/:nombre/:path/:retorno', component: UploadComponent },
+    { path: 'upload', component: UploadComponent },
+    { path: '**', redirectTo: 'login'},
     { path: '',  redirectTo: '/login', pathMatch: 'full' },
-    { path: '**', redirectTo: 'home'}
+ 
 ];
 
 @NgModule({

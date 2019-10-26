@@ -5,6 +5,7 @@ import { Usuario } from '../../model/usuario/usuario.model';
 
 import { map } from 'rxjs/operators';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,12 +15,25 @@ export class UsuarioService {
    dir = '/usuario';
    dir2 = '/cuitUsuario';
    dir3 = '/todo';
+   tokenEstaLogueado: string;
 
    tokenEnviroment = environment.token;
 
   constructor(
     public http: HttpClient
   ) { }
+
+
+  estaLogueado () {
+    if (localStorage.getItem('token') != null ) {
+      console.log("HAY TOKEN");
+      return true;
+    } else {
+      console.log("NO HAY TOKEN");
+      return false;
+    }
+  }
+
 
   loguear( cuit: number, pass: string ): Promise<any> {
     let value = { cuitUsuario: cuit, contrasenaUsuario: pass}

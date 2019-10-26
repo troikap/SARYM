@@ -48,6 +48,7 @@ import { ReporteTopPromocionComponent } from './components/generar-reporte/repor
 import { UploadService } from './services/upload/upload.service';
 import { UploadComponent } from './upload/upload.component';
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
+import { LoginGuardGuard } from './components/login-guard.guard';
 
 @NgModule({
   declarations: [
@@ -98,9 +99,10 @@ import { AgregarProductoGestionarMenupromocionComponent } from './components/ges
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    ChartsModule
+    ChartsModule,
+
   ],
-  providers: [UploadService],
+  providers: [UploadService, LoginGuardGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
