@@ -10,6 +10,8 @@ const tratarError = require("../../middlewares/handleError"),
   EstadoReservaModelo = require("../estadoreserva/estadoreserva-model"),
   DetalleReservaMesaModelo = require("../detallereservamesa/detallereservamesa-model"),
   MesaModelo = require("../mesa/mesa-model"),
+  PedidoModelo = require("../pedido/pedido-model"),
+  ComensalModelo = require("../comensal/comensal-model"),
   
   legend = "Reserva",
   legend2 = "ReservaEstado",
@@ -68,6 +70,14 @@ ReservaController.getToAllAttributes = (req, res, next) => {
           }
         ]
       },
+      {
+        model: PedidoModelo,
+        attributes: attributes.pedido,
+      },
+      {
+        model: ComensalModelo,
+        attributes: attributes.comensal,
+      },
     ],
   }).then(project => {
     if (!project || project == 0) {
@@ -112,6 +122,14 @@ ReservaController.getToName = (req, res, next) => {
               attributes: attributes.mesa
           }
         ]
+      },
+      {
+        model: PedidoModelo,
+        attributes: attributes.pedido,
+      },
+      {
+        model: ComensalModelo,
+        attributes: attributes.comensal,
       },
     ],
   }).then(project => {
@@ -158,6 +176,14 @@ ReservaController.getAll = (req, res) => {
           }
         ]
       },
+      {
+        model: PedidoModelo,
+        attributes: attributes.pedido,
+      },
+      {
+        model: ComensalModelo,
+        attributes: attributes.comensal,
+      },
     ],
   }).then(projects => {
     if (!projects || projects == 0) {
@@ -203,6 +229,14 @@ ReservaController.getOne = (req, res) => {
           }
         ]
       },
+      {
+        model: PedidoModelo,
+        attributes: attributes.pedido,
+      },
+      {
+        model: ComensalModelo,
+        attributes: attributes.comensal,
+      },
     ],
   }).then(project => {
     if (!project || project == 0) {
@@ -226,65 +260,35 @@ ReservaController.create = (req, res) => {
       locals['tipo'] = 2;
       res.json(locals);
     } else {
-      MesaModelo.findOne({ where: {[idtable4]: body[idtable4]} }).then( tipomoneda => {
-        if ( !tipomoneda || tipomoneda == 0 ) {
-          locals['title'] = `No existe instancia de ${legend4} con ${idtable4}.`;
+      UsuarioModelo.findOne({ where: {[idtable5]: body[idtable5]} }).then( usuario => {
+        if ( !usuario || usuario == 0 ) {
+          locals['title'] = `No existe instancia de ${legend5} con ${idtable5}.`;
           locals['tipo'] = 2;
           res.json(locals);
         } else {
-          RubroModelo.findOne({ where: {[idtable5]: body[idtable5]} }).then( rubro => {
-            if ( !rubro || rubro == 0 ) {
-              locals['title'] = `No existe instancia de ${legend5} con ${idtable5}.`;
-              locals['tipo'] = 2;
-              res.json(locals);
-            } else {
-              UnidadMedidaModelo.findOne({ where: {[idtable6]: body[idtable6]} }).then( unidadmedida => {
-                if ( !unidadmedida || unidadmedida == 0 ) {
-                  locals['title'] = `No existe instancia de ${legend6} con ${idtable6}.`;
-                  locals['tipo'] = 2;
-                  res.json(locals);
-                } else {
-                  ReservaModelo.create(body).then(result => {
-                    locals['title'] = `${legend} creada.`;
-                    locals['data'] = result;
-                    locals['id'] = result[idtable];
+            ReservaModelo.create(body).then(result => {
+            locals['title'] = `${legend} creada.`;
+            locals['data'] = result;
+            locals['id'] = result[idtable];
+            locals['tipo'] = 1;
+            let pushReservaEstado = {};
+            pushReservaEstado['descripcionReservaEstado'] = body['descripcionReservaEstado'] || "Reciente.";
+            pushReservaEstado[idtable] = result[idtable];
+            pushReservaEstado['fechaYHoraAltaReservaEstado'] = new Date();
+            pushReservaEstado[idtable3] = 1;
+                ReservaEstadoModelo.create(pushReservaEstado).then( response => {
+                    locals['title'] = `${legend} creado. ${legend2} creado.`;
+                    locals['data'] = response;
                     locals['tipo'] = 1;
-                    let pushProductoEstado = {};
-                    pushProductoEstado['descripcionProductoEstado'] = body['descripcionProductoEstado'] || "Reciente.";
-                    pushProductoEstado[idtable] = result[idtable];
-                    pushProductoEstado['fechaYHoraAltaProductoEstado'] = new Date();
-                    pushProductoEstado[idtable3] = 1;
-                    ReservaEstadoModelo.create(pushProductoEstado).then( response => {
-                      locals['title'] = `${legend} creado. ${legend2} creado.`;
-                      locals['data'] = response;
-                      locals['tipo'] = 1;
-                      let pushPrecioProducto = {};
-                      pushPrecioProducto['importePrecioProducto'] = body['importePrecioProducto'];
-                      pushPrecioProducto[idtable] = result[idtable];
-                      pushPrecioProducto['fechaYHoraDesdePrecioProducto'] = body['fechaYHoraDesdePrecioProducto'] || new Date();
-                      pushPrecioProducto['fechaYHoraHastaPrecioProducto'] = body['fechaYHoraHastaPrecioProducto'] || null;
-                      pushPrecioProducto[idtable4] = body[idtable4];
-                      DetalleReservaMesaModelo.create(pushPrecioProducto).then( resp => {
-                        locals['title'] = `${legend} creado. ${legend7} creado.`;
-                        locals['data'] = resp;
-                        locals['tipo'] = 1;
-                        res.json(locals);
-                      }).catch((error) => {
-                        locals = tratarError.tratarError(error, legend);
-                        res.json(locals);
-                      });
-                    }).catch((error) => {
-                      locals = tratarError.tratarError(error, legend);
-                      res.json(locals);
-                    });
-                  }).catch((error) => {
+                    res.json(locals);
+                }).catch((error) => {
                     locals = tratarError.tratarError(error, legend);
                     res.json(locals);
-                  });
-                }
-              });
-            }
-          });
+                });
+            }).catch((error) => {
+                locals = tratarError.tratarError(error, legend);
+                res.json(locals);
+            });
         }
       })
     }

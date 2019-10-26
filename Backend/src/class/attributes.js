@@ -64,6 +64,7 @@ caja = [
 ]
 
 cajaestado = [
+    "idCajaEstado",
     'descripcionCajaEstado',
     'montoAperturaCajaEstado',
     'montoCierreCajaEstado',

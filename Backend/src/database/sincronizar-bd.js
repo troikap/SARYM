@@ -54,6 +54,27 @@ require('../class/usuarioestado/usuarioestado-model');
 console.log("Se esta ejecutando sincronizar")
 
 sequelize.sync({ force: false }); // force = false  crea nuevos modelos/tablas dejando las creadas intactas
+// let fecha = new Date();
+// console.log("DATE" ,new Date())
+// console.log("DATE " , Date.now())
+// console.log("DATE " , Date.parse())
+// console.log("DATE " ,new Date(1995,11,17))
+// console.log("DATE " , fecha.getDate())
+// console.log("DATE " , fecha.getDay())
+// console.log("DATE " , fecha.getFullYear())
+// console.log("DATE " , fecha.getMinutes())
+// console.log("DATE " , fecha.getMonth())
+// getMinutes
+// getMonth
+// setDate
+// setFullYear
+// setHours
+// setMilliseconds
+// setMonth
+// setMinutes
+// setSeconds
+// setTime
+// toTimeString
 
 // module.exports = app;
 

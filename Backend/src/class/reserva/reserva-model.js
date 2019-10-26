@@ -33,15 +33,15 @@ const ReservaModelo = sequelize.define(
             allowNull: false
         },
         fechaReserva: {
-            type: Sequelize.DATE,
+            type: Sequelize.DATEONLY,
             allowNull: false
         },
         horaEntradaReserva: {
-            type: Sequelize.DATE,
+            type: Sequelize.TIME,
             allowNull: false
         },
         horaSalidaReserva: {
-            type: Sequelize.DATE
+            type: Sequelize.TIME
         },
         tokenReserva: {
             type: Sequelize.STRING,
