@@ -300,55 +300,57 @@ ReservaController.actualizarDatos = (req, res) => {
   let body = req.body;
   ReservaModelo.findOne({
     where: { [idtable]: body[idtable] },
-      attributes: attributes.producto,
-      include: [
-        {
-        model: RubroModelo,
-        attributes: attributes.rubro,
-        },
-        {
-        model: UnidadMedidaModelo,
-        attributes: attributes.unidadmedida,
-        },
-        {
-          model: ReservaEstadoModelo,
-          attributes: attributes.productoestado,
-          include: [
-              {
-              model: EstadoReservaModelo,
-              attributes: attributes.estadoproducto
-              }
-          ]
-        },
-        {
-          model: DetalleReservaMesaModelo,
-          attributes: attributes.precioproducto,
-          include: [
+    attributes: attributes.reserva,
+    include: [
+      {
+      model: UsuarioModelo,
+      attributes: attributes.usuario,
+      },
+      {
+        model: ReservaEstadoModelo,
+        where: { fechaYHoraBajaReservaEstado: null },
+        attributes: attributes.reservaestado,
+        include: [
             {
-                model: MesaModelo,
-                attributes: attributes.tipomoneda
+            model: EstadoReservaModelo,
+            attributes: attributes.estadoreserva
             }
-          ]
-        },
-      ],
+        ]
+      },
+      {
+        model: DetalleReservaMesaModelo,
+        attributes: attributes.precioreserva,
+        include: [
+          {
+              model: MesaModelo,
+              attributes: attributes.mesa
+          }
+        ]
+      },
+      {
+        model: PedidoModelo,
+        attributes: attributes.pedido,
+      },
+      {
+        model: ComensalModelo,
+        attributes: attributes.comensal,
+      },
+    ],
     }).then(response => {
       if (!response || response == 0) {
         locals['title'] = `No existe ${legend} con id ${body[idtable]}.`;
         locals['tipo'] = 2;
         res.json(locals);
       } else {
-      ReservaModelo.update(body, {
-          where: { [idtable]: body[idtable]}
-      }).then(result => {
+      ReservaModelo.update(body, {where: { [idtable]: body[idtable]}}).then(result => {
         if (!result || result == 0) {
           locals['title'] = `No se Actualizo ${legend} con id ${body[idtable]}.`;
           locals['tipo'] = 2;
-          res.json(locals);
         } else {
           locals['title'] = `Se Actualizo ${legend} con id ${body[idtable]}.`;
           locals['tipo'] = 1;
-          res.json(locals);
         }
+        res.json(locals);
       }).catch((error) => {
         locals = tratarError.tratarError(error, legend);
         res.json(locals);
@@ -363,37 +365,40 @@ ReservaController.cambiarEstado = (req, res) => {
   ReservaModelo.findOne({
     where: {
       [idtable]: body[idtable] },
-      attributes: attributes.producto,
+      attributes: attributes.reserva,
       include: [
         {
-        model: RubroModelo,
-        attributes: attributes.rubro,
-        },
-        {
-        model: UnidadMedidaModelo,
-        attributes: attributes.unidadmedida,
+        model: UsuarioModelo,
+        attributes: attributes.usuario,
         },
         {
           model: ReservaEstadoModelo,
           where: { fechaYHoraBajaReservaEstado: null },
-          attributes: attributes.productoestado,
+          attributes: attributes.reservaestado,
           include: [
               {
               model: EstadoReservaModelo,
-              attributes: attributes.estadoproducto
+              attributes: attributes.estadoreserva
               }
           ]
         },
         {
           model: DetalleReservaMesaModelo,
-          where: { fechaYHoraHastaPrecioProducto: null },
-          attributes: attributes.precioproducto,
+          attributes: attributes.precioreserva,
           include: [
             {
                 model: MesaModelo,
-                attributes: attributes.tipomoneda
+                attributes: attributes.mesa
             }
           ]
+        },
+        {
+          model: PedidoModelo,
+          attributes: attributes.pedido,
+        },
+        {
+          model: ComensalModelo,
+          attributes: attributes.comensal,
         },
       ],
     }).then(response => {
@@ -407,15 +412,16 @@ ReservaController.cambiarEstado = (req, res) => {
         locals['tipo'] = 2;
         res.json(locals);
       } else {
-        EstadoReservaModelo.findOne({where: { [idtable3]: body[idtable3] }}).then((estadoproducto) =>{
-          if(!estadoproducto || estadoproducto == 0) {
+        if (response.dataValues.reservaestados[0].dataValues.estadoreserva[idtable3] != body[idtable3]) {
+        EstadoReservaModelo.findOne({where: { [idtable3]: body[idtable3] }}).then((estadoreserva) =>{
+          if(!estadoreserva || estadoreserva == 0) {
             locals['title'] = `No existe ${legend3} con id ${idtable3}.`;
             locals['tipo'] = 2;
             res.json(locals);
           } else {
-            let pushProductoEstado = {};
-            pushProductoEstado['fechaYHoraBajaReservaEstado'] = new Date();
-              ReservaEstadoModelo.update(pushProductoEstado , {
+            let pushReservaEstado = {};
+            pushReservaEstado['fechaYHoraBajaReservaEstado'] = new Date();
+              ReservaEstadoModelo.update(pushReservaEstado , {
                 where: { [idtable]: body[idtable], fechaYHoraBajaReservaEstado: null }
             }).then((respons) => {
               if(!respons || respons == 0) {
@@ -423,13 +429,13 @@ ReservaController.cambiarEstado = (req, res) => {
                 locals['tipo'] = 2;
                 res.json(locals);
               } else {
-                body['fechaYHoraAltaProductoEstado'] = new Date();
+                body['fechaYHoraAltaReservaEstado'] = new Date();
                 ReservaEstadoModelo.create(body).then((resp) => {
                   if (!resp || resp == 0 ){
                     locals['title'] = `No se pudo crear ${legend2}.`;
                     locals['tipo'] = 2;
                   } else {
-                    locals['title'] = `Se creo correctamente ${legend2}.`;
+                    locals['title'] = `Se realizo correctamente el cambio de Estado.`;
                     locals['tipo'] = 1;
                   }
                   res.json(locals);
@@ -444,6 +450,11 @@ ReservaController.cambiarEstado = (req, res) => {
             });
           }
         })
+        } else {
+            locals['title'] = `${legend} ya se encuentra en ese Estado.`;
+            locals['tipo'] = 2;
+            res.json(locals);
+        }
       }
     }
   });
