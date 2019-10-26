@@ -1,44 +1,36 @@
-<h2 class="titulo">Abrir Caja</h2>
 <hr>
-<div class="container">
-    <div class="form-section">
-        <form [formGroup]="form" (ngSubmit)="guardar()">
-            <div class="form-group">
-                <label for="idCaja" class="col col-form-label">Id</label>
-                <input type="text" id="idCaja" placeholder="Identificador" formControlName="idCaja" class="form-control">
-            </div>
-            <div class="form-group">
-                    <label for="nroCaja" class="col col-form-label">Numero de Caja</label>
-                    <input type="text" id="nroCaja" placeholder="Identificador" formControlName="nroCaja" class="form-control" disabled>
-                </div>
-            <div class="form-group row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="descripcionCajaEstado" class="col col-form-label">Descripcion del Cambio</label>
-                        <input type="text" class="form-control" id="descripcionCajaEstado" placeholder="Ingrese Respuesta" formControlName="descripcionCajaEstado">
-                        <p class="input-error-msg" *ngIf="form.controls.descripcionCajaEstado.errors?.required && form.controls.descripcionCajaEstado.touched">Campo Obligatorio.</p>
-                    </div>
-                </div>                
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="montoAperturaCajaEstado" class="col col-form-label">Monto de Apertura de Caja</label>
-                        <input type="number" class="form-control" id="montoAperturaCajaEstado" placeholder="Ingrese Respuesta" formControlName="montoAperturaCajaEstado">
-                        <p class="input-error-msg" *ngIf="form.controls.montoAperturaCajaEstado.errors?.required && form.controls.montoAperturaCajaEstado.touched">Campo Obligatorio.</p>
-                    </div>
-                </div>                
-            </div>                 
-                           
-            <hr>
-            <div *ngIf="accionGet != 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
-            </div>
-            <div *ngIf="accionGet == 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
-            </div>
-        </form>
-    </div>
-</div>
-<hr>
-<button onclick="history.back()" class="btn btn-primary">Cancelar</button>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Fecha Y Hora del Movimiento</th>
+            <th scope="col">Monto del Movimiento</th>
+            <th scope="col">Descripcion del Movimiento</th> 
+            <th scope="col">Tipo de Moviento</th>
+            <th scope="col">Usuario que lo Realizo</th>            
+                 
+        </tr>
+    </thead>
+    <tbody  *ngFor="let lista of listaMovimientoCaja">
+            <tr>                     
+                    <th scope="row">{{lista.idMovimientoCaja}}</th>
+                    <td>{{lista.fechaYHoraMovimientoCaja | date: 'dd/MM/yyyy hh:mm:ss' }}</td>            
+                    <td>{{lista.montoMovimientoCaja}}</td>
+                    <td>{{lista.descripcionMovimientoCaja}}</td> 
+                    <td>{{lista.tipomovimientocaja.nombreTipoMovimientoCaja}}</td>
+                    <td>{{lista.usuario.nombreUsuario}}{{" "}}{{lista.usuario.apellidoUsuario}}</td>            
+            </tr>
+    </tbody>
+</table>
+
+<table class="table">
+
+    <tr>
+        <td align="left" width="20%"><button [routerLink]="['/generarmovimientocaja']" class="btn btn-primary">Volver</button></td>
+        <td width="20%">&nbsp;</td>
+        <td width="20%">&nbsp;</td>
+        <td width="20%">&nbsp;</td> 
+        <td align="right" width="20%"><button (click)="abmMovimientoCaja()" class="btn btn-primary">Crear Movimiento</button></td>       
+    </tr>
+</table>

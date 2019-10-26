@@ -898,12 +898,9 @@ MenuPromocionController.editarProductos = (req, res) => {
             res.json(locals);
         } else {
             let i = 1;
-            for ( let elem of body.producto ) {
-                // console.log("PRODUCTO  idDetalleMenuPromocionProducto :",elem['idDetalleMenuPromocionProducto'])
-                // console.log("PRODUCTO bajaProducto :",elem['bajaProducto'])
-                // console.log("PRODUCTO  cantidadProductoMenuPromocion:",elem['cantidadProductoMenuPromocion'])
+            for ( let elem of body.detalle ) {
                 if ( elem['idDetalleMenuPromocionProducto'] ) {
-                    if ( elem['bajaProducto'] == true ) {
+                    if ( elem['baja'] == true ) {
                         console.log("BORRAR   :---------------------------")
                         DetalleMenuPromocionProductoModelo.destroy({where: {[idtable8]: elem[idtable8]}}).then((resp) => {
                             let push = {};

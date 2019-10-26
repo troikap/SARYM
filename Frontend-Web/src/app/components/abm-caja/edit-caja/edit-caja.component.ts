@@ -42,7 +42,7 @@ export class EditCajaComponent implements OnInit {
       'idEstadoCaja': new FormControl('', Validators.required),
       'idUsuario': new FormControl('', Validators.required),
       'descripcionCajaEstado': new FormControl('', Validators.required),
-      'montoAperturaCajaEstado': new FormControl('', Validators.required),     
+      'montoAperturaCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^[0-9]+$/)]),     
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -438,8 +438,16 @@ export class EditCajaComponent implements OnInit {
   traerEstadosCaja() {
     this.cajaServicio.getEstadosCaja()
       .then((res) => {
-        this.estadosCaja = res['data'];
+        this.estadosCaja = res['data'];        
+      
+if(this.estadosCaja[0].idEstadoCaja == 1){
+console.log("entra a eliminar");
+  this.estadosCaja.splice(0,1);
+}
+
+      
       })
+      
   }
 
 

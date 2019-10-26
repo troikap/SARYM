@@ -23,6 +23,7 @@ import { AbmCerrarCajaComponent } from './components/cerrar-caja/search-cerrar-c
 import { EditCerrarCajaComponent } from './components/cerrar-caja/edit-cerrar-caja/edit-cerrar-caja.component';
 import { AbmGenerarMovimientoCajaComponent } from './components/generar-movimiento-caja/search-generar-movimiento-caja/abm-generar-movimiento-caja.component';
 import { EditGenerarMovimientoCajaComponent } from './components/generar-movimiento-caja/edit-generar-movimiento-caja/edit-generar-movimiento-caja.component';
+import { CrudGenerarMovimientoCajaComponent } from './components/generar-movimiento-caja/crud-generar-movimiento-caja/crud-generar-movimiento-caja.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
 import { GestionarProductoComponent } from './components/gestionar-producto/search-gestionar-producto/gestionar-producto.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
@@ -47,6 +48,7 @@ import { ReporteTopPromocionComponent } from './components/generar-reporte/repor
 import { UploadService } from './services/upload/upload.service';
 import { UploadComponent } from './upload/upload.component';
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
+import { LoginGuardGuard } from './components/login-guard.guard';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,7 @@ import { AgregarProductoGestionarMenupromocionComponent } from './components/ges
     EditCerrarCajaComponent,
     AbmGenerarMovimientoCajaComponent,
     EditGenerarMovimientoCajaComponent,
+    CrudGenerarMovimientoCajaComponent,
     EditCajaComponent,
     AbmRubroComponent,
     GestionarProductoComponent,
@@ -96,9 +99,10 @@ import { AgregarProductoGestionarMenupromocionComponent } from './components/ges
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    ChartsModule
+    ChartsModule,
+
   ],
-  providers: [UploadService],
+  providers: [UploadService, LoginGuardGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

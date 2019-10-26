@@ -21,7 +21,7 @@
                     <td>{{lista.nroCaja}}</td>            
                     <td>{{lista.cajaestados[0].estadocaja.nombreEstadoCaja}}</td>       
                     <td>
-                       <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Eliminar" (click)="abmCaja(lista.idCaja, 'editar')" style="cursor: pointer;">
+                       <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Mostrar Movimientos Caja" (click)="abmCaja(lista.idCaja)" style="cursor: pointer;">
                     </td>
             </tr>
     </tbody>
@@ -30,10 +30,9 @@
 <table class="table">
 
     <tr>
-        <td align="right" width="20%"><button [routerLink]="['/home']" class="btn btn-primary">Volver</button></td>
+        <td align="left" width="20%"><button [routerLink]="['/home']" class="btn btn-primary">Volver</button></td>
         <td width="20%">&nbsp;</td>
         <td width="20%">&nbsp;</td>
-        <td width="20%">&nbsp;</td>
-        <td align="right" width="20%"><button [routerLink]="['/caja_crud/0/crear']" class="btn btn-success">Crear</button></td>
+        <td width="20%">&nbsp;</td>        
     </tr>
 </table>

@@ -198,7 +198,181 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idMenuPromocion\":35,\n\t\"producto\": [\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 8,\n\t\t\t\"idProducto\": 3,\n\t\t\t\"cantidadProductoMenuPromocion\": 10\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 9,\n\t\t\t\"idProducto\": 3,\n\t\t\t\"cantidadProductoMenuPromocion\": 20\n\t\t}\n\t],\n\t\"productos PARA EDITAR\" :[\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 100,\n\t\t\t\"idProducto\": 2,\n\t\t\t\"cantidadProductoMenuPromocion\": 2\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 101,\n\t\t\t\"idProducto\": 2,\n\t\t\t\"cantidadProductoMenuPromocion\": 2\n\t\t}\n\t],\n\t\"productos PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 100,\n\t\t\t\"bajaProducto\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 101,\n\t\t\t\"bajaProducto\": true\n\t\t}\n\t],\n\t\"productos PARA CREAR\" :[\n\t\t{\n\t\t\t\"idProducto\": 4,\n\t\t\t\"cantidadProductoMenuPromocion\": 6\n\t\t},\n\t\t{\n\t\t\t\"idProducto\": 5,\n\t\t\t\"cantidadProductoMenuPromocion\": 7\n\t\t}\n\t]\n}"
+							"raw": "{\n\t\"idMenuPromocion\":35,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 8,\n\t\t\t\"idProducto\": 3,\n\t\t\t\"cantidadProductoMenuPromocion\": 10\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 9,\n\t\t\t\"idProducto\": 3,\n\t\t\t\"cantidadProductoMenuPromocion\": 20\n\t\t}\n\t],\n\t\"detalle PARA EDITAR\" :[\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 100,\n\t\t\t\"idProducto\": 2,\n\t\t\t\"cantidadProductoMenuPromocion\": 2\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 101,\n\t\t\t\"idProducto\": 2,\n\t\t\t\"cantidadProductoMenuPromocion\": 2\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"idProducto\": 4,\n\t\t\t\"cantidadProductoMenuPromocion\": 6\n\t\t},\n\t\t{\n\t\t\t\"idProducto\": 5,\n\t\t\t\"cantidadProductoMenuPromocion\": 7\n\t\t}\n\t]\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pedido",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Pedido",
+					"request": {
+						"url": "localhost:3000/pedido",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pedido :id",
+					"request": {
+						"url": "localhost:3000/pedido/1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pedido :name",
+					"request": {
+						"url": "localhost:3000/pedido/name/5",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pedido :anyAttribute",
+					"request": {
+						"url": "localhost:3000/pedido/todo/honguito",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Pedido",
+					"request": {
+						"url": "localhost:3000/pedido",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codPedido\": \"PRUEBA1\",\n    \"descripcionPedidoEstado\": \"PRUEBA1 \",\n    \"idComensal\": 1,\n    \"fechaYHoraInicioPedido\": \"2019-10-19T21:52:49.000Z\",\n    \"idEstadia\": 1\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Pedido actualizarDatos",
+					"request": {
+						"url": "localhost:3000/pedido/actualizarDatos",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idPedido\":1,\n    \"codPedido\": \"PRUEBA1\",\n    \"fechaYHoraFinPedido(podria ir)\": \"2019-10-22T01:17:41.000Z\",\n    \"fechaYHoraInicioPedido(podria ir)\": \"2019-10-22T01:17:41.000Z\",\n    \"idComensal\": \"2\",\n    \"idReserva(podria ir)\": 2,\n    \"idEstadia(podria ir)\": 2\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Pedido cambiarEstado",
+					"request": {
+						"url": "localhost:3000/pedido/cambiarEstado",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idPedido\":1,\n    \"idEstadoPedido\": 2,\n    \"descripcionPedidoEstado\": \"Modificado.....\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Pedido editarDetallePedidoProducto",
+					"request": {
+						"url": "localhost:3000/pedido/editarDetallePedidoProducto",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idPedido\":1,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idDetallePedidoProducto\": 9,\n\t\t\t\"idProducto(no enviar)\": 2,\n\t\t\t\"idMenuPromocion(no enviar)\": 2,\n\t\t\t\"cantidadPedidoProducto\": 100,\n\t\t\t\"fechaYHoraEntregaPedidoProducto(para cuando se entregue)\": \"2019-10-24T23:04:02.000Z\"\n\t\t},\n\t\t{\n\t\t\t\"idDetallePedidoProducto\": 10,\n\t\t\t\"idProducto(no enviar)\": 2,\n\t\t\t\"idMenuPromocion(no enviar)\": 2,\n\t\t\t\"cantidadPedidoProducto\": 100,\n\t\t\t\"fechaYHoraEntregaPedidoProducto\": \"2019-10-24T23:04:02.000Z\"\n\t\t}\n\t],\n\t\"detalle PARA EDITAR\" :[\n\t\t{\n\t\t\t\"idDetallePedidoProducto\": 10,\n\t\t\t\"idProducto(no enviar)\": 2,\n\t\t\t\"idMenuPromocion(no enviar)\": 2,\n\t\t\t\"cantidadPedidoProducto\": 2,\n\t\t\t\"fechaYHoraEntregaPedidoProducto(para cuando se entregue)\": \"2019-10-24T23:04:02.000Z\"\n\t\t},\n\t\t{\n\t\t\t\"idDetallePedidoProducto\": 101,\n\t\t\t\"idProducto(no enviar)\": 2,\n\t\t\t\"idMenuPromocion(no enviar)\": 2,\n\t\t\t\"cantidadPedidoProducto\": 2,\n\t\t\t\"fechaYHoraEntregaPedidoProducto(para cuando se entregue)\": \"2019-10-24T23:04:02.000Z\"\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idDetallePedidoProducto\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetallePedidoProducto\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"idProducto\": 4,\n\t\t\t\"cantidadPedidoProducto\": 6\n\t\t},\n\t\t{\n\t\t\t\"idMenuPromocion\": 5,\n\t\t\t\"cantidadPedidoProducto\": 7\n\t\t}\n\t]\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},

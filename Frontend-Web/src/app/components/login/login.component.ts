@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit {
 
           let _this = this;
 
-          if (this.rol == "Administrador") {
+          if (this.rol == "Administrador" || this.rol == "Encargado" || this.rol == "Cocina" ) {
             let titulo = `${this.valtitle}`;
             let mensaje = `${this.valmsj} ${_this.nombreUsuarioLog} ${_this.apellidoUsuarioLog} `;
             ($ as any).confirm({
@@ -101,10 +101,6 @@ export class LoginComponent implements OnInit {
                 }
               }
             });
-          } else if (this.rol == "Encargado") {
-            this.router.navigate(["/home"]);
-          } else if (this.rol == "Cocina") {
-            this.router.navigate(["/home"]);
           } else {
             //Error, se logeo con otro idRol distinto a los anteriores
             ($ as any).confirm({

@@ -77,8 +77,7 @@ router
     .post('/pedido', verificaToken, PedidoController.create)
     .put('/pedido/actualizarDatos', verificaToken, PedidoController.actualizarDatos)
     .put('/pedido/cambiarEstado', verificaToken, PedidoController.cambiarEstado)
-    .put('/pedido/cambiarPrecio', verificaToken, PedidoController.cambiarPrecio)
-    .put('/pedido/editarProductos', verificaToken, PedidoController.editarProductos)
+    .put('/pedido/editarDetallePedidoProducto', verificaToken, PedidoController.editarDetallePedidoProducto)
 
 // menupromocion
     .get('/menupromocion', verificaToken, MenuPromocionController.getAll)

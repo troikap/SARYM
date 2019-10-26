@@ -6,18 +6,6 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl} f
 import { UploadService } from 'src/app/services/upload/upload.service';
 
 
-// import { AbmUsuarioComponent } from '../abm-usuario/abm-usuario.component';
-// import { AbmTipomonedaComponent } from '../abm-tipomoneda/abm-tipomoneda.component';
-// import { AbmUnidadmedidaComponent } from '../abm-unidadmedida/abm-unidadmedida.component';
-// import { AbmCajaComponent } from '../abm-caja/abm-caja.component';
-// import { AbmMesaComponent } from '../abm-mesa/abm-mesa.component';
-// import { AbmRubroComponent } from '../abm-rubro/abm-rubro.component';
-// import { AbmSectorComponent } from '../abm-sector/abm-sector.component';
-// import { GestionarProductoComponent } from '../gestionar-producto/gestionar-producto.component';
-// import { GestionarMenupromocionComponent } from '../gestionar-menupromocion/gestionar-menupromocion.component';
-// import { GenerarReporteComponent } from '../generar-reporte/generar-reporte.component';
-
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -31,8 +19,8 @@ export class HomeComponent implements OnInit {
 
   variableRol: string;
   variableLibre = false;
-  public respuestaImagenEnviada;
-  public resultadoCarga;
+  public respuestaImagenEnviada: any;
+  public resultadoCarga: any;
   private myForm: FormGroup;
   uploadedFiles: Array<File> = [];
 
@@ -55,9 +43,7 @@ export class HomeComponent implements OnInit {
     }
 
   ngOnInit() {
-    /* Hacer lógica que verifique si se encuentra logueado. En caso de no estar 
-    logueado, redirige a pant alla de login */
-    console.log("LALALALAL", localStorage.getItem("rolUsuario"));
+    console.log("Rol del usuario: ", localStorage.getItem("rolUsuario"));
   }
 
   onUpload(){
@@ -73,9 +59,6 @@ export class HomeComponent implements OnInit {
     this.uploadedFiles = e.target.files;
     console.log(" OK " ,this.uploadedFiles)
   }
-
-
-
 
   goTo( ruta: string) {
     let next;

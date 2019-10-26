@@ -25,7 +25,7 @@ module.exports = {
                 },
                 {
                     idRol: 4,
-                    nombreRol: "Cocina",
+                    nombreRol: "Cocinero",
                     createdAt: currentDate,
                     updatedAt: currentDate
                 },

@@ -15,6 +15,8 @@ export class CajaService {
   dir = '/caja';
   dirNro = '/nroCaja'
   dirEstado = '/estadocaja';
+  dirTipoMovimientoCaja = '/tipomovimientocaja';
+  dirMovimientoCaja = '/realizarMovimiento';
   dir3 = '/todo';
   dirUpdateDatos = '/actualizarDatos';
   dirUpdateEstado= '/cambiarEstado';
@@ -79,6 +81,19 @@ export class CajaService {
       })
       .catch();
   }
+  getTipoMovimientoCajas(): Promise<any[]> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', this.tokenEnviroment);
+    return this.http
+      .get(this.url + this.dirTipoMovimientoCaja, {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Trae TiposMovimientoCaja: ", response);
+        return response as any[];
+        
+      })
+      .catch(  );
+  }
 
   updateCaja( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
@@ -99,6 +114,19 @@ export class CajaService {
      console.log("DATOS A ENVIAR :",datas)
     return this.http
       .put(`${this.url}${this.dir}${this.dirUpdateEstado}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        return response as any;
+      })
+      .catch(  );
+  }
+
+  createMovimientoCaja( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', this.tokenEnviroment);
+     console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}${this.dirMovimientoCaja}`, datas, {headers})
       .toPromise()
       .then(response => {
         return response as any;
