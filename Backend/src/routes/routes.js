@@ -22,7 +22,6 @@ var UnidadMedidaController = require('../class/unidadmedida/unidadmedida-control
 var RubroController = require('../class/rubro/rubro-controller');
 var SectorController = require('../class/sector/sector-controller');
 var CajaController = require('../class/caja/caja-controller');
-// var UbicacionController = require('../class/ubicacion/ubicacion-controller');
 var TipoMovimientoCajaController = require('../class/tipomovimientocaja/tipomovimientocaja-controller');
 var MedioPagoController = require('../class/mediopago/mediopago-controller');
 var UploadController = require('../class/upload/upload-controller');
@@ -46,7 +45,6 @@ router
     .post('/existUser', UsuarioController.validateExistUser)
     .post('/subirImagen', UploadController.subirImagen)
     .get('/traerImagen/:tipo/:img', UploadController.traerImagen)
-
 
 // usuario
     .get('/usuario', verificaToken, UsuarioController.getAll)

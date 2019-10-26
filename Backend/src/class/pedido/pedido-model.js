@@ -6,7 +6,6 @@ const DetallePedidoProductoModelo = require('../detallepedidoproducto/detalleped
 const PedidoEstadoModelo = require('../pedidoestado/pedidoestado-model');
 const ComensalModelo = require('../comensal/comensal-model');
 
-
 const sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO

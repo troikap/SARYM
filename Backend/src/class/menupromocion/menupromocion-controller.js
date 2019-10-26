@@ -973,6 +973,6 @@ MenuPromocionController.editarProductos = (req, res) => {
             }
         }
     });
-    };
+};
 
 module.exports = MenuPromocionController;

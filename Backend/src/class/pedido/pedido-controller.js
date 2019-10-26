@@ -567,7 +567,6 @@ PedidoController.editarDetallePedidoProducto = (req, res) => {
                                         }
                                     }
                                     locals['detalle'].push(push);
-
                                     console.log(locals)
                                 })
                             }
