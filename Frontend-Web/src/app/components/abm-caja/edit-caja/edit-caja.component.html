@@ -11,8 +11,9 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="nroCaja" class="col col-form-label">Numero de Caja</label>
-                        <input type="number" class="form-control" id="nroCaja" placeholder="Ingrese Respuesta" formControlName="nroCaja">
+                        <input type="number"  class="form-control" id="nroCaja" placeholder="Ingrese Respuesta" formControlName="nroCaja">
                         <p class="input-error-msg" *ngIf="form.controls.nroCaja.errors?.required && form.controls.nroCaja.touched">Campo Obligatorio.</p>
+                        <p class="input-error-msg" *ngIf="form.controls.nroCaja.errors?.pattern && form.controls.nroCaja.touched">Debe ser Positivo y menor que 66.</p>
                     </div>
                 </div>                
             </div>
@@ -29,7 +30,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="montoAperturaCajaEstado" class="col col-form-label">Monto actual en Caja</label>
-                        <input type="number" class="form-control" id="montoAperturaCajaEstado" placeholder="Ingrese Respuesta" formControlName="montoAperturaCajaEstado">
+                        <input type="text" class="form-control" id="montoAperturaCajaEstado" placeholder="Ingrese Respuesta" formControlName="montoAperturaCajaEstado">
                         <p class="input-error-msg" *ngIf="form.controls.montoAperturaCajaEstado.errors?.required && form.controls.montoAperturaCajaEstado.touched">Campo Obligatorio.</p>
                         <p class="input-error-msg" *ngIf="form.controls.montoAperturaCajaEstado.errors?.pattern && form.controls.montoAperturaCajaEstado.touched">Debe ser Positivo.</p>
                     </div>

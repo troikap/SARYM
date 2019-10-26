@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   private rol: string;
   private nombreUsuarioLog: string;
   private apellidoUsuarioLog: string;
+  private idUsuario: string;
 
   private invalidotitle = 'Datos Inválidos';
   private invalidomsj = 'Combinación de Usuario y Contraseña incorrectos.';
@@ -78,7 +79,9 @@ export class LoginComponent implements OnInit {
           this.nombreUsuarioLog = algo.UsuarioEstado.nombreUsuario;
           this.apellidoUsuarioLog = algo.UsuarioEstado.apellidoUsuario;
           this.rol = algo.rol.idRol;
+          this.idUsuario = algo.UsuarioEstado.idUsuario;
           localStorage.setItem("rolUsuario", this.rol);
+          localStorage.setItem("idUsuario",this.idUsuario);
 
           let _this = this;
 

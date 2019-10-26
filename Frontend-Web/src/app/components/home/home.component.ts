@@ -114,6 +114,12 @@ export class HomeComponent implements OnInit {
     case 'gestionar-estado-estadia':
       next = '/gestionarestadoestadia';
     break;
+    case 'enviar-pedido':
+      next = '/enviarpedido';
+    break;
+    case 'cambiar-estado-pedido':
+      next = '/cambiarestadopedido';
+    break;
     case 'upload':
       next = '/upload';
     break;

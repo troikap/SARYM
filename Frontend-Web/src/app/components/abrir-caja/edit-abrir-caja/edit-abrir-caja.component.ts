@@ -39,10 +39,9 @@ export class EditAbrirCajaComponent implements OnInit {
     this.form = new FormGroup({
       'idCaja': new FormControl({ value: '', disabled: true }),
       'nroCaja': new FormControl('', Validators.required),
-      'idEstadoCaja': new FormControl('', Validators.required),
-      'idUsuario': new FormControl('', Validators.required),
+      'idEstadoCaja': new FormControl('', Validators.required),      
       'descripcionCajaEstado': new FormControl('', Validators.required),
-      'montoAperturaCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^[0-9]+$/)]),     
+      'montoAperturaCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([,][0-9]{1,2})|[0-9]+)$/)]),     
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -78,8 +77,7 @@ export class EditAbrirCajaComponent implements OnInit {
             this.newForm = {
               idCaja: this.caja['idCaja'],
               nroCaja: this.caja['nroCaja'],
-              idEstadoCaja: this.caja['cajaestados'][0].estadocaja.idEstadoCaja,
-              idUsuario: this.caja['cajaestados'][0].usuario.idUsuario,
+              idEstadoCaja: this.caja['cajaestados'][0].estadocaja.idEstadoCaja,              
               descripcionCajaEstado: "Apertura de Caja",
               montoAperturaCajaEstado: this.caja['cajaestados'][0].montoCierreCajaEstado
             }
@@ -105,7 +103,7 @@ export class EditAbrirCajaComponent implements OnInit {
       let rempCaja: any = {
         idCaja: us,       
         idEstadoCaja: 2,
-        idUsuario: 1,
+        idUsuario: localStorage.getItem("idUsuario"),
         descripcionCajaEstado: this.form.value['descripcionCajaEstado'],
         montoAperturaCajaEstado: this.form.value['montoCierreCajaEstado']
 
