@@ -819,6 +819,7 @@ MenuPromocionModelo.findOne({
 MenuPromocionController.editarProductos = (req, res) => {
     var locals = { };
     let body = req.body;
+    console.log("________________ ", body)
     MenuPromocionModelo.findOne({
         where: {
         [idtable]: body[idtable] },
@@ -965,7 +966,7 @@ MenuPromocionController.editarProductos = (req, res) => {
                     })
                 }
                 console.log("LOCALS " , i)
-                if ( Object.keys(body.producto).length == i) {
+                if ( Object.keys(body.detalle).length == i) {
                     locals['title'] = 'Registros actualizados.';
                     res.json(locals);
                 }
