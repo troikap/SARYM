@@ -147,11 +147,16 @@ export class AgregarProductoGestionarMenupromocionComponent implements OnInit {
 
     let dtoProductoEliminar = this.getDTOProductoEliminar(producto, menuPromocion);
     let dtoProductoCrear = this.getDTOProductoCrear(producto, menuPromocion, cantidadProducto);
-
+    
+    let idDetalleMenuPromocionProducto = dtoProductoEliminar.detalle[0].idDetalleMenuPromocionProducto;
+  
     console.log("dtoProductoEliminar: ", dtoProductoEliminar);
     console.log("dtoProductoCrear: ", dtoProductoCrear);
+    
+    console.log("idDetalleMenuPromocionProducto", idDetalleMenuPromocionProducto);  
 
-    this.menupromocionService.editarProductoMenuPromocion(dtoProductoEliminar) // Eliminar Asociación Procucto
+    if (idDetalleMenuPromocionProducto != 0 ) {
+      this.menupromocionService.editarProductoMenuPromocion(dtoProductoEliminar) // Eliminar Asociación Procucto
       .then((res: any) => {
         console.log("Respuesta de eliminar Producto: ", res);
 
@@ -163,6 +168,15 @@ export class AgregarProductoGestionarMenupromocionComponent implements OnInit {
 
         
       });
+    }
+    else {
+      this.menupromocionService.editarProductoMenuPromocion(dtoProductoCrear) // Crear Asociación Procucto
+        .then((res: any) => {
+          console.log("Respuesta de Crear Producto: ", res);
+
+        });
+    }
+   
    
 
       
