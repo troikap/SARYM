@@ -31,8 +31,8 @@ export class HomeComponent implements OnInit {
 
   variableRol: string;
   variableLibre = false;
-  public respuestaImagenEnviada;
-  public resultadoCarga;
+  public respuestaImagenEnviada: any;
+  public resultadoCarga: any;
   private myForm: FormGroup;
   uploadedFiles: Array<File> = [];
 

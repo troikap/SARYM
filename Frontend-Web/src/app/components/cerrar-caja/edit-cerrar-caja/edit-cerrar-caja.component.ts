@@ -6,6 +6,8 @@ import { CajaEdit, CajaCreate } from 'src/app/model/caja/caja.model';
 import { EstadoCaja } from 'src/app/model/estadoCaja/estadoCaja.model';
 import { Usuario } from '../../../model/usuario/usuario.model';
 import { UsuarioService } from '../../../services/usuario/usuario.service';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler/src/core';
+import { summaryFileName } from '@angular/compiler/src/aot/util';
 
 
 @Component({
@@ -24,6 +26,11 @@ export class EditCerrarCajaComponent implements OnInit {
   private newForm = {};
   montoCierreCaja: any;
   idEstadoform: any;
+  listaMovimientoCaja: any[];
+  fechaYHoraCajaEstado: Date;
+  private ingresos:number =0;
+  private egresos:number=0;
+  private total:number=0;
 
 
 
@@ -38,11 +45,9 @@ export class EditCerrarCajaComponent implements OnInit {
   ) {
     this.form = new FormGroup({
       'idCaja': new FormControl({ value: '', disabled: true }),
-      'nroCaja': new FormControl('', Validators.required),
-      'idEstadoCaja': new FormControl('', Validators.required),
-      'idUsuario': new FormControl('', Validators.required),
+      'nroCaja': new FormControl('', Validators.required),            
       'descripcionCajaEstado': new FormControl('', Validators.required),
-      'montoAperturaCajaEstado': new FormControl('', Validators.required),     
+      'montoCierreCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^[0-9]+$/)] ),            
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -52,43 +57,18 @@ export class EditCerrarCajaComponent implements OnInit {
       if (this.accionGet !== "crear") {
         console.log("editar")
         this.cajaEncontrada = true;
-        this.traerCaja();
+        this.buscarMovimientosCaja();  
+       
+              
       }
       else {
         this.cajaEncontrada = false;
       }
     });
+    
   }
 
   ngOnInit() {    
-  }
-
-
-  traerCaja() {
-    if (this.idCaja !== "0" && this.idCaja !== "") {
-      this.cajaServicio.getCaja(this.idCaja)
-        .subscribe((data: any) => { // Llamo a un Observer
-          //console.log(data['cajaestados'][0].estadocaja.idEstadoCaja);
-          if (data != null) {
-            console.log("RESULT ----------------->", data);
-            this.montoCierreCaja = data['cajaestados'][0].montoCierreCajaEstado;
-            this.caja = data;
-            console.log(this.caja['cajaestados'][0]);
-
-            this.newForm = {
-              idCaja: this.caja['idCaja'],
-              nroCaja: this.caja['nroCaja'],
-              idEstadoCaja: this.caja['cajaestados'][0].estadocaja.idEstadoCaja,
-              idUsuario: this.caja['cajaestados'][0].usuario.idUsuario,
-              descripcionCajaEstado: "Apertura de Caja",
-              montoAperturaCajaEstado: this.caja['cajaestados'][0].montoCierreCajaEstado
-            }
-
-            this.form.setValue(this.newForm);
-            console.log("FORM", this.form);
-          }
-        });
-    }
   }
 
   reemplazarCaja(): any {
@@ -104,10 +84,10 @@ export class EditCerrarCajaComponent implements OnInit {
      
       let rempCaja: any = {
         idCaja: us,       
-        idEstadoCaja: 2,
+        idEstadoCaja: 3,
         idUsuario: 1,
         descripcionCajaEstado: this.form.value['descripcionCajaEstado'],
-        montoAperturaCajaEstado: this.form.value['montoCierreCajaEstado']
+        montoCierreCajaEstado: this.form.value['montoCierreCajaEstado']
 
 
       }
@@ -125,8 +105,8 @@ export class EditCerrarCajaComponent implements OnInit {
     let _this = this; //Asigno el contexto a una variable, ya que se pierde al ingresar a la función de mensajeria
     const titulo = "Confirmación";
     const mensaje = `¿Está seguro que desea ${this.accionGet} el elemento seleccionado?`;
-    let _montoCierreCajaEstado = this.form.value['montoAperturaCajaEstado'];
-    let _idmontoCierreAnterior = this.montoCierreCaja;
+    let _montoCierreCajaEstado = this.form.value['montoCierreCajaEstado'];
+    let _idmontoSumaMovimientosAnterior  = _this.total;
     console.log(_montoCierreCajaEstado);
             
       ($ as any).confirm({
@@ -142,14 +122,14 @@ export class EditCerrarCajaComponent implements OnInit {
             action: function () {
               let caja = _this.reemplazarCaja(); 
 
-              if(_idmontoCierreAnterior == _montoCierreCajaEstado || _idmontoCierreAnterior == null ){
+              if(_idmontoSumaMovimientosAnterior == _montoCierreCajaEstado ){
               
                 _this.cajaServicio.updateCajaEstado(caja)
                   .then((response) => {
                     console.log("ACTUALIZADO", response);
 
                     const titulo = "Éxito";
-                    const mensaje = "Se ha abierto la caja de forma exitrosa";
+                    const mensaje = "Se ha cerrado la caja de forma exitrosa";
 
                     ($ as any).confirm({
                       title: titulo,
@@ -164,7 +144,7 @@ export class EditCerrarCajaComponent implements OnInit {
                           action: function () {
 
                             //ACCION
-                            _this.router.navigate(['/abrircaja/']);
+                            _this.router.navigate(['/cerrarcaja/']);
 
 
                           }
@@ -180,7 +160,7 @@ export class EditCerrarCajaComponent implements OnInit {
                  
 
                     const titulo = "Error";
-                    const mensaje = "No coincide el monto de apertura con el monto de cierre del dia anterior";
+                    const mensaje = "No coincide el monto de cierre con la suma de movimientos de caja del dia anterior";
 
                     ($ as any).confirm({
                       title: titulo,
@@ -225,4 +205,64 @@ export class EditCerrarCajaComponent implements OnInit {
   }
 
 
+  buscarMovimientosCaja() {
+   let _this =this;
+   
+    
+    console.log(this.idCaja);
+
+    if (this.idCaja !== "") {
+      this.cajaServicio.getCaja(this.idCaja)
+      .subscribe((data: any) => { // Llamo a un Observer
+        console.log(data);
+        if (data != "") {
+          //console.log("RESULT ----------------->", data);
+          this.caja = data;
+          this.listaMovimientoCaja = this.caja.movimientocajas; 
+          this.fechaYHoraCajaEstado =  this.caja['cajaestados'][0].fechaYHoraAltaCajaEstado;
+var length = this.listaMovimientoCaja.length;
+for (let i = 0; i < length; i++) {
+  console.log(this.listaMovimientoCaja[i].fechaYHoraMovimientoCaja,this.fechaYHoraCajaEstado);
+  if(this.listaMovimientoCaja[i].fechaYHoraMovimientoCaja > this.fechaYHoraCajaEstado ){
+    
+    if(this.listaMovimientoCaja[i].tipomovimientocaja.idTipoMovimientoCaja == 1){
+    _this.ingresos += this.listaMovimientoCaja[i].montoMovimientoCaja;
+   
+     
+  }else{
+    _this.egresos += this.listaMovimientoCaja[i].montoMovimientoCaja;
+  }
+  
+  } 
+  
+};  
+
+_this.total = _this.ingresos - _this.egresos;
+
+this.newForm = {
+  idCaja: this.caja['idCaja'],
+  nroCaja: this.caja['nroCaja'],         
+  descripcionCajaEstado: "Cierre de Caja",
+  montoCierreCajaEstado:  _this.total
+  
+   
+}
+console.log("esta es la fehca del ultimo estado",this.fechaYHoraCajaEstado);
+this.form.setValue(this.newForm);
+console.log("FORM", this.form);
+                       
+        }
+      });
+    }   
+    console.log("este total",_this.total);
+  }
+ 
+
+
+
+  
+
+    
+    
+  
 }

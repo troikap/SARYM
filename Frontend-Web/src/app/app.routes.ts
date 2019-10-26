@@ -13,6 +13,7 @@ import { AbmCerrarCajaComponent } from './components/cerrar-caja/search-cerrar-c
 import { EditCerrarCajaComponent } from './components/cerrar-caja/edit-cerrar-caja/edit-cerrar-caja.component';
 import { AbmGenerarMovimientoCajaComponent } from './components/generar-movimiento-caja/search-generar-movimiento-caja/abm-generar-movimiento-caja.component';
 import { EditGenerarMovimientoCajaComponent } from './components/generar-movimiento-caja/edit-generar-movimiento-caja/edit-generar-movimiento-caja.component';
+import { CrudGenerarMovimientoCajaComponent } from './components/generar-movimiento-caja/crud-generar-movimiento-caja/crud-generar-movimiento-caja.component';
 import { CrudCajaComponent } from './components/abm-caja/crud-caja/crud-caja.component';
 import { EditCajaComponent } from './components/abm-caja/edit-caja/edit-caja.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
@@ -51,8 +52,9 @@ const routes: Routes = [
     { path: 'caja', component: AbmCajaComponent },
     { path: 'caja_crud/:id/:accion', component: CrudCajaComponent},
     { path: 'caja_edit/:id/:accion', component: EditCajaComponent},
-    { path: 'generarmovimientocaja/:id/:accion', component: EditGenerarMovimientoCajaComponent },
+    { path: 'generarmovimientocaja/:id', component: EditGenerarMovimientoCajaComponent },
     { path: 'generarmovimientocaja', component: AbmGenerarMovimientoCajaComponent },
+    { path: 'generarmovimientocaja_crud/:id', component: CrudGenerarMovimientoCajaComponent },
     { path: 'cerrarcaja/:id/:accion', component: EditCerrarCajaComponent },
     { path: 'cerrarcaja', component: AbmCerrarCajaComponent },
     { path: 'abrircaja/:id/:accion', component: EditAbrirCajaComponent },
