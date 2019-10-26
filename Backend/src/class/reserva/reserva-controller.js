@@ -7,17 +7,18 @@ const tratarError = require("../../middlewares/handleError"),
   attributes = require('../attributes'),
   UsuarioModelo = require("../usuario/usuario-model"),
   UnidadMedidaModelo = require("../unidadmedida/unidadmedida-model"),
-  ReservaEstadoModelo = require("../productoestado/productoestado-model"),
-  EstadoReservaModelo = require("../estadoproducto/estadoproducto-model"),
-  PrecioReservaModelo = require("../precioproducto/precioproducto-model"),
-  Reserva = require("../tipomoneda/tipomoneda-model"),
+  ReservaEstadoModelo = require("../reservaestado/reservaestado-model"),
+  EstadoReservaModelo = require("../estadoreserva/estadoreserva-model"),
+  DetalleReservaMesaModelo = require("../detallereservamesa/detallereservamesa-model"),
+  MesaModelo = require("../mesa/mesa-model"),
+  
   legend = "Producto",
   legend2 = "ReservaEstado",
   legend3 = "EstadoReserva",
-  legend4 = "TipoMoneda",
+  legend4 = "Mesa",
   legend5 = "Usuario",
   legend6 = "UnidadMedida",
-  legend7 = "PrecioProducto",
+  legend7 = "DetalleReservaMesa",
 
   idtable = `id${legend}`,
   idtable2 = `id${legend2}`,
@@ -25,7 +26,7 @@ const tratarError = require("../../middlewares/handleError"),
   idtable4 = `id${legend4}`,
   idtable5 = `id${legend5}`,
   idtable6 = `id${legend6}`,
-  nombretable = `nombre${legend}`,
+  nombretable = `cod${legend}`,
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
 
@@ -66,12 +67,12 @@ ReservaController.getToAllAttributes = (req, res, next) => {
         ]
       },
       {
-        model: PrecioReservaModelo,
+        model: DetalleReservaMesaModelo,
         where: { fechaYHoraHastaPrecioProducto: null },
         attributes: attributes.precioproducto,
         include: [
           {
-              model: TipoMonedaModelo,
+              model: MesaModelo,
               attributes: attributes.tipomoneda
           }
         ]
@@ -116,12 +117,12 @@ ReservaController.getToName = (req, res, next) => {
         ]
       },
       {
-        model: PrecioReservaModelo,
+        model: DetalleReservaMesaModelo,
         where: { fechaYHoraHastaPrecioProducto: null },
         attributes: attributes.precioproducto,
         include: [
           {
-              model: TipoMonedaModelo,
+              model: MesaModelo,
               attributes: attributes.tipomoneda
           }
         ]
@@ -166,12 +167,12 @@ ReservaController.getAll = (req, res) => {
         ]
       },
       {
-        model: PrecioReservaModelo,
+        model: DetalleReservaMesaModelo,
         where: { fechaYHoraHastaPrecioProducto: null },
         attributes: attributes.precioproducto,
         include: [
           {
-              model: TipoMonedaModelo,
+              model: MesaModelo,
               attributes: attributes.tipomoneda
           }
         ]
@@ -216,12 +217,12 @@ ReservaController.getOne = (req, res) => {
         ]
       },
       {
-        model: PrecioReservaModelo,
+        model: DetalleReservaMesaModelo,
         where: { fechaYHoraHastaPrecioProducto: null },
         attributes: attributes.precioproducto,
         include: [
           {
-              model: TipoMonedaModelo,
+              model: MesaModelo,
               attributes: attributes.tipomoneda
           }
         ]
@@ -249,7 +250,7 @@ ReservaController.create = (req, res) => {
       locals['tipo'] = 2;
       res.json(locals);
     } else {
-      TipoMonedaModelo.findOne({ where: {[idtable4]: body[idtable4]} }).then( tipomoneda => {
+      MesaModelo.findOne({ where: {[idtable4]: body[idtable4]} }).then( tipomoneda => {
         if ( !tipomoneda || tipomoneda == 0 ) {
           locals['title'] = `No existe instancia de ${legend4} con ${idtable4}.`;
           locals['tipo'] = 2;
@@ -287,7 +288,7 @@ ReservaController.create = (req, res) => {
                       pushPrecioProducto['fechaYHoraDesdePrecioProducto'] = body['fechaYHoraDesdePrecioProducto'] || new Date();
                       pushPrecioProducto['fechaYHoraHastaPrecioProducto'] = body['fechaYHoraHastaPrecioProducto'] || null;
                       pushPrecioProducto[idtable4] = body[idtable4];
-                      PrecioReservaModelo.create(pushPrecioProducto).then( resp => {
+                      DetalleReservaMesaModelo.create(pushPrecioProducto).then( resp => {
                         locals['title'] = `${legend} creado. ${legend7} creado.`;
                         locals['data'] = resp;
                         locals['tipo'] = 1;
@@ -340,11 +341,11 @@ ReservaController.actualizarDatos = (req, res) => {
           ]
         },
         {
-          model: PrecioReservaModelo,
+          model: DetalleReservaMesaModelo,
           attributes: attributes.precioproducto,
           include: [
             {
-                model: TipoMonedaModelo,
+                model: MesaModelo,
                 attributes: attributes.tipomoneda
             }
           ]
@@ -404,12 +405,12 @@ ReservaController.cambiarEstado = (req, res) => {
           ]
         },
         {
-          model: PrecioReservaModelo,
+          model: DetalleReservaMesaModelo,
           where: { fechaYHoraHastaPrecioProducto: null },
           attributes: attributes.precioproducto,
           include: [
             {
-                model: TipoMonedaModelo,
+                model: MesaModelo,
                 attributes: attributes.tipomoneda
             }
           ]
@@ -496,12 +497,12 @@ ReservaController.cambiarPrecio = (req, res) => {
           ]
         },
         {
-          model: PrecioReservaModelo,
+          model: DetalleReservaMesaModelo,
           where: { fechaYHoraHastaPrecioProducto: null },
           attributes: attributes.precioproducto,
           include: [
             {
-                model: TipoMonedaModelo,
+                model: MesaModelo,
                 attributes: attributes.tipomoneda
             }
           ]
@@ -518,7 +519,7 @@ ReservaController.cambiarPrecio = (req, res) => {
         locals['tipo'] = 2;
         res.json(locals);
       } else {
-        TipoMonedaModelo.findOne({where: { [idtable4]: body[idtable4] }}).then((tipomoneda) =>{
+        MesaModelo.findOne({where: { [idtable4]: body[idtable4] }}).then((tipomoneda) =>{
           if(!tipomoneda || tipomoneda == 0) {
             locals['title'] = `No existe ${legend4} con id ${idtable4}.`;
             locals['tipo'] = 2;
@@ -526,7 +527,7 @@ ReservaController.cambiarPrecio = (req, res) => {
           } else {
             let pushPrecioProducto = {};
             pushPrecioProducto['fechaYHoraHastaPrecioProducto'] = new Date();
-              PrecioReservaModelo.update(pushPrecioProducto , {
+              DetalleReservaMesaModelo.update(pushPrecioProducto , {
                 where: { [idtable]: body[idtable], fechaYHoraHastaPrecioProducto: null }
             }).then((respons) => {
               if(!respons || respons == 0) {
@@ -535,7 +536,7 @@ ReservaController.cambiarPrecio = (req, res) => {
                 res.json(locals);
               } else {
                 body['fechaYHoraDesdePrecioProducto'] = new Date();
-                PrecioReservaModelo.create(body).then((resp) => {
+                DetalleReservaMesaModelo.create(body).then((resp) => {
                   if (!resp || resp == 0 ){
                     locals['title'] = `No se pudo crear ${legend2}.`;
                     locals['tipo'] = 2;
