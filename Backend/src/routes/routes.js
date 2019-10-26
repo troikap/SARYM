@@ -45,7 +45,8 @@ router
     .post('/login', UsuarioController.login)
     .post('/existUser', UsuarioController.validateExistUser)
     .post('/subirImagen', UploadController.subirImagen)
-    .get('/traerImagen/:tipo/:img', UploadController.traerImagen)
+    .get('/traerImagen/:tipo/:img?', UploadController.traerImagen)
+
 
 
 // usuario
