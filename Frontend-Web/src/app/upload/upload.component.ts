@@ -17,9 +17,7 @@ export class UploadComponent implements OnInit {
 
   private myForm: FormGroup;
   public uploadedFiles;
-  public mostrarfoto;
-
-  public url = "http://localhost:3000/traerImagen/producto/BBBBBBBBB-2-9.jpeg";
+  public nombreArchivo;
 
   public carpetas= 
   [
@@ -39,15 +37,7 @@ export class UploadComponent implements OnInit {
     public uploadService: UploadService,
     private router: Router
   ) 
-{ 
-
-  // this.myForm = this.formBuilder.group({
-  //   'archivo': new FormControl( Validators.required),
-  //   'nombre': new FormControl('', Validators.required),
-  //   'carpeta': new FormControl( Validators.required),
-  //   'id': new FormControl('', Validators.required),
-  //   'mostrarfoto': new FormControl(),
-  //   });
+    { 
 
     this.myForm = new FormGroup({
       'archivo': new FormControl('', Validators.required)
@@ -60,7 +50,6 @@ export class UploadComponent implements OnInit {
       this.pathElemento = params.path;
       this.redirigir = params.retorno;
     });
-
 
   }
 
@@ -80,18 +69,32 @@ export class UploadComponent implements OnInit {
       formData.append('nombre', this.nombreElemento)
       formData.append('carpeta', this.pathElemento)
       formData.append('id', this.idElemento)
-      this.uploadService.uploadFile( formData ).then((res) => {
+      this.uploadService.uploadFile( formData )
+      .then((res:any) => {
         console.log('RESPUESTA ; ',res);
-        console.log('res ',res['data']);
-        this.mostrarfoto = res['data']; // Path del archivo creado
+        this.nombreArchivo = res.path; // Path del archivo creado
         
-        //Obtener Imagen
-        this.uploadService.getFile(this.pathElemento, this.mostrarfoto)
-        .subscribe((data: any) => { // Llamo a un Observer
-          console.log(data);
-          this.archivoCargado = data;
-        });
+        console.log("Nombre archivo: ",this.nombreArchivo);
 
+        //Obtener Imagen
+        this.archivoCargado = this.uploadService.getFile(this.pathElemento, this.nombreArchivo);
+
+        ($ as any).confirm({
+          title: "Éxito",
+          content: "Su imagen ha sido cargada con éxito",
+          type: 'green',
+          typeAnimated: true,
+          theme: 'material',
+          buttons: {
+              aceptar: {
+                  text: 'Aceptar',
+                  btnClass: 'btn-green',
+                  action: function(){
+                    console.log("Confirmación de Imagen cargada");
+                  }
+              }
+          }
+        });
 
       })
     } else {

@@ -8,6 +8,7 @@ import { MenuPromocion } from 'src/app/model/menu-promocion/menu-promocion.model
 import { TipoMenuPromocion } from '../../../model/tipo-menu-promocion/tipo-menu-promocion.model';
 import { TipoMenuPromocionService } from '../../../services/tipo-menu-promocion/tipo-menu-promocion.service';
 import { EstadoMenuPromocion } from 'src/app/model/estado-menu-promocion/estado-menu-promocion.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-crud-gestionar-menupromocion',
@@ -31,6 +32,12 @@ export class CrudGestionarMenupromocionComponent implements OnInit {
   
 
   accionGet: string;
+
+  private tipoElementoProducto = "producto";
+  private tipoElementoMenuPromocion = "menupromocion";
+
+  public rutaImagenProducto = `${environment.urlNgrok || environment.url}/traerImagen/${this.tipoElementoProducto}/`;
+  public rutaImagenMenuPromocion = `${environment.urlNgrok || environment.url}/traerImagen/${this.tipoElementoMenuPromocion}/`;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -210,6 +217,18 @@ export class CrudGestionarMenupromocionComponent implements OnInit {
     return dtoCambiarPrecio;
   }
   
+  goUploadImagen(idMenuPromocion) {
+    let nombreImagen = this.form.value['codMenuPromocion'];
+    let path = 'menupromocion';
+    let retorno = 'menupromocion';
+
+    this.router.navigate( [`/upload/${idMenuPromocion}/${nombreImagen}/${path}/${retorno}`] );
+  }
+
+  editarImagenProducto(idProductoImg) {
+    this.goUploadImagen(idProductoImg);
+  }
+
   guardar() {
     // console.log("Form Value: ", this.form.value);
     console.log(this.form);
@@ -270,7 +289,7 @@ export class CrudGestionarMenupromocionComponent implements OnInit {
                                   action: function(){
                 
                                     //ACCION
-                                    _this.router.navigate( ['/menuromocion/']);
+                                    _this.router.navigate( ['/menupromocion/']);
                 
                 
                                   }
@@ -512,8 +531,35 @@ export class CrudGestionarMenupromocionComponent implements OnInit {
                                 btnClass: 'btn-green',
                                 action: function(){
               
-                                  //ACCION
-                                  _this.router.navigate( ['/menupromocion/']);
+
+                                  ($ as any).confirm({
+                                    title: "Confirmar",
+                                    content: "¿Desea Cargar la imagen del nuevo Menú - Promoción?",
+                                    type: 'blue',
+                                    typeAnimated: true,
+                                    theme: 'material',
+                                    buttons: {
+                                        aceptar: {
+                                            text: 'Aceptar',
+                                            btnClass: 'btn-blue',
+                                            action: function(){
+
+                                              let idMenuPromocionCreado = response.id;
+                                              _this.goUploadImagen(idMenuPromocionCreado);
+
+                                            }
+                                        },
+                                        cerrar: {
+                                          text: 'Cerrar',
+                                          action: function(){
+                                             //ACCION
+                                             _this.router.navigate( ['/menupromocion/']);
+                                          }
+                                      }
+                                    }
+                                  });
+
+                                  
               
                                 }
                             }

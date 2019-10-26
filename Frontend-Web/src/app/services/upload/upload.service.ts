@@ -10,6 +10,7 @@ export class UploadService {
 
   url = environment.urlNgrok || environment.url;
   dir = '/subirImagen';
+  dir2 = '/traerImagen';
 
   tokenEnviroment = environment.token;
 
@@ -27,18 +28,9 @@ export class UploadService {
       .catch(  );
   }
 
-  getFile( carpeta: string, img: string) { 
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    return this.http
-      .get(`${this.url}${this.dir}/${carpeta}/${img}`, {headers})
-      .pipe( map ((data: any) => {
-        console.log(data.data);
-        if (data != null) {
-          return data.data;
-        }
-    }));
-    
+  getFile(carpeta: string, img: string) {
+    return `${this.url}${this.dir2}/${carpeta}/${img}`;
   }
+
   
 }

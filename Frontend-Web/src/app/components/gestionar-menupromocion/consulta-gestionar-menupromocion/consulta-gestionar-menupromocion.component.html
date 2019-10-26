@@ -4,9 +4,9 @@
 <div class="row animated fadeIn fast">
     <div class="col-md-4">
         <div class="card-body">
-            <img [src]="menuPromocion.pathImagenMenuPromocion | noimage" class="card-img-top img-fluid text-primary" [alt]=menuPromocion.nombreMenuPromocion>
+            <img src="{{rutaImagenMenuPromocion}}{{menuPromocion.pathImagenMenuPromocion}}" class="card-img-top img-fluid text-primary" [alt]=menuPromocion.nombreMenuPromocion>
             <br><br>
-            <a [routerLink]="['/menuPromocion']" class="btn btn-outline-primary btn-block">Regresar</a>
+            <a [routerLink]="['/menupromocion']" class="btn btn-outline-primary btn-block">Regresar</a>
         </div>
 
     </div>
@@ -77,7 +77,7 @@
                     <div class="row no-gutters animated fadeIn fast" *ngFor="let detalleMenuPromocionProducto of menuPromocion.detallemenupromocionproductos">
                         <div class="col-md-4">
                             <strong>x {{detalleMenuPromocionProducto.cantidadProductoMenuPromocion}}</strong>
-                            <img [src]="detalleMenuPromocionProducto.producto.pathImagenProducto | noimage" class="card-img-top img-fluid text-primary" [alt]="detalleMenuPromocionProducto.producto.nombreProducto">
+                            <img src="{{rutaImagenProducto}}{{detalleMenuPromocionProducto.producto.pathImagenProducto}}" class="card-img-top img-fluid text-primary" [alt]="detalleMenuPromocionProducto.producto.nombreProducto">
                         </div>
 
 

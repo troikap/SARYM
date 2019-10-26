@@ -2,6 +2,7 @@ import * as $ from 'jquery'
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuPromocionService } from 'src/app/services/menu-promocion/menu-promocion.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-gestionar-menupromocion',
@@ -11,6 +12,12 @@ import { MenuPromocionService } from 'src/app/services/menu-promocion/menu-promo
 export class GestionarMenupromocionComponent implements OnInit {
 
   listaMenuPromocion: any [] = [];
+
+  private tipoElementoProducto = "producto";
+  private tipoElementoMenuPromocion = "menupromocion";
+
+  public rutaImagenProducto = `${environment.urlNgrok || environment.url}/traerImagen/${this.tipoElementoProducto}/`;
+  public rutaImagenMenuPromocion = `${environment.urlNgrok || environment.url}/traerImagen/${this.tipoElementoMenuPromocion}/`;
 
   constructor(
     public menuPromocionService: MenuPromocionService,

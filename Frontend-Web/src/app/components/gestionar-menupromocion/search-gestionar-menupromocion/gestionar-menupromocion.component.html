@@ -31,7 +31,7 @@
                 'border-danger': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Inactivo', 
                 'border-dark': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Eliminado'
             }">
-        <img [src]="menuPromocion.pathImagenMenuPromocion | noimage" class="card-img-top img-fluid text-primary" [alt]="menuPromocion.nombreMenuPromocion" (click)="consultarElemento(menuPromocion.idMenuPromocion)" style="cursor:pointer">
+        <img src="{{rutaImagenMenuPromocion}}{{menuPromocion.pathImagenMenuPromocion}}" class="card-img-top img-fluid text-primary" [alt]="menuPromocion.nombreMenuPromocion" (click)="consultarElemento(menuPromocion.idMenuPromocion)" style="cursor:pointer">
         <div class="card-body">
             <p class="card-title" style="font-size: 18px;"><strong>{{menuPromocion.nombreMenuPromocion}}</strong></p>
             <p class="card-text" style="font-size: 14px;">{{menuPromocion.tipomenupromocion.nombreTipoMenuPromocion}}</p>
@@ -65,7 +65,7 @@
                     <div class="row no-gutters animated fadeIn fast" *ngFor="let detalleMenuPromocionProducto of menuPromocion.detallemenupromocionproductos">
                         <div class="col-md-4">
                             x {{detalleMenuPromocionProducto.cantidadProductoMenuPromocion}}
-                            <img [src]="detalleMenuPromocionProducto.producto.pathImagenProducto | noimage" class="card-img-top img-fluid text-primary" [alt]="detalleMenuPromocionProducto.producto.nombreProducto">
+                            <img src="{{rutaImagenProducto}}{{detalleMenuPromocionProducto.producto.pathImagenProducto}}" class="card-img-top img-fluid text-primary" [alt]="detalleMenuPromocionProducto.producto.nombreProducto">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">

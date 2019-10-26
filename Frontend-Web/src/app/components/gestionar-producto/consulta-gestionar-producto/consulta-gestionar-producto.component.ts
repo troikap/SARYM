@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductoService } from 'src/app/services/producto/producto.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Producto } from 'src/app/model/producto/producto.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-consulta-gestionar-producto',
@@ -11,10 +12,11 @@ import { Producto } from 'src/app/model/producto/producto.model';
 export class ConsultaGestionarProductoComponent implements OnInit {
 
   producto: Producto;
-  estadoProducto: string;
-  // 
-  url = "http://localhost:3000/traerImagen/producto/"; // hay que sumarle el path de imagen ...
-  urlAlternativo = "http://localhost:3000/traerImagen/producto/BBBBBBBBB-2-9.jpeg"; // este es de prueban .. en /upload agregar una imagen con ID 1 y en carpeta producto y tomer el nombre y ponerlo remplazando BB .... jpeg
+  estadoProducto: string;  
+
+  tipoElemento = "producto";
+
+  public rutaImagen = `${environment.urlNgrok || environment.url}/traerImagen/${this.tipoElemento}/`;
 
   constructor(
     public productoService: ProductoService,

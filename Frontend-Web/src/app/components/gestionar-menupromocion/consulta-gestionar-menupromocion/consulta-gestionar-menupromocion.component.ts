@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuPromocionService } from 'src/app/services/menu-promocion/menu-promocion.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MenuPromocion } from 'src/app/model/menu-promocion/menu-promocion.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-consulta-gestionar-menupromocion',
@@ -12,6 +13,12 @@ export class ConsultaGestionarMenupromocionComponent implements OnInit {
 
   menuPromocion: MenuPromocion;
   estadoMenuPromocion: string;
+
+  private tipoElementoProducto = "producto";
+  private tipoElementoMenuPromocion = "menupromocion";
+
+  public rutaImagenProducto = `${environment.urlNgrok || environment.url}/traerImagen/${this.tipoElementoProducto}/`;
+  public rutaImagenMenuPromocion = `${environment.urlNgrok || environment.url}/traerImagen/${this.tipoElementoMenuPromocion}/`;
 
   constructor(
     public menupromocionService: MenuPromocionService,

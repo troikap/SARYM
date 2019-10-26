@@ -124,6 +124,25 @@ let mensaje= "Contenido";
   });
   /////////////////////////////////////////////////////////////
 
+   //////////////MENSAJE ACEPTAR SUCESS////////////////////
+   ($ as any).confirm({
+    title: titulo,
+    content: mensaje,
+    type: 'green',
+    typeAnimated: true,
+    theme: 'material',
+    buttons: {
+        aceptar: {
+            text: 'Aceptar',
+            btnClass: 'btn-green',
+            action: function(){
+              alert("SI");
+            }
+        }
+    }
+  });
+  /////////////////////////////////////////////////////////////
+
   //////////////MENSAJE ACEPTAR ERROR////////////////////
   ($ as any).confirm({
     title: titulo,

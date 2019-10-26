@@ -5,77 +5,35 @@
 <div class="container">
     <div class="form-section">
         <form [formGroup]="myForm" (ngSubmit)="onUpload()">
-            <div class="form-group">
-                <label for="archivo" class="col col-form-label">Imagen</label>
-                <input type="file" formControlName="archivo" class="form-control" (change)="onFileChange($event)">
+
+
+            <div class="card text-center" style="width: 20rem;">
+                <div class="card-header">
+                    <div *ngIf="nombreArchivo != null">
+                        <img class="card-img-top" [src]="archivoCargado" [alt]="nombreElemento">
+                        <label for="nombreFoto" class="col col-form-label">{{nombreArchivo}}</label>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="archivo" class="col col-form-label">Imagen</label>
+                        <input type="file" formControlName="archivo" class="form-control" (change)="onFileChange($event)">
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <td width="40%"><button type="submit" class="btn btn-primary btn-block" [disabled]="!myForm.valid">Cargar</button></td>
+                                <td width="20%">&nbsp;</td>
+                                <td width="40%"><button type="button" class="btn btn-secondary btn-block" (click)="cerrar()">Cerrar</button></td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
-            <div *ngIf="archivoCargado != null">
-                <img [src]="archivoCargado" [alt]="nombreElemento">
-                <label for="nombreFoto" class="col col-form-label">{{mostrarfoto}}</label>
-            </div>
-            <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Cargar</button> &nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="button" class="btn btn-secondary" (click)="cerrar()">Cerrar</button>
+
+
         </form>
     </div>
 </div>
-
-
-
-
-
-<!-- 
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <div>
-                <div>
-                    <form [formGroup]="myForm">
-                        <div class="row">
-                            <div class="col">
-                                <label>Imagen</label>
-                            </div>
-                            <div class="col">
-                                <input type="file" name="archivo" >
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <label>ID</label>
-                            </div>
-                            <div class="col">
-                                <input type="text" formControlName="id">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <label>Nombre</label>
-                            </div>
-                            <div class="col">
-                                <input type="text" formControlName="nombre">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <label>Carpeta</label>
-                            </div>
-                            <div class="col">
-                                <select formControlName="carpeta" placeholder="Seleccione">
-                                <option [value]="element.key" *ngFor="let element of carpetas">{{element.value}}</option>
-                            </select>
-                            </div>
-                        </div>
-                        <label>{{mostrarfoto}}</label>
-                        <button [disabled]="!myForm.valid" (click)="onUpload()">ENVIAR</button>
-                        <button (click)="prueba()">PRUEBA</button>
-                    </form>
-
-                    <div>TRAER IMAGEN</div>
-                    <div>
-                        <img [src]=url alt="">
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4"></div>
-    </div> -->
