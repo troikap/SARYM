@@ -16,6 +16,9 @@ export class ProductoService {
   dir = '/producto';
   dir2 = '/todo';
   dirEstado = '/estadoproducto';
+  ditActalizarDatos = '/actualizarDatos'
+  dirCambiarEstado = '/cambiarEstado';
+  dirCambiarPrecio = '/cambiarPrecio';
 
   tokenEnviroment = environment.token;
 
@@ -72,12 +75,12 @@ export class ProductoService {
       .catch(  );
   }
 
-  updateProductos( datas: any ): Promise<any> {
+  updateProducto( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR :",datas)
+    console.log("DATOS A ENVIAR:", datas)
     return this.http
-      .put(`${this.url}${this.dir}`, datas, {headers})
+      .put(`${this.url}${this.dir}${this.ditActalizarDatos}`, datas, {headers})
       .toPromise()
       .then(response => {
         return response;
@@ -99,7 +102,7 @@ export class ProductoService {
       .catch(  );
   }
 
-  createProductos( datas ): Promise<any> {
+  crearProducto( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment); 
     return this.http
@@ -111,7 +114,33 @@ export class ProductoService {
       .catch(  );
   }
 
+  cambiarEstado( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}${this.dirCambiarEstado}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Servicio cambiarEstado()", response);
+        return response;
+      })
+      .catch(  );
+  }
 
+  cambiarPrecio( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}${this.dirCambiarPrecio}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Servicio cambiarPrecio()", response);
+        return response;
+      })
+      .catch(  );
+  }
 
   getAllEstadoProducto() {
     let headers: HttpHeaders = new HttpHeaders();

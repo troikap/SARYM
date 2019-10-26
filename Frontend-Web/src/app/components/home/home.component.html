@@ -1,4 +1,7 @@
 <!-- https://icon-icons.com -->
+<!-- <div>Para Cargar Imagen</div>
+<input type="file" (change)="cargandoImagen($event.target.files)" > 
+<button (click)="subirImagen()">Enviar</button> -->
 
 <div class="card-columns" style="max-width: 50rem;" *ngIf="variableRol=='Administrador' || variableLibre">
     <div class="card animated fadeIn fast" *ngFor="let iconos of iconosHome">
@@ -17,3 +20,5 @@
         </div>
     </div>
 </div>
+
+

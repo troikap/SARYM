@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col">
-        <input #termino id="botonBuscar" type="text" (keyup)="buscarElemento(termino.value)" class="form-control mr-sm-2" placeholder="Buscar MenuPromocion...">
+        <input #termino id="botonBuscar" type="text" (keyup)="buscarElemento(termino.value)" class="form-control mr-sm-2" placeholder="Buscar Menu - Promocion...">
     </div>
 </div>
 
 <hr>
 
-<div class="row animated fadeIn fast" *ngIf="listaMenuPromocion.length == 0 ">
+<div class="row animated fadeIn fast" *ngIf="listaMenuPromocion.length == 0">
     <div class="col-md-12">
         <div class="alert alert-info" role="alert">
             No existen menuPromocions con el término <strong>{{termino.value}}</strong>

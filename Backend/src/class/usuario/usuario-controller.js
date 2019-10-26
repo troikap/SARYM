@@ -252,6 +252,7 @@ UsuarioController.getAll = (req, res) => {
 
 UsuarioController.getOne = (req, res) => {
     let locals = {};
+    console.log("REQ ", req.params)
     UsuarioModelo.findOne({
         where: {[idtable]: req.params[idtable]},
         attributes: attributes.usuario,
@@ -282,7 +283,6 @@ UsuarioController.getOne = (req, res) => {
         if (!response || response == 0) {
             locals['title'] = `No existe el registro : ${req.params[idtable]}`;
             locals['tipo'] = 2;
-            res.json(locals);
         } else {
             locals[legend] = response.dataValues;
             locals['tipo'] = 1

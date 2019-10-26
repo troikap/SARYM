@@ -27,7 +27,7 @@ export class UsuarioService {
       .post(`${this.url}/login`, value )
       .toPromise()
       .then(response => {
-        // console.log("USUARIO ", response)
+        console.log("USUARIO ", response)
         return response as Usuario;
       })
       .catch( err => {

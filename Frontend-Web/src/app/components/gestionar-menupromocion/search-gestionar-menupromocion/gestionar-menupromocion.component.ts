@@ -53,8 +53,8 @@ export class GestionarMenupromocionComponent implements OnInit {
   getAllElements() {
     this.menuPromocionService.getAllMenuPromocion()
       .then((res: any) => {
-        console.log("getAllElements(): ", res.MenuPromocion);
-        this.listaMenuPromocion =  res.MenuPromocion;
+        console.log("getAllElements(): ", res.data);
+        this.listaMenuPromocion =  res.data;
       })
   }
 

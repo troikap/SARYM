@@ -3,6 +3,10 @@
 const Sequelize = require('sequelize');
 const PagoPedidoModelo = require('../producto/producto-model');
 const DetallePedidoProductoModelo = require('../detallepedidoproducto/detallepedidoproducto-model');
+const PedidoEstadoModelo = require('../pedidoestado/pedidoestado-model');
+const ComensalModelo = require('../comensal/comensal-model');
+
+
 const sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
@@ -20,7 +24,9 @@ const PedidoModelo = sequelize.define('pedido', {
     },
     idEstadia: {
         type: Sequelize.INTEGER,
-        allowNull: false
+    },
+    idReserva: {
+        type: Sequelize.INTEGER,
     },
     codPedido: {
         type: Sequelize.STRING,
@@ -39,5 +45,8 @@ const PedidoModelo = sequelize.define('pedido', {
 
 PedidoModelo.hasMany(PagoPedidoModelo, { foreignKey: "idPedido" });
 PedidoModelo.hasMany(DetallePedidoProductoModelo, { foreignKey: "idPedido" });
+PedidoModelo.hasMany(PedidoEstadoModelo, {foreignKey: "idPedido"});
+PedidoModelo.belongsTo(ComensalModelo, {foreignKey: "idComensal"});
+
 
 module.exports = PedidoModelo;

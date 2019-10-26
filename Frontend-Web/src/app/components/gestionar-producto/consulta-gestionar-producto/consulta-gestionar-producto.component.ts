@@ -12,6 +12,9 @@ export class ConsultaGestionarProductoComponent implements OnInit {
 
   producto: Producto;
   estadoProducto: string;
+  // 
+  url = "http://localhost:3000/traerImagen/producto/"; // hay que sumarle el path de imagen ...
+  urlAlternativo = "http://localhost:3000/traerImagen/producto/BBBBBBBBB-2-9.jpeg"; // este es de prueban .. en /upload agregar una imagen con ID 1 y en carpeta producto y tomer el nombre y ponerlo remplazando BB .... jpeg
 
   constructor(
     public productoService: ProductoService,
@@ -37,19 +40,7 @@ export class ConsultaGestionarProductoComponent implements OnInit {
 
   generarAccion(accion: string) {
     console.log("accion: ", accion);
-
-    if (accion != "estado") {
-      this.router.navigate( [`/producto_crud/${this.producto.idProducto}/${accion}`] );
-    }
-    else {
-      this.cambiarEstado();
-    }
-    
-  }
-
-  cambiarEstado() {
-    console.log("Cambiar estado del producto");
-    
+    this.router.navigate( [`/producto_crud/${this.producto.idProducto}/${accion}`] );
   }
 
 }

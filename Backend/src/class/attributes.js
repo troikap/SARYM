@@ -199,6 +199,39 @@ movimientocaja = [
     "descripcionMovimientoCaja"
 ]
 
+pedido = [
+    "idPedido",
+    "codPedido",
+    "fechaYHoraFinPedido",
+    "fechaYHoraInicioPedido",
+]
+
+detallepedidoproducto = [
+    "idDetallePedidoProducto",
+    "cantidadPedidoProducto",
+    "fechaYhoraEntregaPedidoProducto",
+    "fechaYHoraInicioPedidoProducto",
+]
+
+comensal = [
+    "idComensal",
+    "aliasComensal",
+    "edadComensal",
+]
+
+pedidoestado = [
+    "idPedidoEstado",
+    "descripcionPedidoEstado",
+    "fechaYHoraAltaPedidoEstado",
+    "fechaYHoraBajaPedidoEstado"
+]
+
+estadopedido = [
+    "idEstadoPedido",
+    "codEstadoPedido",
+    "nombreEstadoPedido"
+]
+
 module.exports = {
     usuario, 
     usuarioestado, 
@@ -227,5 +260,10 @@ module.exports = {
     preciomenupromocion,
     detallemenupromocionproducto,
     tipomovimientocaja,
-    movimientocaja
+    movimientocaja,
+    pedido,
+    detallepedidoproducto,
+    comensal,
+    pedidoestado,
+    estadopedido
 }

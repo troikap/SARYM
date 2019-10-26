@@ -31,6 +31,9 @@ import { ConsultaGestionarMenupromocionComponent } from './components/gestionar-
 import { CrudGestionarMenupromocionComponent } from './components/gestionar-menupromocion/crud-gestionar-menupromocion/crud-gestionar-menupromocion.component';
 import { AbmSectorComponent } from './components/abm-sector/search-sector/abm-sector.component';
 import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.component';
+import { UploadComponent } from './upload/upload.component';
+
+import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
 
 
 const routes: Routes = [
@@ -64,7 +67,9 @@ const routes: Routes = [
     { path: 'menupromocion', component: GestionarMenupromocionComponent },
     { path: 'menupromocion_consulta/:id', component: ConsultaGestionarMenupromocionComponent },
     { path: 'menupromocion_crud/:id/:accion', component: CrudGestionarMenupromocionComponent },
+    { path: 'menupromocion_agregarproducto/:id', component: AgregarProductoGestionarMenupromocionComponent },
     { path: 'reporte', component: GenerarReporteComponent },
+    { path: 'upload/:id/:nombre/:path/:retorno', component: UploadComponent },
     { path: '',  redirectTo: '/login', pathMatch: 'full' },
     { path: '**', redirectTo: 'home'}
 ];

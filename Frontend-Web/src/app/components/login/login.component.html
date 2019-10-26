@@ -5,9 +5,9 @@
             <div id="login">
                 <form [formGroup]='form' *ngIf='form'>
                     <fieldset class="clearfix">
-                        <p><span class="fa fa-user"></span><input formControlName='username' id='username' type="text" Placeholder="Username"></p>
+                        <p><span class="fa fa-user"></span><input formControlName='cuitUsuario' id='cuitUsuario' type="text" Placeholder="Ingrese Cuit"></p>
                         <!-- JS because of IE support; better: placeholder="Username" -->
-                        <p><span class="fa fa-lock"></span><input formControlName='password' id='password' type="password" Placeholder="Password" ></p>
+                        <p><span class="fa fa-lock"></span><input formControlName='contrasenaUsuario' id='contrasenaUsuario' type="password" Placeholder="Contraseña"></p>
                         <!-- JS because of IE support; better: placeholder="Password" -->
                         <div>
                             <span style="width:48%; text-align:left;  display: inline-block;"><a class="small-text" href="#">Forgot password?</a></span>

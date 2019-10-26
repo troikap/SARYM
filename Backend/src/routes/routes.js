@@ -26,7 +26,8 @@ var CajaController = require('../class/caja/caja-controller');
 var TipoMovimientoCajaController = require('../class/tipomovimientocaja/tipomovimientocaja-controller');
 var MedioPagoController = require('../class/mediopago/mediopago-controller');
 var UploadController = require('../class/upload/upload-controller');
-
+var TipoMenuPromocionController = require('../class/tipomenupromocion/tipomenupromocion-controller');
+var PedidoController = require('../class/pedido/pedido-controller');
 
 // estados
 var EstadoUsuarioController = require('../class/estadousuario/estadousuario-controller');
@@ -43,7 +44,9 @@ router
 // utiles
     .post('/login', UsuarioController.login)
     .post('/existUser', UsuarioController.validateExistUser)
-    .put('/subirImagen', UploadController.subirImagen)
+    .post('/subirImagen', UploadController.subirImagen)
+    .get('/traerImagen/:tipo/:img', UploadController.traerImagen)
+
 
 // usuario
     .get('/usuario', verificaToken, UsuarioController.getAll)
@@ -66,6 +69,17 @@ router
     .put('/producto/cambiarEstado', verificaToken, ProductoController.cambiarEstado)
     .put('/producto/cambiarPrecio', verificaToken, ProductoController.cambiarPrecio)
 
+// pedido
+    .get('/pedido', verificaToken, PedidoController.getAll)
+    .get('/pedido/:idPedido', verificaToken, PedidoController.getOne)
+    .get('/pedido/name/:codPedido', verificaToken, PedidoController.getToName)
+    .get('/pedido/todo/:anyAttribute', verificaToken, PedidoController.getToAllAttributes)
+    .post('/pedido', verificaToken, PedidoController.create)
+    .put('/pedido/actualizarDatos', verificaToken, PedidoController.actualizarDatos)
+    .put('/pedido/cambiarEstado', verificaToken, PedidoController.cambiarEstado)
+    .put('/pedido/cambiarPrecio', verificaToken, PedidoController.cambiarPrecio)
+    .put('/pedido/editarProductos', verificaToken, PedidoController.editarProductos)
+
 // menupromocion
     .get('/menupromocion', verificaToken, MenuPromocionController.getAll)
     .get('/menupromocion/:idMenuPromocion', verificaToken, MenuPromocionController.getOne)
@@ -76,7 +90,6 @@ router
     .put('/menupromocion/cambiarEstado', verificaToken, MenuPromocionController.cambiarEstado)
     .put('/menupromocion/cambiarPrecio', verificaToken, MenuPromocionController.cambiarPrecio)
     .put('/menupromocion/editarProductos', verificaToken, MenuPromocionController.editarProductos)
-
 
 // mesa
     .get('/mesa', verificaToken, MesaController.getAll)
@@ -131,6 +144,15 @@ router
     .post('/tipomoneda', verificaToken, TipoMonedaController.create)
     .put('/tipomoneda', verificaToken, TipoMonedaController.update)
     .delete('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.destroy)
+
+// tipomenupromocion
+    .get('/tipomenupromocion', verificaToken, TipoMenuPromocionController.getAll)
+    .get('/tipomenupromocion/:idTipoMenuPromocion', verificaToken, TipoMenuPromocionController.getOne)
+    .get('/tipomenupromocion/name/:nombreTipMenuPromocion', verificaToken, TipoMenuPromocionController.getToName)
+    .get('/tipomenupromocion/todo/:anyAttribute', verificaToken, TipoMenuPromocionController.getToAllAttributes)
+    .post('/tipomenupromocion', verificaToken, TipoMenuPromocionController.create)
+    .put('/tipomenupromocion', verificaToken, TipoMenuPromocionController.update)
+    .delete('/tipomenupromocion/:idTipoMenuPromocion', verificaToken, TipoMenuPromocionController.destroy)
 
 // unidadmedida
     .get('/unidadmedida', verificaToken, UnidadMedidaController.getAll)

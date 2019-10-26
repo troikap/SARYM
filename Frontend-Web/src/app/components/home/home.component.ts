@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HomeService, IconoHome } from 'src/app/services/home/home.service';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl} from '@angular/forms';
+import { UploadService } from 'src/app/services/upload/upload.service';
+
 
 // import { AbmUsuarioComponent } from '../abm-usuario/abm-usuario.component';
 // import { AbmTipomonedaComponent } from '../abm-tipomoneda/abm-tipomoneda.component';
@@ -17,31 +20,62 @@ import { HomeService, IconoHome } from 'src/app/services/home/home.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
+
 })
 export class HomeComponent implements OnInit {
   
   iconosHome: IconoHome [];
   iconosEncargado: IconoHome [];
 
-  variableRol = "Administrador";
+  variableRol: string;
   variableLibre = false;
+  public respuestaImagenEnviada: any;
+  public resultadoCarga: any;
+  private myForm: FormGroup;
+  uploadedFiles: Array<File> = [];
 
   constructor( private activatedRoute: ActivatedRoute, 
-               private homeSercie: HomeService, 
-               private routes: Router ) 
+               private homeService: HomeService, 
+               private routes: Router,
+               private formBuilder: FormBuilder,
+               public uploadService: UploadService ) 
     { 
       this.activatedRoute.params.subscribe(params => {
-        this.iconosHome = this.homeSercie.getIconosHome();
-        this.iconosEncargado = this.homeSercie.getIconosEncargado();      
+        this.iconosHome = this.homeService.getIconosHome();
+        this.iconosEncargado = this.homeService.getIconosEncargado();
       });
+
+      this.myForm = this.formBuilder.group({
+        'archivo': new FormControl()
+      });
+      this.variableRol = localStorage.getItem("rolUsuario");
+
     }
 
   ngOnInit() {
     /* Hacer lógica que verifique si se encuentra logueado. En caso de no estar 
-    logueado, redirige a pantalla de login */
-    
+    logueado, redirige a pant alla de login */
+    console.log("LALALALAL", localStorage.getItem("rolUsuario"));
   }
+
+  onUpload(){
+    console.log("Upload");
+    console.log("this From :",this.myForm)
+    this.uploadService.uploadFile( this.myForm ).then((res) => {
+      console.log('RESPUESTA ; ',res)
+    })
+  }
+
+  onFileChange(e) {
+    console.log('FileChange ', e.target.files)
+    this.uploadedFiles = e.target.files;
+    console.log(" OK " ,this.uploadedFiles)
+  }
+
+
+
 
   goTo( ruta: string) {
     let next;
@@ -96,6 +130,9 @@ export class HomeComponent implements OnInit {
     break;
     case 'gestionar-estado-estadia':
       next = '/gestionarestadoestadia';
+    break;
+    case 'upload':
+      next = '/upload';
     break;
     }
     this.routes.navigate([next]);
