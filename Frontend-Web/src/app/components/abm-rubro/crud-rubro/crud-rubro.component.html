@@ -26,9 +26,7 @@
             <div class="form-group">
                 <label for="descripcion" class="col col-form-label">Descripción</label>
                 <textarea aria-label="Ingrese Descripción" id="descripcion" formControlName="descripcion" class="form-control"></textarea>
-                <p class="input-error-msg" *ngIf="form.controls.descripcion.errors?.required && form.controls.descripcion.touched">
-                    Campo Obligatorio.
-                </p>
+                <p class="input-error-msg" *ngIf="form.controls.descripcion.errors?.required && form.controls.descripcion.touched">Campo Obligatorio.</p>
             </div>
             <hr>
             <div *ngIf="accionGet != 'eliminar'">
