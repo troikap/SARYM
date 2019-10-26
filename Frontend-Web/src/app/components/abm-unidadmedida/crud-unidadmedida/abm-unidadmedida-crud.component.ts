@@ -65,8 +65,8 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
     
             this.newForm = {
               id: this.unidadMedida['idUnidadMedida'],
-              codigo:  this.unidadMedida['codUnidadMedida'],
-              nombre:  this.unidadMedida['nombreUnidadMedida'],
+              codigo:  new FormControl('', [Validators.required, Validators.pattern(/^([A-Z]+|[0-9]+)+$/)]),
+              nombre:  new FormControl('', [Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú0-9]+$/)]),
               caracter:  this.unidadMedida['caracterUnidadMedida'],
               descripcion:  this.unidadMedida['descripcionUnidadMedida']
             }

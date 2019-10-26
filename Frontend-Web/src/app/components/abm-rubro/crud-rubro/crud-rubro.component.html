@@ -11,18 +11,16 @@
             <div class="form-group">
                 <label for="codigo" class="col col-form-label">Código</label>
                 <input type="text" class="form-control" id="codigo" placeholder="Ingrese Código" formControlName="codigo">
-                <p class="input-error-msg" *ngIf="form.controls.codigo.errors?.required && form.controls.codigo.touched">
-                    Campo Obligatorio.
-                </p>
+                <p class="input-error-msg" *ngIf="form.controls.codigo.errors?.required && form.controls.codigo.touched">Campo Obligatorio.</p>
+                <p class="input-error-msg" *ngIf="form.controls.codigo.errors?.pattern && form.controls.codigo.touched">Solo números y/o letras en mayúsculas. Ej: COD10A</p>
 
             </div>
 
             <div class="form-group">
                 <label for="nombre" class="col col-form-label">Nombre</label>
                 <input type="text" class="form-control" id="nombre" placeholder="Ingrese Nombre" formControlName="nombre">
-                <p class="input-error-msg" *ngIf="form.controls.nombre.errors?.required && form.controls.nombre.touched">
-                    Campo Obligatorio.
-                </p>
+                <p class="input-error-msg" *ngIf="form.controls.nombre.errors?.required && form.controls.nombre.touched">Campo Obligatorio.</p>
+                <p class="input-error-msg" *ngIf="form.controls.nombre.errors?.pattern && form.controls.nombre.touched">Valor no válido. Ej: Entradas2</p>
             </div>
 
             <div class="form-group">

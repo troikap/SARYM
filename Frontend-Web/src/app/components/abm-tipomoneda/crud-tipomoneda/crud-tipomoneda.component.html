@@ -8,7 +8,7 @@
                 <input type="text" id="id" placeholder="Identificador" formControlName="id" class="form-control">
             </div>
             <div class="form-group">
-                <label for="simbolo" class="col col-form-label">Código</label>
+                <label for="simbolo" class="col col-form-label">Símbolo</label>
                 <input type="text" class="form-control" id="simbolo" placeholder="Ingrese Código" formControlName="simbolo">
                 <p class="input-error-msg" *ngIf="form.controls.simbolo.errors?.required && form.controls.simbolo.touched">
                     Campo Obligatorio.
@@ -18,9 +18,8 @@
             <div class="form-group">
                 <label for="nombre" class="col col-form-label">Nombre</label>
                 <input type="text" class="form-control" id="nombre" placeholder="Ingrese Nombre" formControlName="nombre">
-                <p class="input-error-msg" *ngIf="form.controls.nombre.errors?.required && form.controls.nombre.touched">
-                    Campo Obligatorio.
-                </p>
+                <p class="input-error-msg" *ngIf="form.controls.nombre.errors?.required && form.controls.nombre.touched">Campo Obligatorio.</p>
+                <p class="input-error-msg" *ngIf="form.controls.nombre.errors?.pattern && form.controls.nombre.touched">Valor no válido. Ej: Peso Argentino</p>
             </div>
 
             <hr>

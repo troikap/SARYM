@@ -27,7 +27,7 @@ export class CrudTipomonedaComponent implements OnInit {
     this.form = new FormGroup({
       'id': new FormControl({value: '', disabled: true}),
       'simbolo': new FormControl('', Validators.required),
-      'nombre': new FormControl('', Validators.required)
+      'nombre': new FormControl('',  [Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)]),
     })
 
     this.activatedRoute.params.subscribe(params => {
