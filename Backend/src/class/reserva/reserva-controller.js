@@ -27,6 +27,7 @@ const tratarError = require("../../middlewares/handleError"),
   idtable4 = `id${legend4}`,
   idtable5 = `id${legend5}`,
 //   idtable6 = `id${legend6}`,
+  idtable7 = `id${legend7}`,
   nombretable = `cod${legend}`,
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
@@ -461,10 +462,11 @@ ReservaController.cambiarEstado = (req, res) => {
 };
 
 ReservaController.editarMesa = (req, res) => {
-  let locals = {};
+  var locals = { };
+  locals['detalle'] = [];
   let body = req.body;
   ReservaModelo.findOne({
-    where: {
+      where: {
       [idtable]: body[idtable] },
       attributes: attributes.reserva,
       include: [
@@ -502,56 +504,92 @@ ReservaController.editarMesa = (req, res) => {
           attributes: attributes.comensal,
         },
       ],
-    }).then(response => {
-    if (!response || response == 0) {
-      locals['title'] = `No existe ${legend} con id ${body[idtable]}.`;
-      locals['tipo'] = 2;
-      res.json(locals);
-    } else {
-      if (!body[idtable4]) {
-        locals['title'] = `No se envia ${legend4}.`;
-        locals['tipo'] = 2;
-        res.json(locals);
+  }).then(response => {
+      if(!response || response == 0) {
+          locals['title'] = `No existe ${legend} con id ${idtable}.`;
+          locals['tipo'] = 2;
+          res.json(locals);
       } else {
-        MesaModelo.findOne({where: { [idtable4]: body[idtable4] }}).then((tipomoneda) =>{
-          if(!tipomoneda || tipomoneda == 0) {
-            locals['title'] = `No existe ${legend4} con id ${idtable4}.`;
-            locals['tipo'] = 2;
-            res.json(locals);
-          } else {
-            let pushPrecioProducto = {};
-            pushPrecioProducto['fechaYHoraHastaPrecioProducto'] = new Date();
-              DetalleReservaMesaModelo.update(pushPrecioProducto , {
-                where: { [idtable]: body[idtable], fechaYHoraHastaPrecioProducto: null }
-            }).then((respons) => {
-              if(!respons || respons == 0) {
-                locals['title'] = `No existe ${legend2} habilitado.`;
-                locals['tipo'] = 2;
-                res.json(locals);
+          let i = 1;
+          let push = {};
+          let fecha = new Date();
+          for ( let elem of body.detalle ) {
+            // let intermedio;
+              if ( elem['idDetalleReservaMesa'] ) {
+                  if ( elem['baja'] == true ) {
+                      console.log("BORRAR   :---------------------------")
+                      DetalleReservaMesaModelo.destroy({where: {[idtable7]: elem[idtable7]}}).then((resp) => {
+                          if(!resp || resp == 0) {
+                              push = {
+                                  ['title']: `Detalle NO eliminado con ${[idtable7]} = ${elem[[idtable7]]}.`,
+                                  ['tipo']: 2
+                              }
+                          } else {
+                              push = {
+                                  ['title']: `Detalle eliminado con ${[idtable7]} = ${elem[[idtable7]]}.`,
+                                  ['tipo']: 1
+                              }
+                          }
+                          // intermedio['detalle'].push(push);
+                      })
+                  } 
               } else {
-                body['fechaYHoraDesdePrecioProducto'] = new Date();
-                DetalleReservaMesaModelo.create(body).then((resp) => {
-                  if (!resp || resp == 0 ){
-                    locals['title'] = `No se pudo crear ${legend2}.`;
-                    locals['tipo'] = 2;
+                  elem[idtable] = body[idtable];
+                  if ( elem[idtable4] != null ) {
+                      MesaModelo.findOne({ where: {[idtable4]: elem[idtable4]}}).then((mesa) => {
+                          if(!mesa || mesa == 0) {
+                              push = {
+                                  ['title']: `No existe ${legend4} con id ${idtable4}.`,
+                                  ['tipo']: 2
+                              }
+                          } else {
+                            DetalleReservaMesaModelo.findOne({ where: { [idtable4]: elem[idtable4] ,  [idtable]: body[idtable] }}).then((detallereservamesa) => {
+                              if(!detallereservamesa || detallereservamesa == 0) {
+                                DetalleReservaMesaModelo.create(elem).then((resp) => {
+                                  console.log("CREAR  : +++++++++++++++++++++++++++++", elem)
+                                  if(!resp || resp == 0) {
+                                      push = {
+                                          ['title']: `Detalle NO creado: ${elem[idtable4]} con cantidad ${elem['cantidadProductoMenuPromocion']}`,
+                                          ['tipo']: 2
+                                      }
+                                  } else {
+                                      push = {
+                                          ['title']: `Detalle creado: ${elem[idtable4]} con cantidad ${elem['cantidadProductoMenuPromocion']}`,
+                                          ['tipo']: 1
+                                      }
+                                  }
+                                  // intermedio['detalle'].push(push);
+                                })
+                              } else {
+                                push = {
+                                  ['title']: `No existe ${legend4} con id ${idtable4}.`,
+                                  ['tipo']: 2
+                              }
+                              console.log("Ya Existe -----------------")
+                              }
+                            })
+                          }
+                          // intermedio['detalle'].push(push);
+                          console.log(locals)
+                      })
                   } else {
-                    locals['title'] = `Se creo correctamente ${legend2}.`;
-                    locals['tipo'] = 1;
+                      push = {
+                          ['title']: `Detalle posicion ${i} falta mandar idMesa.`,
+                          ['tipo']: 2
+                      }
+                      // intermedio['detalle'].push(push);
+                      console.log("Falta  idMesa  : +++++++++++++++++++++++++++++")
                   }
-                  res.json(locals);
-                }).catch((error) => {
-                  locals = tratarError.tratarError(error, legend);
-                  res.json(locals);
-                });
               }
-            }).catch((error) => {
-              locals = tratarError.tratarError(error, legend);
-              res.json(locals);
-            });
+              console.log("LOCALS " , i)
+              // locals['detalle'] = intermedio;
+              if ( Object.keys(body.detalle).length == i) {
+                  locals['title'] = 'Registros actualizados.';
+                  res.json(locals);
+              }
+              i += 1;
           }
-        })
       }
-    }
   });
 };
 
