@@ -106,7 +106,7 @@ export class HomeComponent implements OnInit {
       next = '/reasignarmozoaestadia';
     break;
     case 'habilitar-deshabilitar-producto':
-      next = '/habilitardeshabilitarproducto';
+      next = '/habilitar-deshabilitar-producto';
     break;
     case 'anular-pedido':
       next = '/anularpedido';

@@ -34,6 +34,9 @@ import { CrudSectorComponent } from './components/abm-sector/crud-sector/crud-se
 import { CrudTipomonedaComponent } from './components/abm-tipomoneda/crud-tipomoneda/crud-tipomoneda.component';
 import { CrudGestionarProductoComponent } from './components/gestionar-producto/crud-gestionar-producto/crud-gestionar-producto.component';
 import { ConsultaGestionarProductoComponent } from './components/gestionar-producto/consulta-gestionar-producto/consulta-gestionar-producto.component';
+import { HabilitarDeshabilitarProductoComponent } from './components/habilitar-deshabilitar-producto/search-habilitar-deshabilitar-producto/habilitar-deshabilitar-producto.component';
+import { CrudHabilitarDeshabilitarProductoComponent } from './components/habilitar-deshabilitar-producto/crud-habilitar-deshabilitar-producto/crud-habilitar-deshabilitar-producto.component';
+import { ConsultaHabilitarDeshabilitarProductoComponent } from './components/habilitar-deshabilitar-producto/consulta-habilitar-deshabilitar-producto/consulta-habilitar-deshabilitar-producto.component';
 import { NoimagePipe } from './pipes/noimage-producto.pipe';
 import { CrudGestionarMenupromocionComponent } from './components/gestionar-menupromocion/crud-gestionar-menupromocion/crud-gestionar-menupromocion.component';
 import { ConsultaGestionarMenupromocionComponent } from './components/gestionar-menupromocion/consulta-gestionar-menupromocion/consulta-gestionar-menupromocion.component';
@@ -72,6 +75,9 @@ import { LoginGuardGuard } from './components/login-guard.guard';
     EditCajaComponent,
     AbmRubroComponent,
     GestionarProductoComponent,
+    HabilitarDeshabilitarProductoComponent,
+    CrudHabilitarDeshabilitarProductoComponent,
+    ConsultaHabilitarDeshabilitarProductoComponent,
     GestionarMenupromocionComponent,
     GenerarReporteComponent,
     AbmUnidadmedidaCreateComponent,

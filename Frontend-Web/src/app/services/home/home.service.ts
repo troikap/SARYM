@@ -126,7 +126,7 @@ export class HomeService {
         id: '4',
         nombre: 'Habilitar/Deshabilitar Producto',
         clave: 'habilitar-deshabilitar-producto',
-        path: '/habilitardeshabilitarproducto',
+        path: '/habilitar-deshabilitar-producto',
         img: 'assets/imagenes/producto.png',
         responsable: 'Encargado'
       },

@@ -18,6 +18,9 @@ import { CrudCajaComponent } from './components/abm-caja/crud-caja/crud-caja.com
 import { EditCajaComponent } from './components/abm-caja/edit-caja/edit-caja.component';
 import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro.component';
 import { GestionarProductoComponent } from './components/gestionar-producto/search-gestionar-producto/gestionar-producto.component';
+import { HabilitarDeshabilitarProductoComponent } from './components/habilitar-deshabilitar-producto/search-habilitar-deshabilitar-producto/habilitar-deshabilitar-producto.component';
+import { CrudHabilitarDeshabilitarProductoComponent } from './components/habilitar-deshabilitar-producto/crud-habilitar-deshabilitar-producto/crud-habilitar-deshabilitar-producto.component';
+import { ConsultaHabilitarDeshabilitarProductoComponent } from './components/habilitar-deshabilitar-producto/consulta-habilitar-deshabilitar-producto/consulta-habilitar-deshabilitar-producto.component';
 import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/search-gestionar-menupromocion/gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud-usuario.component';
@@ -64,6 +67,9 @@ const routes: Routes = [
     { path: 'rubro', component: AbmRubroComponent, canActivate: [LoginGuardGuard]},
     { path: 'rubro_crud/:id/:accion', component: CrudRubroComponent },
     { path: 'producto', component: GestionarProductoComponent },
+    { path: 'habilitar-deshabilitar-producto', component: HabilitarDeshabilitarProductoComponent },
+    { path: 'crud_habilitar_deshabilitar_producto/:id/:accion', component: CrudHabilitarDeshabilitarProductoComponent },
+    { path: 'consulta_habilitar_deshabilitar_producto/:id', component: ConsultaHabilitarDeshabilitarProductoComponent },
     { path: 'producto_consulta/:id', component: ConsultaGestionarProductoComponent },
     { path: 'producto_crud/:id/:accion', component: CrudGestionarProductoComponent },
     { path: 'menupromocion', component: GestionarMenupromocionComponent },
