@@ -13,6 +13,7 @@
                         <label for="cuitUsuario" class="col col-form-label">Cuit</label>
                         <input type="text" class="form-control" id="cuitUsuario" placeholder="Ingrese Respuesta" formControlName="cuitUsuario">
                         <p class="input-error-msg" *ngIf="form.controls.cuitUsuario.errors?.required && form.controls.cuitUsuario.touched">Campo Obligatorio.</p>
+                        <p class="input-error-msg" *ngIf="form.controls.cuitUsuario.errors?.pattern && form.controls.cuitUsuario.touched">CUIT Inválido.</p>
                     </div>
                 </div>
                 <div class="col">
@@ -20,6 +21,7 @@
                         <label for="dniUsuario" class="col col-form-label">DNI</label>
                         <input type="text" class="form-control" id="dniUsuario" placeholder="Ingrese Respuesta" formControlName="dniUsuario">
                         <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.required && form.controls.dniUsuario.touched">Campo Obligatorio.</p>
+                        <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.not_equal && form.controls.dniUsuario.touched">No coincide con CUIT.</p>
                     </div>
                 </div>
             </div>

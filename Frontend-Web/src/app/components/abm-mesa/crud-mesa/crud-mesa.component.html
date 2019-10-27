@@ -13,6 +13,8 @@
                         <label for="nroMesa" class="col col-form-label">Número de Mesa</label>
                         <input type="text" class="form-control" id="nroMesa" placeholder="Ingrese Respuesta" formControlName="nroMesa">
                         <p class="input-error-msg" *ngIf="form.controls.nroMesa.errors?.required && form.controls.nroMesa.touched">Campo Obligatorio.</p>
+                        <p class="input-error-msg" *ngIf="form.controls.nroMesa.errors?.pattern && form.controls.nroMesa.touched">Solo números. Máximo 3 cifras.</p>
+                   
                     </div>
                 </div>
             </div>
@@ -21,6 +23,7 @@
                     <label for="capacidadMesa" class="col col-form-label">Capacidad de Mesa</label>
                     <input type="text" class="form-control" id="capacidadMesa" placeholder="Ingrese Respuesta" formControlName="capacidadMesa">
                     <p class="input-error-msg" *ngIf="form.controls.capacidadMesa.errors?.required && form.controls.capacidadMesa.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="form.controls.capacidadMesa.errors?.pattern && form.controls.capacidadMesa.touched">Solo números. Máximo 2 cifras.</p>
                 </div>
             </div>
             <div class="form-group row">
@@ -32,7 +35,7 @@
             </div>
             <div class="form-group row">
                 <div class="col">
-                    <label for="idEstadoMesa" class="col col-form-label">Estado</label>
+                    <label for="idEstadoMesa" class="col col-form-label">Estado Mesa</label>
                     <select Placeholder='Seleccione' formControlName='idEstadoMesa' class="form-control"> 
                         <option *ngFor='let element of estadoMesas' [value]='element.idEstadoMesa'>{{element.nombreEstadoMesa}}</option>
                     </select>
@@ -51,7 +54,7 @@
                 <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
             </div>
             <div *ngIf="accionGet == 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+                <button type="submit" class="btn btn-outline-primary btn-block">Eliminar</button>
             </div>
 
         </form>

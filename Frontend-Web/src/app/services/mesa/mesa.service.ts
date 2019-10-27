@@ -14,6 +14,8 @@ export class MesaService {
    dir = '/mesa';
    dir2 = '/codMesa';
    dir3 = '/todo';
+   dir4 = '/cambiarEstado';
+   dir5 = '/actualizarDatos'; 
 
    tokenEnviroment = environment.token;
 
@@ -80,7 +82,7 @@ export class MesaService {
      headers = headers.append('token', this.tokenEnviroment);
      console.log("DATOS A ENVIAR :",datas)
     return this.http
-      .put(`${this.url}${this.dir}`, datas, {headers})
+      .put(`${this.url}${this.dir}${this.dir5}`, datas, {headers})
       .toPromise()
       .then(response => {
         return response as Mesa;
@@ -88,13 +90,27 @@ export class MesaService {
       .catch(  );
   }
 
+  updateMesaEstado( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', this.tokenEnviroment);
+     console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}${this.dir4}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        return response as Mesa;
+      })
+      .catch(  );
+  }
+
+  //No la elimina, solo cambia el estado al estado 2.
   deleteMesa( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
     console.log("valor del Header:",headers)
     console.log("DATOS A ENVIAR:",datas)
     return this.http
-      .delete(`${this.url}${this.dir}/${datas.idMesa}`, {headers})
+      .put(`${this.url}${this.dir}${this.dir4}`, datas, {headers})
       .toPromise()
       .then(response => {
         return response as Mesa;
