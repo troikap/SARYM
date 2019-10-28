@@ -1,5 +1,9 @@
 /* https://craftpip.github.io/jquery-confirm/ */
 
+// NOTA: si al utilizar cualquiera de estas funciones, da error, verificar que NO se debe importar la siguiente línea:
+// import * as $ from 'jquery'
+// Al importar esa linea, el código lanza error.
+
 //Manejo de Mensajes en Frontend-Web
 
 let titulo= "Titulo";
@@ -193,7 +197,7 @@ let mensaje= "Contenido";
     '</form>',
     buttons: {
         formSubmit: {
-            text: 'Submit',
+            text: 'Aceptar',
             btnClass: 'btn-blue',
             action: function () {
                 var name = this.$content.find('.name').val();
@@ -204,7 +208,7 @@ let mensaje= "Contenido";
                 ($ as any).alert('Your name is ' + name);
             }
         },
-        cancel: function () {
+        cancelar: function () {
             //close
         },
     },

@@ -1,4 +1,3 @@
-import * as $ from 'jquery'
 import { Component, OnInit } from '@angular/core';
 import { MenuPromocionService } from 'src/app/services/menu-promocion/menu-promocion.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -14,7 +13,8 @@ import { Producto } from 'src/app/model/producto/producto.model';
   styleUrls: ['./agregar-producto-gestionar-menupromocion.component.scss']
 })
 export class AgregarProductoGestionarMenupromocionComponent implements OnInit {
-  public listaProductos: any [] = [];
+  public listaProductosAux: Producto [] = [];
+  public listaProductos: Producto [] = [];
 
   menuPromocion: MenuPromocion;
 
@@ -61,9 +61,8 @@ export class AgregarProductoGestionarMenupromocionComponent implements OnInit {
         console.log(data);
         if (data != null) {
           console.log("RESULT ----------------->", data);
-          this.listaProductos = data;
-
-          // this.listaProductos.push(data); // Para insertar un solo elemento
+          this.listaProductosAux = data;
+          this.eliminarProductosYaAgregados();
         }
         else {
           this.listaProductos = [];
@@ -79,8 +78,40 @@ export class AgregarProductoGestionarMenupromocionComponent implements OnInit {
     this.productoService.getAllProductos()
       .then((res: any) => {
         console.log("getAllProductosDisponibles", res.data);
-        this.listaProductos =  res.data;
+        this.listaProductosAux = res.data;
+        this.eliminarProductosYaAgregados();
       })
+  }
+
+  eliminarProductosYaAgregados() {
+    this.listaProductos = [];
+
+    let idProducto = 0;
+    let idProductoDetalleMenuPromocion = 0;
+
+    let insertar = true;
+    
+    console.log("Lista actual de Productos Asiciados:", this.menuPromocion.detallemenupromocionproductos);
+    console.log("Lista actual de Productos Disponibles:", this.listaProductosAux);
+
+    for (let i = 0; i < this.listaProductosAux.length; i ++) {
+      idProducto = this.listaProductosAux[i].idProducto;
+      for (let j = 0; j < this.menuPromocion.detallemenupromocionproductos.length; j ++) {
+        idProductoDetalleMenuPromocion = this.menuPromocion.detallemenupromocionproductos[j].producto.idProducto;
+        if (idProducto == idProductoDetalleMenuPromocion) {
+          insertar = false;
+        }
+        idProductoDetalleMenuPromocion = 0;
+      }
+
+      if (insertar) {
+        this.listaProductos.push(this.listaProductosAux[i]);
+      }
+
+      insertar = true;
+      idProducto = 0;
+    }
+    console.log("Lista actualizada de Productos Disponibles:", this.listaProductos);
   }
 
   getDTOProductoCrear(producto: Producto, menuPromocion: MenuPromocion, cantidadProducto: number) {
@@ -129,61 +160,208 @@ export class AgregarProductoGestionarMenupromocionComponent implements OnInit {
     return dtoProductoEliminar;
   }
 
-  seleccionarProducto(producto: Producto, menuPromocion: MenuPromocion) {
-    console.log("Agregar Producto", producto);
-    console.log("Agregar menuPromocio", menuPromocion);
-    
-    let cantidadProductoStr = prompt("Ingrese Cantidad de Producto", "1");
-    let cantidadProducto = 0;
+  seleccionarProducto(producto: Producto, menuPromocion: MenuPromocion, accion: string) {
+    console.log("producto", producto);
+    console.log("menuPromocio", menuPromocion);
 
-    if (!/^([0-9])*$/.test(cantidadProductoStr)) {
-      alert("Ingrese solo numeros, mayores a cero");
-    }
-    else {
-      cantidadProducto = parseInt(cantidadProductoStr, 10);
-    }
+    let _this = this;
     
-    console.log("cantidad",cantidadProducto);
+    if (accion == "agregar" || accion == "editar") {
+      
+      let cantidadProductoStr: string;
 
-    let dtoProductoEliminar = this.getDTOProductoEliminar(producto, menuPromocion);
-    let dtoProductoCrear = this.getDTOProductoCrear(producto, menuPromocion, cantidadProducto);
-    
-    let idDetalleMenuPromocionProducto = dtoProductoEliminar.detalle[0].idDetalleMenuPromocionProducto;
+      ($ as any).confirm({
+        title: "Ingreso de datos",
+        content: '' +
+        '<form action="" class="formName">' +
+        '<div class="form-group">' +
+        '<label>Ingrese la cantidad de producto</label>' +
+        '<input type="text" placeholder="Cantidad" class="cantidadProductoStr form-control" required />' +
+        '</div>' +
+        '</form>',
+        buttons: {
+            formSubmit: {
+                text: 'Aceptar',
+                btnClass: 'btn-blue',
+                action: function () {
+                    cantidadProductoStr = this.$content.find('.cantidadProductoStr').val();
+
+                    if(cantidadProductoStr) { // Si ingresó datos
+                      
+                      let cantidadProducto = 0;
   
-    console.log("dtoProductoEliminar: ", dtoProductoEliminar);
-    console.log("dtoProductoCrear: ", dtoProductoCrear);
-    
-    console.log("idDetalleMenuPromocionProducto", idDetalleMenuPromocionProducto);  
+                      if (!/^([1-9])*$/.test(cantidadProductoStr)) {
+                        ($ as any).alert('Ingrese solo numeros, mayores a cero');
+                        return false;
+                      }
+                      else {
+                        cantidadProducto = parseInt(cantidadProductoStr, 10);
+                      }
+                  
+                      console.log("cantidad",cantidadProducto);
+            
+                      let dtoProductoCrear = _this.getDTOProductoCrear(producto, menuPromocion, cantidadProducto);
+            
+                      if (accion == "agregar") {
+                        console.log("dtoProductoCrear: ", dtoProductoCrear);
+            
+                        _this.menupromocionService.editarProductoMenuPromocion(dtoProductoCrear) // Crear Asociación Procucto
+                          .then((res: any) => {
+                            
+                            console.log("Respuesta de Crear Producto: ", res);
+                            ($ as any).confirm({
+                              title: "Éxito",
+                              content: "Se ha agregado el producto exitosamente",
+                              type: 'green',
+                              typeAnimated: true,
+                              theme: 'material',
+                              buttons: {
+                                  aceptar: {
+                                      text: 'Aceptar',
+                                      btnClass: 'btn-green',
+                                      action: function(){
+                                        //Recargar página
+                                        location.reload();
+                                        
+                                      }
+                                  }
+                              }
+                            });
+                  
+                          });
+                        }
+                        else { // Editar
+                          let dtoProductoEliminar = _this.getDTOProductoEliminar(producto, menuPromocion);
+              
+                          console.log("dtoProductoEliminar: ", dtoProductoEliminar);
+                          console.log("dtoProductoCrear: ", dtoProductoCrear);
+                
+                          _this.menupromocionService.editarProductoMenuPromocion(dtoProductoEliminar) // Eliminar Asociación Procucto
+                          .then((res: any) => {
+                            console.log("Respuesta de eliminar Producto: ", res);
+                    
+                            _this.menupromocionService.editarProductoMenuPromocion(dtoProductoCrear) // Crear Asociación Procucto
+                            .then((res: any) => {
+                              console.log("Respuesta de Crear Producto: ", res);
+                              
+                              ($ as any).confirm({
+                                title: "Éxito",
+                                content: "Se ha editado la cantidad de producto exitosamente",
+                                type: 'green',
+                                typeAnimated: true,
+                                theme: 'material',
+                                buttons: {
+                                    aceptar: {
+                                        text: 'Aceptar',
+                                        btnClass: 'btn-green',
+                                        action: function(){
+                                          
+                                          //Recargar página
+                                          location.reload();
+              
+                                        }
+                                    }
+                                }
+                              });
+                      
+              
+                            });
+                    
+                            
+                          });
+                        }
+                    }
+                    else { //No se ingresan valores
+                      ($ as any).confirm({
+                        title: "Error",
+                        content: "No ha ingresado datos de la cantidad de producto. Imposible realizar esta acción",
+                        type: 'red',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-red',
+                                action: function(){
+                                  console.log("Confirmación de mensaje de error");
+                                }
+                            }
+                        }
+                      });
+                    }
+                }
+            },
+            cancelar: function () {
+                console.log("Cancelado por el usuario");
+            },
+        },
+        onContentReady: function () {
+            // bind to events
+            var jc = this;
+            this.$content.find('form').on('submit', function (e) {
+                // if the user submits the form by pressing enter in the field.
+                e.preventDefault();
+                jc.$$formSubmit.trigger('click'); // reference the button and click it
+            });
+          }
+      });
 
-    if (idDetalleMenuPromocionProducto != 0 ) {
-      this.menupromocionService.editarProductoMenuPromocion(dtoProductoEliminar) // Eliminar Asociación Procucto
-      .then((res: any) => {
-        console.log("Respuesta de eliminar Producto: ", res);
+    }
+    else { // Eliminar
 
-        this.menupromocionService.editarProductoMenuPromocion(dtoProductoCrear) // Crear Asociación Procucto
-        .then((res: any) => {
-          console.log("Respuesta de Crear Producto: ", res);
+      ($ as any).confirm({
+        title: "Alerta",
+        content: "¿Desea desasociar el producto seleccionado?",
+        type: 'orange',
+        typeAnimated: true,
+        theme: 'material',
+        buttons: {
+            aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-orange',
+                action: function(){
+                  
+                  let dtoProductoEliminar = _this.getDTOProductoEliminar(producto, menuPromocion);
+                  console.log("dtoProductoEliminar: ", dtoProductoEliminar);
+                  _this.menupromocionService.editarProductoMenuPromocion(dtoProductoEliminar) // Eliminar Asociación Procucto
+                  .then((res: any) => {
+                    console.log("Respuesta de eliminar Producto: ", res);
+                    
+                    ($ as any).confirm({
+                      title: "Éxito al desasociar",
+                      content: "Se ha desasociado el producto exitosamente",
+                      type: 'green',
+                      typeAnimated: true,
+                      theme: 'material',
+                      buttons: {
+                          aceptar: {
+                              text: 'Aceptar',
+                              btnClass: 'btn-green',
+                              action: function(){
+                                
+                                //Recargar página
+                                location.reload();
 
-        });
 
-        
+                              }
+                          }
+                      }
+                    });
+                    
+
+
+                  });
+                }
+            },
+            cerrar: {
+              text: 'Cerrar',
+              action: function(){
+                console.log("Cancelación de eliminación de producto.");
+              }
+          }
+        }
       });
     }
-    else {
-      this.menupromocionService.editarProductoMenuPromocion(dtoProductoCrear) // Crear Asociación Procucto
-        .then((res: any) => {
-          console.log("Respuesta de Crear Producto: ", res);
-
-        });
-    }
-   
-   
-
-      
-
-
-    
-
     
   }
 
