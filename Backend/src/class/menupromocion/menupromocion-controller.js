@@ -101,6 +101,7 @@ MenuPromocionController.getToAllAttributes = (req, res, next) => {
                         },
                         {
                             model: ProductoEstadoModelo,
+                            where: { fechaYHoraBajaProductoEstado: null },
                             attributes: attributes.productoestado,
                             include: [
                                 {
@@ -111,6 +112,7 @@ MenuPromocionController.getToAllAttributes = (req, res, next) => {
                         },
                         {
                             model: PrecioProductoModelo,
+                            where: { fechaYHoraHastaPrecioProducto: null },
                             attributes: attributes.precioproducto,
                             include: [
                                 {
@@ -142,74 +144,76 @@ MenuPromocionController.getToName = (req, res, next) => {
     MenuPromocionModelo.findAll({
         where: { [nombretable]: { [Op.substring]: req.params[nombretable] }},
         attributes: attributes.menupromocion,
-        include: [
-            {
-                model: TipoMenuPromocionModelo,
-                attributes: attributes.tipomenupromocion,
-            },
-            {
-                model: MenuPromocionEstadoModelo,
-                where: { fechaYHoraBajaMenuPromocionEstado: null },
-                attributes: attributes.menupromocionestado,
-                include: [
-                    {
-                    model: EstadoMenuPromocionModelo,
-                    attributes: attributes.estadomenupromocion
-                    }
-                ]
-            },
-            {
-                model: PrecioMenuPromocionModelo,
-                where: { fechaYHoraHastaPrecioMenuPromocion: null },
-                attributes: attributes.preciomenupromocion,
-                include: [
-                    {
-                        model: TipoMonedaModelo,
-                        attributes: attributes.tipomoneda
-                    }
-                ],
-            },
-            {
-                model: DetalleMenuPromocionProductoModelo,
-                attributes: attributes.detallemenupromocionproducto,
-                include: [
-                    {
-                        model: ProductoModelo,
-                        attributes: attributes.producto,
-                        include: [
-                            {
-                                model: RubroModelo,
-                                attributes: attributes.rubro,
-                            },
-                            {
-                                model: UnidadMedidaModelo,
-                                attributes: attributes.unidadmedida,
-                            },
-                            {
-                                model: ProductoEstadoModelo,
-                                attributes: attributes.productoestado,
-                                include: [
-                                    {
-                                        model: EstadoProductoModelo,
-                                        attributes: attributes.estadoproducto
-                                    }
-                                ]
-                            },
-                            {
-                                model: PrecioProductoModelo,
-                                attributes: attributes.precioproducto,
-                                include: [
-                                    {
-                                        model: TipoMonedaModelo,
-                                        attributes: attributes.tipomoneda
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ],
-            },
-        ],
+    include: [
+        {
+            model: TipoMenuPromocionModelo,
+            attributes: attributes.tipomenupromocion,
+        },
+        {
+            model: MenuPromocionEstadoModelo,
+            where: { fechaYHoraBajaMenuPromocionEstado: null },
+            attributes: attributes.menupromocionestado,
+            include: [
+                {
+                model: EstadoMenuPromocionModelo,
+                attributes: attributes.estadomenupromocion
+                }
+            ]
+        },
+        {
+            model: PrecioMenuPromocionModelo,
+            where: { fechaYHoraHastaPrecioMenuPromocion: null },
+            attributes: attributes.preciomenupromocion,
+            include: [
+                {
+                    model: TipoMonedaModelo,
+                    attributes: attributes.tipomoneda
+                }
+            ],
+        },
+        {
+            model: DetalleMenuPromocionProductoModelo,
+            attributes: attributes.detallemenupromocionproducto,
+            include: [
+                {
+                    model: ProductoModelo,
+                    attributes: attributes.producto,
+                    include: [
+                        {
+                            model: RubroModelo,
+                            attributes: attributes.rubro,
+                        },
+                        {
+                            model: UnidadMedidaModelo,
+                            attributes: attributes.unidadmedida,
+                        },
+                        {
+                            model: ProductoEstadoModelo,
+                            where: { fechaYHoraBajaProductoEstado: null },
+                            attributes: attributes.productoestado,
+                            include: [
+                                {
+                                    model: EstadoProductoModelo,
+                                    attributes: attributes.estadoproducto
+                                }
+                            ]
+                        },
+                        {
+                            model: PrecioProductoModelo,
+                            where: { fechaYHoraHastaPrecioProducto: null },
+                            attributes: attributes.precioproducto,
+                            include: [
+                                {
+                                    model: TipoMonedaModelo,
+                                    attributes: attributes.tipomoneda
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+        },
+    ],
     }).then(project => {
       if (!project || project == 0) {
         locals['title'] = "No existe ningun registro valor : " + req.params[nombretable];
@@ -272,6 +276,7 @@ MenuPromocionController.getAll = (req, res) => {
                         },
                         {
                             model: ProductoEstadoModelo,
+                            where: { fechaYHoraBajaProductoEstado: null },
                             attributes: attributes.productoestado,
                             include: [
                                 {
@@ -282,6 +287,7 @@ MenuPromocionController.getAll = (req, res) => {
                         },
                         {
                             model: PrecioProductoModelo,
+                            where: { fechaYHoraHastaPrecioProducto: null },
                             attributes: attributes.precioproducto,
                             include: [
                                 {
@@ -358,6 +364,7 @@ MenuPromocionController.getOne = (req, res) => {
                         },
                         {
                             model: ProductoEstadoModelo,
+                            where: { fechaYHoraBajaProductoEstado: null },
                             attributes: attributes.productoestado,
                             include: [
                                 {
@@ -368,6 +375,7 @@ MenuPromocionController.getOne = (req, res) => {
                         },
                         {
                             model: PrecioProductoModelo,
+                            where: { fechaYHoraHastaPrecioProducto: null },
                             attributes: attributes.precioproducto,
                             include: [
                                 {
