@@ -25,8 +25,8 @@ export class CrudRubroComponent implements OnInit {
   ) { 
     this.form = new FormGroup({
       'id': new FormControl({value: '', disabled: true}),
-      'codigo': new FormControl('', Validators.required),
-      'nombre': new FormControl('', Validators.required),
+      'codigo': new FormControl('', [Validators.required, Validators.pattern(/^([A-Z]+|[0-9]+)+$/)]),
+      'nombre': new FormControl('', [Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú0-9]+$/)]),
       'descripcion': new FormControl('', Validators.required)
     })
 
