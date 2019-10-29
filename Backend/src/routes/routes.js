@@ -29,6 +29,7 @@ var TipoMenuPromocionController = require('../class/tipomenupromocion/tipomenupr
 var PedidoController = require('../class/pedido/pedido-controller');
 var ReservaController = require('../class/reserva/reserva-controller');
 var EstadiaController = require('../class/estadia/estadia-controller');
+var PagoController = require('../class/pago/pago-controller');
 
 // estados
 var EstadoUsuarioController = require('../class/estadousuario/estadousuario-controller');
@@ -58,6 +59,15 @@ router
     .get('/usuario/todo/:anyAttribute', verificaToken, UsuarioController.getToAllAttributes)
     .post('/usuario/:idUsuario', verificaToken, UsuarioController.delete, UsuarioController.changeState)
     .delete('/usuario/:idUsuario', verificaToken, UsuarioController.destroy)
+
+// pago
+    .get('/pago', verificaToken, PagoController.getAll)
+    .get('/pago/:idPago', verificaToken, PagoController.getOne)
+    .get('/pago/name/:codPago', verificaToken, PagoController.getToName)
+    .get('/pago/todo/:anyAttribute', verificaToken, PagoController.getToAllAttributes)
+    .post('/pago', verificaToken, PagoController.create)
+    .put('/pago/actualizarDatos', verificaToken, PagoController.actualizarDatos)
+    .put('/pago/editarPagoPedido', verificaToken, PagoController.editarPagoPedido)
 
 // producto
     .get('/producto', verificaToken, ProductoController.getAll)

@@ -299,6 +299,24 @@ mozoestadia = [
     "fechaYHoraFinMozoEstadia"
 ]
 
+pago = [
+    "idPago",
+    "idMedioPago",
+    "codPago",
+    "importeTotalAPagar",
+    "fechaYHoraAltaPago",
+]
+
+pagopedido = [
+    "idPagoPedido",
+    "importePagoPedido",
+]
+
+mediopago = [
+    "idMedioPago",
+    "nombreMedioPago",
+]
+
 module.exports = {
     usuario, 
     usuarioestado, 
@@ -342,5 +360,8 @@ module.exports = {
     estadoestadia,
     detalleestadiamesa,
     clienteestadia,
-    mozoestadia
+    mozoestadia,
+    pago,
+    pagopedido,
+    mediopago
 }
