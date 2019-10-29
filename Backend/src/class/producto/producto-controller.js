@@ -77,7 +77,7 @@ ProductoController.getToAllAttributes = (req, res, next) => {
     ],
   }).then(project => {
     if (!project || project == 0) {
-      locals['title'] = `No existe registro con valor : ${req.params[anyAttribute]}.`;
+      locals['title'] = `No existe registro con valor : ${req.params['anyAttribute']}.`;
       locals['tipo'] = 2;
     } else {
       locals['title'] = `${legend}`;

@@ -4,6 +4,8 @@ import { ToastController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { EnvioReservaService } from '../services/envio-reserva/envio-reserva.service'
 import { UsuarioService } from '../services/usuario/usuario.service';
+import { ReservaService } from '../services/reserva/reserva.service';
+import { StorageService, Log } from '../services/storage/storage.service';
 
 
 @Component({
@@ -28,7 +30,11 @@ export class NuevaReservaPage implements OnInit {
     private navController: NavController,
     private envioReservaService: EnvioReservaService,
     private usuarioservicio: UsuarioService,
+    private storage: StorageService,
+    private reservaservicio: ReservaService,
+
   ) {
+    this.loadCurrentUsuario();
     this.form = this.formBuilder.group({
       fechaReserva: ['2019-09-23', Validators.required],
       horaEntrada: ['22:50', Validators.required],
@@ -43,8 +49,28 @@ export class NuevaReservaPage implements OnInit {
   ngOnInit() {
     this.tratarFecha();
     this.setValidatorsHours();
+    this.traerReservas()
   }
 
+  loadCurrentUsuario() {
+    this.storage.getCurrentUsuario().then((data) => {
+      console.log(data)
+      // this.logueo = logs;
+      // if (logs) {
+      // this.form.setValue( {
+      //   cuitUsuario: logs[0].cuit, 
+      //   contrasenaUsuario: logs[0].pass,
+      //   checkRecordar: false} )
+      // }
+    })
+  }
+
+  traerReservas() {
+    this.reservaservicio.getReservas('libre')
+    .then((resp) => {
+      console.log("AA ",resp)
+    })
+  }
   tratarFecha(){
     let date = new Date();
     let dd = date.getDate();
@@ -141,12 +167,12 @@ export class NuevaReservaPage implements OnInit {
       sector: this.form.value['sector'],
       nroMesa: this.form.value['nroMesa'],
       comensales: this.comensales,
-      idTraidoBackEnd: 23231
     }
+    reserva['codReserva'] = 
     console.log('Reserva', reserva)
     this.presentToast(reserva);
-    this.envioReservaService.sendObjectSource(reserva);
-    this.navController.navigateForward('/reserva' );
+    // this.envioReservaService.sendObjectSource(reserva);
+    // this.navController.navigateForward('/reserva' );
   }
 
   async presentToast( reserva ) {

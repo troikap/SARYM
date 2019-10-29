@@ -13,6 +13,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 // servicios
 // import { UsuarioServiceService } from './services/usuario.service';
+import { ReservaService } from './services/reserva/reserva.service';
+
 
 //qr
 import { NgxQRCodeModule } from 'ngx-qrcode2';
@@ -61,6 +63,7 @@ import { ModalDetalleCatalogoPage } from './modal/modal-detalle-catalogo/modal-d
     QRScanner,
     Camera,
     ModalDetalleCatalogoPage,
+    ReservaService,
     
     // UsuarioServiceService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

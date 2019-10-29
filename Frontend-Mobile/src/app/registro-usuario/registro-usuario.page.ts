@@ -70,24 +70,37 @@ export class RegistroUsuarioPage implements OnInit {
 
   ngOnInit() {
     this.token = this.recuperarToken();
+  }
 
+  setValidateDNI() {
+    this.form.controls['dniUsuario'].valueChanges
+    .subscribe((resp) => {
+      let cuit = String(this.form.value.cuitUsuario).slice(2,10);
+      if ( Number(cuit) == Number(resp)) {
+        console.log("Son Iguales")
+        this.form.controls.dniUsuario.setErrors(null);
+      } else {
+        console.log("No son Iguales")
+        this.form.controls.dniUsuario.setErrors({not_equals: true});
+      }
+    })
   }
 
   validarExistenciaUsuario(){
     console.log("Validar Existencia")
-       this.form.controls.cuitUsuario.valueChanges
-        .subscribe( respuesta => {
-          this.usuarioservicio.validarExistenciaUsuario( respuesta )
-          .then( (res) => {
-            if (res.tipo == 2) {
-              this.existenciaUsuario = true;
-              this.mensajeExistenciaUsuario = res.descripcion;
-              this.form.controls.cuitUsuario.setErrors({pattern: true});
-            } else {
-              this.existenciaUsuario = false;
-            }
-          })
-      });
+      this.form.controls.cuitUsuario.valueChanges
+      .subscribe( respuesta => {
+        this.usuarioservicio.validarExistenciaUsuario( respuesta )
+        .then( (res) => {
+          if (res.tipo == 2) {
+            this.existenciaUsuario = true;
+            this.mensajeExistenciaUsuario = res.descripcion;
+            this.form.controls.cuitUsuario.setErrors({pattern: true});
+          } else {
+            this.existenciaUsuario = false;
+          }
+        })
+    });
   }
 
   recuperarToken() {
@@ -108,6 +121,7 @@ export class RegistroUsuarioPage implements OnInit {
               this.validarExistenciaUsuario();
               this.nuevoUsuario = false;
             }
+            this.setValidateDNI()
           });
       })
   }
@@ -164,7 +178,6 @@ export class RegistroUsuarioPage implements OnInit {
   traerDepartamentos( token: string) {
     this.departamnetoservicio.getDepartamentos( token)
       .then((res) => {
-        console.log("AAAA ", res)
         this.departamentos = res;
       })
   }
@@ -172,8 +185,6 @@ export class RegistroUsuarioPage implements OnInit {
   traerUsuario(id, token) {
     this.usuarioservicio.getUsuario(id, token)
       .then((res) => {
-        console.log("AAAA ", res)
-
         this.usuario = res['Usuario'];
         this.transformarForm();
       })
