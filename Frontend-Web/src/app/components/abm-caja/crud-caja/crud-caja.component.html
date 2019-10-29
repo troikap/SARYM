@@ -9,7 +9,7 @@
                         <label for="nroCaja" class="col col-form-label">Numero de Caja</label>
                         <input type="number" class="form-control" id="nroCaja" placeholder="Ingrese Respuesta" formControlName="nroCaja">
                         <p class="input-error-msg" *ngIf="form.controls.nroCaja.errors?.required && form.controls.nroCaja.touched">Campo Obligatorio.</p>
-                        <p class="input-error-msg" *ngIf="form.controls.nroCaja.errors?.pattern && form.controls.nroCaja.touched">Debe ser Positivo y menor que 66.</p>
+                        <p class="input-error-msg" *ngIf="form.controls.nroCaja.errors?.pattern && form.controls.nroCaja.touched">Debe ser positivo y menor que 100.</p>
                     </div>
                 </div>                
             </div>
