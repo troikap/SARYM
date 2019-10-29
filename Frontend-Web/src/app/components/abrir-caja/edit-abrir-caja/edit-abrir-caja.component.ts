@@ -41,7 +41,7 @@ export class EditAbrirCajaComponent implements OnInit {
       'nroCaja': new FormControl('', Validators.required),
       'idEstadoCaja': new FormControl('', Validators.required),      
       'descripcionCajaEstado': new FormControl('', Validators.required),
-      'montoAperturaCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([,][0-9]{1,2})|[0-9]+)$/)]),     
+      'montoAperturaCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([.][0-9]{1,2})|[0-9]+)$/)]),     
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -105,7 +105,7 @@ export class EditAbrirCajaComponent implements OnInit {
         idEstadoCaja: 2,
         idUsuario: localStorage.getItem("idUsuario"),
         descripcionCajaEstado: this.form.value['descripcionCajaEstado'],
-        montoAperturaCajaEstado: this.form.value['montoCierreCajaEstado']
+        montoAperturaCajaEstado: this.form.value['montoAperturaCajaEstado']
 
 
       }
@@ -139,7 +139,7 @@ export class EditAbrirCajaComponent implements OnInit {
             btnClass: 'btn-blue',
             action: function () {
               let caja = _this.reemplazarCaja(); 
-
+             
               if(_idmontoCierreAnterior == _montoCierreCajaEstado || _idmontoCierreAnterior == null ){
               
                 _this.cajaServicio.updateCajaEstado(caja)
@@ -147,7 +147,7 @@ export class EditAbrirCajaComponent implements OnInit {
                     console.log("ACTUALIZADO", response);
 
                     const titulo = "Éxito";
-                    const mensaje = "Se ha abierto la caja de forma exitrosa";
+                    const mensaje = "Se ha abierto la caja de forma exitosa";
 
                     ($ as any).confirm({
                       title: titulo,

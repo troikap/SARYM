@@ -32,7 +32,7 @@
                         <label for="montoAperturaCajaEstado" class="col col-form-label">Monto actual en Caja</label>
                         <input type="text" class="form-control" id="montoAperturaCajaEstado" placeholder="Ingrese Respuesta" formControlName="montoAperturaCajaEstado">
                         <p class="input-error-msg" *ngIf="form.controls.montoAperturaCajaEstado.errors?.required && form.controls.montoAperturaCajaEstado.touched">Campo Obligatorio.</p>
-                        <p class="input-error-msg" *ngIf="form.controls.montoAperturaCajaEstado.errors?.pattern && form.controls.montoAperturaCajaEstado.touched">Debe ser Positivo.</p>
+                        <p class="input-error-msg" *ngIf="form.controls.montoAperturaCajaEstado.errors?.pattern && form.controls.montoAperturaCajaEstado.touched">Debe ser positivo y tener hasta dos decimales</p>
                     </div>
                 </div>                
             </div>

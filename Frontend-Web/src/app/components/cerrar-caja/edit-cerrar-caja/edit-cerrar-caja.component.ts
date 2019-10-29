@@ -31,6 +31,7 @@ export class EditCerrarCajaComponent implements OnInit {
   private ingresos:number =0;
   private egresos:number=0;
   private total:number=0;
+  private montoDeAperturaAnterior:number=0;
 
 
 
@@ -47,7 +48,7 @@ export class EditCerrarCajaComponent implements OnInit {
       'idCaja': new FormControl({ value: '', disabled: true }),
       'nroCaja': new FormControl('', Validators.required),            
       'descripcionCajaEstado': new FormControl('', Validators.required),
-      'montoCierreCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([,][0-9]{1,2})|[0-9]+)$/)] ),            
+      'montoCierreCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([.][0-9]{1,2})|[0-9]+)$/)] ),            
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -129,7 +130,7 @@ export class EditCerrarCajaComponent implements OnInit {
                     console.log("ACTUALIZADO", response);
 
                     const titulo = "Éxito";
-                    const mensaje = "Se ha cerrado la caja de forma exitrosa";
+                    const mensaje = "Se ha cerrado la caja de forma exitosa";
 
                     ($ as any).confirm({
                       title: titulo,
@@ -160,7 +161,7 @@ export class EditCerrarCajaComponent implements OnInit {
                  
 
                     const titulo = "Error";
-                    const mensaje = "No coincide el monto de cierre con la suma de movimientos de caja del dia anterior";
+                    const mensaje = "No coincide el monto de cierre con la suma de movimientos de caja hasta el momento";
 
                     ($ as any).confirm({
                       title: titulo,
@@ -220,15 +221,16 @@ export class EditCerrarCajaComponent implements OnInit {
           this.caja = data;
           this.listaMovimientoCaja = this.caja.movimientocajas; 
           this.fechaYHoraCajaEstado =  this.caja['cajaestados'][0].fechaYHoraAltaCajaEstado;
+          this.montoDeAperturaAnterior= this.caja['cajaestados'][0].montoAperturaCajaEstado;
 var length = this.listaMovimientoCaja.length;
 for (let i = 0; i < length; i++) {
   console.log(this.listaMovimientoCaja[i].fechaYHoraMovimientoCaja,this.fechaYHoraCajaEstado);
   if(this.listaMovimientoCaja[i].fechaYHoraMovimientoCaja > this.fechaYHoraCajaEstado ){
     
     if(this.listaMovimientoCaja[i].tipomovimientocaja.idTipoMovimientoCaja == 1){
-    _this.ingresos += this.listaMovimientoCaja[i].montoMovimientoCaja;
+    _this.ingresos += this.listaMovimientoCaja[i].montoMovimientoCaja; 
    
-     
+    console.log("el monto de apertura anterior es",this.montoDeAperturaAnterior);
   }else{
     _this.egresos += this.listaMovimientoCaja[i].montoMovimientoCaja;
   }
@@ -237,7 +239,7 @@ for (let i = 0; i < length; i++) {
   
 };  
 
-_this.total = _this.ingresos - _this.egresos;
+_this.total = _this.ingresos - _this.egresos+ this.montoDeAperturaAnterior;
 
 this.newForm = {
   idCaja: this.caja['idCaja'],
