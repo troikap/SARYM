@@ -57,7 +57,7 @@ export class CrudGestionarProductoComponent implements OnInit {
       'idUnidadMedida': new FormControl('', Validators.required),
       'cantidadMedida': new FormControl('', [Validators.required, Validators.pattern(/^[0-9]+$/)]),
       'descripcionProducto': new FormControl('', Validators.required),
-      'importePrecioProducto': new FormControl('', Validators.required),
+      'importePrecioProducto': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([.][0-9]{1,2})|[0-9]+)$/)]),
       'idTipoMoneda': new FormControl('',  Validators.required),
       'idRubro': new FormControl('',  Validators.required),
       'idEstadoProducto': new FormControl(''),
@@ -597,7 +597,7 @@ export class CrudGestionarProductoComponent implements OnInit {
                       
                       ($ as any).confirm({
                         title: "Error",
-                        content: `${response.title}. No es posible realizar esta acción`, 
+                        content: `Ya existe el registro. No es posible realizar esta acción`,  
                         type: 'red',
                         typeAnimated: true,
                         theme: 'material',
