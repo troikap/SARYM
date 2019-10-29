@@ -23,7 +23,6 @@ const EstadiaEstadoModelo = sequelize.define('estadiaestado', {
 	},
 	descripcionEstadiaEstado: {
 		type: Sequelize.STRING,
-		allowNull: false
 	},
 	fechaYHoraAltaEstadiaEstado: {
 		type: Sequelize.DATE,
@@ -36,6 +35,6 @@ const EstadiaEstadoModelo = sequelize.define('estadiaestado', {
 	// options
 });
 
-EstadiaEstadoModelo.belongsTo(EstadoEstadiaModelo, { foreignKey: "idEstadoEstadia" });
+EstadiaEstadoModelo.belongsTo(EstadoEstadiaModelo, { foreignKey: "idEstadoEstadia"});
 
 module.exports = EstadiaEstadoModelo;

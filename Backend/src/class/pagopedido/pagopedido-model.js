@@ -29,7 +29,7 @@ const PagoPedidoModelo = sequelize.define('pagopedido', {
     // options
 });
 
-// PagoPedidoModelo.belongsTo(PedidoModelo, { foreignKey: "idPedido" });
+PagoPedidoModelo.belongsTo(PedidoModelo, { foreignKey: "idPedido" });
 
 
 module.exports = PagoPedidoModelo;

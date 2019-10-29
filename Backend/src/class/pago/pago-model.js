@@ -3,6 +3,8 @@
 const Sequelize = require('sequelize');
 const PagoPedidoModelo = require('../pagopedido/pagopedido-model');
 const MedioPagoModelo = require('../mediopago/mediopago-model');
+const ComensalModelo = require('../comensal/comensal-model');
+
 var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
@@ -24,7 +26,8 @@ const PagoModelo = sequelize.define('pago', {
   },
   codPago: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true
   },
   importeTotalAPagar: {
     type: Sequelize.FLOAT,
@@ -40,5 +43,7 @@ const PagoModelo = sequelize.define('pago', {
 
 PagoModelo.hasMany(PagoPedidoModelo, { foreignKey: "idPago" });
 PagoModelo.belongsTo(MedioPagoModelo, { foreignKey: "idMedioPago" });
+PagoModelo.belongsTo(ComensalModelo, { foreignKey: "idComensal" });
+
 
 module.exports = PagoModelo;

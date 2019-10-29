@@ -6,6 +6,8 @@ const ComensalModelo = require("../comensal/comensal-model");
 const PedidoModelo = require("../pedido/pedido-model");
 const ReservaEstadoModelo = require("../reservaestado/reservaestado-model");
 const UsuarioModelo = require("../usuario/usuario-model");
+// const EstadiaModelo = require("../estadia/estadia-model");
+
 
 var sequelize = require("../../database/connection");
 
@@ -33,15 +35,15 @@ const ReservaModelo = sequelize.define(
             allowNull: false
         },
         fechaReserva: {
-            type: Sequelize.DATE,
+            type: Sequelize.DATEONLY,
             allowNull: false
         },
         horaEntradaReserva: {
-            type: Sequelize.DATE,
+            type: Sequelize.TIME,
             allowNull: false
         },
         horaSalidaReserva: {
-            type: Sequelize.DATE
+            type: Sequelize.TIME
         },
         tokenReserva: {
             type: Sequelize.STRING,
@@ -57,5 +59,7 @@ ReservaModelo.hasMany(ComensalModelo, { foreignKey: "idReserva" });
 ReservaModelo.hasMany(PedidoModelo, { foreignKey: "idReserva" });
 ReservaModelo.hasMany(ReservaEstadoModelo, { foreignKey: "idReserva" });
 ReservaModelo.belongsTo(UsuarioModelo, { foreignKey: "idUsuario" })
+// ReservaModelo.hasOne(EstadiaModelo, { foreignKey: "idReserva" })
+
 
 module.exports = ReservaModelo;

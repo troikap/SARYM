@@ -17,6 +17,7 @@ export class MenuPromocionService {
   ditActalizarDatos = '/actualizarDatos'
   dirCambiarEstado = '/cambiarEstado';
   dirCambiarPrecio = '/cambiarPrecio';
+  dirEditarProducto = '/editarProductos';
 
   tokenEnviroment = environment.token;
 
@@ -137,6 +138,20 @@ export class MenuPromocionService {
         return response;
       })
       .catch(  );
+  }
+
+  editarProductoMenuPromocion(datas: any): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log("DATOS A ENVIAR :",datas)
+    return this.http
+    .put(`${this.url}${this.dir}${this.dirEditarProducto}`, datas, {headers})
+    .toPromise()
+    .then(response => {
+      console.log("Servicio editarProductoMenuPromocion()", response);
+      return response;
+    })
+    .catch();
   }
 
 }

@@ -28,6 +28,7 @@ var UploadController = require('../class/upload/upload-controller');
 var TipoMenuPromocionController = require('../class/tipomenupromocion/tipomenupromocion-controller');
 var PedidoController = require('../class/pedido/pedido-controller');
 var ReservaController = require('../class/reserva/reserva-controller');
+var EstadiaController = require('../class/estadia/estadia-controller');
 
 // estados
 var EstadoUsuarioController = require('../class/estadousuario/estadousuario-controller');
@@ -46,7 +47,6 @@ router
     .post('/existUser', UsuarioController.validateExistUser)
     .post('/subirImagen', UploadController.subirImagen)
     .get('/traerImagen/:tipo/:img?', UploadController.traerImagen)
-
 
 // usuario
     .get('/usuario', verificaToken, UsuarioController.getAll)
@@ -79,6 +79,18 @@ router
     .put('/pedido/cambiarEstado', verificaToken, PedidoController.cambiarEstado)
     .put('/pedido/editarDetallePedidoProducto', verificaToken, PedidoController.editarDetallePedidoProducto)
 
+// estadia
+    .get('/estadia', verificaToken, EstadiaController.getAll)
+    .get('/estadia/:idEstadia', verificaToken, EstadiaController.getOne)
+    .get('/estadia/name/:idEstadia', verificaToken, EstadiaController.getToName)
+    .get('/estadia/todo/:anyAttribute', verificaToken, EstadiaController.getToAllAttributes)
+    .post('/estadia', verificaToken, EstadiaController.create)
+    .put('/estadia/actualizarDatos', verificaToken, EstadiaController.actualizarDatos)
+    .put('/estadia/cambiarEstado', verificaToken, EstadiaController.cambiarEstado)
+    .put('/estadia/editarComensal', verificaToken, EstadiaController.editarComensal)
+    .put('/estadia/editarMesa', verificaToken, EstadiaController.editarMesa)
+    .put('/estadia/editarClienteEstadia', verificaToken, EstadiaController.editarClienteEstadia)
+
 // reserva
     .get('/reserva', verificaToken, ReservaController.getAll)
     .get('/reserva/:idReserva', verificaToken, ReservaController.getOne)
@@ -87,7 +99,8 @@ router
     .post('/reserva', verificaToken, ReservaController.create)
     .put('/reserva/actualizarDatos', verificaToken, ReservaController.actualizarDatos)
     .put('/reserva/cambiarEstado', verificaToken, ReservaController.cambiarEstado)
-    .put('/reserva/cambiarMesa', verificaToken, ReservaController.cambiarPrecio)
+    .put('/reserva/editarComensal', verificaToken, ReservaController.editarComensal)
+    .put('/reserva/editarMesa', verificaToken, ReservaController.editarMesa)
 
 // menupromocion
     .get('/menupromocion', verificaToken, MenuPromocionController.getAll)
@@ -188,7 +201,6 @@ router
     .get('/sector/todo/:anyAttribute', verificaToken, SectorController.getToAllAttributes)
     .post('/sector', verificaToken, SectorController.create)
     .put('/sector', verificaToken, SectorController.update)
-    // .post('/sector/:idSector', verificaToken, SectorController.delete)
     .delete('/sector/:idSector', verificaToken, SectorController.destroy)
 
 // caja
@@ -202,15 +214,6 @@ router
     .put('/caja/abrirCaja', verificaToken, CajaController.abrirCaja)
     .put('/caja/cerrarCaja', verificaToken, CajaController.cerrarCaja)
     .put('/caja/realizarMovimiento', verificaToken, CajaController.realizarMovimiento)
-
-// ubicacion
-    // .get('/ubicacion', verificaToken, UbicacionController.getAll)
-    // .get('/ubicacion/:idUbicacion', verificaToken, UbicacionController.getOne)
-    // .get('/ubicacion/name/:nroUbicacion', verificaToken, UbicacionController.getToName)
-    // .get('/ubicacion/todo/:anyAttribute', verificaToken, UbicacionController.getToAllAttributes)
-    // .post('/ubicacion', verificaToken, UbicacionController.create)
-    // .put('/ubicacion', verificaToken, UbicacionController.update)
-    // .delete('/ubicacion/:idUbicacion', verificaToken, UbicacionController.destroy)
 
 // ESTADOS ------------------------------------------------------------------------------------------------
 

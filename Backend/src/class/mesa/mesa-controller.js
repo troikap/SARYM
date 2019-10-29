@@ -260,10 +260,6 @@ MesaController.actualizarDatos = (req, res) => {
           model: SectorModelo,
           attributes: attributes.sector
         },
-        // {
-        //   model: UbicacionModelo,
-        //   attributes: attributes.ubicacion
-        // }
       ]
     }).then(response => {
       if (!response || response == 0) {
@@ -313,10 +309,6 @@ MesaController.cambiarEstado = (req, res) => {
           model: SectorModelo,
           attributes: attributes.sector
         },
-        // {
-        //   model: UbicacionModelo,
-        //   attributes: attributes.ubicacion
-        // }
       ]
     }).then(response => {
     if (!response || response == 0) {
@@ -324,6 +316,7 @@ MesaController.cambiarEstado = (req, res) => {
       locals['tipo'] = 2;
       res.json(locals);
     } else {
+      if (response.dataValues.mesaestados[0][idtable3] != body[idtable3]) {
       EstadoMesaModelo.findOne({where: { [idtable3]: body[idtable3] }}).then((estadomesa) =>{
         if(!estadomesa || estadomesa == 0) {
           locals['title'] = `No existe ${legend3} con id ${idtable3}.`;
@@ -360,6 +353,11 @@ MesaController.cambiarEstado = (req, res) => {
           });
         }
       })
+      } else {
+        locals['title'] = `${legend} ya se encuentra en ese Estado.`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      }
     }
   });
 };

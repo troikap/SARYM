@@ -1,1 +1,159 @@
-<p>agregar-producto-gestionar-menupromocion works!</p>
+<div class="container">
+    <h3 class="animated fadeIn fast">Cargar Productos a <strong> {{menuPromocion.nombreMenuPromocion}} ({{menuPromocion.codMenuPromocion}})</strong></h3>
+    <hr>
+    <table class="table table-borderless themed-grid-col">
+        <tr>
+
+
+            <td width="50%">
+
+
+
+                <h5>Productos Asociados</h5>
+                <hr><br>
+
+
+                <div class="row animated fadeIn fast" *ngIf="menuPromocion.detallemenupromocionproductos.length == 0">
+                    <div class="col-md-12">
+                        <div class="alert alert-info" role="alert">
+                            No contiene Productos asociados
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3" style="background-color: #e9ecef;">
+                    <div class="row no-gutters animated fadeIn fast" *ngFor="let detalleMenuPromocionProducto of menuPromocion.detallemenupromocionproductos">
+                        <div class="col-md-4">
+                            <p><strong>X{{detalleMenuPromocionProducto.cantidadProductoMenuPromocion}}</strong></p>
+                            <img src="{{rutaImagenProducto}}{{detalleMenuPromocionProducto.producto.pathImagenProducto}}" class="card-img-top img-fluid text-primary" [alt]="detalleMenuPromocionProducto.producto.nombreProducto">
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="card-body">
+
+                                <span class="badge badge-pill" style="font-size: 11px;" [ngClass]="{
+                                                'badge-success': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Activo' , 
+                                                'badge-warning': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'En Falta' , 
+                                                'badge-danger': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Inactivo', 
+                                                'badge-dark': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Eliminado'
+                                            }">{{detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto}}
+                                            </span> - {{detalleMenuPromocionProducto.producto.nombreProducto}} ({{detalleMenuPromocionProducto.producto.codProducto}})
+
+                                <hr>
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="font-size: 11px;">Rubro</th>
+                                            <th scope="col" style="font-size: 11px;">Unidad de Medida</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td scope="row" style="font-size: 11px;">{{detalleMenuPromocionProducto.producto.rubro?.nombreRubro}}</td>
+                                            <td scope="row" style="font-size: 11px;">{{detalleMenuPromocionProducto.producto.cantidadMedida}} {{detalleMenuPromocionProducto.producto.unidadmedida?.nombreUnidadMedida}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td scope="row">
+                                            <button type="button" class="btn btn-outline-warning btn-block" (click)="seleccionarProducto(detalleMenuPromocionProducto.producto, menuPromocion, 'editar')">Editar cantidad</button>
+                                        </td>
+                                        <td scope="row">
+                                            <button type="button" class="btn btn-outline-danger btn-block" (click)="seleccionarProducto(detalleMenuPromocionProducto.producto, menuPromocion, 'eliminar')">Eliminar</button>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <hr>
+
+                            </div>
+                        </div>
+
+
+                        <hr>
+                    </div>
+                </div>
+
+
+
+
+
+            </td>
+
+
+
+            <td width="50%" class="border-left">
+
+
+
+                <h5>Productos Disponibles</h5>
+                <hr><br>
+
+                <div class="row">
+                    <div class="col">
+                        <input #termino id="botonBuscar" type="text" (keyup)="buscarElemento(termino.value)" class="form-control mr-sm-2" placeholder="Buscar Producto...">
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row animated fadeIn fast" *ngIf="listaProductos.length == 0">
+                    <div class="col-md-12">
+                        <div class="alert alert-info" role="alert">
+                            No existen productos disponibles con el término <strong>{{termino.value}}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3" style="background-color: #e9ecef;">
+                    <div class="row no-gutters animated fadeIn fast" *ngFor="let producto of listaProductos">
+                        <div class="col-md-4">
+                            <img src="{{rutaImagenProducto}}{{producto.pathImagenProducto}}" class="card-img-top img-fluid text-primary" [alt]="producto.nombreProducto">
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="card-body">
+
+                                <span class="badge badge-pill" style="font-size: 11px;" [ngClass]="{
+                                    'badge-success': producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Activo' , 
+                                    'badge-warning': producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'En Falta' , 
+                                    'badge-danger': producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Inactivo', 
+                                    'badge-dark': producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Eliminado'
+                                }">{{producto.productoestados[0].estadoproducto.nombreEstadoProducto}}
+                                </span> - {{producto.nombreProducto}} ({{producto.codProducto}})
+
+                                <hr>
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="font-size: 11px;">Rubro</th>
+                                            <th scope="col" style="font-size: 11px;">Unidad de Medida</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td scope="row" style="font-size: 11px;">{{producto.rubro?.nombreRubro}}</td>
+                                            <td scope="row" style="font-size: 11px;">{{producto.cantidadMedida}} {{producto.unidadmedida?.nombreUnidadMedida}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button type="button" class="btn btn-outline-success btn-block" (click)="seleccionarProducto(producto, menuPromocion,'agregar')">Seleccionar</button>
+
+
+                            </div>
+                            <hr>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+
+            </td>
+        </tr>
+    </table>
+    <button onclick="history.back()" class="btn btn-primary">Volver</button>
+</div>

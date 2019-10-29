@@ -2,6 +2,7 @@
 
 const Sequelize = require('sequelize');
 var sequelize = require('../../database/connection');
+const UsuarioModelo = require("../usuario/usuario-model");
 
 // DEFINICION DEL MODELO
 const ClienteEstadiaModelo = sequelize.define('clienteestadia', {
@@ -23,5 +24,11 @@ const ClienteEstadiaModelo = sequelize.define('clienteestadia', {
 }, {
     // options
 });
+
+
+
+// ClienteEstadiaModelo.hasOne(UsuarioModelo, { foreignKey: "idUsuario" }) ;
+ClienteEstadiaModelo.belongsTo(UsuarioModelo, { foreignKey: "idUsuario" });
+
 
 module.exports = ClienteEstadiaModelo;

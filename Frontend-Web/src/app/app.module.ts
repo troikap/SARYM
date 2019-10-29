@@ -2,6 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ChartsModule } from 'ng2-charts';
 
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
+
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
@@ -106,6 +110,9 @@ import { LoginGuardGuard } from './components/login-guard.guard';
     HttpClientModule,
     AppRoutingModule,
     ChartsModule,
+
+    ScrollingModule,
+    DragDropModule
 
   ],
   providers: [UploadService, LoginGuardGuard],

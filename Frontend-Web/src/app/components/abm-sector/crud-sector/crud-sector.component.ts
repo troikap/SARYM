@@ -28,8 +28,8 @@ export class CrudSectorComponent implements OnInit {
   ) {
     this.form = this.formBuilder.group({
       idSector: [''],
-      codSector: ['', Validators.required],
-      nombreSector: ['', Validators.required],
+      codSector: ['', Validators.compose([Validators.required, Validators.pattern(/^([A-Z]+|[0-9]+)+$/)])],
+      nombreSector: ['', Validators.compose([Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú0-9]+$/)])],
       fechaYHoraBajaSector: ['']
     });
 
@@ -40,21 +40,7 @@ export class CrudSectorComponent implements OnInit {
       if (this.accionGet !== "crear") {
         this.sectorEncontrado = true;
         this.traerSector();
-      }/*
-      else {
-        this.sectorEncontrado = false;
-        this.form.get('contrasenaUsuario').setValidators([
-          Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(25)
-        ]);
-        this.form.get('contrasenaUsuario').updateValueAndValidity();
-
-        this.form.get('contrasenaUsuarioRepeat').setValidators(Validators.required);
-        this.form.get('contrasenaUsuarioRepeat').updateValueAndValidity();
-
-        this.setValueChangeContraseñaRepeat();
-      }*/
+      }
     });
   }
 
@@ -174,25 +160,43 @@ export class CrudSectorComponent implements OnInit {
               let sector = _this.reemplazarSector();
               _this.sectorService.deleteSector(sector)
                 .then((response) => {
-                  console.log("BORRADO", response);
-                  const titulo = "Éxito";
-                  const mensaje = "Se ha eliminado el registro de sector de forma exitosa";
-                  ($ as any).confirm({
-                    title: titulo,
-                    content: mensaje,
-                    type: 'green',
-                    typeAnimated: true,
-                    theme: 'material',
-                    buttons: {
-                      aceptar: {
-                        text: 'Aceptar',
-                        btnClass: 'btn-green',
-                        action: function () {
-                          _this.router.navigate(['/sector/']);
+                  if (response['tipo'] == 1) {
+                    const titulo = "Éxito";
+                    const mensaje = "Se ha eliminado el registro de sector de forma exitosa";
+                    ($ as any).confirm({
+                      title: titulo,
+                      content: mensaje,
+                      type: 'green',
+                      typeAnimated: true,
+                      theme: 'material',
+                      buttons: {
+                        aceptar: {
+                          text: 'Aceptar',
+                          btnClass: 'btn-green',
+                          action: function () {
+                            _this.router.navigate(['/sector/']);
+                          }
                         }
                       }
-                    }
-                  });
+                    });
+                  } else {
+                    ($ as any).confirm({
+                      title: "Error",
+                      content: "No se ha podido completar exitosamente la solicitud",
+                      type: 'red',
+                      typeAnimated: true,
+                      theme: 'material',
+                      buttons: {
+                        aceptar: {
+                          text: 'Aceptar',
+                          btnClass: 'btn-red',
+                          action: function () {
+                            _this.router.navigate(['/sector/']);
+                          }
+                        }
+                      }
+                    });
+                  }
                 })
             }
           },

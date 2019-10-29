@@ -36,15 +36,15 @@ export class CrudUsuarioComponent implements OnInit {
   ) {
     this.form = new FormGroup({
       'idUsuario': new FormControl({value: '', disabled: true}),
-      'apellidoUsuario': new FormControl('', Validators.required),
+      'nombreUsuario': new FormControl('', [Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)]),
+      'apellidoUsuario': new FormControl('',  [Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)]),
       'contrasenaUsuario': new FormControl(''),
       'contrasenaUsuarioRepeat': new FormControl(''),
-      'cuitUsuario': new FormControl('', Validators.required),
+      'cuitUsuario': new FormControl('', [Validators.required, Validators.pattern(/^((20)|(23)|(24)|(25)|(26)|(27)|(30))[0-9]{9}$/)]),
       'dniUsuario': new FormControl('', Validators.required),
       'domicilioUsuario': new FormControl('', Validators.required),
-      'emailUsuario': new FormControl('',  [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]),
-      'idDepartamento': new FormControl('', Validators.required),
-      'nombreUsuario': new FormControl('', Validators.required),
+      'emailUsuario': new FormControl('',  [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]),      'idDepartamento': new FormControl('', Validators.required),
+      
       'nroCelularUsuario': new FormControl('', [Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
       'nroTelefonoUsuario': new FormControl('', [Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
       'idRol': new FormControl('', Validators.required),
@@ -80,34 +80,20 @@ export class CrudUsuarioComponent implements OnInit {
     this.traerDepartamentos();
     this.traerRoles();
     this.traerEstadosUsuarios();
+    this.setValidatorsDNI();
   }
 
- /*  verificarValidacionCampo(pNombreCampo: string, arregloValidaciones: string[]) {
-    let countValidate = 0;
-    for (let validacion of arregloValidaciones) {
-      if (validacion === 'valid') {
-        if (this.form.controls[pNombreCampo].valid) {
-          countValidate ++;
-        }
+  setValidatorsDNI () {
+    this.form.get('dniUsuario').valueChanges
+    .subscribe( ( resp ) => {
+      console.log(this.form.value.cuitUsuario.slice(2,10))
+      if ( resp == this.form.value.cuitUsuario.slice(2,10) ) {
+        this.form.controls.dniUsuario.setErrors(null)
+      } else {
+        this.form.controls.dniUsuario.setErrors({not_equal: true})
       }
-      if (validacion === 'invalid') {
-        if (this.form.controls[pNombreCampo].invalid) {
-          countValidate ++;
-        }
-      }
-      if (validacion === 'touched') {
-        if (this.form.controls[pNombreCampo].touched) {
-          countValidate ++;
-        }
-      }
-    }
-    if (countValidate === arregloValidaciones.length) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  } */
+    })
+  }
 
   traerUsuario() {
     console.log("Funcion 'traerUsuario()', ejecutada");
