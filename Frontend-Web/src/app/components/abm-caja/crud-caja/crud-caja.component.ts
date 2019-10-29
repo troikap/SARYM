@@ -32,7 +32,7 @@ export class CrudCajaComponent implements OnInit {
     private usuarioservicio: UsuarioService
   ) {
     this.form = new FormGroup({
-      'nroCaja': new FormControl('', [Validators.required, Validators.pattern(/^[0-6]+$/)]),           
+      'nroCaja': new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{1,2}$/)]),           
       
     });
 
@@ -125,7 +125,7 @@ export class CrudCajaComponent implements OnInit {
                     console.log("ACTUALIZADO", response);
             
                     const titulo = "Éxito";
-                    const mensaje = "Se ha actualizado el registro de usuario de forma exitrosa";
+                    const mensaje = "Se ha actualizado el registro de usuario de forma exitosa";
                     
                     ($ as any).confirm({
                       title: titulo,

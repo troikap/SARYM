@@ -118,7 +118,6 @@ export class CatalogoPage implements OnInit {
     }
   
   loadDefault(event) {
-    console.log("AAAAAAAAAA")
     event.target.src = '/assets/imgs/logo-sarym.png';
   }
 
