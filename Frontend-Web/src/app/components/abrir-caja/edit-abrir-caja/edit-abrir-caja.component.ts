@@ -105,7 +105,7 @@ export class EditAbrirCajaComponent implements OnInit {
         idEstadoCaja: 2,
         idUsuario: localStorage.getItem("idUsuario"),
         descripcionCajaEstado: this.form.value['descripcionCajaEstado'],
-        montoAperturaCajaEstado: this.form.value['montoCierreCajaEstado']
+        montoAperturaCajaEstado: this.form.value['montoAperturaCajaEstado']
 
 
       }
@@ -139,7 +139,7 @@ export class EditAbrirCajaComponent implements OnInit {
             btnClass: 'btn-blue',
             action: function () {
               let caja = _this.reemplazarCaja(); 
-
+             
               if(_idmontoCierreAnterior == _montoCierreCajaEstado || _idmontoCierreAnterior == null ){
               
                 _this.cajaServicio.updateCajaEstado(caja)

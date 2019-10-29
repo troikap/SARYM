@@ -38,7 +38,7 @@ export class EditCajaComponent implements OnInit {
   ) {
     this.form = new FormGroup({
       'idCaja': new FormControl({ value: '', disabled: true }),
-      'nroCaja': new FormControl('', [Validators.required, Validators.pattern(/^[0-6]+$/)]),
+      'nroCaja': new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{1,2}$/)]),
       'idEstadoCaja': new FormControl('', Validators.required),      
       'descripcionCajaEstado': new FormControl('', Validators.required),
       'montoAperturaCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([.][0-9]{1,2})|[0-9]+)$/)]),     

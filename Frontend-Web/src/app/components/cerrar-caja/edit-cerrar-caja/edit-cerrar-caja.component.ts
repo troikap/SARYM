@@ -31,6 +31,7 @@ export class EditCerrarCajaComponent implements OnInit {
   private ingresos:number =0;
   private egresos:number=0;
   private total:number=0;
+  private montoDeAperturaAnterior:number=0;
 
 
 
@@ -220,15 +221,16 @@ export class EditCerrarCajaComponent implements OnInit {
           this.caja = data;
           this.listaMovimientoCaja = this.caja.movimientocajas; 
           this.fechaYHoraCajaEstado =  this.caja['cajaestados'][0].fechaYHoraAltaCajaEstado;
+          this.montoDeAperturaAnterior= this.caja['cajaestados'][0].montoAperturaCajaEstado;
 var length = this.listaMovimientoCaja.length;
 for (let i = 0; i < length; i++) {
   console.log(this.listaMovimientoCaja[i].fechaYHoraMovimientoCaja,this.fechaYHoraCajaEstado);
   if(this.listaMovimientoCaja[i].fechaYHoraMovimientoCaja > this.fechaYHoraCajaEstado ){
     
     if(this.listaMovimientoCaja[i].tipomovimientocaja.idTipoMovimientoCaja == 1){
-    _this.ingresos += this.listaMovimientoCaja[i].montoMovimientoCaja;
+    _this.ingresos += this.listaMovimientoCaja[i].montoMovimientoCaja; 
    
-     
+    console.log("el monto de apertura anterior es",this.montoDeAperturaAnterior);
   }else{
     _this.egresos += this.listaMovimientoCaja[i].montoMovimientoCaja;
   }
@@ -237,7 +239,7 @@ for (let i = 0; i < length; i++) {
   
 };  
 
-_this.total = _this.ingresos - _this.egresos;
+_this.total = _this.ingresos - _this.egresos+ this.montoDeAperturaAnterior;
 
 this.newForm = {
   idCaja: this.caja['idCaja'],
