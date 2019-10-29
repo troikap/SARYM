@@ -21,7 +21,7 @@
                         <label for="dniUsuario" class="col col-form-label">DNI</label>
                         <input type="text" class="form-control" id="dniUsuario" placeholder="Ingrese Respuesta" formControlName="dniUsuario">
                         <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.required && form.controls.dniUsuario.touched">Campo Obligatorio.</p>
-                        <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.not_equal && form.controls.dniUsuario.touched">Solo números y/o letras en mayúsculas. Ej: COD10A.</p>
+                        <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.not_equal && form.controls.dniUsuario.touched">No coincide con CUIT.</p>
                     </div>
                 </div>
             </div>
