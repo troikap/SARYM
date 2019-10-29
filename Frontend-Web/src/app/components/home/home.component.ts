@@ -106,13 +106,19 @@ export class HomeComponent implements OnInit {
       next = '/reasignarmozoaestadia';
     break;
     case 'habilitar-deshabilitar-producto':
-      next = '/habilitardeshabilitarproducto';
+      next = '/habilitar-deshabilitar-producto';
     break;
     case 'anular-pedido':
       next = '/anularpedido';
     break;
     case 'gestionar-estado-estadia':
       next = '/gestionarestadoestadia';
+    break;
+    case 'enviar-pedido':
+      next = '/enviarpedido';
+    break;
+    case 'cambiar-estado-pedido':
+      next = '/cambiarestadopedido';
     break;
     case 'upload':
       next = '/upload';

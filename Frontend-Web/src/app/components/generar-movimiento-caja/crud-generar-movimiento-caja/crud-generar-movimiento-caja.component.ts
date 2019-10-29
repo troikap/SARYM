@@ -31,7 +31,7 @@ export class CrudGenerarMovimientoCajaComponent implements OnInit {
   ) {
     this.form = new FormGroup({              
       'idTipoMovimientoCaja': new FormControl('', Validators.required),      
-      'montoMovimientoCaja': new FormControl('', [Validators.required, Validators.pattern(/^[0-9]+$/)]),
+      'montoMovimientoCaja': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([,][0-9]{1,2})|[0-9]+)$/)]),
       'descripcionMovimientoCaja':  new FormControl('', Validators.required)
       
     });
@@ -81,7 +81,7 @@ export class CrudGenerarMovimientoCajaComponent implements OnInit {
     } 
     let rempCaja: any = {      
       idCaja:  this.idCaja,   
-      idUsuario: 1,
+      idUsuario:  localStorage.getItem("idUsuario"),
       idTipoMovimientoCaja: this.form.value['idTipoMovimientoCaja'], 
       fechaYHoraMovimientoCaja: null,    
       montoMovimientoCaja: this.form.value['montoMovimientoCaja'],
