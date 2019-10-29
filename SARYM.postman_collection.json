@@ -729,6 +729,155 @@
 			]
 		},
 		{
+			"name": "Pago",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Pago",
+					"request": {
+						"url": "localhost:3000/pago",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pago :id",
+					"request": {
+						"url": "localhost:3000/pago/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pago :name",
+					"request": {
+						"url": "localhost:3000/pago/name/a",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pago :anyAttribute",
+					"request": {
+						"url": "localhost:3000/pago/todo/efec",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Pago",
+					"request": {
+						"url": "localhost:3000/pago",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codPago\": \"PRUEBA4\",\n    \"importeTotalAPagar\": 5,\n    \"fechaYHoraAltaPago\": \"2019-10-29T01:20:03.000Z\",\n    \"idMedioPago\": 1,\n    \"idComensal\": 1\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Pago Actualizar Datos",
+					"request": {
+						"url": "localhost:3000/pago/actualizarDatos",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idPago\": 2,\n    \"idMedioPago\": 1,\n    \"codPago\": \"PAGO-12348\",\n    \"importeTotalAPagar\": 1000000,\n    \"fechaYHoraAltaPago\": \"2019-12-29T01:20:03.000Z\",\n    \"idComensal\": 3\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Pago editarPagoPedido",
+					"request": {
+						"url": "localhost:3000/pago/editarPagoPedido",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idPago\":2,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idPagoPedido\": 4,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idPedido\": 2,\n\t\t\t\"importePagoPedido\": 75\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idPagoPedido\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idPagoPedido\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"idPedido\": 1,\n\t\t\t\"importePagoPedido\": 100\n\t\t},\n\t\t{\n\t\t\t\"idPedido\": 2,\n\t\t\t\"importePagoPedido\": 50\n\t\t}\n\t]\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Reserva",
 			"description": "",
 			"item": [
@@ -1127,7 +1276,7 @@
 				{
 					"name": "Put Estadia editarClienteEstadia",
 					"request": {
-						"url": "localhost:3000/estadia/editarMesa",
+						"url": "localhost:3000/estadia/editarClienteEstadia",
 						"method": "PUT",
 						"header": [
 							{
@@ -1143,7 +1292,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idEstadia\":5,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idMesa\": 1\n\t\t},\n\t\t{\n\t\t\t\"idMesa\": 2\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idDetalleEstadiaMesa\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetalleEstadiaMesa\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"idMesa\": 4\n\t\t},\n\t\t{\n\t\t\t\"idMesa\": 5\n\t\t}\n\t]\n}"
+							"raw": "{\n\t\"idEstadia\":5,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idUsuario\": 1\n\t\t},\n\t\t{\n\t\t\t\"idUsuario\": 2\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idClienteEstadia\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idClienteEstadia\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"idUsuario\": 4\n\t\t},\n\t\t{\n\t\t\t\"idUsuario\": 5\n\t\t}\n\t]\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},

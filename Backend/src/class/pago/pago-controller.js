@@ -279,6 +279,7 @@ PagoController.actualizarDatos = (req, res) => {
 PagoController.editarPagoPedido = (req, res) => {
   let locals = {};
   let body = req.body;
+  let inform;
   PagoModelo.findOne({
     where: {
       [idtable]: body[idtable] },
@@ -304,136 +305,93 @@ PagoController.editarPagoPedido = (req, res) => {
         },
     ],
     }).then(response => {
-    if (!response || response == 0) {
-      locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
-      locals['tipo'] = 2;
-      res.json(locals);
-    } else {
-      if (!body[idtable3]) {
-        locals['title'] = `No se envia ${legend3}.`;
-        locals['tipo'] = 2;
-        res.json(locals);
-      } else {
-        PedidoModelo.findOne({where: { [idtable3]: body[idtable3] }}).then((estadoproducto) =>{
-          if(!estadoproducto || estadoproducto == 0) {
-            locals['title'] = `No existe ${legend3} con id ${idtable3}.`;
+        if(!response || response == 0) {
+            locals['title'] = `No existe ${legend} con id ${idtable}.`;
             locals['tipo'] = 2;
             res.json(locals);
-          } else {
-            let pushPagoPedido = {};
-            pushPagoPedido['fechaYHoraBajaPagoPedido'] = new Date();
-              PagoPedidoModelo.update(pushPagoPedido , {
-                where: { [idtable]: body[idtable], fechaYHoraBajaPagoPedido: null }
-            }).then((respons) => {
-              if(!respons || respons == 0) {
-                locals['title'] = `No existe ${legend2} habilitado.`;
-                locals['tipo'] = 2;
-                res.json(locals);
-              } else {
-                body['fechaYHoraAltaPagoPedido'] = new Date();
-                PagoPedidoModelo.create(body).then((resp) => {
-                  if (!resp || resp == 0 ){
-                    locals['title'] = `No se pudo crear ${legend2}.`;
-                    locals['tipo'] = 2;
-                  } else {
-                    locals['title'] = `Se creo correctamente ${legend2}.`;
-                    locals['tipo'] = 1;
-                  }
-                  res.json(locals);
-                }).catch((error) => {
-                  locals = tratarError.tratarError(error, legend);
-                  res.json(locals);
-                });
-              }
-            }).catch((error) => {
-              locals = tratarError.tratarError(error, legend);
-              res.json(locals);
-            });
-          }
-        })
-      }
-    }
-  });
-};
-
-PagoController.editarPagoPedido2 = (req, res) => {
-  let locals = {};
-  let body = req.body;
-  PagoModelo.findOne({
-    where: {
-      [idtable]: body[idtable] },
-      attributes: attributes.pago,
-    include: [
-      {
-      model: ComensalModelo,
-      attributes: attributes.comensal,
-      },
-      {
-        model: PagoPedidoModelo,
-        attributes: attributes.pagopedido,
-        include: [
-            {
-            model: PedidoModelo,
-            attributes: attributes.pedido
+        } else {
+            let i = 0;
+            inform = {};
+            locals['detalle'] = [];
+            for ( let elem of body.detalle ) {
+                if ( elem['idPagoPedido'] ) {
+                    if ( elem['baja'] == true ) {
+                        console.log("BORRAR   :---------------------------")
+                        PagoPedidoModelo.destroy({where: {[idtable2]: elem[idtable2]}}).then((resp) => {
+                            if(!resp || resp == 0) {
+                                inform = {
+                                    ['title']: `Detalle NO eliminado con ${[idtable2]} = ${elem[[idtable2]]}.`,
+                                    ['tipo']: 2
+                                }
+                            } else {
+                                inform = {
+                                    ['title']: `Detalle eliminado con ${[idtable2]} = ${elem[[idtable2]]}.`,
+                                    ['tipo']: 1
+                                }
+                            }
+                             locals['detalle'][i] = inform;
+                          console.log("BORRAR   :---------------------------", locals.detalle)
+                        })
+                    } 
+                } else {
+                    elem[idtable] = body[idtable];
+                    if ( elem[idtable3] != null ) {
+                        PedidoModelo.findOne({ where: {[idtable3]: elem[idtable3]}}).then((pedido) => {
+                            if(!pedido || pedido == 0) {
+                                inform = {
+                                    ['title']: `No existe ${legend3} con id ${idtable3}.`,
+                                    ['tipo']: 2
+                                }
+                                locals['detalle'][i] = inform;
+                                console.log("CREAR  : +++++++++++++++++++++++++++++", locals.detalle)
+                            } else {
+                                PagoPedidoModelo.findOne({ where: { [idtable3]: elem[idtable3] ,  [idtable]: body[idtable] }}).then((pagopedido) => {
+                                if(!pagopedido || pagopedido == 0) {
+                                    PagoPedidoModelo.create(elem).then((resp) => {
+                                    console.log("CREAR  : +++++++++++++++++++++++++++++", locals.detalle)
+                                    if(!resp || resp == 0) {
+                                        inform = {
+                                            ['title']: `Detalle NO creado: ${elem[idtable3]}.`,
+                                            ['tipo']: 2
+                                        }
+                                    } else {
+                                        inform = {
+                                            ['title']: `Detalle creado: ${elem[idtable3]}.`,
+                                            ['tipo']: 1
+                                        }
+                                    }
+                                    locals['detalle'][i] = inform;
+                                console.log("CREAR   :---------------------------",locals.detalle)
+                                  })
+                                } else {
+                                  inform = {
+                                    ['title']: `No existe ${legend3} con id ${idtable3}.`,
+                                    ['tipo']: 2
+                                }
+                                console.log("Ya Existe -----------------")
+                                locals['detalle'][i] = inform;
+                                console.log("CREAR   :---------------------------",locals.detalle)
+                                }
+                              })
+                            }
+                        })
+                    } else {
+                        inform = {
+                            ['title']: `Detalle posicion ${i} falta mandar idMesa.`,
+                            ['tipo']: 2
+                        }
+                      locals['detalle'][i] = inform;
+                        console.log("Falta  idMesa  : +++++++++++++++++++++++++++++",locals.detalle)
+                    }
+                }
+                if ( Object.keys(body.detalle).length == (i+1)) {
+                    locals['title'] = 'Registros actualizados.';
+                    res.json(locals);
+                }
+                i += 1;
             }
-        ]
-      },
-      {
-        model: MedioPagoModelo,
-        attributes: attributes.mediopago,
-      },
-    ],
-    }).then(response => {
-    if (!response || response == 0) {
-      locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
-      locals['tipo'] = 2;
-      res.json(locals);
-    } else {
-      if (!body[idtable4]) {
-        locals['title'] = `No se envia ${legend4}.`;
-        locals['tipo'] = 2;
-        res.json(locals);
-      } else {
-        TipoMonedaModelo.findOne({where: { [idtable4]: body[idtable4] }}).then((tipomoneda) =>{
-          if(!tipomoneda || tipomoneda == 0) {
-            locals['title'] = `No existe ${legend4} con id ${idtable4}.`;
-            locals['tipo'] = 2;
-            res.json(locals);
-          } else {
-            let pushPrecioProducto = {};
-            pushPrecioProducto['fechaYHoraHastaPrecioProducto'] = new Date();
-              PrecioProductoModelo.update(pushPrecioProducto , {
-                where: { [idtable]: body[idtable], fechaYHoraHastaPrecioProducto: null }
-            }).then((respons) => {
-              if(!respons || respons == 0) {
-                locals['title'] = `No existe ${legend2} habilitado.`;
-                locals['tipo'] = 2;
-                res.json(locals);
-              } else {
-                body['fechaYHoraDesdePrecioProducto'] = new Date();
-                PrecioProductoModelo.create(body).then((resp) => {
-                  if (!resp || resp == 0 ){
-                    locals['title'] = `No se pudo crear ${legend2}.`;
-                    locals['tipo'] = 2;
-                  } else {
-                    locals['title'] = `Se creo correctamente ${legend2}.`;
-                    locals['tipo'] = 1;
-                  }
-                  res.json(locals);
-                }).catch((error) => {
-                  locals = tratarError.tratarError(error, legend);
-                  res.json(locals);
-                });
-              }
-            }).catch((error) => {
-              locals = tratarError.tratarError(error, legend);
-              res.json(locals);
-            });
-          }
-        })
-      }
-    }
-  });
+        }
+    });
 };
 
 module.exports = PagoController;
