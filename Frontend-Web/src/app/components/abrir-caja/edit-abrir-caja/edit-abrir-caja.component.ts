@@ -41,7 +41,7 @@ export class EditAbrirCajaComponent implements OnInit {
       'nroCaja': new FormControl('', Validators.required),
       'idEstadoCaja': new FormControl('', Validators.required),      
       'descripcionCajaEstado': new FormControl('', Validators.required),
-      'montoAperturaCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([,][0-9]{1,2})|[0-9]+)$/)]),     
+      'montoAperturaCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([.][0-9]{1,2})|[0-9]+)$/)]),     
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -147,7 +147,7 @@ export class EditAbrirCajaComponent implements OnInit {
                     console.log("ACTUALIZADO", response);
 
                     const titulo = "Éxito";
-                    const mensaje = "Se ha abierto la caja de forma exitrosa";
+                    const mensaje = "Se ha abierto la caja de forma exitosa";
 
                     ($ as any).confirm({
                       title: titulo,

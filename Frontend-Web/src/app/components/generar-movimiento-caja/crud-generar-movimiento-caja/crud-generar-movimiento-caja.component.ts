@@ -31,7 +31,7 @@ export class CrudGenerarMovimientoCajaComponent implements OnInit {
   ) {
     this.form = new FormGroup({              
       'idTipoMovimientoCaja': new FormControl('', Validators.required),      
-      'montoMovimientoCaja': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([,][0-9]{1,2})|[0-9]+)$/)]),
+      'montoMovimientoCaja': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([.][0-9]{1,2})|[0-9]+)$/)]),
       'descripcionMovimientoCaja':  new FormControl('', Validators.required)
       
     });
@@ -123,7 +123,7 @@ export class CrudGenerarMovimientoCajaComponent implements OnInit {
                     console.log("ACTUALIZADO", response);
             
                     const titulo = "Éxito";
-                    const mensaje = "Se ha creado el registro de Movimiento Caja de forma exitrosa";
+                    const mensaje = "Se ha creado el registro de Movimiento Caja de forma exitosa";
                     
                     ($ as any).confirm({
                       title: titulo,

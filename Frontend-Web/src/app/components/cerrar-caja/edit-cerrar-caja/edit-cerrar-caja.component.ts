@@ -47,7 +47,7 @@ export class EditCerrarCajaComponent implements OnInit {
       'idCaja': new FormControl({ value: '', disabled: true }),
       'nroCaja': new FormControl('', Validators.required),            
       'descripcionCajaEstado': new FormControl('', Validators.required),
-      'montoCierreCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([,][0-9]{1,2})|[0-9]+)$/)] ),            
+      'montoCierreCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([.][0-9]{1,2})|[0-9]+)$/)] ),            
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -129,7 +129,7 @@ export class EditCerrarCajaComponent implements OnInit {
                     console.log("ACTUALIZADO", response);
 
                     const titulo = "Éxito";
-                    const mensaje = "Se ha cerrado la caja de forma exitrosa";
+                    const mensaje = "Se ha cerrado la caja de forma exitosa";
 
                     ($ as any).confirm({
                       title: titulo,
@@ -160,7 +160,7 @@ export class EditCerrarCajaComponent implements OnInit {
                  
 
                     const titulo = "Error";
-                    const mensaje = "No coincide el monto de cierre con la suma de movimientos de caja del dia anterior";
+                    const mensaje = "No coincide el monto de cierre con la suma de movimientos de caja hasta el momento";
 
                     ($ as any).confirm({
                       title: titulo,
