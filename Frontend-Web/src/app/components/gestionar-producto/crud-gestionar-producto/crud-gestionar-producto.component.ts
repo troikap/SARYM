@@ -52,10 +52,10 @@ export class CrudGestionarProductoComponent implements OnInit {
   ) {
     this.form = new FormGroup({
       'idProducto': new FormControl({value: '', disabled: true}),
-      'codProducto': new FormControl('', Validators.required),
-      'nombreProducto': new FormControl('', Validators.required),
+      'codProducto': new FormControl('', [Validators.required, Validators.pattern(/^([A-Z]+|[0-9]+)+$/)]),
+      'nombreProducto': new FormControl('', [Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)]),
       'idUnidadMedida': new FormControl('', Validators.required),
-      'cantidadMedida': new FormControl('', Validators.required),
+      'cantidadMedida': new FormControl('', [Validators.required, Validators.pattern(/^[0-9]+$/)]),
       'descripcionProducto': new FormControl('', Validators.required),
       'importePrecioProducto': new FormControl('', Validators.required),
       'idTipoMoneda': new FormControl('',  Validators.required),

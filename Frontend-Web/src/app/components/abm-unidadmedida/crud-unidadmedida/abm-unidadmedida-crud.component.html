@@ -20,7 +20,6 @@
                 <label for="nombre" class="col col-form-label">Nombre</label>
                 <input type="text" class="form-control" id="nombre" placeholder="Ingrese Nombre" formControlName="nombre">
                 <p class="input-error-msg" *ngIf="form.controls.nombre.errors?.required && form.controls.nombre.touched">Campo Obligatorio.</p>
-                <p class="input-error-msg" *ngIf="form.controls.nombre.errors?.pattern && form.controls.nombre.touched">Valor no válido. Ej: Gramo/s</p>
             </div>
 
             <div class="form-group">
