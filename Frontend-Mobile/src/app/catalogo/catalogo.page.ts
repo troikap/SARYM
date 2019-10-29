@@ -6,7 +6,7 @@ import { Producto } from '../services/producto/producto.model';
 import { MenupromocionService } from '../services/menupromocion/menupromocion.service';
 import { MenuPromocion } from '../services/menupromocion/menupromocion.model';
 import { StorageService, Log } from '../services/storage/storage.service';
-
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-catalogo',
@@ -25,6 +25,12 @@ export class CatalogoPage implements OnInit {
   altSrc="../../assets/imgs/logo-sarym.png";
   token: string;
 
+  tipoElemento = "producto";
+  tipoElemento2 = "menupromocion";
+
+  rutaImagenProducto = `${environment.urlNgrok || environment.url}/traerImagen/${this.tipoElemento}/`;
+  rutaImagenMenuPromocion = `${environment.urlNgrok || environment.url}/traerImagen/${this.tipoElemento2}/`;
+  
   currentModal = null;
 
   constructor(
@@ -83,7 +89,8 @@ export class CatalogoPage implements OnInit {
   traerProductos(){
     this.productoservice.getProductos(this.token)
       .then( ( res: any ) => {
-        this.productos = res.Producto;
+        console.log("prod ,",res)
+        this.productos = res.data;
         console.log(this.productos)
       })
       .catch( err => {
@@ -95,7 +102,7 @@ export class CatalogoPage implements OnInit {
       .then( ( res: any ) => {
         this.menus = [];
         this.promociones = [];
-        res.MenuPromocion.filter( element => {
+        res.data.filter( element => {
           if ( element.tipomenupromocion.nombreTipoMenuPromocion == 'Menu') {
             this.menus.push(element);
           }

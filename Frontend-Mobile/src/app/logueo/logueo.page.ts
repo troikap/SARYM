@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from '../services/usuario/usuario.service';
 import { StorageService, Log } from '../services/storage/storage.service';
 import { AlertController } from '@ionic/angular';
@@ -61,11 +61,9 @@ export class LogueoPage implements OnInit {
     console.log("ALGO "+this.form.value.cuitUsuario+this.form.value.contrasenaUsuario )
     this.usuarioservicio.loguear(this.form.value.cuitUsuario , this.form.value.contrasenaUsuario )
     .then(algo => {
-      console.log("ALGO ",algo)
-    this.algo = algo;
+      this.algo = algo;
       if (algo.tipo == 1) {
-        console.log("LOGUEADO")
-        this.logueo = {cuit: this.form.value.cuitUsuario, pass: this.form.value.contrasenaUsuario, id: algo.Usuario , date: null}
+        this.logueo = {cuit: this.form.value.cuitUsuario, pass: this.form.value.contrasenaUsuario, id: algo.usuario , date: null}
         this.storage.setOneObject( 'token',algo.token)
         if (this.form.value.checkRecordar){
           this.actualizarLog(this.logueo);
@@ -111,12 +109,10 @@ export class LogueoPage implements OnInit {
         break;
     }
     this.navController.navigateForward(page);
-    // this.router.navigateByUrl(page);
   }
 
   async alert() {
     if (this.algo.tipo == 1) {
-      // console.log("CORROBORANDO2 :", ((this.algo.UsuarioEstado[0].nombreUsuario) || (this.algo.UsuarioEstado.nombreUsuario) ))
       const alert = await this.alertController.create({
         header: this.valtitle,
         message: `${this.valmsj} ${this.algo.UsuarioEstado.nombreUsuario} ${this.algo.UsuarioEstado.apellidoUsuario}`,

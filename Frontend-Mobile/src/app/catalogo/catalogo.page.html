@@ -23,8 +23,14 @@
     <ion-item href="javascript:void(0)" (click)="presentModal(item, 'producto')" class="activated" *ngFor="let item of this[seleccion]" [ngClass]="{ 'activo': item.productoestados[0].estadoproducto.nombreEstadoProducto == 'Activo' , 'enfalta': item.productoestados[0].estadoproducto.nombreEstadoProducto == 'En Falta' , 'inactivo': item.productoestados[0].estadoproducto.nombreEstadoProducto == 'Inactivo', 'eliminado': item.productoestados[0].estadoproducto.nombreEstadoProducto == 'Eliminado'}">
         <!-- PRODUCTOS -->
         <ion-thumbnail slot="start" *ngIf="seleccion == 'productos'">
-            <ion-img *ngIf="item.pathImagenProducto"  src={{item.pathImagenProducto}} ></ion-img>
-            <ion-img *ngIf="!item.pathImagenProducto" [src]=altSrc></ion-img>
+            <!-- <ion-img *ngIf="item.pathImagenProducto"  src={{item.pathImagenProducto}} ></ion-img> -->
+            <!-- <ion-img *ngIf="item.pathImagenProducto"   src={{rutaImagen}}{{producto.pathImagenProducto}} ></ion-img> -->
+            <ion-img src="{{rutaImagenProducto}}{{item.pathImagenProducto}}" ></ion-img>
+
+            <!-- localhost:3000/traerImagen/menupromocion/a -->
+
+           
+            <!-- <ion-img *ngIf="!item.pathImagenProducto" [src]=altSrc></ion-img> -->
         </ion-thumbnail>
         <ion-label *ngIf="seleccion == 'productos'">
             <p class="text">{{item.nombreProducto}} - {{item.rubro?.nombreRubro}}</p>
@@ -37,8 +43,10 @@
     <ion-item href="javascript:void(0)" (click)="presentModal(item, 'menupromocion')" class="activated" *ngFor="let item of this[seleccion]" [ngClass]="{ 'activo': item.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Activo' , 'enfalta': item.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'En Falta' , 'inactivo': item.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Inactivo', 'eliminado': item.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Eliminado'}">
         <!-- MENUS y PROMOCIONES -->
         <ion-thumbnail slot="start" *ngIf="seleccion == 'promociones' || seleccion == 'menus'">
-            <ion-img *ngIf="item.pathImagenMenuPromocion"  src={{item.pathImagenMenuPromocion}} ></ion-img>
-            <ion-img *ngIf="!item.pathImagenMenuPromocion" [src]=altSrc></ion-img>
+            <!-- <ion-img *ngIf="item.pathImagenMenuPromocion"  src={{item.pathImagenMenuPromocion}} ></ion-img> -->
+            <ion-img  src="{{rutaImagenMenuPromocion}}{{item.pathImagenMenuPromocion}}"></ion-img>
+
+            <!-- <ion-img *ngIf="!item.pathImagenMenuPromocion" [src]=altSrc></ion-img> -->
         </ion-thumbnail>
         <ion-label *ngIf="seleccion == 'promociones' || seleccion == 'menus'">
             <p class="text">{{item.codMenuPromocion}}</p>

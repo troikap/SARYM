@@ -168,6 +168,7 @@ export class RegistroUsuarioPage implements OnInit {
   traerDepartamentos( token: string) {
     this.departamnetoservicio.getDepartamentos( token)
       .then((res) => {
+        console.log("AAAA ", res)
         this.departamentos = res;
       })
   }
@@ -175,6 +176,8 @@ export class RegistroUsuarioPage implements OnInit {
   traerUsuario(id, token) {
     this.usuarioservicio.getUsuario(id, token)
       .then((res) => {
+        console.log("AAAA ", res)
+
         this.usuario = res['Usuario'];
         this.transformarForm();
       })

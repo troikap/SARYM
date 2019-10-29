@@ -3,7 +3,7 @@ import { NavParams, ModalController } from '@ionic/angular';
 import { item } from '../../catalogo/catalogo.page';
 import { Producto } from '../../services/producto/producto.model';
 import { MenuPromocion } from '../../services/menupromocion/menupromocion.model'
-
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-modal-detalle-catalogo',
@@ -16,6 +16,11 @@ export class ModalDetalleCatalogoPage implements OnInit {
   menupromocion: MenuPromocion;
   composicion: { };
   altSrc="../../assets/imgs/logo-sarym.png";
+  tipoElemento = "producto";
+  tipoElemento2 = "menupromocion";
+
+  rutaImagenProducto = `${environment.urlNgrok || environment.url}/traerImagen/${this.tipoElemento}/`;
+  rutaImagenMenuPromocion = `${environment.urlNgrok || environment.url}/traerImagen/${this.tipoElemento2}/`;
 
 
   // Data passed in by componentProps
