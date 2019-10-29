@@ -6,12 +6,13 @@ const ClienteEstadiaModelo = require("../clienteestadia/clienteestadia-model");
 const EstadiaEstadoModelo = require("../estadiaestado/estadiaestado-model");
 const PedidoModelo = require("../pedido/pedido-model");
 const ComensalModelo = require("../comensal/comensal-model");
-// const ReservaModelo = require("../reserva/reserva-model");
+const MozoEstadiaModelo = require("../mozoestadia/mozoestadia-model");
+
+const ReservaModelo = require("../reserva/reserva-model");
 var sequelize = require("../../database/connection");
 
 // DEFINICION DEL MODELO
-const EstadiaModelo = sequelize.define(
-    "estadia", {
+const EstadiaModelo = sequelize.define("estadia", {
     // attributes
     idEstadia: {
         type: Sequelize.INTEGER,
@@ -21,10 +22,10 @@ const EstadiaModelo = sequelize.define(
     },
     idReserva: {
         type: Sequelize.INTEGER,
+        unique: true
     },
     idMozoEstadia: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+        type: Sequelize.INTEGER
     },
     cantPersonas: {
         type: Sequelize.INTEGER,
@@ -38,8 +39,7 @@ const EstadiaModelo = sequelize.define(
         type: Sequelize.DATE
     },
     tokenEstadia: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING
     }
 }, {
     // options
@@ -49,8 +49,11 @@ const EstadiaModelo = sequelize.define(
 EstadiaModelo.hasMany(DetalleEstadiMesaModelo, { foreignKey: "idEstadia" });
 EstadiaModelo.hasMany(ClienteEstadiaModelo, { foreignKey: "idEstadia" });
 EstadiaModelo.hasMany(EstadiaEstadoModelo, { foreignKey: "idEstadia" });
-// EstadiaModelo.belongsTo(ReservaModelo, { foreignKey: "idReserva" });
-EstadiaModelo.hasOne(PedidoModelo, { foreignKey: "idEstadia" });
-EstadiaModelo.hasOne(ComensalModelo, { foreignKey: "idEstadia" });
+EstadiaModelo.belongsTo(ReservaModelo, { foreignKey: "idReserva" });
+EstadiaModelo.hasMany(PedidoModelo, { foreignKey: "idEstadia" });
+EstadiaModelo.hasMany(ComensalModelo, { foreignKey: "idEstadia" });
+
+EstadiaModelo.belongsTo(MozoEstadiaModelo, { foreignKey: "idMozoEstadia" });
+
 
 module.exports = EstadiaModelo;

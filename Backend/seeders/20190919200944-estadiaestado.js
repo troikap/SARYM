@@ -4,16 +4,28 @@ var currentDate = new Date();
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.bulkInsert('estadiaestados', [{
+        return queryInterface.bulkInsert('estadiaestados', [
+        {
             "idEstadiaEstado": 1,
             "idEstadia": 1,
             "idEstadoEstadia": 1,
             "descripcionEstadiaEstado": "Bla bla...",
             "fechaYHoraAltaEstadiaEstado": currentDate,
-            "fechaYHoraBajaEstadiaEstado": currentDate,
+            "fechaYHoraBajaEstadiaEstado": null,
             "createdAt": currentDate,
             "updatedAt": currentDate
-        }], {});
+        },
+        {
+            "idEstadiaEstado": 2,
+            "idEstadia": 2,
+            "idEstadoEstadia": 2,
+            "descripcionEstadiaEstado": "Bla bla...",
+            "fechaYHoraAltaEstadiaEstado": currentDate,
+            "fechaYHoraBajaEstadiaEstado": null,
+            "createdAt": currentDate,
+            "updatedAt": currentDate
+        },
+    ], {});
     },
 
     down: (queryInterface, Sequelize) => {

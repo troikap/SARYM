@@ -218,6 +218,7 @@ comensal = [
     "idComensal",
     "aliasComensal",
     "edadComensal",
+    "idUsuario"
 ]
 
 pedidoestado = [
@@ -260,6 +261,44 @@ detallereservamesa = [
     "idDetalleReservaMesa",
 ]
 
+estadia = [
+    "idEstadia",
+    "cantPersonas",
+    "fechaYHoraInicioEstadia",
+    "fechaYHoraFinEstadia",
+    "tokenEstadia"
+]
+
+estadiaestado = [
+    "idEstadiaEstado",
+    "descripcionEstadiaEstado",
+    "fechaYHoraAltaEstadiaEstado",
+    "fechaYHoraBajaEstadiaEstado",
+]
+
+estadoestadia = [
+    "idEstadoEstadia",
+    "codEstadoEstadia",
+    "nombreEstadoEstadia",
+]
+
+detalleestadiamesa = [
+    "idDetalleEstadiaMesa"
+]
+
+clienteestadia = [
+    "idClienteEstadia",
+    "idUsuario",
+    "idEstadia"
+]
+
+mozoestadia = [
+    "idMozoEstadia",
+    "idUsuario",
+    "fechaYHoraInicioMozoEstadia",
+    "fechaYHoraFinMozoEstadia"
+]
+
 module.exports = {
     usuario, 
     usuarioestado, 
@@ -298,4 +337,10 @@ module.exports = {
     reservaestado,
     estadoreserva,
     detallereservamesa,
+    estadia,
+    estadiaestado,
+    estadoestadia,
+    detalleestadiamesa,
+    clienteestadia,
+    mozoestadia
 }

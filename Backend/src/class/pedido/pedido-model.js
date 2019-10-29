@@ -1,7 +1,7 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const PagoPedidoModelo = require('../producto/producto-model');
+// const PagoPedidoModelo = require('../pagopedido/pagopedido-model');
 const DetallePedidoProductoModelo = require('../detallepedidoproducto/detallepedidoproducto-model');
 const PedidoEstadoModelo = require('../pedidoestado/pedidoestado-model');
 const ComensalModelo = require('../comensal/comensal-model');
@@ -42,7 +42,7 @@ const PedidoModelo = sequelize.define('pedido', {
     // options
 });
 
-PedidoModelo.hasMany(PagoPedidoModelo, { foreignKey: "idPedido" });
+// PedidoModelo.hasMany(PagoPedidoModelo, { foreignKey: "idPedido" });
 PedidoModelo.hasMany(DetallePedidoProductoModelo, { foreignKey: "idPedido" });
 PedidoModelo.hasMany(PedidoEstadoModelo, {foreignKey: "idPedido"});
 PedidoModelo.belongsTo(ComensalModelo, {foreignKey: "idComensal"});

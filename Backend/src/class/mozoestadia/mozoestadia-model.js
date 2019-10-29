@@ -1,7 +1,9 @@
 'use strict'
 
 const Sequelize = require('sequelize');
-const EstadiaModelo = require('../estadia/estadia-model');
+// const EstadiaModelo = require('../estadia/estadia-model');
+const UsuarioModelo = require('../usuario/usuario-model');
+
 var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
@@ -28,6 +30,9 @@ const MozoEstadiaModelo = sequelize.define('mozoestadia', {
   // options
 });
 
+
 // MozoEstadiaModelo.hasMany(EstadiaModelo, { foreignKey: "idMozoEstadia" });
+MozoEstadiaModelo.belongsTo(UsuarioModelo, { foreignKey: "idUsuario" });
+
 
 module.exports = MozoEstadiaModelo;
