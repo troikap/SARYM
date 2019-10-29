@@ -27,11 +27,13 @@
                     <label for="codProducto" class="col col-form-label">Código</label>
                     <input type="text" class="form-control" id="codProducto" placeholder="Ingrese Código" formControlName="codProducto">
                     <p class="input-error-msg" *ngIf="form.controls.codProducto.errors?.required && form.controls.codProducto.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="form.controls.codProducto.errors?.pattern && form.controls.codProducto.touched">Solo números y/o letras en mayúsculas. Ej: COD10A.</p>
                 </div>
                 <div class="col">
                     <label for="nombreProducto" class="col col-form-label">Nombre</label>
                     <input type="text" class="form-control" id="nombreProducto" placeholder="Ingrese Nombre" formControlName="nombreProducto">
                     <p class="input-error-msg" *ngIf="form.controls.nombreProducto.errors?.required && form.controls.nombreProducto.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="form.controls.nombreProducto.errors?.pattern && form.controls.nombreProducto.touched">Valor no válido. Ej: Papas Fritas</p>
                 </div>
             </div>
 
@@ -47,6 +49,7 @@
                     <label for="cantidadMedida" class="col col-form-label">Cantidad</label>
                     <input type="text" class="form-control" id="cantidadMedida" placeholder="Ingrese Cantidad de Unidad de Medida" formControlName="cantidadMedida">
                     <p class="input-error-msg" *ngIf="form.controls.cantidadMedida.errors?.required && form.controls.cantidadMedida.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="form.controls.cantidadMedida.errors?.pattern && form.controls.cantidadMedida.touched">Valor no válido. Solo acepta valores numericos positvos</p>
                 </div>
             </div>
 
@@ -71,6 +74,7 @@
                     <label for="importePrecioProducto" class="col col-form-label">Precio</label>
                     <input type="text" class="form-control" id="importePrecioProducto" placeholder="Ingrese el Precio del Producto" formControlName="importePrecioProducto">
                     <p class="input-error-msg" *ngIf="form.controls.importePrecioProducto.errors?.required && form.controls.importePrecioProducto.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="form.controls.importePrecioProducto.errors?.pattern && form.controls.importePrecioProducto.touched">Debe ser positivo y tener hasta dos decimales</p>
                 </div>
             </div>
 

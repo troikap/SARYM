@@ -48,7 +48,7 @@ export class EditCerrarCajaComponent implements OnInit {
       'idCaja': new FormControl({ value: '', disabled: true }),
       'nroCaja': new FormControl('', Validators.required),            
       'descripcionCajaEstado': new FormControl('', Validators.required),
-      'montoCierreCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([.][0-9]{1,2})|[0-9]+)$/)] ),            
+      'montoCierreCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([.][0-9]{1,2})|[0-9]+)$/)] ), 
     });
 
     this.activatedRoute.params.subscribe(params => {

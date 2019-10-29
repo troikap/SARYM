@@ -27,16 +27,18 @@
                     <label for="codMenuPromocion" class="col col-form-label">Código</label>
                     <input type="text" class="form-control" id="codMenuPromocion" placeholder="Ingrese Código" formControlName="codMenuPromocion">
                     <p class="input-error-msg" *ngIf="form.controls.codMenuPromocion.errors?.required && form.controls.codMenuPromocion.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="form.controls.codMenuPromocion.errors?.pattern && form.controls.codMenuPromocion.touched">Solo números y/o letras en mayúsculas. Ej: COD10A.</p>
                 </div>
                 <div class="col">
                     <label for="nombreMenuPromocion" class="col col-form-label">Nombre</label>
                     <input type="text" class="form-control" id="nombreMenuPromocion" placeholder="Ingrese Nombre" formControlName="nombreMenuPromocion">
                     <p class="input-error-msg" *ngIf="form.controls.nombreMenuPromocion.errors?.required && form.controls.nombreMenuPromocion.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="form.controls.nombreMenuPromocion.errors?.pattern && form.controls.nombreMenuPromocion.touched">Valor no válido. Ej: Papas Fritas</p>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="idTipoMenuPromocion" class="col col-form-label">Tipo de Menú - Promoción</label>
+                <label for="idTipoMenuPromocion" class="col col-form-label">Tipo</label>
                 <select Placeholder='Seleccione' formControlName='idTipoMenuPromocion' class="form-control"> 
                     <option *ngFor='let element of tipoMenuPromocion' [value]='element.idTipoMenuPromocion'><strong>{{element.nombreTipoMenuPromocion}}</strong></option>
                 </select>
@@ -63,6 +65,7 @@
                     <label for="importePrecioMenuPromocion" class="col col-form-label">Precio</label>
                     <input type="text" class="form-control" id="importePrecioMenuPromocion" placeholder="Ingrese el Precio del Menú-Promoción" formControlName="importePrecioMenuPromocion">
                     <p class="input-error-msg" *ngIf="form.controls.importePrecioMenuPromocion.errors?.required && form.controls.importePrecioMenuPromocion.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="form.controls.importePrecioMenuPromocion.errors?.pattern && form.controls.importePrecioMenuPromocion.touched">Debe ser positivo y tener hasta dos decimales</p>
                 </div>
             </div>
 
