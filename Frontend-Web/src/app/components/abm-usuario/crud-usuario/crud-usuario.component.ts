@@ -62,6 +62,7 @@ export class CrudUsuarioComponent implements OnInit {
       }
       else {
         this.usuarioEncontrado = false;
+        this.setValidatorsDNI();
       }
 
       if (this.accionGet == "crear") {
@@ -92,15 +93,15 @@ export class CrudUsuarioComponent implements OnInit {
   }
 
   setValidatorsDNI () {
-    if (this.accionGet != "eliminar") {
+    if (this.accionGet == "editar" || this.accionGet == "crear") {
 
-      let cuitUsr = this.form.value.cuitUsuario;
-      cuitUsr = cuitUsr.toString().slice(2,10);
-      console.log("cuitUsr: ", cuitUsr);
+      // let cuitUsr = this.form.value.cuitUsuario;
+      // cuitUsr = cuitUsr.toString().slice(2,10);
+      // console.log("CUITTTTTTTTTTTTTT: ", cuitUsr);
 
       this.form.get('dniUsuario').valueChanges
       .subscribe( ( resp ) => {
-        if ( resp == cuitUsr ) {
+        if ( resp == this.form.value.cuitUsuario.toString().slice(2,10) ) {
           this.form.controls.dniUsuario.setErrors(null)
         } else {
           this.form.controls.dniUsuario.setErrors({not_equal: true})
@@ -176,7 +177,7 @@ export class CrudUsuarioComponent implements OnInit {
           }
           this.form.setValue(this.newForm)
           console.log("FORM" , this.form);
-
+          
           this.setValidatorsDNI();
           this.setValidateContraseniaEditar();
         }
