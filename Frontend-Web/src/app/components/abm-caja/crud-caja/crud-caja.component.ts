@@ -32,7 +32,7 @@ export class CrudCajaComponent implements OnInit {
     private usuarioservicio: UsuarioService
   ) {
     this.form = new FormGroup({
-      'nroCaja': new FormControl('', [Validators.required, Validators.pattern(/^[0-6]+$/)]),           
+      'nroCaja': new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{1,2}$/)]),           
       
     });
 
