@@ -22,6 +22,7 @@ export class CrudUsuarioComponent implements OnInit {
   private idUsuario: number = null;
   private usuario: Usuario;
   private newForm = {};
+  private countEditarPass = 0;
 
   accionGet;
   
@@ -43,24 +44,27 @@ export class CrudUsuarioComponent implements OnInit {
       'cuitUsuario': new FormControl('', [Validators.required, Validators.pattern(/^((20)|(23)|(24)|(25)|(26)|(27)|(30))[0-9]{9}$/)]),
       'dniUsuario': new FormControl('', Validators.required),
       'domicilioUsuario': new FormControl('', Validators.required),
-      'emailUsuario': new FormControl('',  [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]),      'idDepartamento': new FormControl('', Validators.required),
-      
+      'emailUsuario': new FormControl('',  [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]),      
+      'idDepartamento': new FormControl('', Validators.required),
       'nroCelularUsuario': new FormControl('', [Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
       'nroTelefonoUsuario': new FormControl('', [Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
       'idRol': new FormControl('', Validators.required),
       'idEstadoUsuario': new FormControl('', Validators.required)
     });
-
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params);
       this.accionGet  = params.accion;
       this.idUsuario = params.id;
-      if (this.accionGet !== "crear") {
+
+      if (this.accionGet !== "crear") { // editar, eliminar
         this.usuarioEncontrado = true;
         this.traerUsuario();
       }
       else {
         this.usuarioEncontrado = false;
+      }
+
+      if (this.accionGet == "crear") {
         this.form.get('contrasenaUsuario').setValidators([
           Validators.required, 
           Validators.minLength(5), 
@@ -73,26 +77,72 @@ export class CrudUsuarioComponent implements OnInit {
         
         this.setValueChangeContraseñaRepeat();
       }
+      if (this.accionGet == "eliminar") {
+        this.form.disable();
+      }
     });
+
+    
   }
 
   ngOnInit() {
     this.traerDepartamentos();
     this.traerRoles();
     this.traerEstadosUsuarios();
-    this.setValidatorsDNI();
   }
 
   setValidatorsDNI () {
-    this.form.get('dniUsuario').valueChanges
-    .subscribe( ( resp ) => {
-      console.log(this.form.value.cuitUsuario.slice(2,10))
-      if ( resp == this.form.value.cuitUsuario.slice(2,10) ) {
-        this.form.controls.dniUsuario.setErrors(null)
-      } else {
-        this.form.controls.dniUsuario.setErrors({not_equal: true})
-      }
-    })
+    if (this.accionGet != "eliminar") {
+
+      let cuitUsr = this.form.value.cuitUsuario;
+      cuitUsr = cuitUsr.toString().slice(2,10);
+      console.log("cuitUsr: ", cuitUsr);
+
+      this.form.get('dniUsuario').valueChanges
+      .subscribe( ( resp ) => {
+        if ( resp == cuitUsr ) {
+          this.form.controls.dniUsuario.setErrors(null)
+        } else {
+          this.form.controls.dniUsuario.setErrors({not_equal: true})
+        }
+      });
+    }
+  }
+
+  setValidateContraseniaEditar() {
+    if (this.accionGet == "editar") {
+
+      this.form.get('contrasenaUsuario').valueChanges
+      .subscribe( ( resp ) => {
+        if (this.countEditarPass == 0) {
+          
+          this.form.get('contrasenaUsuario').setValidators([
+            Validators.required, 
+            Validators.minLength(5), 
+            Validators.maxLength(25)
+          ]);
+          // this.form.get('contrasenaUsuario').updateValueAndValidity();
+
+          this.setValueChangeContraseñaRepeat();
+          this.form.get('contrasenaUsuarioRepeat').setValidators(Validators.required);
+          // this.form.get('contrasenaUsuarioRepeat').updateValueAndValidity();
+        }
+
+        this.countEditarPass ++;
+
+        if (resp == "") {
+          this.countEditarPass = 0;
+          this.form.get('contrasenaUsuario').setValidators(null);
+          // this.form.get('contrasenaUsuario').updateValueAndValidity();
+
+          this.form.get('contrasenaUsuarioRepeat').setValidators(null);
+          // this.form.get('contrasenaUsuarioRepeat').updateValueAndValidity();
+
+          this.form.controls['contrasenaUsuarioRepeat'].setValue(null);
+        }
+        
+      });
+    }
   }
 
   traerUsuario() {
@@ -125,7 +175,10 @@ export class CrudUsuarioComponent implements OnInit {
             idEstadoUsuario: this.usuario['usuarioestados'][0].estadousuario.idEstadoUsuario
           }
           this.form.setValue(this.newForm)
-          console.log("FORM" , this.form)
+          console.log("FORM" , this.form);
+
+          this.setValidatorsDNI();
+          this.setValidateContraseniaEditar();
         }
       }
       });

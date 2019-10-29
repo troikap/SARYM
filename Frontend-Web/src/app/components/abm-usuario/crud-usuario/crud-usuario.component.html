@@ -89,7 +89,7 @@
                     <p class="input-error-msg" *ngIf="form.controls.idEstadoUsuario.errors?.required && form.controls.idEstadoUsuario.touched">Campo Obligatorio.</p>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row" *ngIf="accionGet != 'eliminar'">
                 <div class="col">
                     <label for="contrasenaUsuario" class="col col-form-label">Contraseña</label>
                     <input class="form-control" type="password" id="contrasenaUsuario" placeholder="Ingrese Respuesta" formControlName="contrasenaUsuario">
@@ -108,7 +108,7 @@
                 <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
             </div>
             <div *ngIf="accionGet == 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+                <button type="submit" class="btn btn-outline-primary btn-block">Eliminar</button>
             </div>
         </form>
     </div>

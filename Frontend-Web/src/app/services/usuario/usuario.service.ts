@@ -124,7 +124,7 @@ export class UsuarioService {
     console.log("valor del Header:",headers)
     console.log("DATOS A ENVIAR:",datas)
     return this.http
-      .delete(`${this.url}${this.dir}/${datas.idUsuario}`, {headers})
+      .post(`${this.url}${this.dir}/${datas.idUsuario}`, {headers})
       .toPromise()
       .then(response => {
         return response as Usuario;
