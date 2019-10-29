@@ -23,6 +23,7 @@ export class NuevaReservaPage implements OnInit {
   private comensales: Comensal[] = [];
   private mensajeExistenciaUsuario: string = null;
   private existenciaUsuario: boolean = false;
+  private currentUsuario;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -54,14 +55,7 @@ export class NuevaReservaPage implements OnInit {
 
   loadCurrentUsuario() {
     this.storage.getCurrentUsuario().then((data) => {
-      console.log(data)
-      // this.logueo = logs;
-      // if (logs) {
-      // this.form.setValue( {
-      //   cuitUsuario: logs[0].cuit, 
-      //   contrasenaUsuario: logs[0].pass,
-      //   checkRecordar: false} )
-      // }
+      this.currentUsuario = data;
     })
   }
 
@@ -168,11 +162,21 @@ export class NuevaReservaPage implements OnInit {
       nroMesa: this.form.value['nroMesa'],
       comensales: this.comensales,
     }
-    reserva['codReserva'] = 
+    reserva['idUsuario'] = this.currentUsuario.id;
+    this.agregarCodigoReserva( reserva );
     console.log('Reserva', reserva)
-    this.presentToast(reserva);
+    // this.presentToast(reserva);
     // this.envioReservaService.sendObjectSource(reserva);
     // this.navController.navigateForward('/reserva' );
+  }
+
+  agregarCodigoReserva( data ) {
+    let codReserva = `${this.currentUsuario.id}-${this.currentUsuario.cuit}-${data.fechaReserva}/${data.horaEntrada}`;
+    data['codReserva'] = codReserva;
+    this.enviarReserva(data);
+  }
+
+  enviarReserva(data) {
   }
 
   async presentToast( reserva ) {
