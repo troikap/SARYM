@@ -285,7 +285,7 @@ export class CrudMesaComponent implements OnInit {
                   console.log("ERROR", response);
                   ($ as any).confirm({
                     title: "Error",
-                    content: `${response.title}. No es posible realizar esta acción`,
+                    content: `Ya existe el registro. No es posible realizar esta acción`,
                     type: "red",
                     typeAnimated: true,
                     theme: "material",

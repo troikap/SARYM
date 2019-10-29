@@ -20,7 +20,6 @@ const TipoMonedaModelo = sequelize.define('tipomoneda', {
     simboloTipoMoneda: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
     }
 }, {
     // options
