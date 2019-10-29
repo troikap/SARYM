@@ -49,6 +49,8 @@ router
     .post('/subirImagen', UploadController.subirImagen)
     .get('/traerImagen/:tipo/:img?', UploadController.traerImagen)
 
+// reporte
+
 // usuario
     .get('/usuario', verificaToken, UsuarioController.getAll)
     .post('/usuario', verificaToken, UsuarioController.create)

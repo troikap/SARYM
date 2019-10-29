@@ -58,7 +58,6 @@ export class LogueoPage implements OnInit {
   }
 
   loguear() {
-    console.log("ALGO "+this.form.value.cuitUsuario+this.form.value.contrasenaUsuario )
     this.usuarioservicio.loguear(this.form.value.cuitUsuario , this.form.value.contrasenaUsuario )
     .then(algo => {
       this.algo = algo;
