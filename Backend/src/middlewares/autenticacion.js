@@ -6,7 +6,11 @@ require('../config');
 // =======================
 let verificaToken = (req, res, next) => {
     console.log('VERIFICANDO TOKEN')
+    
     let token = req.get('token');
+    let tok = req['token']
+    console.log("TOKE",req['token'])
+    console.log("TOKEN QUE LLEGA ", token)
     // token = "nada";
     if (token == "nuevo" || token == "libre") {
         next();

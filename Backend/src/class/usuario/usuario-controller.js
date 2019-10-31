@@ -656,6 +656,7 @@ UsuarioController.update = (req, res) => {
 };
 
 UsuarioController.delete = (req, res, next) => {
+    console.log("ENTRANDO EN DELETE")
     let locals = {};
     UsuarioEstadoModelo.update({fechaYHoraBajaUsuarioEstado: Date()}, {
         where: { idUsuario: req.params[idtable], fechaYHoraBajaUsuarioEstado: null }
@@ -674,15 +675,15 @@ UsuarioController.delete = (req, res, next) => {
 
 UsuarioController.changeState = (req, res) => {
     let locals = {};
-    EstadoUsuarioModelo.findOne({where: { nombreEstadoUsuario: req.body.estado }}).then(response => {
+    EstadoUsuarioModelo.findOne({where: { nombreEstadoUsuario: 'Eliminado' }}).then(response => {
         let push = {
             [idestadotable]: response.dataValues[idestadotable],
             [idtable]: req.params[idtable],
             fechaYHoraAltaUsuarioEstado: new Date(),
-            descripcionUsuarioEstado: req.body.descripcion
+            descripcionUsuarioEstado: 'Eliminado'
         };
         UsuarioEstadoModelo.create(push).then(result => {
-            locals['title'] = `Cambio de estado de ${legend}, pasado a ${req.body.estado}.`;
+            locals['title'] = `Cambio de estado de ${legend}, pasado a Eliminado.`;
             locals['tipo'] = 1;
             locals[legend2] = result;
             res.json(locals);
