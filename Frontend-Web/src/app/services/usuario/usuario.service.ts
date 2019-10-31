@@ -34,6 +34,10 @@ export class UsuarioService {
     }
   }
 
+  getRolUsuarioLoggeado () {
+    let rolUsuario = localStorage.getItem('rolUsuario');
+    return rolUsuario;
+  }
 
   loguear( cuit: number, pass: string ): Promise<any> {
     let value = { cuitUsuario: cuit, contrasenaUsuario: pass}
