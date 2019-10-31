@@ -121,15 +121,13 @@ export class UsuarioService {
   deleteUsuario( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
-    console.log("valor del Header:",headers)
-    console.log("DATOS A ENVIAR:",datas)
     return this.http
       .post(`${this.url}${this.dir}/${datas.idUsuario}`, {headers})
       .toPromise()
       .then(response => {
         return response as Usuario;
       })
-      .catch(  );
+      .catch();
   }
 
   setUsuario( datas: any ): Promise<any> {

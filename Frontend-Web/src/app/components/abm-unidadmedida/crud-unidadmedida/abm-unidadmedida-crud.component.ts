@@ -27,7 +27,7 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
       'id': new FormControl({value: '', disabled: true}),
       'codigo': new FormControl('', [Validators.required, Validators.pattern(/^([A-Z]+|[0-9]+)+$/)]),
       'nombre': new FormControl('', Validators.required),
-      'caracter': new FormControl('', [Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú0-9]+$/)]),
+      'caracter': new FormControl('', [Validators.required, Validators.pattern(/^[A-ZÑÁÉÍÓÚ]([a-zñáéíóú])*([0-9])*$/)]),
       'descripcion': new FormControl('', Validators.required)
     })
 
@@ -43,6 +43,10 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
       }
       else {
         this.unidadMedidaEncontrada = false;
+      }
+
+      if (this.accionGet == "eliminar") {
+        this.form.disable();
       }
       
     });
@@ -195,28 +199,57 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
                   .then( (response) => {
                     console.log("BORRADO", response);
             
-                    const titulo = "Éxito";
-                    const mensaje = "Se ha eliminado el registro de Unidad de Medida de forma exitosa";
+
+                    if (response.tipo == 2) {
+                      const titulo = "Error";
+                      const mensaje = "No se ha podido eliminar la Unidad de Medida ingresada. La misma ya está siendo usada en otra entidad.";
+                      
+                      ($ as any).confirm({
+                        title: titulo,
+                        content: mensaje,
+                        type: 'red',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-red',
+                                action: function(){
+              
+                                  //ACCION
+                                  _this.router.navigate( ['/unidadmedida/']);
+              
+                                }
+                            }
+                        }
+                      });
+                    }
+                    else {
+                      const titulo = "Éxito";
+                      const mensaje = "Se ha eliminado el registro de Unidad de Medida de forma exitosa";
+                      
+                      ($ as any).confirm({
+                        title: titulo,
+                        content: mensaje,
+                        type: 'green',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-green',
+                                action: function(){
+              
+                                  //ACCION
+                                  _this.router.navigate( ['/unidadmedida/']);
+              
+                                }
+                            }
+                        }
+                      });
+                    }
+
                     
-                    ($ as any).confirm({
-                      title: titulo,
-                      content: mensaje,
-                      type: 'green',
-                      typeAnimated: true,
-                      theme: 'material',
-                      buttons: {
-                          aceptar: {
-                              text: 'Aceptar',
-                              btnClass: 'btn-green',
-                              action: function(){
-            
-                                //ACCION
-                                _this.router.navigate( ['/unidadmedida/']);
-            
-                              }
-                          }
-                      }
-                    });
             
                   })
 
