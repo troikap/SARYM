@@ -338,19 +338,11 @@ UsuarioController.create = (req, res) => {
                                                     locals.title = { descripcion: `${legend} creado` };
                                                     locals[legend] = result;
                                                     let pushEstado;
-                                                    if (body['idEstadoUsuario']) {
-                                                        pushEstado = {
-                                                            [idestadotable]: body.idEstadoUsuario,
-                                                            [idtable]: result[idtable],
-                                                            fechaYHoraAltaUsuarioEstado: new Date()
-                                                        };
-                                                    } else {
-                                                        pushEstado = {
-                                                            [idestadotable]: response2[idestadotable],
-                                                            [idtable]: result[idtable],
-                                                            fechaYHoraAltaUsuarioEstado: new Date()
-                                                        };
-                                                    }
+                                                    pushEstado = {
+                                                        [idestadotable]: response2[idestadotable],
+                                                        [idtable]: result[idtable],
+                                                        fechaYHoraAltaUsuarioEstado: new Date()
+                                                    };
                                                     // CREANDO INSTANCIA USUARIO ESTADO
                                                     UsuarioEstadoModelo.create(pushEstado)
                                                         .then(result => {
