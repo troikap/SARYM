@@ -45,8 +45,7 @@ export class EditCerrarCajaComponent implements OnInit {
     private usuarioservicio: UsuarioService
   ) {
     this.form = new FormGroup({
-      'idCaja': new FormControl({ value: '', disabled: true }),
-      'nroCaja': new FormControl('', Validators.required),            
+      'idCaja': new FormControl({ value: '', disabled: true }),                
       'descripcionCajaEstado': new FormControl('', Validators.required),
       'montoCierreCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([.][0-9]{1,2})|[0-9]+)$/)] ), 
     });
@@ -242,8 +241,7 @@ for (let i = 0; i < length; i++) {
 _this.total = _this.ingresos - _this.egresos+ this.montoDeAperturaAnterior;
 
 this.newForm = {
-  idCaja: this.caja['idCaja'],
-  nroCaja: this.caja['nroCaja'],         
+  idCaja: this.caja['idCaja'],         
   descripcionCajaEstado: "Cierre de Caja",
   montoCierreCajaEstado:  _this.total
   

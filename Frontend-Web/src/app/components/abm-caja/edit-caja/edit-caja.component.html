@@ -4,18 +4,8 @@
     <div class="form-section">
         <form [formGroup]="form" (ngSubmit)="guardar()">
             <div class="form-group">
-                <label for="idCaja" class="col col-form-label">Id</label>
+                <label for="idCaja" class="col col-form-label">Numero de Caja</label>
                 <input type="text" id="idCaja" placeholder="Identificador" formControlName="idCaja" class="form-control">
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="nroCaja" class="col col-form-label">Numero de Caja</label>
-                        <input type="number"  class="form-control" id="nroCaja" placeholder="Ingrese Respuesta" formControlName="nroCaja">
-                        <p class="input-error-msg" *ngIf="form.controls.nroCaja.errors?.required && form.controls.nroCaja.touched">Campo Obligatorio.</p>
-                        <p class="input-error-msg" *ngIf="form.controls.nroCaja.errors?.pattern && form.controls.nroCaja.touched">Debe ser Positivo y menor que 66.</p>
-                    </div>
-                </div>                
             </div>
             <div class="form-group row">
                 <div class="col">

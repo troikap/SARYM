@@ -77,5 +77,113 @@ export class AbmCajaComponent implements OnInit {
   this.router.navigate( [`/caja_edit/${idElemento}/${accion}`] );
 
   }
+  crearCaja(){
+    let _this = this;
+    const titulo = "Confirmación";
+    const mensaje = `¿Está seguro que desea crear el elemento seleccionado?`;
+      
+    ($ as any).confirm({
+      title: titulo,
+      content: "¿Confirma la creación de un nuevo registro?",
+      type: 'blue',
+      typeAnimated: true,
+      theme: 'material',
+      buttons: {
+          aceptar: {
+              text: 'Aceptar',
+              btnClass: 'btn-blue',
+              action: function(){
+                let nuevaCaja: any = {      
+                  nroCaja:  null,   
+                  idUsuario: localStorage.getItem("idUsuario")
+                  
+                }
+                
+
+             
+                
+                _this.cajaService.setCaja( nuevaCaja )
+                .then( (response) => {
+                  
+                  if (response.tipo !== 2) { //TODO CORRECTO
+
+                    console.log("CREADO", response);
+                  
+                    const titulo = "Éxito";
+                    const mensaje = "Se ha Creado un nuevo registro de usuario de forma exitosa";
+                  
+                    ($ as any).confirm({
+                      title: titulo,
+                      content: mensaje,
+                      type: 'green',
+                      typeAnimated: true,
+                      theme: 'material',
+                      buttons: {
+                          aceptar: {
+                              text: 'Aceptar',
+                              btnClass: 'btn-green',
+                              action: function(){
+            
+                                //ACCION
+                                _this.router.navigate( ['/caja/']);
+            
+                              }
+                          }
+                      }
+                    });
+
+
+
+
+                  }
+                  else {
+                    console.log("ERROR", response);
+                    
+                    ($ as any).confirm({
+                      title: "Error",
+                      content: `${response.title}. No es posible realizar esta acción`, 
+                      type: 'red',
+                      typeAnimated: true,
+                      theme: 'material',
+                      buttons: {
+                          aceptar: {
+                              text: 'Aceptar',
+                              btnClass: 'btn-red',
+                              action: function(){
+                                console.log("Mensaje de error aceptado");
+                              }
+                          }
+                      }
+                    });
+                    
+
+
+
+                  }
+
+                  
+          
+                  
+                })
+
+
+
+
+              }
+          },
+          cerrar: {
+            text: 'Cerrar',
+            action: function(){
+              console.log("Creación Cancelada");
+            }
+        }
+      }
+    });
+    
+    
+  
+   
+
+  }
 
 }

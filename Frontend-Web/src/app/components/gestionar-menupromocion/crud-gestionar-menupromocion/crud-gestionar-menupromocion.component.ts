@@ -49,7 +49,8 @@ export class CrudGestionarMenupromocionComponent implements OnInit {
     this.form = new FormGroup({
       'idMenuPromocion': new FormControl({value: '', disabled: true}),
       'codMenuPromocion': new FormControl('', [Validators.required, Validators.pattern(/^([A-Z]+|[0-9]+)+$/)]),
-      'nombreMenuPromocion': new FormControl('', [Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)]),
+      'nombreMenuPromocion': new FormControl('', [Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)[A-ZÑÁÉÍÓÚa-zñáéíóú]+)*$/)]),
+      // 'nombreMenuPromocion': new FormControl('', [Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)]),
       'descripcionMenuPromocion': new FormControl('', Validators.required),
       'idTipoMenuPromocion':  new FormControl('', Validators.required),
       'importePrecioMenuPromocion':new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([.][0-9]{1,2})|[0-9]+)$/)]),
@@ -71,11 +72,13 @@ export class CrudGestionarMenupromocionComponent implements OnInit {
         this.menuPromocionEncontrada = false;
       }
 
-      if (this.accionGet !== "estado" && this.accionGet !== "crear") {
+      if (this.accionGet == "estado") {
         this.form.get('idEstadoMenuPromocion').setValidators(Validators.required);
         this.form.get('idEstadoMenuPromocion').updateValueAndValidity();
       }
-
+      else if (this.accionGet == "eliminar") {
+        this.form.disable();
+      }
     });
 
   }
