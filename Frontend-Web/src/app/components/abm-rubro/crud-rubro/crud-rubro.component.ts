@@ -43,6 +43,9 @@ export class CrudRubroComponent implements OnInit {
       else {
         this.RubroEncontrado = false;
       }
+      if (this.accionGet == "eliminar") {
+        this.form.disable();
+      }
       
     });
   }
@@ -192,28 +195,58 @@ export class CrudRubroComponent implements OnInit {
                   .then( (response) => {
                     console.log("BORRADO", response);
             
-                    const titulo = "Éxito";
-                    const mensaje = "Se ha eliminado el registro de Rubro de forma exitosa";
+
+                    if (response.tipo == 2) {
+                      const titulo = "Error";
+                      const mensaje = "No se ha podido eliminar el Rubro ingresado. El mismo ya está siendo utilizado en otro elemento.";
+                      
+                      ($ as any).confirm({
+                        title: titulo,
+                        content: mensaje,
+                        type: 'red',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-red',
+                                action: function(){
+              
+                                  //ACCION
+                                  _this.router.navigate( ['/rubro/']);
+              
+                                }
+                            }
+                        }
+                      });
+                    }
+                    else {
+                      const titulo = "Éxito";
+                      const mensaje = "Se ha eliminado el registro de Rubro de forma exitosa";
+                      
+                      ($ as any).confirm({
+                        title: titulo,
+                        content: mensaje,
+                        type: 'green',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-green',
+                                action: function(){
+              
+                                  //ACCION
+                                  _this.router.navigate( ['/rubro/']);
+              
+                                }
+                            }
+                        }
+                      });
+                    }
+
+
                     
-                    ($ as any).confirm({
-                      title: titulo,
-                      content: mensaje,
-                      type: 'green',
-                      typeAnimated: true,
-                      theme: 'material',
-                      buttons: {
-                          aceptar: {
-                              text: 'Aceptar',
-                              btnClass: 'btn-green',
-                              action: function(){
-            
-                                //ACCION
-                                _this.router.navigate( ['/rubro/']);
-            
-                              }
-                          }
-                      }
-                    });
             
                   })
 

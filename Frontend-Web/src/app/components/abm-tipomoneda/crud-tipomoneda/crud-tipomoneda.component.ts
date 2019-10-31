@@ -43,6 +43,10 @@ export class CrudTipomonedaComponent implements OnInit {
       else {
         this.tipoMonedaEncontrada = false;
       }
+
+      if (this.accionGet == "eliminar") {
+        this.form.disable();
+      }
       
     });
   }
@@ -188,29 +192,56 @@ export class CrudTipomonedaComponent implements OnInit {
                   _this.tipoMonedaService.deleteTipoMoneda( unidadMed )
                   .then( (response) => {
                     console.log("BORRADO", response);
-            
-                    const titulo = "Éxito";
-                    const mensaje = "Se ha eliminado el registro de Tipo de Moneda de forma exitosa";
                     
-                    ($ as any).confirm({
-                      title: titulo,
-                      content: mensaje,
-                      type: 'green',
-                      typeAnimated: true,
-                      theme: 'material',
-                      buttons: {
-                          aceptar: {
-                              text: 'Aceptar',
-                              btnClass: 'btn-green',
-                              action: function(){
-            
-                                //ACCION
-                                _this.router.navigate( ['/tipomoneda/']);
-            
-                              }
-                          }
-                      }
-                    });
+                    if (response.tipo == 2) {
+                      const titulo = "Error";
+                      const mensaje = "No se ha podido eliminar el Tipo de Moneda ingresado. El mismo ya está siendo utilizado en otro elemento.";
+                      
+                      ($ as any).confirm({
+                        title: titulo,
+                        content: mensaje,
+                        type: 'red',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-red',
+                                action: function(){
+              
+                                  //ACCION
+                                  _this.router.navigate( ['/tipomoneda/']);
+              
+                                }
+                            }
+                        }
+                      });
+                    }
+                    else {
+                      const titulo = "Éxito";
+                      const mensaje = "Se ha eliminado el registro de Tipo de Moneda de forma exitosa";
+                      
+                      ($ as any).confirm({
+                        title: titulo,
+                        content: mensaje,
+                        type: 'green',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-green',
+                                action: function(){
+              
+                                  //ACCION
+                                  _this.router.navigate( ['/tipomoneda/']);
+              
+                                }
+                            }
+                        }
+                      });
+                    }
+                    
             
                   })
 

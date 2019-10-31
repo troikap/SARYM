@@ -3,7 +3,7 @@
 <div class="container">
     <div class="form-section">
         <form [formGroup]="form" (ngSubmit)="guardar()">
-            <div class="form-group">
+            <div class="form-group" style="display: none;">
                 <label for="idProducto" class="col col-form-label">Id</label>
                 <input type="text" placeholder="Identificador" formControlName="idProducto" class="form-control">
             </div>
@@ -22,7 +22,7 @@
                 <hr>
             </div>
 
-            <div class="form-group row">
+            <div class="form-group row" *ngIf="accionGet != 'estado'">
                 <div class="col">
                     <label for="codProducto" class="col col-form-label">Código</label>
                     <input type="text" class="form-control" id="codProducto" placeholder="Ingrese Código" formControlName="codProducto">
@@ -33,11 +33,11 @@
                     <label for="nombreProducto" class="col col-form-label">Nombre</label>
                     <input type="text" class="form-control" id="nombreProducto" placeholder="Ingrese Nombre" formControlName="nombreProducto">
                     <p class="input-error-msg" *ngIf="form.controls.nombreProducto.errors?.required && form.controls.nombreProducto.touched">Campo Obligatorio.</p>
-                    <p class="input-error-msg" *ngIf="form.controls.nombreProducto.errors?.pattern && form.controls.nombreProducto.touched">Valor no válido. Ej: Papas Fritas</p>
+                    <p class="input-error-msg" *ngIf="form.controls.nombreProducto.errors?.pattern && form.controls.nombreProducto.touched">Valor no válido. Ej: Papas fritas</p>
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="form-group row" *ngIf="accionGet != 'estado'">
                 <div class="col">
                     <label for="idUnidadMedida" class="col col-form-label">Unidad de Medida</label>
                     <select Placeholder='Seleccione' formControlName='idUnidadMedida' class="form-control"> 
@@ -45,7 +45,7 @@
                     </select>
                     <p class="input-error-msg" *ngIf="form.controls.idUnidadMedida.errors?.required && form.controls.idUnidadMedida.touched">Campo Obligatorio.</p>
                 </div>
-                <div class="col">
+                <div class="col" *ngIf="accionGet != 'estado'">
                     <label for="cantidadMedida" class="col col-form-label">Cantidad</label>
                     <input type="text" class="form-control" id="cantidadMedida" placeholder="Ingrese Cantidad de Unidad de Medida" formControlName="cantidadMedida">
                     <p class="input-error-msg" *ngIf="form.controls.cantidadMedida.errors?.required && form.controls.cantidadMedida.touched">Campo Obligatorio.</p>
@@ -54,7 +54,7 @@
             </div>
 
 
-            <div class="form-group">
+            <div class="form-group" *ngIf="accionGet != 'estado'">
                 <label for="descripcionProducto" class="col col-form-label">Descripción</label>
                 <textarea aria-label="Ingrese Descripción del Producto" id="descripcionProducto" formControlName="descripcionProducto" class="form-control"></textarea>
                 <p class="input-error-msg" *ngIf="form.controls.descripcionProducto.errors?.required && form.controls.descripcionProducto.touched">
@@ -62,7 +62,7 @@
                 </p>
             </div>
 
-            <div class="form-group row">
+            <div class="form-group row" *ngIf="accionGet != 'estado'">
                 <div class="col">
                     <label for="idTipoMoneda" class="col col-form-label">Tipo de Moneda</label>
                     <select Placeholder='Seleccione' formControlName='idTipoMoneda' class="form-control"> 
@@ -70,7 +70,7 @@
                     </select>
                     <p class="input-error-msg" *ngIf="form.controls.idTipoMoneda.errors?.required && form.controls.idTipoMoneda.touched">Campo Obligatorio.</p>
                 </div>
-                <div class="col">
+                <div class="col" *ngIf="accionGet != 'estado'">
                     <label for="importePrecioProducto" class="col col-form-label">Precio</label>
                     <input type="text" class="form-control" id="importePrecioProducto" placeholder="Ingrese el Precio del Producto" formControlName="importePrecioProducto">
                     <p class="input-error-msg" *ngIf="form.controls.importePrecioProducto.errors?.required && form.controls.importePrecioProducto.touched">Campo Obligatorio.</p>
@@ -78,7 +78,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" *ngIf="accionGet != 'estado'">
                 <label for="idRubro" class="col col-form-label">Rubro</label>
                 <select Placeholder='Seleccione' formControlName='idRubro' class="form-control"> 
                     <option *ngFor='let element of rubros' [value]='element.idRubro'>{{element.nombreRubro}}</option>
@@ -116,7 +116,7 @@
                 <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
             </div>
             <div *ngIf="accionGet == 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+                <button type="submit" class="btn btn-outline-primary btn-block">Eliminar</button>
             </div>
 
         </form>

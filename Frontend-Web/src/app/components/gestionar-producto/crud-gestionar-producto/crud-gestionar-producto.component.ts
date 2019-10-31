@@ -53,7 +53,8 @@ export class CrudGestionarProductoComponent implements OnInit {
     this.form = new FormGroup({
       'idProducto': new FormControl({value: '', disabled: true}),
       'codProducto': new FormControl('', [Validators.required, Validators.pattern(/^([A-Z]+|[0-9]+)+$/)]),
-      'nombreProducto': new FormControl('', [Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)]),
+      'nombreProducto': new FormControl('', [Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)[A-ZÑÁÉÍÓÚa-zñáéíóú]+)*$/)]),
+      // 'nombreProducto': new FormControl('', [Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)]),
       'idUnidadMedida': new FormControl('', Validators.required),
       'cantidadMedida': new FormControl('', [Validators.required, Validators.pattern(/^[0-9]+$/)]),
       'descripcionProducto': new FormControl('', Validators.required),
@@ -76,11 +77,13 @@ export class CrudGestionarProductoComponent implements OnInit {
         this.productoEncontrado = false;
       }
 
-      if (this.accionGet !== "estado" && this.accionGet !== "crear") {
+      if (this.accionGet == "estado") {
         this.form.get('idEstadoProducto').setValidators(Validators.required);
         this.form.get('idEstadoProducto').updateValueAndValidity();
       }
-
+      else if (this.accionGet == "eliminar") {
+        this.form.disable();
+      }
     });
 
    }
