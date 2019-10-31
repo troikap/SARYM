@@ -680,7 +680,7 @@ UsuarioController.changeState = (req, res) => {
             [idestadotable]: response.dataValues[idestadotable],
             [idtable]: req.params[idtable],
             fechaYHoraAltaUsuarioEstado: new Date(),
-            descripcionUsuarioEstado: 'Eliminado'
+            descripcionUsuarioEstado: req.body['descripcionUsuarioEstado'] || 'Eliminado'
         };
         UsuarioEstadoModelo.create(push).then(result => {
             locals['title'] = `Cambio de estado de ${legend}, pasado a Eliminado.`;
