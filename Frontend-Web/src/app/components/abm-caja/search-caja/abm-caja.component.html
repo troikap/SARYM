@@ -9,7 +9,6 @@
 <table class="table">
     <thead class="thead-dark">
         <tr>
-            <th scope="col">Id</th>
             <th scope="col">Numero de Caja</th>
             <th scope="col">Estado Caja</th>            
             <th scope="col">Accion</th>           
@@ -17,8 +16,7 @@
     </thead>
     <tbody>
         <tr *ngFor="let lista of listaCaja">
-            <th scope="row">{{lista.idCaja}}</th>
-            <td>{{lista.nroCaja}}</td>            
+            <th scope="row">{{lista.idCaja}}</th>          
             <td>{{lista.cajaestados[0].estadocaja.nombreEstadoCaja}}</td>        
                  
             <td>
@@ -53,6 +51,6 @@
         <td width="20%">&nbsp;</td>
         <td width="20%">&nbsp;</td>
         <td width="20%">&nbsp;</td>
-        <td align="right" width="20%"><button [routerLink]="['/caja_crud/0/crear']" class="btn btn-success">Crear</button></td>
+        <td align="right" width="20%"><button (click)="crearCaja()" class="btn btn-success">Crear nueva caja</button></td>
     </tr>
 </table>

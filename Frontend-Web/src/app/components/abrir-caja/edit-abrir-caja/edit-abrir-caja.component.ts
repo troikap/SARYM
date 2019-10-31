@@ -38,7 +38,6 @@ export class EditAbrirCajaComponent implements OnInit {
   ) {
     this.form = new FormGroup({
       'idCaja': new FormControl({ value: '', disabled: true }),
-      'nroCaja': new FormControl('', Validators.required),
       'idEstadoCaja': new FormControl('', Validators.required),      
       'descripcionCajaEstado': new FormControl('', Validators.required),
       'montoAperturaCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([.][0-9]{1,2})|[0-9]+)$/)]),     
@@ -75,8 +74,7 @@ export class EditAbrirCajaComponent implements OnInit {
             console.log(this.caja['cajaestados'][0]);
 
             this.newForm = {
-              idCaja: this.caja['idCaja'],
-              nroCaja: this.caja['nroCaja'],
+              idCaja: this.caja['idCaja'],              
               idEstadoCaja: this.caja['cajaestados'][0].estadocaja.idEstadoCaja,              
               descripcionCajaEstado: "Apertura de Caja",
               montoAperturaCajaEstado: this.caja['cajaestados'][0].montoCierreCajaEstado

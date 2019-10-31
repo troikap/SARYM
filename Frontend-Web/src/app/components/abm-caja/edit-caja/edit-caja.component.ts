@@ -38,7 +38,6 @@ export class EditCajaComponent implements OnInit {
   ) {
     this.form = new FormGroup({
       'idCaja': new FormControl({ value: '', disabled: true }),
-      'nroCaja': new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{1,2}$/)]),
       'idEstadoCaja': new FormControl('', Validators.required),      
       'descripcionCajaEstado': new FormControl('', Validators.required),
       'montoAperturaCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([.][0-9]{1,2})|[0-9]+)$/)]),     
@@ -102,8 +101,7 @@ export class EditCajaComponent implements OnInit {
             console.log(this.caja['cajaestados'][0]);
             console.log("el usuario logueado es",localStorage.getItem("idUsuario"));
             this.newForm = {
-              idCaja: this.caja['idCaja'],
-              nroCaja: this.caja['nroCaja'],
+              idCaja: this.caja['idCaja'],              
               idEstadoCaja: this.caja['cajaestados'][0].estadocaja.idEstadoCaja,                       
               descripcionCajaEstado: this.caja['cajaestados'][0].descripcionCajaEstado,
               montoAperturaCajaEstado: this.caja['cajaestados'][0].montoAperturaCajaEstado
@@ -126,22 +124,11 @@ export class EditCajaComponent implements OnInit {
 
     this.idEstadoform = this.form.value['idEstadoCaja'];
     console.log("nuevo estado caja",this.idEstadoform);
-    if (this.idEstadoCaja1 === this.idEstadoform) {
-      console.log("entro a datos");
-      let rempCaja: any = {
-        idCaja: us,
-        nroCaja: Number(this.form.value['nroCaja']) ,        
-        descripcionCajaEstado: this.form.value['descripcionCajaEstado'],
-        montoAperturaCajaEstado: Number(this.form.value['montoAperturaCajaEstado']) ,
-        montoCierreCajaEstado:Number (this.form.value['montoAperturaCajaEstado']),
-        idUsuario:localStorage.getItem("idUsuario")
-
-      }
-      return rempCaja;
-    } else {
+    
+     
       console.log("entro a estado");
       let rempCaja: any = {
-        idCaja: us,       
+        idCaja: us,              
         idEstadoCaja: this.form.value['idEstadoCaja'],
         idUsuario: localStorage.getItem("idUsuario"),
         descripcionCajaEstado: this.form.value['descripcionCajaEstado'],
@@ -152,7 +139,7 @@ export class EditCajaComponent implements OnInit {
       //console.log(rempCaja);
       return rempCaja;
 
-    }
+    
 
   }
 
