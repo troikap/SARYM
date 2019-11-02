@@ -104,18 +104,10 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
 
   guardar() {
     console.log(this.form);
-
-    //Variables para mensajes//
     let _this = this; //Asigno el contexto a una variable, ya que se pierde al ingresar a la función de mensajeria
     const titulo = "Confirmación";
     const mensaje = `¿Está seguro que desea ${this.accionGet} el elemento seleccionado?`;
-    ///////////////////////////
-
-
     if (this.unidadMedidaEncontrada && this.accionGet === "editar") {
-
-
-
       ($ as any).confirm({
         title: titulo,
         content: mensaje,
@@ -126,43 +118,47 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
             aceptar: {
                 text: 'Aceptar',
                 btnClass: 'btn-blue',
-                action: function(){
-                  
-                  
+                action: function(){                 
                   let unidadMed = _this.reemplazarUnidadMedida();
                   _this.unidadMedidaService.updateUnidadMedida( unidadMed )
                   .then( (response) => {
-                    console.log("ACTUALIZADO", response);
-            
-                    const titulo = "Éxito";
-                    const mensaje = "Se ha actualizado el registro de Unidad de Medida de forma exitrosa";
-                    
-                    ($ as any).confirm({
-                      title: titulo,
-                      content: mensaje,
-                      type: 'green',
-                      typeAnimated: true,
-                      theme: 'material',
-                      buttons: {
-                          aceptar: {
-                              text: 'Aceptar',
-                              btnClass: 'btn-green',
-                              action: function(){
-            
-                                //ACCION
-                                _this.router.navigate( ['/unidadmedida/']);
-            
-            
-                              }
-                          }
-                      }
-                    });
-            
-            
+                    if (response.tipo !== 2) {
+                      const titulo = "Éxito";
+                      const mensaje = "Se ha actualizado el registro de Unidad de Medida de forma exitrosa";                    
+                      ($ as any).confirm({
+                        title: titulo,
+                        content: mensaje,
+                        type: 'green',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-green',
+                                action: function(){            
+                                  _this.router.navigate( ['/unidadmedida/']);       
+                                }
+                            }
+                        }
+                      });
+                    } else {                      
+                      ($ as any).confirm({
+                        title: "Erorr",
+                        content: "Ya existe el registro. No es posible realizar esta acción",
+                        type: 'red',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-red',
+                                action: function(){
+                                }
+                            }
+                        }
+                      });
+                    }
                   })
-
-
-
                 }
             },
             cerrar: {
@@ -176,9 +172,7 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
 
 
     } 
-    else if (this.unidadMedidaEncontrada && this.accionGet === "eliminar") {
-      
-      
+    else if (this.unidadMedidaEncontrada && this.accionGet === "eliminar") {    
       ($ as any).confirm({
         title: titulo,
         content: mensaje,
@@ -189,21 +183,13 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
             aceptar: {
                 text: 'Aceptar',
                 btnClass: 'btn-blue',
-                action: function(){
-                  
-                  
-
+                action: function(){                 
                   let unidadMed = _this.reemplazarUnidadMedida();
-                  // console.log("Datos A enviar: " + unidadMed);
                   _this.unidadMedidaService.deleteUnidadMedida( unidadMed )
-                  .then( (response) => {
-                    console.log("BORRADO", response);
-            
-
+                  .then( (response) => {          
                     if (response.tipo == 2) {
                       const titulo = "Error";
                       const mensaje = "No se ha podido eliminar la Unidad de Medida ingresada. La misma ya está siendo usada en otra entidad.";
-                      
                       ($ as any).confirm({
                         title: titulo,
                         content: mensaje,
@@ -215,10 +201,7 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
                                 text: 'Aceptar',
                                 btnClass: 'btn-red',
                                 action: function(){
-              
-                                  //ACCION
                                   _this.router.navigate( ['/unidadmedida/']);
-              
                                 }
                             }
                         }
@@ -227,7 +210,6 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
                     else {
                       const titulo = "Éxito";
                       const mensaje = "Se ha eliminado el registro de Unidad de Medida de forma exitosa";
-                      
                       ($ as any).confirm({
                         title: titulo,
                         content: mensaje,
@@ -239,23 +221,13 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
                                 text: 'Aceptar',
                                 btnClass: 'btn-green',
                                 action: function(){
-              
-                                  //ACCION
                                   _this.router.navigate( ['/unidadmedida/']);
-              
                                 }
                             }
                         }
                       });
-                    }
-
-                    
-            
+                    }                  
                   })
-
-
-
-
                 }
             },
             cerrar: {
@@ -266,11 +238,7 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
           }
         }
       });
-
-
     } else {
-
-
       ($ as any).confirm({
         title: titulo,
         content: "¿Confirma la creación de un nuevo registro?",
@@ -282,21 +250,12 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
                 text: 'Aceptar',
                 btnClass: 'btn-blue',
                 action: function(){
-                  
-                  
-
                   let unidadMed = _this.reemplazarUnidadMedida();
-                  // console.log("----------------------------- :", unidadMed)
                   _this.unidadMedidaService.createUnidadMedida( unidadMed )
                   .then( (response) => {
-                    
-                    if (response.tipo !== 2) { //TODO CORRECTO
-
-                      console.log("CREADO", response);
-                    
+                    if (response.tipo !== 2) {
                       const titulo = "Éxito";
                       const mensaje = "Se ha Creado un nuevo registro de Unidad de Medida de forma exitosa";
-                    
                       ($ as any).confirm({
                         title: titulo,
                         content: mensaje,
@@ -308,22 +267,13 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
                                 text: 'Aceptar',
                                 btnClass: 'btn-green',
                                 action: function(){
-              
-                                  //ACCION
                                   _this.router.navigate( ['/unidadmedida/']);
-              
                                 }
                             }
                         }
                       });
-
-
-
-
                     }
-                    else {
-                      console.log("ERROR", response);
-                      
+                    else { 
                       ($ as any).confirm({
                         title: "Error",
                         content: `Ya existe el código de Unidad Medida. No es posible realizar esta acción`, 
@@ -335,40 +285,21 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
                                 text: 'Aceptar',
                                 btnClass: 'btn-red',
                                 action: function(){
-                                  console.log("Mensaje de error aceptado");
                                 }
                             }
                         }
                       });
-                      
-
-
-
-                    }
-
-                    
-            
-                    
+                    } 
                   })
-
-
-
-
                 }
             },
             cerrar: {
               text: 'Cerrar',
               action: function(){
-                console.log("Creación Cancelada");
               }
           }
         }
       });
-
-
-
     }
   }
-
-
 }

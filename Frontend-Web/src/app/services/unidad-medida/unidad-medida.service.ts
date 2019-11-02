@@ -69,11 +69,11 @@ export class UnidadMedidaService {
   updateUnidadMedida( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR :",datas)
     return this.http
       .put(`${this.url}${this.dir}`, datas, {headers})
       .toPromise()
       .then(response => {
+        console.log("RESPONSEEEE", response);
         return response;
       })
       .catch(  );
