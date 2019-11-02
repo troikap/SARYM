@@ -2,18 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
-import { EnvioReservaService } from '../services/envio-reserva/envio-reserva.service'
-import { UsuarioService } from '../services/usuario/usuario.service';
-import { ReservaService } from '../services/reserva/reserva.service';
-import { StorageService, Log } from '../services/storage/storage.service';
+import { UsuarioService } from '../../../services/usuario/usuario.service';
+import { ReservaService } from '../../../services/reserva/reserva.service';
+import { StorageService, Log } from '../../../services/storage/storage.service';
 
 
 @Component({
-  selector: 'app-nueva-reserva',
-  templateUrl: './nueva-reserva.page.html',
-  styleUrls: ['./nueva-reserva.page.scss'],
+  selector: 'app-crud-gestionar-reserva',
+  templateUrl: './crud-gestionar-reserva.page.html',
+  styleUrls: ['./crud-gestionar-reserva.page.scss'],
 })
-export class NuevaReservaPage implements OnInit {
+export class CrudGestionarReservaPage implements OnInit {
 
   private form: FormGroup;
   private form2: FormGroup;
@@ -29,7 +28,6 @@ export class NuevaReservaPage implements OnInit {
     private formBuilder: FormBuilder,
     public toastController: ToastController,
     private navController: NavController,
-    private envioReservaService: EnvioReservaService,
     private usuarioservicio: UsuarioService,
     private storage: StorageService,
     private reservaservicio: ReservaService,
@@ -166,7 +164,6 @@ export class NuevaReservaPage implements OnInit {
     this.agregarCodigoReserva( reserva );
     console.log('Reserva', reserva)
     // this.presentToast(reserva);
-    // this.envioReservaService.sendObjectSource(reserva);
     // this.navController.navigateForward('/reserva' );
   }
 
