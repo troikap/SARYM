@@ -1,9 +1,9 @@
-import { Injectable, ɵConsole } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Usuario } from '../../model/usuario/usuario.model';
-
 import { map } from 'rxjs/operators';
+
 
 
 @Injectable({
@@ -21,19 +21,17 @@ export class UsuarioService {
    tokenEnviroment = environment.token;
 
   constructor(
-    public http: HttpClient
+    public http: HttpClient,
   ) { }
 
 
   estaLogueado(): Promise<any> {
     let token = localStorage.getItem('token')
-    let rol = localStorage.getItem('rolUsuario')
-    let value = { token, rol }
+    let value = { token }
     return this.http
       .post(`${this.url}${this.dirToken}`, value )
       .toPromise()
       .then(response => {
-        console.log("USUARIO ", response)
         return response;
       })
       .catch( err => {
