@@ -241,7 +241,7 @@ ProductoController.getOne = (req, res) => {
 ProductoController.create = (req, res) => {
   let body = req.body;
   let locals = {};
-  EstadoProductoModelo.findOne({ where: {[idtable3]: 1 } }).then( responses => {
+  EstadoProductoModelo.findOne({ where: {[idtable3]: 3 } }).then( responses => {
     if ( !responses || responses == 0 ) {
       locals['title'] = `No existe instancia de ${legend3} con ${idtable3}.`;
       locals['tipo'] = 2;
@@ -274,7 +274,7 @@ ProductoController.create = (req, res) => {
                     pushProductoEstado['descripcionProductoEstado'] = body['descripcionProductoEstado'] || "Reciente.";
                     pushProductoEstado[idtable] = result[idtable];
                     pushProductoEstado['fechaYHoraAltaProductoEstado'] = new Date();
-                    pushProductoEstado[idtable3] = 1;
+                    pushProductoEstado[idtable3] = 3;
                     ProductoEstadoModelo.create(pushProductoEstado).then( response => {
                       locals['title'] = `${legend} creado. ${legend2} creado.`;
                       locals['data'] = response;
