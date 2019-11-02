@@ -125,8 +125,10 @@ export class UsuarioService {
   deleteUsuario( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
+    let value = { descripcionUsuarioEstado: datas['descripcionUsuarioEstado'] || 'SIN DESCRIPCION.'}
+    console.log("HEADER ", headers)
     return this.http
-      .post(`${this.url}${this.dir}/${datas.idUsuario}`, {headers})
+      .post(`${this.url}${this.dir}/${datas.idUsuario}`,value ,{headers})
       .toPromise()
       .then(response => {
         return response as Usuario;

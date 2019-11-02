@@ -31,7 +31,7 @@
 				{
 					"name": "Get Menu Promocion: id",
 					"request": {
-						"url": "localhost:3000/menupromocion/35",
+						"url": "localhost:3000/menupromocion/34",
 						"method": "GET",
 						"header": [
 							{
@@ -198,7 +198,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idMenuPromocion\":35,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA EDITAR\" :[\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 100,\n\t\t\t\"idProducto\": 2,\n\t\t\t\"cantidadProductoMenuPromocion\": 2\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 101,\n\t\t\t\"idProducto\": 2,\n\t\t\t\"cantidadProductoMenuPromocion\": 2\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"idProducto\": 4,\n\t\t\t\"cantidadProductoMenuPromocion\": 6\n\t\t},\n\t\t{\n\t\t\t\"idProducto\": 5,\n\t\t\t\"cantidadProductoMenuPromocion\": 7\n\t\t}\n\t]\n}"
+							"raw": "{\n\t\"idMenuPromocion\":34,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 7,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 9,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA EDITAR\" :[\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 100,\n\t\t\t\"idProducto\": 2,\n\t\t\t\"cantidadProductoMenuPromocion\": 2\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 101,\n\t\t\t\"idProducto\": 2,\n\t\t\t\"cantidadProductoMenuPromocion\": 2\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"idProducto\": 4,\n\t\t\t\"cantidadProductoMenuPromocion\": 6\n\t\t},\n\t\t{\n\t\t\t\"idProducto\": 5,\n\t\t\t\"cantidadProductoMenuPromocion\": 7\n\t\t}\n\t]\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -1550,7 +1550,7 @@
 				{
 					"name": "Get Usuario : id",
 					"request": {
-						"url": "localhost:3000/usuario/8",
+						"url": "localhost:3000/usuario/19",
 						"method": "GET",
 						"header": [
 							{
@@ -1668,7 +1668,7 @@
 				{
 					"name": "Del Usuario : id",
 					"request": {
-						"url": "localhost:3000/usuario/3",
+						"url": "localhost:3000/usuario/19",
 						"method": "POST",
 						"header": [
 							{
@@ -1684,7 +1684,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"descripcion\": \"Por salame\",\n\t\"estado\": \"Eliminado\"\n}"
+							"raw": "{\n\t\"descripcionUsuarioEstado\": \"Por salame\"\n}"
 						},
 						"description": ""
 					},
