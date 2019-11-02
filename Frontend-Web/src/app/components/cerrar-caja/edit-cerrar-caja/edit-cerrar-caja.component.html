@@ -11,7 +11,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="descripcionCajaEstado" class="col col-form-label">Descripcion del Cambio</label>
-                        <input type="text" class="form-control" id="descripcionCajaEstado" placeholder="Ingrese Respuesta" formControlName="descripcionCajaEstado">
+                        <input type="text" class="form-control" id="descripcionCajaEstado" placeholder="Ingrese Descripcion" formControlName="descripcionCajaEstado">
                         <p class="input-error-msg" *ngIf="form.controls.descripcionCajaEstado.errors?.required && form.controls.descripcionCajaEstado.touched">Campo Obligatorio.</p>
                     </div>
                 </div>                
@@ -19,8 +19,8 @@
             <div class="form-group row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="montoCierreCajaEstado" class="col col-form-label">Monto de Cierre de Caja</label>
-                        <input type="text" class="form-control" id="montoCierreCajaEstado" placeholder="Ingrese Respuesta" formControlName="montoCierreCajaEstado">
+                        <label for="montoCierreCajaEstado" class="col col-form-label">Monto de Cierre de Caja (la suma de movimientos actuales es ${{total}})</label>
+                        <input type="text" class="form-control" id="montoCierreCajaEstado" placeholder="Ingrese Monto" formControlName="montoCierreCajaEstado">
                         <p class="input-error-msg" *ngIf="form.controls.montoCierreCajaEstado.errors?.required && form.controls.montoCierreCajaEstado.touched">Campo Obligatorio.</p>
                         <p class="input-error-msg" *ngIf="form.controls.montoCierreCajaEstado.errors?.pattern && form.controls.montoCierreCajaEstado.touched">Debe ser un número positivo y tener hasta dos decimales (Ej. 10.23)</p>
                     </div>

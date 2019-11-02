@@ -243,7 +243,7 @@ _this.total = _this.ingresos - _this.egresos+ this.montoDeAperturaAnterior;
 this.newForm = {
   idCaja: this.caja['idCaja'],         
   descripcionCajaEstado: "Cierre de Caja",
-  montoCierreCajaEstado:  _this.total
+  montoCierreCajaEstado:  null
   
    
 }

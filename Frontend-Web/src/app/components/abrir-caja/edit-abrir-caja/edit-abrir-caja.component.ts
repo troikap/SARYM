@@ -77,7 +77,7 @@ export class EditAbrirCajaComponent implements OnInit {
               idCaja: this.caja['idCaja'],              
               idEstadoCaja: this.caja['cajaestados'][0].estadocaja.idEstadoCaja,              
               descripcionCajaEstado: "Apertura de Caja",
-              montoAperturaCajaEstado: this.caja['cajaestados'][0].montoCierreCajaEstado
+              montoAperturaCajaEstado: null
             }
 
             this.form.setValue(this.newForm);

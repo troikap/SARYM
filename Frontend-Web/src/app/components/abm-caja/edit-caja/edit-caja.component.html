@@ -11,7 +11,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="descripcionCajaEstado" class="col col-form-label">Descripcion del Cambio</label>
-                        <input type="text" class="form-control" id="descripcionCajaEstado" placeholder="Ingrese Respuesta" formControlName="descripcionCajaEstado">
+                        <input type="text" class="form-control" id="descripcionCajaEstado" placeholder="Ingrese Descripcion" formControlName="descripcionCajaEstado">
                         <p class="input-error-msg" *ngIf="form.controls.descripcionCajaEstado.errors?.required && form.controls.descripcionCajaEstado.touched">Campo Obligatorio.</p>
                     </div>
                 </div>                
@@ -19,8 +19,8 @@
             <div class="form-group row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="montoAperturaCajaEstado" class="col col-form-label">Monto actual en Caja</label>
-                        <input type="text" class="form-control" id="montoAperturaCajaEstado" placeholder="Ingrese Respuesta" formControlName="montoAperturaCajaEstado">
+                        <label for="montoAperturaCajaEstado" class="col col-form-label">Monto actual en Caja (${{total}})</label>
+                        <input type="text" class="form-control" id="montoAperturaCajaEstado" placeholder="Ingrese Monto" formControlName="montoAperturaCajaEstado">
                         <p class="input-error-msg" *ngIf="form.controls.montoAperturaCajaEstado.errors?.required && form.controls.montoAperturaCajaEstado.touched">Campo Obligatorio.</p>
                         <p class="input-error-msg" *ngIf="form.controls.montoAperturaCajaEstado.errors?.pattern && form.controls.montoAperturaCajaEstado.touched">Debe ser un número positivo y tener hasta dos decimales (Ej. 10.23)</p>
                     </div>
@@ -29,7 +29,7 @@
             <div class="form-group row">
                 <div class="col">
                     <label for="idEstadoCaja" class="col col-form-label">Estado de Caja</label>
-                    <select Placeholder='Seleccione' formControlName='idEstadoCaja' class="form-control"  >                                                                  
+                    <select Placeholder='Seleccione Estado' formControlName='idEstadoCaja' class="form-control"  >                                                                  
                             <option *ngFor='let element of estadosCaja'   [value]='element.idEstadoCaja'>
                               <div *ngIf= 'element.idEstadoCaja != 1'>
                                 {{element.nombreEstadoCaja}}
