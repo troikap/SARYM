@@ -277,9 +277,8 @@ PagoController.actualizarDatos = (req, res) => {
 };
 
 PagoController.editarPagoPedido = (req, res) => {
-  let locals = {};
+  let locals = { detalles: [] };
   let body = req.body;
-  let inform;
   PagoModelo.findOne({
     where: {
       [idtable]: body[idtable] },
@@ -304,91 +303,89 @@ PagoController.editarPagoPedido = (req, res) => {
             attributes: attributes.mediopago,
         },
     ],
-    }).then(response => {
+    }).then( async response => {
         if(!response || response == 0) {
-            locals['title'] = `No existe ${legend} con id ${idtable}.`;
+            locals['title'] = `No existe ${legend} con id ${idtable}`;
             locals['tipo'] = 2;
             res.json(locals);
         } else {
-            let i = 0;
-            inform = {};
-            locals['detalle'] = [];
+            let i = 1;
             for ( let elem of body.detalle ) {
                 if ( elem['idPagoPedido'] ) {
                     if ( elem['baja'] == true ) {
                         console.log("BORRAR   :---------------------------")
-                        PagoPedidoModelo.destroy({where: {[idtable2]: elem[idtable2]}}).then((resp) => {
+                        await PagoPedidoModelo.destroy({where: {[idtable2]: elem[idtable2]}}).then((resp) => {
                             if(!resp || resp == 0) {
-                                inform = {
-                                    ['title']: `Detalle NO eliminado con ${[idtable2]} = ${elem[[idtable2]]}.`,
-                                    ['tipo']: 2
-                                }
+                              locals.detalles.push({
+                                ['title']: `Detalle NO eliminado con ${[idtable2]} = ${elem[[idtable2]]}`,
+                                ['tipo']: 2
+                              })
                             } else {
-                                inform = {
-                                    ['title']: `Detalle eliminado con ${[idtable2]} = ${elem[[idtable2]]}.`,
-                                    ['tipo']: 1
-                                }
+                              locals.detalles.push({
+                                ['title']: `Detalle eliminado con ${[idtable2]} = ${elem[[idtable2]]}`,
+                                ['tipo']: 1
+                              })
                             }
-                             locals['detalle'][i] = inform;
-                          console.log("BORRAR   :---------------------------", locals.detalle)
                         })
                     } 
                 } else {
                     elem[idtable] = body[idtable];
                     if ( elem[idtable3] != null ) {
-                        PedidoModelo.findOne({ where: {[idtable3]: elem[idtable3]}}).then((pedido) => {
+                        await PedidoModelo.findOne({ where: {[idtable3]: elem[idtable3]}}).then( async (pedido) => {
                             if(!pedido || pedido == 0) {
-                                inform = {
-                                    ['title']: `No existe ${legend3} con id ${idtable3}.`,
-                                    ['tipo']: 2
-                                }
-                                locals['detalle'][i] = inform;
-                                console.log("CREAR  : +++++++++++++++++++++++++++++", locals.detalle)
+                              locals.detalles.push({
+                                ['title']: `No existe ${legend3} con id ${idtable3}`,
+                                ['tipo']: 2
+                              })
                             } else {
-                                PagoPedidoModelo.findOne({ where: { [idtable3]: elem[idtable3] ,  [idtable]: body[idtable] }}).then((pagopedido) => {
+                                await PagoPedidoModelo.findOne({ where: { [idtable3]: elem[idtable3] ,  [idtable]: body[idtable] }}).then( async (pagopedido) => {
                                 if(!pagopedido || pagopedido == 0) {
-                                    PagoPedidoModelo.create(elem).then((resp) => {
-                                    console.log("CREAR  : +++++++++++++++++++++++++++++", locals.detalle)
+                                    await PagoPedidoModelo.create(elem).then((resp) => {
                                     if(!resp || resp == 0) {
-                                        inform = {
-                                            ['title']: `Detalle NO creado: ${elem[idtable3]}.`,
-                                            ['tipo']: 2
-                                        }
+                                      locals.detalles.push({
+                                        ['title']: `Detalle NO creado: ${elem[idtable3]}`,
+                                        ['tipo']: 2
+                                      })
                                     } else {
-                                        inform = {
-                                            ['title']: `Detalle creado: ${elem[idtable3]}.`,
-                                            ['tipo']: 1
-                                        }
+                                      locals.detalles.push({
+                                        ['title']: `Detalle creado: ${elem[idtable3]}`,
+                                        ['tipo']: 1
+                                      })
                                     }
-                                    locals['detalle'][i] = inform;
-                                console.log("CREAR   :---------------------------",locals.detalle)
                                   })
                                 } else {
-                                  inform = {
-                                    ['title']: `No existe ${legend3} con id ${idtable3}.`,
+                                  locals.detalles.push({
+                                    ['title']: `No existe ${legend3} con id ${idtable3}`,
                                     ['tipo']: 2
-                                }
-                                console.log("Ya Existe -----------------")
-                                locals['detalle'][i] = inform;
-                                console.log("CREAR   :---------------------------",locals.detalle)
+                                  })
                                 }
                               })
                             }
                         })
                     } else {
-                        inform = {
-                            ['title']: `Detalle posicion ${i} falta mandar idMesa.`,
-                            ['tipo']: 2
-                        }
-                      locals['detalle'][i] = inform;
-                        console.log("Falta  idMesa  : +++++++++++++++++++++++++++++",locals.detalle)
+                      locals.detalles.push({
+                        ['title']: `Detalle posicion ${i} falta mandar idMesa`,
+                        ['tipo']: 2
+                      })
                     }
                 }
-                if ( Object.keys(body.detalle).length == (i+1)) {
-                    locals['title'] = 'Registros actualizados.';
-                    res.json(locals);
-                }
-                i += 1;
+                if ( Object.keys(body.detalle).length == i) {
+                  let correcto = true;
+                  for (let elem of locals.detalles) {
+                      if (elem.tipo == 2){
+                          correcto = false
+                      }
+                  }
+                  if (correcto) {
+                      locals['title'] = 'Registros actualizados correctamente';
+                      locals['tipo'] = 1;
+                  } else {
+                      locals['title'] = 'Algunos registros no fueron actualizados';
+                      locals['tipo'] = 2;
+                  }
+                  res.json(locals);
+              }
+              i += 1;
             }
         }
     });
