@@ -94,7 +94,7 @@ export class AbmCajaComponent implements OnInit {
               btnClass: 'btn-blue',
               action: function(){
                 let nuevaCaja: any = {      
-                  nroCaja:  null,   
+                  nroCaja:  1,   
                   idUsuario: localStorage.getItem("idUsuario")
                   
                 }
@@ -110,7 +110,7 @@ export class AbmCajaComponent implements OnInit {
                     console.log("CREADO", response);
                   
                     const titulo = "Éxito";
-                    const mensaje = "Se ha Creado un nuevo registro de usuario de forma exitosa";
+                    const mensaje = "Se ha creado un nuevo registro de caja de forma exitosa";
                   
                     ($ as any).confirm({
                       title: titulo,
@@ -125,7 +125,7 @@ export class AbmCajaComponent implements OnInit {
                               action: function(){
             
                                 //ACCION
-                                _this.router.navigate( ['/caja/']);
+                                location.reload();
             
                               }
                           }

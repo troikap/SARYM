@@ -19,7 +19,8 @@ const CajaModelo = sequelize.define(
     nroCaja: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: true,
+        unique: false
+       
     }
 }, {
     // options
