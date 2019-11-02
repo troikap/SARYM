@@ -726,7 +726,3 @@ ReservaController.editarComensal = (req, res) => {
 };
 
 module.exports = ReservaController;
-
-// "detallereservamesas": [],
-// "pedidos": [],
-// "comensals": [
