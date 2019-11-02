@@ -170,12 +170,8 @@ UsuarioController.login = (req, res) => {
                 }]
             },
         ],
-    }).then(response => {
-        console.log("RESPONSE ,", response.dataValues.contrasenaUsuario)
-        
+    }).then(response => {      
         if (response && response != 0) {
-            console.log("CORROBORANDO ,", bcrypt.compareSync(body.contrasenaUsuario, response.dataValues.contrasenaUsuario))
-
             if (bcrypt.compareSync(body.contrasenaUsuario, response.dataValues.contrasenaUsuario)) {
                 if (response.dataValues.usuarioestados[0].estadousuario.dataValues.nombreEstadoUsuario != 'Activo') {
                     locals['title'] = `${legend} Suspendido o dado de Baja`;
