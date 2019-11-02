@@ -19,7 +19,6 @@ import { AbmSectorComponent } from './components/abm-sector/search-sector/abm-se
 import { AbmTipomonedaComponent } from './components/abm-tipomoneda/search-tipomoneda/abm-tipomoneda.component';
 import { AbmUnidadmedidaComponent } from './components/abm-unidadmedida/search-unidadmedida/abm-unidadmedida.component';
 import { AbmCajaComponent } from './components/abm-caja/search-caja/abm-caja.component';
-import { CrudCajaComponent } from './components/abm-caja/crud-caja/crud-caja.component';
 import { EditCajaComponent } from './components/abm-caja/edit-caja/edit-caja.component';
 import { AbmAbrirCajaComponent } from './components/abrir-caja/search-abrir-caja/abm-abrir-caja.component';
 import { EditAbrirCajaComponent } from './components/abrir-caja/edit-abrir-caja/edit-abrir-caja.component';
@@ -68,7 +67,6 @@ import { LoginGuardGuard } from './components/login-guard.guard';
     AbmTipomonedaComponent,
     AbmUnidadmedidaComponent,
     AbmCajaComponent,
-    CrudCajaComponent,
     AbmAbrirCajaComponent,
     EditAbrirCajaComponent,
     AbmCerrarCajaComponent,

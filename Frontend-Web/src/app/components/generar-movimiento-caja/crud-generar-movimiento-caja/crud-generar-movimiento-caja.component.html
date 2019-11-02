@@ -20,7 +20,7 @@
                         <label for="montoMovimientoCaja" class="col col-form-label">Monto del Movimiento</label>
                         <input type="text" class="form-control" id="montoMovimientoCaja" placeholder="Ingrese Respuesta" formControlName="montoMovimientoCaja">
                         <p class="input-error-msg" *ngIf="form.controls.montoMovimientoCaja.errors?.required && form.controls.montoMovimientoCaja.touched">Campo Obligatorio.</p>
-                        <p class="input-error-msg" *ngIf="form.controls.montoMovimientoCaja.errors?.pattern && form.controls.montoMovimientoCaja.touched">Debe ser positivo y tener hasta dos decimales (Ej. 10.23)</p>
+                        <p class="input-error-msg" *ngIf="form.controls.montoMovimientoCaja.errors?.pattern && form.controls.montoMovimientoCaja.touched">Debe ser un número positivo y tener hasta dos decimales (Ej. 10.23)</p>
                     </div>
                 </div>                
             </div>
