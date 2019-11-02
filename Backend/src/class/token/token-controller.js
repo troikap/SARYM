@@ -9,7 +9,7 @@ TokenController.verificarTokenRol = (req, res, next) => {
     let body = req.body;
     locals['body'] = body;
     console.log("BODY ", body)
-    if (!(body.token && body.rol)) {
+    if (!(body.token)) {
         locals['data'] = 'Falta enviar token o rol';
         locals['tipo'] = 2;
         res.json(locals);
@@ -25,13 +25,8 @@ TokenController.verificarTokenRol = (req, res, next) => {
             } else {
                 console.log("DATOS DEL TOKEN ", decoded)
                 locals['dataToken'] = decoded;
-                if (decoded.RolUsuario == body.rol) {
-                    locals['data'] = 'Rol coincide con Token';
-                    locals['tipo'] = 1;
-                } else {
-                    locals['data'] = 'Rol NO coincide con Token';;
-                    locals['tipo'] = 2;
-                }
+                locals['data'] = 'Token valido';
+                locals['tipo'] = 1;
             }
         })
     }

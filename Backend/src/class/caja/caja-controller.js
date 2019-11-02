@@ -248,11 +248,10 @@ CajaController.create = (req, res) => {
             res.json(locals);
           } else {
             console.log("GOLA")
-            CajaModelo.findAll({attributes: [ 'idCaja', Sequelize.fn('max', Sequelize.col('nroCaja'))]
+            CajaModelo.findOne({attributes: [ Sequelize.fn('max', Sequelize.col('nroCaja')) ],
+              raw: true,
             }).then( caja => {
-              console.log("NRO DE CAJA ", caja)
-
-              // body['nroCaja'] = caja.dataValue + 1; 
+              body['nroCaja'] = caja['max(`nroCaja`)'] + 1; 
               CajaModelo.create(body).then(result => {
                 locals['title'] = `${legend} creada.`;
                 locals['data'] = result;
