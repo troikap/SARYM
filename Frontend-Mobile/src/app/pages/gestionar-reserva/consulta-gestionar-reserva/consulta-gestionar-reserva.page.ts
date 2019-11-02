@@ -4,9 +4,9 @@ import { AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-reserva',
-  templateUrl: './reserva.page.html',
-  styleUrls: ['./reserva.page.scss'],
+  selector: 'app-consulta-gestionar-reserva',
+  templateUrl: './consulta-gestionar-reserva.page.html',
+  styleUrls: ['./consulta-gestionar-reserva.page.scss'],
 })
 export class ConsultaGestionarReservaPage implements OnInit {
 
