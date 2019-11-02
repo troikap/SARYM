@@ -21,7 +21,7 @@ TokenController.verificarTokenRol = (req, res, next) => {
         jwt.verify(body.token, process.env.SEED, (err, decoded) => {
             if (err) {
                 locals['data'] = "No Autorizado";
-                locals['tipo'] = 2;
+                locals['tipo'] = 3;
             } else {
                 console.log("DATOS DEL TOKEN ", decoded)
                 locals['dataToken'] = decoded;
