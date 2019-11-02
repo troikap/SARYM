@@ -19,8 +19,11 @@ const routes: Routes = [
   { path: 'registro-usuario', loadChildren: './registro-usuario/registro-usuario.module#RegistroUsuarioPageModule' },
   { path: 'registro-usuario/:id', loadChildren: './registro-usuario/registro-usuario.module#RegistroUsuarioPageModule' },
   { path: 'catalogo', loadChildren: './catalogo/catalogo.module#CatalogoPageModule' },
-  { path: 'modal-detalle-catalogo', loadChildren: './modal/modal-detalle-catalogo/modal-detalle-catalogo.module#ModalDetalleCatalogoPageModule' },  { path: 'reserva', loadChildren: './reserva/reserva.module#ReservaPageModule' },
-  { path: 'nueva-reserva', loadChildren: './nueva-reserva/nueva-reserva.module#NuevaReservaPageModule' },
+  { path: 'modal-detalle-catalogo', loadChildren: './modal/modal-detalle-catalogo/modal-detalle-catalogo.module#ModalDetalleCatalogoPageModule' },
+  // { path: 'reserva', loadChildren: './pages/gestionar-reserva/search-gestionar-reserva/search-gestionar-reserva.module#SearchGestionarReservaPageModule' },
+  { path: 'reserva_crud/:id/:accion', loadChildren: './pages/gestionar-reserva/crud-gestionar-reserva/crud-gestionar-reserva.module#CrudGestionarReservaPageModule' },
+  { path: 'reserva_consulta/:id', loadChildren: './pages/gestionar-reserva/consulta-gestionar-reserva/consulta-gestionar-reserva.module#ConsultaGestionarReservaPageModule' },
+
 
 
 

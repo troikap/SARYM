@@ -91,6 +91,7 @@ export class AppComponent {
   }
 
   prueba( ruta: string) {
+    console.log("RUTA ",ruta)
     if (ruta == '/logueo') {
       this.storage.delOneItem('currentUsuario');
       this.menu.enable(false);
