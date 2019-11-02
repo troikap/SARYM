@@ -37,7 +37,7 @@ import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.com
 import { UploadComponent } from './upload/upload.component';
 
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
-import { LoginGuardGuard } from './components/login-guard.guard';
+import { LoginGuardGuard } from './components/shared/guardias/login-guard.guard';
 
 
 
