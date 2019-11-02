@@ -42,11 +42,16 @@
                     <label for="nombreUsuario" class="col col-form-label">Nombre</label>
                     <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese Nombre" formControlName="nombreUsuario">
                     <p class="input-error-msg" *ngIf="form.controls.nombreUsuario.errors?.required && form.controls.nombreUsuario.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="form.controls.nombreUsuario.errors?.pattern && form.controls.nombreUsuario.touched">Nombre inválido. Por ej: Hugo Martín.</p>
+                    
                 </div>
                 <div class="col">
                     <label for="apellidoUsuario" class="col col-form-label">Apellido</label>
                     <input type="text" class="form-control" id="apellidoUsuario" placeholder="Ingrese Apellido" formControlName="apellidoUsuario">
                     <p class="input-error-msg" *ngIf="form.controls.apellidoUsuario.errors?.required && form.controls.apellidoUsuario.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="form.controls.apellidoUsuario.errors?.pattern && form.controls.apellidoUsuario.touched">Apellido inválido. Por ej: Molina Gómez.</p>
+                    
+                    
                 </div>
             </div>
             <div class="form-group row">

@@ -48,7 +48,7 @@ export class CrudUsuarioComponent implements OnInit {
       nroCelularUsuario: new FormControl("", [ Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
       nroTelefonoUsuario: new FormControl("", [ Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
       idRol: new FormControl("", Validators.required),
-      idEstadoUsuario: new FormControl("", Validators.required)
+      idEstadoUsuario: new FormControl("")
     });
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params);
@@ -66,7 +66,7 @@ export class CrudUsuarioComponent implements OnInit {
       if (this.accionGet == "crear") {
         this.form
           .get("contrasenaUsuario")
-          .setValidators([ Validators.required, Validators.minLength(5), Validators.maxLength(25)]);
+          .setValidators([ Validators.required, Validators.minLength(8), Validators.maxLength(25)]);
         this.form.get("contrasenaUsuario").updateValueAndValidity();
         this.form
           .get("contrasenaUsuarioRepeat")
@@ -160,8 +160,8 @@ export class CrudUsuarioComponent implements OnInit {
 
   reemplazarUsuario(): Usuario {
     let id = null;
-    if (this.usuario || this.usuario.idUsuario) {
-      id = this.usuario.idUsuario;
+    if ( this.usuario ) {
+    id = this.usuario.idUsuario;
     }
     let rempUsuario: Usuario = {
       idUsuario: id,
@@ -228,49 +228,68 @@ export class CrudUsuarioComponent implements OnInit {
         }
       });
     } else if (this.usuarioEncontrado && this.accionGet === "eliminar") {
-      ($ as any).confirm({
-        title: titulo,
-        content: mensaje,
-        type: "blue",
-        typeAnimated: true,
-        theme: "material",
-        buttons: {
-          aceptar: {
-            text: "Aceptar",
-            btnClass: "btn-blue",
-            action: function() {
-              let user = _this.reemplazarUsuario();
-              console.log("USUARIOOOOOOOOOOO A ELIMINAR", user)
-              _this.usuarioservicio.deleteUsuario(user).then(response => {
-                const titulo = "Éxito";
-                const mensaje = "Se ha eliminado el registro de usuario de forma exitosa";
-                ($ as any).confirm({
-                  title: titulo,
-                  content: mensaje,
-                  type: "green",
-                  typeAnimated: true,
-                  theme: "material",
-                  buttons: {
-                    aceptar: {
-                      text: "Aceptar",
-                      btnClass: "btn-green",
-                      action: function() {
-                        _this.router.navigate(["/usuario/"]);
+      let user = _this.reemplazarUsuario();
+      if( user.idEstadoUsuario == 3 ) {
+        ($ as any).confirm({
+          title: "Error",
+          content: "El Usuario ya se encuentra eliminado",
+          type: 'red',
+          typeAnimated: true,
+          theme: 'material',
+          buttons: {
+              aceptar: {
+                  text: 'Aceptar',
+                  btnClass: 'btn-red',
+                  action: function(){
+                    _this.router.navigate(["/usuario/"]);
+                  }
+              }
+          }
+        });
+      } else {
+        ($ as any).confirm({
+          title: titulo,
+          content: mensaje,
+          type: "blue",
+          typeAnimated: true,
+          theme: "material",
+          buttons: {
+            aceptar: {
+              text: "Aceptar",
+              btnClass: "btn-blue",
+              action: function() {
+                let user = _this.reemplazarUsuario();
+                _this.usuarioservicio.deleteUsuario(user).then(response => {
+                  const titulo = "Éxito";
+                  const mensaje = "Se ha eliminado el registro de usuario de forma exitosa";
+                  ($ as any).confirm({
+                    title: titulo,
+                    content: mensaje,
+                    type: "green",
+                    typeAnimated: true,
+                    theme: "material",
+                    buttons: {
+                      aceptar: {
+                        text: "Aceptar",
+                        btnClass: "btn-green",
+                        action: function() {
+                          _this.router.navigate(["/usuario/"]);
+                        }
                       }
                     }
-                  }
+                  });
                 });
-              });
-            }
-          },
-          cerrar: {
-            text: "Cerrar",
-            action: function() {
-              console.log("Eliminación cancelada");
+              }
+            },
+            cerrar: {
+              text: "Cerrar",
+              action: function() {
+                console.log("Eliminación cancelada");
+              }
             }
           }
-        }
-      });
+        });
+      }
     } else {
       ($ as any).confirm({
         title: titulo,
