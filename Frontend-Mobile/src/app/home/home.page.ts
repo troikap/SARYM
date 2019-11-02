@@ -58,10 +58,10 @@ export class HomePage implements OnInit {
         page = `/registro-usuario/${id}`;
         break;
       case 'nueva-reserva':
-        page = `/nueva-reserva`;
+        page = `/crud-gestionar-reserva/0/crear`;
         break;
-      case 'reserva':
-        page = `/reserva`;
+      case 'unirse-reserva':
+        page = `/unirse-gestionar-reserva`;
         break;
       case 'realizar-pedido':
         page = `/realizar-pedido`;
