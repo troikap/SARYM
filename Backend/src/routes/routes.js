@@ -11,6 +11,8 @@ require('../database/sincronizar-bd');
 
 const { verificaToken } = require('../middlewares/autenticacion');
 
+var TokenController = require('../class/token/token-controller');
+
 var UsuarioController = require('../class/usuario/usuario-controller');
 var DepartamentoController = require('../class/departamento/departamento-controller');
 var RolController = require('../class/rol/rol-controller');
@@ -48,6 +50,7 @@ router
     .post('/existUser', UsuarioController.validateExistUser)
     .post('/subirImagen', UploadController.subirImagen)
     .get('/traerImagen/:tipo/:img?', UploadController.traerImagen)
+    .post('/verificarTokenRol', TokenController.verificarTokenRol)
 
 // reporte
 

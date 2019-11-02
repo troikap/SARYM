@@ -18,6 +18,14 @@ export class CrudGenerarMovimientoCajaComponent implements OnInit {
   tipoMovimientoCaja: any[];
   newForm = {};
   newDate = new Date();
+  montoCierreCaja: any;
+  idEstadoform: any;
+  listaMovimientoCaja: any[];
+  fechaYHoraCajaEstado: Date;
+  private ingresos:number =0;
+  private egresos:number=0;
+  private total:number=0;
+  private montoDeAperturaAnterior:number=0;
 
   accionGet;
   
@@ -99,9 +107,43 @@ export class CrudGenerarMovimientoCajaComponent implements OnInit {
     const titulo = "Confirmación";
     const mensaje = `¿Está seguro que desea crear el elemento seleccionado?`;
     ///////////////////////////
+     
+    console.log(this.idCaja);
+
+    if (this.idCaja !== "") {
+      this.cajaServicio.getCaja(this.idCaja)
+      .subscribe((data: any) => { // Llamo a un Observer
+        console.log(data);
+        if (data != "") {
+          //console.log("RESULT ----------------->", data);
+          this.caja = data;
+          this.listaMovimientoCaja = this.caja.movimientocajas; 
+          this.fechaYHoraCajaEstado =  this.caja['cajaestados'][0].fechaYHoraAltaCajaEstado;
+          this.montoDeAperturaAnterior= this.caja['cajaestados'][0].montoAperturaCajaEstado;
+var length = this.listaMovimientoCaja.length;
+for (let i = 0; i < length; i++) {
+  console.log(this.listaMovimientoCaja[i].fechaYHoraMovimientoCaja,this.fechaYHoraCajaEstado);
+  if(this.listaMovimientoCaja[i].fechaYHoraMovimientoCaja > this.fechaYHoraCajaEstado ){
     
+    if(this.listaMovimientoCaja[i].tipomovimientocaja.idTipoMovimientoCaja == 1){
+    _this.ingresos += this.listaMovimientoCaja[i].montoMovimientoCaja; 
    
-      
+    console.log("el monto de apertura anterior es",this.montoDeAperturaAnterior);
+  }else{
+    _this.egresos += this.listaMovimientoCaja[i].montoMovimientoCaja;
+  }
+  
+  } 
+  
+};  
+
+_this.total = _this.ingresos - _this.egresos+ this.montoDeAperturaAnterior;
+                       
+        }
+      });
+    }   
+   
+
       
       
       ($ as any).confirm({
@@ -115,7 +157,7 @@ export class CrudGenerarMovimientoCajaComponent implements OnInit {
                 text: 'Aceptar',
                 btnClass: 'btn-blue',
                 action: function(){
-                  
+                  if((_this.form.value['idTipoMovimientoCaja']==2 && _this.form.value['montoMovimientoCaja']<= _this.total)||(_this.form.value['idTipoMovimientoCaja']==1)){            
                   
                   let caja = _this.reemplazarCaja();
                   _this.cajaServicio.createMovimientoCaja( caja )
@@ -150,7 +192,37 @@ export class CrudGenerarMovimientoCajaComponent implements OnInit {
                   })
 
 
+                }else{
 
+                 
+
+                  const titulo = "Error";
+                  const mensaje = "El monto ingresado de egreso es superior al disponible en caja";
+
+                  ($ as any).confirm({
+                    title: titulo,
+                    content: mensaje,
+                    type: 'red',
+                    typeAnimated: true,
+                    theme: 'material',
+                    buttons: {
+                      aceptar: {
+                        text: 'Aceptar',
+                        btnClass: 'btn-green',
+                        action: function () {
+
+                          //ACCION
+                        
+                        }
+                      }
+                    }
+                  });
+
+
+                
+
+                
+              }
                 }
             },
             cerrar: {
@@ -162,7 +234,7 @@ export class CrudGenerarMovimientoCajaComponent implements OnInit {
         }
       });
 
-
+    
 
     
     

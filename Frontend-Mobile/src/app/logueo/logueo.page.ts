@@ -64,6 +64,7 @@ export class LogueoPage implements OnInit {
       if (algo.tipo == 1) {
         let fecha = new Date();
         this.logueo = {cuit: this.form.value.cuitUsuario, pass: this.form.value.contrasenaUsuario, id: algo.usuario , date: fecha}
+        console.log("TOKEN ",algo.token)
         this.storage.setOneObject( 'token',algo.token)
         if (this.form.value.checkRecordar){
           this.actualizarLog(this.logueo);

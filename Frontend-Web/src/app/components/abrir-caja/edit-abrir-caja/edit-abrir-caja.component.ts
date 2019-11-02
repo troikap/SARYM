@@ -137,8 +137,10 @@ export class EditAbrirCajaComponent implements OnInit {
             btnClass: 'btn-blue',
             action: function () {
               let caja = _this.reemplazarCaja(); 
+              let estadoActualCaja = _this.idEstadoform;
+              console.log("estado actual",estadoActualCaja);
              
-              if(_idmontoCierreAnterior == _montoCierreCajaEstado || _idmontoCierreAnterior == null ){
+              if(_idmontoCierreAnterior == _montoCierreCajaEstado || _idmontoCierreAnterior == null || estadoActualCaja ==1 ){
               
                 _this.cajaServicio.updateCajaEstado(caja)
                   .then((response) => {
