@@ -249,6 +249,8 @@ CajaController.create = (req, res) => {
                 locals['tipo'] = 2;
                 res.json(locals);
               } else {
+                CajaModelo.
+
                 CajaModelo.create(req.body).then(result => {
                   locals['title'] = `${legend} creada.`;
                   locals['data'] = result;
@@ -276,6 +278,10 @@ CajaController.create = (req, res) => {
                   res.json(locals);
                 });
               }
+
+
+
+
             })
           }
         })
