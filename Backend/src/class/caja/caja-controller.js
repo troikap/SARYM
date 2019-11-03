@@ -234,101 +234,55 @@ CajaController.getOne = (req, res, next) => {
 
 CajaController.create = (req, res) => {
   let locals = {};
-  if ( req.body[idtable] ) {
-    CajaModelo.findOne({ where: {[idtable]: req.body[idtable]} }).then( resp => {
-      if ( !resp || resp == 0 ) {        
-        EstadoCajaModelo.findOne({ where: {[idtable3]: 1 } }).then( responses => {
-          if ( !responses || responses == 0 ) {
-              locals['title'] = `No existe instancia de ${legend3} con ${idtable3}.`;
-              locals['tipo'] = 2;
-              res.json(locals);
-          } else {
-            UsuarioModelo.findOne({ where: {[idtable4]: req.body[idtable4]} }).then( respo => {
-              if ( !respo || respo == 0 ) {
-                locals['title'] = `No existe instancia de ${legend4} con ${idtable4}.`;
-                locals['tipo'] = 2;
-                res.json(locals);
-              } else {
-                CajaModelo.create(req.body).then(result => {
-                  locals['title'] = `${legend} creada.`;
-                  locals['data'] = result;
-                  locals['id'] = result[idtable];
-                  locals['tipo'] = 1;
-                  let pushCajaEstado = {};
-                  pushCajaEstado['descripcionCajaEstado'] = "Reciente.";
-                  pushCajaEstado['montoAperturaCajaEstado'] = 0;
-                  pushCajaEstado['montoCierreCajaEstado'] = 0;
-                  pushCajaEstado[idtable] = result[idtable];
-                  pushCajaEstado['fechaYHoraAltaCajaEstado'] = new Date();
-                  pushCajaEstado[idtable3] = 1;
-                  pushCajaEstado[idtable4] = req.body[idtable4];
-                  CajaEstadoModelo.create(pushCajaEstado).then( response => {
-                    locals['title'] = `${legend} creado. ${legend2} creado.`;
-                    locals['data'] = response;
-                    locals['tipo'] = 1;
-                    res.json(locals);
-                  }).catch((error) => {
-                    locals = tratarError.tratarError(error, legend);
-                    res.json(locals);
-                  });
-                }).catch((error) => {
-                  locals = tratarError.tratarError(error, legend);
-                  res.json(locals);
-                });
-              }
-            })
-          }
-        })
-      } else {
-        locals['title'] = `Ya existe registro con ${idtable}: ${req.body[idtable]}.`;
-        locals['tipo'] = 2;
-        res.json(locals);
-      }
-    })
-  } else {
+  let body = req.body;
     EstadoCajaModelo.findOne({ where: {[idtable3]: 1 } }).then( responses => {
       if ( !responses || responses == 0 ) {
           locals['title'] = `No existe instancia de ${legend3} con ${idtable3}.`;
           locals['tipo'] = 2;
           res.json(locals);
       } else {
-        UsuarioModelo.findOne({ where: {[idtable4]: req.body[idtable4]} }).then( respo => {
+        UsuarioModelo.findOne({ where: {[idtable4]: body[idtable4]} }).then( respo => {
           if ( !respo || respo == 0 ) {
             locals['title'] = `No existe instancia de ${legend4} con ${idtable4}.`;
             locals['tipo'] = 2;
             res.json(locals);
           } else {
-            CajaModelo.create(req.body).then(result => {
-              locals['title'] = `${legend} creada.`;
-              locals['data'] = result;
-              locals['id'] = result[idtable];
-              locals['tipo'] = 1;
-              let pushCajaEstado = {};
-              pushCajaEstado['descripcionCajaEstado'] = "Reciente.";
-              pushCajaEstado['montoAperturaCajaEstado'] = 0;
-              pushCajaEstado['montoCierreCajaEstado'] = 0;
-              pushCajaEstado[idtable] = result[idtable];
-              pushCajaEstado['fechaYHoraAltaCajaEstado'] = new Date();
-              pushCajaEstado[idtable3] = 1;
-              pushCajaEstado[idtable4] = req.body[idtable4];
-              CajaEstadoModelo.create(pushCajaEstado).then( response => {
-                locals['title'] = `${legend} creado. ${legend2} creado.`;
-                locals['data'] = response;
+            console.log("GOLA")
+            CajaModelo.findOne({attributes: [ Sequelize.fn('max', Sequelize.col('nroCaja')) ],
+              raw: true,
+            }).then( caja => {
+              body['nroCaja'] = caja['max(`nroCaja`)'] + 1; 
+              CajaModelo.create(body).then(result => {
+                locals['title'] = `${legend} creada.`;
+                locals['data'] = result;
+                locals['id'] = result[idtable];
                 locals['tipo'] = 1;
-                res.json(locals);
+                let pushCajaEstado = {};
+                pushCajaEstado['descripcionCajaEstado'] = "Reciente.";
+                pushCajaEstado['montoAperturaCajaEstado'] = 0;
+                pushCajaEstado['montoCierreCajaEstado'] = 0;
+                pushCajaEstado[idtable] = result[idtable];
+                pushCajaEstado['fechaYHoraAltaCajaEstado'] = new Date();
+                pushCajaEstado[idtable3] = 1;
+                pushCajaEstado[idtable4] = body[idtable4];
+                CajaEstadoModelo.create(pushCajaEstado).then( response => {
+                  locals['title'] = `${legend} creado. ${legend2} creado.`;
+                  locals['data'] = response;
+                  locals['tipo'] = 1;
+                  res.json(locals);
+                }).catch((error) => {
+                  locals = tratarError.tratarError(error, legend);
+                  res.json(locals);
+                });
               }).catch((error) => {
                 locals = tratarError.tratarError(error, legend);
                 res.json(locals);
               });
-            }).catch((error) => {
-              locals = tratarError.tratarError(error, legend);
-              res.json(locals);
             });
           }
         })
       }
     })
-  }
 };
 
 CajaController.actualizarDatos = (req, res) => {

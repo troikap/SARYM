@@ -594,8 +594,7 @@ EstadiaController.cambiarEstado = (req, res) => {
 };
 
 EstadiaController.editarMesa = (req, res) => {
-  var locals = { };
-  let inform;
+  var locals = { detalles: [] };
   let body = req.body;
   EstadiaModelo.findOne({
       where: {
@@ -656,100 +655,97 @@ EstadiaController.editarMesa = (req, res) => {
           ]
         },
       ],
-  }).then(response => {
+  }).then( async response => {
       if(!response || response == 0) {
-          locals['title'] = `No existe ${legend} con id ${idtable}.`;
+          locals['title'] = `No existe ${legend} con id ${idtable}`;
           locals['tipo'] = 2;
           res.json(locals);
       } else {
-          let i = 0;
-          inform = {};
-          locals['detalle'] = [];
+          let i = 1;
           for ( let elem of body.detalle ) {
               if ( elem['idDetalleEstadiaMesa'] ) {
                   if ( elem['baja'] == true ) {
                       console.log("BORRAR   :---------------------------")
-                      DetalleEstadiaMesaModelo.destroy({where: {[idtable7]: elem[idtable7]}}).then((resp) => {
+                      await DetalleEstadiaMesaModelo.destroy({where: {[idtable7]: elem[idtable7]}}).then((resp) => {
                           if(!resp || resp == 0) {
-                              inform = {
-                                  ['title']: `Detalle NO eliminado con ${[idtable7]} = ${elem[[idtable7]]}.`,
+                            locals.detalles.push({
+                                  ['title']: `Detalle NO eliminado con ${[idtable7]} = ${elem[[idtable7]]}`,
                                   ['tipo']: 2
-                              }
+                              })
                           } else {
-                              inform = {
-                                  ['title']: `Detalle eliminado con ${[idtable7]} = ${elem[[idtable7]]}.`,
+                              locals.detalles.push({
+                                  ['title']: `Detalle eliminado con ${[idtable7]} = ${elem[[idtable7]]}`,
                                   ['tipo']: 1
-                              }
+                              })
                           }
-                           locals['detalle'][i] = inform;
-                        console.log("BORRAR   :---------------------------", locals.detalle)
                       })
                   } 
               } else {
                   elem[idtable] = body[idtable];
                   if ( elem[idtable4] != null ) {
-                      MesaModelo.findOne({ where: {[idtable4]: elem[idtable4]}}).then((mesa) => {
+                      await MesaModelo.findOne({ where: {[idtable4]: elem[idtable4]}}).then( async (mesa) => {
                           if(!mesa || mesa == 0) {
-                              inform = {
-                                  ['title']: `No existe ${legend4} con id ${idtable4}.`,
+                              locals.detalles.push({
+                                  ['title']: `No existe ${legend4} con id ${idtable4}`,
                                   ['tipo']: 2
-                              }
-                              locals['detalle'][i] = inform;
-                              console.log("CREAR  : +++++++++++++++++++++++++++++", locals.detalle)
+                              })
                           } else {
-                            DetalleEstadiaMesaModelo.findOne({ where: { [idtable4]: elem[idtable4] ,  [idtable]: body[idtable] }}).then((detalleestadiamesa) => {
+                            await DetalleEstadiaMesaModelo.findOne({ where: { [idtable4]: elem[idtable4] ,  [idtable]: body[idtable] }}).then( async (detalleestadiamesa) => {
                               if(!detalleestadiamesa || detalleestadiamesa == 0) {
-                                DetalleEstadiaMesaModelo.create(elem).then((resp) => {
-                                  console.log("CREAR  : +++++++++++++++++++++++++++++", locals.detalle)
+                                await DetalleEstadiaMesaModelo.create(elem).then((resp) => {
                                   if(!resp || resp == 0) {
-                                      inform = {
-                                          ['title']: `Detalle NO creado: ${elem[idtable4]}.`,
+                                      locals.detalles.push({
+                                          ['title']: `Detalle NO creado: ${elem[idtable4]}`,
                                           ['tipo']: 2
-                                      }
+                                      })
                                   } else {
-                                      inform = {
-                                          ['title']: `Detalle creado: ${elem[idtable4]}.`,
+                                      locals.detalles.push({
+                                          ['title']: `Detalle creado: ${elem[idtable4]}`,
                                           ['tipo']: 1
-                                      }
+                                      })
                                   }
-                                  locals['detalle'][i] = inform;
-                              console.log("CREAR   :---------------------------",locals.detalle)
                                 })
                               } else {
-                                inform = {
-                                  ['title']: `No existe ${legend4} con id ${idtable4}.`,
+                                locals.detalles.push({
+                                  ['title']: `No existe ${legend4} con id ${idtable4}`,
                                   ['tipo']: 2
-                              }
-                              console.log("Ya Existe -----------------")
-                              locals['detalle'][i] = inform;
-                              console.log("CREAR   :---------------------------",locals.detalle)
+                              })
                               }
                             })
                           }
                       })
                   } else {
-                      inform = {
-                          ['title']: `Detalle posicion ${i} falta mandar idMesa.`,
+                      locals.detalles.push({
+                          ['title']: `Detalle posicion ${i} falta mandar idMesa`,
                           ['tipo']: 2
-                      }
-                    locals['detalle'][i] = inform;
-                      console.log("Falta  idMesa  : +++++++++++++++++++++++++++++",locals.detalle)
+                      })
                   }
               }
-              if ( Object.keys(body.detalle).length == (i+1)) {
-                  locals['title'] = 'Registros actualizados.';
-                  res.json(locals);
-              }
-              i += 1;
+              if ( Object.keys(body.detalle).length == i) {
+                let correcto = true;
+                for (let elem of locals.detalles) {
+                    if (elem.tipo == 2){
+                        correcto = false
+                    }
+                }
+                if (correcto) {
+                    locals['title'] = 'Registros actualizados correctamente';
+                    locals['tipo'] = 1;
+                } else {
+                    locals['title'] = 'Algunos registros no fueron actualizados';
+                    locals['tipo'] = 2;
+                }
+                res.json(locals);
+            }
+            i += 1;
           }
       }
   });
 };
 
 EstadiaController.editarComensal = (req, res) => {
-let locals = {};
-let inform;
-let body = req.body;
+  let locals = { detalles: [] };
+  let body = req.body;
   EstadiaModelo.findOne({
     where: {
     [idtable]: body[idtable] },
@@ -809,96 +805,96 @@ let body = req.body;
           ]
         },
       ],
-    }).then(response => {
+    }).then( async response => {
     if (!response || response == 0) {
-      locals['title'] = `No existe ${legend} con id ${body[idtable]}.`;
+      locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
       locals['tipo'] = 2;
     res.json(locals);
   } else {
-    let i = 0;
-    inform = {};
-    locals['detalle'] = [];
+    let i = 1;
     for ( let elem of body.detalle ) {
         if ( elem[idtable6] ) {
             if ( elem['baja'] == true ) {
-                ComensalModelo.destroy({where: {[idtable6]: elem[idtable6]}}).then((resp) => {
+                await ComensalModelo.destroy({where: {[idtable6]: elem[idtable6]}}).then((resp) => {
                     if(!resp || resp == 0) {
-                        inform = {
+                        locals.detalles.push({
                             ['title']: `Comensal NO eliminado con ${[idtable6]} = ${elem[[idtable6]]}.`,
                             ['tipo']: 2
-                        }
+                        })
                     } else {
-                        inform = {
+                        locals.detalles.push({
                             ['title']: `Comensal eliminado con ${[idtable6]} = ${elem[[idtable6]]}.`,
                             ['tipo']: 1
-                        }
+                        })
                     }
-                    locals['detalle'][i] = inform;
-                  console.log("BORRAR   :---------------------------", locals.detalle)
                 })
             } else {
-              ComensalModelo.update(elem, {where: {[idtable6]: elem[idtable6]}}).then((resp) => {
+              await ComensalModelo.update(elem, {where: {[idtable6]: elem[idtable6]}}).then((resp) => {
                   if(!resp || resp == 0) {
-                      inform = {
+                      locals.detalles.push({
                           ['title']: `Comensal NO editado con ${[idtable6]} = ${elem[[idtable6]]}.`,
                           ['tipo']: 2
-                      }
+                      })
                   } else {
-                      inform = {
+                      locals.detalles.push({
                           ['title']: `Comensal editado con ${[idtable6]} = ${elem[[idtable6]]}.`,
                           ['tipo']: 1
-                      }
+                      })
                   }
-                  locals['detalle'][i] = inform;
-                  console.log("EDITAR   :---------------------------",locals.detalle)
               })
           }
         } else {
           elem[idtable] = body[idtable];
-          ComensalModelo.findOne({ where: { [idtable]: elem[idtable] , aliasComensal: elem['aliasComensal'] }}).then((Comensal) => {
+          await ComensalModelo.findOne({ where: { [idtable]: elem[idtable] , aliasComensal: elem['aliasComensal'] }}).then( async (Comensal) => {
             if(!Comensal || Comensal == 0) {
-              ComensalModelo.create(elem).then((resp) => {
+              await ComensalModelo.create(elem).then((resp) => {
                 if(!resp || resp == 0) {
-                    inform = {
+                    locals.detalles.push({
                         ['title']: `Comensal NO creado: ${elem[idtable6]}.`,
                         ['tipo']: 2
-                    }
+                    })
                 } else {
-                    inform = {
+                    locals.detalles.push({
                         ['title']: `Comensal creado: ${elem[idtable6]}.`,
                         ['tipo']: 1
-                    }
+                    })
                 }
-                locals['detalle'][i] = inform;
-              console.log("CREAR   :---------------------------",locals.detalle)
               }).catch((error) => {
                 locals = tratarError.tratarError(error, legend);
                 res.json(locals);
               });
             } else {
-              inform = {
+              locals.detalles.push({
                 ['title']: `Ya existe ${legend6} con id ${idtable6}.`,
                 ['tipo']: 2
-              }
-              locals['detalle'][i] = inform;
-              console.log("CREAR   :---------------------------",locals.detalle)
+              })
             }
           })
         }
-        if ( Object.keys(body.detalle).length == (i+1)) {
-            console.log("BORRAR   :---------------------------")
-            locals['title'] = 'Registros actualizados.';
-            res.json(locals);
-        }
-        i += 1;
+        if ( Object.keys(body.detalle).length == i) {
+          let correcto = true;
+          for (let elem of locals.detalles) {
+              if (elem.tipo == 2){
+                  correcto = false
+              }
+          }
+          if (correcto) {
+              locals['title'] = 'Registros actualizados correctamente';
+              locals['tipo'] = 1;
+          } else {
+              locals['title'] = 'Algunos registros no fueron actualizados';
+              locals['tipo'] = 2;
+          }
+          res.json(locals);
+      }
+      i += 1;
       }
     }
   });
 };
 
 EstadiaController.editarClienteEstadia = (req, res) => {
-  var locals = { };
-  let inform;
+  let locals = { detalles: [] };
   let body = req.body;
   EstadiaModelo.findOne({
       where: {
@@ -959,91 +955,89 @@ EstadiaController.editarClienteEstadia = (req, res) => {
           ]
         },
       ],
-  }).then(response => {
+  }).then( async response => {
       if(!response || response == 0) {
           locals['title'] = `No existe ${legend} con id ${idtable}.`;
           locals['tipo'] = 2;
           res.json(locals);
       } else {
-          let i = 0;
-          inform = {};
-          locals['detalle'] = [];
+          let i = 1;
           for ( let elem of body.detalle ) {
               if ( elem['idClienteEstadia'] ) {
                   if ( elem['baja'] == true ) {
                       console.log("BORRAR   :---------------------------")
-                      ClienteEstadiaModelo.destroy({where: {[idtable10]: elem[idtable10]}}).then((resp) => {
+                      await ClienteEstadiaModelo.destroy({where: {[idtable10]: elem[idtable10]}}).then((resp) => {
                           if(!resp || resp == 0) {
-                              inform = {
+                              locals.detalles.push({
                                   ['title']: `Detalle NO eliminado con ${[idtable10]} = ${elem[[idtable10]]}.`,
                                   ['tipo']: 2
-                              }
+                              })
                           } else {
-                              inform = {
+                              locals.detalles.push({
                                   ['title']: `Detalle eliminado con ${[idtable10]} = ${elem[[idtable10]]}.`,
                                   ['tipo']: 1
-                              }
+                              })
                           }
-                           locals['detalle'][i] = inform;
-                        console.log("BORRAR   :---------------------------", locals.detalle)
                       })
                   } 
               } else {
                   elem[idtable] = body[idtable];
                   if ( elem[idtable5] != null ) {
-                      UsuarioModelo.findOne({ where: {[idtable5]: elem[idtable5]}}).then((mesa) => {
+                      await UsuarioModelo.findOne({ where: {[idtable5]: elem[idtable5]}}).then( async (mesa) => {
                           if(!mesa || mesa == 0) {
-                              inform = {
+                              locals.detalles.push({
                                   ['title']: `No existe ${legend5} con id ${idtable5}.`,
                                   ['tipo']: 2
-                              }
-                              locals['detalle'][i] = inform;
-                              console.log("CREAR  : +++++++++++++++++++++++++++++", locals.detalle)
+                              })
                           } else {
-                            ClienteEstadiaModelo.findOne({ where: { [idtable5]: elem[idtable5] ,  [idtable]: body[idtable] }}).then((clienteestadia) => {
+                            await ClienteEstadiaModelo.findOne({ where: { [idtable5]: elem[idtable5] ,  [idtable]: body[idtable] }}).then( async (clienteestadia) => {
                               if(!clienteestadia || clienteestadia == 0) {
-                                ClienteEstadiaModelo.create(elem).then((resp) => {
-                                  console.log("CREAR  : +++++++++++++++++++++++++++++", locals.detalle)
+                                await ClienteEstadiaModelo.create(elem).then((resp) => {
                                   if(!resp || resp == 0) {
-                                      inform = {
+                                      locals.detalles.push({
                                           ['title']: `Detalle NO creado: ${elem[idtable5]}.`,
                                           ['tipo']: 2
-                                      }
+                                      })
                                   } else {
-                                      inform = {
+                                      locals.detalles.push({
                                           ['title']: `Detalle creado: ${elem[idtable5]}.`,
                                           ['tipo']: 1
-                                      }
+                                      })
                                   }
-                                  locals['detalle'][i] = inform;
-                              console.log("CREAR   :---------------------------",locals.detalle)
                                 })
                               } else {
-                                inform = {
+                                locals.detalles.push({
                                   ['title']: `No existe ${legend5} con id ${idtable5}.`,
                                   ['tipo']: 2
-                              }
-                              console.log("Ya Existe -----------------")
-                              locals['detalle'][i] = inform;
-                              console.log("CREAR   :---------------------------",locals.detalle)
+                              })
                               }
                             })
                           }
                       })
                   } else {
-                      inform = {
+                      locals.detalles.push({
                           ['title']: `Detalle posicion ${i} falta mandar idMesa.`,
                           ['tipo']: 2
-                      }
-                    locals['detalle'][i] = inform;
-                      console.log("Falta  idMesa  : +++++++++++++++++++++++++++++",locals.detalle)
+                      })
                   }
               }
-              if ( Object.keys(body.detalle).length == (i+1)) {
-                  locals['title'] = 'Registros actualizados.';
-                  res.json(locals);
-              }
-              i += 1;
+              if ( Object.keys(body.detalle).length == i) {
+                let correcto = true;
+                for (let elem of locals.detalles) {
+                    if (elem.tipo == 2){
+                        correcto = false
+                    }
+                }
+                if (correcto) {
+                    locals['title'] = 'Registros actualizados correctamente';
+                    locals['tipo'] = 1;
+                } else {
+                    locals['title'] = 'Algunos registros no fueron actualizados';
+                    locals['tipo'] = 2;
+                }
+                res.json(locals);
+            }
+            i += 1;
           }
       }
   });

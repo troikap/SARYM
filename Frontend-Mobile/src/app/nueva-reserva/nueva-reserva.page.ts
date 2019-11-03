@@ -4,6 +4,8 @@ import { ToastController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { EnvioReservaService } from '../services/envio-reserva/envio-reserva.service'
 import { UsuarioService } from '../services/usuario/usuario.service';
+import { ReservaService } from '../services/reserva/reserva.service';
+import { StorageService, Log } from '../services/storage/storage.service';
 
 
 @Component({
@@ -21,6 +23,7 @@ export class NuevaReservaPage implements OnInit {
   private comensales: Comensal[] = [];
   private mensajeExistenciaUsuario: string = null;
   private existenciaUsuario: boolean = false;
+  private currentUsuario;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,7 +31,11 @@ export class NuevaReservaPage implements OnInit {
     private navController: NavController,
     private envioReservaService: EnvioReservaService,
     private usuarioservicio: UsuarioService,
+    private storage: StorageService,
+    private reservaservicio: ReservaService,
+
   ) {
+    this.loadCurrentUsuario();
     this.form = this.formBuilder.group({
       fechaReserva: ['2019-09-23', Validators.required],
       horaEntrada: ['22:50', Validators.required],
@@ -43,8 +50,21 @@ export class NuevaReservaPage implements OnInit {
   ngOnInit() {
     this.tratarFecha();
     this.setValidatorsHours();
+    this.traerReservas()
   }
 
+  loadCurrentUsuario() {
+    this.storage.getCurrentUsuario().then((data) => {
+      this.currentUsuario = data;
+    })
+  }
+
+  traerReservas() {
+    this.reservaservicio.getReservas('libre')
+    .then((resp) => {
+      console.log("AA ",resp)
+    })
+  }
   tratarFecha(){
     let date = new Date();
     let dd = date.getDate();
@@ -141,12 +161,22 @@ export class NuevaReservaPage implements OnInit {
       sector: this.form.value['sector'],
       nroMesa: this.form.value['nroMesa'],
       comensales: this.comensales,
-      idTraidoBackEnd: 23231
     }
+    reserva['idUsuario'] = this.currentUsuario.id;
+    this.agregarCodigoReserva( reserva );
     console.log('Reserva', reserva)
-    this.presentToast(reserva);
-    this.envioReservaService.sendObjectSource(reserva);
-    this.navController.navigateForward('/reserva' );
+    // this.presentToast(reserva);
+    // this.envioReservaService.sendObjectSource(reserva);
+    // this.navController.navigateForward('/reserva' );
+  }
+
+  agregarCodigoReserva( data ) {
+    let codReserva = `${this.currentUsuario.id}-${this.currentUsuario.cuit}-${data.fechaReserva}/${data.horaEntrada}`;
+    data['codReserva'] = codReserva;
+    this.enviarReserva(data);
+  }
+
+  enviarReserva(data) {
   }
 
   async presentToast( reserva ) {

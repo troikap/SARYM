@@ -1,9 +1,17 @@
-<h2 class="titulo">Unidad de Medida</h2>
+<div *ngIf="accionGet =='crear'">
+    <h2 class="titulo">Nueva Unidad de Medida</h2>
+</div>
+<div *ngIf="accionGet =='editar'">
+    <h2 class="titulo">Editar Unidad de Medida</h2>
+</div>
+<div *ngIf="accionGet =='eliminar'">
+    <h2 class="titulo">Eliminar Unidad de Medida</h2>
+</div>
 <hr>
 <div class="container">
     <div class="form-section">
         <form [formGroup]="form" (ngSubmit)="guardar()">
-            <div class="form-group">
+            <div *ngIf="accionGet !='crear'">
                 <label for="id" class="col col-form-label">Id</label>
                 <input type="text" id="id" placeholder="Identificador" formControlName="id" class="form-control">
             </div>
@@ -41,7 +49,7 @@
                 <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
             </div>
             <div *ngIf="accionGet == 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+                <button type="submit" class="btn btn-outline-primary btn-block">Eliminar</button>
             </div>
 
         </form>

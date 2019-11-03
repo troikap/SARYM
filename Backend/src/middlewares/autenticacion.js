@@ -7,12 +7,11 @@ require('../config');
 let verificaToken = (req, res, next) => {
     console.log('VERIFICANDO TOKEN')
     let token = req.get('token');
-    // token = "nada";
+    console.log("TOKEN QUE LLEGA ", token)
     if (token == "nuevo" || token == "libre") {
-        next();
         console.log("Token Nuevo o Libre");
+        next();
     } else {
-        // console.log("WTF!!!!");
         jwt.verify(token, process.env.SEED, (err, decoded) => {
             if (err) {
                 console.log("Error Nombre: ", err);

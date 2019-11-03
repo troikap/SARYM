@@ -59,7 +59,6 @@ export class CrudSectorComponent implements OnInit {
           } else {
             if (res) {
               this.sector = res['data'];
-              //this.sector = res.data; si uso esta craashea si no encuentra nada
               this.newForm = {
                 idSector: this.sector['idSector'],
                 codSector: this.sector['codSector'],
@@ -70,7 +69,6 @@ export class CrudSectorComponent implements OnInit {
               if (this.accionGet == "eliminar") {
                 this.form.disable();
               }
-              console.log("FORM", this.form)
             }
           }
         });
@@ -81,7 +79,6 @@ export class CrudSectorComponent implements OnInit {
     console.log("Funcion 'reemplazarSector()', ejecutada");
     let us = null;
     if (this.sector && this.sector.idSector) {
-      console.log("SETEO DE ID :")
       us = this.sector.idSector;
     }
     let rempSector: Sector = {
@@ -98,7 +95,6 @@ export class CrudSectorComponent implements OnInit {
     let _this = this; //Asigno el contexto a una variable, ya que se pierde al ingresar a la función de mensajeria
     const titulo = "Confirmación";
     const mensaje = `¿Está seguro que desea ${this.accionGet} el elemento seleccionado?`;
-    ///////////////////////////
     if (this.sectorEncontrado && this.accionGet === "editar") {
       ($ as any).confirm({
         title: titulo,
@@ -115,24 +111,43 @@ export class CrudSectorComponent implements OnInit {
               _this.sectorService.updateSector(sector)
                 .then((response) => {
                   console.log("ACTUALIZADO", response);
-                  const titulo = "Éxito";
-                  const mensaje = "Se ha actualizado el registro de sector de forma exitrosa";
-                  ($ as any).confirm({
-                    title: titulo,
-                    content: mensaje,
-                    type: 'green',
-                    typeAnimated: true,
-                    theme: 'material',
-                    buttons: {
-                      aceptar: {
-                        text: 'Aceptar',
-                        btnClass: 'btn-green',
-                        action: function () {
-                          _this.router.navigate(['/sector/']);
+
+                  if (response.tipo !== 2) {
+                    const titulo = "Éxito";
+                    const mensaje = "Se ha actualizado el registro de sector de forma exitrosa";
+                    ($ as any).confirm({
+                      title: titulo,
+                      content: mensaje,
+                      type: 'green',
+                      typeAnimated: true,
+                      theme: 'material',
+                      buttons: {
+                        aceptar: {
+                          text: 'Aceptar',
+                          btnClass: 'btn-green',
+                          action: function () {
+                            _this.router.navigate(['/sector/']);
+                          }
                         }
                       }
-                    }
-                  });
+                    });
+                  } else {
+                    ($ as any).confirm({
+                      title: "Erorr",
+                      content: "Ya existe el registro. No es posible realizar esta acción",
+                      type: 'red',
+                      typeAnimated: true,
+                      theme: 'material',
+                      buttons: {
+                          aceptar: {
+                              text: 'Aceptar',
+                              btnClass: 'btn-red',
+                              action: function(){
+                              }
+                          }
+                      }
+                    });
+                  }
                 })
             }
           },
@@ -203,7 +218,6 @@ export class CrudSectorComponent implements OnInit {
           cerrar: {
             text: 'Cerrar',
             action: function () {
-              console.log("Eliminación cancelada");
             }
           }
         }
@@ -223,8 +237,7 @@ export class CrudSectorComponent implements OnInit {
               let sector = _this.reemplazarSector();
               _this.sectorService.setSector(sector)
                 .then((response) => {
-                  if (response.tipo !== 2) { //TODO CORRECTO
-                    console.log("CREADO", response);
+                  if (response.tipo !== 2) { 
                     const titulo = "Éxito";
                     const mensaje = "Se ha Creado un nuevo registro de sector de forma exitosa";
                     ($ as any).confirm({
@@ -238,7 +251,6 @@ export class CrudSectorComponent implements OnInit {
                           text: 'Aceptar',
                           btnClass: 'btn-green',
                           action: function () {
-                            //ACCION
                             _this.router.navigate(['/sector/']);
                           }
                         }
@@ -246,7 +258,6 @@ export class CrudSectorComponent implements OnInit {
                     });
                   }
                   else {
-                    console.log("ERROR", response);
                     ($ as any).confirm({
                       title: "Error",
                       content: `Ya existe el registro. No es posible realizar esta acción`, 
@@ -258,7 +269,6 @@ export class CrudSectorComponent implements OnInit {
                           text: 'Aceptar',
                           btnClass: 'btn-red',
                           action: function () {
-                            console.log("Mensaje de error aceptado");
                           }
                         }
                       }
@@ -270,26 +280,11 @@ export class CrudSectorComponent implements OnInit {
           cerrar: {
             text: 'Cerrar',
             action: function () {
-              console.log("Creación Cancelada");
             }
           }
         }
       });
     }
   }
-
-  /*
-  setValueChangeContraseñaRepeat() {
-    this.form.get('contrasenaUsuarioRepeat').valueChanges
-      .subscribe((resp) => {
-        // console.log("RESPUESTA :",resp)
-        if (resp == this.form.value.contrasenaUsuario) {
-          this.form.controls.contrasenaUsuarioRepeat.setErrors(null)
-        } else {
-          this.form.controls.contrasenaUsuarioRepeat.setErrors({ not_equal: true })
-        }
-      })
-  }
-  */
 }
 

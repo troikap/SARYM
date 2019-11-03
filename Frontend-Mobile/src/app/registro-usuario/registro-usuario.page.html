@@ -34,6 +34,7 @@
         </ion-item>
         <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.required && form.controls.dniUsuario.touched">Campo Obligatorio.</p>
         <p class="input-error-msg" *ngIf="(form.controls.dniUsuario.errors?.min || form.controls.dniUsuario.errors?.max) && form.controls.dniUsuario.touched">Debería ser por ejemplo: 12345678.</p>
+        <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.not_equals && form.controls.dniUsuario.touched">No coincide con Cuit.</p>
         <ion-item class="form-group">
           <ion-label color="primary" padding class="label-large">Email</ion-label>
           <ion-input slot="end" class="form-control" type="email" id='emailUsuario' placeholder='Ingrese Email' formControlName="emailUsuario"></ion-input>

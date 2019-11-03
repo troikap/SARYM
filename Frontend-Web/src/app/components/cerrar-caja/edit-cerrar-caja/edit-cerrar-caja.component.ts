@@ -47,7 +47,7 @@ export class EditCerrarCajaComponent implements OnInit {
     this.form = new FormGroup({
       'idCaja': new FormControl({ value: '', disabled: true }),                
       'descripcionCajaEstado': new FormControl('', Validators.required),
-      'montoCierreCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([.][0-9]{1,2})|[0-9]+)$/)] ),            
+      'montoCierreCajaEstado': new FormControl('', [Validators.required, Validators.pattern(/^([0-9]+([.][0-9]{1,2})|[0-9]+)$/)] ), 
     });
 
     this.activatedRoute.params.subscribe(params => {

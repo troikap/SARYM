@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ɵConsole } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Usuario } from '../../model/usuario/usuario.model';
@@ -15,6 +15,7 @@ export class UsuarioService {
    dir = '/usuario';
    dir2 = '/cuitUsuario';
    dir3 = '/todo';
+   dirToken = '/verificarTokenRol';
    tokenEstaLogueado: string;
 
    tokenEnviroment = environment.token;
@@ -24,16 +25,26 @@ export class UsuarioService {
   ) { }
 
 
-  estaLogueado () {
-    if (localStorage.getItem('token') != null ) {
-      console.log("HAY TOKEN");
-      return true;
-    } else {
-      console.log("NO HAY TOKEN");
-      return false;
-    }
+  estaLogueado(): Promise<any> {
+    let token = localStorage.getItem('token')
+    let rol = localStorage.getItem('rolUsuario')
+    let value = { token, rol }
+    return this.http
+      .post(`${this.url}${this.dirToken}`, value )
+      .toPromise()
+      .then(response => {
+        console.log("USUARIO ", response)
+        return response;
+      })
+      .catch( err => {
+        console.log("ERROR : ",err)
+      } );
   }
 
+  getRolUsuarioLoggeado () {
+    let rolUsuario = localStorage.getItem('rolUsuario');
+    return rolUsuario;
+  }
 
   loguear( cuit: number, pass: string ): Promise<any> {
     let value = { cuitUsuario: cuit, contrasenaUsuario: pass}
@@ -121,15 +132,15 @@ export class UsuarioService {
   deleteUsuario( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
-    console.log("valor del Header:",headers)
-    console.log("DATOS A ENVIAR:",datas)
+    let value = { descripcionUsuarioEstado: datas['descripcionUsuarioEstado'] || 'SIN DESCRIPCION.'}
+    console.log("HEADER ", headers)
     return this.http
-      .post(`${this.url}${this.dir}/${datas.idUsuario}`, {headers})
+      .post(`${this.url}${this.dir}/${datas.idUsuario}`,value ,{headers})
       .toPromise()
       .then(response => {
         return response as Usuario;
       })
-      .catch(  );
+      .catch();
   }
 
   setUsuario( datas: any ): Promise<any> {

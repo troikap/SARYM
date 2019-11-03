@@ -825,9 +825,8 @@ MenuPromocionModelo.findOne({
 };
 
 MenuPromocionController.editarProductos = (req, res) => {
-    var locals = { };
+    var locals = { detalles: [] };
     let body = req.body;
-    console.log("________________ ", body)
     MenuPromocionModelo.findOne({
         where: {
         [idtable]: body[idtable] },
@@ -900,9 +899,9 @@ MenuPromocionController.editarProductos = (req, res) => {
                 ],
             },
         ],
-    }).then(response => {
+    }).then( async response => {
         if(!response || response == 0) {
-            locals['title'] = `No existe ${legend} con id ${idtable}.`;
+            locals['title'] = `No existe ${legend} con id ${idtable}`;
             locals['tipo'] = 2;
             res.json(locals);
         } else {
@@ -911,71 +910,79 @@ MenuPromocionController.editarProductos = (req, res) => {
                 if ( elem['idDetalleMenuPromocionProducto'] ) {
                     if ( elem['baja'] == true ) {
                         console.log("BORRAR   :---------------------------")
-                        DetalleMenuPromocionProductoModelo.destroy({where: {[idtable8]: elem[idtable8]}}).then((resp) => {
-                            let push = {};
+                        await DetalleMenuPromocionProductoModelo.destroy({where: {[idtable8]: elem[idtable8]}})
+                        .then((resp) => {
                             if(!resp || resp == 0) {
-                                push = {
-                                    ['title']: `Producto NO eliminado con ${[idtable8]} = ${elem[[idtable8]]}.`,
+                                locals.detalles.push({
+                                    ['title']: `Producto NO eliminado con ${[idtable8]} = ${elem[[idtable8]]}`,
                                     ['tipo']: 2
-                                }
+                                })
                             } else {
-                                push = {
-                                    ['title']: `Producto eliminado con ${[idtable8]} = ${elem[[idtable8]]}.`,
+                                locals.detalles.push({
+                                    ['title']: `Producto eliminado con ${[idtable8]} = ${elem[[idtable8]]}`,
                                     ['tipo']: 1
-                                }
+                                })
                             }
-                            // locals['producto'].push(push);
                         })
                     } else {
                         console.log("EDITAR   :---------------------------")
-                        DetalleMenuPromocionProductoModelo.update(elem, {where: {[idtable8]: elem[idtable8]}}).then((resp) => {
-                            let push = {};
+                        await DetalleMenuPromocionProductoModelo.update(elem, {where: {[idtable8]: elem[idtable8]}})
+                        .then((resp) => {
                             if(!resp || resp == 0) {
-                                push = {
-                                    ['title']: `Producto NO editado con ${[idtable8]} = ${elem[[idtable8]]}.`,
+                                locals.detalles.push({
+                                    ['title']: `Producto NO editado con ${[idtable8]} = ${elem[[idtable8]]}`,
                                     ['tipo']: 2
-                                }
+                                })
                             } else {
-                                push = {
-                                    ['title']: `Producto editado con ${[idtable8]} = ${elem[[idtable8]]}.`,
+                                locals.detalles.push({
+                                    ['title']: `Producto editado con ${[idtable8]} = ${elem[[idtable8]]}`,
                                     ['tipo']: 1
-                                }
+                                })
                             }
-                            // locals['producto'].push(push);
                         })
                     }
                 } else {
-                    ProductoModelo.findOne({ where: {[idtable9]: elem[idtable9]}}).then((producto) => {
-                        let push = {};
+                    await ProductoModelo.findOne({ where: {[idtable9]: elem[idtable9]}})
+                    .then( async (producto) => {
                         if(!producto || producto == 0) {
-                            let push = {
-                                ['title']: `No existe ${legend9} con id ${idtable9}.`,
+                            locals.detalles.push({
+                                ['title']: `No existe ${legend9} con id ${idtable9}`,
                                 ['tipo']: 2
-                            }
+                            })
                         } else {
                             elem['idMenuPromocion'] = body['idMenuPromocion'];
-                            DetalleMenuPromocionProductoModelo.create(elem).then((resp) => {
-                                let push = {};
+                            await DetalleMenuPromocionProductoModelo.create(elem)
+                            .then((resp) => {
                                 console.log("CREAR  : +++++++++++++++++++++++++++++")
                                 if(!resp || resp == 0) {
-                                    let push = {
+                                    locals.detalles.push({
                                         ['title']: `Producto NO creado: ${elem[idtable9]} con cantidad ${elem['cantidadProductoMenuPromocion']}`,
                                         ['tipo']: 2
-                                    }
+                                    })
                                 } else {
-                                    let push = {
+                                    locals.detalles.push({
                                         ['title']: `Producto creado: ${elem[idtable9]} con cantidad ${elem['cantidadProductoMenuPromocion']}`,
                                         ['tipo']: 1
-                                    }
+                                    })
                                 }
                             })
                         }
-                        // locals['producto'].push(push);
                     })
                 }
-                console.log("LOCALS " , i)
                 if ( Object.keys(body.detalle).length == i) {
-                    locals['title'] = 'Registros actualizados.';
+                    let correcto = true;
+                    for (let elem of locals.detalles) {
+                        if (elem.tipo == 2){
+                            correcto = false
+                        }
+                    }
+                    if (correcto) {
+                        locals['title'] = 'Registros actualizados correctamente';
+                        locals['tipo'] = 1;
+                    } else {
+                        locals['title'] = 'Algunos registros no fueron actualizados';
+                        locals['tipo'] = 2;
+                    }
                     res.json(locals);
                 }
                 i += 1;

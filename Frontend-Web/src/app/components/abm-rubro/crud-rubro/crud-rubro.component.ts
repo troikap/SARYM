@@ -43,6 +43,9 @@ export class CrudRubroComponent implements OnInit {
       else {
         this.RubroEncontrado = false;
       }
+      if (this.accionGet == "eliminar") {
+        this.form.disable();
+      }
       
     });
   }
@@ -50,18 +53,13 @@ export class CrudRubroComponent implements OnInit {
   ngOnInit() {}
 
   traerRubro() {
-    // console.log("Funcion 'traerRubro()', ejecutada");
-    // console.log("valro de idRubro: ---->", this.idRubro);
 
     if (this.idRubro !== "0" && this.idRubro !== "") {
       this.RubroService.getRubro(this.idRubro)
         .subscribe((data: any) => { // Llamo a un Observer
           console.log(data);
-          if (data != null) {
-            // console.log("RESULT ----------------->", data);
-          
-            this.Rubro = data;
-    
+          if (data != null) {          
+            this.Rubro = data;    
             this.newForm = {
               id: this.Rubro['idRubro'],
               codigo:  this.Rubro['codRubro'],
@@ -96,19 +94,11 @@ export class CrudRubroComponent implements OnInit {
   }
 
   guardar() {
-    console.log(this.form);
-
-    //Variables para mensajes//
     let _this = this; //Asigno el contexto a una variable, ya que se pierde al ingresar a la función de mensajeria
     const titulo = "Confirmación";
     const mensaje = `¿Está seguro que desea ${this.accionGet} el elemento seleccionado?`;
-    ///////////////////////////
-
 
     if (this.RubroEncontrado && this.accionGet === "editar") {
-
-
-
       ($ as any).confirm({
         title: titulo,
         content: mensaje,
@@ -120,147 +110,13 @@ export class CrudRubroComponent implements OnInit {
                 text: 'Aceptar',
                 btnClass: 'btn-blue',
                 action: function(){
-                  
-                  
-                  let unidadMed = _this.reemplazarRubro();
-                  _this.RubroService.updateRubro( unidadMed )
+                  let rubro = _this.reemplazarRubro();
+                  _this.RubroService.updateRubro( rubro )
                   .then( (response) => {
-                    console.log("ACTUALIZADO", response);
-            
-                    const titulo = "Éxito";
-                    const mensaje = "Se ha actualizado el registro de Rubro de forma exitrosa";
-                    
-                    ($ as any).confirm({
-                      title: titulo,
-                      content: mensaje,
-                      type: 'green',
-                      typeAnimated: true,
-                      theme: 'material',
-                      buttons: {
-                          aceptar: {
-                              text: 'Aceptar',
-                              btnClass: 'btn-green',
-                              action: function(){
-            
-                                //ACCION
-                                _this.router.navigate( ['/rubro/']);
-            
-            
-                              }
-                          }
-                      }
-                    });
-            
-            
-                  })
 
-
-
-                }
-            },
-            cerrar: {
-              text: 'Cerrar',
-              action: function(){
-                console.log("Edición Cancelada");
-              }
-          }
-        }
-      });
-
-
-    } 
-    else if (this.RubroEncontrado && this.accionGet === "eliminar") {
-      
-      
-      ($ as any).confirm({
-        title: titulo,
-        content: mensaje,
-        type: 'blue',
-        typeAnimated: true,
-        theme: 'material',
-        buttons: {
-            aceptar: {
-                text: 'Aceptar',
-                btnClass: 'btn-blue',
-                action: function(){
-                  
-                  
-
-                  let unidadMed = _this.reemplazarRubro();
-                  // console.log("Datos A enviar: " + unidadMed);
-                  _this.RubroService.deleteRubro( unidadMed )
-                  .then( (response) => {
-                    console.log("BORRADO", response);
-            
-                    const titulo = "Éxito";
-                    const mensaje = "Se ha eliminado el registro de Rubro de forma exitosa";
-                    
-                    ($ as any).confirm({
-                      title: titulo,
-                      content: mensaje,
-                      type: 'green',
-                      typeAnimated: true,
-                      theme: 'material',
-                      buttons: {
-                          aceptar: {
-                              text: 'Aceptar',
-                              btnClass: 'btn-green',
-                              action: function(){
-            
-                                //ACCION
-                                _this.router.navigate( ['/rubro/']);
-            
-                              }
-                          }
-                      }
-                    });
-            
-                  })
-
-
-
-
-                }
-            },
-            cerrar: {
-              text: 'Cerrar',
-              action: function(){
-                console.log("Eliminación cancelada");
-              }
-          }
-        }
-      });
-
-
-    } else {
-
-
-      ($ as any).confirm({
-        title: titulo,
-        content: "¿Confirma la creación de un nuevo registro?",
-        type: 'blue',
-        typeAnimated: true,
-        theme: 'material',
-        buttons: {
-            aceptar: {
-                text: 'Aceptar',
-                btnClass: 'btn-blue',
-                action: function(){
-                  
-                  
-
-                  let unidadMed = _this.reemplazarRubro();
-                  // console.log("----------------------------- :", unidadMed)
-                  _this.RubroService.createRubro( unidadMed )
-                  .then( (response) => {
-                    
-                    if (response.tipo !== 2) { //TODO CORRECTO
-
-                      console.log("CREADO", response);
-                    
+                    if (response.tipo !== 2) {
                       const titulo = "Éxito";
-                      const mensaje = "Se ha Creado un nuevo registro de Rubro de forma exitosa";
-                    
+                      const mensaje = "Se ha actualizado el registro de Rubro de forma exitrosa";
                       ($ as any).confirm({
                         title: titulo,
                         content: mensaje,
@@ -272,22 +128,141 @@ export class CrudRubroComponent implements OnInit {
                                 text: 'Aceptar',
                                 btnClass: 'btn-green',
                                 action: function(){
-              
-                                  //ACCION
                                   _this.router.navigate( ['/rubro/']);
-              
                                 }
                             }
                         }
                       });
-
-
-
-
+                    } else {
+                      ($ as any).confirm({
+                        title: "Erorr",
+                        content: "Ya existe el registro. No es posible realizar esta acción",
+                        type: 'red',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-red',
+                                action: function(){
+                                }
+                            }
+                        }
+                      });
+                    }
+                  })
+                }
+            },
+            cerrar: {
+              text: 'Cerrar',
+              action: function(){
+                console.log("Edición Cancelada");
+              }
+          }
+        }
+      });
+    } 
+    else if (this.RubroEncontrado && this.accionGet === "eliminar") {
+      ($ as any).confirm({
+        title: titulo,
+        content: mensaje,
+        type: 'blue',
+        typeAnimated: true,
+        theme: 'material',
+        buttons: {
+            aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-blue',
+                action: function(){
+                  let unidadMed = _this.reemplazarRubro();
+                  _this.RubroService.deleteRubro( unidadMed )
+                  .then( (response) => {
+                    if (response.tipo == 2) {
+                      const titulo = "Error";
+                      const mensaje = "No se ha podido eliminar el Rubro ingresado. El mismo ya está siendo utilizado en otro elemento.";
+                      ($ as any).confirm({
+                        title: titulo,
+                        content: mensaje,
+                        type: 'red',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-red',
+                                action: function(){
+                                  _this.router.navigate( ['/rubro/']);
+                                }
+                            }
+                        }
+                      });
                     }
                     else {
-                      console.log("ERROR", response);
-                      
+                      const titulo = "Éxito";
+                      const mensaje = "Se ha eliminado el registro de Rubro de forma exitosa";
+                      ($ as any).confirm({
+                        title: titulo,
+                        content: mensaje,
+                        type: 'green',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-green',
+                                action: function(){
+                                  _this.router.navigate( ['/rubro/']);
+                                }
+                            }
+                        }
+                      });
+                    }
+                  })
+                }
+            },
+            cerrar: {
+              text: 'Cerrar',
+              action: function(){
+              }
+          }
+        }
+      });
+    } else {
+      ($ as any).confirm({
+        title: titulo,
+        content: "¿Confirma la creación de un nuevo registro?",
+        type: 'blue',
+        typeAnimated: true,
+        theme: 'material',
+        buttons: {
+            aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-blue',
+                action: function(){
+                  let unidadMed = _this.reemplazarRubro();
+                  _this.RubroService.createRubro( unidadMed )
+                  .then( (response) => {                    
+                    if (response.tipo !== 2) {                    
+                      const titulo = "Éxito";
+                      const mensaje = "Se ha Creado un nuevo registro de Rubro de forma exitosa";                    
+                      ($ as any).confirm({
+                        title: titulo,
+                        content: mensaje,
+                        type: 'green',
+                        typeAnimated: true,
+                        theme: 'material',
+                        buttons: {
+                            aceptar: {
+                                text: 'Aceptar',
+                                btnClass: 'btn-green',
+                                action: function(){
+                                  _this.router.navigate( ['/rubro/']);              
+                                }
+                            }
+                        }
+                      });
+                    }
+                    else {                     
                       ($ as any).confirm({
                         title: "Error",
                         content: `Ya existe el registro. No es posible realizar esta acción`, 
@@ -299,25 +274,12 @@ export class CrudRubroComponent implements OnInit {
                                 text: 'Aceptar',
                                 btnClass: 'btn-red',
                                 action: function(){
-                                  console.log("Mensaje de error aceptado");
                                 }
                             }
                         }
                       });
-                      
-
-
-
-                    }
-
-                    
-            
-                    
+                    }                    
                   })
-
-
-
-
                 }
             },
             cerrar: {
@@ -328,9 +290,6 @@ export class CrudRubroComponent implements OnInit {
           }
         }
       });
-
-
-
     }
   }
 

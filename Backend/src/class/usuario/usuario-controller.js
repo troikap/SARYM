@@ -170,12 +170,8 @@ UsuarioController.login = (req, res) => {
                 }]
             },
         ],
-    }).then(response => {
-        console.log("RESPONSE ,", response.dataValues.contrasenaUsuario)
-        
+    }).then(response => {      
         if (response && response != 0) {
-            console.log("CORROBORANDO ,", bcrypt.compareSync(body.contrasenaUsuario, response.dataValues.contrasenaUsuario))
-
             if (bcrypt.compareSync(body.contrasenaUsuario, response.dataValues.contrasenaUsuario)) {
                 if (response.dataValues.usuarioestados[0].estadousuario.dataValues.nombreEstadoUsuario != 'Activo') {
                     locals['title'] = `${legend} Suspendido o dado de Baja`;
@@ -338,19 +334,11 @@ UsuarioController.create = (req, res) => {
                                                     locals.title = { descripcion: `${legend} creado` };
                                                     locals[legend] = result;
                                                     let pushEstado;
-                                                    if (body['idEstadoUsuario']) {
-                                                        pushEstado = {
-                                                            [idestadotable]: body.idEstadoUsuario,
-                                                            [idtable]: result[idtable],
-                                                            fechaYHoraAltaUsuarioEstado: new Date()
-                                                        };
-                                                    } else {
-                                                        pushEstado = {
-                                                            [idestadotable]: response2[idestadotable],
-                                                            [idtable]: result[idtable],
-                                                            fechaYHoraAltaUsuarioEstado: new Date()
-                                                        };
-                                                    }
+                                                    pushEstado = {
+                                                        [idestadotable]: response2[idestadotable],
+                                                        [idtable]: result[idtable],
+                                                        fechaYHoraAltaUsuarioEstado: new Date()
+                                                    };
                                                     // CREANDO INSTANCIA USUARIO ESTADO
                                                     UsuarioEstadoModelo.create(pushEstado)
                                                         .then(result => {
@@ -664,6 +652,7 @@ UsuarioController.update = (req, res) => {
 };
 
 UsuarioController.delete = (req, res, next) => {
+    console.log("ENTRANDO EN DELETE")
     let locals = {};
     UsuarioEstadoModelo.update({fechaYHoraBajaUsuarioEstado: Date()}, {
         where: { idUsuario: req.params[idtable], fechaYHoraBajaUsuarioEstado: null }
@@ -682,15 +671,15 @@ UsuarioController.delete = (req, res, next) => {
 
 UsuarioController.changeState = (req, res) => {
     let locals = {};
-    EstadoUsuarioModelo.findOne({where: { nombreEstadoUsuario: req.body.estado }}).then(response => {
+    EstadoUsuarioModelo.findOne({where: { nombreEstadoUsuario: 'Eliminado' }}).then(response => {
         let push = {
             [idestadotable]: response.dataValues[idestadotable],
             [idtable]: req.params[idtable],
             fechaYHoraAltaUsuarioEstado: new Date(),
-            descripcionUsuarioEstado: req.body.descripcion
+            descripcionUsuarioEstado: req.body['descripcionUsuarioEstado'] || 'Eliminado'
         };
         UsuarioEstadoModelo.create(push).then(result => {
-            locals['title'] = `Cambio de estado de ${legend}, pasado a ${req.body.estado}.`;
+            locals['title'] = `Cambio de estado de ${legend}, pasado a Eliminado.`;
             locals['tipo'] = 1;
             locals[legend2] = result;
             res.json(locals);
