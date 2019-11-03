@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CajaService } from '../../../services/caja/caja.service';
-import { CajaEdit } from 'src/app/model/caja/caja.model';
-import { EstadoCaja } from 'src/app/model/estadoCaja/estadoCaja.model';
-import { Usuario } from 'src/app/model/usuario/usuario.model';
-import { UsuarioService } from '../../../services/usuario/usuario.service';
-import * as $ from 'jquery'
+
 
 
 @Component({
@@ -100,14 +96,11 @@ export class AbmCajaComponent implements OnInit {
               text: 'Aceptar',
               btnClass: 'btn-blue',
               action: function(){
-                let nuevaCaja: any = {      
-                  nroCaja:  1,   
+                let nuevaCaja: any = {       
                   idUsuario: localStorage.getItem("idUsuario")
                   
-                }
-                
-
-             
+                }               
+           
                 
                 _this.cajaService.setCaja( nuevaCaja )
                 .then( (response) => {
