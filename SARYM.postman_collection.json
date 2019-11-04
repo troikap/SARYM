@@ -31,7 +31,7 @@
 				{
 					"name": "Get Menu Promocion: id",
 					"request": {
-						"url": "localhost:3000/menupromocion/34",
+						"url": "localhost:3000/menupromocion/33",
 						"method": "GET",
 						"header": [
 							{
@@ -201,6 +201,31 @@
 							"raw": "{\n\t\"idMenuPromocion\":34,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idProducto\": 4,\n\t\t\t\"cantidadProductoMenuPromocion\": 6\n\t\t},\n\t\t{\n\t\t\t\"idProducto\": 5,\n\t\t\t\"cantidadProductoMenuPromocion\": 7\n\t\t}\n\t],\n\t\"detalle PARA EDITAR\" :[\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 100,\n\t\t\t\"idProducto\": 2,\n\t\t\t\"cantidadProductoMenuPromocion\": 2\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 101,\n\t\t\t\"idProducto\": 2,\n\t\t\t\"cantidadProductoMenuPromocion\": 2\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetalleMenuPromocionProducto\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"idProducto\": 4,\n\t\t\t\"cantidadProductoMenuPromocion\": 6\n\t\t},\n\t\t{\n\t\t\t\"idProducto\": 5,\n\t\t\t\"cantidadProductoMenuPromocion\": 7\n\t\t}\n\t]\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Menu P H/D",
+					"request": {
+						"url": "localhost:3000/menupromocion/habilitarDeshabilitarMenuPromocion",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n}"
+						},
+						"description": "Trae todos los Usuarios"
 					},
 					"response": []
 				}
@@ -471,7 +496,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idCaja\": 20,\n\t\"nroCaja\": 20,\n\t\"idUsuario\": 1\n\t\n}"
+							"raw": "{\n\t\"idUsuario\": 5\n\t\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -578,7 +603,7 @@
 				{
 					"name": "Get Producto :id",
 					"request": {
-						"url": "localhost:3000/producto/1",
+						"url": "localhost:3000/producto/10",
 						"method": "GET",
 						"header": [
 							{
@@ -695,7 +720,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idProducto\":20,\n    \"idEstadoProducto\": 3,\n    \"descripcionProductoEstado\": \"Modificado.....\"\n}"
+							"raw": "{\n\t\"idProducto\":10,\n    \"idEstadoProducto\": 1,\n    \"descripcionProductoEstado\": \"Modificado.....\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -721,6 +746,31 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"idProducto\":20,\n    \"idTipoMoneda\": 1,\n    \"importePrecioProducto\": 200\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Producto H/D Producto",
+					"request": {
+						"url": "localhost:3000/producto/habilitarDeshabilitarProducto",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idProducto\":10\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -4200,13 +4250,12 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
-								"description": "",
-								"disabled": true
+								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"token\": \"libre\",\n\t\"rol\": \"Administrador\"\n}"
+							"raw": "{\n\t\"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdWl0VXN1YXJpbyI6MjAzNjg1MDY4ODYsIm5vbWJyZVVzdWFyaW8iOiJMdWNhcyIsImFwZWxsaWRvVXN1YXJpbyI6IlBlcmV6IiwiUm9sVXN1YXJpbyI6IkFkbWluaXN0cmFkb3IiLCJpYXQiOjE1NzI3MjIwNTQsImV4cCI6MTU3MjcyNDY0Nn0.i8AafDO-_P5nzCHUXu82w1tBUdUwtPhMIEs8AYgHmvk\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},

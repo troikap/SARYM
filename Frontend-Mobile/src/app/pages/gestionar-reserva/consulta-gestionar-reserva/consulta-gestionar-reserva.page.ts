@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { EnvioReservaService } from '../services/envio-reserva/envio-reserva.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-reserva',
-  templateUrl: './reserva.page.html',
-  styleUrls: ['./reserva.page.scss'],
+  selector: 'app-consulta-gestionar-reserva',
+  templateUrl: './consulta-gestionar-reserva.page.html',
+  styleUrls: ['./consulta-gestionar-reserva.page.scss'],
 })
-export class ReservaPage implements OnInit {
+export class ConsultaGestionarReservaPage implements OnInit {
 
   private datos;
   private valor;
@@ -19,27 +18,14 @@ export class ReservaPage implements OnInit {
   private nameArray;
   private name;
   private mostrar: boolean = false;
-  private variable: boolean = false;
+  public variable: boolean = false;
 
   constructor(
-    private envioReservaService: EnvioReservaService,
+
     private barcodeScanner: BarcodeScanner,
     private alertController: AlertController,
     private navController: NavController
-  ) { 
-    this.envioReservaService.$getObjectSource
-    .subscribe( data => {
-      console.log("DATA", data)
-      if (Object.keys(data).length === 0) {
-        this.variable = false;
-        this.scanCode();
-      } else {
-        this.variable = true;
-        this.datos = data
-      }
-    })
-    .unsubscribe() // para evitar duplicidad
-  }
+  ) { }
 
   ngOnInit() {
     // this.datos = null;

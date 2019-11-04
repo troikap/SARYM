@@ -16,7 +16,7 @@ var TokenController = require('../class/token/token-controller');
 var UsuarioController = require('../class/usuario/usuario-controller');
 var DepartamentoController = require('../class/departamento/departamento-controller');
 var RolController = require('../class/rol/rol-controller');
-var ProductoController = require('../class/producto/producto-controller');
+var ProductoController =    require('../class/producto/producto-controller');
 var MenuPromocionController = require('../class/menupromocion/menupromocion-controller');
 var MesaController = require('../class/mesa/mesa-controller');
 var TipoMonedaController = require('../class/tipomoneda/tipomoneda-controller');
@@ -83,6 +83,7 @@ router
     .put('/producto/actualizarDatos', verificaToken, ProductoController.actualizarDatos)
     .put('/producto/cambiarEstado', verificaToken, ProductoController.cambiarEstado)
     .put('/producto/cambiarPrecio', verificaToken, ProductoController.cambiarPrecio)
+    .put('/producto/habilitarDeshabilitarProducto', verificaToken, ProductoController.habilitarDeshabilitarProducto)
 
 // pedido
     .get('/pedido', verificaToken, PedidoController.getAll)
@@ -127,6 +128,7 @@ router
     .put('/menupromocion/cambiarEstado', verificaToken, MenuPromocionController.cambiarEstado)
     .put('/menupromocion/cambiarPrecio', verificaToken, MenuPromocionController.cambiarPrecio)
     .put('/menupromocion/editarProductos', verificaToken, MenuPromocionController.editarProductos)
+    .put('/menupromocion/habilitarDeshabilitarMenuPromocion', verificaToken, MenuPromocionController.habilitarDeshabilitarMenuPromocion)
 
 // mesa
     .get('/mesa', verificaToken, MesaController.getAll)

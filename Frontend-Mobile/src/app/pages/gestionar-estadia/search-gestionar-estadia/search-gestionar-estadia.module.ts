@@ -5,13 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ReservaPage } from './reserva.page';
-import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { SearchGestionarEstadiaPage } from './search-gestionar-estadia.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: ReservaPage
+    component: SearchGestionarEstadiaPage
   }
 ];
 
@@ -20,9 +19,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
-    NgxQRCodeModule
+    RouterModule.forChild(routes)
   ],
-  declarations: [ReservaPage]
+  declarations: [SearchGestionarEstadiaPage]
 })
-export class ReservaPageModule {}
+export class SearchGestionarEstadiaPageModule {}

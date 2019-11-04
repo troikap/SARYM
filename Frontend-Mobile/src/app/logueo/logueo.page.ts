@@ -3,9 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from '../services/usuario/usuario.service';
 import { StorageService, Log } from '../services/storage/storage.service';
-import { AlertController } from '@ionic/angular';
-import { MenuController } from '@ionic/angular';
-import { NavController } from '@ionic/angular';
+import { AlertController, MenuController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-logueo',

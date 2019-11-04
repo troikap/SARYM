@@ -10,7 +10,7 @@ TokenController.verificarTokenRol = (req, res, next) => {
     locals['body'] = body;
     console.log("BODY ", body)
     if (!(body.token)) {
-        locals['data'] = 'Falta enviar token o rol';
+        locals['data'] = 'Falta enviar token';
         locals['tipo'] = 2;
         res.json(locals);
     }
@@ -20,7 +20,7 @@ TokenController.verificarTokenRol = (req, res, next) => {
     } else {
         jwt.verify(body.token, process.env.SEED, (err, decoded) => {
             if (err) {
-                locals['data'] = "No Autorizado";
+                locals['data'] = "Token invalido";
                 locals['tipo'] = 3;
             } else {
                 console.log("DATOS DEL TOKEN ", decoded)
