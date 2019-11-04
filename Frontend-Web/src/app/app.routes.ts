@@ -19,7 +19,6 @@ import { AbmRubroComponent } from './components/abm-rubro/search-rubro/abm-rubro
 import { GestionarProductoComponent } from './components/gestionar-producto/search-gestionar-producto/gestionar-producto.component';
 import { HabilitarDeshabilitarProductoComponent } from './components/habilitar-deshabilitar-producto/search-habilitar-deshabilitar-producto/habilitar-deshabilitar-producto.component';
 import { CrudHabilitarDeshabilitarProductoComponent } from './components/habilitar-deshabilitar-producto/crud-habilitar-deshabilitar-producto/crud-habilitar-deshabilitar-producto.component';
-import { ConsultaHabilitarDeshabilitarProductoComponent } from './components/habilitar-deshabilitar-producto/consulta-habilitar-deshabilitar-producto/consulta-habilitar-deshabilitar-producto.component';
 import { GestionarMenupromocionComponent } from './components/gestionar-menupromocion/search-gestionar-menupromocion/gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud-usuario.component';
@@ -67,7 +66,6 @@ const routes: Routes = [
     { path: 'producto', component: GestionarProductoComponent, canActivate: [LoginGuardGuard]},
     { path: 'habilitar-deshabilitar-producto', component: HabilitarDeshabilitarProductoComponent, canActivate: [LoginGuardGuard]},
     { path: 'crud_habilitar_deshabilitar_producto/:id', component: CrudHabilitarDeshabilitarProductoComponent, canActivate: [LoginGuardGuard]},
-    { path: 'consulta_habilitar_deshabilitar_producto/:id', component: ConsultaHabilitarDeshabilitarProductoComponent, canActivate: [LoginGuardGuard]},
     { path: 'producto_consulta/:id', component: ConsultaGestionarProductoComponent, canActivate: [LoginGuardGuard]},
     { path: 'producto_crud/:id/:accion', component: CrudGestionarProductoComponent, canActivate: [LoginGuardGuard]},
     { path: 'menupromocion', component: GestionarMenupromocionComponent, canActivate: [LoginGuardGuard]},

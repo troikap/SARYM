@@ -16,7 +16,7 @@ export class MenuPromocionService {
   dirEstado = '/estadomenupromocion';
   ditActalizarDatos = '/actualizarDatos'
   dirCambiarEstado = '/cambiarEstado';
-  dirHabilitarDeshabilitarMenuPromocion = '/cambiarEstado';
+  dirHabilitarDeshabilitarMenuPromocion = '/habilitarDeshabilitarMenuPromocion';
   dirCambiarPrecio = '/cambiarPrecio';
   dirEditarProducto = '/editarProductos';
 
@@ -127,12 +127,12 @@ export class MenuPromocionService {
       .catch(  );
   }
 
-  habilitarDeshabilitarMenuPromocion( datas: any ): Promise<any> {
+  habilitarDeshabilitarMenuPromocion(): Promise<any>{
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR :",datas)
+    console.log("DATOS A ENVIAR :")
     return this.http
-      .put(`${this.url}${this.dir}${this. dirHabilitarDeshabilitarMenuPromocion}`, {headers})
+      .put(`${this.url}${this.dir}${this.dirHabilitarDeshabilitarMenuPromocion}`,{}, {headers})
       .toPromise()
       .then(response => {
         console.log("Servicio cambiarEstado()", response);
