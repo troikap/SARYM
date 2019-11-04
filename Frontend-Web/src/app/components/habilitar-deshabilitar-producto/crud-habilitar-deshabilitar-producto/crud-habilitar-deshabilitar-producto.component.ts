@@ -60,7 +60,7 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
       'importePrecioProducto': new FormControl('', Validators.required),
       'idTipoMoneda': new FormControl('',  Validators.required),
       'idRubro': new FormControl('',  Validators.required),
-      'idEstadoProducto': new FormControl(''),
+      'nombreEstadoProducto': new FormControl(''),
       'descripcionCambioEstado': new FormControl('')
     });
 
@@ -76,11 +76,7 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
         this.productoEncontrado = false;
       }
 
-      if (this.accionGet !== "estado" && this.accionGet !== "crear") {
-        this.form.get('idEstadoProducto').setValidators(Validators.required);
-        this.form.get('idEstadoProducto').updateValueAndValidity();
-      }
-
+      
     });
 
    }
@@ -114,7 +110,7 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
             importePrecioProducto:  this.producto.precioproductos[0].importePrecioProducto,
             idTipoMoneda:  this.producto.precioproductos[0].tipomoneda.idTipoMoneda,
             idRubro: this.producto.rubro.idRubro,
-            idEstadoProducto: this.producto.productoestados[0].estadoproducto.idEstadoProducto,
+            nombreEstadoProducto: this.producto.productoestados[0].estadoproducto.nombreEstadoProducto,
             descripcionCambioEstado: ''
           }
           this.form.setValue(this.newForm)
@@ -198,24 +194,13 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
     return dtoEditarProducto;
   }
 
-  getDTOCambioEstadoEliminarProducto(accion: string) {
-    console.log("Funcion 'DTOCambioEstadoEliminarProducto()', ejecutada");
-    console.log("Accion: ", accion);
-
-    let idEstado: number;
-    if (accion == "eliminar") {
-      idEstado = 4; //Estado Eliminado
-    }
-    else {
-      idEstado =  this.form.value['idEstadoProducto'];
-    }
+  getDTOCambioEstadoEliminarProducto() {
+    
 
     let prod = this.producto.idProducto;
     
     let dtoEditarProducto: any = {
-      idProducto: prod,
-      idEstadoProducto: idEstado,
-      descripcionProductoEstado:  "Se deshabilito el producto por parte del encargado",
+      idProducto: prod
       
     }
     return dtoEditarProducto;
@@ -253,9 +238,6 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
     let _this = this; //Asigno el contexto a una variable, ya que se pierde al ingresar a la función de mensajeria
     const titulo = "Confirmación";
     const mensaje = `¿Está seguro que desea ${this.accionGet} el elemento seleccionado?`;
-    ///////////////////////////
-    
-     if (this.productoEncontrado && this.accionGet === "estado") {
 
       ($ as any).confirm({
         title: titulo,
@@ -271,9 +253,9 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
                   
                   
 
-                  let dtoCambioEstado = _this.getDTOCambioEstadoEliminarProducto("cambioestado");
+                  let dtoCambioEstado = _this.getDTOCambioEstadoEliminarProducto();
                   // console.log("Datos A enviar: " + dtoCambioEstado);
-                  _this.productoServicio.cambiarEstado( dtoCambioEstado )
+                  _this.productoServicio.habilitarDeshabilitarProducto( dtoCambioEstado )
                   .then( (response) => {
                     console.log("Cambio de Estado a Eliminado, respuesta: ", response);
             
@@ -318,7 +300,7 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
 
 
 
-    } 
+    
   }
 
 }

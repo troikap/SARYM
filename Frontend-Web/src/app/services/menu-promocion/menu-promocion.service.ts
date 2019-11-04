@@ -16,6 +16,7 @@ export class MenuPromocionService {
   dirEstado = '/estadomenupromocion';
   ditActalizarDatos = '/actualizarDatos'
   dirCambiarEstado = '/cambiarEstado';
+  dirHabilitarDeshabilitarMenuPromocion = '/cambiarEstado';
   dirCambiarPrecio = '/cambiarPrecio';
   dirEditarProducto = '/editarProductos';
 
@@ -118,6 +119,20 @@ export class MenuPromocionService {
     console.log("DATOS A ENVIAR :",datas)
     return this.http
       .put(`${this.url}${this.dir}${this.dirCambiarEstado}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Servicio cambiarEstado()", response);
+        return response;
+      })
+      .catch(  );
+  }
+
+  habilitarDeshabilitarMenuPromocion( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}${this. dirHabilitarDeshabilitarMenuPromocion}`, {headers})
       .toPromise()
       .then(response => {
         console.log("Servicio cambiarEstado()", response);

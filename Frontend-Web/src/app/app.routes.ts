@@ -66,7 +66,7 @@ const routes: Routes = [
     { path: 'rubro_crud/:id/:accion', component: CrudRubroComponent, canActivate: [LoginGuardGuard]},
     { path: 'producto', component: GestionarProductoComponent, canActivate: [LoginGuardGuard]},
     { path: 'habilitar-deshabilitar-producto', component: HabilitarDeshabilitarProductoComponent, canActivate: [LoginGuardGuard]},
-    { path: 'crud_habilitar_deshabilitar_producto/:id/:accion', component: CrudHabilitarDeshabilitarProductoComponent, canActivate: [LoginGuardGuard]},
+    { path: 'crud_habilitar_deshabilitar_producto/:id', component: CrudHabilitarDeshabilitarProductoComponent, canActivate: [LoginGuardGuard]},
     { path: 'consulta_habilitar_deshabilitar_producto/:id', component: ConsultaHabilitarDeshabilitarProductoComponent, canActivate: [LoginGuardGuard]},
     { path: 'producto_consulta/:id', component: ConsultaGestionarProductoComponent, canActivate: [LoginGuardGuard]},
     { path: 'producto_crud/:id/:accion', component: CrudGestionarProductoComponent, canActivate: [LoginGuardGuard]},

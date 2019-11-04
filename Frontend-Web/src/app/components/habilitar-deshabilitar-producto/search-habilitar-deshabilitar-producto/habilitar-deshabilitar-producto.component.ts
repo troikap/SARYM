@@ -68,10 +68,7 @@ export class HabilitarDeshabilitarProductoComponent implements OnInit {
   consultarElemento(idElemento: number) {
     console.log("idElemento: ", idElemento);
 
-    this.router.navigate( [`/consulta_habilitar_deshabilitar_producto/${idElemento}`] );
+    this.router.navigate( [`/crud_habilitar_deshabilitar_producto/${idElemento}`] );
   }
 
-  crearProducto() {
-    this.router.navigate( ['/crud_habilitar_deshabilitar_producto/0/crear']);
-  }
 }
