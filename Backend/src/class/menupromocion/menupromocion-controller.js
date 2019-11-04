@@ -308,7 +308,7 @@ MenuPromocionController.getAll = (req, res) => {
     } else {
         locals['title'] = `${legend}/s encontrado/s`;
         locals['data'] = response;
-        locals['tipo'] = 1;response;
+        locals['tipo'] = 1;
     }
     res.json(locals)
   })
@@ -989,6 +989,143 @@ MenuPromocionController.editarProductos = (req, res) => {
             }
         }
     });
+};
+
+MenuPromocionController.habilitarDeshabilitarMenuPromocion = (req, res) => {
+    let locals = { detalles: [], detalleResultado: [] };
+    let cantidad = 0;
+    MenuPromocionModelo.findAll({ 
+        attributes: attributes.menupromocion,
+        include: [
+            {
+                model: MenuPromocionEstadoModelo,
+                where: { fechaYHoraBajaMenuPromocionEstado: null },
+                attributes: attributes.menupromocionestado,
+                include: [
+                    {
+                    model: EstadoMenuPromocionModelo,
+                    attributes: attributes.estadomenupromocion
+                    }
+                ]
+            },
+            {
+                model: DetalleMenuPromocionProductoModelo,
+                attributes: attributes.detallemenupromocionproducto,
+                where: { idDetalleMenuPromocionProducto: { 
+                    [Op.ne]: null  
+                }},
+                include: [
+                    {
+                        model: ProductoModelo,
+                        attributes: attributes.producto,
+                        include: [
+                            {
+                                model: ProductoEstadoModelo,
+                                where: { fechaYHoraBajaProductoEstado: null },
+                                attributes: attributes.productoestado,
+                                include: [
+                                    {
+                                        model: EstadoProductoModelo,
+                                        attributes: attributes.estadoproducto
+                                    }
+                                ]
+                            },
+                        ]
+                    }
+                ],
+            },
+        ],
+      }).then( async  response => {
+        if (!response || response == 0) {
+            locals['title'] = `No existen registros de ${legend}`
+            locals['tipo'] = 2;
+        } else {
+            await EstadoMenuPromocionModelo.findOne({where: { [idtable3]: {[Op.in]: [1, 2]} }}).then( async estadomenupromocion =>{
+                if(!estadomenupromocion || estadomenupromocion == 0) {
+                    locals['title'] = `No existen Estado correspondientes de ${legend}`
+                    locals['tipo'] = 2;
+                } else {
+                    for (let menupromocion of response) {
+                        let detallesProductos = { estado: []};
+                        let enFalta = false;
+                        let idMenuPromocion = menupromocion.dataValues.idMenuPromocion;
+                        let idEstadoMenuPromocion = menupromocion.dataValues.menupromocionestados[0].dataValues.estadomenupromocion.dataValues.idEstadoMenuPromocion;
+                        let nombreEstadoMenuPromocion = menupromocion.dataValues.menupromocionestados[0].dataValues.estadomenupromocion.dataValues.nombreEstadoMenuPromocion;
+                        for (let detalleProducto of menupromocion.dataValues.detallemenupromocionproductos) {
+                            if (detalleProducto.dataValues.producto.dataValues.productoestados[0].dataValues.estadoproducto.dataValues.idEstadoProducto == 2) {
+                                enFalta = true;
+                            }
+                            detallesProductos.estado.push({
+                                'idProducto': detalleProducto.dataValues.producto.dataValues.productoestados[0].dataValues.estadoproducto.dataValues.idEstadoProducto, 
+                                'estadoProducto': detalleProducto.dataValues.producto.dataValues.productoestados[0].dataValues.estadoproducto.dataValues.nombreEstadoProducto
+                            })
+                        }
+                        locals.detalles.push({
+                            'idMenuPromocion': idMenuPromocion,
+                            'idEstadoMenuPromocion': idEstadoMenuPromocion, 
+                            'estadoMenuPromocion': nombreEstadoMenuPromocion,
+                            'enFalta': enFalta,
+                            detallesProductos
+                        })
+                        let nuevo = {};
+                        let nuevoEstado = null;
+                        if ( enFalta && idEstadoMenuPromocion == 1 ) {
+                            console.log("PASANDO MENU A ENFALTA")
+                            nuevoEstado = 2;
+                        } else if ( !enFalta && idEstadoMenuPromocion == 2) {
+                            console.log("PASANDO MENU A ACTIVO")
+                            nuevoEstado = 1;
+                        } 
+                        if ( enFalta && idEstadoMenuPromocion == 1 || !enFalta && idEstadoMenuPromocion == 2 ){
+                            let pushMenuPromocionEstado = {};
+                            pushMenuPromocionEstado['fechaYHoraBajaMenuPromocionEstado'] = new Date();
+                            await MenuPromocionEstadoModelo.update(pushMenuPromocionEstado , {
+                                where: { [idtable]: idMenuPromocion, fechaYHoraBajaMenuPromocionEstado: null }
+                            }).then( async respons => {
+                                if(!respons || respons == 0) {
+                                    locals.detalleResultado.push({
+                                        'title': `No se pudo encontrar instancia de Menu Promocion Estado con ${legend}: ${idMenuPromocion}`,
+                                        'tipo': 2,
+                                    })
+                                } else {
+                                    nuevo['fechaYHoraAltaMenuPromocionEstado'] = new Date();
+                                    nuevo['idEstadoMenuPromocion'] = nuevoEstado;
+                                    nuevo['idMenuPromocion'] = idMenuPromocion;
+                                    await MenuPromocionEstadoModelo.create(nuevo).then((resp) => {
+                                    if (!resp || resp == 0 ){
+                                        locals.detalleResultado.push({
+                                            'title': `No se pudo crear instancia de Menu Promocion Estado con ${legend}: ${idMenuPromocion}`,
+                                            'tipo': 2,
+                                        })
+                                    } else {
+                                        cantidad += 1;
+                                        locals.detalleResultado.push({
+                                            'title': `Correcto. Se actualizo Estado. ${legend}: ${idMenuPromocion}`,
+                                            'tipo': 1,
+                                        })
+                                    }
+                                })
+                                }
+                            })
+                        } else {
+                            locals.detalleResultado.push({
+                                'title': `No posee modificaciones Menu Promocion con ${legend}: ${idMenuPromocion}`,
+                                'tipo': 2,
+                            })
+                        }
+                    }
+                }
+            })
+            locals['title'] = `Proceso Terminado`;
+            locals['registrosModificados'] = cantidad;
+            locals['tipo'] = 1;
+        }
+        res.json(locals)
+        }).catch((error) => {
+            console.log("ENTRO ACA")
+            locals = tratarError.tratarError(error, legend);
+            res.json(locals);
+        });
 };
 
 module.exports = MenuPromocionController;

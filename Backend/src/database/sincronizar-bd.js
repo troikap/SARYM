@@ -90,3 +90,9 @@ sequelize.sync({ force: false }); // force = false  crea nuevos modelos/tablas d
 //   });
 
 //bcrypt.compareSync(body.contrasenaUsuario, response.dataValues.contrasenaUsuario
+
+
+// Model.findAll({
+//     attributes: [[sequelize.fn('COUNT', sequelize.col('hats')), 'no_hats']]
+//   });
+//   SELECT COUNT(hats) AS no_hats ...

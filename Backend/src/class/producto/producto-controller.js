@@ -11,6 +11,11 @@ const tratarError = require("../../middlewares/handleError"),
   EstadoProductoModelo = require("../estadoproducto/estadoproducto-model"),
   PrecioProductoModelo = require("../precioproducto/precioproducto-model"),
   TipoMonedaModelo = require("../tipomoneda/tipomoneda-model"),
+  MenuPromocionModelo = require("../menupromocion/menupromocion-model"),
+  MenuPromocionEstadoModelo = require("../menupromocionestado/menupromocionestado-model"),
+  EstadoMenuPromocionModelo = require("../estadomenupromocion/estadomenupromocion-model"),
+  DetalleMenuPromocionProductoModelo = require("../detallemenupromocionproducto/detallemenupromocionproducto-model"),
+
   legend = "Producto",
   legend2 = "ProductoEstado",
   legend3 = "EstadoProducto",
@@ -18,12 +23,19 @@ const tratarError = require("../../middlewares/handleError"),
   legend5 = "Rubro",
   legend6 = "UnidadMedida",
   legend7 = "PrecioProducto",
+  legend8 = "MenuPromocion",
+  legend9 = "MenuPromocionEstado",
+  legend10 = "EstadoMenuPromocion",
   idtable = `id${legend}`,
   idtable2 = `id${legend2}`,
   idtable3 = `id${legend3}`,
   idtable4 = `id${legend4}`,
   idtable5 = `id${legend5}`,
   idtable6 = `id${legend6}`,
+  idtable7 = `id${legend7}`,
+  idtable8 = `id${legend8}`,
+  idtable9 = `id${legend9}`,
+
   nombretable = `nombre${legend}`,
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
@@ -555,6 +567,102 @@ ProductoController.cambiarPrecio = (req, res) => {
         })
       }
     }
+  });
+};
+
+ProductoController.habilitarDeshabilitarProducto = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  ProductoModelo.findOne({
+    where: {
+      [idtable]: body[idtable] },
+      attributes: attributes.producto,
+      include: [
+        {
+        model: RubroModelo,
+        attributes: attributes.rubro,
+        },
+        {
+        model: UnidadMedidaModelo,
+        attributes: attributes.unidadmedida,
+        },
+        {
+          model: ProductoEstadoModelo,
+          where: { fechaYHoraBajaProductoEstado: null },
+          attributes: attributes.productoestado,
+          include: [
+              {
+              model: EstadoProductoModelo,
+              attributes: attributes.estadoproducto
+              }
+          ]
+        },
+        {
+          model: PrecioProductoModelo,
+          where: { fechaYHoraHastaPrecioProducto: null },
+          attributes: attributes.precioproducto,
+          include: [
+            {
+                model: TipoMonedaModelo,
+                attributes: attributes.tipomoneda
+            }
+          ]
+        },
+      ],
+    }).then(response => {
+      let estadoActual = response.productoestados[0].estadoproducto.dataValues.idEstadoProducto;
+    if (!response || response == 0) {
+      locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+      locals['tipo'] = 2;
+      res.json(locals);
+    } else {
+      if ( estadoActual == 1) {
+        body[idtable3] = 2
+      } else if (estadoActual == 2) {
+        body[idtable3] = 1
+      } else {
+        locals['title'] = `No se encuentra en estado valido para esta operacion`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      }
+        EstadoProductoModelo.findOne({where: { [idtable3]: body[idtable3] }}).then((estadoproducto) =>{
+          if(!estadoproducto || estadoproducto == 0) {
+            locals['title'] = `No existe ${legend3} con id ${idtable3}.`;
+            locals['tipo'] = 2;
+            res.json(locals);
+          } else {
+            let pushProductoEstado = {};
+            pushProductoEstado['fechaYHoraBajaProductoEstado'] = new Date();
+              ProductoEstadoModelo.update(pushProductoEstado , {
+                where: { [idtable]: body[idtable], fechaYHoraBajaProductoEstado: null }
+            }).then((respons) => {
+              if(!respons || respons == 0) {
+                locals['title'] = `No existe ${legend2} habilitado.`;
+                locals['tipo'] = 2;
+                res.json(locals);
+              } else {
+                body['fechaYHoraAltaProductoEstado'] = new Date();
+                ProductoEstadoModelo.create(body).then((resp) => {
+                  if (!resp || resp == 0 ){
+                    locals['title'] = `No se pudo crear ${legend2}.`;
+                    locals['tipo'] = 2;
+                  } else {
+                    locals['title'] = `Se creo correctamente ${legend2}.`;
+                    locals['tipo'] = 1;
+                  }
+                  res.json(locals);
+                }).catch((error) => {
+                  locals = tratarError.tratarError(error, legend);
+                  res.json(locals);
+                });
+              }
+            }).catch((error) => {
+              locals = tratarError.tratarError(error, legend);
+              res.json(locals);
+            });
+          }
+        })
+      }
   });
 };
 
