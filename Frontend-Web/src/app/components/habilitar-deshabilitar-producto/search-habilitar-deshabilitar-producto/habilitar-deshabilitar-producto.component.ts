@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 export class HabilitarDeshabilitarProductoComponent implements OnInit {
 
   public listaProductos: any [] = [];
+  public listaProductosProvisoria: any []=[];
 
   tipoElemento = "producto";
 
@@ -43,7 +44,16 @@ export class HabilitarDeshabilitarProductoComponent implements OnInit {
         console.log(data);
         if (data != null) {
           console.log("RESULT ----------------->", data);
-          this.listaProductos = data;
+          this.listaProductosProvisoria =  data;
+        this.listaProductos=[];
+        var length = this.listaProductosProvisoria.length;
+        
+for (let i = 0; i <= length; i++) {
+let producto = this.listaProductosProvisoria[i];
+  if(producto.productoestados[0].estadoproducto.idEstadoProducto == 1 || producto.productoestados[0].estadoproducto.idEstadoProducto == 2 ){
+    this.listaProductos.push(producto)
+  }
+}
 
           // this.listaProductos.push(data); // Para insertar un solo elemento
         }
@@ -58,20 +68,27 @@ export class HabilitarDeshabilitarProductoComponent implements OnInit {
   }
 
   getAllElements() {
+    let _this =this;
     this.productoService.getAllProductos()
       .then((res: any) => {
         console.log("getAllElements", res.data);
-        this.listaProductos =  res.data;
+        this.listaProductosProvisoria =  res.data;
+        this.listaProductos=[];
+        var length = this.listaProductosProvisoria.length;
+        
+for (let i = 0; i <= length; i++) {
+let producto = this.listaProductosProvisoria[i];
+  if(producto.productoestados[0].estadoproducto.idEstadoProducto == 1 || producto.productoestados[0].estadoproducto.idEstadoProducto == 2 ){
+    this.listaProductos.push(producto)
+  }
+}
       })
   }
 
   consultarElemento(idElemento: number) {
     console.log("idElemento: ", idElemento);
 
-    this.router.navigate( [`/consulta_habilitar_deshabilitar_producto/${idElemento}`] );
+    this.router.navigate( [`/crud_habilitar_deshabilitar_producto/${idElemento}`] );
   }
 
-  crearProducto() {
-    this.router.navigate( ['/crud_habilitar_deshabilitar_producto/0/crear']);
-  }
 }

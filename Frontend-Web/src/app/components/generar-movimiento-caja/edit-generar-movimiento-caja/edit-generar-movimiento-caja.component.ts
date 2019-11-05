@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CajaService } from '../../../services/caja/caja.service';
-import { UsuarioService } from 'src/app/services/usuario/usuario.service';
-
-
-
-
 
 
 @Component({
@@ -15,12 +10,10 @@ import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 })
 export class EditGenerarMovimientoCajaComponent implements OnInit {
 
-  listaMovimientoCaja: any [];
+  listaMovimientoCaja: any = [];
   caja: any;
   idCaja;
-  accionGet;
-  
-  
+  accionGet;  
   
 
   constructor(
@@ -41,12 +34,10 @@ export class EditGenerarMovimientoCajaComponent implements OnInit {
     });
    }
 
-  ngOnInit() {
-    
-    
+  ngOnInit() {   
      
   }
-
+  
   buscarCaja(termino: string) {
     
     console.log(termino);
@@ -55,7 +46,7 @@ export class EditGenerarMovimientoCajaComponent implements OnInit {
       this.cajaService.getCajasByAll(termino)
       .subscribe((data: any) => { // Llamo a un Observer
         console.log(data);
-        if (data != "") {
+        if (data != null) {
           console.log("RESULT ----------------->", data);
           this.caja = data;
           this.listaMovimientoCaja = this.caja.movimientocajas;                 

@@ -24,6 +24,13 @@ export class EditCajaComponent implements OnInit {
   private newForm = {};
   idEstadoCaja1: any;
   idEstadoform: any;
+  montoCierreCaja: any;
+  listaMovimientoCaja: any[];
+  fechaYHoraCajaEstado: Date;
+  private ingresos:number =0;
+  private egresos:number=0;
+  private total:number=0;
+  private montoDeAperturaAnterior:number=0;
 
 
 
@@ -91,6 +98,7 @@ export class EditCajaComponent implements OnInit {
 
   traerCaja() {
     if (this.idCaja !== "0" && this.idCaja !== "") {
+      this.buscarMovimientosCaja();
       this.cajaServicio.getCaja(this.idCaja)
         .subscribe((data: any) => { // Llamo a un Observer
           //console.log(data['cajaestados'][0].estadocaja.idEstadoCaja);
@@ -104,7 +112,7 @@ export class EditCajaComponent implements OnInit {
               idCaja: this.caja['idCaja'],              
               idEstadoCaja: this.caja['cajaestados'][0].estadocaja.idEstadoCaja,                       
               descripcionCajaEstado: this.caja['cajaestados'][0].descripcionCajaEstado,
-              montoAperturaCajaEstado: this.caja['cajaestados'][0].montoAperturaCajaEstado
+              montoAperturaCajaEstado: null
             }
 
             this.form.setValue(this.newForm);
@@ -435,6 +443,46 @@ console.log("entra a eliminar");
       })
       
   }
+  buscarMovimientosCaja() {
+    let _this =this;
+    
+     
+     console.log(this.idCaja);
+ 
+     if (this.idCaja !== "") {
+       this.cajaServicio.getCaja(this.idCaja)
+       .subscribe((data: any) => { // Llamo a un Observer
+         console.log(data);
+         if (data != "") {
+           //console.log("RESULT ----------------->", data);
+           this.caja = data;
+           this.listaMovimientoCaja = this.caja.movimientocajas; 
+           this.fechaYHoraCajaEstado =  this.caja['cajaestados'][0].fechaYHoraAltaCajaEstado;
+           this.montoDeAperturaAnterior= this.caja['cajaestados'][0].montoAperturaCajaEstado;
+ var length = this.listaMovimientoCaja.length;
+ for (let i = 0; i < length; i++) {
+   console.log(this.listaMovimientoCaja[i].fechaYHoraMovimientoCaja,this.fechaYHoraCajaEstado);
+   if(this.listaMovimientoCaja[i].fechaYHoraMovimientoCaja > this.fechaYHoraCajaEstado ){
+     
+     if(this.listaMovimientoCaja[i].tipomovimientocaja.idTipoMovimientoCaja == 1){
+     _this.ingresos += this.listaMovimientoCaja[i].montoMovimientoCaja; 
+    
+     console.log("el monto de apertura anterior es",this.montoDeAperturaAnterior);
+   }else{
+     _this.egresos += this.listaMovimientoCaja[i].montoMovimientoCaja;
+   }
+   
+   } 
+   
+ };  
+ 
+ _this.total = _this.ingresos - _this.egresos+ this.montoDeAperturaAnterior;
+
+                        
+         }
+       });
+     }   
+   }
 
 
 }

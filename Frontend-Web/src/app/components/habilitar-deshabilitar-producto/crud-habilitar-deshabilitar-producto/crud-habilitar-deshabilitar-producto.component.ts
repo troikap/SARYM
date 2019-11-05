@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, Validatio
 import { Router, ActivatedRoute } from '@angular/router';
 import { Producto } from 'src/app/model/producto/producto.model';
 import { ProductoService } from 'src/app/services/producto/producto.service';
+import { MenuPromocionService } from 'src/app/services/menu-promocion/menu-promocion.service';
 import { UnidadMedidaService } from '../../../services/unidad-medida/unidad-medida.service';
 import { TipoMonedaService } from '../../../services/tipo-moneda/tipo-moneda.service';
 import { RubroService } from '../../../services/rubro/rubro.service';
@@ -46,6 +47,7 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private productoServicio: ProductoService,
+    private menuPromocionServicio: MenuPromocionService,
     private unidadMedidaService: UnidadMedidaService,
     private tipoMonedaService: TipoMonedaService,
     private rubroService: RubroService
@@ -60,7 +62,7 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
       'importePrecioProducto': new FormControl('', Validators.required),
       'idTipoMoneda': new FormControl('',  Validators.required),
       'idRubro': new FormControl('',  Validators.required),
-      'idEstadoProducto': new FormControl(''),
+      'nombreEstadoProducto': new FormControl(''),
       'descripcionCambioEstado': new FormControl('')
     });
 
@@ -76,11 +78,7 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
         this.productoEncontrado = false;
       }
 
-      if (this.accionGet !== "estado" && this.accionGet !== "crear") {
-        this.form.get('idEstadoProducto').setValidators(Validators.required);
-        this.form.get('idEstadoProducto').updateValueAndValidity();
-      }
-
+      
     });
 
    }
@@ -114,7 +112,7 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
             importePrecioProducto:  this.producto.precioproductos[0].importePrecioProducto,
             idTipoMoneda:  this.producto.precioproductos[0].tipomoneda.idTipoMoneda,
             idRubro: this.producto.rubro.idRubro,
-            idEstadoProducto: this.producto.productoestados[0].estadoproducto.idEstadoProducto,
+            nombreEstadoProducto: this.producto.productoestados[0].estadoproducto.nombreEstadoProducto,
             descripcionCambioEstado: ''
           }
           this.form.setValue(this.newForm)
@@ -198,24 +196,13 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
     return dtoEditarProducto;
   }
 
-  getDTOCambioEstadoEliminarProducto(accion: string) {
-    console.log("Funcion 'DTOCambioEstadoEliminarProducto()', ejecutada");
-    console.log("Accion: ", accion);
-
-    let idEstado: number;
-    if (accion == "eliminar") {
-      idEstado = 4; //Estado Eliminado
-    }
-    else {
-      idEstado =  this.form.value['idEstadoProducto'];
-    }
+  getDTOCambioEstadoEliminarProducto() {
+    
 
     let prod = this.producto.idProducto;
     
     let dtoEditarProducto: any = {
-      idProducto: prod,
-      idEstadoProducto: idEstado,
-      descripcionProductoEstado:  "Se deshabilito el producto por parte del encargado",
+      idProducto: prod
       
     }
     return dtoEditarProducto;
@@ -252,10 +239,7 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
     //Variables para mensajes//
     let _this = this; //Asigno el contexto a una variable, ya que se pierde al ingresar a la función de mensajeria
     const titulo = "Confirmación";
-    const mensaje = `¿Está seguro que desea ${this.accionGet} el elemento seleccionado?`;
-    ///////////////////////////
-    
-     if (this.productoEncontrado && this.accionGet === "estado") {
+    const mensaje = `¿Está seguro que desea habilitar/deshabilitar el elemento seleccionado?`;
 
       ($ as any).confirm({
         title: titulo,
@@ -271,11 +255,11 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
                   
                   
 
-                  let dtoCambioEstado = _this.getDTOCambioEstadoEliminarProducto("cambioestado");
+                  let dtoCambioEstado = _this.getDTOCambioEstadoEliminarProducto();
                   // console.log("Datos A enviar: " + dtoCambioEstado);
-                  _this.productoServicio.cambiarEstado( dtoCambioEstado )
+                  _this.productoServicio.habilitarDeshabilitarProducto( dtoCambioEstado )
                   .then( (response) => {
-                    console.log("Cambio de Estado a Eliminado, respuesta: ", response);
+                    console.log("Cambio de Estado, respuesta: ", response);
             
                     const titulo = "Éxito";
                     const mensaje = "Se ha cambiado el estado del registro de producto de forma exitosa";
@@ -291,21 +275,44 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
                               text: 'Aceptar',
                               btnClass: 'btn-green',
                               action: function(){
-            
-                                //ACCION
-                                _this.router.navigate( ['/habilitar-deshabilitar-producto/']);
-            
+                                _this.menuPromocionServicio.habilitarDeshabilitarMenuPromocion()
+                                .then( (response) => {
+                                  console.log("Actualizacion de Menu-Promociones, respuesta: ", response);
+                          
+                                  const titulo = "Éxito";
+                                  const mensaje = "Se han actualizado los menu-promocion de forma exitosa";
+                                  
+                                  ($ as any).confirm({
+                                    title: titulo,
+                                    content: mensaje,
+                                    type: 'green',
+                                    typeAnimated: true,
+                                    theme: 'material',
+                                    buttons: {
+                                        aceptar: {
+                                            text: 'Aceptar',
+                                            btnClass: 'btn-green',
+                                            action: function(){
+                          
+                                              //ACCION
+                                              _this.router.navigate( ['/habilitar-deshabilitar-producto/']);
+                          
+                                            }
+                                        }
+                                    }
+                                  });
+                          
+                                })
+
+
                               }
+                             
                           }
                       }
                     });
             
                   })
-
-
-
-
-                }
+               }
             },
             cerrar: {
               text: 'Cerrar',
@@ -318,7 +325,7 @@ export class CrudHabilitarDeshabilitarProductoComponent implements OnInit {
 
 
 
-    } 
+    
   }
 
 }

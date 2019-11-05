@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CajaService } from '../../../services/caja/caja.service';
-import { CajaEdit } from 'src/app/model/caja/caja.model';
-import { EstadoCaja } from 'src/app/model/estadoCaja/estadoCaja.model';
-import { Usuario } from 'src/app/model/usuario/usuario.model';
-import { UsuarioService } from '../../../services/usuario/usuario.service';
 
 
 
@@ -15,7 +11,7 @@ import { UsuarioService } from '../../../services/usuario/usuario.service';
 })
 export class AbmCajaComponent implements OnInit {
 
-  listaCaja: CajaEdit [];
+  listaCaja: any = [];
   listaEstadoCaja: any = [];  
   
 
@@ -28,8 +24,13 @@ export class AbmCajaComponent implements OnInit {
 
   ngOnInit() {
     this.getAllCaja();   
-    this.getAllEstadoCaja();   
+    this.getAllEstadoCaja();
+    this.cargarOnFocus();   
   }
+  cargarOnFocus() {
+    $("#botonBuscar").focus();
+  }
+
 
   buscarCaja(termino: string) {
     
@@ -39,9 +40,11 @@ export class AbmCajaComponent implements OnInit {
       this.cajaService.getCajasByAll(termino)
       .subscribe((data: any) => { // Llamo a un Observer
         console.log(data);
-        if (data != "") {
+        if (data != null) {
           console.log("RESULT ----------------->", data);
           this.listaCaja = data;          
+        }else{
+          this.listaCaja =[];
         }
       });
     }
@@ -93,14 +96,11 @@ export class AbmCajaComponent implements OnInit {
               text: 'Aceptar',
               btnClass: 'btn-blue',
               action: function(){
-                let nuevaCaja: any = {      
-                  nroCaja:  1,   
+                let nuevaCaja: any = {       
                   idUsuario: localStorage.getItem("idUsuario")
                   
-                }
-                
-
-             
+                }               
+           
                 
                 _this.cajaService.setCaja( nuevaCaja )
                 .then( (response) => {
