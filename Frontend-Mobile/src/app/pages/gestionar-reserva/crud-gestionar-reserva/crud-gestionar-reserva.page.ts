@@ -147,9 +147,9 @@ export class CrudGestionarReservaPage implements OnInit {
         } else {
           this.existenciaUsuario = false;
           this.mensajeExistenciaUsuario = res.descripcion;
-          this.form2.controls.idUsuario.setErrors({pattern: true});
+          this.form2.controls.cuitUsuario.setErrors({pattern: true});
           this.form2.markAsTouched();
-          this.toastNoExisteUsuario();
+          this.toastNoExisteUsuario(); 
         }
       });
     } else {
@@ -241,7 +241,7 @@ export class CrudGestionarReservaPage implements OnInit {
                 .then( respo => {
                   if (respo.tipo == 1 ){
                     this.toastReservaCreada(res);
-                    this.navController.navigateRoot('/reserva', res.id );
+                    this.navController.navigateRoot('/consulta-gestionar-reserva', res.id );
                   } else {
                     console.log("RESPUESTA DE MESAS FALLIDA")
                   }
