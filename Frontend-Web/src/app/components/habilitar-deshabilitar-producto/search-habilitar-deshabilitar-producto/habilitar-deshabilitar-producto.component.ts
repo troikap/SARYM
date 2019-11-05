@@ -44,7 +44,16 @@ export class HabilitarDeshabilitarProductoComponent implements OnInit {
         console.log(data);
         if (data != null) {
           console.log("RESULT ----------------->", data);
-          this.listaProductos = data;
+          this.listaProductosProvisoria =  data;
+        this.listaProductos=[];
+        var length = this.listaProductosProvisoria.length;
+        
+for (let i = 0; i <= length; i++) {
+let producto = this.listaProductosProvisoria[i];
+  if(producto.productoestados[0].estadoproducto.idEstadoProducto == 1 || producto.productoestados[0].estadoproducto.idEstadoProducto == 2 ){
+    this.listaProductos.push(producto)
+  }
+}
 
           // this.listaProductos.push(data); // Para insertar un solo elemento
         }
@@ -64,12 +73,13 @@ export class HabilitarDeshabilitarProductoComponent implements OnInit {
       .then((res: any) => {
         console.log("getAllElements", res.data);
         this.listaProductosProvisoria =  res.data;
+        this.listaProductos=[];
         var length = this.listaProductosProvisoria.length;
         
 for (let i = 0; i <= length; i++) {
 let producto = this.listaProductosProvisoria[i];
   if(producto.productoestados[0].estadoproducto.idEstadoProducto == 1 || producto.productoestados[0].estadoproducto.idEstadoProducto == 2 ){
-    this.listaProductos.push(producto);
+    this.listaProductos.push(producto)
   }
 }
       })
