@@ -117,6 +117,7 @@ router
     .put('/reserva/cambiarEstado', verificaToken, ReservaController.cambiarEstado)
     .put('/reserva/editarComensal', verificaToken, ReservaController.editarComensal)
     .put('/reserva/editarMesa', verificaToken, ReservaController.editarMesa)
+    .post('/reserva/getToComensal/:idUsuario', verificaToken, ReservaController.getToComensal)
 
 // menupromocion
     .get('/menupromocion', verificaToken, MenuPromocionController.getAll)

@@ -241,7 +241,8 @@ export class CrudGestionarReservaPage implements OnInit {
                 .then( respo => {
                   if (respo.tipo == 1 ){
                     this.toastReservaCreada(res);
-                    this.navController.navigateRoot('/consulta-gestionar-reserva', res.id );
+                    let id = res.id;
+                    this.navController.navigateRoot(['/consulta-gestionar-reserva', id ]);
                   } else {
                     console.log("RESPUESTA DE MESAS FALLIDA")
                   }
