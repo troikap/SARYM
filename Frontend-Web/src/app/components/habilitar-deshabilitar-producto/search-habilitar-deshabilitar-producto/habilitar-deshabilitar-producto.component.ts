@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 export class HabilitarDeshabilitarProductoComponent implements OnInit {
 
   public listaProductos: any [] = [];
+  public listaProductosProvisoria: any []=[];
 
   tipoElemento = "producto";
 
@@ -58,10 +59,19 @@ export class HabilitarDeshabilitarProductoComponent implements OnInit {
   }
 
   getAllElements() {
+    let _this =this;
     this.productoService.getAllProductos()
       .then((res: any) => {
         console.log("getAllElements", res.data);
-        this.listaProductos =  res.data;
+        this.listaProductosProvisoria =  res.data;
+        var length = this.listaProductosProvisoria.length;
+        
+for (let i = 0; i <= length; i++) {
+let producto = this.listaProductosProvisoria[i];
+  if(producto.productoestados[0].estadoproducto.idEstadoProducto == 1 || producto.productoestados[0].estadoproducto.idEstadoProducto == 2 ){
+    this.listaProductos.push(producto);
+  }
+}
       })
   }
 
