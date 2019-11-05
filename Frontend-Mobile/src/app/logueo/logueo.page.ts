@@ -67,6 +67,8 @@ export class LogueoPage implements OnInit {
         if (this.form.value.checkRecordar){
           this.actualizarLog(this.logueo);
         }
+        this.logueo['nombreUsuario'] = this.algo.UsuarioEstado.nombreUsuario;
+        this.logueo['apellidoUsuario'] = this.algo.UsuarioEstado.apellidoUsuario;
         this.storage.setOneObject( 'currentUsuario', this.logueo)
         this.alert();
         this.menu.enable(true);

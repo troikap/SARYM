@@ -137,6 +137,7 @@ UsuarioController.validateExistUser = (req, res) => {
         } else {
             locals['title'] = `${legend} encontrado.`;
             locals['tipo'] = 2;
+            locals['data'] = response;
             locals['descripcion'] = 'Cuit existente, ingrese otro.'
             locals['descripcion2'] = 'Usuario encontrado.'
         }

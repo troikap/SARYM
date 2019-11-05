@@ -22,7 +22,6 @@ const tratarError = require("../../middlewares/handleError"),
   legend7 = "DetalleReservaMesa",
   legend8 = "Pedido",
 
-
   idtable = `id${legend}`,
   idtable2 = `id${legend2}`,
   idtable3 = `id${legend3}`,
@@ -303,6 +302,7 @@ ReservaController.create = (req, res) => {
 ReservaController.actualizarDatos = (req, res) => {
   let locals = {};
   let body = req.body;
+  console.log("BODY ", body)
   ReservaModelo.findOne({
     where: { [idtable]: body[idtable] },
     attributes: attributes.reserva,

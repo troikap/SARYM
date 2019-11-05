@@ -21,7 +21,6 @@ export class ConsultaGestionarReservaPage implements OnInit {
   public variable: boolean = false;
 
   constructor(
-
     private barcodeScanner: BarcodeScanner,
     private alertController: AlertController,
     private navController: NavController

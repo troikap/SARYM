@@ -6,36 +6,41 @@
     <ion-title>Nueva Reserva</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <form [formGroup]="form">
     <div class="form-section">
       <ion-item padding>
-        <ion-label position="fixed">Fecha Reserva</ion-label>
+        <ion-label color="primary" position="fixed">Edad Comensal</ion-label>
+        <ion-input class="form-control" type="number" placeholder="Su edad" formControlName="edadComensal" id="edadComensal" (change)="cambiarEdadComensal($event)"></ion-input>
+      </ion-item>
+      <p class="input-error-msg" *ngIf="form.controls.edadComensal.errors?.pattern && form.controls.edadComensal.touched">Debería ingresar su edad.</p>
+      <ion-item padding>
+        <ion-label color="primary" position="fixed">Fecha Reserva</ion-label>
         <ion-datetime  formControlName="fechaReserva" id="fechaReserva" class="form-control" mode="ios" displayFormat="DD/MM/YYYY" min='{{fechaDesde}}' max='{{fechaHasta}}' doneText="Elegir" placeholder="Elija Fecha"></ion-datetime>
       </ion-item>
+      <p class="input-error-msg" *ngIf="form.controls.fechaReserva.errors?.pattern && form.controls.fechaReserva.touched">Seleccione fecha de Reserva.</p>
       <ion-item padding>
-        <ion-label position="fixed">Hora Entrada</ion-label> 
+        <ion-label color="primary" position="fixed">Hora Entrada</ion-label> 
         <ion-datetime formControlName="horaEntrada" id="horaEntrada" class="form-control" mode="ios" displayFormat="HH:mm" doneText="Elegir" placeholder="Elija Hora Entrada"></ion-datetime>
       </ion-item>
       <p class="input-error-msg" *ngIf="form.controls.horaEntrada.errors?.pattern && form.controls.horaEntrada.touched">Debería ser 15m menos que hora de Salida.</p>
       <ion-item padding>
-        <ion-label position="fixed">Hora Salida</ion-label>
+        <ion-label color="primary" position="fixed">Hora Salida</ion-label>
         <ion-datetime formControlName="horaSalida" id="horaSalida" class="form-control" mode="ios" displayFormat="HH:mm" doneText="Elegir" placeholder="Elija Hora Salida"></ion-datetime>
       </ion-item>
       <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.pattern && form.controls.horaSalida.touched">Debería ser 15m mayor que la hora de Entrada.</p>
       <ion-item padding>
-        <ion-label position="fixed">Comensales</ion-label>
+        <ion-label color="primary" position="fixed">Cant. Personas</ion-label>
         <ion-input class="form-control" type="number" placeholder="Cantidad Comensales" formControlName="cantidadComensal" id="cantidadComensal"></ion-input>
       </ion-item>
-      <ion-item padding>
-        <ion-label  position="fixed" >Sector</ion-label>
-        <ion-input class="form-control" type="number" placeholder="Sector N°" formControlName="sector" id="sector"></ion-input>
-      </ion-item>
-      <ion-item padding>
-        <ion-label position="fixed">Mesa</ion-label>
-        <ion-input class="form-control" type="number" placeholder="Mesa N°" formControlName="nroMesa" id="nroMesa"></ion-input>
-      </ion-item>
+      <ion-button padding (click)="mostrar5 = !mostrar5" position="fixed">Mostrar Mesas</ion-button>
+      <ion-list padding *ngIf="mostrar5">
+          <ion-item class="form-group" *ngFor='let element of checkBoxList; let i = index'>
+            <ion-label padding>{{element.descripcion}}</ion-label>
+            <ion-checkbox (ionChange)="checkEvent( i )"> </ion-checkbox>
+          </ion-item>
+        </ion-list>
+      <p class="input-error-msg" *ngIf="form.controls.idMesa.errors?.required && form.controls.idMesa.touched">Campo Obligatorio.</p>
     </div>
   </form>
   <form [formGroup]="form2">
@@ -55,16 +60,16 @@
       </button>
     </div>
     <ion-item padding>
-      <ion-label  position="fixed" >Alias Comensal</ion-label>
+      <ion-label color="primary" position="fixed" >Alias Comensal</ion-label>
       <ion-input class="form-control" type="text" placeholder="Alias" formControlName="aliasComensal" id="aliasComensal"></ion-input>
     </ion-item>
     <ion-item padding>
-      <ion-label  position="fixed" >Edad Comensal</ion-label>
+      <ion-label color="primary" position="fixed" >Edad Comensal</ion-label>
       <ion-input class="form-control" type="number" placeholder="Edad" formControlName="edadComensal" id="edadComensal"></ion-input>
     </ion-item>
     <ion-item >
-      <ion-label padding position="fixed" >Id del Usuario</ion-label>
-      <ion-input class="form-control" type="number" placeholder="Id del Usuario" formControlName="idUsuario" id="idUsuario"></ion-input>
+      <ion-label color="primary" padding position="fixed" >Cuit del Usuario</ion-label>
+      <ion-input class="form-control" type="number" placeholder="Cuit del Usuario" formControlName="cuitUsuario" id="cuitUsuario"></ion-input>
       <ion-button (click)="mostrar2 = !mostrar2">
           <ion-icon name="help"> </ion-icon>
       </ion-button>
@@ -73,8 +78,8 @@
     <div class="input-group-append" *ngIf="mostrar2">
       <button class="btn btn-clear btn-dark tooltip-custom" type="button" (click)="mostrar2 = !mostrar2">
         <div class="tooltip-container">
-          <p class="averageTicketSize"><b>Que es Id del Usuario?</b></p>
-          <p class="description">Si dicho comensal esta registrado en nuestra aplicación, ¡Pídele su número de Usuario!.</p>
+          <p class="averageTicketSize"><b>Como pedir Cuit de Usuario?</b></p>
+          <p class="description">Si dicho comensal esta registrado en nuestra aplicación, ¡Pídele su número de Cuit!.</p>
           <i></i>
         </div>
       </button>
@@ -87,8 +92,11 @@
         Alias: {{comen.aliasComensal}}
       </ion-card-title>
       <ion-card-subtitle>
-        Edad: {{comen.edadComensal}}  -  Usuario: {{comen.idUsuario}}
+        Edad: {{comen.edadComensal}}
       </ion-card-subtitle>
+      <ion-card-subtitle *ngIf="comen.idUsuario">
+        Usuario: {{comen.idUsuario}} - Cuit: {{comen.cuitUsuario}}
+        </ion-card-subtitle>
     </ion-card-header>
     <ion-button color="danger" class="mt-10" (click)="eliminarComensal(i)" shape="round"> Eliminar</ion-button>
   </ion-card>
