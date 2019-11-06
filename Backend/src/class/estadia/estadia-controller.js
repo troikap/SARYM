@@ -1068,14 +1068,80 @@ EstadiaController.getToMesa = (req, res) => {
         attributes: attributes.detalleestadiamesa,
       },
     ],
-  }).then(projects => {
+  }).then( async projects => {
     if (!projects || projects == 0) {
       locals['title'] = `No existen registros de ${legend}.`;
       locals['tipo'] = 2;
     } else {
-      locals['title'] = `${legend}`;
-      locals['data'] = projects;
-      locals['tipo'] = 1;
+      console.log("ESTADIA ", projects[0].dataValues.idEstadia)
+      await EstadiaModelo.findOne({
+      where: { [idtable]: projects[0].dataValues.idEstadia },
+        attributes: attributes.estadia,
+        include: [
+          {
+            model: EstadiaEstadoModelo,
+            where: { fechaYHoraBajaEstadiaEstado: null },
+            attributes: attributes.estadiaestado,
+            include: [
+                {
+                model: EstadoEstadiaModelo,
+                attributes: attributes.estadoestadia
+                }
+            ]
+          },
+          {
+            model: DetalleEstadiaMesaModelo,
+            attributes: attributes.detalleestadiamesa,
+            include: [
+              {
+                  model: MesaModelo,
+                  attributes: attributes.mesa
+              }
+            ]
+          },
+          {
+            model: ReservaModelo,
+            attributes: attributes.reserva,
+          },
+          {
+            model: PedidoModelo,
+            attributes: attributes.pedido,
+          },
+          {
+            model: ComensalModelo,
+            attributes: attributes.comensal,
+          },
+          {
+            model: ClienteEstadiaModelo,
+            attributes: attributes.clienteestadia,
+            include: [
+              {
+                  model: UsuarioModelo,
+                  attributes: attributes.usuario
+              }
+            ]
+          },
+          {
+            model: MozoEstadiaModelo,
+            attributes: attributes.mozoestadia,
+            include: [
+              {
+                  model: UsuarioModelo,
+                  attributes: attributes.usuario
+              }
+            ]
+          },
+        ],
+      }).then( async estadia => {
+        if (!estadia || estadia == 0) {
+          locals['title'] = `No existen registros de ${legend}.`;
+          locals['tipo'] = 2;
+        } else {
+          locals['title'] = `${legend}`;
+          locals['data'] = estadia;
+          locals['tipo'] = 1;
+        }
+      })
     }
     res.json(locals);
   });
