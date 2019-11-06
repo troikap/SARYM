@@ -2,40 +2,65 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Reserva } from '../../models/modelos';
-
-const URL = environment.urlNgrok || environment.url;
-const dir = '/reserva';
-const dir2 = '/editarComensal';
-const dir3 = '/editarMesa';
-const dir4 = '/actualizarDatos';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservaService {
+  
+  url = environment.urlNgrok || environment.url;
+
+  tokenEnviroment = environment.token;
+
+  dir = '/reserva';
+  dir2 = '/editarComensal';
+  dir3 = '/editarMesa';
+  dir4 = '/actualizarDatos';
+  dirTodo = "/todo";
 
   constructor( 
     public http: HttpClient
   ) { }
 
-   getReservas( token: string ): Promise<Reserva[]> {
+  getProductosByAll( termino: string) { //Observador
+    console.log("Service getProductosByAll: Termino = ", termino);
+    if (termino != "") {
+      let headers: HttpHeaders = new HttpHeaders();
+      headers = headers.append('token', this.tokenEnviroment);
+      return this.http
+        .get(`${this.url}${this.dir}${this.dirTodo}/${termino}`, {headers})
+        .pipe( map ((data: any) => {
+          console.log(data.data);
+          if (data != null) {
+            return data.data;
+          }
+      }));
+    }
+    else {
+      // console.log("Service getProductosByAll: SIN TERMINO");
+    }
+  }
+
+   getReservas(): Promise<Reserva[]> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', token);
+    headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .get( URL + dir, {headers})
+      .get(`${this.url}${this.dir}`, {headers})
       .toPromise()
       .then(response => {
+        console.log("Service getReservas: ", response);
         return response['data'] as Reserva[];
       })
       .catch(  );
   }
 
-  updateReserva( datas, token ): Promise<any> {
+  updateReserva( datas): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
     return this.http
-      .put(`${URL}${dir}${dir4}`, datas, data)
+      .put(`${this.url}${this.dir}${this.dir4}`, datas, data)
       .toPromise()
       .then(response => {
         return response as Reserva;
@@ -43,12 +68,12 @@ export class ReservaService {
       .catch(  );
   }
 
-  setReserva( datas, token ): Promise<any> {
+  setReserva( datas): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
     return this.http
-      .post(`${URL}${dir}`, datas, data)
+      .post(`${this.url}${this.dir}`, datas, data)
       .toPromise()
       .then(response => {
         return response as Reserva;
@@ -56,12 +81,12 @@ export class ReservaService {
       .catch(  );
   }
 
-  setComensalesReserva( datas, token ): Promise<any> {
+  setComensalesReserva( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
     return this.http
-      .put(`${URL}${dir}${dir2}`, datas, data)
+      .put(`${this.url}${this.dir}${this.dir2}`, datas, data)
       .toPromise()
       .then(response => {
         return response as Reserva;
@@ -69,12 +94,12 @@ export class ReservaService {
       .catch(  );
   }
 
-  setMesasReserva( datas, token ): Promise<any> {
+  setMesasReserva( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
-    return this.http
-      .put(`${URL}${dir}${dir3}`, datas, data)
+     return this.http
+      .put(`${this.url}${this.dir}${this.dir3}`, datas, data)
       .toPromise()
       .then(response => {
         return response as Reserva;
