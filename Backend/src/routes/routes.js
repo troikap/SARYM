@@ -32,6 +32,7 @@ var PedidoController = require('../class/pedido/pedido-controller');
 var ReservaController = require('../class/reserva/reserva-controller');
 var EstadiaController = require('../class/estadia/estadia-controller');
 var PagoController = require('../class/pago/pago-controller');
+var MozoEstadiaController = require('../class/mozoestadia/mozoestadia-controller');
 
 // estados
 var EstadoUsuarioController = require('../class/estadousuario/estadousuario-controller');
@@ -233,6 +234,13 @@ router
     .put('/caja/abrirCaja', verificaToken, CajaController.abrirCaja)
     .put('/caja/cerrarCaja', verificaToken, CajaController.cerrarCaja)
     .put('/caja/realizarMovimiento', verificaToken, CajaController.realizarMovimiento)
+
+// mozoestadia
+    .get('/mozoestadia', verificaToken, MozoEstadiaController.getAll)
+    .get('/mozoestadia/:idMozoEstadia', verificaToken, MozoEstadiaController.getOne)
+    .post('/mozoestadia', verificaToken, MozoEstadiaController.create)
+    .put('/mozoestadia/actualizarDatos', verificaToken, MozoEstadiaController.actualizarDatos)
+
 
 // ESTADOS ------------------------------------------------------------------------------------------------
 

@@ -1376,7 +1376,7 @@
 				{
 					"name": "Get Estadia :idMesa",
 					"request": {
-						"url": "localhost:3000/estadia",
+						"url": "localhost:3000/estadia/getToMesa/2",
 						"method": "POST",
 						"header": [
 							{
@@ -1534,6 +1534,96 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"idMesa\": 1,\n\t\"idEstadoMesa\": 1\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mozo Estadia",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Mozo Estadia",
+					"request": {
+						"url": "localhost:3000/mozoestadia",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mozo Estadia :id",
+					"request": {
+						"url": "localhost:3000/mozoestadia/10",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Mozo Estadia",
+					"request": {
+						"url": "localhost:3000/mozoestadia",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idUsuario\": 3\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Mozo Estadia Actualizar Datos",
+					"request": {
+						"url": "localhost:3000/mozoestadia/actualizarDatos",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idUsuario\": 3\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},

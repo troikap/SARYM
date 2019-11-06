@@ -54,8 +54,13 @@ const sequelize = require('./connection');
 console.log("Se esta ejecutando sincronizar")
 
 sequelize.sync({ force: false }); // force = false  crea nuevos modelos/tablas dejando las creadas intactas
+
 // let fecha = new Date();
-// console.log("DATE" ,new Date())
+// let horasMilisegundos = 1000 * 60 * 60 * 3 
+// let suma = fecha.getTime() - horasMilisegundos;
+// let fecha2 = new Date(suma);
+// console.log("DATE" , fecha2 )
+
 // console.log("DATE " , Date.now())
 // console.log("DATE " , Date.parse())
 // console.log("DATE " ,new Date(1995,11,17))
