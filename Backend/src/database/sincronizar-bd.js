@@ -55,7 +55,7 @@ console.log("Se esta ejecutando sincronizar")
 
 sequelize.sync({ force: false }); // force = false  crea nuevos modelos/tablas dejando las creadas intactas
 
-// let fecha = new Date();
+// let fecha = fechaArgentina.getFechaArgentina();
 // let horasMilisegundos = 1000 * 60 * 60 * 3 
 // let suma = fecha.getTime() - horasMilisegundos;
 // let fecha2 = new Date(suma);

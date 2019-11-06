@@ -5,6 +5,7 @@ const tratarError = require("../../middlewares/handleError"),
   MenuPromocionModelo = require("./menupromocion-model"),
   MenuPromocionController = () => { },
   attributes = require('../attributes'),
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   RubroModelo = require("../rubro/rubro-model"),
   UnidadMedidaModelo = require("../unidadmedida/unidadmedida-model"),
   MenuPromocionEstadoModelo = require("../menupromocionestado/menupromocionestado-model"),
@@ -431,7 +432,7 @@ MenuPromocionController.create = (req, res) => {
                     let pushMenuPromocionEstado = {};
                     pushMenuPromocionEstado['descripcionMenuPromocionEstado'] = body['descripcionMenuPromocionEstado'] || "Reciente.";
                     pushMenuPromocionEstado[idtable] = result[idtable];
-                    pushMenuPromocionEstado['fechaYHoraAltaMenuPromocionEstado'] = new Date();
+                    pushMenuPromocionEstado['fechaYHoraAltaMenuPromocionEstado'] = fechaArgentina.getFechaArgentina();
                     pushMenuPromocionEstado[idtable3] = 1;
                     MenuPromocionEstadoModelo.create(pushMenuPromocionEstado).then( response => {
                     locals['title'] = `${legend} creado. ${legend2} creado.`;
@@ -440,7 +441,7 @@ MenuPromocionController.create = (req, res) => {
                     let pushPrecioMenuPromocion = {};
                     pushPrecioMenuPromocion['importePrecioMenuPromocion'] = body['importePrecioMenuPromocion'];
                     pushPrecioMenuPromocion[idtable] = result[idtable];
-                    pushPrecioMenuPromocion['fechaYHoraDesdePrecioMenuPromocion'] = body['fechaYHoraDesdePrecioMenuPromocion'] || new Date();
+                    pushPrecioMenuPromocion['fechaYHoraDesdePrecioMenuPromocion'] = body['fechaYHoraDesdePrecioMenuPromocion'] || fechaArgentina.getFechaArgentina();
                     pushPrecioMenuPromocion['fechaYHoraHastaPrecioMenuPromocion'] = body['fechaYHoraHastaPrecioMenuPromocion'] || null;
                     pushPrecioMenuPromocion[idtable4] = body[idtable4];
                     PrecioMenuPromocionModelo.create(pushPrecioMenuPromocion).then( resp => {
@@ -661,7 +662,7 @@ let body = req.body;
             res.json(locals);
         } else {
             let pushMenuPromocionEstado = {};
-            pushMenuPromocionEstado['fechaYHoraBajaMenuPromocionEstado'] = new Date();
+            pushMenuPromocionEstado['fechaYHoraBajaMenuPromocionEstado'] = fechaArgentina.getFechaArgentina();
             MenuPromocionEstadoModelo.update(pushMenuPromocionEstado , {
                 where: { [idtable]: body[idtable], fechaYHoraBajaMenuPromocionEstado: null }
             }).then((respons) => {
@@ -670,7 +671,7 @@ let body = req.body;
                 locals['tipo'] = 2;
                 res.json(locals);
             } else {
-                body['fechaYHoraAltaMenuPromocionEstado'] = new Date();
+                body['fechaYHoraAltaMenuPromocionEstado'] = fechaArgentina.getFechaArgentina();
                 MenuPromocionEstadoModelo.create(body).then((resp) => {
                 if (!resp || resp == 0 ){
                     locals['title'] = `No se pudo crear ${legend2}.`;
@@ -789,7 +790,7 @@ MenuPromocionModelo.findOne({
             res.json(locals);
         } else {
             let pushPrecioMenuPromocion = {};
-            pushPrecioMenuPromocion['fechaYHoraHastaPrecioMenuPromocion'] = new Date();
+            pushPrecioMenuPromocion['fechaYHoraHastaPrecioMenuPromocion'] = fechaArgentina.getFechaArgentina();
             PrecioMenuPromocionModelo.update(pushPrecioMenuPromocion , {
                 where: { [idtable]: body[idtable], fechaYHoraHastaPrecioMenuPromocion: null }
             }).then((respons) => {
@@ -798,7 +799,7 @@ MenuPromocionModelo.findOne({
                 locals['tipo'] = 2;
                 res.json(locals);
             } else {
-                body['fechaYHoraDesdePrecioMenuPromocion'] = new Date();
+                body['fechaYHoraDesdePrecioMenuPromocion'] = fechaArgentina.getFechaArgentina();
                 PrecioMenuPromocionModelo.create(body).then((resp) => {
                 if (!resp || resp == 0 ){
                     locals['title'] = `No se pudo crear ${legend2}.`;
@@ -1078,7 +1079,7 @@ MenuPromocionController.habilitarDeshabilitarMenuPromocion = (req, res) => {
                         } 
                         if ( enFalta && idEstadoMenuPromocion == 1 || !enFalta && idEstadoMenuPromocion == 2 ){
                             let pushMenuPromocionEstado = {};
-                            pushMenuPromocionEstado['fechaYHoraBajaMenuPromocionEstado'] = new Date();
+                            pushMenuPromocionEstado['fechaYHoraBajaMenuPromocionEstado'] = fechaArgentina.getFechaArgentina();
                             await MenuPromocionEstadoModelo.update(pushMenuPromocionEstado , {
                                 where: { [idtable]: idMenuPromocion, fechaYHoraBajaMenuPromocionEstado: null }
                             }).then( async respons => {
@@ -1088,7 +1089,7 @@ MenuPromocionController.habilitarDeshabilitarMenuPromocion = (req, res) => {
                                         'tipo': 2,
                                     })
                                 } else {
-                                    nuevo['fechaYHoraAltaMenuPromocionEstado'] = new Date();
+                                    nuevo['fechaYHoraAltaMenuPromocionEstado'] = fechaArgentina.getFechaArgentina();
                                     nuevo['idEstadoMenuPromocion'] = nuevoEstado;
                                     nuevo['idMenuPromocion'] = idMenuPromocion;
                                     await MenuPromocionEstadoModelo.create(nuevo).then((resp) => {

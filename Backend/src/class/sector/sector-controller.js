@@ -3,11 +3,12 @@
 let tratarError = require("../../middlewares/handleError");
 const SectorModelo = require("../sector/sector-model"),
   SectorController = () => {},
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   legend = "Sector",
   idtable = `id${legend}`,
   nombretable = `nombre${legend}`,
   bajatable = `fechaYHoraBaja${[legend]}`,
-  date = new Date(),
+  date = fechaArgentina.getFechaArgentina(),
   Sequelize = require('sequelize'),
   Op = Sequelize.Op,
   attributesPersonalizados = [
@@ -146,7 +147,7 @@ SectorController.update = (req, res) => {
           ) {actualizar = true}
         if (body['bajaSector'] != null) {
           if ( body['bajaSector'] == true && response.dataValues.fechaYHoraBajaSector == null) {
-            body['fechaYHoraBajaSector'] = new Date();
+            body['fechaYHoraBajaSector'] = fechaArgentina.getFechaArgentina();
             actualizar = true
           } else if ( body['bajaSector'] == false && response.dataValues.fechaYHoraBajaSector != null) {
             body['fechaYHoraBajaSector'] = null;

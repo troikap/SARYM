@@ -5,6 +5,7 @@ const tratarError = require("../../middlewares/handleError"),
   EstadiaModelo = require("./estadia-model"),
   EstadiaController = () => { },
   attributes = require('../attributes'),
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   UsuarioModelo = require("../usuario/usuario-model"),
   EstadiaEstadoModelo = require("../estadiaestado/estadiaestado-model"),
   EstadoEstadiaModelo = require("../estadoestadia/estadoestadia-model"),
@@ -357,7 +358,7 @@ EstadiaController.create = (req, res) => {
           res.json(locals);
         } else {
             if (body['fechaYHoraInicioEstadia'] == null) {
-              body['fechaYHoraInicioEstadia'] = new Date();
+              body['fechaYHoraInicioEstadia'] = fechaArgentina.getFechaArgentina();
             } 
             EstadiaModelo.create(body).then(result => {
             locals['title'] = `${legend} creada.`;
@@ -367,7 +368,7 @@ EstadiaController.create = (req, res) => {
             let pushEstadiaEstado = {};
             pushEstadiaEstado['descripcionEstadiaEstado'] = body['descripcionEstadiaEstado'] || "Reciente.";
             pushEstadiaEstado[idtable] = result[idtable];
-            pushEstadiaEstado['fechaYHoraAltaEstadiaEstado'] = new Date();
+            pushEstadiaEstado['fechaYHoraAltaEstadiaEstado'] = fechaArgentina.getFechaArgentina();
             pushEstadiaEstado[idtable3] = 1;
                 EstadiaEstadoModelo.create(pushEstadiaEstado).then( response => {
                     locals['title'] = `${legend} creado. ${legend2} creado.`;
@@ -553,7 +554,7 @@ EstadiaController.cambiarEstado = (req, res) => {
             res.json(locals);
           } else {
             let pushEstadiaEstado = {};
-            pushEstadiaEstado['fechaYHoraBajaEstadiaEstado'] = new Date();
+            pushEstadiaEstado['fechaYHoraBajaEstadiaEstado'] = fechaArgentina.getFechaArgentina();
               EstadiaEstadoModelo.update(pushEstadiaEstado , {
                 where: { [idtable]: body[idtable], fechaYHoraBajaEstadiaEstado: null }
             }).then((respons) => {
@@ -562,7 +563,7 @@ EstadiaController.cambiarEstado = (req, res) => {
                 locals['tipo'] = 2;
                 res.json(locals);
               } else {
-                body['fechaYHoraAltaEstadiaEstado'] = new Date();
+                body['fechaYHoraAltaEstadiaEstado'] = fechaArgentina.getFechaArgentina();
                 EstadiaEstadoModelo.create(body).then((resp) => {
                   if (!resp || resp == 0 ){
                     locals['title'] = `No se pudo crear ${legend2}.`;

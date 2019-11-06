@@ -3,6 +3,7 @@
 let tratarError = require("../../middlewares/handleError");
 const MedioPagoModelo = require("../mediopago/mediopago-model"),
   MedioPagoController = () => {},
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   legend = "MedioPago",
   idtable = `id${legend}`,
   nombretable = `nombre${legend}`,

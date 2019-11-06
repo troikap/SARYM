@@ -5,6 +5,7 @@ require('../../config');
 const UploadController = () => {},
 ProductoModelo = require('../producto/producto-model'),
 MenuPromocionModelo = require('../menupromocion/menupromocion-model'),
+fechaArgentina = require("../../middlewares/fechaArgentina"),
 attributes = require('../attributes');
 const fs = require('fs');
 const path = require('path');
@@ -31,7 +32,7 @@ function modificar(req, res){
     } else {
         let archivo = req.files.archivo;
         let extensionesValidas = ['png','jpg','gif','jpeg'];
-        let milisegundo = new Date().getMilliseconds();
+        let milisegundo = fechaArgentina.getFechaArgentina().getMilliseconds();
         let rutaImagen = `${nombreFoto}-${id}-${milisegundo}.${tipo[1]}`;
         let ruta = `uploads/${carpeta}/${rutaImagen}`;
         if ( extensionesValidas.indexOf( tipo[1] ) < 0 ) {

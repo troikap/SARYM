@@ -4,6 +4,7 @@ let tratarError = require("../../middlewares/handleError");
 const TipoMenuPromocionModelo = require("../tipomenupromocion/tipomenupromocion-model"),
   TipoMenuPromocionController = () => {},
   attributes = require('../attributes'),
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   legend = "TipoMenuPromocion",
   idtable = `id${legend}`,
   nombretable = `nombre${legend}`,

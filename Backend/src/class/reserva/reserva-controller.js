@@ -5,6 +5,7 @@ const tratarError = require("../../middlewares/handleError"),
   ReservaModelo = require("./reserva-model"),
   ReservaController = () => { },
   attributes = require('../attributes'),
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   UsuarioModelo = require("../usuario/usuario-model"),
   ReservaEstadoModelo = require("../reservaestado/reservaestado-model"),
   EstadoReservaModelo = require("../estadoreserva/estadoreserva-model"),
@@ -278,7 +279,7 @@ ReservaController.create = (req, res) => {
             let pushReservaEstado = {};
             pushReservaEstado['descripcionReservaEstado'] = body['descripcionReservaEstado'] || "Reciente.";
             pushReservaEstado[idtable] = result[idtable];
-            pushReservaEstado['fechaYHoraAltaReservaEstado'] = new Date();
+            pushReservaEstado['fechaYHoraAltaReservaEstado'] = fechaArgentina.getFechaArgentina();
             pushReservaEstado[idtable3] = 1;
                 ReservaEstadoModelo.create(pushReservaEstado).then( response => {
                     locals['title'] = `${legend} creado. ${legend2} creado.`;
@@ -425,7 +426,7 @@ ReservaController.cambiarEstado = (req, res) => {
             res.json(locals);
           } else {
             let pushReservaEstado = {};
-            pushReservaEstado['fechaYHoraBajaReservaEstado'] = new Date();
+            pushReservaEstado['fechaYHoraBajaReservaEstado'] = fechaArgentina.getFechaArgentina();
               ReservaEstadoModelo.update(pushReservaEstado , {
                 where: { [idtable]: body[idtable], fechaYHoraBajaReservaEstado: null }
             }).then((respons) => {
@@ -434,7 +435,7 @@ ReservaController.cambiarEstado = (req, res) => {
                 locals['tipo'] = 2;
                 res.json(locals);
               } else {
-                body['fechaYHoraAltaReservaEstado'] = new Date();
+                body['fechaYHoraAltaReservaEstado'] = fechaArgentina.getFechaArgentina();
                 ReservaEstadoModelo.create(body).then((resp) => {
                   if (!resp || resp == 0 ){
                     locals['title'] = `No se pudo crear ${legend2}.`;

@@ -3,6 +3,7 @@
 let tratarError = require("../../middlewares/handleError");
 const TipoMonedaModelo = require("../tipomoneda/tipomoneda-model"),
   TipoMonedaController = () => {},
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   legend = "TipoMoneda",
   idtable = `id${legend}`,
   nombretable = `nombre${legend}`,

@@ -5,6 +5,7 @@ const tratarError = require("../../middlewares/handleError"),
   PedidoModelo = require("./pedido-model"),
   PedidoController = () => { },
   attributes = require('../attributes'),
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   RubroModelo = require("../rubro/rubro-model"),
   UnidadMedidaModelo = require("../unidadmedida/unidadmedida-model"),
   PedidoEstadoModelo = require("../pedidoestado/pedidoestado-model"),
@@ -280,7 +281,7 @@ PedidoController.create = (req, res) => {
                 let pushPedidoEstado = {};
                 pushPedidoEstado['descripcionPedidoEstado'] = body['descripcionPedidoEstado'] || "Reciente.";
                 pushPedidoEstado[idtable] = result[idtable];
-                pushPedidoEstado['fechaYHoraAltaPedidoEstado'] = new Date();
+                pushPedidoEstado['fechaYHoraAltaPedidoEstado'] = fechaArgentina.getFechaArgentina();
                 pushPedidoEstado[idtable3] = buscarID;
                 PedidoEstadoModelo.create(pushPedidoEstado).then( response => {
                     locals['title'] = `${legend} creado. ${legend2} creado.`;
@@ -417,14 +418,14 @@ let body = req.body;
             res.json(locals);
         } else {
             let pushPedidoEstado = {};
-            pushPedidoEstado['fechaYHoraBajaPedidoEstado'] = new Date();
+            pushPedidoEstado['fechaYHoraBajaPedidoEstado'] = fechaArgentina.getFechaArgentina();
             PedidoEstadoModelo.update(pushPedidoEstado , { where: { [idtable]: body[idtable], fechaYHoraBajaPedidoEstado: null }}).then((respons) => {
             if(!respons || respons == 0) {
                 locals['title'] = `No existe ${legend2} habilitado.`;
                 locals['tipo'] = 2;
                 res.json(locals);
             } else {
-                body['fechaYHoraAltaPedidoEstado'] = new Date();
+                body['fechaYHoraAltaPedidoEstado'] = fechaArgentina.getFechaArgentina();
                 PedidoEstadoModelo.create(body).then((resp) => {
                     if (!resp || resp == 0 ){
                         locals['title'] = `No se pudo crear ${legend2}.`;
@@ -495,7 +496,7 @@ PedidoController.editarDetallePedidoProducto = (req, res) => {
             res.json(locals);
         } else {
             let i = 1;
-            let fecha = new Date();
+            let fecha = fechaArgentina.getFechaArgentina();
             for ( let elem of body.detalle ) {
                 if ( elem['idDetallePedidoProducto'] ) {
                     if ( elem['baja'] == true ) {
