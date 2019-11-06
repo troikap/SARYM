@@ -27,13 +27,10 @@ MesaController.getToAllAttributes = (req, res, next) => {
   MesaModelo.findAll({
     where: {
         [Op.or]: [
-            {idMesa: {[Op.substring]: req.params.anyAttribute}},
             {nroMesa: {[Op.substring]: req.params.anyAttribute}},
-            {capacidadMesa: {[Op.substring]: req.params.anyAttribute}},
             Sequelize.literal("`mesaestados->estadomesa`.`nombreEstadoMesa` LIKE '%" + req.params.anyAttribute + "%'"),
             Sequelize.literal("`mesaestados->estadomesa`.`colorEstadoMesa` LIKE '%" + req.params.anyAttribute + "%'"),
             Sequelize.literal("`sector`.`nombreSector` LIKE '%" + req.params.anyAttribute + "%'"),
-            // Sequelize.literal("`ubicacion`.`descripcionUbicacion` LIKE '%" + req.params.anyAttribute + "%'"),
             ]
         },
     attributes: attributes.mesa,
@@ -91,10 +88,6 @@ MesaController.getToName = (req, res, next) => {
         model: SectorModelo,
         attributes: attributes.sector
       },
-      // {
-      //   model: UbicacionModelo,
-      //   attributes: attributes.ubicacion
-      // }
     ]
   }).then(project => {
     if (!project || project == 0) {

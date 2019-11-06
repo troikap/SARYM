@@ -725,7 +725,7 @@ ReservaController.editarComensal = (req, res) => {
   });
 };
 
-ReservaController.getToComensal = (req, res, next) => {
+ReservaController.getToComensal = (req, res) => {
   let locals = { detalles: [] };
   let params = req.params;
   let body = req.body;

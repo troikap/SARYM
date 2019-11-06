@@ -1043,4 +1043,42 @@ EstadiaController.editarClienteEstadia = (req, res) => {
   });
 };
 
+EstadiaController.getToMesa = (req, res) => {
+  let locals = {};
+  let params = req.params;
+  console.log("body ", params)
+  EstadiaModelo.findAll({ 
+    attributes: attributes.estadia,
+    include: [
+      {
+        model: EstadiaEstadoModelo,
+        where: { fechaYHoraBajaEstadiaEstado: null },
+        attributes: attributes.estadiaestado,
+        include: [
+            {
+            model: EstadoEstadiaModelo,
+            where: { nombreEstadoEstadia: 'Generada'},
+            attributes: attributes.estadoestadia
+            }
+        ]
+      },
+      {
+        model: DetalleEstadiaMesaModelo,
+        where: { idMesa : {[Op.eq]:  params.idMesa }},
+        attributes: attributes.detalleestadiamesa,
+      },
+    ],
+  }).then(projects => {
+    if (!projects || projects == 0) {
+      locals['title'] = `No existen registros de ${legend}.`;
+      locals['tipo'] = 2;
+    } else {
+      locals['title'] = `${legend}`;
+      locals['data'] = projects;
+      locals['tipo'] = 1;
+    }
+    res.json(locals);
+  });
+}
+
 module.exports = EstadiaController;

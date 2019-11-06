@@ -106,6 +106,7 @@ router
     .put('/estadia/editarComensal', verificaToken, EstadiaController.editarComensal)
     .put('/estadia/editarMesa', verificaToken, EstadiaController.editarMesa)
     .put('/estadia/editarClienteEstadia', verificaToken, EstadiaController.editarClienteEstadia)
+    .post('/estadia/getToMesa/:idMesa', verificaToken, EstadiaController.getToMesa)
 
 // reserva
     .get('/reserva', verificaToken, ReservaController.getAll)

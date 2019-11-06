@@ -1372,6 +1372,23 @@
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
 					"response": []
+				},
+				{
+					"name": "Get Estadia :idMesa",
+					"request": {
+						"url": "localhost:3000/estadia",
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
 				}
 			]
 		},
