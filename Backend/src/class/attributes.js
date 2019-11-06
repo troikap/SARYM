@@ -221,6 +221,15 @@ comensal = [
     "idUsuario"
 ]
 
+comensalAll = [
+    "idComensal",
+    "aliasComensal",
+    "edadComensal",
+    "idUsuario",
+    "idReserva",
+    "idEstadia"
+]
+
 pedidoestado = [
     "idPedidoEstado",
     "descripcionPedidoEstado",
@@ -349,6 +358,7 @@ module.exports = {
     pedido,
     detallepedidoproducto,
     comensal,
+    comensalAll,
     pedidoestado,
     estadopedido,
     reserva,

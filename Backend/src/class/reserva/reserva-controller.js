@@ -725,4 +725,56 @@ ReservaController.editarComensal = (req, res) => {
   });
 };
 
+ReservaController.getToComensal = (req, res, next) => {
+  let locals = { detalles: [] };
+  let params = req.params;
+  let body = req.body;
+  ComensalModelo.findAll({
+    where: { idUsuario: params.idUsuario, [Op.and]: [{ idReserva: {[Op.ne]: null } }, { idEstadia: {[Op.eq]: null } }] },
+    attributes: attributes.comensalAll
+  }).then( async project => {
+    if (!project || project == 0) {
+      locals['title'] = "No existe ningun registro con Usuario : " + params.idUsuario;
+      locals['tipo'] = 2;
+      res.json(locals);
+    } else {
+      for ( let item of project ) {
+        let reserva = {};
+        await ReservaModelo.findOne({
+          where: { [idtable]: item[idtable] },
+          attributes: attributes.reserva,
+          include: [
+            {
+              model: ReservaEstadoModelo,
+              where: { fechaYHoraBajaReservaEstado: null },
+              attributes: attributes.reservaestado,
+              include: [
+                  {
+                  model: EstadoReservaModelo,
+                  where: { nombreEstadoReserva:  body.estado },
+                  attributes: attributes.estadoreserva
+                  }
+              ]
+            },
+          ],
+        }).then( async reservaTraida => {
+          if (!reservaTraida || reservaTraida == 0) {
+            reserva['title'] = `No existe registro con id: ${item[idtable]}.`;
+            reserva['tipo'] = 2;
+          } else {
+            reserva['title'] = `${legend}`;
+            reserva['data'] = reservaTraida;
+            reserva['tipo'] = 1;
+          }
+          locals.detalles.push(reserva);
+        });
+      }
+      locals['title'] = `${legend}`;
+      locals['data'] = project;
+      locals['tipo'] = 1;
+      res.json(locals);
+    }
+  });
+};
+
 module.exports = ReservaController;
