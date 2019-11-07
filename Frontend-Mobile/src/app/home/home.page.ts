@@ -57,38 +57,41 @@ export class HomePage implements OnInit {
     let id = this.logueo.id;
     let page;
     switch (key) {
-      case 'registro-usuario':
+      case "registro-usuario":
         page = `/registro-usuario/${id}`;
         break;
-      case 'nueva-reserva':
+      case "nueva-reserva":
         page = `/crud-gestionar-reserva/0/crear`;
         break;
-      case 'unirse-reserva':
+      case "unirse-reserva":
         page = `/unirse-gestionar-reserva`;
         break;
-      case 'realizar-pedido':
+      case "realizar-pedido":
         page = `/seleccion-comensal/1`;
+        break;
+      case "search-gestionar-reserva":
+        page = `/search-gestionar-reserva`;
         break;
       // case 'realizar-pedido':
       //   page = `/realizar-pedido`;
       //   break;
-      case 'catalogo':
+      case "catalogo":
         page = `/catalogo`;
         break;
       //MOZO
-      case 'consultar-salon':
+      case "consultar-salon":
         page = `/consultar-salon`;
         break;
-      case 'generar-estadia':
+      case "generar-estadia":
         page = `/`;
         break;
-      case 'pedidos a enviar':
+      case "pedidos a enviar":
         page = `/`;
         break;
-      case 'confirmar-reserva':
+      case "confirmar-reserva":
         page = `/`;
         break;
-      case 'entregar-pedido':
+      case "entregar-pedido":
         page = `/`;
         break;
     }
