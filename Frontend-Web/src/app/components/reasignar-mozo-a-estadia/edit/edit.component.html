@@ -13,12 +13,17 @@
             </div>   
             <div class="form-group">
                     <label for="fechaYHoraInicioEstadia" class="col col-form-label">Fecha y Hora de Inicio de Estadia</label>
-                    <input ui-date ui-date-format="dd/MM/yyyy hh:mm:ss" id="fechaYHoraInicioEstadia" placeholder="cantidad de personas" formControlName="fechaYHoraInicioEstadia" class="form-control">
+                    <input type="text" id="fechaYHoraInicioEstadia" placeholder="cantidad de personas" formControlName="fechaYHoraInicioEstadia" class="form-control">
             </div>      
-            <div class="form-group">
-                    <label for="mozoEstadia" class="col col-form-label">Mozo</label>
-                    <input type="text" id="mozoEstadia" placeholder="mozo" formControlName="mozoEstadia" class="form-control">
-            </div>                 
+            <div class="form-group row">
+                    <div class="col">
+                        <label for="mozoEstadia" class="col col-form-label">Mozo</label>
+                        <select Placeholder='Seleccione Mozo' formControlName='mozoEstadia' class="form-control">                                                                  
+                                <option *ngFor='let element of mozoEstadias' [value]='element.idMozoEstadia'>{{element.usuario.nombreUsuario}} {{element.usuario.apellidoUsuario}}</option>               
+                         </select>
+                        <p class="input-error-msg" *ngIf="form.controls.mozoEstadia.errors?.required && form.controls.mozoEstadia.touched">Campo Obligatorio.</p>
+                    </div>
+            </div>                             
                            
             <hr align="left">
             <div *ngIf="accionGet != 'eliminar'">

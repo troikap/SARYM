@@ -11,7 +11,9 @@ import { map } from 'rxjs/operators';
 export class MozoEstadiaService {
 
    url = environment.urlNgrok || environment.url;
-   dir = '/Estadia';
+   dir = '/estadia';
+   dir1= '/getToMesa';
+   dir2= '/mozoestadia';
    dir3 = '/todo';
    dir4 = '/generada';
    dir5 = '/actualizarDatos'; 
@@ -25,21 +27,16 @@ export class MozoEstadiaService {
  
 
   getEstadiaByAll( termino: string) { //Observador
-    console.log("Service getEstadiaByName: Termino = ", termino);
-    if (termino != "") {
-      let headers: HttpHeaders = new HttpHeaders();
-      headers = headers.append('token', this.tokenEnviroment);
-      return this.http
-        .get(`${this.url}${this.dir}${this.dir3}${this.dir4}/${termino}`, {headers})
-        .pipe( map ((data: any) => {
-          console.log(data.data);
-          if (data != null) {
-            return data.data;
-          }
-      }));
-    }
-    else {
-    }
+    console.log("parametro en servicio",termino);
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', this.tokenEnviroment);
+    return this.http
+      .post(`${this.url}${this.dir}${this.dir1}/${termino}`, termino, {headers})
+      .toPromise()
+      .then(response => {
+        return response as any;
+      })
+      .catch(  );
   }
 
   getEstadias(): Promise<any[]> {
@@ -80,5 +77,17 @@ export class MozoEstadiaService {
       .catch(  );
   }
 
+  getMozoEstadia(){
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+   return this.http
+     .get(this.url + this.dir2, {headers})
+     .toPromise()
+     .then(response => {
+       return response as any;
+     })
+     .catch();
+
+  }
  
 }

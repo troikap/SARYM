@@ -4,7 +4,7 @@ import { ChartsModule } from 'ng2-charts';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-
+import { DatePipe } from '@angular/common';
 
 
 import { AppComponent } from './app.component';
@@ -115,7 +115,7 @@ import { EditComponent } from './components/reasignar-mozo-a-estadia/edit/edit.c
     DragDropModule
 
   ],
-  providers: [UploadService, LoginGuardGuard],
+  providers: [UploadService, LoginGuardGuard, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
