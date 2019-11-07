@@ -27,6 +27,8 @@ const routes: Routes = [
   { path: 'search-gestionar-estadia', loadChildren: './pages/gestionar-estadia/search-gestionar-estadia/search-gestionar-estadia.module#SearchGestionarEstadiaPageModule' },
   { path: 'consulta-gestionar-estadia/:id', loadChildren: './pages/gestionar-estadia/consulta-gestionar-estadia/consulta-gestionar-estadia.module#ConsultaGestionarEstadiaPageModule' },
   { path: 'crud-gestionar-estadia/:id/:accion', loadChildren: './pages/gestionar-estadia/crud-gestionar-estadia/crud-gestionar-estadia.module#CrudGestionarEstadiaPageModule' },
+  { path: 'ver-qr-reserva/:id', loadChildren: './pages/gestionar-reserva/ver-qr-reserva/ver-qr-reserva.module#VerQRReservaPageModule' },
+
   
 
 

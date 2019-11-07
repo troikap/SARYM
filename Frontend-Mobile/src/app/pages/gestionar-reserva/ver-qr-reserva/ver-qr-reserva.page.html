@@ -1,0 +1,51 @@
+<ion-header *ngIf="variable">
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start" (click)="onBack()">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Reserva N° {{datos.idTraidoBackEnd}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content *ngIf="variable">
+    <ion-row>
+        <ion-col>
+        </ion-col>
+    </ion-row>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>
+                Fecha de Reserva: {{datos.fechaReserva}}<br> Desde las: {{datos.horaEntrada}} hasta las {{datos.horaSalida}}
+            </ion-card-title>
+            <ion-card-subtitle>
+                Cantidad de Comensales: {{datos.cantidadComensal}}<br> Ubicación: mesa {{datos.nroMesa}} sector {{datos.sector}}
+            </ion-card-subtitle>
+        </ion-card-header>
+    </ion-card>
+    <div *ngIf="datos && datos.comensales">
+        <ion-card *ngFor="let comen of datos.comensales; let i = index">
+            <ion-card-header>
+                <ion-card-title>
+                    Alias: {{comen.aliasComensal}}
+                </ion-card-title>
+                <ion-card-subtitle>
+                    Edad: {{comen.edadComensal}} - Usuario: {{comen.idUsuario}}
+                </ion-card-subtitle>
+            </ion-card-header>
+            <!-- <ion-button color="danger" class="mt-10" (click)="eliminarComensal(i)" shape="round"> Eliminar</ion-button> -->
+        </ion-card>
+    </div>
+    <ion-button *ngIf="!mostrar && (datos != {})" class="mt-10" (click)="createCode()" (click)="mostrar=!mostrar" expand="full">Mostrar QR</ion-button>
+    <ion-button *ngIf="mostrar" class="mt-10" (click)="mostrar=!mostrar" expand="full">Ocultar QR</ion-button>
+    <ion-card *ngIf="createdCode && mostrar">
+        <ngx-qrcode [qrc-value]="createdCode"></ngx-qrcode>
+        <ion-card-content>
+            <p>Value: {{createdCode}} </p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="scannedCode">
+        <ion-card-content>
+            Result from Scan: {{scannedCode}}
+        </ion-card-content>
+    </ion-card>
+    <ion-button class="mt-10" (click)="variable = false && datos=null" (click)="scanCode()" expand="full">Escanear Reserva</ion-button>
+</ion-content>
