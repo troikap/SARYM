@@ -28,6 +28,8 @@ const routes: Routes = [
 // catalogo
   { path: 'catalogo', loadChildren: './catalogo/catalogo.module#CatalogoPageModule' },
   { path: 'modal-detalle-catalogo', loadChildren: './modal/modal-detalle-catalogo/modal-detalle-catalogo.module#ModalDetalleCatalogoPageModule' },
+ 
+ // reserva
   { path: 'search-gestionar-reserva', loadChildren: './pages/gestionar-reserva/search-gestionar-reserva/search-gestionar-reserva.module#SearchGestionarReservaPageModule' },
   { path: 'crud-gestionar-reserva/:id/:accion', loadChildren: './pages/gestionar-reserva/crud-gestionar-reserva/crud-gestionar-reserva.module#CrudGestionarReservaPageModule' },
   { path: 'search-gestionar-reserva', loadChildren: './pages/gestionar-reserva/search-gestionar-reserva/search-gestionar-reserva.module#SearchGestionarReservaPageModule' },
