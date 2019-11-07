@@ -1,7 +1,7 @@
 // import * as $ from 'jquery'
 import { Component, OnInit } from '@angular/core';
-import { ReservaService } from 'src/app/services/reserva/reserva.service';
-import { StorageService } from 'src/app/services/storage/storage.service';
+import { ReservaService } from '../../../services/reserva/reserva.service';
+import { StorageService } from '../../../services/storage/storage.service';
 
 @Component({
   selector: 'app-search-gestionar-reserva',
