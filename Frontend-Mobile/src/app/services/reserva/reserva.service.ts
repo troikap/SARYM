@@ -2,25 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Reserva } from '../../models/modelos';
-<<<<<<< HEAD
 import { map } from 'rxjs/operators';
-=======
 import { StorageService } from '../../services/storage/storage.service';
-
-
-const URL = environment.urlNgrok || environment.url;
-const dir = '/reserva';
-const dir2 = '/editarComensal';
-const dir3 = '/editarMesa';
-const dir4 = '/actualizarDatos';
->>>>>>> Lucas
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservaService {
-<<<<<<< HEAD
   
   url = environment.urlNgrok || environment.url;
 
@@ -32,15 +20,11 @@ export class ReservaService {
   dir4 = '/actualizarDatos';
   dirTodo = "/todo";
 
-=======
-  token;
->>>>>>> Lucas
   constructor( 
     public http: HttpClient,
     private storage: StorageService,
   ) { }
 
-<<<<<<< HEAD
   getProductosByAll( termino: string) { //Observador
     console.log("Service getProductosByAll: Termino = ", termino);
     if (termino != "") {
@@ -61,15 +45,6 @@ export class ReservaService {
   }
 
    getReservas(): Promise<Reserva[]> {
-=======
-  loadToken() {
-    this.storage.getOneObject('token').then((data) => {
-      this.token = data;
-    })
-  }
-
-   getReservas( token: string ): Promise<Reserva[]> {
->>>>>>> Lucas
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
     return this.http
@@ -82,14 +57,11 @@ export class ReservaService {
       .catch(  );
   }
 
-<<<<<<< HEAD
-  updateReserva( datas): Promise<any> {
-=======
   getReserva( id: number ): Promise<Reserva> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.token);
+    headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .get(`${URL}${dir}/${id}`, {headers})
+      .get(`${this.url}${this.dir}/${id}`, {headers})
       .toPromise()
       .then(response => {
         return response['data'] as Reserva;
@@ -97,8 +69,7 @@ export class ReservaService {
       .catch(  );
   }
 
-  updateReserva( datas, token ): Promise<any> {
->>>>>>> Lucas
+  updateReserva( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}

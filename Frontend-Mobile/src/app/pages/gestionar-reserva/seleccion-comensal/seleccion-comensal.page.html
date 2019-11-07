@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Seleccione un Comensal</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card >
+    <ion-item  *ngFor="let item of reserva['comensals']">
+        <ion-thumbnail slot="start" >
+        </ion-thumbnail>
+        <ion-label >
+            <p class="text">{{item.aliasComensal}}</p>
+            <p class="text">{{item.edadComensal}}</p>
+            <!-- <p class="precio">{{item.precioproductos[0]?.importePrecioProducto}} </p> -->
+        </ion-label>
+    </ion-item>
+  </ion-card>
+</ion-content>

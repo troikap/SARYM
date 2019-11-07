@@ -26,6 +26,16 @@ module.exports = {
             "createdAt": currentDate,
             "updatedAt": currentDate
         },
+        {
+            "idReservaEstado": 3,
+            "idReserva": 3,
+            "idEstadoReserva": 1,
+            "descripcionReservaEstado": "Para que pruebe el Emilio",
+            "fechaYHoraAltaReservaEstado": currentDate,
+            "fechaYHoraBajaReservaEstado": null,
+            "createdAt": currentDate,
+            "updatedAt": currentDate
+        },
     ], {});
     },
 
