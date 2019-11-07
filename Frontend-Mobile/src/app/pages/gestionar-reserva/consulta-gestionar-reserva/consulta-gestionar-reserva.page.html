@@ -6,11 +6,9 @@
     <ion-title >Reserva N° {{datos.idTraidoBackEnd}}</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content *ngIf="variable">
   <ion-row>
     <ion-col>
-
     </ion-col>
   </ion-row>
   <ion-card>
@@ -25,7 +23,6 @@
       </ion-card-subtitle>
     </ion-card-header>
   </ion-card>
-
   <div *ngIf="datos && datos.comensales">
     <ion-card  *ngFor="let comen of datos.comensales; let i = index">
       <ion-card-header>
@@ -47,7 +44,6 @@
           <p>Value: {{createdCode}} </p>
       </ion-card-content>
   </ion-card>
-
   <ion-card *ngIf="scannedCode">
       <ion-card-content>
           Result from Scan: {{scannedCode}}

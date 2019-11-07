@@ -5,6 +5,7 @@ const tratarError = require("../../middlewares/handleError"),
   ReservaModelo = require("./reserva-model"),
   ReservaController = () => { },
   attributes = require('../attributes'),
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   UsuarioModelo = require("../usuario/usuario-model"),
   ReservaEstadoModelo = require("../reservaestado/reservaestado-model"),
   EstadoReservaModelo = require("../estadoreserva/estadoreserva-model"),
@@ -21,7 +22,6 @@ const tratarError = require("../../middlewares/handleError"),
   legend6 = "Comensal",
   legend7 = "DetalleReservaMesa",
   legend8 = "Pedido",
-
 
   idtable = `id${legend}`,
   idtable2 = `id${legend2}`,
@@ -279,7 +279,7 @@ ReservaController.create = (req, res) => {
             let pushReservaEstado = {};
             pushReservaEstado['descripcionReservaEstado'] = body['descripcionReservaEstado'] || "Reciente.";
             pushReservaEstado[idtable] = result[idtable];
-            pushReservaEstado['fechaYHoraAltaReservaEstado'] = new Date();
+            pushReservaEstado['fechaYHoraAltaReservaEstado'] = fechaArgentina.getFechaArgentina();
             pushReservaEstado[idtable3] = 1;
                 ReservaEstadoModelo.create(pushReservaEstado).then( response => {
                     locals['title'] = `${legend} creado. ${legend2} creado.`;
@@ -303,6 +303,7 @@ ReservaController.create = (req, res) => {
 ReservaController.actualizarDatos = (req, res) => {
   let locals = {};
   let body = req.body;
+  console.log("BODY ", body)
   ReservaModelo.findOne({
     where: { [idtable]: body[idtable] },
     attributes: attributes.reserva,
@@ -425,7 +426,7 @@ ReservaController.cambiarEstado = (req, res) => {
             res.json(locals);
           } else {
             let pushReservaEstado = {};
-            pushReservaEstado['fechaYHoraBajaReservaEstado'] = new Date();
+            pushReservaEstado['fechaYHoraBajaReservaEstado'] = fechaArgentina.getFechaArgentina();
               ReservaEstadoModelo.update(pushReservaEstado , {
                 where: { [idtable]: body[idtable], fechaYHoraBajaReservaEstado: null }
             }).then((respons) => {
@@ -434,7 +435,7 @@ ReservaController.cambiarEstado = (req, res) => {
                 locals['tipo'] = 2;
                 res.json(locals);
               } else {
-                body['fechaYHoraAltaReservaEstado'] = new Date();
+                body['fechaYHoraAltaReservaEstado'] = fechaArgentina.getFechaArgentina();
                 ReservaEstadoModelo.create(body).then((resp) => {
                   if (!resp || resp == 0 ){
                     locals['title'] = `No se pudo crear ${legend2}.`;
@@ -721,6 +722,58 @@ ReservaController.editarComensal = (req, res) => {
       }
       i += 1;
       }
+    }
+  });
+};
+
+ReservaController.getToComensal = (req, res) => {
+  let locals = { detalles: [] };
+  let params = req.params;
+  let body = req.body;
+  ComensalModelo.findAll({
+    where: { idUsuario: params.idUsuario, [Op.and]: [{ idReserva: {[Op.ne]: null } }, { idEstadia: {[Op.eq]: null } }] },
+    attributes: attributes.comensalAll
+  }).then( async project => {
+    if (!project || project == 0) {
+      locals['title'] = "No existe ningun registro con Usuario : " + params.idUsuario;
+      locals['tipo'] = 2;
+      res.json(locals);
+    } else {
+      for ( let item of project ) {
+        let reserva = {};
+        await ReservaModelo.findOne({
+          where: { [idtable]: item[idtable] },
+          attributes: attributes.reserva,
+          include: [
+            {
+              model: ReservaEstadoModelo,
+              where: { fechaYHoraBajaReservaEstado: null },
+              attributes: attributes.reservaestado,
+              include: [
+                  {
+                  model: EstadoReservaModelo,
+                  where: { nombreEstadoReserva:  body.estado },
+                  attributes: attributes.estadoreserva
+                  }
+              ]
+            },
+          ],
+        }).then( async reservaTraida => {
+          if (!reservaTraida || reservaTraida == 0) {
+            reserva['title'] = `No existe registro con id: ${item[idtable]}.`;
+            reserva['tipo'] = 2;
+          } else {
+            reserva['title'] = `${legend}`;
+            reserva['data'] = reservaTraida;
+            reserva['tipo'] = 1;
+          }
+          locals.detalles.push(reserva);
+        });
+      }
+      locals['title'] = `${legend}`;
+      locals['data'] = project;
+      locals['tipo'] = 1;
+      res.json(locals);
     }
   });
 };

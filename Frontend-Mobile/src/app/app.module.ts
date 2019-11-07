@@ -14,7 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 // servicios
 // import { UsuarioServiceService } from './services/usuario.service';
 import { ReservaService } from './services/reserva/reserva.service';
-
+import { MesaService } from './services/mesa/mesa.service';
 
 //qr
 import { NgxQRCodeModule } from 'ngx-qrcode2';
@@ -27,6 +27,7 @@ import { FormsModule , ReactiveFormsModule } from '@angular/forms';
 //format
 import { DatePipe } from '@angular/common';
 import { BrMaskerModule } from 'br-mask';
+import { IonicSelectableModule } from 'ionic-selectable';
 
 //camera
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
@@ -36,8 +37,6 @@ import { IonicStorageModule } from '@ionic/storage';
 
 //modal
 import { ModalDetalleCatalogoPage } from './modal/modal-detalle-catalogo/modal-detalle-catalogo.page';
-
-
 
 
 @NgModule({
@@ -64,8 +63,8 @@ import { ModalDetalleCatalogoPage } from './modal/modal-detalle-catalogo/modal-d
     Camera,
     ModalDetalleCatalogoPage,
     ReservaService,
-    
-    // UsuarioServiceService,
+    MesaService,
+    IonicSelectableModule,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

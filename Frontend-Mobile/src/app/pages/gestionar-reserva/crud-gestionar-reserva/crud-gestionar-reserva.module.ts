@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { CrudGestionarReservaPage } from './crud-gestionar-reserva.page';
 
 import { BrMaskerModule } from 'br-mask';
+import { IonicSelectableModule } from 'ionic-selectable';
 
 const routes: Routes = [
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     BrMaskerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    IonicSelectableModule
   ],
   declarations: [CrudGestionarReservaPage]
 })

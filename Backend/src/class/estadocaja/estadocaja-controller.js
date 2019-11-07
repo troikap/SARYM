@@ -3,6 +3,7 @@
 let tratarError = require("../../middlewares/handleError");
 const EstadoCajaModelo = require("../estadocaja/estadocaja-model"),
   EstadoCajaController = () => {},
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   legend = "EstadoCaja",
   idtable = `id${legend}`,
   nombretable = `nombre${legend}`,

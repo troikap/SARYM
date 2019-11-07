@@ -3,6 +3,7 @@
 let tratarError = require("../../middlewares/handleError");
 const RubroModelo = require("../rubro/rubro-model"),
   RubroController = () => {},
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   legend = "Rubro",
   idtable = `id${legend}`,
   nombretable = `nombre${legend}`,

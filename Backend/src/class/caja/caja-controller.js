@@ -4,6 +4,7 @@ const tratarError = require("../../middlewares/handleError"),
   CajaModelo = require("../caja/caja-model"),
   CajaController = () => {},
   attributes = require('../attributes'),
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   CajaEstadoModelo = require("../cajaestado/cajaestado-model"),
   EstadoCajaModelo = require("../estadocaja/estadocaja-model"),
   UsuarioModelo = require("../usuario/usuario-model"),
@@ -262,7 +263,7 @@ CajaController.create = (req, res) => {
                 pushCajaEstado['montoAperturaCajaEstado'] = 0;
                 pushCajaEstado['montoCierreCajaEstado'] = 0;
                 pushCajaEstado[idtable] = result[idtable];
-                pushCajaEstado['fechaYHoraAltaCajaEstado'] = new Date();
+                pushCajaEstado['fechaYHoraAltaCajaEstado'] = fechaArgentina.getFechaArgentina();
                 pushCajaEstado[idtable3] = 1;
                 pushCajaEstado[idtable4] = body[idtable4];
                 CajaEstadoModelo.create(pushCajaEstado).then( response => {
@@ -424,7 +425,7 @@ CajaController.cambiarEstado = (req, res) => {
             res.json(locals);
           } else {
             let pushCajaEstado = {};
-            pushCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
+            pushCajaEstado['fechaYHoraBajaCajaEstado'] = fechaArgentina.getFechaArgentina();
               CajaEstadoModelo.update(pushCajaEstado , {
                 where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
             }).then((respons) => {
@@ -433,7 +434,7 @@ CajaController.cambiarEstado = (req, res) => {
                 locals['tipo'] = 2;
                 res.json(locals);
               } else {
-                body['fechaYHoraAltaCajaEstado'] = new Date();
+                body['fechaYHoraAltaCajaEstado'] = fechaArgentina.getFechaArgentina();
                 CajaEstadoModelo.create(body).then((resp) => {
                   if (!resp || resp == 0 ){
                     locals['title'] = `No se pudo crear ${legend2}.`;
@@ -506,7 +507,7 @@ CajaController.abrirCaja = (req, res) => {
       if (response.dataValues.cajaestados[0].dataValues.estadocaja.dataValues.nombreEstadoCaja == 'Cerrada' || 
       response.dataValues.cajaestados[0].dataValues.estadocaja.dataValues.nombreEstadoCaja == 'Creada') {
         let delCajaEstado = {};
-        delCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
+        delCajaEstado['fechaYHoraBajaCajaEstado'] = fechaArgentina.getFechaArgentina();
         CajaEstadoModelo.update(delCajaEstado , { where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
         }).then((respons) => {
           if (!respons || respons == 0) {
@@ -515,7 +516,7 @@ CajaController.abrirCaja = (req, res) => {
           } else {
             let pushCajaEstado = {};
             pushCajaEstado[idtable] = body[idtable];
-            pushCajaEstado['fechaYHoraAltaCajaEstado'] = new Date();
+            pushCajaEstado['fechaYHoraAltaCajaEstado'] = fechaArgentina.getFechaArgentina();
             pushCajaEstado[idtable3] = 2;
             pushCajaEstado[idtable4] = body[idtable4];
             pushCajaEstado['descripcionCajaEstado'] = body['descripcionCajaEstado'] || response.dataValues.cajaestados[0].dataValues.descripcionCajaEstado;
@@ -587,7 +588,7 @@ CajaController.cerrarCaja = (req, res) => {
       } else {
         if (response.dataValues.cajaestados[0].dataValues.estadocaja.dataValues.nombreEstadoCaja == 'Abierta'){
           let delCajaEstado = {};
-          delCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
+          delCajaEstado['fechaYHoraBajaCajaEstado'] = fechaArgentina.getFechaArgentina();
           CajaEstadoModelo.update(delCajaEstado , { where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
         }).then((respons) => {
           if (!respons || respons == 0) {
@@ -596,7 +597,7 @@ CajaController.cerrarCaja = (req, res) => {
           } else {
             let pushCajaEstado = {};
             pushCajaEstado[idtable] = body[idtable];
-            pushCajaEstado['fechaYHoraAltaCajaEstado'] = new Date();
+            pushCajaEstado['fechaYHoraAltaCajaEstado'] = fechaArgentina.getFechaArgentina();
             pushCajaEstado[idtable3] = 3;
             pushCajaEstado[idtable4] = body[idtable4];
             pushCajaEstado['descripcionCajaEstado'] = body['descripcionCajaEstado'] || response.dataValues.cajaestados[0].dataValues.descripcionCajaEstado;
@@ -667,7 +668,7 @@ CajaController.realizarMovimiento = (req, res) => {
       res.json(locals);
     } else {
       if (body['fechaYHoraMovimientoCaja'] == null || !body['fechaYHoraMovimientoCaja'] ) {
-        body['fechaYHoraMovimientoCaja'] = new Date();
+        body['fechaYHoraMovimientoCaja'] = fechaArgentina.getFechaArgentina();
       }
       MovimientoCajaModelo.create(body).then((resp) => {
         if (!resp || resp == 0 ){
@@ -739,7 +740,7 @@ CajaController.realizarMovimiento = (req, res) => {
 //     } else {
 //       sequelize.transaction(t => {
 //         let pushCajaEstado = {};
-//         pushCajaEstado['fechaYHoraBajaCajaEstado'] = new Date();
+//         pushCajaEstado['fechaYHoraBajaCajaEstado'] = fechaArgentina.getFechaArgentina();
 //           CajaEstadoModelo.update(pushCajaEstado , {
 //             where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
 //         }, {transaction: t}).then((respons) => {
@@ -748,7 +749,7 @@ CajaController.realizarMovimiento = (req, res) => {
 //             locals['tipo'] = 2;
 //             res.json(locals);
 //           } else {
-//             body['fechaYHoraAltaCajaEstado'] = new Date();
+//             body['fechaYHoraAltaCajaEstado'] = fechaArgentina.getFechaArgentina();
 //             CajaEstadoModelo.create(body,{transaction: t}).then((resp) => {
 //               if (!resp || resp == 0 ){
 //                 locals['title'] = `No se pudo crear ${legend2}.`;

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
+import { Router, ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-consulta-gestionar-reserva',
@@ -21,14 +23,20 @@ export class ConsultaGestionarReservaPage implements OnInit {
   public variable: boolean = false;
 
   constructor(
-
     private barcodeScanner: BarcodeScanner,
     private alertController: AlertController,
-    private navController: NavController
+    private navController: NavController,
+    public activatedRoute: ActivatedRoute,
+
   ) { }
 
   ngOnInit() {
-    // this.datos = null;
+    console.log("PAGE ConsultaGestionarReservaPage")
+    this.activatedRoute.params
+      .subscribe(params => {
+        console.log("PARAMETROS ", params)
+      })
+    this.datos = null;
     
   }
 

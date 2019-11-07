@@ -951,7 +951,7 @@
 				{
 					"name": "Get Reserva :id",
 					"request": {
-						"url": "localhost:3000/reserva/3",
+						"url": "localhost:3000/reserva/12",
 						"method": "GET",
 						"header": [
 							{
@@ -1093,7 +1093,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idReserva\":1,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idDetalleReservaMesa\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetalleReservaMesa\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idDetalleReservaMesa\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetalleReservaMesa\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"idMesa\": 4\n\t\t},\n\t\t{\n\t\t\t\"idMesa\": 5\n\t\t}\n\t]\n}"
+							"raw": "{\n\t\"idReserva\":1,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idMesa\": 4\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idDetalleReservaMesa\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetalleReservaMesa\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"idMesa\": 4\n\t\t},\n\t\t{\n\t\t\t\"idMesa\": 5\n\t\t}\n\t]\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -1118,9 +1118,34 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idReserva\":3,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idComensal\": 4,\n\t\t\t\"aliasComensal\": \"Maria\",\n\t\t\t\"edadComensal\": 30,\n\t\t\t\"idUsuario\": 4\n\t\t},\n\t\t{\n\t\t\t\"idComensal\": 5,\n\t\t\t\"aliasComensal\": \"Lucrecio\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 2\n\t\t}\n\t],\n\t\"detalle PARA EDITAR\" :[\n\t\t{\n\t\t\t\"idComensal\": 100,\n\t\t\t\"aliasComensal\": \"Maria\",\n\t\t\t\"edadComensal\": 30,\n\t\t\t\"idUsuario\": 4\n\t\t},\n\t\t{\n\t\t\t\"idComensal\": 101,\n\t\t\t\"aliasComensal\": \"Lucrecio\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 2\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idComensal\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idComensal\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"aliasComensal\": \"Roberto\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 1\n\t\t},\n\t\t{\n\t\t\t\"aliasComensal\": \"Elian\",\n\t\t\t\"edadComensal\": 25,\n\t\t\t\"idUsuario\": 2\n\t\t}\n\t]\n}"
+							"raw": "{\n\t\"idReserva\":3,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"aliasComensal\": \"Roberto\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 1\n\t\t}\n\t],\n\t\"detalle PARA EDITAR\" :[\n\t\t{\n\t\t\t\"idComensal\": 100,\n\t\t\t\"aliasComensal\": \"Maria\",\n\t\t\t\"edadComensal\": 30,\n\t\t\t\"idUsuario\": 4\n\t\t},\n\t\t{\n\t\t\t\"idComensal\": 101,\n\t\t\t\"aliasComensal\": \"Lucrecio\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 2\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idComensal\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idComensal\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"aliasComensal\": \"Roberto\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 1\n\t\t},\n\t\t{\n\t\t\t\"aliasComensal\": \"Elian\",\n\t\t\t\"edadComensal\": 25,\n\t\t\t\"idUsuario\": 2\n\t\t}\n\t]\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reserva :comensal",
+					"request": {
+						"url": "localhost:3000/reserva/getToComensal/1",
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"estado\": \"Generada\"\n}"
+						},
+						"description": "Trae todos los Usuarios"
 					},
 					"response": []
 				}
@@ -1347,6 +1372,23 @@
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
 					"response": []
+				},
+				{
+					"name": "Get Estadia :idMesa",
+					"request": {
+						"url": "localhost:3000/estadia/getToMesa/2",
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
 				}
 			]
 		},
@@ -1492,6 +1534,96 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"idMesa\": 1,\n\t\"idEstadoMesa\": 1\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mozo Estadia",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Mozo Estadia",
+					"request": {
+						"url": "localhost:3000/mozoestadia",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mozo Estadia :id",
+					"request": {
+						"url": "localhost:3000/mozoestadia/10",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Mozo Estadia",
+					"request": {
+						"url": "localhost:3000/mozoestadia",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idUsuario\": 3\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Mozo Estadia Actualizar Datos",
+					"request": {
+						"url": "localhost:3000/mozoestadia/actualizarDatos",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idUsuario\": 3\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},

@@ -3,6 +3,7 @@
 let tratarError = require("../../middlewares/handleError");
 const RolModelo = require("../rol/rol-model"),
   RolController = () => {},
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   legend = "Rol",
   idtable = `id${legend}`,
   nombretable = `nombre${legend}`,

@@ -5,6 +5,7 @@ require('../../config');
 const bcrypt = require('bcrypt'),
     UsuarioController = () => {},
     attributes = require('../attributes'),
+    fechaArgentina = require("../../middlewares/fechaArgentina"),
     jwt = require('jsonwebtoken'),
     UsuarioModelo = require("./usuario-model"),
     UsuarioEstadoModelo = require("../usuarioestado/usuarioestado-model"),
@@ -137,6 +138,7 @@ UsuarioController.validateExistUser = (req, res) => {
         } else {
             locals['title'] = `${legend} encontrado.`;
             locals['tipo'] = 2;
+            locals['data'] = response;
             locals['descripcion'] = 'Cuit existente, ingrese otro.'
             locals['descripcion2'] = 'Usuario encontrado.'
         }
@@ -337,7 +339,7 @@ UsuarioController.create = (req, res) => {
                                                     pushEstado = {
                                                         [idestadotable]: response2[idestadotable],
                                                         [idtable]: result[idtable],
-                                                        fechaYHoraAltaUsuarioEstado: new Date()
+                                                        fechaYHoraAltaUsuarioEstado: fechaArgentina.getFechaArgentina()
                                                     };
                                                     // CREANDO INSTANCIA USUARIO ESTADO
                                                     UsuarioEstadoModelo.create(pushEstado)
@@ -352,13 +354,13 @@ UsuarioController.create = (req, res) => {
                                                         pushRol = {
                                                             idRol: body.idRol,
                                                             [idtable]: result[idtable],
-                                                            fechaYHoraAltaRolUsuario: new Date()
+                                                            fechaYHoraAltaRolUsuario: fechaArgentina.getFechaArgentina()
                                                         };
                                                     } else {
                                                         pushRol = {
                                                             idRol: 5,
                                                             [idtable]: result[idtable],
-                                                            fechaYHoraAltaRolUsuario: new Date()
+                                                            fechaYHoraAltaRolUsuario: fechaArgentina.getFechaArgentina()
                                                         };
                                                     }
                                                     RolUsuarioModelo.create(pushRol)
@@ -413,13 +415,13 @@ UsuarioController.create = (req, res) => {
                                 pushEstado = {
                                     [idestadotable]: body.idEstadoUsuario,
                                     [idtable]: result[idtable],
-                                    fechaYHoraAltaUsuarioEstado: new Date()
+                                    fechaYHoraAltaUsuarioEstado: fechaArgentina.getFechaArgentina()
                                 };
                             } else {
                                 pushEstado = {
                                     [idestadotable]: response[idestadotable],
                                     [idtable]: result[idtable],
-                                    fechaYHoraAltaUsuarioEstado: new Date()
+                                    fechaYHoraAltaUsuarioEstado: fechaArgentina.getFechaArgentina()
                                 };
                             }
                             // CREANDO INSTANCIA USUARIO ESTADO
@@ -435,13 +437,13 @@ UsuarioController.create = (req, res) => {
                                 pushRol = {
                                     idRol: body.idRol,
                                     [idtable]: result[idtable],
-                                    fechaYHoraAltaRolUsuario: new Date()
+                                    fechaYHoraAltaRolUsuario: fechaArgentina.getFechaArgentina()
                                 };
                             } else {
                                 pushRol = {
                                     idRol: 5,
                                     [idtable]: result[idtable],
-                                    fechaYHoraAltaRolUsuario: new Date()
+                                    fechaYHoraAltaRolUsuario: fechaArgentina.getFechaArgentina()
                                 };
                             }
                             RolUsuarioModelo.create(pushRol)
@@ -568,13 +570,13 @@ UsuarioController.update = (req, res) => {
                                             pushEstado = {
                                                 [idestadotable]: body.idEstadoUsuario,
                                                 [idtable]: body[idtable],
-                                                fechaYHoraAltaUsuarioEstado: new Date()
+                                                fechaYHoraAltaUsuarioEstado: fechaArgentina.getFechaArgentina()
                                             };
                                         } else {
                                             pushEstado = {
                                                 [idestadotable]: response[idestadotable],
                                                 [idtable]: body[idtable],
-                                                fechaYHoraAltaUsuarioEstado: new Date()
+                                                fechaYHoraAltaUsuarioEstado: fechaArgentina.getFechaArgentina()
                                             };
                                         }
                                         console.log("PUSH ", pushEstado)
@@ -611,13 +613,13 @@ UsuarioController.update = (req, res) => {
                                             pushRol = {
                                                 idRol: body.idRol,
                                                 [idtable]: body[idtable],
-                                                fechaYHoraAltaRolUsuario: new Date()
+                                                fechaYHoraAltaRolUsuario: fechaArgentina.getFechaArgentina()
                                             };
                                         } else {
                                             pushRol = {
                                                 idRol: response.idRol,
                                                 [idtable]: body[idtable],
-                                                fechaYHoraAltaRolUsuario: new Date()
+                                                fechaYHoraAltaRolUsuario: fechaArgentina.getFechaArgentina()
                                             };
                                         }
                                         RolUsuarioModelo.create(pushRol)
@@ -675,7 +677,7 @@ UsuarioController.changeState = (req, res) => {
         let push = {
             [idestadotable]: response.dataValues[idestadotable],
             [idtable]: req.params[idtable],
-            fechaYHoraAltaUsuarioEstado: new Date(),
+            fechaYHoraAltaUsuarioEstado: fechaArgentina.getFechaArgentina(),
             descripcionUsuarioEstado: req.body['descripcionUsuarioEstado'] || 'Eliminado'
         };
         UsuarioEstadoModelo.create(push).then(result => {

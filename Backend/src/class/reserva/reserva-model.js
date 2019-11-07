@@ -46,8 +46,7 @@ const ReservaModelo = sequelize.define(
             type: Sequelize.TIME
         },
         tokenReserva: {
-            type: Sequelize.STRING,
-            allowNull: false
+            type: Sequelize.STRING
         }
     }, {
         // options
