@@ -82,6 +82,12 @@ ReservaController.getToAllAttributes = (req, res, next) => {
       {
         model: ComensalModelo,
         attributes: attributes.comensal,
+        include: [
+          {
+            model: UsuarioModelo,
+            attributes: attributes.usuario,
+          },
+        ]
       },
     ],
   }).then(project => {
@@ -135,6 +141,12 @@ ReservaController.getToName = (req, res, next) => {
       {
         model: ComensalModelo,
         attributes: attributes.comensal,
+        include: [
+          {
+            model: UsuarioModelo,
+            attributes: attributes.usuario,
+          },
+        ]
       },
     ],
   }).then(project => {
@@ -188,6 +200,12 @@ ReservaController.getAll = (req, res) => {
       {
         model: ComensalModelo,
         attributes: attributes.comensal,
+        include: [
+          {
+            model: UsuarioModelo,
+            attributes: attributes.usuario,
+          },
+        ]
       },
     ],
   }).then(projects => {
@@ -346,6 +364,12 @@ ReservaController.actualizarDatos = (req, res) => {
       {
         model: ComensalModelo,
         attributes: attributes.comensal,
+        include: [
+          {
+            model: UsuarioModelo,
+            attributes: attributes.usuario,
+          },
+        ]
       },
     ],
     }).then(response => {
@@ -611,24 +635,24 @@ ReservaController.editarComensal = (req, res) => {
     attributes: attributes.reserva,
     include: [
         {
-        model: UsuarioModelo,
-        attributes: attributes.usuario,
+          model: UsuarioModelo,
+          attributes: attributes.usuario,
         },
         {
-        model: ReservaEstadoModelo,
-        where: { fechaYHoraBajaReservaEstado: null },
-        attributes: attributes.reservaestado,
-        include: [
-            {
-            model: EstadoReservaModelo,
-            attributes: attributes.estadoreserva
-            }
-        ]
+          model: ReservaEstadoModelo,
+          where: { fechaYHoraBajaReservaEstado: null },
+          attributes: attributes.reservaestado,
+          include: [
+              {
+              model: EstadoReservaModelo,
+              attributes: attributes.estadoreserva
+              }
+          ]
         },
         {
-        model: DetalleReservaMesaModelo,
-        attributes: attributes.precioreserva,
-        include: [
+          model: DetalleReservaMesaModelo,
+          attributes: attributes.precioreserva,
+          include: [
             {
                 model: MesaModelo,
                 attributes: attributes.mesa
@@ -636,12 +660,18 @@ ReservaController.editarComensal = (req, res) => {
         ]
         },
         {
-        model: PedidoModelo,
-        attributes: attributes.pedido,
+          model: PedidoModelo,
+          attributes: attributes.pedido,
         },
         {
-        model: ComensalModelo,
-        attributes: attributes.comensal,
+          model: ComensalModelo,
+          attributes: attributes.comensal,
+          include: [
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario,
+            },
+          ]
         },
     ],
     }).then( async response => {

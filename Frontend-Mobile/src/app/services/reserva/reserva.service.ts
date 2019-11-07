@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Reserva } from '../../models/modelos';
 import { map } from 'rxjs/operators';
-import { StorageService } from '../../services/storage/storage.service';
+import { StorageService } from '../storage/storage.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class ReservaService {
   dir3 = '/editarMesa';
   dir4 = '/actualizarDatos';
   dirTodo = "/todo";
+  dirComensal = "/getToComensal";
 
   constructor( 
     public http: HttpClient,
@@ -64,12 +66,27 @@ export class ReservaService {
       .get(`${this.url}${this.dir}/${id}`, {headers})
       .toPromise()
       .then(response => {
+        console.log("Service getReserva: ", response);
         return response['data'] as Reserva;
       })
       .catch(  );
   }
 
-  updateReserva( datas ): Promise<any> {
+  getReservasPorUsuario(idUsuario: number): Promise<any[]> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log(`${this.url}${this.dir}${this.dirComensal}/${idUsuario}`);
+    return this.http
+      .post(`${this.url}${this.dir}${this.dirComensal}/${idUsuario}`, {estado: 'Generada'}  , {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Service getReservasPorUsuario: ", response['detalles']);
+        return response['detalles'] as any[];
+      })
+      .catch(  );
+  }
+
+  updateReserva( datas): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}

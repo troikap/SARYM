@@ -20,6 +20,8 @@ export class LogueoPage implements OnInit {
   private suspmsj = 'El Usuario ingresado se encuentra Suspendido o dado de Baja.';
   private valtitle = 'Bienvenido';
   private valmsj = 'Le damos la bienvenida ';
+  private error = "Error"
+  private errormsj = "Ud. no tiene permisos para acceder al sistema mobile"; 
   private algo = null;
 
   constructor(private router: Router,
@@ -60,19 +62,32 @@ export class LogueoPage implements OnInit {
     .then(algo => {
       this.algo = algo;
       if (algo.tipo == 1) {
-        let fecha = new Date();
-        this.logueo = {cuit: this.form.value.cuitUsuario, pass: this.form.value.contrasenaUsuario, id: algo.usuario , date: fecha}
-        console.log("TOKEN ",algo.token)
-        this.storage.setOneObject( 'token',algo.token)
-        if (this.form.value.checkRecordar){
-          this.actualizarLog(this.logueo);
+        let rol = algo.rol.idRol;
+        if ( rol == "Cliente" || rol == "Mozo" || rol == "Administrador" ) {
+          let fecha = new Date();
+          this.logueo = {cuit: this.form.value.cuitUsuario, pass: this.form.value.contrasenaUsuario, id: algo.usuario , date: fecha}
+          console.log("TOKEN ",algo.token)
+          this.storage.setOneObject( 'token',algo.token)
+          if (this.form.value.checkRecordar){
+            this.actualizarLog(this.logueo);
+          }
+          if ( rol == "Mozo" ) {
+            //servicio que cree instancia de clase intermedia Mozo-Estadia
+            //verificar que cuando se desloguee un mozo, termine esta instancia.
+          }
+
+          this.logueo['rolUsuario'] = this.algo.rol.idRol;
+          this.logueo['idRolUsuario'] = this.algo.rol.nombreRol;
+          this.logueo['nombreUsuario'] = this.algo.UsuarioEstado.nombreUsuario;
+          this.logueo['apellidoUsuario'] = this.algo.UsuarioEstado.apellidoUsuario;
+          this.storage.setOneObject( 'currentUsuario', this.logueo)
+          this.alert();
+          this.menu.enable(true);
+          this.navController.navigateRoot('/home')
+        } else {
+          this.alertRol();
         }
-        this.logueo['nombreUsuario'] = this.algo.UsuarioEstado.nombreUsuario;
-        this.logueo['apellidoUsuario'] = this.algo.UsuarioEstado.apellidoUsuario;
-        this.storage.setOneObject( 'currentUsuario', this.logueo)
-        this.alert();
-        this.menu.enable(true);
-        this.navController.navigateRoot('/home')
+
       } else {
         if (algo.tipo == 2){
           console.log("INVALIDOS")
@@ -140,6 +155,22 @@ export class LogueoPage implements OnInit {
       });
       await alert.present();
     }
+  }
+
+  async alertRol() {
+      const alert = await this.alertController.create({
+        header: this.error,
+        message: this.errormsj,
+        buttons: ['OK'],
+        cssClass: 'alert',
+      });
+      await alert.present();
+    } 
+
+  iniciarInvitado() {
+    this.storage.setOneObject( 'currentUsuario', "Invitado")
+    this.menu.enable(false);
+    this.navController.navigateRoot('/home-invitado')
   }
 
 }
