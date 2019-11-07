@@ -54,6 +54,8 @@ import { UploadService } from './services/upload/upload.service';
 import { UploadComponent } from './upload/upload.component';
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
 import { LoginGuardGuard } from './components/shared/guardias/login-guard.guard';
+import { SearchComponent } from './components/reasignar-mozo-a-estadia/search/search.component';
+import { EditComponent } from './components/reasignar-mozo-a-estadia/edit/edit.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +100,9 @@ import { LoginGuardGuard } from './components/shared/guardias/login-guard.guard'
     ReporteTopMenuComponent,
     ReporteTopPromocionComponent,
     AgregarProductoGestionarMenupromocionComponent,
-    UploadComponent
+    UploadComponent,
+    SearchComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,

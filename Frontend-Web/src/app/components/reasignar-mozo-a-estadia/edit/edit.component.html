@@ -1,0 +1,34 @@
+<h2 class="titulo">Reasignar Mozo a Estadia</h2>
+<hr>
+<div class="container">
+    <div class="form-section">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="form-group">
+                <label for="cantPersonas" class="col col-form-label">Cantidad de Personas</label>
+                <input type="text" id="cantPersonas" placeholder="cantidad de personas" formControlName="cantPersonas" class="form-control">
+            </div>            
+            <div class="form-group">
+                    <label for="mesa" class="col col-form-label">Mesas</label>
+                    <input type="text" id="mesa" placeholder="mesas" formControlName="mesa" class="form-control">
+            </div>   
+            <div class="form-group">
+                    <label for="fechaYHoraInicioEstadia" class="col col-form-label">Fecha y Hora de Inicio de Estadia</label>
+                    <input ui-date ui-date-format="dd/MM/yyyy hh:mm:ss" id="fechaYHoraInicioEstadia" placeholder="cantidad de personas" formControlName="fechaYHoraInicioEstadia" class="form-control">
+            </div>      
+            <div class="form-group">
+                    <label for="mozoEstadia" class="col col-form-label">Mozo</label>
+                    <input type="text" id="mozoEstadia" placeholder="mozo" formControlName="mozoEstadia" class="form-control">
+            </div>                 
+                           
+            <hr align="left">
+            <div *ngIf="accionGet != 'eliminar'">
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+            </div>
+            <div *ngIf="accionGet == 'eliminar'">
+                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<hr>
+<button onclick="history.back()" class="btn btn-primary">Cancelar</button>

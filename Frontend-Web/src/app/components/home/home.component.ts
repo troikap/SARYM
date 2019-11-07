@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit {
       next = '/generarmovimientocaja';
     break;
     case 'reasignar-mozo-a-estadia':
-      next = '/reasignarmozoaestadia';
+      next = '/search_mozo_estadia';
     break;
     case 'habilitar-deshabilitar-producto':
       next = '/habilitar-deshabilitar-producto';

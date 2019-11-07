@@ -33,6 +33,8 @@ import { CrudGestionarMenupromocionComponent } from './components/gestionar-menu
 import { AbmSectorComponent } from './components/abm-sector/search-sector/abm-sector.component';
 import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.component';
 import { UploadComponent } from './upload/upload.component';
+import { SearchComponent } from './components/reasignar-mozo-a-estadia/search/search.component';
+import { EditComponent } from './components/reasignar-mozo-a-estadia/edit/edit.component';
 
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
 import { LoginGuardGuard } from './components/shared/guardias/login-guard.guard';
@@ -52,7 +54,9 @@ const routes: Routes = [
     { path: 'tipomoneda_crud/:id/:accion', component: CrudTipomonedaComponent, canActivate: [LoginGuardGuard]},
     { path: 'unidadmedida', component: AbmUnidadmedidaComponent, canActivate: [LoginGuardGuard]},
     { path: 'unidadmedida_crud/:id/:accion', component: AbmUnidadmedidaCreateComponent, canActivate: [LoginGuardGuard]},
-    { path: 'caja', component: AbmCajaComponent , canActivate: [LoginGuardGuard]},    
+    { path: 'caja', component: AbmCajaComponent , canActivate: [LoginGuardGuard]},   
+    { path: 'search_mozo_estadia', component: SearchComponent , canActivate: [LoginGuardGuard]},  
+    { path: 'edit_mozo_estadia/:id', component: EditComponent , canActivate: [LoginGuardGuard]},
     { path: 'caja_edit/:id/:accion', component: EditCajaComponent, canActivate: [LoginGuardGuard]},
     { path: 'generarmovimientocaja/:id', component: EditGenerarMovimientoCajaComponent, canActivate: [LoginGuardGuard]},
     { path: 'generarmovimientocaja', component: AbmGenerarMovimientoCajaComponent, canActivate: [LoginGuardGuard]},
