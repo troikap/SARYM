@@ -1,5 +1,7 @@
 'use strict';
-var currentDate = new Date();
+
+const fechaArgentina = require("../src/middlewares/fechaArgentina");
+var currentDate = fechaArgentina.getFechaArgentina();
 
 module.exports = {
     up: (queryInterface, Sequelize) => {

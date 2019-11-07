@@ -4,6 +4,7 @@ require('../../config');
 const MesaModelo = require("./mesa-model"),
   MesaController = () => { },
   attributes = require('../attributes'),
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   tratarError = require("../../middlewares/handleError"),
   SectorModelo = require("../sector/sector-model"),
   MesaEstadoModelo = require("../mesaestado/mesaestado-model"),
@@ -27,13 +28,10 @@ MesaController.getToAllAttributes = (req, res, next) => {
   MesaModelo.findAll({
     where: {
         [Op.or]: [
-            {idMesa: {[Op.substring]: req.params.anyAttribute}},
             {nroMesa: {[Op.substring]: req.params.anyAttribute}},
-            {capacidadMesa: {[Op.substring]: req.params.anyAttribute}},
             Sequelize.literal("`mesaestados->estadomesa`.`nombreEstadoMesa` LIKE '%" + req.params.anyAttribute + "%'"),
             Sequelize.literal("`mesaestados->estadomesa`.`colorEstadoMesa` LIKE '%" + req.params.anyAttribute + "%'"),
             Sequelize.literal("`sector`.`nombreSector` LIKE '%" + req.params.anyAttribute + "%'"),
-            // Sequelize.literal("`ubicacion`.`descripcionUbicacion` LIKE '%" + req.params.anyAttribute + "%'"),
             ]
         },
     attributes: attributes.mesa,
@@ -91,10 +89,6 @@ MesaController.getToName = (req, res, next) => {
         model: SectorModelo,
         attributes: attributes.sector
       },
-      // {
-      //   model: UbicacionModelo,
-      //   attributes: attributes.ubicacion
-      // }
     ]
   }).then(project => {
     if (!project || project == 0) {
@@ -169,10 +163,6 @@ MesaController.getOne = (req, res, next) => {
         model: SectorModelo,
         attributes: attributes.sector
       },
-      // {
-      //   model: UbicacionModelo,
-      //   attributes: attributes.ubicacion
-      // }
     ]
   }).then(project => {
     if (!project || project == 0) {
@@ -195,44 +185,36 @@ MesaController.create = (req, res) => {
         locals['tipo'] = 2;
         res.json(locals);
     } else {
-      // UbicacionModelo.findOne({ where: {[idtable4]: req.body[idtable4]} }).then( respo => {
-      //   if ( !respo || respo == 0 ) {
-      //     locals['title'] = `No existe instancia de ${legend4} con ${idtable4}.`;
-      //     locals['tipo'] = 2;
-      //     res.json(locals);
-      //   } else {
-          SectorModelo.findOne({ where: {[idtable5]: req.body[idtable5]} }).then( respon => {
-            if ( !respon || respon == 0 ) {
-              locals['title'] = `No existe instancia de ${legend5} con ${idtable5}.`;
-              locals['tipo'] = 2;
+      SectorModelo.findOne({ where: {[idtable5]: req.body[idtable5]} }).then( respon => {
+        if ( !respon || respon == 0 ) {
+          locals['title'] = `No existe instancia de ${legend5} con ${idtable5}.`;
+          locals['tipo'] = 2;
+          res.json(locals);
+        } else { 
+          MesaModelo.create(req.body).then(result => {
+            locals['title'] = `${legend} creada.`;
+            locals['data'] = result;
+            locals['id'] = result[idtable];
+            locals['tipo'] = 1;
+            let pushMesaEstado = {};
+            pushMesaEstado[idtable] = result[idtable];
+            pushMesaEstado['fechaYHoraAltaMesaEstado'] = fechaArgentina.getFechaArgentina();
+            pushMesaEstado[idtable3] = 1;
+            MesaEstadoModelo.create(pushMesaEstado).then( response => {
+              locals['title'] = `${legend} creado. ${legend2} creado.`;
+              locals['data'] = response;
+              locals['tipo'] = 1;
               res.json(locals);
-            } else { 
-              MesaModelo.create(req.body).then(result => {
-                locals['title'] = `${legend} creada.`;
-                locals['data'] = result;
-                locals['id'] = result[idtable];
-                locals['tipo'] = 1;
-                let pushMesaEstado = {};
-                pushMesaEstado[idtable] = result[idtable];
-                pushMesaEstado['fechaYHoraAltaMesaEstado'] = new Date();
-                pushMesaEstado[idtable3] = 1;
-                MesaEstadoModelo.create(pushMesaEstado).then( response => {
-                  locals['title'] = `${legend} creado. ${legend2} creado.`;
-                  locals['data'] = response;
-                  locals['tipo'] = 1;
-                  res.json(locals);
-                }).catch((error) => {
-                  locals = tratarError.tratarError(error, legend);
-                  res.json(locals);
-                });
-              }).catch((error) => {
-                locals = tratarError.tratarError(error, legend);
-                res.json(locals);
-              });
-            }
-          })
-        //} //-
-      //}) //-
+            }).catch((error) => {
+              locals = tratarError.tratarError(error, legend);
+              res.json(locals);
+            });
+          }).catch((error) => {
+            locals = tratarError.tratarError(error, legend);
+            res.json(locals);
+          });
+        }
+      })
     }
   })
 };
@@ -324,7 +306,7 @@ MesaController.cambiarEstado = (req, res) => {
           res.json(locals);
         } else {
           let pushMesaEstado = {};
-          pushMesaEstado['fechaYHoraBajaMesaEstado'] = new Date();
+          pushMesaEstado['fechaYHoraBajaMesaEstado'] = fechaArgentina.getFechaArgentina();
             MesaEstadoModelo.update(pushMesaEstado , {
               where: { [idtable]: body[idtable], fechaYHoraBajaMesaEstado: null }}).then((respons) => {
             if(!respons || respons == 0) {
@@ -332,7 +314,7 @@ MesaController.cambiarEstado = (req, res) => {
               locals['tipo'] = 2;
               res.json(locals);
             } else {
-              body['fechaYHoraAltaMesaEstado'] = new Date();
+              body['fechaYHoraAltaMesaEstado'] = fechaArgentina.getFechaArgentina();
               MesaEstadoModelo.create(body).then((resp) => {
                 if (!resp || resp == 0 ){
                   locals['title'] = `No se pudo crear ${legend2}.`;

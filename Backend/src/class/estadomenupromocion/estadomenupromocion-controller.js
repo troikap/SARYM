@@ -3,6 +3,7 @@
 let tratarError = require("../../middlewares/handleError");
 const EstadoMenuPromocionModelo = require("../estadomenupromocion/estadomenupromocion-model"),
   EstadoMenuPromocionController = () => {},
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   legend = "EstadoMenuPromocion",
   idtable = `id${legend}`,
   nombretable = `nombre${legend}`,

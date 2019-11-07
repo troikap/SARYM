@@ -5,6 +5,7 @@ const tratarError = require("../../middlewares/handleError"),
   ProductoModelo = require("./producto-model"),
   ProductoController = () => { },
   attributes = require('../attributes'),
+  fechaArgentina = require("../../middlewares/fechaArgentina"),
   RubroModelo = require("../rubro/rubro-model"),
   UnidadMedidaModelo = require("../unidadmedida/unidadmedida-model"),
   ProductoEstadoModelo = require("../productoestado/productoestado-model"),
@@ -285,7 +286,7 @@ ProductoController.create = (req, res) => {
                     let pushProductoEstado = {};
                     pushProductoEstado['descripcionProductoEstado'] = body['descripcionProductoEstado'] || "Reciente.";
                     pushProductoEstado[idtable] = result[idtable];
-                    pushProductoEstado['fechaYHoraAltaProductoEstado'] = new Date();
+                    pushProductoEstado['fechaYHoraAltaProductoEstado'] = fechaArgentina.getFechaArgentina();
                     pushProductoEstado[idtable3] = 3;
                     ProductoEstadoModelo.create(pushProductoEstado).then( response => {
                       locals['title'] = `${legend} creado. ${legend2} creado.`;
@@ -294,7 +295,7 @@ ProductoController.create = (req, res) => {
                       let pushPrecioProducto = {};
                       pushPrecioProducto['importePrecioProducto'] = body['importePrecioProducto'];
                       pushPrecioProducto[idtable] = result[idtable];
-                      pushPrecioProducto['fechaYHoraDesdePrecioProducto'] = body['fechaYHoraDesdePrecioProducto'] || new Date();
+                      pushPrecioProducto['fechaYHoraDesdePrecioProducto'] = body['fechaYHoraDesdePrecioProducto'] || fechaArgentina.getFechaArgentina();
                       pushPrecioProducto['fechaYHoraHastaPrecioProducto'] = body['fechaYHoraHastaPrecioProducto'] || null;
                       pushPrecioProducto[idtable4] = body[idtable4];
                       PrecioProductoModelo.create(pushPrecioProducto).then( resp => {
@@ -443,7 +444,7 @@ ProductoController.cambiarEstado = (req, res) => {
             res.json(locals);
           } else {
             let pushProductoEstado = {};
-            pushProductoEstado['fechaYHoraBajaProductoEstado'] = new Date();
+            pushProductoEstado['fechaYHoraBajaProductoEstado'] = fechaArgentina.getFechaArgentina();
               ProductoEstadoModelo.update(pushProductoEstado , {
                 where: { [idtable]: body[idtable], fechaYHoraBajaProductoEstado: null }
             }).then((respons) => {
@@ -452,7 +453,7 @@ ProductoController.cambiarEstado = (req, res) => {
                 locals['tipo'] = 2;
                 res.json(locals);
               } else {
-                body['fechaYHoraAltaProductoEstado'] = new Date();
+                body['fechaYHoraAltaProductoEstado'] = fechaArgentina.getFechaArgentina();
                 ProductoEstadoModelo.create(body).then((resp) => {
                   if (!resp || resp == 0 ){
                     locals['title'] = `No se pudo crear ${legend2}.`;
@@ -535,7 +536,7 @@ ProductoController.cambiarPrecio = (req, res) => {
             res.json(locals);
           } else {
             let pushPrecioProducto = {};
-            pushPrecioProducto['fechaYHoraHastaPrecioProducto'] = new Date();
+            pushPrecioProducto['fechaYHoraHastaPrecioProducto'] = fechaArgentina.getFechaArgentina();
               PrecioProductoModelo.update(pushPrecioProducto , {
                 where: { [idtable]: body[idtable], fechaYHoraHastaPrecioProducto: null }
             }).then((respons) => {
@@ -544,7 +545,7 @@ ProductoController.cambiarPrecio = (req, res) => {
                 locals['tipo'] = 2;
                 res.json(locals);
               } else {
-                body['fechaYHoraDesdePrecioProducto'] = new Date();
+                body['fechaYHoraDesdePrecioProducto'] = fechaArgentina.getFechaArgentina();
                 PrecioProductoModelo.create(body).then((resp) => {
                   if (!resp || resp == 0 ){
                     locals['title'] = `No se pudo crear ${legend2}.`;
@@ -632,7 +633,7 @@ ProductoController.habilitarDeshabilitarProducto = (req, res) => {
             res.json(locals);
           } else {
             let pushProductoEstado = {};
-            pushProductoEstado['fechaYHoraBajaProductoEstado'] = new Date();
+            pushProductoEstado['fechaYHoraBajaProductoEstado'] = fechaArgentina.getFechaArgentina();
               ProductoEstadoModelo.update(pushProductoEstado , {
                 where: { [idtable]: body[idtable], fechaYHoraBajaProductoEstado: null }
             }).then((respons) => {
@@ -641,7 +642,7 @@ ProductoController.habilitarDeshabilitarProducto = (req, res) => {
                 locals['tipo'] = 2;
                 res.json(locals);
               } else {
-                body['fechaYHoraAltaProductoEstado'] = new Date();
+                body['fechaYHoraAltaProductoEstado'] = fechaArgentina.getFechaArgentina();
                 ProductoEstadoModelo.create(body).then((resp) => {
                   if (!resp || resp == 0 ){
                     locals['title'] = `No se pudo crear ${legend2}.`;
