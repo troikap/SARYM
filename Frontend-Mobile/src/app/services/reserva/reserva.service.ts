@@ -21,6 +21,7 @@ export class ReservaService {
   dir4 = '/actualizarDatos';
   dirTodo = "/todo";
   dirComensal = "/getToComensal";
+  dirCambiarEstado = '/cambiarEstado';
 
   constructor( 
     public http: HttpClient,
@@ -134,6 +135,20 @@ export class ReservaService {
       .toPromise()
       .then(response => {
         return response as Reserva;
+      })
+      .catch(  );
+  }
+
+  cambiarEstado( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}${this.dirCambiarEstado}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Servicio cambiarEstado()", response);
+        return response;
       })
       .catch(  );
   }
