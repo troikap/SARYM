@@ -21,11 +21,13 @@ export class RegistroUsuarioPage implements OnInit {
   private departamentos: Departamento[];
   private newForm = {};
   private usuario = {}
-  private token = null;
   private id: number = 0;
   private existenciaUsuario: boolean = false;
   private mensajeExistenciaUsuario: string = null;
   private nuevoUsuario: boolean = false;
+  gender: string = '';
+  isDNI: boolean = false;
+  cuitValidated: boolean = false;
 
   constructor(
     private router: Router,
@@ -46,6 +48,7 @@ export class RegistroUsuarioPage implements OnInit {
       domicilioUsuario: ['', Validators.required],
       emailUsuario: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)])],
       idDepartamento: ['', Validators.required],
+      gender: [''],
       nroCelularUsuario: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9\-]{12}$/)])],
       nroTelefonoUsuario: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9\-]{12}$/)])]
     });
@@ -61,6 +64,7 @@ export class RegistroUsuarioPage implements OnInit {
       idDepartamento: ['', Validators.required],
       nroCelularUsuario: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9\-]{12}$/)])],
       nroTelefonoUsuario: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9\-]{12}$/)])],
+      gender: [''],
       contrasenaUsuario_group: new FormGroup({
         contrasenaUsuario: new FormControl('', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(25)])),
         contrasenaUsuarioRepeat: new FormControl('', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(25)]))
@@ -69,7 +73,92 @@ export class RegistroUsuarioPage implements OnInit {
   }
 
   ngOnInit() {
-    this.token = this.recuperarToken();
+    this.recuperarToken();
+  }
+
+  validateCuitFormat(cuitStr: string, gen: string): boolean {
+    if (cuitStr.length == 11) {
+      this.isDNI = false;
+      const dni = cuitStr.substring(2, 10);
+      const cuitCalculated = this.calculateCuitByDni(dni, gen);
+      if (!gen || gen == 'empresa') {
+        return true;
+      }
+      if (cuitCalculated == cuitStr) {
+        return true;
+      }
+      return false;
+    } else if (cuitStr.length == 7 || cuitStr.length == 8){
+      this.isDNI = true;
+    } else {
+      this.isDNI = false;
+      return false;
+    }
+  }
+
+  onChangeGen() {
+    const gender = this.form.controls['gender'].value;
+    const dni = String(this.form.controls['dniUsuario'].value);
+    if (dni.length == 7 || dni.length == 8) {
+      const cuitCalculated = this.calculateCuitByDni(dni, gender);
+      const validated = this.validateCuitFormat(cuitCalculated, gender);
+      if (validated == true) {
+        this.form.controls['cuitUsuario'].setValue(`${cuitCalculated}`);
+      }
+    }
+  }
+
+  calculateCuitByDni(dniStr: string, gen: string): string {
+    if (dniStr.length == 7) {
+      dniStr = `0${dniStr}`;
+    }
+    let z = 0;
+    let xy = '20';
+    switch (gen) {
+      case 'masculino':
+        xy = '20';
+        break;
+      case 'femenino':
+        xy = '27';
+        break;    
+      default:
+         xy = '30';
+        break;
+    }
+    const calc = (parseInt(xy[0]) * 5
+        + parseInt(xy[1]) * 4
+        + parseInt(dniStr[0]) * 3
+        + parseInt(dniStr[1]) * 2
+        + parseInt(dniStr[2]) * 7
+        + parseInt(dniStr[3]) * 6
+        + parseInt(dniStr[4]) * 5
+        + parseInt(dniStr[5]) * 4
+        + parseInt(dniStr[6]) * 3
+        + parseInt(dniStr[7]) * 2);
+    const rest = calc % 11;    
+    if (rest == 1) {
+      switch (gen) {
+        case 'masculino':
+          z = 9;
+          xy = '23';
+          break;
+        case 'femenino':
+          z = 4;
+          xy = '23';
+          break;      
+        default:
+          break;
+      }
+    } else if (rest == 0){
+      z = 0;
+    } else {
+      z = 11 - rest;
+    }
+    return `${xy}${dniStr}${z}`;
+  }
+
+  modificadoCuit() {
+    this.form.controls.dniUsuario.setValue(this.form.value.dniUsuario)
   }
 
   setValidateDNI() {
@@ -83,6 +172,7 @@ export class RegistroUsuarioPage implements OnInit {
         console.log("No son Iguales")
         this.form.controls.dniUsuario.setErrors({not_equals: true});
       }
+      this.form.controls.dniUsuario.valid;
     })
   }
 
@@ -104,26 +194,23 @@ export class RegistroUsuarioPage implements OnInit {
   }
 
   recuperarToken() {
-    this.storage.getOneObject('token')
-      .then((res) => {
-        this.activatedRoute.params
-          .subscribe(params => {
-            this.traerDepartamentos(res);
-            this.id = params["id"];
-            if (this.id != 0) {
-              this.form = this.form1;
-              console.log("Buscando Usuario")
-              this.traerUsuario(this.id, res);
-              this.nuevoUsuario = true;
-            } else {
-              this.form = this.form2
-              console.log("Nuevo Usuario")
-              this.validarExistenciaUsuario();
-              this.nuevoUsuario = false;
-            }
-            this.setValidateDNI()
-          });
-      })
+    this.activatedRoute.params
+      .subscribe(params => {
+        this.traerDepartamentos();
+        this.id = params["id"];
+        if (this.id != 0) {
+          this.form = this.form1;
+          console.log("Buscando Usuario")
+          this.traerUsuario(this.id);
+          this.nuevoUsuario = true;
+        } else {
+          this.form = this.form2
+          console.log("Nuevo Usuario")
+          this.validarExistenciaUsuario();
+          this.nuevoUsuario = false;
+        }
+        this.setValidateDNI()
+      });
   }
 
   guardar() {
@@ -131,7 +218,7 @@ export class RegistroUsuarioPage implements OnInit {
       .then((res) => {
         let usuario = this.crearNuevoUsuario();
         if (this.id != 0) {
-          this.usuarioservicio.updateUsuario(usuario, res)
+          this.usuarioservicio.updateUsuario(usuario)
             .then((resp) => {
               this.presentToast(resp);
             })
@@ -140,7 +227,7 @@ export class RegistroUsuarioPage implements OnInit {
             })
         } else {
           if (this.id == 0) {
-            this.usuarioservicio.setUsuario(usuario, 'libre')
+            this.usuarioservicio.setUsuario(usuario)
               .then((resp) => {
                 this.presentToast(resp);
                 this.navController.navigateRoot('/logueo');
@@ -175,15 +262,15 @@ export class RegistroUsuarioPage implements OnInit {
     return data;
   }
 
-  traerDepartamentos( token: string) {
-    this.departamnetoservicio.getDepartamentos( token)
+  traerDepartamentos( ) {
+    this.departamnetoservicio.getDepartamentos()
       .then((res) => {
         this.departamentos = res;
       })
   }
 
-  traerUsuario(id, token) {
-    this.usuarioservicio.getUsuario(id, token)
+  traerUsuario(id) {
+    this.usuarioservicio.getUsuario(id)
       .then((res) => {
         this.usuario = res['Usuario'];
         this.transformarForm();
@@ -202,17 +289,34 @@ export class RegistroUsuarioPage implements OnInit {
       domicilioUsuario: ('' || this.usuario['domicilioUsuario']),
       emailUsuario: ('' || this.usuario['emailUsuario']),
       idDepartamento: ('' || this.usuario['idDepartamento']),
+      gender: (''),
       nroCelularUsuario: ('' || cel.substr(0, 3) + "-" + cel.substr(3, 3) + "-" + cel.substr(6)),
       nroTelefonoUsuario: ('' || tel.substr(0, 3) + "-" + tel.substr(3, 3) + "-" + tel.substr(6))
     }
     this.form.setValue(this.newForm)
   }
 
+  validateCuit() {
+    let dni = String(this.form.controls['dniUsuario'].value);
+    this.form.controls['gender'].setValue('');
+    if (dni != null ) {
+      if (dni.length == 11) {   
+        this.isDNI = false;   
+      } else if (dni.length == 7 || dni.length == 8){
+        this.isDNI = true;
+        this.cuitValidated = false;
+      } else {
+        this.isDNI = false;
+        this.cuitValidated = false;
+      }
+    }
+  }
+
   async presentToast(data) {
     console.log("data" ,data)
     if (data.tipo == 1) {
       const toast = await this.toastController.create({
-        message: data.title,
+        message: data.title.descripcion,
         duration: 3000,
         color: 'success',
         position: 'middle',
@@ -222,7 +326,7 @@ export class RegistroUsuarioPage implements OnInit {
     }
     if (data.tipo == 2) {
       const toast = await this.toastController.create({
-        message: data.title,
+        message: data.title.descripcion,
         duration: 3000,
         color: 'warning',
         position: 'middle',

@@ -6,14 +6,34 @@
     <ion-title>Registro de Usuario</ion-title>
   </ion-toolbar>
 </ion-header>
-  
 <ion-content no-padding>
   <ion-row >
     <ion-col class="login">
       <form [formGroup]="form" *ngIf="form">
         <ion-item class="form-group">
-          <ion-label color="primary" padding>Cuit</ion-label>
-          <ion-input slot="end" class="form-control" type='number' id='cuitUsuario' placeholder='Ingrese Cuit' formControlName='cuitUsuario' [disabled]="nuevoUsuario"></ion-input>
+          <ion-label color="primary" padding>Dni</ion-label>
+          <ion-input slot="end" class="form-control" type='number' id='dniUsuario' placeholder='Ingrese DNI' formControlName='dniUsuario' (ionChange)="validateCuit()"></ion-input>
+        </ion-item>
+        <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.required && form.controls.dniUsuario.touched">Campo Obligatorio.</p>
+        <p class="input-error-msg" *ngIf="(form.controls.dniUsuario.errors?.min || form.controls.dniUsuario.errors?.max) && form.controls.dniUsuario.touched">Debería ser por ejemplo: 12345678.</p>
+        <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.not_equals && form.controls.dniUsuario.touched">Debe Calcular el Cuit.</p>
+        <ion-row *ngIf="isDNI == true && cuitValidated == false">
+          <ion-col>
+            <ion-list>
+              <ion-item>
+                <ion-label floating>Calcular CUIT</ion-label>
+                <ion-select (ionChange)="onChangeGen()" formControlName="gender">
+                  <ion-select-option value="masculino">Masculino</ion-select-option>
+                  <ion-select-option value="femenino">Femenino</ion-select-option>
+                  <ion-select-option value="empresa">Empresa</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+        <ion-item class="form-group">
+          <ion-label color="primary" padding >Cuit</ion-label>
+          <ion-input slot="end" class="form-control" type='number' id='cuitUsuario' placeholder='Ingrese Cuit' formControlName='cuitUsuario' disabled (ionChange)="modificadoCuit()"></ion-input>
         </ion-item>
         <p class="input-error-msg" *ngIf="form.controls.cuitUsuario.errors?.required && form.controls.cuitUsuario.touched">Campo Obligatorio.</p>
         <p class="input-error-msg" *ngIf="(form.controls.cuitUsuario.errors?.min || form.controls.cuitUsuario.errors?.max) && form.controls.cuitUsuario.touched">Debería ser por ejemplo: 20 12345678 6.</p>
@@ -28,13 +48,6 @@
           <ion-input slot="end" class="form-control" type='text' id='apellidoUsuario' placeholder='Ingrese Apellido' formControlName='apellidoUsuario'></ion-input>
         </ion-item>
         <p class="input-error-msg" *ngIf="form.controls.apellidoUsuario.errors?.required && form.controls.apellidoUsuario.touched">Campo Obligatorio.</p>
-        <ion-item class="form-group">
-          <ion-label color="primary" padding>Dni</ion-label>
-          <ion-input slot="end" class="form-control" type='number' id='dniUsuario' placeholder='Ingrese DNI' formControlName='dniUsuario'></ion-input>
-        </ion-item>
-        <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.required && form.controls.dniUsuario.touched">Campo Obligatorio.</p>
-        <p class="input-error-msg" *ngIf="(form.controls.dniUsuario.errors?.min || form.controls.dniUsuario.errors?.max) && form.controls.dniUsuario.touched">Debería ser por ejemplo: 12345678.</p>
-        <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.not_equals && form.controls.dniUsuario.touched">No coincide con Cuit.</p>
         <ion-item class="form-group">
           <ion-label color="primary" padding class="label-large">Email</ion-label>
           <ion-input slot="end" class="form-control" type="email" id='emailUsuario' placeholder='Ingrese Email' formControlName="emailUsuario"></ion-input>
@@ -85,7 +98,6 @@
     </ion-col>
   </ion-row>
 </ion-content>
-
 <ion-footer>
   <ion-row class="white-background">
     <ion-col size="10" offset="1" padding>
