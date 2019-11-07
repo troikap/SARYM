@@ -25,7 +25,6 @@ export class CrudGestionarReservaPage implements OnInit {
   private mensajeExistenciaUsuario: string = null;
   private existenciaUsuario: boolean = false;
   private currentUsuario;
-  private token;
   private mesas: Mesa[];
   checkBoxList = [];
 
@@ -40,7 +39,11 @@ export class CrudGestionarReservaPage implements OnInit {
   ) {
     this.resetComensal();
     this.loadCurrentUsuario();
-    this.loadToken();
+    // this.loadToken();
+
+    this.traerReservas()
+    this.traerMesas()
+
     this.form = this.formBuilder.group({
       edadComensal: ['', Validators.required],
       fechaReserva: ['2019-09-23', Validators.required],
@@ -79,23 +82,23 @@ export class CrudGestionarReservaPage implements OnInit {
     this.comensales[0].edadComensal = Number(valor.target.value)
   }
 
-  loadToken() {
-    this.storage.getOneObject('token').then((data) => {
-      this.token = data;
-      this.traerReservas(data)
-      this.traerMesas(data)
-    })
-  }
+  // loadToken() {
+  //   this.storage.getOneObject('token').then((data) => {
+  //     this.token = data;
+  //     this.traerReservas(data)
+  //     this.traerMesas(data)
+  //   })
+  // }
 
-  traerReservas( token: string ) {
-    this.reservaservicio.getReservas(token)
+  traerReservas() {
+    this.reservaservicio.getReservas()
     .then( resp => {
       console.log("Reservas ",resp)
     })
   }
 
-  traerMesas(token: string){
-    this.mesaservicio.getMesas(token)
+  traerMesas(){
+    this.mesaservicio.getMesas()
     .then( resp => {
       this.mesas = resp['data'];
       for (let mesa of resp['data']) {
@@ -220,24 +223,24 @@ export class CrudGestionarReservaPage implements OnInit {
   }
 
   async enviarReserva(reserva, comensales, mesas) {
-    await this.reservaservicio.setReserva( reserva ,this.token)
+    await this.reservaservicio.setReserva( reserva )
     .then( async res => {
       if( res.tipo == 1) {
         let tokenReserva = await this.agregarTokenReserva(res, reserva)
         let data = { 'idReserva': res.id ,tokenReserva}
-        this.reservaservicio.updateReserva( data , this.token)
+        this.reservaservicio.updateReserva( data )
         .then( update => {
           if (update.tipo == 1) {
             let pathComensales= {};
             pathComensales['detalle'] = comensales;
             pathComensales['idReserva'] = res.id;
-            this.reservaservicio.setComensalesReserva( pathComensales ,this.token )
+            this.reservaservicio.setComensalesReserva( pathComensales )
             .then( resp => {
               if (resp.tipo == 1 ){
                 let pathMesas= {};
                 pathMesas['detalle'] = mesas;
                 pathMesas['idReserva'] = res.id;
-                this.reservaservicio.setMesasReserva( pathMesas ,this.token )
+                this.reservaservicio.setMesasReserva( pathMesas )
                 .then( respo => {
                   if (respo.tipo == 1 ){
                     this.toastReservaCreada(res);

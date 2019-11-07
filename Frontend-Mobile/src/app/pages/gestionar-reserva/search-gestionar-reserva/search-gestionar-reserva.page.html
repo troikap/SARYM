@@ -1,9 +1,30 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>search-gestionoar-reserva</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Mis Reservas</ion-title>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<!-- <ion-list>
+    <ion-item>
+        <ion-searchbar #termino (keyup)="botonBuscar(termino.value)"></ion-searchbar>
+    </ion-item>
+</ion-list>
 
+<ion-item>
+    <ion-label floating> No existen reservas con el término:<br><br><strong>{{termino.value}}</strong></ion-label>
+</ion-item> -->
+
+<ion-content>
+    <ion-card>
+        <ion-item *ngFor="let reserva of listaReservas">
+            <ion-label>
+                <p class="text"><strong>Propietario:</strong>{{reserva.usuario.nombreUsuario}} {{reserva.usuario.apellidoUsuario}}({{reserva.usuario.cuitUsuario}})</p>
+                <p class="text">Texto 2</p>
+                <p class="text">Texto 3</p>
+            </ion-label>
+        </ion-item>
+    </ion-card>
 </ion-content>

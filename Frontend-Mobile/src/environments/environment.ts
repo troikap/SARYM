@@ -7,7 +7,8 @@ export const environment = {
   urlNgrok: '',
   url: 'http://localhost:3000',
   apiUrl: 'http://localhost:3000',
-  baseHref: '/'
+  baseHref: '/',
+  token: 'libre'
 };
 
 /*
