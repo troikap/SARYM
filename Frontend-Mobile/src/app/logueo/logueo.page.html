@@ -30,9 +30,9 @@
               </ion-col>
             </ion-row>
           </form>
-          <ion-button expand='full' shape='round' color='primary' (click)='loguear()' [disabled]="!form.valid">Loguear</ion-button>
+          <ion-button expand='full' shape='round' color='primary' (click)='loguear()' [disabled]="!form.valid">Iniciar Sesión</ion-button>
           <ion-button expand='full' shape='round' (click)="goTo('registro-usuario')" color='primary'>Registrarse</ion-button>
-          <ion-button expand='full' shape='round' (click)="goTo('home')" color='primary'>Sin Logueo</ion-button>
+          <ion-button expand='full' shape='round' (click)='iniciarInvitado()' color='primary'>Invitado</ion-button>
         </ion-col>
       </ion-row>
       <ion-row class='mt-10 terms-text'>
