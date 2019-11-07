@@ -22,13 +22,13 @@ module.exports = {
             "idDetalleReservaMesa": 5, "idReserva": 2, "idMesa": 2, "createdAt": currentDate, "updatedAt": currentDate
         },
         {
-            "idDetalleReservaMesa": 6, "idReserva": 17, "idMesa": 4, "createdAt": currentDate, "updatedAt": currentDate
+            "idDetalleReservaMesa": 6, "idReserva": 3, "idMesa": 4, "createdAt": currentDate, "updatedAt": currentDate
         },
         {
-            "idDetalleReservaMesa": 7, "idReserva": 17, "idMesa": 5, "createdAt": currentDate, "updatedAt": currentDate
+            "idDetalleReservaMesa": 7, "idReserva": 3, "idMesa": 5, "createdAt": currentDate, "updatedAt": currentDate
         },
         {
-            "idDetalleReservaMesa": 8, "idReserva": 17, "idMesa": 6, "createdAt": currentDate, "updatedAt": currentDate
+            "idDetalleReservaMesa": 8, "idReserva": 3, "idMesa": 6, "createdAt": currentDate, "updatedAt": currentDate
         },
     ], {});
     },

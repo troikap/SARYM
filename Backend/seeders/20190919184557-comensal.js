@@ -16,13 +16,13 @@ module.exports = {
                 "idComensal": 3, "idUsuario": 2, "idReserva": null, "idEstadia": 1, "aliasComensal": "Tercer Pepo", "edadComensal": 50, "createdAt": currentDate, "updatedAt": currentDate
             },
             { 
-                "idComensal": 4, "idUsuario": 17, "idReserva": 17, "idEstadia": null, "aliasComensal": "Pepito Honguito", "edadComensal": 45, "createdAt": currentDate, "updatedAt": currentDate
+                "idComensal": 4, "idUsuario": 17, "idReserva": 3, "idEstadia": null, "aliasComensal": "Pepito Honguito", "edadComensal": 45, "createdAt": currentDate, "updatedAt": currentDate
             },
             { 
-                "idComensal": 5, "idUsuario": 1, "idReserva": 17, "idEstadia": null, "aliasComensal": "Lucas Perez", "edadComensal": 26, "createdAt": currentDate, "updatedAt": currentDate
+                "idComensal": 5, "idUsuario": 1, "idReserva": 3, "idEstadia": null, "aliasComensal": "Lucas Perez", "edadComensal": 26, "createdAt": currentDate, "updatedAt": currentDate
             },
             { 
-                "idComensal": 6, "idUsuario": 2, "idReserva": 17, "idEstadia": null, "aliasComensal": "Mari Castillo", "edadComensal": 24, "createdAt": currentDate, "updatedAt": currentDate
+                "idComensal": 6, "idUsuario": 2, "idReserva": 3, "idEstadia": null, "aliasComensal": "Mari Castillo", "edadComensal": 24, "createdAt": currentDate, "updatedAt": currentDate
             },
     ], {});
     },

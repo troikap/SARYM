@@ -210,8 +210,8 @@ ReservaController.getOne = (req, res) => {
     attributes: attributes.reserva,
     include: [
       {
-      model: UsuarioModelo,
-      attributes: attributes.usuario,
+        model: UsuarioModelo,
+        attributes: attributes.usuario,
       },
       {
         model: ReservaEstadoModelo,
@@ -241,6 +241,12 @@ ReservaController.getOne = (req, res) => {
       {
         model: ComensalModelo,
         attributes: attributes.comensal,
+        // include: [
+        //   {
+        //     model: UsuarioModelo,
+        //     attributes: attributes.usuario,
+        //   },
+        // ]
       },
     ],
   }).then(project => {

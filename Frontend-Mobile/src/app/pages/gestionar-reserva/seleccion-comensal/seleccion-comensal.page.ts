@@ -40,6 +40,8 @@ export class SeleccionComensalPage implements OnInit {
     .then( reserva => {
       console.log("RESERVA ", reserva)
       this.reserva = reserva;
+      console.log("Comensales" ,reserva.comensals)
+      this.comensales = reserva.comensals
     })
 
   }
