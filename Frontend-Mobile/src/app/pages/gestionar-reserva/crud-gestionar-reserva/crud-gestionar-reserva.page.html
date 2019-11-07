@@ -33,6 +33,7 @@
         <ion-label color="primary" position="fixed">Cant. Personas</ion-label>
         <ion-input class="form-control" type="number" placeholder="Cantidad Comensales" formControlName="cantidadComensal" id="cantidadComensal"></ion-input>
       </ion-item>
+      <ion-title>Seleccione Mesa/s</ion-title>
       <ion-button padding (click)="mostrar5 = !mostrar5" position="fixed">Mostrar Mesas</ion-button>
       <ion-list padding *ngIf="mostrar5">
           <ion-item class="form-group" *ngFor='let element of checkBoxList; let i = index'>
@@ -98,7 +99,7 @@
         Usuario: {{comen.idUsuario}} - Cuit: {{comen.cuitUsuario}}
         </ion-card-subtitle>
     </ion-card-header>
-    <ion-button color="danger" class="mt-10" (click)="eliminarComensal(i)" shape="round"> Eliminar</ion-button>
+    <ion-button color="danger" class="mt-10" (click)="eliminarComensal(i)" shape="round" *ngIf="i > 0"> Eliminar</ion-button>
   </ion-card>
   <ion-button class="mt-10" (click)="crearReserva()" [disabled]="!form.valid" expand="full">Crear Reserva</ion-button>
 </ion-content>

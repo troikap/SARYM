@@ -5,6 +5,8 @@ import { environment } from '../../../environments/environment';
 const URL = environment.urlNgrok || environment.url;
 const dir = '/departamento';
 
+const tokenEnviroment = environment.token;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,8 +16,10 @@ export class DepartamentoService {
     public http: HttpClient
   ) { }
 
-   getDepartamentos( token: string ): Promise<Departamento[]> {
+   getDepartamentos( ): Promise<Departamento[]> {
     let headers: HttpHeaders = new HttpHeaders();
+    let token;
+    if (tokenEnviroment == null) { token = 'libre' } else { token = tokenEnviroment}
     headers = headers.append('token', token);
     return this.http
       .get( URL + dir, {headers})
