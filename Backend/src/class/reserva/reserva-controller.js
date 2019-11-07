@@ -241,12 +241,12 @@ ReservaController.getOne = (req, res) => {
       {
         model: ComensalModelo,
         attributes: attributes.comensal,
-        // include: [
-        //   {
-        //     model: UsuarioModelo,
-        //     attributes: attributes.usuario,
-        //   },
-        // ]
+        include: [
+          {
+            model: UsuarioModelo,
+            attributes: attributes.usuario,
+          },
+        ]
       },
     ],
   }).then(project => {

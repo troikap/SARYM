@@ -8,18 +8,13 @@
 </ion-header>
 
 <ion-content *ngIf='reserva'>
-  <ion-card *ngFor="let item of reserva['comensals']">
+  <ion-card *ngFor="let item of reserva.comensals" color="medium" (click)="seleccionarComensal(item)" mode="ios">
       <ion-card-header>
-          <ion-card-title>{{item.aliasComensal}}</ion-card-title>
-          <ion-card-subtitle>{{item.edadComensal}}</ion-card-subtitle>
-        </ion-card-header>
-    <!-- <ion-item>
-        <ion-thumbnail slot="start" >
-        </ion-thumbnail>
-        <ion-label >
-            <p class="text">{{item.aliasComensal}}</p>
-            <p class="text">{{item.edadComensal}}</p>
-        </ion-label>
-    </ion-item> -->
+        <ion-card-title>Alias: <strong>{{item.aliasComensal}}</strong> -  Edad: <strong>{{item.edadComensal}}</strong></ion-card-title>
+      </ion-card-header>
+      <ion-card-content *ngIf="item.usuario">
+          <ion-card-subtitle>Usuario Asociado: <strong> {{item.usuario.nombreUsuario}} {{item.usuario.apellidoUsuario}}</strong></ion-card-subtitle>
+          <ion-card-subtitle>Cuit: <strong>{{item.usuario.cuitUsuario}}</strong></ion-card-subtitle>
+      </ion-card-content>
   </ion-card>
 </ion-content>
