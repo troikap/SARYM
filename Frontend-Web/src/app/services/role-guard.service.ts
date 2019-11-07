@@ -3,27 +3,40 @@ import { Router, CanActivate, ActivatedRouteSnapshot } from "@angular/router";
 import { UsuarioService } from "../services/usuario/usuario.service";
 import decode from "jwt-decode";
 
+
 @Injectable()
 export class RoleGuardService implements CanActivate {
 
-  constructor(public userService: UsuarioService, public router: Router) {}
+  constructor(
+    public userService: UsuarioService,
+    public router: Router,
+
+  ) {}
+
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    // this will be passed from the route config
-    // on the data property
+
     const expectedRole = route.data.expectedRole;
-    const token = localStorage.getItem("token");
-    // decode the token to get its payload
-    const tokenPayload = decode(token);
+    if ( localStorage.getItem("token") ){
+      const token = localStorage.getItem("token");  
+      //Recuperamos el rol del token.
+      const tokenPayload = decode(token);
+      const rolFromToken = tokenPayload['RolUsuario'];    
+      console.log("ROL ESPERADO", expectedRole )
+      console.log("ROL RECUPERADO DEL TOKEN", rolFromToken )
 
-    const rolRecuperadoStorage = this.userService.getRolUsuarioLoggeado();
+      if (expectedRole.find(rolFromToken)){
+        console.log("LO CONTIENE!!!!!!!");
+        if ( !this.userService.isAuthenticated()) {
+          this.router.navigate(["/login"]);
+          return false;
+        }
+        return false;
+      }
 
-    if (
-      !this.userService.isAuthenticated() || rolRecuperadoStorage !== expectedRole
-    ) {
-      console.log("AHAHA ENTRO POR FALSE", rolRecuperadoStorage)
-      this.router.navigate(["login"]);
-      return false;
+      return true;
+    } else {
+      //MOSTRAR MENSAJE DE QUE NO TIENE TOKEN....POPUP
+      this.router.navigate(["/login"]);
     }
-    return true;
   }
 }

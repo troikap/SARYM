@@ -112,11 +112,10 @@ import { RoleGuardService } from './services/role-guard.service';
     JwtModule,
     ScrollingModule,
     DragDropModule,
-
     JwtModule.forRoot({
       config: {
         //tokenGetter: tokenGetter,
-        whitelistedDomains: ["example.com"],
+        whitelistedDomains: ['/login'],
         blacklistedRoutes: ["example.com/examplebadroute/"]
       }
     })
