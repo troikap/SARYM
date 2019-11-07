@@ -63,7 +63,7 @@ export class LogueoPage implements OnInit {
       this.algo = algo;
       if (algo.tipo == 1) {
         let rol = algo.rol.idRol;
-        if ( rol == "Cliente" || rol == "Mozo" ) {
+        if ( rol == "Cliente" || rol == "Mozo" || rol == "Administrador" ) {
           let fecha = new Date();
           this.logueo = {cuit: this.form.value.cuitUsuario, pass: this.form.value.contrasenaUsuario, id: algo.usuario , date: fecha}
           console.log("TOKEN ",algo.token)

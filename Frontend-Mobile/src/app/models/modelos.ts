@@ -221,6 +221,7 @@ export interface Comensal {
     aliasComensal: String,
     edadComensal: Number,
     idUsuario: Number,
+    cuitUsuario?: Number
 }
 
 export interface Pedidoestado {
@@ -244,9 +245,14 @@ export interface Reserva {
     horaEntradaReserva: Time,
     horaSalidaReserva: Time,
     tokenReserva: String,
+    comensals?: Comensal[],
+    detallereservamesas?: Detallereservamesa,
+    pedidos?: Pedido,
+    reservaestados?: ReservaEstado,
+    usuario?: Usuario,
 }
 
-export interface Reservaestado {
+export interface ReservaEstado {
     idReservaEstado: Number,
     descripcionReservaEstado: String,
     fechaYHoraAltaReservaEstado: Date,

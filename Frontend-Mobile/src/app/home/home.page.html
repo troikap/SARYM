@@ -11,7 +11,7 @@
         </ion-toolbar>
     </ion-header>
     <ion-content>
-        <ion-slides pager="true" *ngIf="currentUsuario=='Cliente'">
+        <ion-slides pager="true" *ngIf="currentUsuario=='Cliente' || currentUsuario=='Administrador' ">
             <ion-slide *ngFor="let item of slidesCliente" [ngStyle]="{ 'background-image': 'url(' + item.url + ')'}">
             </ion-slide>
         </ion-slides>
@@ -23,7 +23,7 @@
     <ion-footer color="primary">
         <ion-toolbar>
             <!-- CLIENTE -->
-            <ion-list class="list-radius" *ngIf="currentUsuario=='Cliente'">
+            <ion-list class="list-radius" *ngIf="currentUsuario=='Cliente' || currentUsuario=='Administrador' ">
                 <ion-item no-padding color="primary" (click)="goTo('unirse-reserva')">
                     <ion-icon color="light" class="list-icon" name="filing"></ion-icon>
                     <ion-label color="light">UNIRSE A RESERVA</ion-label>

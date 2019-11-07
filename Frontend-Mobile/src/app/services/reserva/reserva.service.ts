@@ -59,6 +59,19 @@ export class ReservaService {
       .catch(  );
   }
 
+  getReserva( id: number ): Promise<Reserva> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    return this.http
+      .get(`${this.url}${this.dir}/${id}`, {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Service getReserva: ", response);
+        return response['data'] as Reserva;
+      })
+      .catch(  );
+  }
+
   getReservasPorUsuario(idUsuario: number): Promise<any[]> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
