@@ -3,6 +3,7 @@ import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Usuario } from '../../model/usuario/usuario.model';
 import { map } from 'rxjs/operators';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 
 
@@ -22,8 +23,15 @@ export class UsuarioService {
 
   constructor(
     public http: HttpClient,
+    public jwtHelper: JwtHelperService,
   ) { }
 
+  public isAuthenticated(): boolean {
+    const token = localStorage.getItem('token');
+    // Check whether the token is expired and return
+    // true or false
+    return !this.jwtHelper.isTokenExpired(token);
+  }
 
   estaLogueado(): Promise<any> {
     let token = localStorage.getItem('token')

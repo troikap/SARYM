@@ -54,6 +54,9 @@ import { UploadService } from './services/upload/upload.service';
 import { UploadComponent } from './upload/upload.component';
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
 import { LoginGuardGuard } from './components/shared/guardias/login-guard.guard';
+import { AuthGuardService } from './services/auth-guard.service';
+import { JwtModule } from '@auth0/angular-jwt';
+import { RoleGuardService } from './services/role-guard.service';
 
 @NgModule({
   declarations: [
@@ -106,12 +109,20 @@ import { LoginGuardGuard } from './components/shared/guardias/login-guard.guard'
     HttpClientModule,
     AppRoutingModule,
     ChartsModule,
-
+    JwtModule,
     ScrollingModule,
-    DragDropModule
+    DragDropModule,
+
+    JwtModule.forRoot({
+      config: {
+        //tokenGetter: tokenGetter,
+        whitelistedDomains: ["example.com"],
+        blacklistedRoutes: ["example.com/examplebadroute/"]
+      }
+    })
 
   ],
-  providers: [UploadService, LoginGuardGuard],
+  providers: [UploadService, LoginGuardGuard, AuthGuardService, RoleGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
