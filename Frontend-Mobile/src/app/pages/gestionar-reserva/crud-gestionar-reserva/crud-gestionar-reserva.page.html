@@ -35,10 +35,10 @@
             </ion-item>
             <ion-title>Seleccione Mesa/s</ion-title>
             <ion-button padding (click)="mostrar5 = !mostrar5" position="fixed">Mostrar Mesas</ion-button>
-            <ion-list padding *ngIf="mostrar5">
+            <ion-list  *ngIf="mostrar5">
                 <ion-item class="form-group" *ngFor='let element of checkBoxList; let i = index'>
-                    <ion-label padding>{{element.descripcion}}</ion-label>
-                    <ion-checkbox (ionChange)="checkEvent( i )"> </ion-checkbox>
+                    <ion-label class="descripcion-mesa" >{{element.descripcion}}</ion-label>
+                    <ion-checkbox (ionChange)="checkEvent( i )" [checked]="element.isChecked"> </ion-checkbox>
                 </ion-item>
             </ion-list>
             <p class="input-error-msg" *ngIf="form.controls.idMesa.errors?.required && form.controls.idMesa.touched">Campo Obligatorio.</p>

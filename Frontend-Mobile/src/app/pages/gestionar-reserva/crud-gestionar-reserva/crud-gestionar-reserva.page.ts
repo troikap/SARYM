@@ -8,7 +8,7 @@ import { MesaService } from '../../../services/mesa/mesa.service';
 import { StorageService, Log } from '../../../services/storage/storage.service';
 import { Mesa } from '../../../services/mesa/mesa.model';
 import { ActivatedRoute } from '@angular/router';
-import { Reserva } from 'src/app/models/modelos';
+import { Reserva, Comensal } from 'src/app/models/modelos';
 
 @Component({
   selector: 'app-crud-gestionar-reserva',
@@ -44,7 +44,8 @@ export class CrudGestionarReservaPage implements OnInit {
     private mesaservicio: MesaService,
     private activatedRoute: ActivatedRoute
   ) {
-
+    
+    this.loadCurrentUsuario();
     this.form = this.formBuilder.group({
       edadComensal: ['', Validators.required],
       fechaReserva: ['', Validators.required],
@@ -52,22 +53,14 @@ export class CrudGestionarReservaPage implements OnInit {
       horaSalida: ['', Validators.required],
       cantidadComensal: ['', Validators.required],
       sector: ['', Validators.required],
-      idMesa: [null, Validators.required]
+      idMesa: [null, Validators.required],
     });
 
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params);
       this.accionGet  = params.accion;
-      
-      if (this.accionGet == "crear") {
-        this.resetComensal();
-        this.loadCurrentUsuario();
-        this.traerMesas();
-      }
-      else if (this.accionGet == "editar") {
-        this.idReserva = params.id;
-        this.traerReserva();
-      }
+      this.idReserva = params.id;
+      this.traerMesas();
     });
    }
 
@@ -78,15 +71,14 @@ export class CrudGestionarReservaPage implements OnInit {
 
   traerReserva() {
     console.log("Funcion 'traerReserva()', ejecutada");
-    console.log("Id Reserva Url: ", this.idReserva);
-
     if (this.idReserva !== 0) {
       this.reservaservicio.getReserva(this.idReserva)
-      .then((res) => {
+      .then( res => {
         console.log("Reserva obtenida: ", res)
         if ( res['tipo'] == 2) {
           console.log("No se pudo obtener Reserva con id Nro ", this.idReserva);
         } else {
+          // Reserva
           this.reserva = res;
           this.newForm = {
             edadComensal: '',
@@ -98,10 +90,31 @@ export class CrudGestionarReservaPage implements OnInit {
             idMesa: null     
           }
           this.form.setValue(this.newForm)
-          console.log("Formulario nuevo: " , this.form);
-
-          this.loadCurrentUsuario();
-          this.traerMesas();
+          // Comensales
+          let comensal;
+          for (let item of res.comensals) {
+            comensal = {};
+            comensal = item;
+            comensal['cuitUsuario'] = item.usuario.cuitUsuario;
+            this.comensales.push(comensal);
+          }
+          // Mesas
+          let cuenta = 0;
+          let valid = false;
+          for (let item of res.detallereservamesas) {
+            for (let element of this.checkBoxList ) {
+              if ( item.idMesa == element.value ) {
+                this.checkBoxList[cuenta].isChecked = true;
+                valid = true;
+              }
+            }
+            cuenta += 1;
+          }
+          if (valid) {
+            this.form.controls.idMesa.setValue(true)
+          } else {
+            this.form.controls.idMesa.setValue(null)
+          }
         }
       });
     }
@@ -111,12 +124,15 @@ export class CrudGestionarReservaPage implements OnInit {
     this.storage.getCurrentUsuario().then((data) => {
       this.currentUsuario = data;
       console.log("USUARIO ", this.currentUsuario)
-      this.comensales.push({
-        aliasComensal: `${this.currentUsuario.nombreUsuario} ${this.currentUsuario.apellidoUsuario}`,
-        edadComensal: 20,
-        idUsuario: this.currentUsuario.id,
-        cuitUsuario: this.currentUsuario.cuit
-      })
+      // let comensa = ;
+      if ( this.accionGet == 'crear') {
+        this.comensales.push({
+          aliasComensal: `${this.currentUsuario.nombreUsuario} ${this.currentUsuario.apellidoUsuario}`,
+          edadComensal: 20,
+          idUsuario: this.currentUsuario.id,
+          cuitUsuario: this.currentUsuario.cuit
+        })
+      }
     })
   }
 
@@ -125,24 +141,30 @@ export class CrudGestionarReservaPage implements OnInit {
     this.comensales[0].edadComensal = Number(valor.target.value)
   }
 
-  traerMesas(){
+   traerMesas(){
     this.mesaservicio.getMesas()
-    .then( resp => {
-      this.mesas = resp['data'];
-      for (let mesa of resp['data']) {
-        console.log(mesa)
+    .then(  resp => {
+      this.mesas =  resp['data'];
+      for (let mesa of  resp['data']) {
         this.checkBoxList.push({ 
           'value': mesa.idMesa,
           'descripcion': `Mesa: N° ${mesa.nroMesa} - Cap: ${mesa.capacidadMesa}p - Sec: ${mesa.sector.nombreSector}`,
           'isChecked': false
         })
       }
+      if (this.accionGet == "crear") {
+        console.log("CREANDO")
+        this.resetComensal();
+      }
+      else if (this.accionGet == "editar") {
+        console.log("EDITANDO")
+        this.traerReserva();
+      }
     })
   }
 
   checkEvent( position ){
     this.checkBoxList[position].isChecked = ! this.checkBoxList[position].isChecked ;
-    console.log("CHECKEANDO : ",this.checkBoxList)
     let valid = false;
     for (let item of this.checkBoxList) {
       if (item.isChecked) {
@@ -170,7 +192,7 @@ export class CrudGestionarReservaPage implements OnInit {
             aliasComensal: this.form2.value.aliasComensal,
             edadComensal: this.form2.value.edadComensal,
             cuitUsuario: this.form2.value.cuitUsuario,
-            idUsuario: res.data.idUsuario
+            idUsuario: this.form2.value.idUsuario
           }
           this.comensales.push(this.comensal);
           this.resetComensal();
@@ -188,6 +210,7 @@ export class CrudGestionarReservaPage implements OnInit {
         aliasComensal: this.form2.value.aliasComensal,
         edadComensal: this.form2.value.edadComensal,
         cuitUsuario: this.form2.value.cuitUsuario,
+        idUsuario: this.form2.value.idUsuario
       }
       this.comensales.push(this.comensal);
       this.resetComensal();
@@ -489,11 +512,4 @@ export class CrudGestionarReservaPage implements OnInit {
     });
     toast.present();
   }
-}
-
-export interface Comensal {
-  aliasComensal: string;
-  edadComensal: number;
-  cuitUsuario: number;
-  idUsuario?: number;
 }

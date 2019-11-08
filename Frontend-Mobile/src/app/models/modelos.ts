@@ -217,11 +217,12 @@ export interface Detallepedidoproducto {
 }
 
 export interface Comensal {
-    idComensal: Number,
+    idComensal?: Number,
     aliasComensal: String,
     edadComensal: Number,
     idUsuario: Number,
-    cuitUsuario?: Number
+    cuitUsuario?: Number,
+    usuario?: Usuario
 }
 
 export interface Pedidoestado {
@@ -246,7 +247,7 @@ export interface Reserva {
     horaSalidaReserva: Time,
     tokenReserva: String,
     comensals?: Comensal[],
-    detallereservamesas?: Detallereservamesa,
+    detallereservamesas?: Detallereservamesa[],
     pedidos?: Pedido,
     reservaestados?: ReservaEstado,
     usuario?: Usuario,
@@ -267,6 +268,8 @@ export interface Estadoreserva {
 
 export interface Detallereservamesa {
     idDetalleReservaMesa: Number,
+    idMesa?: Number,
+    idReserva?: Number
 }
 
 export interface Estadia {
