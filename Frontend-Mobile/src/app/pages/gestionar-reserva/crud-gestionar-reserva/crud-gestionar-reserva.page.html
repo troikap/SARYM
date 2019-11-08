@@ -44,7 +44,7 @@
             <p class="input-error-msg" *ngIf="form.controls.idMesa.errors?.required && form.controls.idMesa.touched">Campo Obligatorio.</p>
         </div>
     </form>
-    <form [formGroup]="form2">
+    <form [formGroup]="form2" *ngIf="form2">
         <ion-row padding>
             <ion-title>Comensal </ion-title>
             <ion-button (click)="mostrar = !mostrar">
