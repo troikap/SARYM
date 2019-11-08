@@ -159,6 +159,7 @@ export class CrudGestionarReservaPage implements OnInit {
       else if (this.accionGet == "editar") {
         console.log("EDITANDO")
         this.traerReserva();
+        this.resetComensal();
       }
     })
   }

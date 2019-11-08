@@ -35,9 +35,9 @@
             </ion-item>
             <ion-title>Seleccione Mesa/s</ion-title>
             <ion-button padding (click)="mostrar5 = !mostrar5" position="fixed">Mostrar Mesas</ion-button>
-            <ion-list  *ngIf="mostrar5">
+            <ion-list *ngIf="mostrar5">
                 <ion-item class="form-group" *ngFor='let element of checkBoxList; let i = index'>
-                    <ion-label class="descripcion-mesa" >{{element.descripcion}}</ion-label>
+                    <ion-label class="descripcion-mesa">{{element.descripcion}}</ion-label>
                     <ion-checkbox (ionChange)="checkEvent( i )" [checked]="element.isChecked"> </ion-checkbox>
                 </ion-item>
             </ion-list>
@@ -53,12 +53,12 @@
         </ion-row>
         <div class="input-group-append" *ngIf="mostrar">
             <button class="btn btn-clear btn-dark tooltip-custom" type="button" (click)="mostrar = !mostrar">
-        <div class="tooltip-container">
-          <p class="averageTicketSize"><b>Agregar Comensal</b></p>
-          <p class="description">Usted puede agregar cuantos comensales quiera. Usted podrá dar permisos para que ingresen a su "Reserva" o "Estadía".</p>
-          <i></i>
-        </div>
-      </button>
+                <div class="tooltip-container">
+                <p class="averageTicketSize"><b>Agregar Comensal</b></p>
+                <p class="description">Usted puede agregar cuantos comensales quiera. Usted podrá dar permisos para que ingresen a su "Reserva" o "Estadía".</p>
+                <i></i>
+                </div>
+            </button>
         </div>
         <ion-item padding>
             <ion-label color="primary" position="fixed">Alias Comensal</ion-label>
