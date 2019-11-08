@@ -61,14 +61,12 @@ export class ReservaService {
   }
 
   getReserva( id: number ): Promise<Reserva> {
-    console.log("Ejecutar servicio getReserva");
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
     return this.http
       .get(`${this.url}${this.dir}/${id}`, {headers})
       .toPromise()
       .then(response => {
-        console.log("Service getReserva DEVUELVE: ", response);
         return response['data'] as Reserva;
       })
       .catch();

@@ -8,13 +8,17 @@
 </ion-header>
 
 <ion-content *ngIf='reserva'>
-  <ion-card *ngFor="let item of reserva.comensals" color="medium" (click)="seleccionarComensal(item)" mode="ios">
+  <ion-card *ngFor="let item of reserva.pedidos" color="medium" (click)="seleccionarPedido(item)" mode="ios">
       <ion-card-header>
-        <ion-card-title>Alias: <strong>{{item.aliasComensal}}</strong> -  Edad: <strong>{{item.edadComensal}}</strong></ion-card-title>
+        <ion-card-title>Codigo: <strong>{{item.codPedido}}</strong></ion-card-title>
       </ion-card-header>
-      <ion-card-content *ngIf="item.usuario">
-          <ion-card-subtitle>Usuario Asociado: <strong> {{item.usuario.nombreUsuario}} {{item.usuario.apellidoUsuario}}</strong></ion-card-subtitle>
-          <ion-card-subtitle>Cuit: <strong>{{item.usuario.cuitUsuario}}</strong></ion-card-subtitle>
+      <ion-card-content>
+        <ion-card-title>Importe: <strong>$ {{item.importeTotal}}</strong></ion-card-title>
+        <ion-card-title>Estado: <strong>{{item.pedidoestados[0].estadopedido.nombreEstadoPedido}}</strong></ion-card-title>
       </ion-card-content>
+    <ion-item *ngFor="let elemento of item.detallepedidoproducto">
+        <ion-card-subtitle>Usuario Asociado: <strong> {{elemento}}</strong></ion-card-subtitle>
+        <ion-card-subtitle>Cuit: <strong>{{item.usuario.cuitUsuario}}</strong></ion-card-subtitle>
+    </ion-item>
   </ion-card>
 </ion-content>

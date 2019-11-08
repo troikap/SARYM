@@ -32,7 +32,36 @@ export class ListaPedidoPage implements OnInit {
       .subscribe(params => {
         console.log("PARAMETROS ", params)
         this.idReserva = params.idReserva;
+        this.idComensal = params.idComensal;
       })
-      // this.traerReserva();
+      this.traerReserva();
+  }
+
+  traerReserva(){
+    this.reservaservicio.getReserva( this.idReserva )
+    .then( reserva => {
+      console.log("RESERVA ", reserva)
+      this.reserva = reserva;
+      this.calcularTotalCostoPedido();
+      console.log("Comensales" ,reserva.comensals)
+      this.comensales = reserva.comensals
+    })
+  }
+
+  calcularTotalCostoPedido(){
+    for (let item of this.reserva.pedidos) {
+      let importe;
+      for (let elem of item.detallepedidoproductos) {
+        console.log("elemento de detalle ", elem)
+        if (elem.producto != null) {
+          if (importe == null) importe = 0;
+          importe += ( Number(elem.producto.precioproductos[0].importePrecioProducto) * Number(elem.cantidadPedidoProducto))
+        } else if (elem.menupromocion != null) {
+          if (importe == null) importe = 0;
+          importe += ( Number(elem.menupromocion.preciomenupromocions[0].importePrecioMenuPromocion) * Number(elem.cantidadPedidoProducto))
+        }
+      }
+      item['importeTotal'] = importe;
+    }
   }
 }
