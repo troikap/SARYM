@@ -23,12 +23,12 @@
                 <ion-label color="primary" position="fixed">Hora Entrada</ion-label>
                 <ion-datetime formControlName="horaEntrada" id="horaEntrada" class="form-control" mode="ios" displayFormat="HH:mm" doneText="Elegir" placeholder="Elija Hora Entrada"></ion-datetime>
             </ion-item>
-            <p class="input-error-msg" *ngIf="form.controls.horaEntrada.errors?.pattern && form.controls.horaEntrada.touched">Debería ser 15m menos que hora de Salida.</p>
+            <p class="input-error-msg" *ngIf="form.controls.horaEntrada.errors?.pattern && form.controls.horaEntrada.touched">Debería ser 30m menos que hora de Salida.</p>
             <ion-item padding>
                 <ion-label color="primary" position="fixed">Hora Salida</ion-label>
                 <ion-datetime formControlName="horaSalida" id="horaSalida" class="form-control" mode="ios" displayFormat="HH:mm" doneText="Elegir" placeholder="Elija Hora Salida"></ion-datetime>
             </ion-item>
-            <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.pattern && form.controls.horaSalida.touched">Debería ser 15m mayor que la hora de Entrada.</p>
+            <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.pattern && form.controls.horaSalida.touched">Debería ser 30m mayor que la hora de Entrada.</p>
             <ion-item padding>
                 <ion-label color="primary" position="fixed">Cant. Personas</ion-label>
                 <ion-input class="form-control" type="number" placeholder="Cantidad Comensales" formControlName="cantidadComensal" id="cantidadComensal"></ion-input>
@@ -103,5 +103,7 @@
     </ion-card>
     <ion-button *ngIf="accionGet == 'crear'" class="mt-10" (click)="crearEditarReserva()" [disabled]="!form.valid" expand="full">Crear Reserva</ion-button>
     <ion-button *ngIf="accionGet == 'editar'" class="mt-10" (click)="crearEditarReserva()" [disabled]="!form.valid" expand="full">Editar Reserva</ion-button>
+
+    <ion-button class="mt-10" (click)="prueba()" expand="full">Probar</ion-button>
 
 </ion-content>
