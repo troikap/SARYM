@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { ReservaService } from '../../../services/reserva/reserva.service';
 import { StorageService } from '../../../services/storage/storage.service';
 import { NavController,  AlertController, ToastController } from '@ionic/angular';
-import { MensajesComponent } from 'src/app/shared/mensajes/mensajes.component';
 
 @Component({
   selector: 'app-search-gestionar-reserva',
