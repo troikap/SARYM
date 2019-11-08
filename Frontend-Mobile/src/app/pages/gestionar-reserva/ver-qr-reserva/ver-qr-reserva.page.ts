@@ -27,6 +27,7 @@ export class VerQRReservaPage implements OnInit {
 
   private comensal: Comensal;
   private comensales: Comensal[] = [];
+  private tokenReserva;
 
   constructor(
     private barcodeScanner: BarcodeScanner,
@@ -39,7 +40,7 @@ export class VerQRReservaPage implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params);
       this.idReserva = params.id;
-
+      this.traerReserva();
     });
   }
 
@@ -49,10 +50,9 @@ export class VerQRReservaPage implements OnInit {
 
   createCode() {
     console.log('Creando QR');
-    this.valor = `${this.datos.fechaReserva}@${this.datos.idTraidoBackEnd}`;
+    this.valor = this.tokenReserva;
     this.qrDataCodify = btoa( this.valor );
     this.createdCode = this.qrDataCodify;
-    
   }
 
   scanCode() {
@@ -95,7 +95,7 @@ export class VerQRReservaPage implements OnInit {
           text: 'Unirse',
           handler: () => {
             console.log('Confirm Okay');
-            this.traerReserva(Number(names))
+            this.traerReserva()
           }
         }
       ]
@@ -104,11 +104,8 @@ export class VerQRReservaPage implements OnInit {
     await alert.present();
   }
 
-  traerReserva(idBackEnd: number) {
+  traerReserva() {
     console.log("Funcion 'traerReserva()', ejecutada");
-    console.log("Id Reserva Url: ", this.idReserva);
-    console.log("Id Backend: ", idBackEnd);
-
     if (this.idReserva !== 0) {
       this.reservaservicio.getReserva(this.idReserva)
       .then((res: Reserva) => {
@@ -116,30 +113,8 @@ export class VerQRReservaPage implements OnInit {
         if ( res['tipo'] == 2) {
           console.log("No se pudo obtener Reserva con id Nro ", this.idReserva);
         } else {
-
-          for (let i = 0; i < res.comensals.length; i++) {
-            this.comensal = {
-              idComensal: res.comensals[i].idComensal,
-              aliasComensal: res.comensals[i].aliasComensal,
-              edadComensal: res.comensals[i].edadComensal,
-              cuitUsuario: res.comensals[i].cuitUsuario,
-              idUsuario: res.comensals[i].idUsuario
-            }
-            this.comensales.push(this.comensal);
-            this.comensal = null;
-          }
-          
-          this.datos = {
-            cantidadComensal: res.cantPersonas,
-            comensales: this.comensales,
-            fechaReserva: res.fechaReserva,
-            horaEntrada: res.horaEntradaReserva,
-            horaSalida: res.horaSalidaReserva,
-            idTraidoBackEnd: idBackEnd,
-            nroMesa: "2",
-            sector: "3",
-            }
-            this.variable = true;
+          this.tokenReserva = res.tokenReserva;
+          this.createCode();
         }
       });
     }

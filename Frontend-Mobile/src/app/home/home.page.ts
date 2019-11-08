@@ -67,14 +67,18 @@ export class HomePage implements OnInit {
         page = `/unirse-gestionar-reserva`;
         break;
       case "realizar-pedido":
-        page = `/seleccion-comensal/1`;
+        page = `/ver-qr-reserva/1`;
         break;
+      // case "realizar-pedido":
+      //   page = `/seleccion-comensal/1`;
+      //   break;
       case "search-gestionar-reserva":
         page = `/search-gestionar-reserva`;
         break;
       // case 'realizar-pedido':
       //   page = `/realizar-pedido`;
       //   break;
+      
       case "catalogo":
         page = `/catalogo`;
         break;
