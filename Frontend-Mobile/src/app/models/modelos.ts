@@ -238,7 +238,7 @@ export interface Estadopedido {
 }
 
 export interface Reserva {
-    idReserva: Number,
+    idReserva?: Number,
     codReserva: String,
     cantPersonas: Number,
     fechaReserva: Date,

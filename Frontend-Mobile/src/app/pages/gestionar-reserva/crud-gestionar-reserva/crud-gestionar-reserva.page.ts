@@ -7,9 +7,8 @@ import { ReservaService } from '../../../services/reserva/reserva.service';
 import { MesaService } from '../../../services/mesa/mesa.service';
 import { StorageService, Log } from '../../../services/storage/storage.service';
 import { Mesa } from '../../../services/mesa/mesa.model';
-
-
-
+import { ActivatedRoute } from '@angular/router';
+import { Reserva } from 'src/app/models/modelos';
 
 @Component({
   selector: 'app-crud-gestionar-reserva',
@@ -30,6 +29,11 @@ export class CrudGestionarReservaPage implements OnInit {
   private mesas: Mesa[];
   checkBoxList = [];
 
+  public accionGet;
+  private idReserva = 0;
+  private reserva: Reserva;
+  private newForm = {};
+
   constructor(
     private formBuilder: FormBuilder,
     public toastController: ToastController,
@@ -38,32 +42,69 @@ export class CrudGestionarReservaPage implements OnInit {
     private storage: StorageService,
     private reservaservicio: ReservaService,
     private mesaservicio: MesaService,
+    private activatedRoute: ActivatedRoute
   ) {
-    this.resetComensal();
-    this.loadCurrentUsuario();
-    // this.loadToken();
-
-    this.traerReservas()
-    this.traerMesas()
 
     this.form = this.formBuilder.group({
       edadComensal: ['', Validators.required],
-      fechaReserva: ['2019-09-23', Validators.required],
-      horaEntrada: ['22:50', Validators.required],
-      horaSalida: ['23:30', Validators.required],
-      cantidadComensal: ['12', Validators.required],
-      sector: ['3', Validators.required],
+      fechaReserva: ['', Validators.required],
+      horaEntrada: ['', Validators.required],
+      horaSalida: ['', Validators.required],
+      cantidadComensal: ['', Validators.required],
+      sector: ['', Validators.required],
       idMesa: [null, Validators.required]
     });
-   }
 
-   prueba(){
-     console.log("FORMULARIO ", this.form)
+    this.activatedRoute.params.subscribe(params => {
+      console.log("PAREMTROS DE URL", params);
+      this.accionGet  = params.accion;
+      
+      if (this.accionGet == "crear") {
+        this.resetComensal();
+        this.loadCurrentUsuario();
+        this.traerMesas();
+      }
+      else if (this.accionGet == "editar") {
+        this.idReserva = params.id;
+        this.traerReserva();
+      }
+    });
    }
 
   ngOnInit() {
     this.tratarFecha();
     this.setValidatorsHours();
+  }
+
+  traerReserva() {
+    console.log("Funcion 'traerReserva()', ejecutada");
+    console.log("Id Reserva Url: ", this.idReserva);
+
+    if (this.idReserva !== 0) {
+      this.reservaservicio.getReserva(this.idReserva)
+      .then((res) => {
+        console.log("Reserva obtenida: ", res)
+        if ( res['tipo'] == 2) {
+          console.log("No se pudo obtener Reserva con id Nro ", this.idReserva);
+        } else {
+          this.reserva = res;
+          this.newForm = {
+            edadComensal: '',
+            fechaReserva: this.reserva.fechaReserva,
+            horaEntrada: this.reserva.horaEntradaReserva,
+            horaSalida: this.reserva.horaSalidaReserva,
+            cantidadComensal: this.reserva.cantPersonas,
+            sector: '',
+            idMesa: null     
+          }
+          this.form.setValue(this.newForm)
+          console.log("Formulario nuevo: " , this.form);
+
+          this.loadCurrentUsuario();
+          this.traerMesas();
+        }
+      });
+    }
   }
 
   loadCurrentUsuario() {
@@ -82,21 +123,6 @@ export class CrudGestionarReservaPage implements OnInit {
   cambiarEdadComensal( valor ){
     console.log("EDAD ",valor.target.value)
     this.comensales[0].edadComensal = Number(valor.target.value)
-  }
-
-  // loadToken() {
-  //   this.storage.getOneObject('token').then((data) => {
-  //     this.token = data;
-  //     this.traerReservas(data)
-  //     this.traerMesas(data)
-  //   })
-  // }
-
-  traerReservas() {
-    this.reservaservicio.getReservas()
-    .then( resp => {
-      console.log("Reservas ",resp)
-    })
   }
 
   traerMesas(){
@@ -192,13 +218,26 @@ export class CrudGestionarReservaPage implements OnInit {
     this.toastEliminarComensal();
   }
 
-  async crearReserva() {
-    const reserva = {
-      fechaReserva: this.form.value['fechaReserva'],
-      horaEntradaReserva: this.form.value['horaEntrada'],
-      horaSalidaReserva: this.form.value['horaSalida'],
-      cantPersonas: this.form.value['cantidadComensal']
+  async crearEditarReserva() {
+    let reserva;
+    if (this.accionGet == "crear") {
+      reserva = {
+        idReserva: this.idReserva,
+        fechaReserva: this.form.value['fechaReserva'],
+        horaEntradaReserva: this.form.value['horaEntrada'],
+        horaSalidaReserva: this.form.value['horaSalida'],
+        cantPersonas: this.form.value['cantidadComensal']
+      }
     }
+    else  if (this.accionGet == "editar") {
+      reserva = {
+        fechaReserva: this.form.value['fechaReserva'],
+        horaEntradaReserva: this.form.value['horaEntrada'],
+        horaSalidaReserva: this.form.value['horaSalida'],
+        cantPersonas: this.form.value['cantidadComensal']
+      }
+    }
+    
     const mesas = []
     for (let item of this.checkBoxList) {
       if (item.isChecked) {
@@ -208,8 +247,13 @@ export class CrudGestionarReservaPage implements OnInit {
     const comensales = this.comensales;
     reserva['idUsuario'] = this.currentUsuario.id;
     let reservaConCodigo = await this.agregarCodigoReserva( reserva );
-    this.enviarReserva( reservaConCodigo , comensales, mesas);
-    // this.navController.navigateForward('/reserva' );
+
+    if (this.accionGet == "crear") {
+      this.enviarReservaCrear( reservaConCodigo , comensales, mesas); 
+    }
+    else if (this.accionGet == "editar") {
+      this.enviarReservaEditar( reserva , comensales, mesas); 
+    }
   }
 
   agregarCodigoReserva( data ) {
@@ -224,7 +268,7 @@ export class CrudGestionarReservaPage implements OnInit {
     return tokenReserva
   }
 
-  async enviarReserva(reserva, comensales, mesas) {
+  async enviarReservaCrear(reserva, comensales, mesas) {
     await this.reservaservicio.setReserva( reserva )
     .then( async res => {
       if( res.tipo == 1) {
@@ -266,6 +310,44 @@ export class CrudGestionarReservaPage implements OnInit {
     })
   }
 
+  async enviarReservaEditar(reserva, comensales, mesas) {
+    
+    console.log("enviarReservaEditar, reserva: ", reserva);
+    console.log("comensales", comensales);
+    console.log("mesas", mesas);
+
+    this.reservaservicio.updateReserva( reserva )
+    .then( update => {
+      if (update.tipo == 1) {
+        let pathComensales= {};
+        pathComensales['detalle'] = comensales;
+        pathComensales['idReserva'] = this.idReserva;
+        this.reservaservicio.setComensalesReserva( pathComensales )
+        .then( resp => {
+          if (resp.tipo == 1 ){
+            let pathMesas= {};
+            pathMesas['detalle'] = mesas;
+            pathMesas['idReserva'] = this.idReserva;
+            this.reservaservicio.setMesasReserva( pathMesas )
+            .then( respo => {
+              if (respo.tipo == 1 ){
+                this.toastReservaActualizada();
+                this.navController.navigateRoot(['/consulta-gestionar-reserva', this.idReserva ]);
+              } else {
+                console.log("RESPUESTA DE MESAS FALLIDA")
+              }
+            })
+          } else {
+            console.log("RESPUESTA DE COMENSALES FALLIDA")
+          }
+        })
+      } else {
+      console.log("RESPUESTA DE UPDATE FALLIDA")
+      }
+    })
+      
+  }
+
   async toastReservaCreada( reserva ) {
       const toast = await this.toastController.create({
         message: `Reserva Creada Satisfactoriamente. N° ${reserva.data.idReserva}`,
@@ -276,6 +358,17 @@ export class CrudGestionarReservaPage implements OnInit {
       });
       toast.present();
   }
+
+  async toastReservaActualizada() {
+    const toast = await this.toastController.create({
+      message: `Reserva Creada Satisfactoriamente. N° ${this.idReserva}`,
+      duration: 3000,
+      color: 'success',
+      position: 'middle',
+      translucent: true
+    });
+    toast.present();
+}
 
   setValidatorsHours() {
     this.form.get('horaEntrada').valueChanges
