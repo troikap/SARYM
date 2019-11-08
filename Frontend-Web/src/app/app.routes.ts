@@ -43,7 +43,7 @@ const routes: Routes = [
   { path: "login", component: LoginComponent },
 
   //RUTAS ADMINISTRADOR  
-  { path: "usuario", component: AbmUsuarioComponent, canActivate: [RoleGuardService], data: { expectedRole:'Administrador'}},
+  { path: "usuario", component: AbmUsuarioComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "usuario_crud/:id/:accion", component: CrudUsuarioComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "unidadmedida", component: AbmUnidadmedidaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "unidadmedida_crud/:id/:accion", component: AbmUnidadmedidaCreateComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}}, 
