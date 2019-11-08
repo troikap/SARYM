@@ -13,7 +13,7 @@ import { Reserva, Comensal } from 'src/app/models/modelos';
 })
 export class SeleccionComensalPage implements OnInit {
 
-  parametro;
+  idReserva;
   reserva: Reserva;
   comensales: Comensal[]
 
@@ -31,7 +31,7 @@ export class SeleccionComensalPage implements OnInit {
     this.activatedRoute.params
       .subscribe(params => {
         console.log("PARAMETROS ", params)
-        this.parametro = params.idReserva;
+        this.idReserva = params.idReserva;
       })
       this.traerReserva();
   }
@@ -43,7 +43,7 @@ export class SeleccionComensalPage implements OnInit {
   }
 
   traerReserva(){
-    this.reservaservicio.getReserva( this.parametro )
+    this.reservaservicio.getReserva( this.idReserva )
     .then( reserva => {
       console.log("RESERVA ", reserva)
       this.reserva = reserva;
@@ -91,6 +91,7 @@ export class SeleccionComensalPage implements OnInit {
           handler: () => {
             console.log('Asociando');
             this.guardarComensal(item);
+            this.navController.navigateForward([`/seleccion-pedido/reserva/${this.idReserva}/comensal/${item.idComensal}`])
           }
         }
       ],
