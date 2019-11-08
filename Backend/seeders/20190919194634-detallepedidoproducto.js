@@ -42,6 +42,24 @@ module.exports = {
             { 
                 "idDetallePedidoProducto": 12, "idPedido": 6, "idMenuPromocion": null, "idProducto": 15, "cantidadPedidoProducto": 5, "fechaYHoraInicioPedidoProducto": currentDate, "fechaYHoraEntregaPedidoProducto": null, "createdAt": currentDate, "updatedAt": currentDate
             },
+            { 
+                "idDetallePedidoProducto": 13, "idPedido": 7, "idMenuPromocion": 31, "idProducto": null, "cantidadPedidoProducto": 3, "fechaYHoraInicioPedidoProducto": currentDate, "fechaYHoraEntregaPedidoProducto": null, "createdAt": currentDate, "updatedAt": currentDate
+            },
+            { 
+                "idDetallePedidoProducto": 14, "idPedido": 7, "idMenuPromocion": null, "idProducto": 13, "cantidadPedidoProducto": 5, "fechaYHoraInicioPedidoProducto": currentDate, "fechaYHoraEntregaPedidoProducto": null, "createdAt": currentDate, "updatedAt": currentDate
+            },
+            { 
+                "idDetallePedidoProducto": 15, "idPedido": 8, "idMenuPromocion": null, "idProducto": 14, "cantidadPedidoProducto": 5, "fechaYHoraInicioPedidoProducto": currentDate, "fechaYHoraEntregaPedidoProducto": null, "createdAt": currentDate, "updatedAt": currentDate
+            },
+            { 
+                "idDetallePedidoProducto": 16, "idPedido": 8, "idMenuPromocion": 32, "idProducto": null, "cantidadPedidoProducto": 3, "fechaYHoraInicioPedidoProducto": currentDate, "fechaYHoraEntregaPedidoProducto": null, "createdAt": currentDate, "updatedAt": currentDate
+            },
+            { 
+                "idDetallePedidoProducto": 17, "idPedido": 9, "idMenuPromocion": 33, "idProducto": null, "cantidadPedidoProducto": 3, "fechaYHoraInicioPedidoProducto": currentDate, "fechaYHoraEntregaPedidoProducto": null, "createdAt": currentDate, "updatedAt": currentDate
+            },
+            { 
+                "idDetallePedidoProducto": 18, "idPedido": 9, "idMenuPromocion": null, "idProducto": 15, "cantidadPedidoProducto": 5, "fechaYHoraInicioPedidoProducto": currentDate, "fechaYHoraEntregaPedidoProducto": null, "createdAt": currentDate, "updatedAt": currentDate
+            },
     ], {});
     },
 
