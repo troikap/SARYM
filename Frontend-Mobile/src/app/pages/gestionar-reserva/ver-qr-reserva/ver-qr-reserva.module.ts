@@ -6,6 +6,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { VerQRReservaPage } from './ver-qr-reserva.page';
+import { NgxQRCodeModule } from 'ngx-qrcode2';
+
+
 
 const routes: Routes = [
   {
@@ -19,7 +22,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    NgxQRCodeModule,
   ],
   declarations: [VerQRReservaPage]
 })
