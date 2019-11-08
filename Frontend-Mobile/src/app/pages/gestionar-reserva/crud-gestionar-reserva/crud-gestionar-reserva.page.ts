@@ -95,7 +95,9 @@ export class CrudGestionarReservaPage implements OnInit {
           for (let item of res.comensals) {
             comensal = {};
             comensal = item;
-            comensal['cuitUsuario'] = item.usuario.cuitUsuario;
+            if (item.usuario) {
+              comensal['cuitUsuario'] = item.usuario.cuitUsuario;
+            }
             this.comensales.push(comensal);
           }
           // Mesas
