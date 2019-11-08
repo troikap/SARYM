@@ -19,8 +19,6 @@ export class CrudGestionarReservaPage implements OnInit {
 
   private form: FormGroup;
   private form2: FormGroup;
-  private fechaDesde;
-  private fechaHasta;
   private comensal: Comensal;
   private comensales: Comensal[] = [];
   private mensajeExistenciaUsuario: string = null;
@@ -52,7 +50,6 @@ export class CrudGestionarReservaPage implements OnInit {
       horaEntrada: ['', Validators.required],
       horaSalida: ['', Validators.required],
       cantidadComensal: ['', Validators.required],
-      sector: ['', Validators.required],
       idMesa: [null, Validators.required],
     });
 
@@ -65,9 +62,12 @@ export class CrudGestionarReservaPage implements OnInit {
    }
 
   ngOnInit() {
-    this.tratarFecha();
     this.setValidatorsHours();
   }
+
+prueba() {
+  console.log(this.form);
+}
 
   traerReserva() {
     console.log("Funcion 'traerReserva()', ejecutada");
@@ -80,26 +80,34 @@ export class CrudGestionarReservaPage implements OnInit {
         } else {
           // Reserva
           this.reserva = res;
-          this.newForm = {
-            edadComensal: '',
-            fechaReserva: this.reserva.fechaReserva,
-            horaEntrada: this.reserva.horaEntradaReserva,
-            horaSalida: this.reserva.horaSalidaReserva,
-            cantidadComensal: this.reserva.cantPersonas,
-            sector: '',
-            idMesa: null     
-          }
-          this.form.setValue(this.newForm)
+
+          console.log("TrearReserva: ", this.reserva);
+
+          let edadUsrLogueado;
           // Comensales
           let comensal;
-          for (let item of res.comensals) {
+          for (let i = 0; i < res.comensals.length; i++) {
+            if (i == 0) {
+              edadUsrLogueado = res.comensals[i].edadComensal;
+            }
             comensal = {};
-            comensal = item;
-            if (item.usuario) {
-              comensal['cuitUsuario'] = item.usuario.cuitUsuario;
+            comensal = res.comensals[i];
+            if (res.comensals[i].usuario) {
+              comensal['cuitUsuario'] = res.comensals[i].usuario.cuitUsuario;
             }
             this.comensales.push(comensal);
           }
+
+          this.newForm = {
+            edadComensal: edadUsrLogueado,
+            fechaReserva: this.reserva.fechaReserva, // this.getFechaFormateada(this.reserva.fechaReserva),
+            horaEntrada: this.reserva.horaEntradaReserva,
+            horaSalida: this.reserva.horaSalidaReserva,
+            cantidadComensal: this.reserva.cantPersonas,
+            idMesa: null     
+          }
+          this.form.setValue(this.newForm)
+
           // Mesas
           let cuenta = 0;
           let valid = false;
@@ -117,6 +125,7 @@ export class CrudGestionarReservaPage implements OnInit {
           } else {
             this.form.controls.idMesa.setValue(null)
           }
+
         }
       });
     }
@@ -154,6 +163,9 @@ export class CrudGestionarReservaPage implements OnInit {
           'isChecked': false
         })
       }
+
+      console.log("traerMesas: ", this.checkBoxList);
+
       if (this.accionGet == "crear") {
         console.log("CREANDO")
         this.resetComensal();
@@ -270,6 +282,9 @@ export class CrudGestionarReservaPage implements OnInit {
         mesas.push({'idMesa': item.value})
       }
     }
+
+    console.log("crearEditarReserva - MESAS", this.checkBoxList);
+
     const comensales = this.comensales;
     reserva['idUsuario'] = this.currentUsuario.id;
     let reservaConCodigo = await this.agregarCodigoReserva( reserva );
@@ -295,6 +310,9 @@ export class CrudGestionarReservaPage implements OnInit {
   }
 
   async enviarReservaCrear(reserva, comensales, mesas) {
+
+    console.log("Datos Reserva a Enviar en enviarReservaCrear", reserva);
+
     await this.reservaservicio.setReserva( reserva )
     .then( async res => {
       if( res.tipo == 1) {
@@ -358,7 +376,7 @@ export class CrudGestionarReservaPage implements OnInit {
             .then( respo => {
               if (respo.tipo == 1 ){
                 this.toastReservaActualizada();
-                this.navController.navigateRoot(['/consulta-gestionar-reserva', this.idReserva ]);
+                // this.navController.navigateRoot(['/consulta-gestionar-reserva', this.idReserva ]);
               } else {
                 console.log("RESPUESTA DE MESAS FALLIDA")
               }
@@ -387,7 +405,7 @@ export class CrudGestionarReservaPage implements OnInit {
 
   async toastReservaActualizada() {
     const toast = await this.toastController.create({
-      message: `Reserva Creada Satisfactoriamente. N° ${this.idReserva}`,
+      message: `Reserva N° ${this.idReserva}, actualizada satisfactoriamente.`,
       duration: 3000,
       color: 'success',
       position: 'middle',
@@ -401,18 +419,19 @@ export class CrudGestionarReservaPage implements OnInit {
       .subscribe( respuesta => {
         const horaSalida = this.form.get('horaSalida').value || 0;
         const nuevaHoraEntrada = respuesta;
-        if (  horaSalida < ( this.addTimes(nuevaHoraEntrada , '00:15') )) {
+        if (  horaSalida < ( this.addTimes(nuevaHoraEntrada , '00:30') )) {
           this.form.controls.horaEntrada.setErrors({pattern: true});
         } else {
           this.form.controls.horaEntrada.setErrors(null);
           this.form.controls.horaSalida.setErrors(null);
         }
     });
+
     this.form.get('horaSalida').valueChanges
     .subscribe( respuesta => {
       const horaEntrada = this.form.get('horaEntrada').value || 0;
       const nuevaHoraSalida = respuesta;
-      if ( this.addTimes(horaEntrada , '00:15') > nuevaHoraSalida ) {
+      if ( this.addTimes(horaEntrada , '00:30') > nuevaHoraSalida ) {
         this.form.controls.horaSalida.setErrors({pattern: true});
       } else {
         this.form.controls.horaSalida.setErrors(null);
@@ -449,23 +468,20 @@ export class CrudGestionarReservaPage implements OnInit {
       minutes -= 60 * h
     }
     // return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2)
+  
+    console.log("Retorno hora: ", ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) );
+
     return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) 
   }
 
-  tratarFecha(){
-    let date = new Date();
+  getFechaFormateada(pFecha){
+    let date = pFecha;
     let dd = date.getDate();
     let mm = date.getMonth() + 1;
-    let mm2 = date.getMonth() + 1 + 5;
     let yy = date.getFullYear();
     let dia;
     let mes;
-    let mes2;
-    let año;
-    if (mm2 > 12) {
-      mm2 = mm2 - 12;
-      año = yy + 1;
-    }
+
     if ((dd >= 0) && (dd < 10)) {  
       dia = "0" + String(dd);
     } else {
@@ -476,13 +492,11 @@ export class CrudGestionarReservaPage implements OnInit {
     } else {
       mes = mm;
     }
-    if ((mm2 >= 0) && (mm2 < 10)) {  
-      mes2 = "0" + String(mm2);
-    } else {
-      mes2 = mm2;
-    }
-    this.fechaDesde = `${yy}-${mes}-${dia}`;
-    this.fechaHasta = `${año}-${mes2}-${dia}`;
+
+    let fechaFormateada = `${yy}-${mes}-${dia}`;
+    console.log("fechaFormateada: ", fechaFormateada);
+
+    return fechaFormateada;
   }
 
   async toastNoExisteUsuario() {

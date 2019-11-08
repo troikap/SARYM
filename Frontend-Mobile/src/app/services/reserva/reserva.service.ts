@@ -103,6 +103,7 @@ export class ReservaService {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
+     console.log("Servicio Crear Reserva, datos: ", datas);
     return this.http
       .post(`${this.url}${this.dir}`, datas, data)
       .toPromise()
@@ -129,10 +130,14 @@ export class ReservaService {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
+
+     console.log("Servicio setMesasReserva: ", datas);
+
      return this.http
       .put(`${this.url}${this.dir}${this.dir3}`, datas, data)
       .toPromise()
       .then(response => {
+        console.log("Respuesta servicio Editar Mesas: ", response);
         return response as Reserva;
       })
       .catch(  );
