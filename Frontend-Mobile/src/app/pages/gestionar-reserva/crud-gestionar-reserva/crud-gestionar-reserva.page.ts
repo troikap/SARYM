@@ -48,7 +48,7 @@ export class CrudGestionarReservaPage implements OnInit {
 
     this.form = this.formBuilder.group({
       edadComensal: ['', Validators.required],
-      fechaReserva: ['2019-09-23', Validators.required],
+      fechaReserva: ['2020-01-01', Validators.required],
       horaEntrada: ['22:50', Validators.required],
       horaSalida: ['23:30', Validators.required],
       cantidadComensal: ['12', Validators.required],
