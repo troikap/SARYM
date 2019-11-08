@@ -246,7 +246,6 @@ export class CrudGestionarReservaPage implements OnInit {
     let reserva;
     if (this.accionGet == "crear") {
       reserva = {
-        idReserva: this.idReserva,
         fechaReserva: this.form.value['fechaReserva'],
         horaEntradaReserva: this.form.value['horaEntrada'],
         horaSalidaReserva: this.form.value['horaSalida'],
@@ -255,6 +254,7 @@ export class CrudGestionarReservaPage implements OnInit {
     }
     else  if (this.accionGet == "editar") {
       reserva = {
+        idReserva: this.idReserva,
         fechaReserva: this.form.value['fechaReserva'],
         horaEntradaReserva: this.form.value['horaEntrada'],
         horaSalidaReserva: this.form.value['horaSalida'],
