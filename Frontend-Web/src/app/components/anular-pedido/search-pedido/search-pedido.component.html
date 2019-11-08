@@ -1,0 +1,53 @@
+<div class="row">
+        <div class="col">
+            <input #termino id="botonBuscar" type="text" (keyup)="buscarEstadia(termino.value)" class="form-control mr-sm-2" placeholder="Buscar Estadia...">
+        </div>
+    </div>
+    
+    <hr>
+    <div class="row animated fadeIn fast" *ngIf="listaEstadias.length == 0">
+        <div class="col-md-12">
+            <div class="alert alert-info" role="alert">
+                No existen Estadias con el término <strong>{{termino.value}}</strong>
+            </div>
+        </div>
+    </div>
+    
+    <table class="table" *ngIf="listaEstadias.length != 0">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Cantidad de Personas</th>
+                <th scope="col">Fecha y Hora Inicio de Estadia</th> 
+                <th scope="col">Mesas</th>  
+                <th scope="col">Mozo Asignado</th> 
+                <th scope="col">Accion</th>           
+            </tr>
+        </thead>
+        <tbody  *ngFor="let lista of listaEstadias">
+                <tr *ngIf ="lista.estadiaestados[0].estadoestadium.idEstadoEstadia == 1" >                     
+                        <td align="center">{{lista.cantPersonas}}</td>            
+                        <td>{{lista.fechaYHoraInicioEstadia | date: 'dd/MM/yyyy hh:mm:ss'}}</td>                                     
+                        <td>
+                            <div class="row">
+                                <div class="col-1"  *ngFor="let listaMesas of lista.detalleestadiamesas">{{listaMesas.mesa.nroMesa}}</div>
+    
+                            </div>
+                        </td>
+                        <td>{{lista.mozoestadium.usuario.nombreUsuario}} {{lista.mozoestadium.usuario.apellidoUsuario}}</td>    
+                        <td>
+                           <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Consultar Pedidos en Preparacion" (click)="editEstadia(lista.idEstadia)" style="cursor: pointer;">
+                        </td>
+                </tr>
+        </tbody>
+    </table>
+    
+    <table class="table">
+    
+        <tr>
+            <td align="left" width="20%"><button [routerLink]="['/home']" class="btn btn-primary">Volver</button></td>
+            <td width="20%">&nbsp;</td>
+            <td width="20%">&nbsp;</td>
+            <td width="20%">&nbsp;</td>
+        </tr>
+    </table>
+    

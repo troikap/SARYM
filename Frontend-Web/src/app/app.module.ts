@@ -56,6 +56,8 @@ import { AgregarProductoGestionarMenupromocionComponent } from './components/ges
 import { LoginGuardGuard } from './components/shared/guardias/login-guard.guard';
 import { SearchComponent } from './components/reasignar-mozo-a-estadia/search/search.component';
 import { EditComponent } from './components/reasignar-mozo-a-estadia/edit/edit.component';
+import { SearchPedidoComponent } from './components/anular-pedido/search-pedido/search-pedido.component';
+import { EditPedidoComponent } from './components/anular-pedido/edit-pedido/edit-pedido.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +104,9 @@ import { EditComponent } from './components/reasignar-mozo-a-estadia/edit/edit.c
     AgregarProductoGestionarMenupromocionComponent,
     UploadComponent,
     SearchComponent,
-    EditComponent
+    EditComponent,
+    SearchPedidoComponent,
+    EditPedidoComponent
   ],
   imports: [
     BrowserModule,

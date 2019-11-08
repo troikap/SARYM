@@ -109,7 +109,7 @@ export class HomeComponent implements OnInit {
       next = '/habilitar-deshabilitar-producto';
     break;
     case 'anular-pedido':
-      next = '/anularpedido';
+      next = '/search_anular_pedido';
     break;
     case 'gestionar-estado-estadia':
       next = '/gestionarestadoestadia';
