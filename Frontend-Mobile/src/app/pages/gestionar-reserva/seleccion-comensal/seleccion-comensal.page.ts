@@ -38,7 +38,7 @@ export class SeleccionComensalPage implements OnInit {
 
   limpiarComensalStorage(){
     this.storage.validarComensal().then((respuesta) => {
-      console.log("Resepondiendo limpieza", respuesta)
+      console.log("Limpiando Comensales Reserva")
     })
   }
 
@@ -53,18 +53,7 @@ export class SeleccionComensalPage implements OnInit {
   }
 
   seleccionarComensal( item ) {
-    console.log("ITEM ", item)
     this.confirmacionComensal( item );
-  }
-
-  async loadLog() {
-    await this.storage.getCurrentUsuario()
-      .then(logs => {
-        // this.logueo = logs;
-        // if (!logs) {
-        //   console.log('ERRORR')
-        // }
-      })
   }
 
   async guardarComensal( item ) {
@@ -91,7 +80,7 @@ export class SeleccionComensalPage implements OnInit {
           handler: () => {
             console.log('Asociando');
             this.guardarComensal(item);
-            this.navController.navigateForward([`/seleccion-pedido/reserva/${this.idReserva}/comensal/${item.idComensal}`])
+            this.navController.navigateForward([`/lista-pedido/reserva/${this.idReserva}/comensal/${item.idComensal}`])
           }
         }
       ],

@@ -59,7 +59,6 @@ export class UnirseGestionarReservaPage implements OnInit {
     this.secretCode = atob( this.qrDataCodify );
     this.nameArray = this.secretCode.split('@'),
     this.name = this.nameArray[this.nameArray.length - 1];
-    console.log('name ',this.name);
     const names = this.name;
     const date = this.nameArray[0];
     console.log('secretCode ',this.secretCode);

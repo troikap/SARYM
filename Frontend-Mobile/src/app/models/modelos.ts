@@ -1,4 +1,5 @@
 import { Time } from '@angular/common';
+import { MenuPromocion } from '../services/menupromocion/menupromocion.model';
 
 export interface Usuario {
     idUsuario: Number,
@@ -116,6 +117,8 @@ export interface Producto {
     nombreProducto: String,
     descripcionProducto: String,
     pathImagenProducto: String,
+    precioproductos: Precioproducto[],
+
 }
 
 export interface Rubro {
@@ -157,6 +160,7 @@ export interface Menupromocion {
     nombreMenuPromocion: String,
     descripcionMenuPromocion: String,
     pathImagenMenuPromocion: String,
+    preciomenupromocions: Preciomenupromocion[],
 }
 
 export interface Tipomenupromocion {
@@ -206,14 +210,17 @@ export interface Pedido {
     idPedido: Number,
     codPedido: String,
     fechaYHoraFinPedido: Date,
-    fechaYHoraInicioPedido: Date
+    fechaYHoraInicioPedido: Date,
+    detallepedidoproductos: Detallepedidoproducto[]
 }
 
 export interface Detallepedidoproducto {
     idDetallePedidoProducto: Number,
     cantidadPedidoProducto:Number,
     fechaYhoraEntregaPedidoProducto: Date,
-    fechaYHoraInicioPedidoProducto: Date
+    fechaYHoraInicioPedidoProducto: Date,
+    producto: Producto,
+    menupromocion: Menupromocion,
 }
 
 export interface Comensal {
@@ -248,7 +255,7 @@ export interface Reserva {
     tokenReserva: String,
     comensals?: Comensal[],
     detallereservamesas?: Detallereservamesa[],
-    pedidos?: Pedido,
+    pedidos?: Pedido[],
     reservaestados?: ReservaEstado,
     usuario?: Usuario,
 }

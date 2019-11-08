@@ -6,38 +6,23 @@ var currentDate = fechaArgentina.getFechaArgentina();
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.bulkInsert('pedidos', [
-            {
-                "idPedido": 1,
-                "idComensal": 1,
-                "idEstadia": 1,
-                "idReserva": null,
-                "codPedido": "PEDIDO-1234",
-                "fechaYHoraInicioPedido": currentDate,
-                "fechaYHoraFinPedido": currentDate,
-                "createdAt": currentDate,
-                "updatedAt": currentDate
+            { 
+                "idPedido": 1, "idComensal": 1, "idEstadia": null, "idReserva": 1, "codPedido": "PEDIDO_1-C1-R1", "fechaYHoraInicioPedido": currentDate, "fechaYHoraFinPedido": currentDate, "createdAt": currentDate, "updatedAt": currentDate
             },
-            {
-                "idPedido": 2,
-                "idComensal": 1,
-                "idEstadia": null,
-                "idReserva": 1,
-                "codPedido": "PEDIDO-12345",
-                "fechaYHoraInicioPedido": currentDate,
-                "fechaYHoraFinPedido": currentDate,
-                "createdAt": currentDate,
-                "updatedAt": currentDate
+            { 
+                "idPedido": 2, "idComensal": 1, "idEstadia": null, "idReserva": 1, "codPedido": "PEDIDO_2-C1-R1", "fechaYHoraInicioPedido": currentDate, "fechaYHoraFinPedido": currentDate, "createdAt": currentDate, "updatedAt": currentDate
             },
-            {
-                "idPedido": 3,
-                "idComensal": 1,
-                "idEstadia": 1,
-                "idReserva": null,
-                "codPedido": "PEDIDO-123456",
-                "fechaYHoraInicioPedido": currentDate,
-                "fechaYHoraFinPedido": currentDate,
-                "createdAt": currentDate,
-                "updatedAt": currentDate
+            { 
+                "idPedido": 3, "idComensal": 1, "idEstadia": null, "idReserva": 1, "codPedido": "PEDIDO_3-C1-R1", "fechaYHoraInicioPedido": currentDate, "fechaYHoraFinPedido": currentDate, "createdAt": currentDate, "updatedAt": currentDate
+            },
+            { 
+                "idPedido": 4, "idComensal": 2, "idEstadia": null, "idReserva": 2, "codPedido": "PEDIDO_4-C2-R2", "fechaYHoraInicioPedido": currentDate, "fechaYHoraFinPedido": currentDate, "createdAt": currentDate, "updatedAt": currentDate
+            },
+            { 
+                "idPedido": 5, "idComensal": 2, "idEstadia": null, "idReserva": 2, "codPedido": "PEDIDO_5-C2-R2", "fechaYHoraInicioPedido": currentDate, "fechaYHoraFinPedido": currentDate, "createdAt": currentDate, "updatedAt": currentDate
+            },
+            { 
+                "idPedido": 6, "idComensal": 2, "idEstadia": null, "idReserva": 2, "codPedido": "PEDIDO_6-C2-R2", "fechaYHoraInicioPedido": currentDate, "fechaYHoraFinPedido": currentDate, "createdAt": currentDate, "updatedAt": currentDate
             },
     ], {});
     },
