@@ -35,7 +35,6 @@ export class VerQRReservaPage implements OnInit {
     private navController: NavController,
     public activatedRoute: ActivatedRoute,
     private reservaservicio: ReservaService
-
   ) { 
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params);
@@ -53,6 +52,7 @@ export class VerQRReservaPage implements OnInit {
     this.valor = this.tokenReserva;
     this.qrDataCodify = btoa( this.valor );
     this.createdCode = this.qrDataCodify;
+    console.log("VALOR LEIDO DEL QR : ", this.qrDataCodify)
   }
 
   scanCode() {
