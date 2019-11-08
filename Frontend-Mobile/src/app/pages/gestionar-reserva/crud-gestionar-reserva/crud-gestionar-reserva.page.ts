@@ -27,6 +27,9 @@ export class CrudGestionarReservaPage implements OnInit {
   private mesas: Mesa[];
   checkBoxList = [];
 
+  private fechaDesde;
+  private fechaHasta;
+
   public accionGet;
   private idReserva = 0;
   private reserva: Reserva;
@@ -62,6 +65,7 @@ export class CrudGestionarReservaPage implements OnInit {
    }
 
   ngOnInit() {
+    this.tratarFecha();
     this.setValidatorsHours();
   }
 
@@ -472,6 +476,39 @@ prueba() {
     console.log("Retorno hora: ", ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) );
 
     return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) 
+  }
+
+  tratarFecha(){
+    let date = new Date();
+    let dd = date.getDate();
+    let mm = date.getMonth() + 1;
+    let mm2 = date.getMonth() + 1 + 5;
+    let yy = date.getFullYear();
+    let dia;
+    let mes;
+    let mes2;
+    let año;
+    if (mm2 > 12) {
+      mm2 = mm2 - 12;
+      año = yy + 1;
+    }
+    if ((dd >= 0) && (dd < 10)) {  
+      dia = "0" + String(dd);
+    } else {
+      dia = dd;
+    }
+    if ((mm >= 0) && (mm < 10)) {  
+      mes = "0" + String(mm);
+    } else {
+      mes = mm;
+    }
+    if ((mm2 >= 0) && (mm2 < 10)) {  
+      mes2 = "0" + String(mm2);
+    } else {
+      mes2 = mm2;
+    }
+    this.fechaDesde = `${yy}-${mes}-${dia}`;
+    this.fechaHasta = `${año}-${mes2}-${dia}`;
   }
 
   getFechaFormateada(pFecha){
