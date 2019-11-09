@@ -10,6 +10,8 @@ import { Mesa } from '../../../services/mesa/mesa.model';
 import { ActivatedRoute } from '@angular/router';
 import { Reserva, Comensal } from 'src/app/models/modelos';
 import { TratarFechaProvider } from '../../../providers/tratarFecha.provider';
+import { AlertService } from '../../../providers/alert.service';
+import { ToastService } from '../../../providers/toast.service';
 
 @Component({
   selector: 'app-crud-gestionar-reserva',
@@ -46,6 +48,8 @@ export class CrudGestionarReservaPage implements OnInit {
     private mesaservicio: MesaService,
     private activatedRoute: ActivatedRoute,
     private tratarFechaProvider: TratarFechaProvider,
+    private alertService: AlertService,
+    private toastService: ToastService,
   ) {
     
     this.loadCurrentUsuario();
@@ -67,6 +71,7 @@ export class CrudGestionarReservaPage implements OnInit {
    }
 
   ngOnInit() {
+    this.alertService.emilioGato();
     this.tratarFecha();
     this.setValidatorsHours();
   }
@@ -295,12 +300,12 @@ prueba() {
     reserva['idUsuario'] = this.currentUsuario.id;
     let reservaConCodigo = await this.agregarCodigoReserva( reserva );
 
-    // if (this.accionGet == "crear") {
-    //   this.enviarReservaCrear( reservaConCodigo , comensales, mesas); 
-    // }
-    // else if (this.accionGet == "editar") {
-    //   this.enviarReservaEditar( reserva , comensales, mesas); 
-    // }
+    if (this.accionGet == "crear") {
+      this.enviarReservaCrear( reservaConCodigo , comensales, mesas); 
+    }
+    else if (this.accionGet == "editar") {
+      this.enviarReservaEditar( reserva , comensales, mesas); 
+    }
   }
 
   agregarCodigoReserva( data ) {
@@ -512,28 +517,6 @@ prueba() {
     this.fechaDesde = `${yy}-${mes}-${dia}`;
     this.fechaHasta = `${año}-${mes2}-${dia}`;
   }
-
-  // getFechaFormateada(pFecha){
-  //   let date = pFecha;
-  //   let dd = date.getDate();
-  //   let mm = date.getMonth() + 1;
-  //   let yy = date.getFullYear();
-  //   let dia;
-  //   let mes;
-  //   if ((dd >= 0) && (dd < 10)) {  
-  //     dia = "0" + String(dd);
-  //   } else {
-  //     dia = dd;
-  //   }
-  //   if ((mm >= 0) && (mm < 10)) {  
-  //     mes = "0" + String(mm);
-  //   } else {
-  //     mes = mm;
-  //   }
-  //   let fechaFormateada = `${yy}-${mes}-${dia}`;
-  //   console.log("fechaFormateada: ", fechaFormateada);
-  //   return fechaFormateada;
-  // }
 
   async toastNoExisteUsuario() {
     const toast = await this.toastController.create({
