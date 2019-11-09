@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { Usuario } from '../../models/modelos';
 
 const URL = environment.urlNgrok || environment.url;
 const dir = '/usuario';
-
 const tokenEnviroment = environment.token;
 
 
@@ -98,6 +98,7 @@ export class UsuarioService {
       .catch(  );
   }
 }
+/*
 
 export interface Usuario {
   idUsuario: string;
@@ -112,3 +113,4 @@ export interface Usuario {
   nroCelularUsuario: number;
   nroTelefonoUsuario: number;
 }
+*/
