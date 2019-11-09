@@ -5,7 +5,7 @@
 
 <div class="main">
     <div class="container">
-        <div class="card-columns" style="max-width: 50rem;" *ngIf="variableRol=='Administrador' || variableLibre">
+        <div class="card-columns" *ngIf="variableRol=='Administrador' || variableLibre">
             <div class="card animated fadeIn fast" *ngFor="let iconos of iconosHome">
                 <img [src]="iconos.img" class="card-img-top" [alt]="iconos.nombre" (click)="goTo(iconos.clave)" style="cursor: pointer;">
                 <div class="card-body">
@@ -14,7 +14,7 @@
             </div>
         </div>
         
-        <div class="card-columns" style="max-width: 50rem;" *ngIf="variableRol=='Encargado' || variableLibre">
+        <div class="card-columns" *ngIf="variableRol=='Encargado' || variableLibre">
             <div class="card animated fadeIn fast" *ngFor="let iconos of iconosEncargado">
                 <img [src]="iconos.img" class="card-img-top" [alt]="iconos.nombre" (click)="goTo(iconos.clave)" style="cursor: pointer;">
                 <div class="card-body">
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-columns" style="max-width: 50rem;" *ngIf="variableRol=='Cocinero' || variableLibre">
+        <div class="card-columns" *ngIf="variableRol=='Cocinero' || variableLibre">
             <div class="card animated fadeIn fast" *ngFor="let iconos of iconosEncargado">
                 <img [src]="iconos.img" class="card-img-top" [alt]="iconos.nombre" (click)="goTo(iconos.clave)" style="cursor: pointer;">
                 <div class="card-body">
