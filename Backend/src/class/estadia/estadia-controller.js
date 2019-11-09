@@ -303,6 +303,12 @@ EstadiaController.getOne = (req, res) => {
       {
         model: PedidoModelo,
         attributes: attributes.pedido,
+        include: [
+          {
+              model: ComensalModelo,
+              attributes: attributes.comensal
+          }
+        ]
       },
       {
         model: ComensalModelo,
