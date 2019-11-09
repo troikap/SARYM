@@ -10,32 +10,47 @@ export class ToastService {
     public toastController: ToastController
   ) { }
 
-   // A modo de ejemplo dejo esto por aca... para el malparido del EMILIO GATO
-   async toastNoExisteUsuario() {
+  // The color to use from your application's color palette for TOAST. Default options are: "primary", 
+  // "secondary", "tertiary", "success", "warning", "danger", "light", "medium", and "dark".
+
+  public async toastPrimary(pMensaje: string, time: number) {
     const toast = await this.toastController.create({
-      message: 'Cuit de Usuario ingresado es incorrecto',
-      duration: 3000,
+      message: pMensaje,
+      duration: time,
+      color: 'primary',
+      position: 'middle',
+      translucent: true
+    });
+    toast.present();
+  }
+
+  async toastWarning(pMensaje: string, time: number) {
+    const toast = await this.toastController.create({
+      message: pMensaje,
+      duration: time,
       color: 'warning',
       position: 'middle',
       translucent: true
     });
     toast.present();
   }
-  async toastComensalAgregado() {
+
+  async toastSuccess(pMensaje: string, time: number) {
     const toast = await this.toastController.create({
-      message: 'Comensal Agregado',
-      duration: 2000,
+      message: pMensaje,
+      duration: time,
       color: 'success',
       position: 'middle',
       translucent: true
     });
     toast.present();
   }
-  async toastEliminarComensal() {
+
+  async toastError(pMensaje: string, time: number) {
     const toast = await this.toastController.create({
-      message: 'Comensal Eliminado',
-      duration: 2000,
-      color: 'success',
+      message: pMensaje,
+      duration: time,
+      color: 'danger',
       position: 'middle',
       translucent: true
     });
