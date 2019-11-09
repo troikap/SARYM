@@ -36,6 +36,7 @@ export class ConsultaGestionarReservaPage implements OnInit {
 
   ngOnInit() {
     this.traerMesas();
+    this.traerReserva();
   }
   
   async traerMesas(){
@@ -44,8 +45,6 @@ export class ConsultaGestionarReservaPage implements OnInit {
       this.mesas =  resp['data'];
       
       console.log("traerMesas: ", this.mesas );
-
-      this.traerReserva();
     })
   }
 
