@@ -134,7 +134,7 @@ export class HomeService {
         id: '5',
         nombre: 'Anular Pedido',
         clave: 'anular-pedido',
-        path: '/anularpedido',
+        path: '/search_anular_pedido',
         img: 'assets/imagenes/menu-promocion.png',
         responsable: 'Encargado'
       },

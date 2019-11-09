@@ -20,6 +20,7 @@ const tratarError = require("../../middlewares/handleError"),
   ComensalModelo = require("../comensal/comensal-model"),
   DetallePedidoProductoModelo = require("../detallepedidoproducto/detallepedidoproducto-model"),
   MenuPromocionModelo = require("../menupromocion/menupromocion-model"),
+  TipoMonedaModelo = require("../tipomoneda/tipomoneda-model"),
  
   legend = "Pedido",
   legend2 = "PedidoEstado",
@@ -229,10 +230,36 @@ PedidoController.getOne = (req, res) => {
                 {
                     model: ProductoModelo,
                     attributes: attributes.producto,
+                    include: [
+                        {
+                            model: PrecioProductoModelo,
+                            where: { fechaYHoraHastaPrecioProducto: null },
+                            attributes: attributes.precioproducto,
+                            include: [
+                            {
+                                model: TipoMonedaModelo,
+                                attributes: attributes.tipomoneda
+                            }
+                            ]
+                        }
+                    ]
                 },
                 {
                     model: MenuPromocionModelo,
                     attributes: attributes.menupromocion,
+                    include: [
+                        {
+                          model: PrecioMenuPromocionModelo,
+                          where: { fechaYHoraHastaPrecioMenuPromocion: null },
+                          attributes: attributes.preciomenupromocion,
+                          include: [
+                            {
+                                model: TipoMonedaModelo,
+                                attributes: attributes.tipomoneda
+                            }
+                          ]
+                        }
+                    ]
                 }
             ]
         },

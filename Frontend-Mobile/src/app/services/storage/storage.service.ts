@@ -65,7 +65,6 @@ validarComensal(): Promise<any> {
   let numeroActual = Number(fechaActual);
   return this.storage.get(COMENSAL_RESERVA_KEY)
   .then( ( comensales ) => {
-    console.log("METRAIGO comensales : ",comensales)
     let registrosVigentes: any[] = [];
     if (comensales) {
       for ( let element of comensales ) {

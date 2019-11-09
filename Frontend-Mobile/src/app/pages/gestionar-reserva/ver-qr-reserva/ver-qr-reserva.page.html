@@ -1,17 +1,17 @@
-<ion-header *ngIf="variable">
+<ion-header >
     <ion-toolbar color="primary">
         <ion-buttons slot="start" (click)="onBack()">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>Reserva N° {{datos.idTraidoBackEnd}}</ion-title>
+        <ion-title>Reserva N° {{idReserva}}</ion-title>
     </ion-toolbar>
 </ion-header>
-<ion-content *ngIf="variable">
+<ion-content >
     <ion-row>
         <ion-col>
         </ion-col>
     </ion-row>
-    <ion-card>
+    <!-- <ion-card>
         <ion-card-header>
             <ion-card-title>
                 Fecha de Reserva: {{datos.fechaReserva}}<br> Desde las: {{datos.horaEntrada}} hasta las {{datos.horaSalida}}
@@ -20,7 +20,7 @@
                 Cantidad de Comensales: {{datos.cantidadComensal}}<br> Ubicación: mesa {{datos.nroMesa}} sector {{datos.sector}}
             </ion-card-subtitle>
         </ion-card-header>
-    </ion-card>
+    </ion-card> -->
     <div *ngIf="datos && datos.comensales">
         <ion-card *ngFor="let comen of datos.comensales; let i = index">
             <ion-card-header>
@@ -34,10 +34,11 @@
             <!-- <ion-button color="danger" class="mt-10" (click)="eliminarComensal(i)" shape="round"> Eliminar</ion-button> -->
         </ion-card>
     </div>
-    <ion-button *ngIf="!mostrar && (datos != {})" class="mt-10" (click)="createCode()" (click)="mostrar=!mostrar" expand="full">Mostrar QR</ion-button>
-    <ion-button *ngIf="mostrar" class="mt-10" (click)="mostrar=!mostrar" expand="full">Ocultar QR</ion-button>
-    <ion-card *ngIf="createdCode && mostrar">
-        <ngx-qrcode [qrc-value]="createdCode"></ngx-qrcode>
+    <!-- <ion-button *ngIf="!mostrar && (datos != {})" class="mt-10" (click)="createCode()" (click)="mostrar=!mostrar" expand="full">Mostrar QR</ion-button>
+    <ion-button *ngIf="mostrar" class="mt-10" (click)="mostrar=!mostrar" expand="full">Ocultar QR</ion-button> -->
+    <!-- <ion-card *ngIf="createdCode && mostrar"> -->
+    <ion-card >
+        <ngx-qrcode [(qrc-value)]="createdCode"></ngx-qrcode>
         <ion-card-content>
             <p>Value: {{createdCode}} </p>
         </ion-card-content>
@@ -47,5 +48,6 @@
             Result from Scan: {{scannedCode}}
         </ion-card-content>
     </ion-card>
-    <ion-button class="mt-10" (click)="variable = false && datos=null" (click)="scanCode()" expand="full">Escanear Reserva</ion-button>
+    <h2 padding> <strong>Para compartir tu reserva con tus amigos!</strong></h2>
+    <!-- <ion-button class="mt-10" (click)="variable = false && datos=null" (click)="scanCode()" expand="full">Escanear Reserva</ion-button> -->
 </ion-content>

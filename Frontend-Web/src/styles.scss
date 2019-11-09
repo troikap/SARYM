@@ -1,16 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "variables.scss";
+@import "./assets/styles/variables.scss";
 @import "./assets/styles/form.scss";
 @import "./assets/styles/select.scss";
 @import "./assets/styles/img.scss";
+@import "./assets/styles/otros.scss";
+@import "./assets/styles/buttons.scss";
 
+
+html {
+    height: 100%;
+    
+}
 body {
-    padding-bottom: 50px;
+    padding-bottom: 0px;
+    height: 100%;
+
 }
 
 .main_container {
-    margin-top: 20px;
+    background-image: url("./assets/imagenes/imagen-login.png") ;
+    background-color: transparent;
+    height: auto;
+    min-height: calc(100% - 60px) !important;
+
+    // opacity: 0.2;
+    // opacity: 0.5;
+    // filter: alpha(opacity=80);
 }
 
 

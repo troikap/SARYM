@@ -17,4 +17,32 @@
           <ion-card-subtitle>Cuit: <strong>{{item.usuario.cuitUsuario}}</strong></ion-card-subtitle>
       </ion-card-content>
   </ion-card>
+
+  <ion-item-sliding *ngFor="let item of reserva.comensals">
+    <ion-item (click)="seleccionarComensal(item)">
+      <ion-card color=success class="card-inter">
+        <ion-card-header>
+          <ion-card-title>Codigo: <strong>{{item.codPedido}}</strong></ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-card-title>Importe: <strong>$ {{item.importeTotal}}</strong></ion-card-title>
+          <ion-card-title>Estado: <strong>{{item.pedidoestados[0].estadopedido.nombreEstadoPedido}}</strong></ion-card-title>
+        </ion-card-content>
+        <ion-item *ngFor="let elemento of item.detallepedidoproducto">
+            <ion-card-subtitle>Usuario Asociado: <strong> {{elemento}}</strong></ion-card-subtitle>
+            <ion-card-subtitle>Cuit: <strong>{{item.usuario.cuitUsuario}}</strong></ion-card-subtitle>
+        </ion-item>
+      </ion-card>
+    </ion-item>
+    <ion-item-options side="start">
+        <ion-item-option color="danger" (click)="eliminarPedido()">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="crearComensal()">
+  <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+  </ion-fab>
 </ion-content>

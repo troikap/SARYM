@@ -1,0 +1,26 @@
+.card-columns {
+    padding-top: 20px;
+    margin: auto;
+    max-width: 50rem;
+    .card.animated.fadeIn.fast {
+        margin-top: 15px;
+        box-shadow: 0px 0px 8px 8px;
+    }
+}
+
+.row-buscador {
+    width: 50%;
+    margin: auto;
+}
+
+.table-container {
+    padding-top: 10px;
+    width: 90%;
+    margin: auto;
+    table {
+        width: 100%;
+        tbody {
+            background-color: floralwhite
+        }
+    }
+}

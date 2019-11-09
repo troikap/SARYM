@@ -3,6 +3,8 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Comensal, Reserva } from 'src/app/models/modelos';
+import { ReservaService } from 'src/app/services/reserva/reserva.service';
 
 @Component({
   selector: 'app-ver-qr-reserva',
@@ -13,37 +15,44 @@ export class VerQRReservaPage implements OnInit {
   private datos;
   private valor;
   private qrDataCodify;
-  private createdCode;
+  public createdCode;
   private secretCode;
   private nameArray;
   private name;
-  private mostrar: boolean = false;
+  public mostrar: boolean = false;
   public variable: boolean = false;
+  public scannedCode;
+
+  public idReserva;
+
+  private comensal: Comensal;
+  private comensales: Comensal[] = [];
+  private tokenReserva;
 
   constructor(
     private barcodeScanner: BarcodeScanner,
     private alertController: AlertController,
     private navController: NavController,
     public activatedRoute: ActivatedRoute,
-
-  ) { }
+    private reservaservicio: ReservaService
+  ) { 
+    this.activatedRoute.params.subscribe(params => {
+      console.log("PAREMTROS DE URL", params);
+      this.idReserva = params.id;
+      this.traerReserva();
+    });
+  }
 
   ngOnInit() {
-    console.log("PAGE ConsultaGestionarReservaPage")
-    this.activatedRoute.params
-      .subscribe(params => {
-        console.log("PARAMETROS ", params)
-      })
-    this.datos = null;
-    
+
   }
 
   createCode() {
     console.log('Creando QR');
-    this.valor = `${this.datos.fechaReserva}@${this.datos.idTraidoBackEnd}`;
+    this.valor = this.tokenReserva;
     this.qrDataCodify = btoa( this.valor );
     this.createdCode = this.qrDataCodify;
-    
+    console.log("VALOR LEIDO DEL QR : ", this.qrDataCodify)
   }
 
   scanCode() {
@@ -86,7 +95,7 @@ export class VerQRReservaPage implements OnInit {
           text: 'Unirse',
           handler: () => {
             console.log('Confirm Okay');
-            this.traerReserva(Number(names))
+            this.traerReserva()
           }
         }
       ]
@@ -95,41 +104,28 @@ export class VerQRReservaPage implements OnInit {
     await alert.present();
   }
 
-  traerReserva( id: number ) {
-    this.datos = {
-    cantidadComensal: "12",
-    comensales:  [
-      {
-      aliasComensal: "Lucas",
-      edadComensal: 27,
-      idUsuario: 1
-      },
-      {
-      aliasComensal: "Mari",
-      edadComensal: 24,
-      idUsuario: 2
-      },
-      {
-      aliasComensal: "Roberto",
-      edadComensal: 25,
-      idUsuario: null
-      }
-    ],
-    fechaReserva: "2019-09-23",
-    horaEntrada: "22:50",
-    horaSalida: "23:30",
-    idTraidoBackEnd: id,
-    nroMesa: "2",
-    sector: "3",
+  traerReserva() {
+    console.log("Funcion 'traerReserva()', ejecutada");
+    if (this.idReserva !== 0) {
+      this.reservaservicio.getReserva(this.idReserva)
+      .then((res: Reserva) => {
+        console.log("Reserva obtenida: ", res)
+        if ( res['tipo'] == 2) {
+          console.log("No se pudo obtener Reserva con id Nro ", this.idReserva);
+        } else {
+          this.tokenReserva = res.tokenReserva;
+          this.createCode();
+        }
+      });
     }
-    this.variable = true;
+    
   }
 
   onBack() {
     console.log("Retrocediendo.")
     this.variable = false;
     this.datos = null;
-    this.navController.navigateRoot('/home');
+    this.navController.navigateRoot('/search-gestionar.reserva');
   }
 
 }

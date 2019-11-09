@@ -15,6 +15,11 @@ import { AppRoutingModule } from './app-routing.module';
 // import { UsuarioServiceService } from './services/usuario.service';
 import { ReservaService } from './services/reserva/reserva.service';
 import { MesaService } from './services/mesa/mesa.service';
+import { AlertService } from './providers/alert.service';
+import { ToastService } from './providers/toast.service';
+
+// providers
+import { TratarFechaProvider } from './providers/tratarFecha.provider';
 
 //qr
 import { NgxQRCodeModule } from 'ngx-qrcode2';
@@ -65,6 +70,9 @@ import { ModalDetalleCatalogoPage } from './modal/modal-detalle-catalogo/modal-d
     ReservaService,
     MesaService,
     IonicSelectableModule,
+    TratarFechaProvider,
+    AlertService,
+    ToastService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

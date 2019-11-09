@@ -13,6 +13,13 @@ const tratarError = require("../../middlewares/handleError"),
   MesaModelo = require("../mesa/mesa-model"),
   PedidoModelo = require("../pedido/pedido-model"),
   ComensalModelo = require("../comensal/comensal-model"),
+  DetallePedidoProductoModelo = require("../detallepedidoproducto/detallepedidoproducto-model"),
+  ProductoModelo = require("../producto/producto-model"),
+  MenuPromocionModelo = require("../menupromocion/menupromocion-model"),
+  PrecioMenuPromocionModelo = require("../preciomenupromocion/preciomenupromocion-model"),
+  PrecioProductoModelo = require("../precioproducto/precioproducto-model"),
+  PedidoEstadoModelo = require("../pedidoestado/pedidoestado-model"),
+  EstadoPedidoModelo = require("../estadopedido/estadopedido-model"),
   
   legend = "Reserva",
   legend2 = "ReservaEstado",
@@ -255,6 +262,47 @@ ReservaController.getOne = (req, res) => {
       {
         model: PedidoModelo,
         attributes: attributes.pedido,
+        include: [
+          {
+            model: PedidoEstadoModelo,
+            attributes: attributes.pedidoestado,
+            where: { fechaYHoraBajaPedidoEstado: null},
+            include: [
+              {
+                model: EstadoPedidoModelo,
+                attributes: attributes.estadopedido,
+              },
+            ],
+          },
+          {
+            model: DetallePedidoProductoModelo,
+            attributes: attributes.detallepedidoproducto,
+            include: [
+              {
+                model: ProductoModelo,
+                attributes: attributes.producto,
+                include: [
+                  {
+                    model: PrecioProductoModelo,
+                    attributes: attributes.precioproducto,
+                    where: { fechaYHoraHastaPrecioProducto: null},
+                  },
+                ]
+              },
+              {
+                model: MenuPromocionModelo,
+                attributes: attributes.menupromocion,
+                include: [
+                  {
+                    model: PrecioMenuPromocionModelo,
+                    attributes: attributes.preciomenupromocion,
+                    where: { fechaYHoraHastaPrecioMenuPromocion: null},
+                  },
+                ]
+              },
+            ]
+          },
+        ]
       },
       {
         model: ComensalModelo,

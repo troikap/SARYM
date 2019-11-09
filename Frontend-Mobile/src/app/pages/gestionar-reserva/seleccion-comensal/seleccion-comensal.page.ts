@@ -13,7 +13,7 @@ import { Reserva, Comensal } from 'src/app/models/modelos';
 })
 export class SeleccionComensalPage implements OnInit {
 
-  parametro;
+  idReserva;
   reserva: Reserva;
   comensales: Comensal[]
 
@@ -31,19 +31,19 @@ export class SeleccionComensalPage implements OnInit {
     this.activatedRoute.params
       .subscribe(params => {
         console.log("PARAMETROS ", params)
-        this.parametro = params.idReserva;
+        this.idReserva = params.idReserva;
       })
       this.traerReserva();
   }
 
   limpiarComensalStorage(){
     this.storage.validarComensal().then((respuesta) => {
-      console.log("Resepondiendo limpieza", respuesta)
+      console.log("Limpiando Comensales Reserva")
     })
   }
 
   traerReserva(){
-    this.reservaservicio.getReserva( this.parametro )
+    this.reservaservicio.getReserva( this.idReserva )
     .then( reserva => {
       console.log("RESERVA ", reserva)
       this.reserva = reserva;
@@ -53,18 +53,7 @@ export class SeleccionComensalPage implements OnInit {
   }
 
   seleccionarComensal( item ) {
-    console.log("ITEM ", item)
     this.confirmacionComensal( item );
-  }
-
-  async loadLog() {
-    await this.storage.getCurrentUsuario()
-      .then(logs => {
-        // this.logueo = logs;
-        // if (!logs) {
-        //   console.log('ERRORR')
-        // }
-      })
   }
 
   async guardarComensal( item ) {
@@ -91,6 +80,7 @@ export class SeleccionComensalPage implements OnInit {
           handler: () => {
             console.log('Asociando');
             this.guardarComensal(item);
+            this.navController.navigateForward([`/lista-pedido/reserva/${this.idReserva}/comensal/${item.idComensal}`])
           }
         }
       ],

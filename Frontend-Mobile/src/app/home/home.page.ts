@@ -66,6 +66,9 @@ export class HomePage implements OnInit {
       case "unirse-reserva":
         page = `/unirse-gestionar-reserva`;
         break;
+      // case "realizar-pedido":
+      //   page = `/ver-qr-reserva/1`;
+      //   break;
       case "realizar-pedido":
         page = `/seleccion-comensal/1`;
         break;
@@ -75,6 +78,7 @@ export class HomePage implements OnInit {
       // case 'realizar-pedido':
       //   page = `/realizar-pedido`;
       //   break;
+      
       case "catalogo":
         page = `/catalogo`;
         break;

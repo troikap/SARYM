@@ -6,7 +6,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
 import { LoginComponent } from './components/login/login.component';
@@ -53,6 +52,10 @@ import { ReporteTopPromocionComponent } from './components/generar-reporte/repor
 import { UploadService } from './services/upload/upload.service';
 import { UploadComponent } from './upload/upload.component';
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
+import { SearchComponent } from './components/reasignar-mozo-a-estadia/search/search.component';
+import { EditComponent } from './components/reasignar-mozo-a-estadia/edit/edit.component';
+import { SearchPedidoComponent } from './components/anular-pedido/search-pedido/search-pedido.component';
+import { EditPedidoComponent } from './components/anular-pedido/edit-pedido/edit-pedido.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { RoleGuardService } from './services/role-guard.service';
 
@@ -99,7 +102,11 @@ import { RoleGuardService } from './services/role-guard.service';
     ReporteTopMenuComponent,
     ReporteTopPromocionComponent,
     AgregarProductoGestionarMenupromocionComponent,
-    UploadComponent
+    UploadComponent,
+    SearchComponent,
+    EditComponent,
+    SearchPedidoComponent,
+    EditPedidoComponent
   ],
   imports: [
     BrowserModule,

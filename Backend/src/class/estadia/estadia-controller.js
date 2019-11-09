@@ -16,6 +16,14 @@ const tratarError = require("../../middlewares/handleError"),
   ClienteEstadiaModelo = require("../clienteestadia/clienteestadia-model"),
   MozoEstadiaModelo = require("../mozoestadia/mozoestadia-model"),
   ReservaModelo = require("../reserva/reserva-model"),
+  PedidoEstadoModelo = require("../pedidoestado/pedidoestado-model"),
+  EstadoPedidoModelo = require("../estadopedido/estadopedido-model"),
+  DetallePedidoProductoModelo = require("../detallepedidoproducto/detallepedidoproducto-model"),
+  ProductoModelo = require("../producto/producto-model"),
+  MenuPromocionModelo = require("../menupromocion/menupromocion-model"),
+  PrecioProductoModelo = require("../precioproducto/precioproducto-model"),
+  TipoMonedaModelo = require("../tipomoneda/tipomoneda-model"),
+  PrecioMenuPromocionModelo  = require("../preciomenupromocion/preciomenupromocion-model"),
   
   legend = "Estadia",
   legend2 = "EstadiaEstado",
@@ -303,6 +311,63 @@ EstadiaController.getOne = (req, res) => {
       {
         model: PedidoModelo,
         attributes: attributes.pedido,
+        include: [
+            {
+                model: PedidoEstadoModelo,
+                attributes: attributes.pedidoestado,
+                where: { fechaYHoraBajaPedidoEstado: null },
+                include: [
+                    {
+                        model: EstadoPedidoModelo,
+                        attributes: attributes.estadopedido
+                    }
+                ]
+            },
+            {
+                model: DetallePedidoProductoModelo,
+                attributes: attributes.detallepedidoproducto,
+                include: [
+                    {
+                        model: ProductoModelo,
+                        attributes: attributes.producto,
+                        include: [
+                          {
+                          model: PrecioProductoModelo,
+                          where: { fechaYHoraHastaPrecioProducto: null },
+                          attributes: attributes.precioproducto,
+                          include: [
+                            {
+                                model: TipoMonedaModelo,
+                                attributes: attributes.tipomoneda
+                            }
+                          ]
+                        },
+                      ]
+                    },
+                    {
+                        model: MenuPromocionModelo,
+                        attributes: attributes.menupromocion,
+                        include: [
+                          {
+                            model: PrecioMenuPromocionModelo,
+                            where: { fechaYHoraHastaPrecioMenuPromocion: null },
+                            attributes: attributes.preciomenupromocion,
+                            include: [
+                              {
+                                  model: TipoMonedaModelo,
+                                  attributes: attributes.tipomoneda
+                              }
+                            ]
+                          }
+                        ]
+                    }
+                ]
+            },
+            {
+                model: ComensalModelo,
+                attributes: attributes.comensal,
+            },
+        ]
       },
       {
         model: ComensalModelo,

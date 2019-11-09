@@ -21,6 +21,7 @@ export class ReservaService {
   dir4 = '/actualizarDatos';
   dirTodo = "/todo";
   dirComensal = "/getToComensal";
+  dirCambiarEstado = '/cambiarEstado';
 
   constructor( 
     public http: HttpClient,
@@ -66,10 +67,9 @@ export class ReservaService {
       .get(`${this.url}${this.dir}/${id}`, {headers})
       .toPromise()
       .then(response => {
-        console.log("Service getReserva: ", response);
         return response['data'] as Reserva;
       })
-      .catch(  );
+      .catch();
   }
 
   getReservasPorUsuario(idUsuario: number): Promise<any[]> {
@@ -103,6 +103,7 @@ export class ReservaService {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
+     console.log("Servicio Crear Reserva, datos: ", datas);
     return this.http
       .post(`${this.url}${this.dir}`, datas, data)
       .toPromise()
@@ -129,11 +130,29 @@ export class ReservaService {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
+
+     console.log("Servicio setMesasReserva: ", datas);
+
      return this.http
       .put(`${this.url}${this.dir}${this.dir3}`, datas, data)
       .toPromise()
       .then(response => {
+        console.log("Respuesta servicio Editar Mesas: ", response);
         return response as Reserva;
+      })
+      .catch(  );
+  }
+
+  cambiarEstado( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}${this.dirCambiarEstado}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Servicio cambiarEstado()", response);
+        return response;
       })
       .catch(  );
   }

@@ -48,7 +48,7 @@ export class HabilitarDeshabilitarProductoComponent implements OnInit {
         this.listaProductos=[];
         var length = this.listaProductosProvisoria.length;
         
-for (let i = 0; i <= length; i++) {
+for (let i = 0; i < length; i++) {
 let producto = this.listaProductosProvisoria[i];
   if(producto.productoestados[0].estadoproducto.idEstadoProducto == 1 || producto.productoestados[0].estadoproducto.idEstadoProducto == 2 ){
     this.listaProductos.push(producto)
@@ -76,8 +76,9 @@ let producto = this.listaProductosProvisoria[i];
         this.listaProductos=[];
         var length = this.listaProductosProvisoria.length;
         
-for (let i = 0; i <= length; i++) {
+for (let i = 0; i < length; i++) {
 let producto = this.listaProductosProvisoria[i];
+console.log("ITERACION : ",i)
   if(producto.productoestados[0].estadoproducto.idEstadoProducto == 1 || producto.productoestados[0].estadoproducto.idEstadoProducto == 2 ){
     this.listaProductos.push(producto)
   }
