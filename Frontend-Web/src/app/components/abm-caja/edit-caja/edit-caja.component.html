@@ -1,55 +1,55 @@
-<h2 class="titulo">Editar Caja</h2>
-<hr>
-<div class="container">
-    <div class="form-section">
-        <form [formGroup]="form" (ngSubmit)="guardar()">
-            <div class="form-group">
-                <label for="idCaja" class="col col-form-label">Numero de Caja</label>
-                <input type="text" id="idCaja" placeholder="Identificador" formControlName="idCaja" class="form-control">
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="descripcionCajaEstado" class="col col-form-label">Descripcion del Cambio</label>
-                        <input type="text" class="form-control" id="descripcionCajaEstado" placeholder="Ingrese Descripcion" formControlName="descripcionCajaEstado">
-                        <p class="input-error-msg" *ngIf="form.controls.descripcionCajaEstado.errors?.required && form.controls.descripcionCajaEstado.touched">Campo Obligatorio.</p>
-                    </div>
-                </div>                
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="montoAperturaCajaEstado" class="col col-form-label">Monto actual en Caja (${{total}})</label>
-                        <input type="text" class="form-control" id="montoAperturaCajaEstado" placeholder="Ingrese Monto" formControlName="montoAperturaCajaEstado">
-                        <p class="input-error-msg" *ngIf="form.controls.montoAperturaCajaEstado.errors?.required && form.controls.montoAperturaCajaEstado.touched">Campo Obligatorio.</p>
-                        <p class="input-error-msg" *ngIf="form.controls.montoAperturaCajaEstado.errors?.pattern && form.controls.montoAperturaCajaEstado.touched">Debe ser un número positivo y tener hasta dos decimales (Ej. 10.23)</p>
-                    </div>
-                </div>                
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <label for="idEstadoCaja" class="col col-form-label">Estado de Caja</label>
-                    <select Placeholder='Seleccione Estado' formControlName='idEstadoCaja' class="form-control"  >                                                                  
-                            <option *ngFor='let element of estadosCaja'   [value]='element.idEstadoCaja'>
-                              <div *ngIf= 'element.idEstadoCaja != 1'>
-                                {{element.nombreEstadoCaja}}
-                              </div>
-                            </option>                                                                  
-                    </select>
-                    <p class="input-error-msg" *ngIf="form.controls.idEstadoCaja.errors?.required && form.controls.idEstadoCaja.touched">Campo Obligatorio.</p>
+<div class="table-container">
+    <h2 class="titulo">Editar Caja</h2>
+    <hr>
+    <div class="container">
+        <div class="form-section">
+            <form [formGroup]="form" (ngSubmit)="guardar()">
+                <div class="form-group">
+                    <label for="idCaja" class="col col-form-label">Numero de Caja</label>
+                    <input type="text" id="idCaja" placeholder="Identificador" formControlName="idCaja" class="form-control">
                 </div>
-            </div>                   
-                
-            
-            <hr align="left">
-            <div *ngIf="accionGet != 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
-            </div>
-            <div *ngIf="accionGet == 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
-            </div>
-        </form>
+                <div class="form-group row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="descripcionCajaEstado" class="col col-form-label">Descripcion del Cambio</label>
+                            <input type="text" class="form-control" id="descripcionCajaEstado" placeholder="Ingrese Descripcion" formControlName="descripcionCajaEstado">
+                            <p class="input-error-msg" *ngIf="form.controls.descripcionCajaEstado.errors?.required && form.controls.descripcionCajaEstado.touched">Campo Obligatorio.</p>
+                        </div>
+                    </div>                
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="montoAperturaCajaEstado" class="col col-form-label">Monto actual en Caja (${{total}})</label>
+                            <input type="text" class="form-control" id="montoAperturaCajaEstado" placeholder="Ingrese Monto" formControlName="montoAperturaCajaEstado">
+                            <p class="input-error-msg" *ngIf="form.controls.montoAperturaCajaEstado.errors?.required && form.controls.montoAperturaCajaEstado.touched">Campo Obligatorio.</p>
+                            <p class="input-error-msg" *ngIf="form.controls.montoAperturaCajaEstado.errors?.pattern && form.controls.montoAperturaCajaEstado.touched">Debe ser un número positivo y tener hasta dos decimales (Ej. 10.23)</p>
+                        </div>
+                    </div>                
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="idEstadoCaja" class="col col-form-label">Estado de Caja</label>
+                        <select Placeholder='Seleccione Estado' formControlName='idEstadoCaja' class="form-control"  >                                                                  
+                                <option *ngFor='let element of estadosCaja'   [value]='element.idEstadoCaja'>
+                                  <div *ngIf= 'element.idEstadoCaja != 1'>
+                                    {{element.nombreEstadoCaja}}
+                                  </div>
+                                </option>                                                                  
+                        </select>
+                        <p class="input-error-msg" *ngIf="form.controls.idEstadoCaja.errors?.required && form.controls.idEstadoCaja.touched">Campo Obligatorio.</p>
+                    </div>
+                </div>                   
+                <hr align="left">
+                <div *ngIf="accionGet != 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+                </div>
+                <div *ngIf="accionGet == 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+                </div>
+            </form>
+        </div>
     </div>
+    <hr>
+    <button onclick="history.back()" class="btn btn-primary">Cancelar</button>
 </div>
-<hr>
-<button onclick="history.back()" class="btn btn-primary">Cancelar</button>

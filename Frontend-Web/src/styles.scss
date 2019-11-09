@@ -18,15 +18,16 @@ body {
 
 }
 
-.main_container {
+.main_container_img {
     background-image: url("./assets/imagenes/imagen-login.png") ;
     background-color: transparent;
     height: auto;
     min-height: calc(100% - 60px) !important;
+}
 
-    // opacity: 0.2;
-    // opacity: 0.5;
-    // filter: alpha(opacity=80);
+.main_container {
+    height: auto;
+    min-height: calc(100% - 60px) !important;
 }
 
 
