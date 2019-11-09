@@ -43,9 +43,14 @@ import { IonicStorageModule } from '@ionic/storage';
 //modal
 import { ModalDetalleCatalogoPage } from './modal/modal-detalle-catalogo/modal-detalle-catalogo.page';
 
+// pipes
+import { AjustarPalabraPipe } from './pipes/ajustar-palabra.pipe';
+
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent
+  ],
   entryComponents: [],
   
   imports: [

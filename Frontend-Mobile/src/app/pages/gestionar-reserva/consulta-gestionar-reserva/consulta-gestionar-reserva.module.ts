@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { ConsultaGestionarReservaPage} from './consulta-gestionar-reserva.page';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { AjustarPalabraPipe } from 'src/app/pipes/ajustar-palabra.pipe';
+import { CheckNullPipe } from 'src/app/pipes/check-null.pipe';
 
 const routes: Routes = [
   {
@@ -23,6 +25,10 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     NgxQRCodeModule
   ],
-  declarations: [ConsultaGestionarReservaPage]
+  declarations: [
+    ConsultaGestionarReservaPage,
+    AjustarPalabraPipe,
+    CheckNullPipe
+  ]
 })
 export class ConsultaGestionarReservaPageModule {}

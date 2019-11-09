@@ -4,6 +4,8 @@ import { ReservaService } from 'src/app/services/reserva/reserva.service';
 import { MesaService } from 'src/app/services/mesa/mesa.service';
 import { ActivatedRoute } from '@angular/router';
 import { Reserva, Comensal, Mesa } from 'src/app/models/modelos';
+import { AlertService } from 'src/app/providers/alert.service';
+import { ToastService } from 'src/app/providers/toast.service';
 
 
 @Component({
@@ -17,7 +19,8 @@ export class ConsultaGestionarReservaPage implements OnInit {
   public idReserva = 0;
   
   public comensales: Comensal[] = [];
-  public mesas: Mesa[];
+  private mesasTodas: any[];
+  public mesas: any[] = [];
 
   constructor(
     private toastController: ToastController,
@@ -25,14 +28,16 @@ export class ConsultaGestionarReservaPage implements OnInit {
     private reservaservicio: ReservaService,
     private mesaservicio: MesaService,
     private activatedRoute: ActivatedRoute,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private alertService: AlertService,
+    private toastService: ToastService
   ) {
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params);
       this.idReserva = params.id;
     });
 
-   }
+  }
 
   ngOnInit() {
     this.traerMesas();
@@ -42,9 +47,9 @@ export class ConsultaGestionarReservaPage implements OnInit {
   async traerMesas(){
     await this.mesaservicio.getMesas()
     .then(  resp => {
-      this.mesas =  resp['data'];
+      this.mesasTodas =  resp['data'];
       
-      console.log("traerMesas: ", this.mesas );
+      console.log("traerMesas: ", this.mesasTodas );
     })
   }
 
@@ -72,6 +77,34 @@ export class ConsultaGestionarReservaPage implements OnInit {
           }
 
           console.log("Comensales de la reserva: ", this.comensales);
+
+          let idMesaReserva = null;
+          let idMesaTodas = null;
+
+          let mesasMap = {};
+
+          console.log("res.detallereservamesas: ", res.detallereservamesas);
+          console.log("this.mesasTodas: ", this.mesasTodas);
+
+          for(let detalleReserva of res.detallereservamesas) {
+            idMesaReserva = detalleReserva.idMesa;
+
+            for(let mesasTodas of this.mesasTodas) {
+              let idMesaTodas = mesasTodas.idMesa;
+              if (idMesaReserva == idMesaTodas) {
+                mesasMap['nroMesa'] = mesasTodas.nroMesa;
+                mesasMap['capacidadMesa'] = mesasTodas.capacidadMesa;
+                mesasMap['nombreSector'] = mesasTodas.sector.nombreSector;
+
+                this.mesas.push(mesasMap);
+              }
+              idMesaTodas = null;
+            }
+            
+            mesasMap = {};
+            idMesaReserva = null;
+          }
+          console.log("Mesas de la reserva: ", this.mesas);
 
         }
       });
@@ -129,13 +162,13 @@ export class ConsultaGestionarReservaPage implements OnInit {
               console.log("Respuesta Anular Reserva: ",resp)
 
               if (resp.tipo != 2) {
-                this.toastSuccess("Se ha anulado correctamente la reserva seleccionada");
+                this.toastService.toastSuccess("Se ha anulado correctamente la reserva seleccionada", 2500);
                 setTimeout(()=>{
                   this.navController.navigateRoot(['/search-gestionar-reserva']);
-                 }, 3000);
+                 }, 2500);
               }
               else {
-                this.toastError(resp.title);
+                this.toastService.toastError(resp.title, 2500);
               }
             })
           }
@@ -144,28 +177,6 @@ export class ConsultaGestionarReservaPage implements OnInit {
     });
 
     await alert.present();
-  }
-
-  async toastSuccess(pMensaje: string) {
-    const toast = await this.toastController.create({
-      message: pMensaje,
-      duration: 3000,
-      color: 'success',
-      position: 'middle',
-      translucent: true
-    });
-    toast.present();
-  }
-
-  async toastError(pMensaje: string) {
-    const toast = await this.toastController.create({
-      message: pMensaje,
-      duration: 3000,
-      color: 'danger',
-      position: 'middle',
-      translucent: true
-    });
-    toast.present();
   }
   
 }
