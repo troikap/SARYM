@@ -42,4 +42,15 @@ export class TratarFechaProvider {
         console.log("timeFormateado: ", timeFormateado);
         return timeFormateado;
     }
+
+    // si viene "15:30" lo deja pasar si viene como Date lo trata
+    public verificarTime( time ): String {
+        let tiempo;
+        if ( time.length == 5) {
+            tiempo = time
+          } else {
+            tiempo = this.traerTime( time );
+          }
+        return tiempo;
+    }
 }

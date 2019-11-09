@@ -73,16 +73,17 @@ export class CrudGestionarReservaPage implements OnInit {
   ngOnInit() {
     this.alertService.emilioGato();
     this.tratarFecha();
-    this.setValidatorsHours();
+    //this.setValidatorsHours();
   }
 
 prueba() {
   let  fechaReserva =  this.form.value['fechaReserva'];
-  console.log(this.form);
-  console.log("FECHAS RESERVA ", fechaReserva )
-  let fechaReservaTratada = this.tratarFechaProvider.traerDate( this.form.value['fechaReserva'] );
-  let horaEntradaTratada = this.tratarFechaProvider.traerTime( this.form.value['horaEntrada'] );
-  let horaSalidaTratada = this.tratarFechaProvider.traerTime( this.form.value['horaSalida'] );
+  let  horaEntrada =  this.form.value['horaEntrada'];
+  let  horaSalida =  this.form.value['horaSalida'];
+
+  let horaEntradaTratada = this.tratarFechaProvider.verificarTime( horaEntrada )
+  let horaSalidaTratada = this.tratarFechaProvider.verificarTime( horaSalida );
+  let fechaReservaTratada = this.tratarFechaProvider.traerDate( fechaReserva );
 
   console.log("----------------------"+fechaReservaTratada+ horaEntradaTratada+horaSalidaTratada)
 }
@@ -113,11 +114,17 @@ prueba() {
             }
             this.comensales.push(comensal);
           }
+          let horaEntradaReserva = this.reserva.horaEntradaReserva;
+          let horaSalidaReserva = this.reserva.horaSalidaReserva;
+
+          let horaEntradaCortada =  String(horaEntradaReserva).slice(0,5);
+          let horaSalidaCortada =  String(horaSalidaReserva).slice(0,5);
+
           this.newForm = {
             edadComensal: edadUsrLogueado,
-            fechaReserva: this.reserva.fechaReserva, // this.getFechaFormateada(this.reserva.fechaReserva),
-            horaEntrada: this.reserva.horaEntradaReserva,
-            horaSalida: this.reserva.horaSalidaReserva,
+            fechaReserva: this.reserva.fechaReserva, 
+            horaEntrada: String(horaEntradaCortada),
+            horaSalida: String(horaSalidaCortada),
             cantidadComensal: this.reserva.cantPersonas,
             idMesa: null     
           }
@@ -140,7 +147,9 @@ prueba() {
             this.form.controls.idMesa.setValue(null)
           }
         }
+        this.setValidatorsHours();
       });
+
     }
   }
 
@@ -176,12 +185,11 @@ prueba() {
           'isChecked': false
         })
       }
-
       console.log("traerMesas: ", this.checkBoxList);
-
       if (this.accionGet == "crear") {
         console.log("CREANDO")
         this.resetComensal();
+        this.setValidatorsHours();
       }
       else if (this.accionGet == "editar") {
         console.log("EDITANDO")
@@ -269,9 +277,12 @@ prueba() {
 
   async crearEditarReserva() {
     let reserva;
+    let horaEntrada = this.form.value['horaEntrada'];
+    let horaSalida = this.form.value['horaSalida'];
+
     let fechaReservaTratada = this.tratarFechaProvider.traerDate( this.form.value['fechaReserva'] );
-    let horaEntradaTratada = this.tratarFechaProvider.traerTime( this.form.value['horaEntrada'] );
-    let horaSalidaTratada = this.tratarFechaProvider.traerTime( this.form.value['horaSalida'] );
+    let horaEntradaTratada = this.tratarFechaProvider.verificarTime( horaEntrada );
+    let horaSalidaTratada = this.tratarFechaProvider.verificarTime( horaSalida );
     if (this.accionGet == "crear") {
       reserva = {
         fechaReserva: fechaReservaTratada,
@@ -321,9 +332,7 @@ prueba() {
   }
 
   async enviarReservaCrear(reserva, comensales, mesas) {
-
     console.log("Datos Reserva a Enviar en enviarReservaCrear", reserva);
-
     await this.reservaservicio.setReserva( reserva )
     .then( async res => {
       if( res.tipo == 1) {
@@ -373,6 +382,7 @@ prueba() {
 
     this.reservaservicio.updateReserva( reserva )
     .then( update => {
+      console.log("RESERVA ACTUALIZADA ", update)
       if (update.tipo == 1) {
         let pathComensales= {};
         pathComensales['detalle'] = comensales;
@@ -430,6 +440,7 @@ prueba() {
       .subscribe( respuesta => {
         const horaSalida = this.form.get('horaSalida').value || 0;
         const nuevaHoraEntrada = respuesta;
+        console.log("HORA ++++++++++++++++++ ",horaSalida)
         let horaSalidaTratado = this.tratarFechaProvider.traerTime(horaSalida)
         let horaEntradaTratado = this.tratarFechaProvider.traerTime(nuevaHoraEntrada)
         if (  horaSalidaTratado < ( this.addTimes(horaEntradaTratado , '00:30') )) {
