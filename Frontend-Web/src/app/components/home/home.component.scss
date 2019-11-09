@@ -1,3 +1,25 @@
+@import "../../../assets/styles/variables.scss";
+
 .upload {
     cursor: pointer;
 }
+
+.main {
+    opacity: 1;
+    padding-top: 10px;
+}
+.container {
+    background-size: cover;
+    background-position: center;
+    min-width:100%!important;
+    min-height: 100%!important;
+    margin: 0px!important;
+    padding-bottom: 0px!important;
+    .middle {
+        background-color: map-get($theme-colors, secondary);
+        opacity: 0.9;
+        border-radius: 10px;
+        padding-top: 50px;
+        padding-bottom: 30px;
+    }
+  }

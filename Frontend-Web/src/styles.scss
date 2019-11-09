@@ -12,7 +12,11 @@ body {
 }
 
 .main_container {
-    margin-top: 20px;
+    background-image: url("./assets/imagenes/imagen-login.png");
+    background-color:transparent
+    // opacity: 0.2;
+    // opacity: 0.5;
+    // filter: alpha(opacity=80);
 }
 
 

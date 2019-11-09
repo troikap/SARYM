@@ -53,18 +53,18 @@ export class SearchGestionarReservaPage implements OnInit {
 
   crearReserva() {
     console.log("crearReserva");
-    this.navController.navigateRoot(['/crud-gestionar-reserva', 0, 'crear' ]);
+    this.navController.navigateForward(['/crud-gestionar-reserva', 0, 'crear' ]);
   }
 
   consultarReserva(pIdReserva: number) {
     console.log("Consultar Reserva", pIdReserva);
-    this.navController.navigateRoot(['/consulta-gestionar-reserva', pIdReserva ]);
+    this.navController.navigateForward(['/consulta-gestionar-reserva', pIdReserva ]);
 
   }
 
   editarReserva(pIdReserva: number) {
     console.log("Editar Reserva", pIdReserva);
-    this.navController.navigateRoot(['/crud-gestionar-reserva', pIdReserva, 'editar' ]);
+    this.navController.navigateForward(['/crud-gestionar-reserva', pIdReserva, 'editar' ]);
   }
 
   anularReserva(pIdReserva: number) {
@@ -77,7 +77,7 @@ export class SearchGestionarReservaPage implements OnInit {
 
   verQrReserva(pIdReserva: number) {
     console.log("Ver QR Reserva", pIdReserva);
-    this.navController.navigateRoot(['/ver-qr-reserva', pIdReserva ]);
+    this.navController.navigateForward(['/ver-qr-reserva', pIdReserva ]);
   }
 
   getDTOCambioEstadoEliminarReserva(idReservaParam: number) {

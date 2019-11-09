@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { StorageService } from '../../../services/storage/storage.service';
 import { ReservaService } from '../../../services/reserva/reserva.service';
-import { Reserva, Comensal } from 'src/app/models/modelos';
+import { Reserva, Comensal } from '../../../models/modelos';
 
 @Component({
   selector: 'app-lista-pedido',
@@ -63,5 +63,13 @@ export class ListaPedidoPage implements OnInit {
       }
       item['importeTotal'] = importe;
     }
+  }
+
+  eliminarPedido() {
+    console.log("Logica eliminarPedido")
+  }
+
+  crearComensal() {
+    console.log("Logica crearComensal")
   }
 }
