@@ -16,7 +16,7 @@ module.exports = {
                 "idPedidoEstado": 3, "idPedido": 3, "idEstadoPedido": 5, "descripcionPedidoEstado": "Normal", "fechaYHoraAltaPedidoEstado": currentDate, "fechaYHoraBajaPedidoEstado": null, "createdAt": currentDate, "updatedAt": currentDate
             },
             { 
-                "idPedidoEstado": 4, "idPedido": 4, "idEstadoPedido": 1, "descripcionPedidoEstado": "Normal", "fechaYHoraAltaPedidoEstado": currentDate, "fechaYHoraBajaPedidoEstado": null, "createdAt": currentDate, "updatedAt": currentDate
+                "idPedidoEstado": 4, "idPedido": 4, "idEstadoPedido": 4, "descripcionPedidoEstado": "Normal", "fechaYHoraAltaPedidoEstado": currentDate, "fechaYHoraBajaPedidoEstado": null, "createdAt": currentDate, "updatedAt": currentDate
             },
             { 
                 "idPedidoEstado": 5, "idPedido": 5, "idEstadoPedido": 1, "descripcionPedidoEstado": "Normal", "fechaYHoraAltaPedidoEstado": currentDate, "fechaYHoraBajaPedidoEstado": null, "createdAt": currentDate, "updatedAt": currentDate
