@@ -29,7 +29,12 @@
         <tbody  *ngFor="let lista of listaPedidos">
                 <tr *ngIf ="lista.pedidoestados[0].estadopedido.idEstadoPedido == 3" >                     
                         <td align="center">{{lista.codPedido}}</td>            
-                        <td>{{lista.fechaYHoraInicioPedido | date: 'dd/MM/yyyy hh:mm:ss'}}</td>                                     
+                        <td>{{lista.fechaYHoraInicioPedido | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+                        <td>{{lista.fechaYHoraInicioPedido}}</td>
+                        <td>{{lista.fechaYHoraInicioPedido}}</td>
+                        <td>{{lista.fechaYHoraInicioPedido}}</td>
+                        <td>{{lista.fechaYHoraInicioPedido}}</td>
+                        <td>{{lista.fechaYHoraInicioPedido}}</td>                      
                         <td>
                             <div class="row">
                                 <div class="col-1"  *ngFor="let listaMesas of lista.detalleestadiamesas">{{listaMesas.mesa.nroMesa}}</div>

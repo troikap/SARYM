@@ -54,16 +54,13 @@ import { UploadService } from './services/upload/upload.service';
 import { UploadComponent } from './upload/upload.component';
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
 import { LoginGuardGuard } from './components/shared/guardias/login-guard.guard';
-<<<<<<< HEAD
 import { SearchComponent } from './components/reasignar-mozo-a-estadia/search/search.component';
 import { EditComponent } from './components/reasignar-mozo-a-estadia/edit/edit.component';
 import { SearchPedidoComponent } from './components/anular-pedido/search-pedido/search-pedido.component';
 import { EditPedidoComponent } from './components/anular-pedido/edit-pedido/edit-pedido.component';
-=======
 import { AuthGuardService } from './services/auth-guard.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { RoleGuardService } from './services/role-guard.service';
->>>>>>> Lucas
 
 @NgModule({
   declarations: [
@@ -133,11 +130,8 @@ import { RoleGuardService } from './services/role-guard.service';
     })
 
   ],
-<<<<<<< HEAD
-  providers: [UploadService, LoginGuardGuard, DatePipe],
-=======
-  providers: [UploadService, LoginGuardGuard, AuthGuardService, RoleGuardService],
->>>>>>> Lucas
+
+  providers: [UploadService, LoginGuardGuard, AuthGuardService, RoleGuardService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
