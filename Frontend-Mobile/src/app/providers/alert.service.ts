@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+// import { resolve } from 'dns';
 
 @Injectable({
   providedIn: 'root'
@@ -10,53 +11,38 @@ export class AlertService {
     public alertController: AlertController
   ) { }
 
-  async emilioGato( ) {
+  async Alert(pTitulo: string, pMensaje: string) {
     const alert = await this.alertController.create({
-      header: 'Emilio Gato',
-      message: `Emilio Sos un Gato`,
-      buttons: ['OK'],
-      cssClass: 'alert',
+      header: pTitulo,
+      // subHeader: 'Subtitle',
+      message: pMensaje,
+      buttons: ['Aceptar']
+    });
+
+    await alert.present();
+  }
+
+  async Confirm(pTitulo: string, pMensaje: string) {
+    const alert = await this.alertController.create({
+      header: pTitulo,
+      message: pMensaje,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Cancelado');
+          }
+        }, {
+          text: 'Aceptar',
+          handler: () => {
+            console.log('Confirmado');
+          }
+        }
+      ]
     });
     await alert.present();
   }
 
-  async alert( algo) {
-    if (1) {
-      const alert = await this.alertController.create({
-        header: algo,
-        message: `${algo}`,
-        buttons: ['OK'],
-        cssClass: 'alert',
-      });
-      await alert.present();
-    } 
-    if (2) {
-      const alert = await this.alertController.create({
-        header: algo,
-        message: algo,
-        buttons: ['OK'],
-        cssClass: 'alert',
-      });
-      await alert.present();
-    } 
-    if (3){
-      const alert = await this.alertController.create({
-        header: algo,
-        message: algo,
-        buttons: ['OK'],
-        cssClass: 'alert',
-      });
-      await alert.present();
-    }
-  }
-
-  async alertRol( error ) {
-      const alert = await this.alertController.create({
-        header: error,
-        message: error,
-        buttons: ['OK'],
-        cssClass: 'alert',
-      });
-      await alert.present();
-    } 
 }
