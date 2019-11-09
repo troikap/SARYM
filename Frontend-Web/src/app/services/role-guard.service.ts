@@ -11,7 +11,7 @@ export class RoleGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const expectedRole = route.data.expectedRole;
     console.log("expectedrole traido", expectedRole);
-
+    let _this= this;
     if (localStorage.getItem("token")) {
       const token = localStorage.getItem("token");
       //Recuperamos el rol del token.
@@ -25,18 +25,68 @@ export class RoleGuardService implements CanActivate {
         if (item == rolFromToken) {
           console.log("LO CONTIENE!!!!!!!");
           if (!this.userService.isAuthenticated()) {
-            this.router.navigate(["/login"]);
-            return false;
+            ($ as any).confirm({
+              title: "Error",
+              content: "Su usuario no se encuentra autenticado. <br>No se encuentra una sesión activa o su sesión ha expirado.",
+              type: 'red',
+              typeAnimated: true,
+              theme: 'material',
+              buttons: {
+                  aceptar: {
+                      text: 'Aceptar',
+                      btnClass: 'btn-red',
+                      action: function(){
+                    localStorage.clear();
+                    _this.router.navigate(["/login"]);
+                    //si retornamos falso, el popup queda pegado....
+                    //return false;
+                  }
+                }
+              }
+            });
           } else {
             return true;
           }
         }
-        this.router.navigate(["/login"]);
-        return false;
+        ($ as any).confirm({
+          title: "Error",
+          content: "Ud. no tiene permisos para acceder a esta URL.",
+          type: 'red',
+          typeAnimated: true,
+          theme: 'material',
+          buttons: {
+              aceptar: {
+                  text: 'Aceptar',
+                  btnClass: 'btn-red',
+                  action: function(){
+                    _this.router.navigate(["/home"]);
+                  //si retornamos falso, el popup queda pegado....
+                  //return false;
+                  }
+              }
+          }
+        });
+
       }
     } else {
-      //MOSTRAR MENSAJE DE QUE NO TIENE TOKEN....POPUP
-      this.router.navigate(["/login"]);
+      ($ as any).confirm({
+        title: "Error",
+        content: "Su usuario no se encuentra autenticado. <br>No se encuentra una sesión activa o su sesión ha expirado.",
+        type: 'red',
+        typeAnimated: true,
+        theme: 'material',
+        buttons: {
+            aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-red',
+                action: function(){
+                  _this.router.navigate(["/login"]);
+                  //si retornamos falso, el popup queda pegado....
+                  //return false;
+                }
+            }
+        }
+      });
     }
   }
 }
