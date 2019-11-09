@@ -101,9 +101,12 @@ prueba() {
           this.reserva = res;
           console.log("TrearReserva: ", this.reserva);
           let edadUsrLogueado;
+
           // Comensales
           let comensal;
+          console.log("COMENSALES" , res.comensals)
           for (let i = 0; i < res.comensals.length; i++) {
+            console.log("COMENSALE ,", res.comensals[i])
             if (i == 0) {
               edadUsrLogueado = res.comensals[i].edadComensal;
             }
@@ -114,6 +117,9 @@ prueba() {
             }
             this.comensales.push(comensal);
           }
+          console.log("COMESNASLES ----------------- ",this.comensales)
+
+          // Fechas
           let horaEntradaReserva = this.reserva.horaEntradaReserva;
           let horaSalidaReserva = this.reserva.horaSalidaReserva;
 
@@ -132,10 +138,11 @@ prueba() {
           // Mesas
           let cuenta = 0;
           let valid = false;
-          for (let item of res.detallereservamesas) {
-            for (let element of this.checkBoxList ) {
+          for (let element of this.checkBoxList ) {
+            for (let item of res.detallereservamesas) {
               if ( item.idMesa == element.value ) {
                 this.checkBoxList[cuenta].isChecked = true;
+                this.checkBoxList[cuenta].idDetalleReservaMesa = item.idDetalleReservaMesa;
                 valid = true;
               }
             }
@@ -157,7 +164,6 @@ prueba() {
     this.storage.getCurrentUsuario().then((data) => {
       this.currentUsuario = data;
       console.log("USUARIO ", this.currentUsuario)
-      // let comensa = ;
       if ( this.accionGet == 'crear') {
         this.comensales.push({
           aliasComensal: `${this.currentUsuario.nombreUsuario} ${this.currentUsuario.apellidoUsuario}`,
@@ -271,7 +277,11 @@ prueba() {
   }
 
   eliminarComensal( num: number){
-    this.comensales.splice(num,1);
+    if (  this.comensales[num].idComensal ) {
+      this.comensales[num].baja = true;
+    } else {
+      this.comensales.splice(num,1);
+    }
     this.toastEliminarComensal();
   }
 
@@ -304,6 +314,8 @@ prueba() {
     for (let item of this.checkBoxList) {
       if (item.isChecked) {
         mesas.push({'idMesa': item.value})
+      } else {
+        mesas.push({'idDetalleReservaMesa': item.idDetalleReservaMesa, 'baja': true})
       }
     }
     console.log("crearEditarReserva - MESAS", this.checkBoxList);
@@ -379,6 +391,7 @@ prueba() {
     console.log("enviarReservaEditar, reserva: ", reserva);
     console.log("comensales", comensales);
     console.log("mesas", mesas);
+
 
     this.reservaservicio.updateReserva( reserva )
     .then( update => {

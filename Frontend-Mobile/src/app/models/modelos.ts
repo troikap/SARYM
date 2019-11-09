@@ -229,7 +229,8 @@ export interface Comensal {
     edadComensal: Number,
     idUsuario?: Number,
     cuitUsuario?: Number,
-    usuario?: Usuario
+    usuario?: Usuario,
+    baja?: Boolean,
 }
 
 export interface Pedidoestado {
