@@ -205,6 +205,8 @@ pedido = [
     "codPedido",
     "fechaYHoraFinPedido",
     "fechaYHoraInicioPedido",
+    "idEstadia",
+    "idReserva",
 ]
 
 detallepedidoproducto = [
