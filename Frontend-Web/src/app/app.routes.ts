@@ -37,6 +37,7 @@ import { SearchComponent } from './components/reasignar-mozo-a-estadia/search/se
 import { EditComponent } from './components/reasignar-mozo-a-estadia/edit/edit.component';
 import { SearchPedidoComponent } from './components/anular-pedido/search-pedido/search-pedido.component';
 import { EditPedidoComponent } from './components/anular-pedido/edit-pedido/edit-pedido.component';
+import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedido/detalle-pedido.component';
 
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
 import { LoginGuardGuard } from './components/shared/guardias/login-guard.guard';
@@ -63,6 +64,7 @@ const routes: Routes = [
     { path: 'edit_mozo_estadia/:id', component: EditComponent , canActivate: [LoginGuardGuard]},
     { path: 'search_anular_pedido', component: SearchPedidoComponent , canActivate: [LoginGuardGuard]},  
     { path: 'edit_anular_pedido/:id', component: EditPedidoComponent , canActivate: [LoginGuardGuard]},
+    { path: 'detalle_anular_pedido/:id', component: DetallePedidoComponent , canActivate: [LoginGuardGuard]},
     { path: 'caja_edit/:id/:accion', component: EditCajaComponent, canActivate: [LoginGuardGuard]},
     { path: 'generarmovimientocaja/:id', component: EditGenerarMovimientoCajaComponent, canActivate: [LoginGuardGuard]},
     { path: 'generarmovimientocaja', component: AbmGenerarMovimientoCajaComponent, canActivate: [LoginGuardGuard]},

@@ -61,6 +61,7 @@ import { EditPedidoComponent } from './components/anular-pedido/edit-pedido/edit
 import { AuthGuardService } from './services/auth-guard.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { RoleGuardService } from './services/role-guard.service';
+import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedido/detalle-pedido.component';
 
 @NgModule({
   declarations: [
@@ -109,7 +110,8 @@ import { RoleGuardService } from './services/role-guard.service';
     SearchComponent,
     EditComponent,
     SearchPedidoComponent,
-    EditPedidoComponent
+    EditPedidoComponent,
+    DetallePedidoComponent
   ],
   imports: [
     BrowserModule,
