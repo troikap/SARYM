@@ -13,6 +13,13 @@ const tratarError = require("../../middlewares/handleError"),
   MesaModelo = require("../mesa/mesa-model"),
   PedidoModelo = require("../pedido/pedido-model"),
   ComensalModelo = require("../comensal/comensal-model"),
+  DetallePedidoProductoModelo = require("../detallepedidoproducto/detallepedidoproducto-model"),
+  ProductoModelo = require("../producto/producto-model"),
+  MenuPromocionModelo = require("../menupromocion/menupromocion-model"),
+  PrecioMenuPromocionModelo = require("../preciomenupromocion/preciomenupromocion-model"),
+  PrecioProductoModelo = require("../precioproducto/precioproducto-model"),
+  PedidoEstadoModelo = require("../pedidoestado/pedidoestado-model"),
+  EstadoPedidoModelo = require("../estadopedido/estadopedido-model"),
   
   legend = "Reserva",
   legend2 = "ReservaEstado",
@@ -82,6 +89,12 @@ ReservaController.getToAllAttributes = (req, res, next) => {
       {
         model: ComensalModelo,
         attributes: attributes.comensal,
+        include: [
+          {
+            model: UsuarioModelo,
+            attributes: attributes.usuario,
+          },
+        ]
       },
     ],
   }).then(project => {
@@ -135,6 +148,12 @@ ReservaController.getToName = (req, res, next) => {
       {
         model: ComensalModelo,
         attributes: attributes.comensal,
+        include: [
+          {
+            model: UsuarioModelo,
+            attributes: attributes.usuario,
+          },
+        ]
       },
     ],
   }).then(project => {
@@ -188,6 +207,12 @@ ReservaController.getAll = (req, res) => {
       {
         model: ComensalModelo,
         attributes: attributes.comensal,
+        include: [
+          {
+            model: UsuarioModelo,
+            attributes: attributes.usuario,
+          },
+        ]
       },
     ],
   }).then(projects => {
@@ -210,8 +235,8 @@ ReservaController.getOne = (req, res) => {
     attributes: attributes.reserva,
     include: [
       {
-      model: UsuarioModelo,
-      attributes: attributes.usuario,
+        model: UsuarioModelo,
+        attributes: attributes.usuario,
       },
       {
         model: ReservaEstadoModelo,
@@ -237,10 +262,57 @@ ReservaController.getOne = (req, res) => {
       {
         model: PedidoModelo,
         attributes: attributes.pedido,
+        include: [
+          {
+            model: PedidoEstadoModelo,
+            attributes: attributes.pedidoestado,
+            where: { fechaYHoraBajaPedidoEstado: null},
+            include: [
+              {
+                model: EstadoPedidoModelo,
+                attributes: attributes.estadopedido,
+              },
+            ],
+          },
+          {
+            model: DetallePedidoProductoModelo,
+            attributes: attributes.detallepedidoproducto,
+            include: [
+              {
+                model: ProductoModelo,
+                attributes: attributes.producto,
+                include: [
+                  {
+                    model: PrecioProductoModelo,
+                    attributes: attributes.precioproducto,
+                    where: { fechaYHoraHastaPrecioProducto: null},
+                  },
+                ]
+              },
+              {
+                model: MenuPromocionModelo,
+                attributes: attributes.menupromocion,
+                include: [
+                  {
+                    model: PrecioMenuPromocionModelo,
+                    attributes: attributes.preciomenupromocion,
+                    where: { fechaYHoraHastaPrecioMenuPromocion: null},
+                  },
+                ]
+              },
+            ]
+          },
+        ]
       },
       {
         model: ComensalModelo,
         attributes: attributes.comensal,
+        include: [
+          {
+            model: UsuarioModelo,
+            attributes: attributes.usuario,
+          },
+        ]
       },
     ],
   }).then(project => {
@@ -340,6 +412,12 @@ ReservaController.actualizarDatos = (req, res) => {
       {
         model: ComensalModelo,
         attributes: attributes.comensal,
+        include: [
+          {
+            model: UsuarioModelo,
+            attributes: attributes.usuario,
+          },
+        ]
       },
     ],
     }).then(response => {
@@ -605,24 +683,24 @@ ReservaController.editarComensal = (req, res) => {
     attributes: attributes.reserva,
     include: [
         {
-        model: UsuarioModelo,
-        attributes: attributes.usuario,
+          model: UsuarioModelo,
+          attributes: attributes.usuario,
         },
         {
-        model: ReservaEstadoModelo,
-        where: { fechaYHoraBajaReservaEstado: null },
-        attributes: attributes.reservaestado,
-        include: [
-            {
-            model: EstadoReservaModelo,
-            attributes: attributes.estadoreserva
-            }
-        ]
+          model: ReservaEstadoModelo,
+          where: { fechaYHoraBajaReservaEstado: null },
+          attributes: attributes.reservaestado,
+          include: [
+              {
+              model: EstadoReservaModelo,
+              attributes: attributes.estadoreserva
+              }
+          ]
         },
         {
-        model: DetalleReservaMesaModelo,
-        attributes: attributes.precioreserva,
-        include: [
+          model: DetalleReservaMesaModelo,
+          attributes: attributes.precioreserva,
+          include: [
             {
                 model: MesaModelo,
                 attributes: attributes.mesa
@@ -630,12 +708,18 @@ ReservaController.editarComensal = (req, res) => {
         ]
         },
         {
-        model: PedidoModelo,
-        attributes: attributes.pedido,
+          model: PedidoModelo,
+          attributes: attributes.pedido,
         },
         {
-        model: ComensalModelo,
-        attributes: attributes.comensal,
+          model: ComensalModelo,
+          attributes: attributes.comensal,
+          include: [
+            {
+              model: UsuarioModelo,
+              attributes: attributes.usuario,
+            },
+          ]
         },
     ],
     }).then( async response => {

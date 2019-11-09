@@ -5,6 +5,9 @@ import { environment } from '../../../environments/environment';
 const URL = environment.urlNgrok || environment.url;
 const dir = '/usuario';
 
+const tokenEnviroment = environment.token;
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,9 +17,9 @@ export class UsuarioService {
     public http: HttpClient
   ) { }
 
-  getUsuarios(token: string): Promise<Usuario[]> {
+  getUsuarios(): Promise<Usuario[]> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', tokenEnviroment);
     return this.http
       .get(URL + dir, {headers})
       .toPromise()
@@ -26,9 +29,9 @@ export class UsuarioService {
       .catch(  );
   }
 
-  getUsuario( id: number , token: string): Promise<any> {
+  getUsuario( id: number ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', tokenEnviroment);
     return this.http
       .get(`${URL}${dir}/${id}`, {headers})
       .toPromise()
@@ -65,9 +68,9 @@ export class UsuarioService {
       } );
   }
 
-  updateUsuario( datas, token ): Promise<any> {
+  updateUsuario( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', tokenEnviroment);
      let data = {headers}
     return this.http
       .put(`${URL}${dir}`, datas, data)
@@ -78,9 +81,9 @@ export class UsuarioService {
       .catch(  );
   }
 
-  setUsuario( datas, token ): Promise<any> {
+  setUsuario( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', tokenEnviroment);
      let data = {headers}
      console.log("UUUUUUUUUUUUUUUUUU ", data)
      data['idRol'] = 5;

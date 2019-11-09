@@ -212,6 +212,8 @@ detallepedidoproducto = [
     "cantidadPedidoProducto",
     "fechaYhoraEntregaPedidoProducto",
     "fechaYHoraInicioPedidoProducto",
+    "idProducto",
+    "idMenuPromocion"
 ]
 
 comensal = [

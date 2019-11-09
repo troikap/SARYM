@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class MozoEstadiaService {
+export class PedidoService {
 
    url = environment.urlNgrok || environment.url;
    dir = '/pedido';
@@ -22,7 +22,7 @@ export class MozoEstadiaService {
 
  
 
-  getEstadiaByAll( termino: string) { //Observador
+  getPedidoByAll( termino: string) { //Observador
     console.log("parametro en servicio",termino);
     if (termino != "") {
         let headers: HttpHeaders = new HttpHeaders();

@@ -66,7 +66,7 @@ export class SearchPedidoComponent implements OnInit {
  editEstadia(idElemento: number) {
     console.log("idElemento: ", idElemento);  
 
-  this.router.navigate( [`/edit_mozo_estadia/${idElemento}`] );
+  this.router.navigate( [`/edit_anular_pedido/${idElemento}`] );
 
   }
 }

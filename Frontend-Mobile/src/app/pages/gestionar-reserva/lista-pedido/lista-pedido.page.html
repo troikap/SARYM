@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Lista de Pedidos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf='reserva'>
+  <ion-card *ngFor="let item of reserva.pedidos" color="medium" (click)="seleccionarPedido(item)" mode="ios">
+      <ion-card-header>
+        <ion-card-title>Codigo: <strong>{{item.codPedido}}</strong></ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-card-title>Importe: <strong>$ {{item.importeTotal}}</strong></ion-card-title>
+        <ion-card-title>Estado: <strong>{{item.pedidoestados[0].estadopedido.nombreEstadoPedido}}</strong></ion-card-title>
+      </ion-card-content>
+    <ion-item *ngFor="let elemento of item.detallepedidoproducto">
+        <ion-card-subtitle>Usuario Asociado: <strong> {{elemento}}</strong></ion-card-subtitle>
+        <ion-card-subtitle>Cuit: <strong>{{item.usuario.cuitUsuario}}</strong></ion-card-subtitle>
+    </ion-item>
+  </ion-card>
+</ion-content>

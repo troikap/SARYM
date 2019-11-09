@@ -20,8 +20,6 @@ export class EditComponent implements OnInit{
   private date: string;
 
 
-  accionGet;
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -38,7 +36,6 @@ export class EditComponent implements OnInit{
 
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params);
-      this.accionGet = params.accion;
       this.idEstadia = params.id;
       
         this.traerEstadia();

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
-import { UsuarioService } from '../services/usuario/usuario.service';
-import { Router } from '@angular/router';
 
 import { StorageService, Log } from '../services/storage/storage.service';
 import { NavController } from '@ionic/angular';
@@ -14,8 +12,9 @@ import { NavController } from '@ionic/angular';
 export class HomePage implements OnInit {
 
   private logueo: Log;
+  private currentUsuario: string;
 
-  slides = [
+  slidesCliente = [
     {
       url: '../../assets/icon/Presentacion/logo-sarym.png'
     },
@@ -33,13 +32,17 @@ export class HomePage implements OnInit {
     }
   ];
 
+  slidesMozo = [
+    {
+      url: '../../assets/icon/Presentacion/mozo.jpg'
+    }
+  ];
+
   constructor(
     private menu: MenuController,
-    private usuarioservice: UsuarioService,
-    private router: Router,
     private storage: StorageService,
     private navController: NavController
-    ) {
+  ) {
     this.loadLog()
   }
   openFirst() {
@@ -54,30 +57,56 @@ export class HomePage implements OnInit {
     let id = this.logueo.id;
     let page;
     switch (key) {
-      case 'registro-usuario':
+      case "registro-usuario":
         page = `/registro-usuario/${id}`;
         break;
-      case 'nueva-reserva':
+      case "nueva-reserva":
         page = `/crud-gestionar-reserva/0/crear`;
         break;
-      case 'unirse-reserva':
+      case "unirse-reserva":
         page = `/unirse-gestionar-reserva`;
         break;
-      case 'realizar-pedido':
-        page = `/realizar-pedido`;
+      // case "realizar-pedido":
+      //   page = `/ver-qr-reserva/1`;
+      //   break;
+      case "realizar-pedido":
+        page = `/seleccion-comensal/1`;
         break;
-      case 'catalogo':
+      case "search-gestionar-reserva":
+        page = `/search-gestionar-reserva`;
+        break;
+      // case 'realizar-pedido':
+      //   page = `/realizar-pedido`;
+      //   break;
+      
+      case "catalogo":
         page = `/catalogo`;
         break;
+      //MOZO
+      case "consultar-salon":
+        page = `/consultar-salon`;
+        break;
+      case "generar-estadia":
+        page = `/`;
+        break;
+      case "pedidos a enviar":
+        page = `/`;
+        break;
+      case "confirmar-reserva":
+        page = `/`;
+        break;
+      case "entregar-pedido":
+        page = `/`;
+        break;
     }
-    this.navController.navigateForward(page)
-    // this.router.navigateByUrl(page);
+    this.navController.navigateForward(page);
   }
 
   async loadLog() {
     await this.storage.getCurrentUsuario()
-      .then(logs => {
+      .then(async logs => {
         this.logueo = logs;
+        this.currentUsuario = await logs['rolUsuario'];
         if (!logs) {
           console.log('ERRORR')
         }

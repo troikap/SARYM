@@ -2,25 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Reserva } from '../../models/modelos';
-<<<<<<< HEAD
 import { map } from 'rxjs/operators';
-=======
-import { StorageService } from '../../services/storage/storage.service';
-
-
-const URL = environment.urlNgrok || environment.url;
-const dir = '/reserva';
-const dir2 = '/editarComensal';
-const dir3 = '/editarMesa';
-const dir4 = '/actualizarDatos';
->>>>>>> Lucas
+import { StorageService } from '../storage/storage.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservaService {
-<<<<<<< HEAD
   
   url = environment.urlNgrok || environment.url;
 
@@ -31,16 +20,14 @@ export class ReservaService {
   dir3 = '/editarMesa';
   dir4 = '/actualizarDatos';
   dirTodo = "/todo";
+  dirComensal = "/getToComensal";
+  dirCambiarEstado = '/cambiarEstado';
 
-=======
-  token;
->>>>>>> Lucas
   constructor( 
     public http: HttpClient,
     private storage: StorageService,
   ) { }
 
-<<<<<<< HEAD
   getProductosByAll( termino: string) { //Observador
     console.log("Service getProductosByAll: Termino = ", termino);
     if (termino != "") {
@@ -61,15 +48,6 @@ export class ReservaService {
   }
 
    getReservas(): Promise<Reserva[]> {
-=======
-  loadToken() {
-    this.storage.getOneObject('token').then((data) => {
-      this.token = data;
-    })
-  }
-
-   getReservas( token: string ): Promise<Reserva[]> {
->>>>>>> Lucas
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
     return this.http
@@ -82,23 +60,33 @@ export class ReservaService {
       .catch(  );
   }
 
-<<<<<<< HEAD
-  updateReserva( datas): Promise<any> {
-=======
   getReserva( id: number ): Promise<Reserva> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.token);
+    headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .get(`${URL}${dir}/${id}`, {headers})
+      .get(`${this.url}${this.dir}/${id}`, {headers})
       .toPromise()
       .then(response => {
         return response['data'] as Reserva;
       })
+      .catch();
+  }
+
+  getReservasPorUsuario(idUsuario: number): Promise<any[]> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log(`${this.url}${this.dir}${this.dirComensal}/${idUsuario}`);
+    return this.http
+      .post(`${this.url}${this.dir}${this.dirComensal}/${idUsuario}`, {estado: 'Generada'}  , {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Service getReservasPorUsuario: ", response['detalles']);
+        return response['detalles'] as any[];
+      })
       .catch(  );
   }
 
-  updateReserva( datas, token ): Promise<any> {
->>>>>>> Lucas
+  updateReserva( datas): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
@@ -115,6 +103,7 @@ export class ReservaService {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
+     console.log("Servicio Crear Reserva, datos: ", datas);
     return this.http
       .post(`${this.url}${this.dir}`, datas, data)
       .toPromise()
@@ -141,11 +130,29 @@ export class ReservaService {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
+
+     console.log("Servicio setMesasReserva: ", datas);
+
      return this.http
       .put(`${this.url}${this.dir}${this.dir3}`, datas, data)
       .toPromise()
       .then(response => {
+        console.log("Respuesta servicio Editar Mesas: ", response);
         return response as Reserva;
+      })
+      .catch(  );
+  }
+
+  cambiarEstado( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}${this.dirCambiarEstado}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Servicio cambiarEstado()", response);
+        return response;
       })
       .catch(  );
   }

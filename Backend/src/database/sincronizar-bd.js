@@ -2,6 +2,15 @@
 
 const sequelize = require('./connection');
 
+
+console.log("Se esta ejecutando sincronizar")
+
+sequelize.sync({ force: false }); // force = false  crea nuevos modelos/tablas dejando las creadas intactas
+
+//  node_modules/.bin/sequelize seed:generate --name demo-user          crea nueva semilla
+// node_modules/.bin/sequelize db:seed:all        para correr la semilla
+
+
 // models
 
 // require('../class/caja/caja-model');
@@ -51,9 +60,6 @@ const sequelize = require('./connection');
 // require('../class/usuario/usuario-model');
 // require('../class/usuarioestado/usuarioestado-model');
 
-console.log("Se esta ejecutando sincronizar")
-
-sequelize.sync({ force: false }); // force = false  crea nuevos modelos/tablas dejando las creadas intactas
 
 // let fecha = fechaArgentina.getFechaArgentina();
 // let horasMilisegundos = 1000 * 60 * 60 * 3 
