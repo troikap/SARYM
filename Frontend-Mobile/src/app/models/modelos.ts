@@ -227,9 +227,10 @@ export interface Comensal {
     idComensal?: Number,
     aliasComensal: String,
     edadComensal: Number,
-    idUsuario: Number,
+    idUsuario?: Number,
     cuitUsuario?: Number,
-    usuario?: Usuario
+    usuario?: Usuario,
+    baja?: Boolean,
 }
 
 export interface Pedidoestado {

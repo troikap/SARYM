@@ -88,7 +88,7 @@
     </form>
     <ion-button *ngIf="form2" class="mt-10" (click)="nuevoComensal()" [disabled]="!form2.valid" expand="full" shape="round">Agregar Comensal</ion-button>
     <ion-card *ngFor="let comen of comensales; let i = index">
-        <ion-card-header>
+        <ion-card-header *ngIf="!comen.baja">
             <ion-card-title>
                 Alias: {{comen.aliasComensal}}
             </ion-card-title>
@@ -99,7 +99,7 @@
                 Usuario: {{comen.idUsuario}} - Cuit: {{comen.cuitUsuario}}
             </ion-card-subtitle>
         </ion-card-header>
-        <ion-button color="danger" class="mt-10" (click)="eliminarComensal(i)" shape="round" *ngIf="i > 0"> Eliminar</ion-button>
+        <ion-button color="danger" class="mt-10" (click)="eliminarComensal(i)" shape="round" *ngIf="i > 0 && !comen.baja"> Eliminar</ion-button>
     </ion-card>
     <ion-button *ngIf="accionGet == 'crear'" class="mt-10" (click)="crearEditarReserva()" [disabled]="!form.valid" expand="full">Crear Reserva</ion-button>
     <ion-button *ngIf="accionGet == 'editar'" class="mt-10" (click)="crearEditarReserva()" [disabled]="!form.valid" expand="full">Editar Reserva</ion-button>

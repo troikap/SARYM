@@ -9,6 +9,9 @@ import { StorageService, Log } from '../../../services/storage/storage.service';
 import { Mesa } from '../../../services/mesa/mesa.model';
 import { ActivatedRoute } from '@angular/router';
 import { Reserva, Comensal } from 'src/app/models/modelos';
+import { TratarFechaProvider } from '../../../providers/tratarFecha.provider';
+import { AlertService } from '../../../providers/alert.service';
+import { ToastService } from '../../../providers/toast.service';
 
 @Component({
   selector: 'app-crud-gestionar-reserva',
@@ -43,7 +46,10 @@ export class CrudGestionarReservaPage implements OnInit {
     private storage: StorageService,
     private reservaservicio: ReservaService,
     private mesaservicio: MesaService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private tratarFechaProvider: TratarFechaProvider,
+    private alertService: AlertService,
+    private toastService: ToastService,
   ) {
     
     this.loadCurrentUsuario();
@@ -65,12 +71,21 @@ export class CrudGestionarReservaPage implements OnInit {
    }
 
   ngOnInit() {
+    this.alertService.emilioGato();
     this.tratarFecha();
-    this.setValidatorsHours();
+    //this.setValidatorsHours();
   }
 
 prueba() {
-  console.log(this.form);
+  let  fechaReserva =  this.form.value['fechaReserva'];
+  let  horaEntrada =  this.form.value['horaEntrada'];
+  let  horaSalida =  this.form.value['horaSalida'];
+
+  let horaEntradaTratada = this.tratarFechaProvider.verificarTime( horaEntrada )
+  let horaSalidaTratada = this.tratarFechaProvider.verificarTime( horaSalida );
+  let fechaReservaTratada = this.tratarFechaProvider.traerDate( fechaReserva );
+
+  console.log("----------------------"+fechaReservaTratada+ horaEntradaTratada+horaSalidaTratada)
 }
 
   traerReserva() {
@@ -84,13 +99,14 @@ prueba() {
         } else {
           // Reserva
           this.reserva = res;
-
           console.log("TrearReserva: ", this.reserva);
-
           let edadUsrLogueado;
+
           // Comensales
           let comensal;
+          console.log("COMENSALES" , res.comensals)
           for (let i = 0; i < res.comensals.length; i++) {
+            console.log("COMENSALE ,", res.comensals[i])
             if (i == 0) {
               edadUsrLogueado = res.comensals[i].edadComensal;
             }
@@ -101,24 +117,32 @@ prueba() {
             }
             this.comensales.push(comensal);
           }
+          console.log("COMESNASLES ----------------- ",this.comensales)
+
+          // Fechas
+          let horaEntradaReserva = this.reserva.horaEntradaReserva;
+          let horaSalidaReserva = this.reserva.horaSalidaReserva;
+
+          let horaEntradaCortada =  String(horaEntradaReserva).slice(0,5);
+          let horaSalidaCortada =  String(horaSalidaReserva).slice(0,5);
 
           this.newForm = {
             edadComensal: edadUsrLogueado,
-            fechaReserva: this.reserva.fechaReserva, // this.getFechaFormateada(this.reserva.fechaReserva),
-            horaEntrada: this.reserva.horaEntradaReserva,
-            horaSalida: this.reserva.horaSalidaReserva,
+            fechaReserva: this.reserva.fechaReserva, 
+            horaEntrada: String(horaEntradaCortada),
+            horaSalida: String(horaSalidaCortada),
             cantidadComensal: this.reserva.cantPersonas,
             idMesa: null     
           }
           this.form.setValue(this.newForm)
-
           // Mesas
           let cuenta = 0;
           let valid = false;
-          for (let item of res.detallereservamesas) {
-            for (let element of this.checkBoxList ) {
+          for (let element of this.checkBoxList ) {
+            for (let item of res.detallereservamesas) {
               if ( item.idMesa == element.value ) {
                 this.checkBoxList[cuenta].isChecked = true;
+                this.checkBoxList[cuenta].idDetalleReservaMesa = item.idDetalleReservaMesa;
                 valid = true;
               }
             }
@@ -129,9 +153,10 @@ prueba() {
           } else {
             this.form.controls.idMesa.setValue(null)
           }
-
         }
+        this.setValidatorsHours();
       });
+
     }
   }
 
@@ -139,7 +164,6 @@ prueba() {
     this.storage.getCurrentUsuario().then((data) => {
       this.currentUsuario = data;
       console.log("USUARIO ", this.currentUsuario)
-      // let comensa = ;
       if ( this.accionGet == 'crear') {
         this.comensales.push({
           aliasComensal: `${this.currentUsuario.nombreUsuario} ${this.currentUsuario.apellidoUsuario}`,
@@ -167,12 +191,11 @@ prueba() {
           'isChecked': false
         })
       }
-
       console.log("traerMesas: ", this.checkBoxList);
-
       if (this.accionGet == "crear") {
         console.log("CREANDO")
         this.resetComensal();
+        this.setValidatorsHours();
       }
       else if (this.accionGet == "editar") {
         console.log("EDITANDO")
@@ -211,7 +234,7 @@ prueba() {
             aliasComensal: this.form2.value.aliasComensal,
             edadComensal: this.form2.value.edadComensal,
             cuitUsuario: this.form2.value.cuitUsuario,
-            idUsuario: this.form2.value.idUsuario
+            idUsuario: res.data.idUsuario
           }
           this.comensales.push(this.comensal);
           this.resetComensal();
@@ -227,9 +250,7 @@ prueba() {
     } else {
       this.comensal = {
         aliasComensal: this.form2.value.aliasComensal,
-        edadComensal: this.form2.value.edadComensal,
-        cuitUsuario: this.form2.value.cuitUsuario,
-        idUsuario: this.form2.value.idUsuario
+        edadComensal: this.form2.value.edadComensal
       }
       this.comensales.push(this.comensal);
       this.resetComensal();
@@ -256,39 +277,48 @@ prueba() {
   }
 
   eliminarComensal( num: number){
-    this.comensales.splice(num,1);
+    if (  this.comensales[num].idComensal ) {
+      this.comensales[num].baja = true;
+    } else {
+      this.comensales.splice(num,1);
+    }
     this.toastEliminarComensal();
   }
 
   async crearEditarReserva() {
     let reserva;
+    let horaEntrada = this.form.value['horaEntrada'];
+    let horaSalida = this.form.value['horaSalida'];
+
+    let fechaReservaTratada = this.tratarFechaProvider.traerDate( this.form.value['fechaReserva'] );
+    let horaEntradaTratada = this.tratarFechaProvider.verificarTime( horaEntrada );
+    let horaSalidaTratada = this.tratarFechaProvider.verificarTime( horaSalida );
     if (this.accionGet == "crear") {
       reserva = {
-        fechaReserva: this.form.value['fechaReserva'],
-        horaEntradaReserva: this.form.value['horaEntrada'],
-        horaSalidaReserva: this.form.value['horaSalida'],
+        fechaReserva: fechaReservaTratada,
+        horaEntradaReserva: horaEntradaTratada,
+        horaSalidaReserva: horaSalidaTratada,
         cantPersonas: this.form.value['cantidadComensal']
       }
     }
     else  if (this.accionGet == "editar") {
       reserva = {
         idReserva: this.idReserva,
-        fechaReserva: this.form.value['fechaReserva'],
-        horaEntradaReserva: this.form.value['horaEntrada'],
-        horaSalidaReserva: this.form.value['horaSalida'],
+        fechaReserva: fechaReservaTratada,
+        horaEntradaReserva: horaEntradaTratada,
+        horaSalidaReserva: horaSalidaTratada,
         cantPersonas: this.form.value['cantidadComensal']
       }
     }
-    
     const mesas = []
     for (let item of this.checkBoxList) {
       if (item.isChecked) {
         mesas.push({'idMesa': item.value})
+      } else {
+        mesas.push({'idDetalleReservaMesa': item.idDetalleReservaMesa, 'baja': true})
       }
     }
-
     console.log("crearEditarReserva - MESAS", this.checkBoxList);
-
     const comensales = this.comensales;
     reserva['idUsuario'] = this.currentUsuario.id;
     let reservaConCodigo = await this.agregarCodigoReserva( reserva );
@@ -314,9 +344,7 @@ prueba() {
   }
 
   async enviarReservaCrear(reserva, comensales, mesas) {
-
     console.log("Datos Reserva a Enviar en enviarReservaCrear", reserva);
-
     await this.reservaservicio.setReserva( reserva )
     .then( async res => {
       if( res.tipo == 1) {
@@ -364,8 +392,10 @@ prueba() {
     console.log("comensales", comensales);
     console.log("mesas", mesas);
 
+
     this.reservaservicio.updateReserva( reserva )
     .then( update => {
+      console.log("RESERVA ACTUALIZADA ", update)
       if (update.tipo == 1) {
         let pathComensales= {};
         pathComensales['detalle'] = comensales;
@@ -423,7 +453,10 @@ prueba() {
       .subscribe( respuesta => {
         const horaSalida = this.form.get('horaSalida').value || 0;
         const nuevaHoraEntrada = respuesta;
-        if (  horaSalida < ( this.addTimes(nuevaHoraEntrada , '00:30') )) {
+        console.log("HORA ++++++++++++++++++ ",horaSalida)
+        let horaSalidaTratado = this.tratarFechaProvider.traerTime(horaSalida)
+        let horaEntradaTratado = this.tratarFechaProvider.traerTime(nuevaHoraEntrada)
+        if (  horaSalidaTratado < ( this.addTimes(horaEntradaTratado , '00:30') )) {
           this.form.controls.horaEntrada.setErrors({pattern: true});
         } else {
           this.form.controls.horaEntrada.setErrors(null);
@@ -435,7 +468,9 @@ prueba() {
     .subscribe( respuesta => {
       const horaEntrada = this.form.get('horaEntrada').value || 0;
       const nuevaHoraSalida = respuesta;
-      if ( this.addTimes(horaEntrada , '00:30') > nuevaHoraSalida ) {
+      let horaSalidaTratado = this.tratarFechaProvider.traerTime(nuevaHoraSalida)
+      let horaEntradaTratado = this.tratarFechaProvider.traerTime(horaEntrada)
+      if ( this.addTimes(horaEntradaTratado , '00:30') > horaSalidaTratado ) {
         this.form.controls.horaSalida.setErrors({pattern: true});
       } else {
         this.form.controls.horaSalida.setErrors(null);
@@ -447,7 +482,7 @@ prueba() {
   addTimes(startTime, endTime) {
     var times = [ 0, 0, 0 ]
     var max = times.length
-    var a = (startTime || '').split(':')
+    var a = ( startTime || '').split(':')
     var b = (endTime || '').split(':')
     // normalize time values
     for (var i = 0; i < max; i++) {
@@ -471,10 +506,6 @@ prueba() {
       hours += h
       minutes -= 60 * h
     }
-    // return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2)
-  
-    console.log("Retorno hora: ", ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) );
-
     return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) 
   }
 
@@ -509,31 +540,6 @@ prueba() {
     }
     this.fechaDesde = `${yy}-${mes}-${dia}`;
     this.fechaHasta = `${año}-${mes2}-${dia}`;
-  }
-
-  getFechaFormateada(pFecha){
-    let date = pFecha;
-    let dd = date.getDate();
-    let mm = date.getMonth() + 1;
-    let yy = date.getFullYear();
-    let dia;
-    let mes;
-
-    if ((dd >= 0) && (dd < 10)) {  
-      dia = "0" + String(dd);
-    } else {
-      dia = dd;
-    }
-    if ((mm >= 0) && (mm < 10)) {  
-      mes = "0" + String(mm);
-    } else {
-      mes = mm;
-    }
-
-    let fechaFormateada = `${yy}-${mes}-${dia}`;
-    console.log("fechaFormateada: ", fechaFormateada);
-
-    return fechaFormateada;
   }
 
   async toastNoExisteUsuario() {
