@@ -33,6 +33,10 @@ import { CrudGestionarMenupromocionComponent } from './components/gestionar-menu
 import { AbmSectorComponent } from './components/abm-sector/search-sector/abm-sector.component';
 import { AbmMesaComponent } from './components/abm-mesa/search-mesa/abm-mesa.component';
 import { UploadComponent } from './upload/upload.component';
+import { SearchComponent } from './components/reasignar-mozo-a-estadia/search/search.component';
+import { EditComponent } from './components/reasignar-mozo-a-estadia/edit/edit.component';
+import { SearchPedidoComponent } from './components/anular-pedido/search-pedido/search-pedido.component';
+import { EditPedidoComponent } from './components/anular-pedido/edit-pedido/edit-pedido.component';
 
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
 import { LoginGuardGuard } from './components/shared/guardias/login-guard.guard';
@@ -41,174 +45,49 @@ import { RoleGuardService } from '../app/services/role-guard.service';
 
 
 
-const routes: Routes = [
-  { path: "home", component: HomeComponent },
-  { path: "login", component: LoginComponent },
-  {
-    path: "usuario",
-    component: AbmUsuarioComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "usuario_crud/:id/:accion",
-    component: CrudUsuarioComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "sector",
-    component: AbmSectorComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "sector_crud/:id/:accion",
-    component: CrudSectorComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  { path: "mesa", component: AbmMesaComponent, canActivate: [LoginGuardGuard] },
-  {
-    path: "mesa_crud/:id/:accion",
-    component: CrudMesaComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "tipomoneda",
-    component: AbmTipomonedaComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "tipomoneda_crud/:id/:accion",
-    component: CrudTipomonedaComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "unidadmedida",
-    component: AbmUnidadmedidaComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "unidadmedida_crud/:id/:accion",
-    component: AbmUnidadmedidaCreateComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  { path: "caja", component: AbmCajaComponent, canActivate: [LoginGuardGuard] },
-  {
-    path: "caja_edit/:id/:accion",
-    component: EditCajaComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "generarmovimientocaja/:id",
-    component: EditGenerarMovimientoCajaComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "generarmovimientocaja",
-    component: AbmGenerarMovimientoCajaComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "generarmovimientocaja_crud/:id",
-    component: CrudGenerarMovimientoCajaComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "cerrarcaja/:id/:accion",
-    component: EditCerrarCajaComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "cerrarcaja",
-    component: AbmCerrarCajaComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "abrircaja/:id/:accion",
-    component: EditAbrirCajaComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "abrircaja",
-    component: AbmAbrirCajaComponent,
-    canActivate: [LoginGuardGuard]
-  },
-
-  {
-    path: "rubro",
-    component: AbmRubroComponent,
-    canActivate: [RoleGuardService], 
-    data: { 
-      expectedRole: 'Administrador'
-    } 
-  },
-
-  {
-    path: "rubro_crud/:id/:accion",
-    component: CrudRubroComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "producto",
-    component: GestionarProductoComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "habilitar-deshabilitar-producto",
-    component: HabilitarDeshabilitarProductoComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "crud_habilitar_deshabilitar_producto/:id",
-    component: CrudHabilitarDeshabilitarProductoComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "producto_consulta/:id",
-    component: ConsultaGestionarProductoComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "producto_crud/:id/:accion",
-    component: CrudGestionarProductoComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "menupromocion",
-    component: GestionarMenupromocionComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "menupromocion_consulta/:id",
-    component: ConsultaGestionarMenupromocionComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "menupromocion_crud/:id/:accion",
-    component: CrudGestionarMenupromocionComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "menupromocion_agregarproducto/:id",
-    component: AgregarProductoGestionarMenupromocionComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "reporte",
-    component: GenerarReporteComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "upload/:id/:nombre/:path/:retorno",
-    component: UploadComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  {
-    path: "upload",
-    component: UploadComponent,
-    canActivate: [LoginGuardGuard]
-  },
-  { path: "**", redirectTo: "login" },
-  { path: "", redirectTo: "/login", pathMatch: "full" }
-];
+const routes: Routes = [ 
+    { path: 'home', component: HomeComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'usuario', component: AbmUsuarioComponent, canActivate: [LoginGuardGuard]},
+    { path: 'usuario_crud/:id/:accion', component: CrudUsuarioComponent, canActivate: [LoginGuardGuard]},
+    { path: 'sector', component: AbmSectorComponent, canActivate: [LoginGuardGuard]},
+    { path: 'sector_crud/:id/:accion', component: CrudSectorComponent, canActivate: [LoginGuardGuard]},
+    { path: 'mesa', component: AbmMesaComponent, canActivate: [LoginGuardGuard]},
+    { path: 'mesa_crud/:id/:accion', component: CrudMesaComponent, canActivate: [LoginGuardGuard]},
+    { path: 'tipomoneda', component: AbmTipomonedaComponent, canActivate: [LoginGuardGuard]},
+    { path: 'tipomoneda_crud/:id/:accion', component: CrudTipomonedaComponent, canActivate: [LoginGuardGuard]},
+    { path: 'unidadmedida', component: AbmUnidadmedidaComponent, canActivate: [LoginGuardGuard]},
+    { path: 'unidadmedida_crud/:id/:accion', component: AbmUnidadmedidaCreateComponent, canActivate: [LoginGuardGuard]},
+    { path: 'caja', component: AbmCajaComponent , canActivate: [LoginGuardGuard]},   
+    { path: 'search_mozo_estadia', component: SearchComponent , canActivate: [LoginGuardGuard]},  
+    { path: 'edit_mozo_estadia/:id', component: EditComponent , canActivate: [LoginGuardGuard]},
+    { path: 'search_anular_pedido', component: SearchPedidoComponent , canActivate: [LoginGuardGuard]},  
+    { path: 'edit_anular_pedido/:id', component: EditPedidoComponent , canActivate: [LoginGuardGuard]},
+    { path: 'caja_edit/:id/:accion', component: EditCajaComponent, canActivate: [LoginGuardGuard]},
+    { path: 'generarmovimientocaja/:id', component: EditGenerarMovimientoCajaComponent, canActivate: [LoginGuardGuard]},
+    { path: 'generarmovimientocaja', component: AbmGenerarMovimientoCajaComponent, canActivate: [LoginGuardGuard]},
+    { path: 'generarmovimientocaja_crud/:id', component: CrudGenerarMovimientoCajaComponent, canActivate: [LoginGuardGuard]},
+    { path: 'cerrarcaja/:id/:accion', component: EditCerrarCajaComponent, canActivate: [LoginGuardGuard]},
+    { path: 'cerrarcaja', component: AbmCerrarCajaComponent, canActivate: [LoginGuardGuard]},
+    { path: 'abrircaja/:id/:accion', component: EditAbrirCajaComponent, canActivate: [LoginGuardGuard]},
+    { path: 'abrircaja', component: AbmAbrirCajaComponent, canActivate: [LoginGuardGuard]},
+    { path: 'rubro', component: AbmRubroComponent, canActivate: [LoginGuardGuard]},
+    { path: 'rubro_crud/:id/:accion', component: CrudRubroComponent, canActivate: [LoginGuardGuard]},
+    { path: 'producto', component: GestionarProductoComponent, canActivate: [LoginGuardGuard]},
+    { path: 'habilitar-deshabilitar-producto', component: HabilitarDeshabilitarProductoComponent, canActivate: [LoginGuardGuard]},
+    { path: 'crud_habilitar_deshabilitar_producto/:id', component: CrudHabilitarDeshabilitarProductoComponent, canActivate: [LoginGuardGuard]},
+    { path: 'producto_consulta/:id', component: ConsultaGestionarProductoComponent, canActivate: [LoginGuardGuard]},
+    { path: 'producto_crud/:id/:accion', component: CrudGestionarProductoComponent, canActivate: [LoginGuardGuard]},
+    { path: 'menupromocion', component: GestionarMenupromocionComponent, canActivate: [LoginGuardGuard]},
+    { path: 'menupromocion_consulta/:id', component: ConsultaGestionarMenupromocionComponent, canActivate: [LoginGuardGuard]},
+    { path: 'menupromocion_crud/:id/:accion', component: CrudGestionarMenupromocionComponent, canActivate: [LoginGuardGuard]},
+    { path: 'menupromocion_agregarproducto/:id', component: AgregarProductoGestionarMenupromocionComponent, canActivate: [LoginGuardGuard]},
+    { path: 'reporte', component: GenerarReporteComponent, canActivate: [LoginGuardGuard]},
+    { path: 'upload/:id/:nombre/:path/:retorno', component: UploadComponent, canActivate: [LoginGuardGuard]},
+    { path: 'upload', component: UploadComponent, canActivate: [LoginGuardGuard]},
+    { path: '**', redirectTo: 'login'},
+    { path: '',  redirectTo: '/login', pathMatch: 'full' },
+]
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],

@@ -19,7 +19,7 @@
             <div class="form-group row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="montoAperturaCajaEstado" class="col col-form-label">Monto de Apertura de Caja (monto de cierre anterior ${{caja.cajaestados[0].montoCierreCajaEstado}})</label>
+                        <label for="montoAperturaCajaEstado" class="col col-form-label">Monto de Apertura de Caja (monto de cierre anterior ${{montoCierreCaja}})</label>
                         <input type="text" class="form-control" id="montoAperturaCajaEstado" placeholder="Ingrese Monto" formControlName="montoAperturaCajaEstado">
                         <p class="input-error-msg" *ngIf="form.controls.montoAperturaCajaEstado.errors?.required && form.controls.montoAperturaCajaEstado.touched">Campo Obligatorio.</p>
                         <p class="input-error-msg" *ngIf="form.controls.montoAperturaCajaEstado.errors?.pattern && form.controls.montoAperturaCajaEstado.touched">Debe ser un número positivo y tener hasta dos decimales (Ej. 10.23)</p>
