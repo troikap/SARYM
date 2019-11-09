@@ -41,7 +41,9 @@
             <ion-button padding (click)="mostrar5 = !mostrar5" position="fixed">Mostrar Mesas</ion-button>
             <ion-list *ngIf="mostrar5">
                 <ion-item class="form-group" *ngFor='let element of checkBoxList; let i = index'>
-                    <ion-label class="descripcion-mesa">{{element.descripcion}}</ion-label>
+                    <ion-label class="descripcion-mesa">
+                        <div [innerHTML]="element.descripcion | ajustarPalabra: 33"></div>
+                    </ion-label>
                     <ion-checkbox (ionChange)="checkEvent( i )" [checked]="element.isChecked"> </ion-checkbox>
                 </ion-item>
             </ion-list>
@@ -108,6 +110,6 @@
     <ion-button *ngIf="accionGet == 'crear'" class="mt-10" (click)="crearEditarReserva()" [disabled]="!form.valid" expand="full">Crear Reserva</ion-button>
     <ion-button *ngIf="accionGet == 'editar'" class="mt-10" (click)="crearEditarReserva()" [disabled]="!form.valid" expand="full">Editar Reserva</ion-button>
 
-    <ion-button class="mt-10" (click)="prueba()" expand="full">Probar</ion-button>
+    <!-- <ion-button class="mt-10" (click)="prueba()" expand="full">Probar</ion-button> -->
 
 </ion-content>
