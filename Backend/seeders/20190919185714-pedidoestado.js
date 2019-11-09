@@ -24,6 +24,15 @@ module.exports = {
             { 
                 "idPedidoEstado": 6, "idPedido": 6, "idEstadoPedido": 3, "descripcionPedidoEstado": "Normal", "fechaYHoraAltaPedidoEstado": currentDate, "fechaYHoraBajaPedidoEstado": null, "createdAt": currentDate, "updatedAt": currentDate
             },
+            { 
+                "idPedidoEstado": 7, "idPedido": 7, "idEstadoPedido": 1, "descripcionPedidoEstado": "Normal", "fechaYHoraAltaPedidoEstado": currentDate, "fechaYHoraBajaPedidoEstado": null, "createdAt": currentDate, "updatedAt": currentDate
+            },
+            { 
+                "idPedidoEstado": 8, "idPedido": 8, "idEstadoPedido": 2, "descripcionPedidoEstado": "Normal", "fechaYHoraAltaPedidoEstado": currentDate, "fechaYHoraBajaPedidoEstado": null, "createdAt": currentDate, "updatedAt": currentDate
+            },
+            { 
+                "idPedidoEstado": 9, "idPedido": 9, "idEstadoPedido": 3, "descripcionPedidoEstado": "Normal", "fechaYHoraAltaPedidoEstado": currentDate, "fechaYHoraBajaPedidoEstado": null, "createdAt": currentDate, "updatedAt": currentDate
+            },
     ], {});
     },
 

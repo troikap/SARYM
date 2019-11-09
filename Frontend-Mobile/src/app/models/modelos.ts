@@ -227,7 +227,7 @@ export interface Comensal {
     idComensal?: Number,
     aliasComensal: String,
     edadComensal: Number,
-    idUsuario: Number,
+    idUsuario?: Number,
     cuitUsuario?: Number,
     usuario?: Usuario
 }
