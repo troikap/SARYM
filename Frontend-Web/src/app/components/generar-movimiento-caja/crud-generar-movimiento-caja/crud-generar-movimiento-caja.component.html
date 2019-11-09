@@ -1,47 +1,58 @@
-<h2 class="titulo">Movimiento Caja</h2>
-<hr>
-<div class="container">
-    <div class="form-section">
-        <form [formGroup]="form" (ngSubmit)="guardar()">  
-                 <div class="form-group row">
-                    <div class="col">
-                        <label for="idTipoMovimientoCaja" class="col col-form-label">Tipo de Movimiento</label>
-                        <select Placeholder='Seleccione Tipo de Movimiento' formControlName='idTipoMovimientoCaja' class="form-control"  >                                                                  
-                                <option *ngFor='let element of tipoMovimientoCaja'   [value]='element.idTipoMovimientoCaja'>                                
-                                    {{element.nombreTipoMovimientoCaja}}                                  
-                                </option>                                                                  
-                        </select>
-                        <p class="input-error-msg" *ngIf="form.controls.idTipoMovimientoCaja.errors?.required && form.controls.idTipoMovimientoCaja.touched">Campo Obligatorio.</p>
-                    </div>
-                </div>                      
-            <div class="form-group row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="montoMovimientoCaja" class="col col-form-label">Monto del Movimiento</label>
-                        <input type="text" class="form-control" id="montoMovimientoCaja" placeholder="Ingrese Monto" formControlName="montoMovimientoCaja">
-                        <p class="input-error-msg" *ngIf="form.controls.montoMovimientoCaja.errors?.required && form.controls.montoMovimientoCaja.touched">Campo Obligatorio.</p>
-                        <p class="input-error-msg" *ngIf="form.controls.montoMovimientoCaja.errors?.pattern && form.controls.montoMovimientoCaja.touched">Debe ser un número positivo y tener hasta dos decimales (Ej. 10.23)</p>
-                    </div>
-                </div>                
-            </div>
-            <div class="form-group row">
+<div class="contenedor-pagina">
+    <br>
+    <h2 class="titulo">Movimiento Caja</h2>
+    <hr>
+    <div class="container">
+        <div class="form-section">
+            <form [formGroup]="form" (ngSubmit)="guardar()">  
+                     <div class="form-group row">
+                        <div class="col">
+                            <label for="idTipoMovimientoCaja" class="col col-form-label">Tipo de Movimiento</label>
+                            <select Placeholder='Seleccione Tipo de Movimiento' formControlName='idTipoMovimientoCaja' class="form-control"  >                                                                  
+                                    <option *ngFor='let element of tipoMovimientoCaja'   [value]='element.idTipoMovimientoCaja'>                                
+                                        {{element.nombreTipoMovimientoCaja}}                                  
+                                    </option>                                                                  
+                            </select>
+                            <p class="input-error-msg" *ngIf="form.controls.idTipoMovimientoCaja.errors?.required && form.controls.idTipoMovimientoCaja.touched">Campo Obligatorio.</p>
+                        </div>
+                    </div>                      
+                <div class="form-group row">
                     <div class="col">
                         <div class="form-group">
-                            <label for="descripcionMovimientoCaja" class="col col-form-label">Descripcion del Movimiento</label>
-                            <input type="text" class="form-control" id="descripcionMovimientoCaja" placeholder="Ingrese Descripcion" formControlName="descripcionMovimientoCaja">
-                            <p class="input-error-msg" *ngIf="form.controls.descripcionMovimientoCaja.errors?.required && form.controls.descripcionMovimientoCaja.touched">Campo Obligatorio.</p>
+                            <label for="montoMovimientoCaja" class="col col-form-label">Monto del Movimiento</label>
+                            <input type="text" class="form-control" id="montoMovimientoCaja" placeholder="Ingrese Monto" formControlName="montoMovimientoCaja">
+                            <p class="input-error-msg" *ngIf="form.controls.montoMovimientoCaja.errors?.required && form.controls.montoMovimientoCaja.touched">Campo Obligatorio.</p>
+                            <p class="input-error-msg" *ngIf="form.controls.montoMovimientoCaja.errors?.pattern && form.controls.montoMovimientoCaja.touched">Debe ser un número positivo y tener hasta dos decimales (Ej. 10.23)</p>
                         </div>
                     </div>                
+                </div>
+                <div class="form-group row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="descripcionMovimientoCaja" class="col col-form-label">Descripcion del Movimiento</label>
+                                <input type="text" class="form-control" id="descripcionMovimientoCaja" placeholder="Ingrese Descripcion" formControlName="descripcionMovimientoCaja">
+                                <p class="input-error-msg" *ngIf="form.controls.descripcionMovimientoCaja.errors?.required && form.controls.descripcionMovimientoCaja.touched">Campo Obligatorio.</p>
+                            </div>
+                        </div>                
+                </div>
+                <hr>
+                <div *ngIf="accionGet != 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+                </div>
+                <div *ngIf="accionGet == 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr>
+    <div class="buttons-botton">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-2">
+                <button onclick="history.back()" class="btn btn-primary">Cancelar</button>
             </div>
-            <hr>
-            <div *ngIf="accionGet != 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
-            </div>
-            <div *ngIf="accionGet == 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
-            </div>
-        </form>
+            <div class="col"></div>
+        </div>  
     </div>
 </div>
-<hr>
-<button onclick="history.back()" class="btn btn-primary">Cancelar</button>

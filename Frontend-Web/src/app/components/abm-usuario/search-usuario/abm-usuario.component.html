@@ -1,59 +1,79 @@
-<div class="table-container">
-    <div class="row-buscador">
-        <div class="col">
-            <input #termino id="botonBuscar" type="text" (keyup)="buscarElemento(termino.value)" class="form-control mr-sm-2" placeholder="Buscar Usuario...">
-        </div>
-    </div>
-    <hr>
-    <div class="row animated fadeIn fast" *ngIf="listaUsuarios.length == 0">
-        <div class="col-md-12">
-            <div class="alert alert-info" role="alert">
-                No existen Usuarios con el término <strong>{{termino.value}}</strong>
+<div class="contenedor-pagina">
+    <div class="table-container">
+        <div class="row-buscador">
+            <div class="col">
+                <input #termino id="botonBuscar" type="text" (keyup)="buscarElemento(termino.value)" class="form-control mr-sm-2" placeholder="Buscar Usuario...">
             </div>
         </div>
+        <div class="buttons-botton" *ngIf="listaUsuarios.length > 5">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-2"> 
+                    <button [routerLink]="['/home']" class="btn btn-primary">Volver</button>
+                </div>
+                <div class="col"></div>
+                <div class="col-2">
+                    <button [routerLink]="['/usuario_crud/0/crear']" class="btn btn-success">Crear</button>
+                </div>
+                <div class="col"></div>
+            </div>  
+        </div>
+        <hr>
+        <div class="row animated fadeIn fast" *ngIf="listaUsuarios.length == 0">
+            <div class="col-md-12">
+                <div class="alert alert-info" role="alert">
+                    No existen Usuarios con el término <strong>{{termino.value}}</strong>
+                </div>
+            </div>
+        </div>
+        <table class="table" *ngIf="listaUsuarios.length != 0">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">DNI</th>
+                    <th scope="col">Cuit</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Domicilio</th>
+                    <th scope="col">Departamento</th>
+                    <th scope="col">Rol</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let lista of listaUsuarios">
+                    <th scope="row">{{lista.idUsuario}}</th>
+                    <td>{{lista.nombreUsuario}}</td>
+                    <td>{{lista.apellidoUsuario}}</td>
+                    <td>{{lista.dniUsuario}}</td>
+                    <td>{{lista.cuitUsuario}}</td>
+                    <td>{{lista.emailUsuario}}</td>
+                    <td>{{lista.domicilioUsuario}}</td>
+                    <td>{{lista.departamento.nombreDepartamento}}</td>
+                    <td>{{lista.rolusuarios[0].rol.nombreRol}}</td>
+                    <td>{{lista.usuarioestados[0].estadousuario.nombreEstadoUsuario}}</td>
+                    <td>
+                        <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Editar" (click)="crudElemento(lista.idUsuario, 'editar')" style="cursor: pointer;">
+                        <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Eliminar" title="Eliminar" (click)="crudElemento(lista.idUsuario, 'eliminar')" style="cursor: pointer;">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <div class="buttons-botton" *ngIf="listaUsuarios.length < 5">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-2"> 
+                    <button [routerLink]="['/home']" class="btn btn-primary">Volver</button>
+                </div>
+                <div class="col"></div>
+                <div class="col-2">
+                    <button [routerLink]="['/usuario_crud/0/crear']" class="btn btn-success">Crear</button>
+                </div>
+                <div class="col"></div>
+            </div>  
+        </div>
     </div>
-    <table class="table" *ngIf="listaUsuarios.length != 0">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellido</th>
-                <th scope="col">DNI</th>
-                <th scope="col">Cuit</th>
-                <th scope="col">Correo</th>
-                <th scope="col">Domicilio</th>
-                <th scope="col">Departamento</th>
-                <th scope="col">Rol</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let lista of listaUsuarios">
-                <th scope="row">{{lista.idUsuario}}</th>
-                <td>{{lista.nombreUsuario}}</td>
-                <td>{{lista.apellidoUsuario}}</td>
-                <td>{{lista.dniUsuario}}</td>
-                <td>{{lista.cuitUsuario}}</td>
-                <td>{{lista.emailUsuario}}</td>
-                <td>{{lista.domicilioUsuario}}</td>
-                <td>{{lista.departamento.nombreDepartamento}}</td>
-                <td>{{lista.rolusuarios[0].rol.nombreRol}}</td>
-                <td>{{lista.usuarioestados[0].estadousuario.nombreEstadoUsuario}}</td>
-                <td>
-                    <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Editar" (click)="crudElemento(lista.idUsuario, 'editar')" style="cursor: pointer;">
-                    <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Eliminar" title="Eliminar" (click)="crudElemento(lista.idUsuario, 'eliminar')" style="cursor: pointer;">
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table">
-        <tr>
-            <td align="right" width="20%"><button [routerLink]="['/home']" class="btn btn-primary">Volver</button></td>
-            <td width="20%">&nbsp;</td>
-            <td width="20%">&nbsp;</td>
-            <td width="20%">&nbsp;</td>
-            <td align="right" width="20%"><button [routerLink]="['/usuario_crud/0/crear']" class="btn btn-success">Crear</button></td>
-        </tr>
-    </table>
 </div>

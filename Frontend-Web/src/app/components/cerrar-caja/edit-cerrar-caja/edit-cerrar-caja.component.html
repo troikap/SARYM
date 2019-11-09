@@ -1,41 +1,52 @@
-<h2 class="titulo">Cerrar Caja</h2>
-<hr>
-<div class="container">
-    <div class="form-section">
-        <form [formGroup]="form" (ngSubmit)="guardar()">
-            <div class="form-group">
-                <label for="idCaja" class="col col-form-label">Numero de Caja</label>
-                <input type="text" id="idCaja" placeholder="Identificador" formControlName="idCaja" class="form-control">
-            </div>            
-            <div class="form-group row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="descripcionCajaEstado" class="col col-form-label">Descripcion del Cambio</label>
-                        <input type="text" class="form-control" id="descripcionCajaEstado" placeholder="Ingrese Descripcion" formControlName="descripcionCajaEstado">
-                        <p class="input-error-msg" *ngIf="form.controls.descripcionCajaEstado.errors?.required && form.controls.descripcionCajaEstado.touched">Campo Obligatorio.</p>
-                    </div>
-                </div>                
+<div class="contenedor-pagina">
+    <br>
+    <h2 class="titulo">Cerrar Caja</h2>
+    <hr>
+    <div class="container">
+        <div class="form-section">
+            <form [formGroup]="form" (ngSubmit)="guardar()">
+                <div class="form-group">
+                    <label for="idCaja" class="col col-form-label">Numero de Caja</label>
+                    <input type="text" id="idCaja" placeholder="Identificador" formControlName="idCaja" class="form-control">
+                </div>            
+                <div class="form-group row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="descripcionCajaEstado" class="col col-form-label">Descripcion del Cambio</label>
+                            <input type="text" class="form-control" id="descripcionCajaEstado" placeholder="Ingrese Descripcion" formControlName="descripcionCajaEstado">
+                            <p class="input-error-msg" *ngIf="form.controls.descripcionCajaEstado.errors?.required && form.controls.descripcionCajaEstado.touched">Campo Obligatorio.</p>
+                        </div>
+                    </div>                
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="montoCierreCajaEstado" class="col col-form-label">Monto de Cierre de Caja (El dinero actual en Caja es ${{total}})</label>
+                            <input type="text" class="form-control" id="montoCierreCajaEstado" placeholder="Ingrese Monto" formControlName="montoCierreCajaEstado">
+                            <p class="input-error-msg" *ngIf="form.controls.montoCierreCajaEstado.errors?.required && form.controls.montoCierreCajaEstado.touched">Campo Obligatorio.</p>
+                            <p class="input-error-msg" *ngIf="form.controls.montoCierreCajaEstado.errors?.pattern && form.controls.montoCierreCajaEstado.touched">Debe ser un número positivo y tener hasta dos decimales (Ej. 10.23)</p>
+                        </div>
+                    </div>                
+                </div>    
+                                            
+                <hr>
+                <div *ngIf="accionGet != 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+                </div>
+                <div *ngIf="accionGet == 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr align="left">
+    <div class="buttons-botton">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-2">
+                <button onclick="history.back()" class="btn btn-primary">Cancelar</button>
             </div>
-            <div class="form-group row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="montoCierreCajaEstado" class="col col-form-label">Monto de Cierre de Caja (El dinero actual en Caja es ${{total}})</label>
-                        <input type="text" class="form-control" id="montoCierreCajaEstado" placeholder="Ingrese Monto" formControlName="montoCierreCajaEstado">
-                        <p class="input-error-msg" *ngIf="form.controls.montoCierreCajaEstado.errors?.required && form.controls.montoCierreCajaEstado.touched">Campo Obligatorio.</p>
-                        <p class="input-error-msg" *ngIf="form.controls.montoCierreCajaEstado.errors?.pattern && form.controls.montoCierreCajaEstado.touched">Debe ser un número positivo y tener hasta dos decimales (Ej. 10.23)</p>
-                    </div>
-                </div>                
-            </div>    
-                                        
-            <hr>
-            <div *ngIf="accionGet != 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
-            </div>
-            <div *ngIf="accionGet == 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
-            </div>
-        </form>
+            <div class="col"></div>
+        </div>  
     </div>
 </div>
-<hr align="left">
-<button onclick="history.back()" class="btn btn-primary">Cancelar</button>

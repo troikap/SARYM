@@ -1,113 +1,110 @@
-<h2 class="titulo">Habilitar/Deshabilitar Producto</h2>
-<hr>
-<div class="container">
-    <div class="form-section">
-        <form [formGroup]="form" (ngSubmit)="guardar()">
-            <div class="form-group">
-                <label for="idProducto" class="col col-form-label">Id</label>
-                <input type="text" placeholder="Identificador" formControlName="idProducto" class="form-control" disabled>
-            </div>
-
-            <div class="form-group">
-                <label for="nombreEstadoProducto" class="col col-form-label">Estado de Producto</label>
-                <input type="text" class="form-control" id="" placeholder="Ingrese Estado" formControlName="nombreEstadoProducto" disabled>
-                <p class="input-error-msg" *ngIf="form.controls.nombreEstadoProducto.errors?.required && form.controls.nombreEstadoProducto.touched">Campo Obligatorio.</p>
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <label for="codProducto" class="col col-form-label">Código</label>
-                    <input type="text" class="form-control" id="codProducto" placeholder="Ingrese Código" formControlName="codProducto" disabled>
-                    <p class="input-error-msg" *ngIf="form.controls.codProducto.errors?.required && form.controls.codProducto.touched">Campo Obligatorio.</p>
+<div class="contenedor-pagina">
+    <br>
+    <h2 class="titulo">Habilitar/Deshabilitar Producto</h2>
+    <hr>
+    <div class="container">
+        <div class="form-section">
+            <form [formGroup]="form" (ngSubmit)="guardar()">
+                <div class="form-group">
+                    <label for="idProducto" class="col col-form-label">Id</label>
+                    <input type="text" placeholder="Identificador" formControlName="idProducto" class="form-control" disabled>
                 </div>
-                <div class="col">
-                    <label for="nombreProducto" class="col col-form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombreProducto" placeholder="Ingrese Nombre" formControlName="nombreProducto" disabled>
-                    <p class="input-error-msg" *ngIf="form.controls.nombreProducto.errors?.required && form.controls.nombreProducto.touched">Campo Obligatorio.</p>
+                <div class="form-group">
+                    <label for="nombreEstadoProducto" class="col col-form-label">Estado de Producto</label>
+                    <input type="text" class="form-control" id="" placeholder="Ingrese Estado" formControlName="nombreEstadoProducto" disabled>
+                    <p class="input-error-msg" *ngIf="form.controls.nombreEstadoProducto.errors?.required && form.controls.nombreEstadoProducto.touched">Campo Obligatorio.</p>
                 </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col">
-                    <label for="idUnidadMedida" class="col col-form-label">Unidad de Medida</label>
-                    <select Placeholder='Seleccione' formControlName='idUnidadMedida' class="form-control" disabled> 
-                        <option *ngFor='let element of unidadMedida' [value]='element.idUnidadMedida'disabled>{{element.descripcionUnidadMedida}} ({{element.codUnidadMedida}})</option>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="codProducto" class="col col-form-label">Código</label>
+                        <input type="text" class="form-control" id="codProducto" placeholder="Ingrese Código" formControlName="codProducto" disabled>
+                        <p class="input-error-msg" *ngIf="form.controls.codProducto.errors?.required && form.controls.codProducto.touched">Campo Obligatorio.</p>
+                    </div>
+                    <div class="col">
+                        <label for="nombreProducto" class="col col-form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombreProducto" placeholder="Ingrese Nombre" formControlName="nombreProducto" disabled>
+                        <p class="input-error-msg" *ngIf="form.controls.nombreProducto.errors?.required && form.controls.nombreProducto.touched">Campo Obligatorio.</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="idUnidadMedida" class="col col-form-label">Unidad de Medida</label>
+                        <select Placeholder='Seleccione' formControlName='idUnidadMedida' class="form-control" disabled> 
+                            <option *ngFor='let element of unidadMedida' [value]='element.idUnidadMedida'disabled>{{element.descripcionUnidadMedida}} ({{element.codUnidadMedida}})</option>
+                        </select>
+                        <p class="input-error-msg" *ngIf="form.controls.idUnidadMedida.errors?.required && form.controls.idUnidadMedida.touched">Campo Obligatorio.</p>
+                    </div>
+                    <div class="col">
+                        <label for="cantidadMedida" class="col col-form-label">Cantidad</label>
+                        <input type="text" class="form-control" id="cantidadMedida" placeholder="Ingrese Cantidad de Unidad de Medida" formControlName="cantidadMedida" disabled>
+                        <p class="input-error-msg" *ngIf="form.controls.cantidadMedida.errors?.required && form.controls.cantidadMedida.touched">Campo Obligatorio.</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="descripcionProducto" class="col col-form-label">Descripción</label>
+                    <textarea aria-label="Ingrese Descripción del Producto" id="descripcionProducto" formControlName="descripcionProducto" class="form-control" disabled></textarea>
+                    <p class="input-error-msg" *ngIf="form.controls.descripcionProducto.errors?.required && form.controls.descripcionProducto.touched">
+                        Campo Obligatorio.
+                    </p>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="idTipoMoneda" class="col col-form-label">Tipo de Moneda</label>
+                        <select Placeholder='Seleccione' formControlName='idTipoMoneda' class="form-control" disabled> 
+                            <option *ngFor='let element of tipoMoneda' [value]='element.idTipoMoneda' disabled><strong>{{element.simboloTipoMoneda}}</strong>&nbsp;&nbsp;&nbsp;({{element.nombreTipoMoneda}})</option>
+                        </select>
+                        <p class="input-error-msg" *ngIf="form.controls.idTipoMoneda.errors?.required && form.controls.idTipoMoneda.touched">Campo Obligatorio.</p>
+                    </div>
+                    <div class="col">
+                        <label for="importePrecioProducto" class="col col-form-label">Precio</label>
+                        <input type="text" class="form-control" id="importePrecioProducto" placeholder="Ingrese el Precio del Producto" formControlName="importePrecioProducto" disabled>
+                        <p class="input-error-msg" *ngIf="form.controls.importePrecioProducto.errors?.required && form.controls.importePrecioProducto.touched">Campo Obligatorio.</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="idRubro" class="col col-form-label">Rubro</label>
+                    <select Placeholder='Seleccione' formControlName='idRubro' class="form-control" disabled> 
+                        <option *ngFor='let element of rubros' [value]='element.idRubro' disabled>{{element.nombreRubro}}</option>
                     </select>
-                    <p class="input-error-msg" *ngIf="form.controls.idUnidadMedida.errors?.required && form.controls.idUnidadMedida.touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="form.controls.idRubro.errors?.required && form.controls.idRubro.touched">Campo Obligatorio.</p>
                 </div>
-                <div class="col">
-                    <label for="cantidadMedida" class="col col-form-label">Cantidad</label>
-                    <input type="text" class="form-control" id="cantidadMedida" placeholder="Ingrese Cantidad de Unidad de Medida" formControlName="cantidadMedida" disabled>
-                    <p class="input-error-msg" *ngIf="form.controls.cantidadMedida.errors?.required && form.controls.cantidadMedida.touched">Campo Obligatorio.</p>
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <label for="descripcionProducto" class="col col-form-label">Descripción</label>
-                <textarea aria-label="Ingrese Descripción del Producto" id="descripcionProducto" formControlName="descripcionProducto" class="form-control" disabled></textarea>
-                <p class="input-error-msg" *ngIf="form.controls.descripcionProducto.errors?.required && form.controls.descripcionProducto.touched">
-                    Campo Obligatorio.
-                </p>
-            </div>
-
-            <div class="form-group row">
-                <div class="col">
-                    <label for="idTipoMoneda" class="col col-form-label">Tipo de Moneda</label>
-                    <select Placeholder='Seleccione' formControlName='idTipoMoneda' class="form-control" disabled> 
-                        <option *ngFor='let element of tipoMoneda' [value]='element.idTipoMoneda' disabled><strong>{{element.simboloTipoMoneda}}</strong>&nbsp;&nbsp;&nbsp;({{element.nombreTipoMoneda}})</option>
-                    </select>
-                    <p class="input-error-msg" *ngIf="form.controls.idTipoMoneda.errors?.required && form.controls.idTipoMoneda.touched">Campo Obligatorio.</p>
-                </div>
-                <div class="col">
-                    <label for="importePrecioProducto" class="col col-form-label">Precio</label>
-                    <input type="text" class="form-control" id="importePrecioProducto" placeholder="Ingrese el Precio del Producto" formControlName="importePrecioProducto" disabled>
-                    <p class="input-error-msg" *ngIf="form.controls.importePrecioProducto.errors?.required && form.controls.importePrecioProducto.touched">Campo Obligatorio.</p>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="idRubro" class="col col-form-label">Rubro</label>
-                <select Placeholder='Seleccione' formControlName='idRubro' class="form-control" disabled> 
-                    <option *ngFor='let element of rubros' [value]='element.idRubro' disabled>{{element.nombreRubro}}</option>
-                </select>
-                <p class="input-error-msg" *ngIf="form.controls.idRubro.errors?.required && form.controls.idRubro.touched">Campo Obligatorio.</p>
-            </div>
-
-            <div class="form-group" *ngIf="accionGet == 'editar'">
-                <hr>
-
-                <p>
-                    <a href="#VerImagen" class="btn btn-primary" data-toggle="collapse">Ver Imagen</a>
-                </p>
-                <hr>
-
-                <div id="VerImagen" class="collapse">
-
-                    <div class="card mb-3">
-                        <div class="row no-gutters animated fadeIn fast">
-                            <div class="col-md-4">
-                                <img src="{{rutaImagen}}{{producto.pathImagenProducto}}" class="card-img-top img-fluid text-primary" [alt]="producto.nombreProducto">
-                            </div>
-                            <div class="card-body">
-                                <button (click)="editarImagenProducto(producto.idProducto) " class="btn btn-success btn-block " disabled>Editar / Cargar Imagen</button>
+                <div class="form-group" *ngIf="accionGet == 'editar'">
+                    <hr>
+                    <p>
+                        <a href="#VerImagen" class="btn btn-primary" data-toggle="collapse">Ver Imagen</a>
+                    </p>
+                    <hr>
+                    <div id="VerImagen" class="collapse">
+                        <div class="card mb-3">
+                            <div class="row no-gutters animated fadeIn fast">
+                                <div class="col-md-4">
+                                    <img src="{{rutaImagen}}{{producto.pathImagenProducto}}" class="card-img-top img-fluid text-primary" [alt]="producto.nombreProducto">
+                                </div>
+                                <div class="card-body">
+                                    <button (click)="editarImagenProducto(producto.idProducto) " class="btn btn-success btn-block " disabled>Editar / Cargar Imagen</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-
+                    <hr>
                 </div>
-                <hr>
+                <div *ngIf="accionGet != 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Habilitar/Deshabilitar Producto</button>
+                </div>
+                <div *ngIf="accionGet == 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr>
+    <div class="buttons-botton">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-2">
+                <button onclick="history.back()" class="btn btn-primary">Cancelar</button>
             </div>
-
-
-            <div *ngIf="accionGet != 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Habilitar/Deshabilitar Producto</button>
-            </div>
-            <div *ngIf="accionGet == 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
-            </div>
-
-        </form>
+            <div class="col"></div>
+        </div>  
     </div>
 </div>
-<hr>
-<button onclick="history.back()" class="btn btn-primary">Cancelar</button>
