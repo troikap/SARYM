@@ -1,9 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "variables.scss";
+@import "./assets/styles/variables.scss";
 @import "./assets/styles/form.scss";
 @import "./assets/styles/select.scss";
 @import "./assets/styles/img.scss";
+@import "./assets/styles/otros.scss";
+
 
 body {
     padding-bottom: 0px;
