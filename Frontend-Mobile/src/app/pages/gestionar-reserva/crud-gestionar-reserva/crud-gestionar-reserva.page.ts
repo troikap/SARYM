@@ -71,7 +71,6 @@ export class CrudGestionarReservaPage implements OnInit {
    }
 
   ngOnInit() {
-    this.alertService.emilioGato();
     this.tratarFecha();
     this.setValidatorsHours();
   }

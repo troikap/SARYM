@@ -3,11 +3,11 @@
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>Reserva N° {{reserva.idReserva}}</ion-title>
+        <ion-title *ngIf="reserva">Reserva N° {{reserva.idReserva}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="reserva && comensales && mesas">
     <ion-card>
         <ion-list>
             <ion-item>
