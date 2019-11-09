@@ -90,7 +90,7 @@ export class HomePage implements OnInit {
         page = `/`;
         break;
       case "pedidos a enviar":
-        page = `/`;
+        page = `/pedidos-a-enviar`;
         break;
       case "confirmar-reserva":
         page = `/`;
