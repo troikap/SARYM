@@ -4,7 +4,12 @@
 // 60 minutos
 // 24 horas
 // 30 dias
-process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30;
+
+//TOKEN 1 DIA:
+process.env.CADUCIDAD_TOKEN = 1000 * 60 * 60 * 24;
+
+//TOKEN PRUEBA 1 MINUTO
+//process.env.CADUCIDAD_TOKEN = 1000 * 60;
 
 // Semilla Token
 process.env.SEED = process.env.SEED || "LucasPerez";
