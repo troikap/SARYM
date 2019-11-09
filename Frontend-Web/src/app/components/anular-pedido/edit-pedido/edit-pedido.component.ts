@@ -12,8 +12,8 @@ import { MenuPromocionService } from '../../../services/menu-promocion/menu-prom
 export class EditPedidoComponent implements OnInit {
   private idEstadia: number;
   private listaPedidos: any[]=[];
-  private precioMenuPromocion : number;
-  private precioProducto: number;
+  private precioMenuPromocion : number =0;
+  private precioProducto: number =0;
   
   constructor(
     private router: Router,
@@ -41,30 +41,46 @@ export class EditPedidoComponent implements OnInit {
   }
 
   traerPedidos() {
-   
+    var menuPromocion;
+    var producto;
     this.pedidoServicio.getPedidos()
       .then((data: any) => { // Llamo a un Observer
         if (data != null) {
-          this.listaPedidos = data.data;
+          this.listaPedidos = data;
           
-          var length = this.listaPedidos.length;
+          var length = this.listaPedidos['data'].length;
           for (let i = 0; i < length; i++) {
-            var detalles = this.listaPedidos[i].detallepedidoproductos.length;
-            console.log(detalles);
+            this.precioMenuPromocion =0;
+            this.precioProducto=0;
+            var detalles = this.listaPedidos['data'][i].detallepedidoproductos.length;
+            
             for (let j = 0; j < detalles; j++) {
-           if(this.listaPedidos[i].detallepedidoproductos[j].producto == null){
-             this.menuPromocionService.getMenuPromocion(this.precioMenuPromocion += this.listaPedidos[i].detallepedidoproductos[j].menupromocion.idMenuPromocion)
-             .then((data: any) => {
-                var menuPromocion = data.data;
+              
+           if(this.listaPedidos['data'][i].detallepedidoproductos[j].producto == null){
+             console.log("id Menu Promocion",this.listaPedidos['data'][i].detallepedidoproductos[j].menupromocion.idMenuPromocion);
+             this.menuPromocionService.getMenuPromocion(this.listaPedidos['data'][i].detallepedidoproductos[j].menupromocion.idMenuPromocion)
+             .then((datamp: any) => {
+                menuPromocion = datamp;
+                console.log("este es el menu promocion",menuPromocion);
                 this.precioMenuPromocion += menuPromocion.preciomenupromocions.importePrecioMenuPromocion;
              });
 
            }else{
-             
+             this.productoService.getProducto(this.listaPedidos['data'][i].detallepedidoproductos[j].producto.idProducto)
+             .then((datap: any) => {
+               producto = datap;
+               this.precioProducto += producto.precioProducto.importePrecioProducto;
+
+             });
            }
             }
+           var  precioTotalPedido = this.precioMenuPromocion + this.precioProducto;
+            this.listaPedidos['data'][i].push(precioTotalPedido);
+            console.log("El precio total es ",precioTotalPedido);
+
           }
-          
+         this.listaPedidos = this.listaPedidos['data'];
+         console.log(this.listaPedidos);
         }
       });
   

@@ -18,30 +18,22 @@
             <tr>
                 <th scope="col">Codigo de Pedido</th>
                 <th scope="col">Fecha y Hora Inicio de Pedido</th> 
-                <th scope="col">Cantidad Menu Pomocion</th>  
-                <th scope="col">Codigo Menu Promocion</th>
-                <th scope="col">Cantidad Producto</th> 
-                <th scope="col">Codigo Producto</th>
-                <th scope="col">Estado Pedido</th>
+                <th scope="col">Cantidad y Codigo Prodcuto/Menu Promocion</th>
+                <th scope="col">Total Pedido</th>
                 <th scope="col">Accion</th>           
             </tr>
         </thead>
-        <tbody  *ngFor="let lista of listaPedidos">
-                <tr *ngIf ="lista.pedidoestados[0].estadopedido.idEstadoPedido == 3" >                     
+        <tbody  *ngFor="let lista of listaPedidos.data">
+                <tr *ngIf ="lista.pedidoestados[0].estadopedido.idEstadoPedido == 3 && lista.idEstadia == idEstadia" >                     
                         <td align="center">{{lista.codPedido}}</td>            
                         <td>{{lista.fechaYHoraInicioPedido | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
-                        <td>{{lista.fechaYHoraInicioPedido}}</td>
-                        <td>{{lista.fechaYHoraInicioPedido}}</td>
-                        <td>{{lista.fechaYHoraInicioPedido}}</td>
-                        <td>{{lista.fechaYHoraInicioPedido}}</td>
-                        <td>{{lista.fechaYHoraInicioPedido}}</td>                      
-                        <td>
-                            <div class="row">
-                                <div class="col-1"  *ngFor="let listaMesas of lista.detalleestadiamesas">{{listaMesas.mesa.nroMesa}}</div>
-    
-                            </div>
-                        </td>
-                        <td>{{lista.mozoestadium.usuario.nombreUsuario}} {{lista.mozoestadium.usuario.apellidoUsuario}}</td>    
+                        <div *ngFor="let prodprom of lista.detallepedidoproductos" align="center">
+                                <td><div *ngIf="prodprom.menupromocion != null">{{prodprom.cantidadPedidoProducto}}</div></td>
+                                <td><div *ngIf="prodprom.menupromocion != null">{{prodprom.menupromocion.codMenuPromocion}}</div></td>                                                                       
+                                <td><div *ngIf="prodprom.producto != null">{{prodprom.cantidadPedidoProducto}}</div></td>
+                                <td><div *ngIf="prodprom.producto != null">{{prodprom.producto.codProducto}}</div></td>                            
+                        </div>
+                        <td>{{lista.precioTotalPedido}}</td>                      
                         <td>
                            <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Consultar Pedidos en Preparacion" (click)="editEstadia(lista.idEstadia)" style="cursor: pointer;">
                         </td>
