@@ -1,48 +1,59 @@
-<div class="row">
-    <div class="col">
-        <input #termino id="botonBuscar" type="text" (keyup)="buscarElemento(termino.value)" class="form-control mr-sm-2" placeholder="Buscar Tipo de Moneda...">
-    </div>
-</div>
-
-<hr>
-
-<div class="row animated fadeIn fast" *ngIf="listaTipoMoneda.length == 0">
-    <div class="col-md-12">
-        <div class="alert alert-info" role="alert">
-            No existen Tipos de Monedas con el término <strong>{{termino.value}}</strong>
+<div class="table-container">
+    <div class="row-buscador">
+        <div class="col">
+            <input #termino id="botonBuscar" type="text" (keyup)="buscarElemento(termino.value)" class="form-control mr-sm-2" placeholder="Buscar Tipo de Moneda...">
         </div>
     </div>
-</div>
-
-<table class="table" *ngIf="listaTipoMoneda.length != 0">
-    <thead class="thead-dark">
+    <hr>
+    <div class="row animated fadeIn fast" *ngIf="listaTipoMoneda.length == 0">
+        <div class="col-md-12">
+            <div class="alert alert-info" role="alert">
+                No existen Tipos de Monedas con el término <strong>{{termino.value}}</strong>
+            </div>
+        </div>
+    </div>
+    <table class="table" *ngIf="listaTipoMoneda.length != 0">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Símbolo</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let lista of listaTipoMoneda">
+                <th scope="row">{{lista.idTipoMoneda}}</th>
+                <td>{{lista.simboloTipoMoneda}}</td>
+                <td>{{lista.nombreTipoMoneda}}</td>
+                <td>
+                    <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Editar" (click)="crudElemento(lista.idTipoMoneda, 'editar')" style="cursor: pointer;">
+                    <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Eliminar" title="Eliminar" (click)="crudElemento(lista.idTipoMoneda, 'eliminar')" style="cursor: pointer;">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="buttons-botton">
+        <div class="row">
+            <div class="col-4">
+            </div>
+            <div class="col">
+                <button [routerLink]="['/home']" class="btn btn-primary">Volver</button>
+            </div>
+            <div class="col">
+                <button [routerLink]="['/tipomoneda_crud/0/crear']" class="btn btn-success">Crear</button>
+            </div>
+            <div class="col-4">
+            </div>
+        </div>
+    </div>
+    <!-- <table class="table">
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Símbolo</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Acción</th>
+            <td align="right" width="20%"><button [routerLink]="['/home']" class="btn btn-primary">Volver</button></td>
+            <td width="20%">&nbsp;</td>
+            <td width="20%">&nbsp;</td>
+            <td width="20%">&nbsp;</td>
+            <td align="right" width="20%"><button [routerLink]="['/tipomoneda_crud/0/crear']" class="btn btn-success">Crear</button></td>
         </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let lista of listaTipoMoneda">
-            <th scope="row">{{lista.idTipoMoneda}}</th>
-            <td>{{lista.simboloTipoMoneda}}</td>
-            <td>{{lista.nombreTipoMoneda}}</td>
-            <td>
-                <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Editar" (click)="crudElemento(lista.idTipoMoneda, 'editar')" style="cursor: pointer;">
-                <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Eliminar" title="Eliminar" (click)="crudElemento(lista.idTipoMoneda, 'eliminar')" style="cursor: pointer;">
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<table class="table">
-
-    <tr>
-        <td align="right" width="20%"><button [routerLink]="['/home']" class="btn btn-primary">Volver</button></td>
-        <td width="20%">&nbsp;</td>
-        <td width="20%">&nbsp;</td>
-        <td width="20%">&nbsp;</td>
-        <td align="right" width="20%"><button [routerLink]="['/tipomoneda_crud/0/crear']" class="btn btn-success">Crear</button></td>
-    </tr>
-</table>
+    </table> -->
+</div>

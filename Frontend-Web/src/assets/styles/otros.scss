@@ -8,9 +8,19 @@
     }
 }
 
-table {
-    width: 80%;
-    tbody {
-        background-color: floralwhite
+.row-buscador {
+    width: 50%;
+    margin: auto;
+}
+
+.table-container {
+    padding-top: 10px;
+    width: 90%;
+    margin: auto;
+    table {
+        width: 100%;
+        tbody {
+            background-color: floralwhite
+        }
     }
 }
