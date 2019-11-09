@@ -1,5 +1,4 @@
 import { Time } from '@angular/common';
-import { MenuPromocion } from '../services/menupromocion/menupromocion.model';
 
 export interface Usuario {
     idUsuario: Number,
