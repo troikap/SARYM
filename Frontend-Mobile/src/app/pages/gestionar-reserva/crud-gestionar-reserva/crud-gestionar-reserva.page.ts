@@ -49,18 +49,19 @@ export class CrudGestionarReservaPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private tratarFechaProvider: TratarFechaProvider,
     private alertService: AlertService,
-    private toastService: ToastService,
+    private toastService: ToastService
   ) {
     
     this.loadCurrentUsuario();
     this.form = this.formBuilder.group({
-      edadComensal: ['', Validators.required],
+      edadComensal: ['',[ Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]],
       fechaReserva: ['', Validators.required],
       horaEntrada: ['', Validators.required],
       horaSalida: ['', Validators.required],
-      cantidadComensal: ['', Validators.required],
+      cantidadComensal: '',
       idMesa: [null, Validators.required],
     });
+
 
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params);
@@ -72,19 +73,21 @@ export class CrudGestionarReservaPage implements OnInit {
 
   ngOnInit() {
     this.tratarFecha();
-    //this.setValidatorsHours();
+    // this.validarCantidadComensales();
+    // this.validarEdadComensal();
   }
 
 prueba() {
-  let  fechaReserva =  this.form.value['fechaReserva'];
-  let  horaEntrada =  this.form.value['horaEntrada'];
-  let  horaSalida =  this.form.value['horaSalida'];
+  // let  fechaReserva =  this.form.value['fechaReserva'];
+  // let  horaEntrada =  this.form.value['horaEntrada'];
+  // let  horaSalida =  this.form.value['horaSalida'];
 
-  let horaEntradaTratada = this.tratarFechaProvider.verificarTime( horaEntrada )
-  let horaSalidaTratada = this.tratarFechaProvider.verificarTime( horaSalida );
-  let fechaReservaTratada = this.tratarFechaProvider.traerDate( fechaReserva );
+  // let horaEntradaTratada = this.tratarFechaProvider.verificarTime( horaEntrada )
+  // let horaSalidaTratada = this.tratarFechaProvider.verificarTime( horaSalida );
+  // let fechaReservaTratada = this.tratarFechaProvider.traerDate( fechaReserva );
 
-  console.log("----------------------"+fechaReservaTratada+ horaEntradaTratada+horaSalidaTratada)
+  // console.log("----------------------"+fechaReservaTratada+ horaEntradaTratada+horaSalidaTratada)
+  console.log(this.form);
 }
 
   traerReserva() {
@@ -157,6 +160,31 @@ prueba() {
       });
 
     }
+  }
+
+  validarEdadComensal() {
+    this.form.get('edadComensal').valueChanges
+    .subscribe( edad => {
+      if (edad > 150){
+        this.form.controls.edadComensal.setErrors({
+          edad_maxima: true
+        });
+      }
+      else {
+        this.form.get("edadComensal").setValidators([ Validators.required, 
+          Validators.pattern(/^([0-9]{3})+$/)]);
+        this.form.get("edadComensal").updateValueAndValidity();
+
+        // /^([0-9]+([,][0-9]{1,2})|[0-9]+)$/
+      }
+    });
+  }
+  
+  validarCantidadComensales() {
+    this.form.get('cantidadComensal').valueChanges
+    .subscribe( respuesta => {
+
+    });
   }
 
   loadCurrentUsuario() {
@@ -237,13 +265,13 @@ prueba() {
           }
           this.comensales.push(this.comensal);
           this.resetComensal();
-          this.toastComensalAgregado()
+          this.toastService.toastSuccess("Comensal Agregado", 2500);
         } else {
           this.existenciaUsuario = false;
           this.mensajeExistenciaUsuario = res.descripcion;
           this.form2.controls.cuitUsuario.setErrors({pattern: true});
           this.form2.markAsTouched();
-          this.toastNoExisteUsuario(); 
+          this.toastService.toastWarning("Cuit de Usuario ingresado es incorrecto", 2500);
         }
       });
     } else {
@@ -253,7 +281,7 @@ prueba() {
       }
       this.comensales.push(this.comensal);
       this.resetComensal();
-      this.toastComensalAgregado();
+      this.toastService.toastSuccess("Comensal Agregado", 2500);
     }
   }
 
@@ -281,7 +309,7 @@ prueba() {
     } else {
       this.comensales.splice(num,1);
     }
-    this.toastEliminarComensal();
+    this.toastService.toastSuccess("Comensal Eliminado", 2500);
   }
 
   async crearEditarReserva() {
@@ -292,12 +320,14 @@ prueba() {
     let fechaReservaTratada = this.tratarFechaProvider.traerDate( this.form.value['fechaReserva'] );
     let horaEntradaTratada = this.tratarFechaProvider.verificarTime( horaEntrada );
     let horaSalidaTratada = this.tratarFechaProvider.verificarTime( horaSalida );
+    let cantidadComensales = this.comensales.length;
+
     if (this.accionGet == "crear") {
       reserva = {
         fechaReserva: fechaReservaTratada,
         horaEntradaReserva: horaEntradaTratada,
         horaSalidaReserva: horaSalidaTratada,
-        cantPersonas: this.form.value['cantidadComensal']
+        cantPersonas: cantidadComensales
       }
     }
     else  if (this.accionGet == "editar") {
@@ -306,7 +336,7 @@ prueba() {
         fechaReserva: fechaReservaTratada,
         horaEntradaReserva: horaEntradaTratada,
         horaSalidaReserva: horaSalidaTratada,
-        cantPersonas: this.form.value['cantidadComensal']
+        cantPersonas: cantidadComensales
       }
     }
     const mesas = []
@@ -363,24 +393,21 @@ prueba() {
                 pathMesas['idReserva'] = res.id;
                 this.reservaservicio.setMesasReserva( pathMesas )
                 .then( respo => {
-                  if (respo.tipo == 1 ){
-                    this.toastReservaCreada(res);
-                    let id = res.id;
-                    this.navController.navigateRoot(['/consulta-gestionar-reserva', id ]);
-                  } else {
-                    console.log("RESPUESTA DE MESAS FALLIDA")
-                  }
+                  this.toastService.toastSuccess(`Reserva Creada Satisfactoriamente. N° ${res.id}`, 2500);
+                  setTimeout(()=>{
+                    this.navController.navigateRoot(['/consulta-gestionar-reserva', res.id ]);
+                    }, 2500);
                 })
               } else {
-                console.log("RESPUESTA DE COMENSALES FALLIDA")
+                this.toastService.toastError("No se han podido crear los comensales:" + resp.title, 2500);
               }
             })
           } else {
-          console.log("RESPUESTA DE UPDATE FALLIDA")
+            this.toastService.toastError("No se han podido crear los datos de la reserva:" + update.title, 2500);
           }
         })
       } else {
-        console.log("RESPUESTA DE RESERVA",res.title)
+        this.toastService.toastError("Error:" + res.title, 2500);
       }
     })
   }
@@ -407,45 +434,20 @@ prueba() {
             pathMesas['idReserva'] = this.idReserva;
             this.reservaservicio.setMesasReserva( pathMesas )
             .then( respo => {
-              if (respo.tipo == 1 ){
-                this.toastReservaActualizada();
-                // this.navController.navigateRoot(['/consulta-gestionar-reserva', this.idReserva ]);
-              } else {
-                console.log("RESPUESTA DE MESAS FALLIDA")
-              }
+                this.toastService.toastSuccess(`Reserva N° ${this.idReserva}, actualizada satisfactoriamente.`, 2500);
+                setTimeout(()=>{
+                  this.navController.navigateRoot(['/consulta-gestionar-reserva', this.idReserva ]);
+                }, 2500);
             })
           } else {
-            console.log("RESPUESTA DE COMENSALES FALLIDA")
+            this.toastService.toastError("No se han podido actualizar los comensales:" + resp.title, 2500);
           }
         })
       } else {
-      console.log("RESPUESTA DE UPDATE FALLIDA")
+        this.toastService.toastError("Error:" + update.title, 2500);
       }
     })
-      
   }
-
-  async toastReservaCreada( reserva ) {
-      const toast = await this.toastController.create({
-        message: `Reserva Creada Satisfactoriamente. N° ${reserva.data.idReserva}`,
-        duration: 3000,
-        color: 'success',
-        position: 'middle',
-        translucent: true
-      });
-      toast.present();
-  }
-
-  async toastReservaActualizada() {
-    const toast = await this.toastController.create({
-      message: `Reserva N° ${this.idReserva}, actualizada satisfactoriamente.`,
-      duration: 3000,
-      color: 'success',
-      position: 'middle',
-      translucent: true
-    });
-    toast.present();
-}
 
   setValidatorsHours() {
     this.form.get('horaEntrada').valueChanges
@@ -539,36 +541,5 @@ prueba() {
     }
     this.fechaDesde = `${yy}-${mes}-${dia}`;
     this.fechaHasta = `${año}-${mes2}-${dia}`;
-  }
-
-  async toastNoExisteUsuario() {
-    const toast = await this.toastController.create({
-      message: 'Cuit de Usuario ingresado es incorrecto',
-      duration: 3000,
-      color: 'warning',
-      position: 'middle',
-      translucent: true
-    });
-    toast.present();
-  }
-  async toastComensalAgregado() {
-    const toast = await this.toastController.create({
-      message: 'Comensal Agregado',
-      duration: 2000,
-      color: 'success',
-      position: 'middle',
-      translucent: true
-    });
-    toast.present();
-  }
-  async toastEliminarComensal() {
-    const toast = await this.toastController.create({
-      message: 'Comensal Eliminado',
-      duration: 2000,
-      color: 'success',
-      position: 'middle',
-      translucent: true
-    });
-    toast.present();
   }
 }

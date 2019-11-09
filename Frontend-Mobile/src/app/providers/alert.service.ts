@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { resolve } from 'dns';
+// import { resolve } from 'dns';
 
 @Injectable({
   providedIn: 'root'
