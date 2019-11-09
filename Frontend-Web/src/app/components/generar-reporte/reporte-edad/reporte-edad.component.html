@@ -1,10 +1,18 @@
 <div>
-    <h2>Edad comensales</h2>
+    <h2>Edad Comensales</h2>
+    <br>
     <div>
         <div>
-            <div style="display: block">
-                <canvas baseChart [data]="polarAreaChartData" [labels]="polarAreaChartLabels" [legend]="polarAreaLegend" [chartType]="polarAreaChartType">
-            </canvas>
+            <div class="chart">
+                <canvas baseChart 
+                [data]="pieChartData" 
+                [labels]="pieChartLabels" 
+                [chartType]="pieChartType"
+                [options]="pieChartOptions" 
+                [plugins]="pieChartPlugins" 
+                [colors]="pieChartColors"
+                [legend]="pieChartLegend">
+                </canvas>
             </div>
         </div>
     </div>

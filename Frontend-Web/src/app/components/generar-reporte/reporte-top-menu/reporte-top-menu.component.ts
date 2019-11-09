@@ -14,16 +14,14 @@ export class ReporteTopMenuComponent implements OnInit {
     // We use these empty structures as placeholders for dynamic theming.
     scales: { xAxes: [{}], yAxes: [{}] },
   };
-  public barChartLabels: Label[] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  public barChartLabels: Label[] = ['Estofado de berengenas', 'Albondiga con papas', 'Milanesa de pollo con pure de papas', 'Paella', 'Picada Don Pepe'];
   public barChartType: ChartType = 'bar';
-  public barChartLegend = true;
+  public barChartLegend = false;
+  public chartColors: any[] = [
+    { backgroundColor: ["#33EDEA", "#6FC8CE", "#ED3633", "#FBF64A", "#5AF097"] }];
 
   public barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40, 67, 89, 24, 12, 100], label: 'A' },
-    { data: [45, 21, 5, 78, 100, 22, 51, 88, 53, 1, 123, 11], label: 'B' },
-    { data: [21, 49, 10, 11, 26, 55, 17, 47, 19, 84, 42, 100], label: 'C' },
-    { data: [35, 99, 40, 31, 46, 25, 62, 17, 29, 34, 22, 100], label: 'D' },
-    { data: [75, 79, 60, 61, 16, 15, 32, 7, 33, 14, 92, 100], label: 'E' },
+    { data: [65, 59, 80, 81, 56], label: '' }
   ];
 
   constructor() { }
@@ -41,6 +39,11 @@ export class ReporteTopMenuComponent implements OnInit {
   }
 
   public randomize(): void {
-    this.barChartType = this.barChartType === 'bar' ? 'line' : 'bar';
+    var rgb = [];
+
+    for(var i = 0; i < 3; i++)
+      this.chartColors.push(Math.floor(Math.random() * 255));
+    
+    //myDiv.style.backgroundColor = 'rgb('+ rgb.join(',') +')';
   }
 }
