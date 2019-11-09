@@ -86,6 +86,7 @@ export class LoginComponent implements OnInit {
           let _this = this;
 
           if (this.rol == "Administrador" || this.rol == "Encargado" || this.rol == "Cocina" ) {
+            console.log("SE LOGUEA COMO", this.rol)
             let titulo = `${this.valtitle}`;
             let mensaje = `${this.valmsj} ${_this.nombreUsuarioLog} ${_this.apellidoUsuarioLog} `;
             ($ as any).confirm({

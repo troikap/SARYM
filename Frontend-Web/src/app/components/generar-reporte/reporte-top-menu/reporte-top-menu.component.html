@@ -1,12 +1,20 @@
-<h2>Top 5 Menú</h2>
-
 <div>
+    <br>
+    <h2>Top 5 Menú</h2>
+    <br><br>
     <div>
         <div>
-            <div style="display: block">
-                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+            <div>
+                <div style="display: block">
+                    <canvas baseChart 
+                    [datasets]="barChartData" 
+                    [labels]="barChartLabels" 
+                    [options]="barChartOptions"
+                    [legend]="barChartLegend" [colors]="chartColors" 
+                    [chartType]="barChartType"
+                    (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+                </div>
             </div>
-            <button mat-button mat-raised-button color="primary" (click)="randomize()">Update</button>
         </div>
     </div>
 </div>

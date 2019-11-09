@@ -15,22 +15,18 @@ export class ReporteTopProductoComponent implements OnInit {
     // We use these empty structures as placeholders for dynamic theming.
     scales: { xAxes: [{}], yAxes: [{}] },
   };
-  public barChartLabels: Label[] = [''];
+  public barChartLabels: Label[] = ['Pizza', 'Pancho', 'Empanada','Papas Fritas', 'Hamburguesa'];
   public barChartType: ChartType = 'bar';
-  public barChartLegend = true;
+  public barChartLegend = false;
+  public chartColors: any[] = [
+    { backgroundColor: ["#FF7360", "#6FC8CE", "#78EF26", "#FBF64A", "#F24ACD"] }];
 
-  public barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40, 67, 89, 24, 12, 100], label: 'Pizza' },
-    { data: [45, 21, 5, 78, 100, 22, 51, 88, 53, 1, 123, 11], label: 'Pancho' },
-    { data: [21, 49, 10, 11, 26, 55, 17, 47, 19, 84, 42, 100], label: 'Empanda' },
-    { data: [35, 99, 40, 31, 46, 25, 62, 17, 29, 34, 22, 100], label: 'Papas Fritas' },
-    { data: [75, 79, 60, 61, 16, 15, 32, 7, 33, 14, 92, 100], label: 'Hamburguesa' },
+  public barChartData: ChartDataSets[] = [ { data: [89,54,45,89,120] }
   ];
 
   constructor() { }
 
   ngOnInit() {
-    console.log("DOCUMENTOOO", document);
   }
 
   // events
@@ -41,9 +37,13 @@ export class ReporteTopProductoComponent implements OnInit {
   public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
   }
-
   public randomize(): void {
-    this.barChartType = this.barChartType === 'bar' ? 'line' : 'bar';
+    if (this.barChartType === 'bar') { 
+      //this.barChartLegend = true;
+      this.barChartType = 'pie';
+    } else if (this.barChartType === 'pie') {
+      //this.barChartLegend = false;
+      this.barChartType = 'bar';
+    }
   }
-
 }

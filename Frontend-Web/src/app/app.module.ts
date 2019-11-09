@@ -4,7 +4,6 @@ import { ChartsModule } from 'ng2-charts';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { DatePipe } from '@angular/common';
 
 
 import { AppComponent } from './app.component';
@@ -53,12 +52,10 @@ import { ReporteTopPromocionComponent } from './components/generar-reporte/repor
 import { UploadService } from './services/upload/upload.service';
 import { UploadComponent } from './upload/upload.component';
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
-import { LoginGuardGuard } from './components/shared/guardias/login-guard.guard';
 import { SearchComponent } from './components/reasignar-mozo-a-estadia/search/search.component';
 import { EditComponent } from './components/reasignar-mozo-a-estadia/edit/edit.component';
 import { SearchPedidoComponent } from './components/anular-pedido/search-pedido/search-pedido.component';
 import { EditPedidoComponent } from './components/anular-pedido/edit-pedido/edit-pedido.component';
-import { AuthGuardService } from './services/auth-guard.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { RoleGuardService } from './services/role-guard.service';
 
@@ -120,18 +117,16 @@ import { RoleGuardService } from './services/role-guard.service';
     JwtModule,
     ScrollingModule,
     DragDropModule,
-
     JwtModule.forRoot({
       config: {
         //tokenGetter: tokenGetter,
-        whitelistedDomains: ["example.com"],
+        whitelistedDomains: ['/login'],
         blacklistedRoutes: ["example.com/examplebadroute/"]
       }
     })
 
   ],
-
-  providers: [UploadService, LoginGuardGuard, AuthGuardService, RoleGuardService, DatePipe],
+  providers: [UploadService, RoleGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
