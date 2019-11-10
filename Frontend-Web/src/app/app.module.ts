@@ -4,6 +4,7 @@ import { ChartsModule } from 'ng2-charts';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DatePipe } from '@angular/common';
 
 
 import { AppComponent } from './app.component';
@@ -112,7 +113,7 @@ import { EditGestionarEstadoEstadiaComponent } from './components/gestionar-esta
     EditPedidoComponent,
     DetallePedidoComponent,
     SearchGestionarEstadoEstadiaComponent,
-    EditGestionarEstadoEstadiaComponent
+    EditGestionarEstadoEstadiaComponent,
   ],
   imports: [
     BrowserModule,
@@ -132,7 +133,7 @@ import { EditGestionarEstadoEstadiaComponent } from './components/gestionar-esta
     })
 
   ],
-  providers: [UploadService, RoleGuardService],
+    providers: [UploadService, RoleGuardService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
