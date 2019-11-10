@@ -62,6 +62,8 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { RoleGuardService } from './services/role-guard.service';
 import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedido/detalle-pedido.component';
+import { SearchGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/search-gestionar-estado-estadia/search-gestionar-estado-estadia.component';
+import { EditGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/edit-gestionar-estado-estadia/edit-gestionar-estado-estadia.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +113,9 @@ import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedid
     EditComponent,
     SearchPedidoComponent,
     EditPedidoComponent,
-    DetallePedidoComponent
+    DetallePedidoComponent,
+    SearchGestionarEstadoEstadiaComponent,
+    EditGestionarEstadoEstadiaComponent
   ],
   imports: [
     BrowserModule,

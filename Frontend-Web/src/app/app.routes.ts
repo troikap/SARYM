@@ -38,6 +38,8 @@ import { EditComponent } from './components/reasignar-mozo-a-estadia/edit/edit.c
 import { SearchPedidoComponent } from './components/anular-pedido/search-pedido/search-pedido.component';
 import { EditPedidoComponent } from './components/anular-pedido/edit-pedido/edit-pedido.component';
 import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedido/detalle-pedido.component';
+import { SearchGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/search-gestionar-estado-estadia/search-gestionar-estado-estadia.component';
+import { EditGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/edit-gestionar-estado-estadia/edit-gestionar-estado-estadia.component';
 
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
 import { LoginGuardGuard } from './components/shared/guardias/login-guard.guard';
@@ -65,6 +67,8 @@ const routes: Routes = [
     { path: 'search_anular_pedido', component: SearchPedidoComponent , canActivate: [LoginGuardGuard]},  
     { path: 'edit_anular_pedido/:id', component: EditPedidoComponent , canActivate: [LoginGuardGuard]},
     { path: 'detalle_anular_pedido/:id', component: DetallePedidoComponent , canActivate: [LoginGuardGuard]},
+    { path: 'search_gestionar_estado_estadia', component: SearchGestionarEstadoEstadiaComponent , canActivate: [LoginGuardGuard]},  
+    { path: 'edit_gestionar_estado_estadia/:id', component: EditGestionarEstadoEstadiaComponent , canActivate: [LoginGuardGuard]},
     { path: 'caja_edit/:id/:accion', component: EditCajaComponent, canActivate: [LoginGuardGuard]},
     { path: 'generarmovimientocaja/:id', component: EditGenerarMovimientoCajaComponent, canActivate: [LoginGuardGuard]},
     { path: 'generarmovimientocaja', component: AbmGenerarMovimientoCajaComponent, canActivate: [LoginGuardGuard]},
