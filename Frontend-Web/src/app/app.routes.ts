@@ -1,3 +1,5 @@
+
+
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
@@ -27,6 +29,7 @@ import { CrudGestionarMenupromocionComponent } from './components/gestionar-menu
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { UploadComponent } from './upload/upload.component';
+
 //IMPORTS PARA ROL ENCARGADO
 import { AbmAbrirCajaComponent } from './components/abrir-caja/search-abrir-caja/abm-abrir-caja.component';
 import { EditAbrirCajaComponent } from './components/abrir-caja/edit-abrir-caja/edit-abrir-caja.component';
@@ -37,6 +40,11 @@ import { EditGenerarMovimientoCajaComponent } from './components/generar-movimie
 import { CrudGenerarMovimientoCajaComponent } from './components/generar-movimiento-caja/crud-generar-movimiento-caja/crud-generar-movimiento-caja.component';
 import { HabilitarDeshabilitarProductoComponent } from './components/habilitar-deshabilitar-producto/search-habilitar-deshabilitar-producto/habilitar-deshabilitar-producto.component';
 import { CrudHabilitarDeshabilitarProductoComponent } from './components/habilitar-deshabilitar-producto/crud-habilitar-deshabilitar-producto/crud-habilitar-deshabilitar-producto.component';
+import { SearchComponent } from './components/reasignar-mozo-a-estadia/search/search.component';
+import { EditComponent } from './components/reasignar-mozo-a-estadia/edit/edit.component';
+import { SearchPedidoComponent } from './components/anular-pedido/search-pedido/search-pedido.component';
+import { EditPedidoComponent } from './components/anular-pedido/edit-pedido/edit-pedido.component';
+import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedido/detalle-pedido.component';
 
 const routes: Routes = [
   { path: "home", component: HomeComponent },
@@ -67,6 +75,7 @@ const routes: Routes = [
   { path: "reporte", component: GenerarReporteComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "upload/:id/:nombre/:path/:retorno", component: UploadComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "upload", component: UploadComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
+
   //RUTAS ENCARGADO  
   { path: "abrircaja", component: AbmAbrirCajaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
   { path: "abrircaja/:id/:accion", component: EditAbrirCajaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
@@ -77,15 +86,16 @@ const routes: Routes = [
   { path: "generarmovimientocaja_crud/:id", component: CrudGenerarMovimientoCajaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
   { path: "habilitar-deshabilitar-producto", component: HabilitarDeshabilitarProductoComponent, canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
   { path: "crud_habilitar_deshabilitar_producto/:id", component: CrudHabilitarDeshabilitarProductoComponent, canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
+  { path: 'edit_mozo_estadia/:id', component: EditComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
+  { path: 'search_anular_pedido', component: SearchPedidoComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},  
+  { path: 'edit_anular_pedido/:id', component: EditPedidoComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
+  { path: 'detalle_anular_pedido/:id', component: DetallePedidoComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
+  { path: 'search_mozo_estadia', component: SearchComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
+
 
   { path: "**", redirectTo: "login" },
   { path: "", redirectTo: "/login", pathMatch: "full" },  
-
 ];
-
-  /* para meter 2 roles o mas... no borrar:
-    canActivate: [RoleGuardService], data: { expectedRole:['Administrador', 'Encargado']}, 
-   */ 
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
