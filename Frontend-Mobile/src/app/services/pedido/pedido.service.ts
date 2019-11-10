@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { Pedido, Estadia } from '../../models/modelos';
 import { environment } from '../../../environments/environment';
-import { Z_UNKNOWN } from 'zlib';
 
 const URL = environment.urlNgrok || environment.url;
 const dir = '/pedido';

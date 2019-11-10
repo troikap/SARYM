@@ -1,74 +1,84 @@
-<div *ngIf="accionGet =='crear'">
-    <h2 class="titulo">Nueva Mesa</h2>
-</div>
-<div *ngIf="accionGet =='editar'">
-    <h2 class="titulo">Editar Mesa</h2>
-</div>
-<div *ngIf="accionGet =='eliminar'">
-    <h2 class="titulo">Eliminar Mesa</h2>
-</div>
-<hr>
-<div class="container">
-    <div class="form-section">
-        <form [formGroup]="form" (ngSubmit)="guardar()">
-            <div class="form-group">
-                <div *ngIf="accionGet !='crear'">
-                    <label for="idMesa" class="col col-form-label">Id</label>
-                    <input type="text" id="idMesa" placeholder="Identificador" formControlName="idMesa" class="form-control" disabled>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="nroMesa" class="col col-form-label">Número de Mesa</label>
-                        <input type="text" class="form-control" id="nroMesa" placeholder="Ingrese Número de Mesa" formControlName="nroMesa">
-                        <p class="input-error-msg" *ngIf="form.controls.nroMesa.errors?.required && form.controls.nroMesa.touched">Campo Obligatorio.</p>
-                        <p class="input-error-msg" *ngIf="form.controls.nroMesa.errors?.pattern && form.controls.nroMesa.touched">Solo números. Máximo 3 cifras.</p>
-                   
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <label for="capacidadMesa" class="col col-form-label">Capacidad de Mesa</label>
-                    <input type="text" class="form-control" id="capacidadMesa" placeholder="Ingrese Capacidad de Mesa" formControlName="capacidadMesa">
-                    <p class="input-error-msg" *ngIf="form.controls.capacidadMesa.errors?.required && form.controls.capacidadMesa.touched">Campo Obligatorio.</p>
-                    <p class="input-error-msg" *ngIf="form.controls.capacidadMesa.errors?.pattern && form.controls.capacidadMesa.touched">Solo números. Máximo 2 cifras.</p>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <label for="nroUbicacion" class="col col-form-label">Ubicación</label>
-                    <input type="text" class="form-control" id="nroUbicacion" placeholder="Ingrese Ubicación" formControlName="nroUbicacion">
-                    <p class="input-error-msg" *ngIf="form.controls.nroUbicacion.errors?.required && form.controls.nroUbicacion.touched">Campo Obligatorio.</p>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <label for="idEstadoMesa" class="col col-form-label">Estado Mesa</label>
-                    <select Placeholder='Seleccione' formControlName='idEstadoMesa' class="form-control"> 
-                        <option *ngFor='let element of estadoMesas' [value]='element.idEstadoMesa'>{{element.nombreEstadoMesa}}</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <label for="idSector" class="col col-form-label">Sector</label>
-                    <select Placeholder='Seleccione' formControlName='idSector' class="form-control"> 
-                        <option *ngFor='let element of sectores' [value]='element.idSector'>{{element.nombreSector}}</option>
-                    </select>
-                </div>
-            </div>
-            <hr>
-            <div *ngIf="accionGet != 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
-            </div>
-            <div *ngIf="accionGet == 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block">Eliminar</button>
-            </div>
-
-        </form>
+<div class="contenedor-pagina">
+    <br>
+    <div *ngIf="accionGet =='crear'">
+        <h2 class="titulo">Nueva Mesa</h2>
+    </div>
+    <div *ngIf="accionGet =='editar'">
+        <h2 class="titulo">Editar Mesa</h2>
+    </div>
+    <div *ngIf="accionGet =='eliminar'">
+        <h2 class="titulo">Eliminar Mesa</h2>
     </div>
     <hr>
-    <button onclick="history.back()" class="btn btn-primary">Cancelar</button>
+    <div class="container">
+        <div class="form-section">
+            <form [formGroup]="form" (ngSubmit)="guardar()">
+                <div class="form-group">
+                    <div *ngIf="accionGet !='crear'">
+                        <label for="idMesa" class="col col-form-label">Id</label>
+                        <input type="text" id="idMesa" placeholder="Identificador" formControlName="idMesa" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="nroMesa" class="col col-form-label">Número de Mesa</label>
+                            <input type="text" class="form-control" id="nroMesa" placeholder="Ingrese Número de Mesa" formControlName="nroMesa">
+                            <p class="input-error-msg" *ngIf="form.controls.nroMesa.errors?.required && form.controls.nroMesa.touched">Campo Obligatorio.</p>
+                            <p class="input-error-msg" *ngIf="form.controls.nroMesa.errors?.pattern && form.controls.nroMesa.touched">Solo números. Máximo 3 cifras.</p>
+                       
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="capacidadMesa" class="col col-form-label">Capacidad de Mesa</label>
+                        <input type="text" class="form-control" id="capacidadMesa" placeholder="Ingrese Capacidad de Mesa" formControlName="capacidadMesa">
+                        <p class="input-error-msg" *ngIf="form.controls.capacidadMesa.errors?.required && form.controls.capacidadMesa.touched">Campo Obligatorio.</p>
+                        <p class="input-error-msg" *ngIf="form.controls.capacidadMesa.errors?.pattern && form.controls.capacidadMesa.touched">Solo números. Máximo 2 cifras.</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="nroUbicacion" class="col col-form-label">Ubicación</label>
+                        <input type="text" class="form-control" id="nroUbicacion" placeholder="Ingrese Ubicación" formControlName="nroUbicacion">
+                        <p class="input-error-msg" *ngIf="form.controls.nroUbicacion.errors?.required && form.controls.nroUbicacion.touched">Campo Obligatorio.</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="idEstadoMesa" class="col col-form-label">Estado Mesa</label>
+                        <select Placeholder='Seleccione' formControlName='idEstadoMesa' class="form-control"> 
+                            <option *ngFor='let element of estadoMesas' [value]='element.idEstadoMesa'>{{element.nombreEstadoMesa}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="idSector" class="col col-form-label">Sector</label>
+                        <select Placeholder='Seleccione' formControlName='idSector' class="form-control"> 
+                            <option *ngFor='let element of sectores' [value]='element.idSector'>{{element.nombreSector}}</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <div *ngIf="accionGet != 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+                </div>
+                <div *ngIf="accionGet == 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block">Eliminar</button>
+                </div>
+    
+            </form>
+        </div>
+        <hr>
+        <div class="buttons-botton">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-2">
+                    <button onclick="history.back()" class="btn btn-primary">Cancelar</button>
+                </div>
+                <div class="col"></div>
+            </div>  
+        </div>
 </div>

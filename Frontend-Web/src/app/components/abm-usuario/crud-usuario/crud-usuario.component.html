@@ -1,138 +1,149 @@
-<div *ngIf="accionGet =='crear'">
-    <h2 class="titulo">Nuevo Usuario</h2>
-</div>
-<div *ngIf="accionGet =='editar'">
-    <h2 class="titulo">Editar Usuario</h2>
-</div>
-<div *ngIf="accionGet =='eliminar'">
-    <h2 class="titulo">Eliminar Usuario</h2>
-</div>
-
-<hr>
-<div class="container">
-    <div class="form-section">
-        <form [formGroup]="form" (ngSubmit)="guardar()">
-            <div class="form-group">
-                <div *ngIf="accionGet !='crear'">
-                    <label for="idUsuario" class="col col-form-label">Id</label>
-                    <input type="text" id="idUsuario" placeholder="Identificador" formControlName="idUsuario" class="form-control">
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col">
+<div class="contenedor-pagina">
+        <br>
+        <div *ngIf="accionGet =='crear'">
+            <h2 class="titulo">Nuevo Usuario</h2>
+        </div>
+        <div *ngIf="accionGet =='editar'">
+            <h2 class="titulo">Editar Usuario</h2>
+        </div>
+        <div *ngIf="accionGet =='eliminar'">
+            <h2 class="titulo">Eliminar Usuario</h2>
+        </div>
+        
+        <hr>
+        <div class="container">
+            <div class="form-section">
+                <form [formGroup]="form" (ngSubmit)="guardar()">
                     <div class="form-group">
-                        <label for="cuitUsuario" class="col col-form-label">Cuit</label>
-                        <input type="text" class="form-control" id="cuitUsuario" placeholder="Ingrese CUIT" formControlName="cuitUsuario">
-                        <p class="input-error-msg" *ngIf="form.controls.cuitUsuario.errors?.required && form.controls.cuitUsuario.touched">Campo Obligatorio.</p>
-                        <p class="input-error-msg" *ngIf="form.controls.cuitUsuario.errors?.pattern && form.controls.cuitUsuario.touched">CUIT Inválido.</p>
-                        <!-- https://maurobernal.com.ar/cuil/calcular-el-cuil/ PARA VALIDAR CUIT, Imposible por no tener sexo -->
+                        <div *ngIf="accionGet !='crear'">
+                            <label for="idUsuario" class="col col-form-label">Id</label>
+                            <input type="text" id="idUsuario" placeholder="Identificador" formControlName="idUsuario" class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="dniUsuario" class="col col-form-label">DNI</label>
-                        <input type="text" class="form-control" id="dniUsuario" placeholder="Ingrese DNI" formControlName="dniUsuario">
-                        <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.required && form.controls.dniUsuario.touched">Campo Obligatorio.</p>
-                        <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.not_equal && form.controls.dniUsuario.touched">No coincide con CUIT.</p>
+                    <div class="form-group row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="cuitUsuario" class="col col-form-label">Cuit</label>
+                                <input type="text" class="form-control" id="cuitUsuario" placeholder="Ingrese CUIT" formControlName="cuitUsuario">
+                                <p class="input-error-msg" *ngIf="form.controls.cuitUsuario.errors?.required && form.controls.cuitUsuario.touched">Campo Obligatorio.</p>
+                                <p class="input-error-msg" *ngIf="form.controls.cuitUsuario.errors?.pattern && form.controls.cuitUsuario.touched">CUIT Inválido.</p>
+                                <!-- https://maurobernal.com.ar/cuil/calcular-el-cuil/ PARA VALIDAR CUIT, Imposible por no tener sexo -->
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="dniUsuario" class="col col-form-label">DNI</label>
+                                <input type="text" class="form-control" id="dniUsuario" placeholder="Ingrese DNI" formControlName="dniUsuario">
+                                <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.required && form.controls.dniUsuario.touched">Campo Obligatorio.</p>
+                                <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.not_equal && form.controls.dniUsuario.touched">No coincide con CUIT.</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <label for="nombreUsuario" class="col col-form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese Nombre" formControlName="nombreUsuario">
-                    <p class="input-error-msg" *ngIf="form.controls.nombreUsuario.errors?.required && form.controls.nombreUsuario.touched">Campo Obligatorio.</p>
-                    <p class="input-error-msg" *ngIf="form.controls.nombreUsuario.errors?.pattern && form.controls.nombreUsuario.touched">Nombre inválido. Por ej: Hugo Martín.</p>
-                    
-                </div>
-                <div class="col">
-                    <label for="apellidoUsuario" class="col col-form-label">Apellido</label>
-                    <input type="text" class="form-control" id="apellidoUsuario" placeholder="Ingrese Apellido" formControlName="apellidoUsuario">
-                    <p class="input-error-msg" *ngIf="form.controls.apellidoUsuario.errors?.required && form.controls.apellidoUsuario.touched">Campo Obligatorio.</p>
-                    <p class="input-error-msg" *ngIf="form.controls.apellidoUsuario.errors?.pattern && form.controls.apellidoUsuario.touched">Apellido inválido. Por ej: Molina Gómez.</p>
-                    
-                    
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <label for="emailUsuario" class="col col-form-label">Email</label>
-                    <input type="text" class="form-control" id="emailUsuario" placeholder="Ingrese Email" formControlName="emailUsuario">
-                    <p class="input-error-msg" *ngIf="form.controls.emailUsuario.errors?.required && form.controls.emailUsuario.touched">Campo Obligatorio.</p>
-                    <p class="input-error-msg" *ngIf="form.controls.emailUsuario.errors?.pattern && form.controls.emailUsuario.touched">Por Ejemplo: sarymresto@gmail.com.</p>
-                </div>
-                <div class="col">
-                    <label for="domicilioUsuario" class="col col-form-label">Domicilio</label>
-                    <input type="text" class="form-control" id="domicilioUsuario" placeholder="Ingrese Domicilio" formControlName="domicilioUsuario">
-                    <p class="input-error-msg" *ngIf="form.controls.domicilioUsuario.errors?.required && form.controls.domicilioUsuario.touched">Campo Obligatorio.</p>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <label for="nroCelularUsuario" class="col col-form-label">Celular</label>
-                    <input type="text" class="form-control" id="nroCelularUsuario" placeholder="Ingrese Celular" formControlName="nroCelularUsuario">
-                    <p class="input-error-msg" *ngIf="form.controls.nroCelularUsuario.errors?.required && form.controls.nroCelularUsuario.touched">Campo Obligatorio.</p>
-                    <p class="input-error-msg" *ngIf="form.controls.nroCelularUsuario.errors?.pattern && form.controls.nroCelularUsuario.touched">Por Ejemplo: 2616123456</p>
-                </div>
-                <div class="col">
-                    <label for="nroTelefonoUsuario" class="col col-form-label">Teléfono</label>
-                    <input type="text" class="form-control" id="nroTelefonoUsuario" placeholder="Ingrese Teléfono" formControlName="nroTelefonoUsuario">
-                    <p class="input-error-msg" *ngIf="form.controls.nroTelefonoUsuario.errors?.required && form.controls.nroTelefonoUsuario.touched">Campo Obligatorio.</p>
-                    <p class="input-error-msg" *ngIf="form.controls.nroTelefonoUsuario.errors?.pattern && form.controls.nroTelefonoUsuario.touched">Por Ejemplo: 2614123456</p>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <label for="idDepartamento" class="col col-form-label">Departamento</label>
-                    <select Placeholder='Seleccione' formControlName='idDepartamento' class="form-control"> 
-                        <option *ngFor='let element of departamentos' [value]='element.idDepartamento'>{{element.nombreDepartamento}}</option>
-                    </select>
-                    <p class="input-error-msg" *ngIf="form.controls.idDepartamento.errors?.required && form.controls.idDepartamento.touched">Campo Obligatorio.</p>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <label for="idRol" class="col col-form-label">Rol</label>
-                    <select Placeholder='Seleccione' formControlName='idRol' class="form-control"> 
-                        <option *ngFor='let element of roles' [value]='element.idRol'>{{element.nombreRol}}</option>
-                    </select>
-                    <p class="input-error-msg" *ngIf="form.controls.idRol.errors?.required && form.controls.idRol.touched">Campo Obligatorio.</p>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <div *ngIf="accionGet !='crear'">
-                        <label for="idEstadoUsuario" class="col col-form-label">Estado</label>
-                        <select Placeholder='Seleccione' formControlName='idEstadoUsuario' class="form-control"> 
-                        <option *ngFor='let element of estadosusuarios' [value]='element.idEstadoUsuario'>{{element.nombreEstadoUsuario}}</option>
-                    </select>
-                        <p class="input-error-msg" *ngIf="form.controls.idEstadoUsuario.errors?.required && form.controls.idEstadoUsuario.touched">Campo Obligatorio.</p>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="nombreUsuario" class="col col-form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese Nombre" formControlName="nombreUsuario">
+                            <p class="input-error-msg" *ngIf="form.controls.nombreUsuario.errors?.required && form.controls.nombreUsuario.touched">Campo Obligatorio.</p>
+                            <p class="input-error-msg" *ngIf="form.controls.nombreUsuario.errors?.pattern && form.controls.nombreUsuario.touched">Nombre inválido. Por ej: Hugo Martín.</p>
+                            
+                        </div>
+                        <div class="col">
+                            <label for="apellidoUsuario" class="col col-form-label">Apellido</label>
+                            <input type="text" class="form-control" id="apellidoUsuario" placeholder="Ingrese Apellido" formControlName="apellidoUsuario">
+                            <p class="input-error-msg" *ngIf="form.controls.apellidoUsuario.errors?.required && form.controls.apellidoUsuario.touched">Campo Obligatorio.</p>
+                            <p class="input-error-msg" *ngIf="form.controls.apellidoUsuario.errors?.pattern && form.controls.apellidoUsuario.touched">Apellido inválido. Por ej: Molina Gómez.</p>
+                            
+                            
+                        </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="emailUsuario" class="col col-form-label">Email</label>
+                            <input type="text" class="form-control" id="emailUsuario" placeholder="Ingrese Email" formControlName="emailUsuario">
+                            <p class="input-error-msg" *ngIf="form.controls.emailUsuario.errors?.required && form.controls.emailUsuario.touched">Campo Obligatorio.</p>
+                            <p class="input-error-msg" *ngIf="form.controls.emailUsuario.errors?.pattern && form.controls.emailUsuario.touched">Por Ejemplo: sarymresto@gmail.com.</p>
+                        </div>
+                        <div class="col">
+                            <label for="domicilioUsuario" class="col col-form-label">Domicilio</label>
+                            <input type="text" class="form-control" id="domicilioUsuario" placeholder="Ingrese Domicilio" formControlName="domicilioUsuario">
+                            <p class="input-error-msg" *ngIf="form.controls.domicilioUsuario.errors?.required && form.controls.domicilioUsuario.touched">Campo Obligatorio.</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="nroCelularUsuario" class="col col-form-label">Celular</label>
+                            <input type="text" class="form-control" id="nroCelularUsuario" placeholder="Ingrese Celular" formControlName="nroCelularUsuario">
+                            <p class="input-error-msg" *ngIf="form.controls.nroCelularUsuario.errors?.required && form.controls.nroCelularUsuario.touched">Campo Obligatorio.</p>
+                            <p class="input-error-msg" *ngIf="form.controls.nroCelularUsuario.errors?.pattern && form.controls.nroCelularUsuario.touched">Por Ejemplo: 2616123456</p>
+                        </div>
+                        <div class="col">
+                            <label for="nroTelefonoUsuario" class="col col-form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="nroTelefonoUsuario" placeholder="Ingrese Teléfono" formControlName="nroTelefonoUsuario">
+                            <p class="input-error-msg" *ngIf="form.controls.nroTelefonoUsuario.errors?.required && form.controls.nroTelefonoUsuario.touched">Campo Obligatorio.</p>
+                            <p class="input-error-msg" *ngIf="form.controls.nroTelefonoUsuario.errors?.pattern && form.controls.nroTelefonoUsuario.touched">Por Ejemplo: 2614123456</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="idDepartamento" class="col col-form-label">Departamento</label>
+                            <select Placeholder='Seleccione' formControlName='idDepartamento' class="form-control"> 
+                                <option *ngFor='let element of departamentos' [value]='element.idDepartamento'>{{element.nombreDepartamento}}</option>
+                            </select>
+                            <p class="input-error-msg" *ngIf="form.controls.idDepartamento.errors?.required && form.controls.idDepartamento.touched">Campo Obligatorio.</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="idRol" class="col col-form-label">Rol</label>
+                            <select Placeholder='Seleccione' formControlName='idRol' class="form-control"> 
+                                <option *ngFor='let element of roles' [value]='element.idRol'>{{element.nombreRol}}</option>
+                            </select>
+                            <p class="input-error-msg" *ngIf="form.controls.idRol.errors?.required && form.controls.idRol.touched">Campo Obligatorio.</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <div *ngIf="accionGet !='crear'">
+                                <label for="idEstadoUsuario" class="col col-form-label">Estado</label>
+                                <select Placeholder='Seleccione' formControlName='idEstadoUsuario' class="form-control"> 
+                                <option *ngFor='let element of estadosusuarios' [value]='element.idEstadoUsuario'>{{element.nombreEstadoUsuario}}</option>
+                            </select>
+                                <p class="input-error-msg" *ngIf="form.controls.idEstadoUsuario.errors?.required && form.controls.idEstadoUsuario.touched">Campo Obligatorio.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row" *ngIf="accionGet != 'eliminar'">
+                        <div class="col">
+                            <label for="contrasenaUsuario" class="col col-form-label">Contraseña</label>
+                            <input class="form-control" type="password" id="contrasenaUsuario" placeholder="Ingrese Contraseña" formControlName="contrasenaUsuario">
+                            <p class="input-error-msg" *ngIf="form.controls.contrasenaUsuario.errors?.required && form.controls.contrasenaUsuario.touched">Campo Obligatorio.</p>
+                            <p class="input-error-msg" *ngIf="(form.controls.contrasenaUsuario.errors?.minlength || form.controls.contrasenaUsuario.errors?.maxlength) && form.controls.contrasenaUsuario.touched">Debe tener entre 8 y 25 caracteres.</p>
+                        </div>
+                        <div class="col" *ngIf="form.value.contrasenaUsuario != null">
+                            <label for="contrasenaUsuarioRepeat" class="col col-form-label">Repetir Contraseña</label>
+                            <input class="form-control" type="password" id="contrasenaUsuarioRepeat" placeholder="Repita Contraseña" formControlName="contrasenaUsuarioRepeat">
+                            <p class="input-error-msg" *ngIf="form.controls.contrasenaUsuarioRepeat.errors?.required && form.controls.contrasenaUsuarioRepeat.touched">Campo Obligatorio.</p>
+                            <p class="input-error-msg" *ngIf="form.controls.contrasenaUsuarioRepeat.errors?.not_equal && form.controls.contrasenaUsuarioRepeat.touched">Las contraseñas no coinciden.</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div *ngIf="accionGet != 'eliminar'">
+                        <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+                    </div>
+                    <div *ngIf="accionGet == 'eliminar'">
+                        <button type="submit" class="btn btn-outline-primary btn-block">Eliminar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <div class="buttons-botton">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-2">
+                    <button onclick="history.back()" class="btn btn-primary">Cancelar</button>
                 </div>
-            </div>
-            <div class="form-group row" *ngIf="accionGet != 'eliminar'">
-                <div class="col">
-                    <label for="contrasenaUsuario" class="col col-form-label">Contraseña</label>
-                    <input class="form-control" type="password" id="contrasenaUsuario" placeholder="Ingrese Contraseña" formControlName="contrasenaUsuario">
-                    <p class="input-error-msg" *ngIf="form.controls.contrasenaUsuario.errors?.required && form.controls.contrasenaUsuario.touched">Campo Obligatorio.</p>
-                    <p class="input-error-msg" *ngIf="(form.controls.contrasenaUsuario.errors?.minlength || form.controls.contrasenaUsuario.errors?.maxlength) && form.controls.contrasenaUsuario.touched">Debe tener entre 8 y 25 caracteres.</p>
-                </div>
-                <div class="col" *ngIf="form.value.contrasenaUsuario != null">
-                    <label for="contrasenaUsuarioRepeat" class="col col-form-label">Repetir Contraseña</label>
-                    <input class="form-control" type="password" id="contrasenaUsuarioRepeat" placeholder="Repita Contraseña" formControlName="contrasenaUsuarioRepeat">
-                    <p class="input-error-msg" *ngIf="form.controls.contrasenaUsuarioRepeat.errors?.required && form.controls.contrasenaUsuarioRepeat.touched">Campo Obligatorio.</p>
-                    <p class="input-error-msg" *ngIf="form.controls.contrasenaUsuarioRepeat.errors?.not_equal && form.controls.contrasenaUsuarioRepeat.touched">Las contraseñas no coinciden.</p>
-                </div>
-            </div>
-            <hr>
-            <div *ngIf="accionGet != 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
-            </div>
-            <div *ngIf="accionGet == 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block">Eliminar</button>
-            </div>
-        </form>
-    </div>
+                <div class="col"></div>
+            </div>  
+        </div>
 </div>
-<hr>
-<button onclick="history.back()" class="btn btn-primary">Cancelar</button>

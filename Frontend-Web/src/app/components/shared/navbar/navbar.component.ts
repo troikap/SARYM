@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -11,8 +11,11 @@ export class NavbarComponent implements OnInit {
   mySubscription: any;
 
   constructor(private router: Router) {
-    this.variableRol = localStorage.getItem("rolUsuario");
+    // this.variableRol = localStorage.getItem("rolUsuario");
     console.log("navbar: ", this.variableRol);
+    this.mySubscription = setInterval( () => { 
+      this.variableRol = localStorage.getItem("rolUsuario");
+   }, 500);
 
   }
 
@@ -20,19 +23,16 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    
     if (this.mySubscription) {
       this.mySubscription.unsubscribe();
     }
   }
 
   cerrarSesion() {
-    /*localStorage.removeItem("rolUsuario");
-    localStorage.removeItem("token");
-    */
     localStorage.clear();
     this.variableRol = "";    
 
     this.router.navigate([`/login`]);
   }
-
 }

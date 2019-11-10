@@ -1,36 +1,37 @@
-<hr>
-
-<table class="table">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Fecha Y Hora del Movimiento</th>
-            <th scope="col">Monto del Movimiento</th>
-            <th scope="col">Descripcion del Movimiento</th> 
-            <th scope="col">Tipo de Moviento</th>
-            <th scope="col">Usuario que lo Realizo</th>            
-                 
-        </tr>
-    </thead>
-    <tbody  *ngFor="let lista of listaMovimientoCaja">
-            <tr>                     
-                    <th scope="row">{{lista.idMovimientoCaja}}</th>
-                    <td>{{lista.fechaYHoraMovimientoCaja | date: 'dd/MM/yyyy hh:mm:ss' }}</td>            
-                    <td>{{lista.montoMovimientoCaja}}</td>
-                    <td>{{lista.descripcionMovimientoCaja}}</td> 
-                    <td>{{lista.tipomovimientocaja.nombreTipoMovimientoCaja}}</td>
-                    <td>{{lista.usuario.nombreUsuario}}{{" "}}{{lista.usuario.apellidoUsuario}}</td>            
+<div class="contenedor-pagina">
+    <hr>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Fecha Y Hora del Movimiento</th>
+                <th scope="col">Monto del Movimiento</th>
+                <th scope="col">Descripcion del Movimiento</th> 
+                <th scope="col">Tipo de Moviento</th>
+                <th scope="col">Usuario que lo Realizo</th>            
+                     
             </tr>
-    </tbody>
-</table>
-
-<table class="table">
-
-    <tr>
-        <td align="left" width="20%"><button [routerLink]="['/generarmovimientocaja']" class="btn btn-primary">Volver</button></td>
-        <td width="20%">&nbsp;</td>
-        <td width="20%">&nbsp;</td>
-        <td width="20%">&nbsp;</td> 
-        <td align="right" width="20%"><button (click)="abmMovimientoCaja()" class="btn btn-primary">Crear Movimiento</button></td>       
-    </tr>
-</table>
+        </thead>
+        <tbody  *ngFor="let lista of listaMovimientoCaja">
+                <tr>                     
+                        <th scope="row">{{lista.idMovimientoCaja}}</th>
+                        <td>{{lista.fechaYHoraMovimientoCaja | date: 'dd/MM/yyyy hh:mm:ss' }}</td>            
+                        <td>{{lista.montoMovimientoCaja}}</td>
+                        <td>{{lista.descripcionMovimientoCaja}}</td> 
+                        <td>{{lista.tipomovimientocaja.nombreTipoMovimientoCaja}}</td>
+                        <td>{{lista.usuario.nombreUsuario}}{{" "}}{{lista.usuario.apellidoUsuario}}</td>            
+                </tr>
+        </tbody>
+    </table>
+    
+    <table class="table">
+    
+        <tr>
+            <td align="left" width="20%"><button [routerLink]="['/generarmovimientocaja']" class="btn btn-primary">Volver</button></td>
+            <td width="20%">&nbsp;</td>
+            <td width="20%">&nbsp;</td>
+            <td width="20%">&nbsp;</td> 
+            <td align="right" width="20%"><button (click)="abmMovimientoCaja()" class="btn btn-primary">Crear Movimiento</button></td>       
+        </tr>
+    </table>
+</div>

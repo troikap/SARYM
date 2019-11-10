@@ -1,56 +1,67 @@
-<div *ngIf="accionGet =='crear'">
-    <h2 class="titulo">Nuevo Sector</h2>
-</div>
-<div *ngIf="accionGet =='editar'">
-    <h2 class="titulo">Editar Sector</h2>
-</div>
-<div *ngIf="accionGet =='eliminar'">
-    <h2 class="titulo">Eliminar Sector</h2>
-</div>
-<hr>
-<div class="container">
-    <div class="form-section">
-        <form [formGroup]="form" (ngSubmit)="guardar()">
-            <div class="form-group">
-                <div *ngIf="accionGet !='crear'">
-                    <label for="idSector" class="col col-form-label">Id</label>
-                    <input type="text" id="idSector" placeholder="Identificador" formControlName="idSector" class="form-control" disabled>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="codSector" class="col col-form-label">Código de Sector</label>
-                        <input type="text" class="form-control" id="codSector" placeholder="Ingrese Código de Sector" formControlName="codSector">
-                        <p class="input-error-msg" *ngIf="form.controls.codSector.errors?.required && form.controls.codSector.touched">
-                            Campo Obligatorio.</p>
-                        <p class="input-error-msg" *ngIf="form.controls.codSector.errors?.pattern && form.controls.codSector.touched">Solo números y/o letras en mayúsculas. Ej: COD10A</p>
+<div class="contenedor-pagina">
+    <br>
+    <div *ngIf="accionGet =='crear'">
+        <h2 class="titulo">Nuevo Sector</h2>
+    </div>
+    <div *ngIf="accionGet =='editar'">
+        <h2 class="titulo">Editar Sector</h2>
+    </div>
+    <div *ngIf="accionGet =='eliminar'">
+        <h2 class="titulo">Eliminar Sector</h2>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="form-section">
+            <form [formGroup]="form" (ngSubmit)="guardar()">
+                <div class="form-group">
+                    <div *ngIf="accionGet !='crear'">
+                        <label for="idSector" class="col col-form-label">Id</label>
+                        <input type="text" id="idSector" placeholder="Identificador" formControlName="idSector" class="form-control" disabled>
                     </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <div class="col">
-                    <label for="nombreSector" class="col col-form-label">Nombre de Sector</label>
-                    <input type="text" class="form-control" id="nombreSector" placeholder="Ingrese Nombre de Sector" formControlName="nombreSector">
-                    <p class="input-error-msg" *ngIf="form.controls.nombreSector.errors?.required && form.controls.nombreSector.touched">Campo Obligatorio.</p>
-                    <p class="input-error-msg" *ngIf="form.controls.nombreSector.errors?.pattern && form.controls.nombreSector.touched">Valor no válido. Ej: Fumadores2</p>
+                <div class="form-group row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="codSector" class="col col-form-label">Código de Sector</label>
+                            <input type="text" class="form-control" id="codSector" placeholder="Ingrese Código de Sector" formControlName="codSector">
+                            <p class="input-error-msg" *ngIf="form.controls.codSector.errors?.required && form.controls.codSector.touched">
+                                Campo Obligatorio.</p>
+                            <p class="input-error-msg" *ngIf="form.controls.codSector.errors?.pattern && form.controls.codSector.touched">Solo números y/o letras en mayúsculas. Ej: COD10A</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row" *ngIf="accionGet=='editar'">
-                <div class="col">
-                    <label for="fechaYHoraBajaSector" class="col col-form-label">Fecha Deshabilitación</label>
-                    <input type="checkbox" class="form-control" id="fechaYHoraBajaSector" formControlName="fechaYHoraBajaSector">
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="nombreSector" class="col col-form-label">Nombre de Sector</label>
+                        <input type="text" class="form-control" id="nombreSector" placeholder="Ingrese Nombre de Sector" formControlName="nombreSector">
+                        <p class="input-error-msg" *ngIf="form.controls.nombreSector.errors?.required && form.controls.nombreSector.touched">Campo Obligatorio.</p>
+                        <p class="input-error-msg" *ngIf="form.controls.nombreSector.errors?.pattern && form.controls.nombreSector.touched">Valor no válido. Ej: Fumadores2</p>
+                    </div>
                 </div>
+                <div class="form-group row" *ngIf="accionGet=='editar'">
+                    <div class="col">
+                        <label for="fechaYHoraBajaSector" class="col col-form-label">Fecha Deshabilitación</label>
+                        <input type="checkbox" class="form-control" id="fechaYHoraBajaSector" formControlName="fechaYHoraBajaSector">
+                    </div>
+                </div>
+                <hr>
+                <div *ngIf="accionGet != 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+                </div>
+                <div *ngIf="accionGet == 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block">Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr>
+    <div class="buttons-botton">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-2">
+                <button onclick="history.back()" class="btn btn-primary">Cancelar</button>
             </div>
-            <hr>
-            <div *ngIf="accionGet != 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
-            </div>
-            <div *ngIf="accionGet == 'eliminar'">
-                <button type="submit" class="btn btn-outline-primary btn-block">Eliminar</button>
-            </div>
-        </form>
+            <div class="col"></div>
+        </div>  
     </div>
 </div>
-<hr>
-<button onclick="history.back()" class="btn btn-primary">Cancelar</button>
