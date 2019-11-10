@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button (click)="navigateBack()"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Mesas Habilitadas</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <br>
+    <ion-title>Seleccione Mesa/s</ion-title>
+    <ion-list *ngIf="checkBoxList">
+        <ion-item class="form-group" *ngFor='let element of checkBoxList; let i = index'>
+            <ion-label class="descripcion-mesa">{{element.descripcion}}</ion-label>
+            <ion-checkbox (ionChange)="checkEvent(i)" [checked]="element.isChecked"> </ion-checkbox>
+        </ion-item>
+    </ion-list>
+    <ion-button (click)="comprobarCheck()" padding=10 position="fixed">Aceptar</ion-button>
+    <p class="input-error-msg" *ngIf="form.controls.idMesa.errors?.required && form.controls.idMesa.touched">Campo Obligatorio.</p>
+
+
+</ion-content>

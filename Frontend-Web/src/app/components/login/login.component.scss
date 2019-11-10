@@ -19,9 +19,9 @@ div.main {
     /* W3C */
     // filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#0264d6', endColorstr='#1c2b5a', GradientType=1);
     /* IE6-9 fallback on horizontal gradient */
-    height: calc(80vh);
+    height: calc(100vh);
     width: 80%;
-    border-radius: 50px;
+    // border-radius: 50px;
 }
 div.main.login {
     div.container {
@@ -172,10 +172,8 @@ input[type="password"] {
     background-color: #000000;
     color: #eee;
     font-weight: bold;
-    /* margin-bottom: 2em; */
     text-transform: uppercase;
     padding: 5px 10px;
-    // height: 30px;
 }
 
 #login form input[type="submit"]:hover {
@@ -193,12 +191,6 @@ input[type="password"] {
 .middle {
     display: flex;
     width: 600px;
-}
-.main_container {
-    width: 100%!important;
-    max-width: 100%!important;
-    margin: 0px!important;
-    padding: 0px!important;
 }
 
 .main.login {

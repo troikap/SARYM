@@ -5,19 +5,37 @@
 @import "./assets/styles/select.scss";
 @import "./assets/styles/img.scss";
 @import "./assets/styles/otros.scss";
+@import "./assets/styles/buttons.scss";
+@import "./assets/styles/navbar.scss";
 
 
+
+html {
+    height: 100%;
+    
+}
 body {
     padding-bottom: 0px;
+    height: 100%;
 }
 
-.main_container {
-    background-image: url("./assets/imagenes/imagen-login.png");
-    background-color:transparent
-    // opacity: 0.2;
-    // opacity: 0.5;
-    // filter: alpha(opacity=80);
+.contenedor-pagina {
+    padding-top:60px;
 }
+
+.main_container_img {
+    background-image: url("./assets/imagenes/imagen-login.png") ;
+    background-color: transparent;
+    height: auto;
+    min-height: 100% !important;
+}
+
+// .main_container {
+//     height: auto;
+//     min-height: 100% !important;
+//     // min-height: calc(100% - 60px) !important;
+
+// }
 
 
 /*Animación*/

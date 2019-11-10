@@ -205,14 +205,6 @@ export interface Movimientocaja {
     descripcionMovimientoCaja: String,
 }
 
-export interface Pedido {
-    idPedido: Number,
-    codPedido: String,
-    fechaYHoraFinPedido: Date,
-    fechaYHoraInicioPedido: Date,
-    detallepedidoproductos: Detallepedidoproducto[]
-}
-
 export interface Detallepedidoproducto {
     idDetallePedidoProducto: Number,
     cantidadPedidoProducto:Number,
@@ -333,4 +325,15 @@ export interface Pagopedido {
 export interface Mediopago {
     idMedioPago: Number,
     nombreMedioPago: String,
+}
+
+export interface Pedido {
+    idPedido: Number,
+    idComensal: Number,
+    idEstadia?: Number,
+    idReserva: Number,
+    codPedido: String,
+    fechaYHoraInicioPedido: Date,
+    fechaYHoraFinPedido: Date,
+    detallepedidoproductos: Detallepedidoproducto[],
 }

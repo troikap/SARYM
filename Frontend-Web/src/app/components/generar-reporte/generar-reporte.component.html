@@ -1,26 +1,44 @@
-<div class="container">
-
-    <div class="text-center"  id="contenido">
-        <h1>Módulo de Reportes <small>Mi Restó</small> </h1>
-    </div>
-    <hr>
-    <app-reporte-top-producto></app-reporte-top-producto>
-    <hr>
-    <app-reporte-top-menu></app-reporte-top-menu>
-    <hr>
-    <app-reporte-top-promocion></app-reporte-top-promocion>
-    <hr>
-    <app-reporte-pedido-por-edad></app-reporte-pedido-por-edad>
-    <hr>
-    <app-reporte-edad></app-reporte-edad>
+<div class="contenedor-pagina">
+    <div class="container">
+        <div class="container" id="1">
+            <div class="text-center">
+                <br>
+                <h1>Módulo de Reportes</h1>
+                <h3>Sarym</h3>
+                <br>
+                <app-reporte-top-producto></app-reporte-top-producto>
+            </div>
+        </div>
+        <div class="text-center">
+            <hr>
+            <div class="container" id="2">
+                <app-reporte-top-menu></app-reporte-top-menu>
+            </div>
+            <hr>
+            <div class="container" id="3">
+                <app-reporte-top-promocion></app-reporte-top-promocion>
+            </div>
+            <hr>
+            <div class="container" id="4">
+                <app-reporte-pedido-por-edad></app-reporte-pedido-por-edad>
+            </div>
+            <hr>
+            <div class="container" id="5">
+                <app-reporte-edad></app-reporte-edad>
+            </div>
+        </div>
+        <br>
+        <div class="buttons-botton">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-2"> 
+                    <button [routerLink]="['/home']" class="btn btn-primary">Volver</button>
+                </div>
+                <div class="col"></div>
+                <div class="col-2">
+                    <button (click)="generarPDF()" class="btn btn-info">Exportar a PDF</button>
+                </div>
+                <div class="col"></div>
+            </div>  
+        </div>
 </div>
-
-<table class="table">
-    <tr>
-        <td align="right" width="20%"><button [routerLink]="['/home']" class="btn btn-primary">Volver</button></td>
-        <td width="20%">&nbsp;</td>
-        <td width="20%">&nbsp;</td>
-        <td width="20%">&nbsp;</td>
-        <td align="right" width="20%"><button (click)="generarPDF()" class="btn btn-info">Exportar a PDF</button> </td>
-    </tr>
-</table>

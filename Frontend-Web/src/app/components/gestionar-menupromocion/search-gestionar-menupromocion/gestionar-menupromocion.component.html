@@ -1,96 +1,91 @@
-<div class="row">
-    <div class="col">
-        <input #termino id="botonBuscar" type="text" (keyup)="buscarElemento(termino.value)" class="form-control mr-sm-2" placeholder="Buscar Menú - Promoción...">
-    </div>
-</div>
-
-<hr>
-
-<div class="row animated fadeIn fast" *ngIf="listaMenuPromocion.length == 0">
-    <div class="col-md-12">
-        <div class="alert alert-info" role="alert">
-            No existen Menús o Promociones con el término <strong>{{termino.value}}</strong>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col">
-        <div>
-            <button (click)="crearMenuPromocion()" class="btn btn-success">Crear Nuevo Menú-Promoción</button>
-        </div>
-    </div>
-</div>
-
-<br>
-
-<div class="card-columns" style="max-width: 55rem;">
-    <div class="card animated fadeIn fast border" *ngFor="let menuPromocion of listaMenuPromocion; let i = index" [ngClass]="{
-                'border-success': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Activo' , 
-                'border-warning': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'En Falta' , 
-                'border-danger': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Inactivo', 
-                'border-dark': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Eliminado'
-            }">
-        <img src="{{rutaImagenMenuPromocion}}{{menuPromocion.pathImagenMenuPromocion}}" class="card-img-top img-fluid text-primary" [alt]="menuPromocion.nombreMenuPromocion" (click)="consultarElemento(menuPromocion.idMenuPromocion)" style="cursor:pointer">
-        <div class="card-body">
-            <p class="card-title" style="font-size: 18px;"><strong>{{menuPromocion.nombreMenuPromocion}}</strong></p>
-            <p class="card-text" style="font-size: 14px;">{{menuPromocion.tipomenupromocion.nombreTipoMenuPromocion}}</p>
-            <p class="card-text" style="font-size: 14px;"><strong class=" text-muted ">{{menuPromocion.preciomenupromocions[0]?.tipomoneda?.simboloTipoMoneda}} {{menuPromocion.preciomenupromocions[0]?.importePrecioMenuPromocion}}</strong>&nbsp;-&nbsp;
-                <span class="badge badge-pill" [ngClass]="{
-                        'badge-success': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Activo' , 
-                        'badge-warning': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'En Falta' , 
-                        'badge-danger': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Inactivo', 
-                        'badge-dark': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Eliminado'
-                    }">{{menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion}}
-                </span>
-            </p>
-            <p>
-                <a href="#VerProductos-{{ i }}" class="btn btn-primary" data-toggle="collapse">Ver Productos</a>
-            </p>
-            <hr>
-            <div id="VerProductos-{{ i }}" class="collapse">
-
-
-                <div class="row animated fadeIn fast" *ngIf="menuPromocion.detallemenupromocionproductos.length == 0">
-                    <div class="col-md-12">
-                        <div class="alert alert-info" role="alert">
-                            No contiene Productos asociados
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-title" style="font-size: 14px;" *ngIf="menuPromocion.detallemenupromocionproductos.length != 0"><strong>Listado de Productos:</strong><br></div>
-
-                <div class="card mb-3" style="background-color: #e9ecef;">
-                    <div class="row no-gutters animated fadeIn fast" *ngFor="let detalleMenuPromocionProducto of menuPromocion.detallemenupromocionproductos">
-                        <div class="col-md-4">
-                            x {{detalleMenuPromocionProducto.cantidadProductoMenuPromocion}}
-                            <img src="{{rutaImagenProducto}}{{detalleMenuPromocionProducto.producto.pathImagenProducto}}" class="card-img-top img-fluid text-primary" [alt]="detalleMenuPromocionProducto.producto.nombreProducto">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-
-                                <p class="card-title" style="font-size: 11px;"><strong>{{detalleMenuPromocionProducto.producto.nombreProducto}} - {{detalleMenuPromocionProducto.producto.rubro?.nombreRubro}}</strong></p>
-                                <p class="card-text" style="font-size: 11px;">{{detalleMenuPromocionProducto.producto.cantidadMedida}} {{detalleMenuPromocionProducto.producto.unidadmedida?.nombreUnidadMedida}}</p>
-                                <p class="card-text" style="font-size: 11px;">
-                                    <span class="badge badge-pill" [ngClass]="{
-                                            'badge-success': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Activo' , 
-                                            'badge-warning': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'En Falta' , 
-                                            'badge-danger': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Inactivo', 
-                                            'badge-dark': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Eliminado'
-                                        }">{{detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto}}
-                                    </span>
-                                </p>
-                            </div>
-                            <hr>
-                        </div>
-                    </div>
-                </div>
-
-
+<div class="contenedor-pagina">
+    <div class="table-container">
+        <div class="row-buscador">
+            <div class="col">
+                <input #termino id="botonBuscar" type="text" (keyup)="buscarElemento(termino.value)" class="form-control mr-sm-2" placeholder="Buscar Menú - Promoción...">
             </div>
-
-            <button (click)="consultarElemento(menuPromocion.idMenuPromocion) " class="btn btn-outline-primary btn-block ">Consultar</button>
+        </div>
+        <hr>
+        <div class="row animated fadeIn fast" *ngIf="listaMenuPromocion.length == 0">
+            <div class="col-md-12">
+                <div class="alert alert-info" role="alert">
+                    No existen Menús o Promociones con el término <strong>{{termino.value}}</strong>
+                </div>
+            </div>
+        </div>
+        <div class="buttons-botton">
+            <div class="row">
+                <div class="col-2"> 
+                    <button onclick="history.back()" class="btn btn-primary">Volver</button>
+                </div>
+                <div class="col"></div>
+                <div class="col-3">
+                    <button (click)="crearMenuPromocion()" class="btn btn-success">Crear Nuevo Menú-Promoción</button>
+                </div>
+            </div>  
+        </div>
+        <br>
+        <div class="card-columns" style="max-width: 55rem;">
+            <div class="card animated fadeIn fast border" *ngFor="let menuPromocion of listaMenuPromocion; let i = index" [ngClass]="{
+                        'border-success': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Activo' , 
+                        'border-warning': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'En Falta' , 
+                        'border-danger': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Inactivo', 
+                        'border-dark': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Eliminado'
+                    }">
+                <img src="{{rutaImagenMenuPromocion}}{{menuPromocion.pathImagenMenuPromocion}}" class="card-img-top img-fluid text-primary" [alt]="menuPromocion.nombreMenuPromocion" (click)="consultarElemento(menuPromocion.idMenuPromocion)" style="cursor:pointer">
+                <div class="card-body">
+                    <p class="card-title" style="font-size: 18px;"><strong>{{menuPromocion.nombreMenuPromocion}}</strong></p>
+                    <p class="card-text" style="font-size: 14px;">{{menuPromocion.tipomenupromocion.nombreTipoMenuPromocion}}</p>
+                    <p class="card-text" style="font-size: 14px;"><strong class=" text-muted ">{{menuPromocion.preciomenupromocions[0]?.tipomoneda?.simboloTipoMoneda}} {{menuPromocion.preciomenupromocions[0]?.importePrecioMenuPromocion}}</strong>&nbsp;-&nbsp;
+                        <span class="badge badge-pill" [ngClass]="{
+                                'badge-success': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Activo' , 
+                                'badge-warning': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'En Falta' , 
+                                'badge-danger': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Inactivo', 
+                                'badge-dark': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Eliminado'
+                            }">{{menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion}}
+                        </span>
+                    </p>
+                    <p>
+                        <a href="#VerProductos-{{ i }}" class="btn btn-primary" data-toggle="collapse">Ver Productos</a>
+                    </p>
+                    <hr>
+                    <div id="VerProductos-{{ i }}" class="collapse">
+                        <div class="row animated fadeIn fast" *ngIf="menuPromocion.detallemenupromocionproductos.length == 0">
+                            <div class="col-md-12">
+                                <div class="alert alert-info" role="alert">
+                                    No contiene Productos asociados
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-title" style="font-size: 14px;" *ngIf="menuPromocion.detallemenupromocionproductos.length != 0"><strong>Listado de Productos:</strong><br></div>
+                        <div class="card mb-3" style="background-color: #e9ecef;">
+                            <div class="row no-gutters animated fadeIn fast" *ngFor="let detalleMenuPromocionProducto of menuPromocion.detallemenupromocionproductos">
+                                <div class="col-md-4">
+                                    x {{detalleMenuPromocionProducto.cantidadProductoMenuPromocion}}
+                                    <img src="{{rutaImagenProducto}}{{detalleMenuPromocionProducto.producto.pathImagenProducto}}" class="card-img-top img-fluid text-primary" [alt]="detalleMenuPromocionProducto.producto.nombreProducto">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <p class="card-title" style="font-size: 11px;"><strong>{{detalleMenuPromocionProducto.producto.nombreProducto}} - {{detalleMenuPromocionProducto.producto.rubro?.nombreRubro}}</strong></p>
+                                        <p class="card-text" style="font-size: 11px;">{{detalleMenuPromocionProducto.producto.cantidadMedida}} {{detalleMenuPromocionProducto.producto.unidadmedida?.nombreUnidadMedida}}</p>
+                                        <p class="card-text" style="font-size: 11px;">
+                                            <span class="badge badge-pill" [ngClass]="{
+                                                    'badge-success': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Activo' , 
+                                                    'badge-warning': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'En Falta' , 
+                                                    'badge-danger': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Inactivo', 
+                                                    'badge-dark': detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto == 'Eliminado'
+                                                }">{{detalleMenuPromocionProducto.producto.productoestados[0].estadoproducto.nombreEstadoProducto}}
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button (click)="consultarElemento(menuPromocion.idMenuPromocion) " class="btn btn-outline-primary btn-block ">Consultar</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

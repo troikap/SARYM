@@ -14,16 +14,15 @@ export class ReporteTopPromocionComponent implements OnInit {
     // We use these empty structures as placeholders for dynamic theming.
     scales: { xAxes: [{}], yAxes: [{}] },
   };
-  public barChartLabels: Label[] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  public barChartLabels: Label[] = ['Tacos de carne con jamon', 'Pizza Mozzarela + Quilmes', 'Hamburguesas con papas', 'Panchos 2x1', 'Papas Fritas Don Pepe'];
   public barChartType: ChartType = 'bar';
-  public barChartLegend = true;
+  public barChartLegend = false;
+
+  public chartColors: any[] = [
+    { backgroundColor: ["#5CCF3A", "#E2ED33", "#3390ED", "#A933ED", "#ED33BA"] }];
 
   public barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40, 67, 89, 24, 12, 100], label: 'A' },
-    { data: [45, 21, 5, 78, 100, 22, 51, 88, 53, 1, 123, 11], label: 'B' },
-    { data: [21, 49, 10, 11, 26, 55, 17, 47, 19, 84, 42, 100], label: 'C' },
-    { data: [35, 99, 40, 31, 46, 25, 62, 17, 29, 34, 22, 100], label: 'D' },
-    { data: [75, 79, 60, 61, 16, 15, 32, 7, 33, 14, 92, 100], label: 'E' },
+    { data: [165, 100, 80, 250, 25], label: '' }
   ];
 
 
