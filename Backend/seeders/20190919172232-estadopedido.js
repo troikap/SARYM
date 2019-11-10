@@ -23,7 +23,11 @@ module.exports = {
             }, 
             { 
                 idEstadoPedido: 6, codEstadoPedido: "F1", nombreEstadoPedido: "Finalizado", createdAt: currentDate, updatedAt: currentDate
-            }, ], {}
+            },
+            { 
+                idEstadoPedido: 7, codEstadoPedido: "FSP1", nombreEstadoPedido: "Finalizado sin Pago", createdAt: currentDate, updatedAt: currentDate
+            },
+            , ], {}
         );
     },
 
