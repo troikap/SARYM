@@ -142,7 +142,7 @@ export class HomeService {
         id: '6',
         nombre: 'Gestionar Estado Estadia',
         clave: 'gestionar-estado-estadia',
-        path: '/gestionarestadoestadia',
+        path: '/search_gestionar_estado_estadia',
         img: 'assets/imagenes/menu-promocion.png',
         responsable: 'Encargado'
       },

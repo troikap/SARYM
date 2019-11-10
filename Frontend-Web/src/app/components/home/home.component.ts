@@ -112,7 +112,7 @@ export class HomeComponent implements OnInit {
       next = '/search_anular_pedido';
     break;
     case 'gestionar-estado-estadia':
-      next = '/gestionarestadoestadia';
+      next = '/search_gestionar_estado_estadia';
     break;
     case 'enviar-pedido':
       next = '/enviarpedido';
