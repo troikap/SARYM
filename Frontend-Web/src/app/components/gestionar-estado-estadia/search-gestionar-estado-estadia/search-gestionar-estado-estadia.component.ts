@@ -3,12 +3,13 @@ import { Router } from '@angular/router';
 import {MozoEstadiaService} from '../../../services/mozo-estadia/mozo-estadia'
 import * as $ from 'jquery'
 
+
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  selector: 'app-search-gestionar-estado-estadia',
+  templateUrl: './search-gestionar-estado-estadia.component.html',
+  styleUrls: ['./search-gestionar-estado-estadia.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchGestionarEstadoEstadiaComponent implements OnInit {
 
   listaUsuarios : any[] = [];
   listaEstadias: any[] = [];
@@ -21,7 +22,7 @@ export class SearchComponent implements OnInit {
     
    }
 
-  ngOnInit() {
+   ngOnInit() {
     this.getAllEstadias();
     this.cargarOnFocus();
   }
@@ -64,7 +65,8 @@ export class SearchComponent implements OnInit {
  editEstadia(idElemento: number) {
     console.log("idElemento: ", idElemento);  
 
-  this.router.navigate( [`/edit_mozo_estadia/${idElemento}`] );
+  this.router.navigate( [`/edit_gestionar_estado_estadia/${idElemento}`] );
 
   }
+
 }

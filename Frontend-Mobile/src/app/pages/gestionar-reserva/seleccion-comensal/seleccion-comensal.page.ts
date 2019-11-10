@@ -89,4 +89,12 @@ export class SeleccionComensalPage implements OnInit {
     await alert.present();
   } 
 
+  eliminarComensal() {
+    console.log("ELIMINADN COMENSAL")
+  }
+
+  crearComensal() {
+    console.log("CREANDO COMENSAL")
+  }
+
 }

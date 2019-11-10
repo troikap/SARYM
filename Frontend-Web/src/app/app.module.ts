@@ -4,6 +4,7 @@ import { ChartsModule } from 'ng2-charts';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DatePipe } from '@angular/common';
 
 
 import { AppComponent } from './app.component';
@@ -59,6 +60,8 @@ import { EditPedidoComponent } from './components/anular-pedido/edit-pedido/edit
 import { JwtModule } from '@auth0/angular-jwt';
 import { RoleGuardService } from './services/role-guard.service';
 import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedido/detalle-pedido.component';
+import { SearchGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/search-gestionar-estado-estadia/search-gestionar-estado-estadia.component';
+import { EditGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/edit-gestionar-estado-estadia/edit-gestionar-estado-estadia.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +111,9 @@ import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedid
     EditComponent,
     SearchPedidoComponent,
     EditPedidoComponent,
-    DetallePedidoComponent
+    DetallePedidoComponent,
+    SearchGestionarEstadoEstadiaComponent,
+    EditGestionarEstadoEstadiaComponent,
   ],
   imports: [
     BrowserModule,
@@ -128,7 +133,7 @@ import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedid
     })
 
   ],
-  providers: [UploadService, RoleGuardService],
+    providers: [UploadService, RoleGuardService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

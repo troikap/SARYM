@@ -19,7 +19,8 @@
                     <th scope="col">Cantidad de Personas</th>
                     <th scope="col">Fecha y Hora Inicio de Estadia</th> 
                     <th scope="col">Mesas</th>  
-                    <th scope="col">Mozo Asignado</th> 
+                    <th scope="col">Mozo Asignado</th>
+                    <th scope="col">Estado Estadia</th>
                     <th scope="col">Accion</th>           
                 </tr>
             </thead>
@@ -30,11 +31,13 @@
                     <td>
                         <div class="row">
                             <div class="col-1"  *ngFor="let listaMesas of lista.detalleestadiamesas">{{listaMesas.mesa.nroMesa}}</div>
+
                         </div>
                     </td>
-                    <td>{{lista.mozoestadium.usuario.nombreUsuario}} {{lista.mozoestadium.usuario.apellidoUsuario}}</td>    
+                    <td>{{lista.mozoestadium.usuario.nombreUsuario}} {{lista.mozoestadium.usuario.apellidoUsuario}}</td> 
+                    <td>{{lista.estadiaestados[0].estadoestadium.nombreEstadoEstadia}}</td>   
                     <td>
-                        <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Consultar Pedidos en Preparacion" (click)="editEstadia(lista.idEstadia)" style="cursor: pointer;">
+                    <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Gestionar Estado de Estadia" (click)="editEstadia(lista.idEstadia)" style="cursor: pointer;">
                     </td>
                 </tr>
             </tbody>
