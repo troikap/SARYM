@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsuarioService } from '../../../services/usuario/usuario.service';
 import {MozoEstadiaService} from '../../../services/mozo-estadia/mozo-estadia'
 import * as $ from 'jquery'
 
@@ -17,7 +16,6 @@ export class SearchPedidoComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private usuarioservicio: UsuarioService,
     private mozoestadiaservicio: MozoEstadiaService
   ) {
     
