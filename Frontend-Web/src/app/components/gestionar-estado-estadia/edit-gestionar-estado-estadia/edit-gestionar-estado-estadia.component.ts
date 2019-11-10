@@ -18,6 +18,7 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
   private listaNumerosMesa: any[]=[];
   private estadosEstadia: any[]=[];
   private date: string;
+  private listaComensales: any[]=[]
 
 
   constructor(
@@ -32,7 +33,8 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
       'mesa': new FormControl({ value: '', disabled: true }),      
       'fechaYHoraInicioEstadia': new FormControl({ value: '', disabled: true}),
       'mozoEstadia': new FormControl({ value: '', disabled: true}),  
-      'estadoEstadia':new FormControl({ value: '', disabled: true})
+      'estadoEstadia':new FormControl({ value: '', disabled: true}),
+      'comensales':new FormControl({ value: '', disabled: true})
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -45,7 +47,6 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
   }
 
   ngOnInit() {   
-    this.traerEstadoEstadia(); 
   }
 
 
@@ -63,6 +64,11 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
               console.log(this.estadia['detalleestadiamesas'][i].mesa.nroMesa);
               this.listaNumerosMesa.push(this.estadia['detalleestadiamesas'][i].mesa.nroMesa)
             }
+            var lengthcomensales = this.estadia['comensals'].length;
+            for (let i = 0; i < lengthcomensales; i++) {
+              console.log(this.estadia['detalleestadiamesas'][i].mesa.nroMesa);
+              this.listaNumerosMesa.push(this.estadia['detalleestadiamesas'][i].mesa.nroMesa)
+            }
             this.date = this.estadia['fechaYHoraInicioEstadia'];
             console.log(this.listaNumerosMesa);
             this.newForm = {
@@ -70,7 +76,8 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
               mesa: this.listaNumerosMesa.join(),
               fechaYHoraInicioEstadia: this.datePipe.transform(this.date,'dd/MM/yyyy hh:mm:ss'), 
               mozoEstadia:this.estadia['mozoestadium'].usuario.nombreUsuario+" "+this.estadia['mozoestadium'].usuario.apellidoUsuario,
-              estadoEstadia: this.estadia['estadiaestados'][0].estadoestadium.nombreEstadoEstadia
+              estadoEstadia: this.estadia['estadiaestados'][0].estadoestadium.nombreEstadoEstadia,
+              comensales: this.estadia['comensals'][0],
             }
 
             this.form.setValue(this.newForm);
@@ -167,12 +174,5 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
     
     
   }
-  traerEstadoEstadia() {
-    this.mozoEstadiaServicio.getEstadosEstadia()
-      .then((res) => {
-        this.estadosEstadia = res['data'];     
-      console.log("estos son los mozo Estadia",this.estadosEstadia)
-      })
-      
-  }
+  
 }
