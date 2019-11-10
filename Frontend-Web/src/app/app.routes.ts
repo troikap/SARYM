@@ -43,6 +43,8 @@ import { EditComponent } from './components/reasignar-mozo-a-estadia/edit/edit.c
 import { SearchPedidoComponent } from './components/anular-pedido/search-pedido/search-pedido.component';
 import { EditPedidoComponent } from './components/anular-pedido/edit-pedido/edit-pedido.component';
 import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedido/detalle-pedido.component';
+import { SearchGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/search-gestionar-estado-estadia/search-gestionar-estado-estadia.component';
+import { EditGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/edit-gestionar-estado-estadia/edit-gestionar-estado-estadia.component';
 
 const routes: Routes = [
   { path: "home", component: HomeComponent },
@@ -90,6 +92,8 @@ const routes: Routes = [
   { path: 'detalle_anular_pedido/:id', component: DetallePedidoComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
   { path: 'search_mozo_estadia', component: SearchComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
 
+  { path: 'search_gestionar_estado_estadia', component: SearchGestionarEstadoEstadiaComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},  
+  { path: 'edit_gestionar_estado_estadia/:id', component: EditGestionarEstadoEstadiaComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
 
   { path: "**", redirectTo: "login" },
   { path: "", redirectTo: "/login", pathMatch: "full" },  
