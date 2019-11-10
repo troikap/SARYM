@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MesaService } from '../../../services/mesa/mesa.service';
 import { Mesa } from '../../../services/mesa/mesa.model';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-generar-estadia',
@@ -16,12 +17,17 @@ export class GenerarEstadiaPage implements OnInit {
 
   constructor(    
     private mesaservicio: MesaService,
+    public navController: NavController
     ) { }
 
   ngOnInit() {
   }
 
-  traerMesas(){
+  mostrarMesas() {
+    this.navController.navigateForward('mostrar-mesas');
+  }
+
+  traerMesas(){ 
     this.mesaservicio.getMesas()
     .then(  resp => {
       console.log("respuestaaa", resp)
