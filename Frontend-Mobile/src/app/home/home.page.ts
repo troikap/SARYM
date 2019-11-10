@@ -87,17 +87,21 @@ export class HomePage implements OnInit {
         page = `/consultar-salon`;
         break;
       case "generar-estadia":
-        page = `/`;
+        page = `/generar-estadia`;
         break;
+        case "finalizar-estadia":
+          page = `/`;
+          break;
       case "pedidos a enviar":
         page = `/pedidos-a-enviar`;
         break;
       case "confirmar-reserva":
         page = `/`;
         break;
-      case "entregar-pedido":
-        page = `/`;
-        break;
+
+
+
+       
     }
     this.navController.navigateForward(page);
   }
