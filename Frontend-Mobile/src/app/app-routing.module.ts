@@ -22,6 +22,7 @@ const routes: Routes = [
 // mozo
   { path: 'consultar-salon', loadChildren: './pages/mozo/consultar-salon/consultar-salon.module#ConsultarSalonPageModule' },
   { path: 'pedidos-a-enviar', loadChildren: './pages/mozo/pedidos-a-enviar/pedidos-a-enviar.module#PedidosAEnviarPageModule' },
+  { path: 'generar-estadia', loadChildren: './pages/mozo/generar-estadia/generar-estadia.module#GenerarEstadiaPageModule' },
   
 // invitado
   { path: 'home-invitado', loadChildren: './pages/invitado/home-invitado/home-invitado.module#HomeInvitadoPageModule' },
@@ -47,6 +48,8 @@ const routes: Routes = [
   { path: 'crud-gestionar-estadia/:id/:accion', loadChildren: './pages/gestionar-estadia/crud-gestionar-estadia/crud-gestionar-estadia.module#CrudGestionarEstadiaPageModule' },
   { path: 'consultar-salon', loadChildren: './pages/mozo/consultar-salon/consultar-salon.module#ConsultarSalonPageModule' },
   { path: 'home-invitado', loadChildren: './pages/invitado/home-invitado/home-invitado.module#HomeInvitadoPageModule' },
+
+
   
 
   

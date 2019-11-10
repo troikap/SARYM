@@ -10,6 +10,10 @@ import { Pedido } from 'src/app/models/modelos';
   styleUrls: ['./pedidos-a-enviar.page.scss'],
 })
 export class PedidosAEnviarPage implements OnInit {
+/* CU 11-CONSULTAR PEDIDOS ESTADIA A ENVIAR
+   Y CU 15-ENTREGAR PEDIDO
+*/
+
 
   token: string;
   pedidos: Pedido[];
