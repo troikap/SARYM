@@ -108,7 +108,6 @@ prueba() {
           let comensal;
           console.log("COMENSALES" , res.comensals)
           for (let i = 0; i < res.comensals.length; i++) {
-            console.log("COMENSALE ,", res.comensals[i])
             if (i == 0) {
               edadUsrLogueado = res.comensals[i].edadComensal;
             }
@@ -119,15 +118,11 @@ prueba() {
             }
             this.comensales.push(comensal);
           }
-          console.log("COMESNASLES ----------------- ",this.comensales)
-
           // Fechas
           let horaEntradaReserva = this.reserva.horaEntradaReserva;
           let horaSalidaReserva = this.reserva.horaSalidaReserva;
-
           let horaEntradaCortada =  String(horaEntradaReserva).slice(0,5);
           let horaSalidaCortada =  String(horaSalidaReserva).slice(0,5);
-
           this.newForm = {
             edadComensal: edadUsrLogueado,
             fechaReserva: this.reserva.fechaReserva, 
@@ -158,7 +153,6 @@ prueba() {
         }
         this.setValidatorsHours();
       });
-
     }
   }
 
@@ -174,8 +168,6 @@ prueba() {
         this.form.get("edadComensal").setValidators([ Validators.required, 
           Validators.pattern(/^([0-9]{3})+$/)]);
         this.form.get("edadComensal").updateValueAndValidity();
-
-        // /^([0-9]+([,][0-9]{1,2})|[0-9]+)$/
       }
     });
   }
@@ -183,7 +175,6 @@ prueba() {
   validarCantidadComensales() {
     this.form.get('cantidadComensal').valueChanges
     .subscribe( respuesta => {
-
     });
   }
 
@@ -316,12 +307,10 @@ prueba() {
     let reserva;
     let horaEntrada = this.form.value['horaEntrada'];
     let horaSalida = this.form.value['horaSalida'];
-
     let fechaReservaTratada = this.tratarFechaProvider.traerDate( this.form.value['fechaReserva'] );
     let horaEntradaTratada = this.tratarFechaProvider.verificarTime( horaEntrada );
     let horaSalidaTratada = this.tratarFechaProvider.verificarTime( horaSalida );
     let cantidadComensales = this.comensales.length;
-
     if (this.accionGet == "crear") {
       reserva = {
         fechaReserva: fechaReservaTratada,
@@ -347,11 +336,9 @@ prueba() {
         mesas.push({'idDetalleReservaMesa': item.idDetalleReservaMesa, 'baja': true})
       }
     }
-    console.log("crearEditarReserva - MESAS", this.checkBoxList);
     const comensales = this.comensales;
     reserva['idUsuario'] = this.currentUsuario.id;
     let reservaConCodigo = await this.agregarCodigoReserva( reserva );
-
     if (this.accionGet == "crear") {
       this.enviarReservaCrear( reservaConCodigo , comensales, mesas); 
     }
@@ -395,7 +382,7 @@ prueba() {
                 .then( respo => {
                   this.toastService.toastSuccess(`Reserva Creada Satisfactoriamente. N° ${res.id}`, 2500);
                   setTimeout(()=>{
-                    this.navController.navigateRoot(['/consulta-gestionar-reserva', res.id ]);
+                    this.navController.navigateForward([`/seleccion-comensal/${res.id}`]);
                     }, 2500);
                 })
               } else {

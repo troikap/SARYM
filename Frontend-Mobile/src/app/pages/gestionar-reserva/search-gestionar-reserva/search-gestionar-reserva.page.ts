@@ -51,6 +51,11 @@ export class SearchGestionarReservaPage implements OnInit {
       })
   }
 
+  realizarPedido(item) {
+    let idReserva = item.data.idReserva;
+    this.navController.navigateForward([`/seleccion-comensal/${idReserva}`])
+  }
+
   crearReserva() {
     console.log("crearReserva");
     this.navController.navigateForward(['/crud-gestionar-reserva', 0, 'crear' ]);

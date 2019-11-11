@@ -6,24 +6,14 @@
         <ion-title>Mis Reservas</ion-title>
     </ion-toolbar>
 </ion-header>
-
-<!-- <ion-list>
-    <ion-item>
-        <ion-searchbar #termino (keyup)="botonBuscar(termino.value)"></ion-searchbar>
-    </ion-item>
-</ion-list>
-
-<ion-item>
-    <ion-label floating> No existen reservas con el término:<br><br><strong>{{termino.value}}</strong></ion-label>
-</ion-item> -->
-
 <ion-content>
     <ion-card>
         <ion-item-sliding *ngFor="let reserva of listaReservas">
-            <ion-item (click)="consultarReserva(reserva.data.idReserva);" *ngIf="reserva.tipo != 2">
+            <ion-item  *ngIf="reserva.tipo != 2">
                 <ion-label>
                     <p class="text">
                         <ion-grid>
+                            <ion-row>Reserva N°: {{reserva.data.idReserva}}</ion-row>
                             <ion-row>
                                 <ion-col>
                                     <strong>Fecha</strong>
@@ -53,6 +43,19 @@
                             <ion-row>
                                 <ion-col>
                                     <strong>Cantidad de Comensales:</strong> {{reserva.data.cantPersonas}}
+                                </ion-col>
+                                <ion-col>
+                                    <ion-title *ngIf="reserva.data.reservaestados[0].estadoreserva.idEstadoReserva != 1">
+                                        VENCIDA
+                                    </ion-title>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col>
+                                    <ion-button color="success" (click)="consultarReserva(reserva.data.idReserva)">Consultar Reserva</ion-button>
+                                </ion-col>
+                                <ion-col align="rigth">
+                                    <ion-button  (click)="realizarPedido(reserva)">Realizar Pedido</ion-button>
                                 </ion-col>
                             </ion-row>
                         </ion-grid>

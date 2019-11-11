@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { element } from '@angular/core/src/render3';
 
 export interface Log {
   cuit: number,
@@ -63,25 +64,34 @@ addComensal(comensal): Promise<any> {
 validarComensal(): Promise<any> {
   let fechaActual = new Date();
   let numeroActual = Number(fechaActual);
+  let actualizarReservas: any[] = [];
   return this.storage.get(COMENSAL_RESERVA_KEY)
   .then( ( comensales ) => {
     let registrosVigentes: any[] = [];
     if (comensales) {
+      // EJEMPLO PARA ACTIVAR TOAST EN SELECCIONE COMENSAL
+      // let newElement = {fechaReserva: "2019-10-30",
+      //   horaEntradaReserva: "18:59:00",
+      //   idComensal: 20,
+      //   idReserva: 10}
+      //   registrosVigentes.push( newElement )
       for ( let element of comensales ) {
         let fecha = String(element.fechaReserva) +' '+ String( element.horaEntradaReserva);
         let fechaReserva = new Date(fecha);
         let numeroReserva = Number(fechaReserva);
         if ( (numeroReserva - numeroActual) < 0 ) {
           // Borrar
-          console.log("Se esta eliminado comensal por Vendimiento")
+          console.log("Se esta eliminado comensal por Vendimiento", )
+          actualizarReservas.push({idReserva: element.idReserva, vencida: true, idComensal: element.idComensal})
         } else {
           console.log("Esta vigente")
           registrosVigentes.push( element )
         }
-        return this.storage.set(COMENSAL_RESERVA_KEY, registrosVigentes);
       }
+      this.storage.set(COMENSAL_RESERVA_KEY, registrosVigentes)
+      return actualizarReservas;
     } else {
-      return 'nada';
+      return actualizarReservas;
     }
   })
 }
