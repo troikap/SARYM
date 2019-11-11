@@ -15,17 +15,17 @@
         </div>
         <div class="buttons-botton">
             <div class="row">
-                <div class="col-2"> 
+                <div class="col-2">
                     <button onclick="history.back()" class="btn btn-primary">Volver</button>
                 </div>
                 <div class="col"></div>
                 <div class="col-3">
                     <button (click)="crearMenuPromocion()" class="btn btn-success">Crear Nuevo Menú-Promoción</button>
                 </div>
-            </div>  
+            </div>
         </div>
         <br>
-        <div class="card-columns" style="max-width: 55rem;">
+        <div class="card-columns" style="max-width: 55rem;" *ngIf="listaMenuPromocion">
             <div class="card animated fadeIn fast border" *ngFor="let menuPromocion of listaMenuPromocion; let i = index" [ngClass]="{
                         'border-success': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Activo' , 
                         'border-warning': menuPromocion.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'En Falta' , 
