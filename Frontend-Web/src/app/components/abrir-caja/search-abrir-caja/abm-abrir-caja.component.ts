@@ -15,7 +15,7 @@ export class AbmAbrirCajaComponent implements OnInit {
 
   listaCaja: any=[];
   listaEstadoCaja: any = [];  
-  
+  listaCajasmensaje : any[]=[];
 
   constructor(
     // private unidadMedia: UnidadMedida, //Da error
@@ -55,6 +55,11 @@ export class AbmAbrirCajaComponent implements OnInit {
   getAllCaja() {    
     this.cajaService.getCajas()
       .then((res: any) => {
+        res.data.forEach( (item) => {
+          if(item['cajaestados'][0].estadocaja.idEstadoCaja ==3){
+           this.listaCajasmensaje.push(item);
+          }
+          })
        
         this.listaCaja =  res.data;         
         console.log(res); 

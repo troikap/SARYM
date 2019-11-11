@@ -17,7 +17,7 @@ export class MozoEstadiaService {
    dir3 = '/todo';
    dir4 = '/generada';
    dir5 = '/actualizarDatos'; 
-   dir6= '/estadoestadia'
+   dir6= '/cambiarEstado'
 
    tokenEnviroment = environment.token;
 
@@ -82,6 +82,18 @@ export class MozoEstadiaService {
      console.log("DATOS A ENVIAR :",datas)
     return this.http
       .put(`${this.url}${this.dir}${this.dir5}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        return response as any;
+      })
+      .catch(  );
+  }
+  updateEstadoEstadia( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', this.tokenEnviroment);
+     console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}${this.dir6}`, datas, {headers})
       .toPromise()
       .then(response => {
         return response as any;

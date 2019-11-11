@@ -95,7 +95,7 @@ export class HomeService {
         nombre: 'Abrir Caja',
         clave: 'abrir-caja',
         path: '/abrircaja',
-        img: 'assets/imagenes/caja.png',
+        img: 'assets/imagenes/caja-registradora-abrir.png',
         responsable: 'Encargado'
       },
       {
@@ -103,7 +103,7 @@ export class HomeService {
         nombre: 'Cerrar Caja',
         clave: 'cerrar-caja',
         path: '/cerrarcaja',
-        img: 'assets/imagenes/caja.png',
+        img: 'assets/imagenes/caja-registradora-cerrar.png',
         responsable: 'Encargado'
       },
       {
@@ -111,7 +111,7 @@ export class HomeService {
         nombre: 'Generar Movimiento Caja',
         clave: 'generar-movimiento-caja',
         path: '/generarmovimientocaja',
-        img: 'assets/imagenes/caja.png',
+        img: 'assets/imagenes/movimiento-caja.png',
         responsable: 'Encargado'
       },
       {
@@ -119,7 +119,7 @@ export class HomeService {
         nombre: 'Reasignar Mozo a Estadia',
         clave: 'reasignar-mozo-a-estadia',
         path: '/reasignarmozoaestadia',
-        img: 'assets/imagenes/caja.png',
+        img: 'assets/imagenes/camarero.png',
         responsable: 'Encargado'
       },
       {
@@ -143,7 +143,7 @@ export class HomeService {
         nombre: 'Gestionar Estado Estadia',
         clave: 'gestionar-estado-estadia',
         path: '/search_gestionar_estado_estadia',
-        img: 'assets/imagenes/menu-promocion.png',
+        img: 'assets/imagenes/cena.png',
         responsable: 'Encargado'
       },
       

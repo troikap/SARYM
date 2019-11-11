@@ -24,7 +24,11 @@
                     <div class="form-group">
                         <label for="estadoEstadia" class="col col-form-label">Estado Estadia</label>
                         <input type="text" id="estadoEstadia" placeholder="Estado Estadia" formControlName="estadoEstadia" class="form-control">
-                    </div>                                     
+                    </div>      
+                    <div class="form-group">
+                        <label for="comensales" class="col col-form-label">Comensales</label>
+                        <input type="text" id="comensales" placeholder="Comensales" formControlName="comensales" class="form-control">
+                    </div>                                 
                     <hr align="left">
                     <div *ngIf="accionGet != 'eliminar'">
                         <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="form.valid">Anular Estadia</button>
