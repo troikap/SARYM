@@ -1,12 +1,12 @@
-<ion-header >
+<ion-header>
     <ion-toolbar color="primary">
-        <ion-buttons slot="start" (click)="onBack()">
+        <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-title>Reserva N° {{idReserva}}</ion-title>
     </ion-toolbar>
 </ion-header>
-<ion-content >
+<ion-content>
     <ion-row>
         <ion-col>
         </ion-col>
@@ -37,7 +37,7 @@
     <!-- <ion-button *ngIf="!mostrar && (datos != {})" class="mt-10" (click)="createCode()" (click)="mostrar=!mostrar" expand="full">Mostrar QR</ion-button>
     <ion-button *ngIf="mostrar" class="mt-10" (click)="mostrar=!mostrar" expand="full">Ocultar QR</ion-button> -->
     <!-- <ion-card *ngIf="createdCode && mostrar"> -->
-    <ion-card >
+    <ion-card>
         <ngx-qrcode [(qrc-value)]="createdCode"></ngx-qrcode>
         <ion-card-content>
             <p>Value: {{createdCode}} </p>
