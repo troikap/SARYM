@@ -68,7 +68,8 @@ export class EditGenerarMovimientoCajaComponent implements OnInit {
         if (data != "") {
           //console.log("RESULT ----------------->", data);
           this.caja = data;
-          this.listaMovimientoCaja = this.caja.movimientocajas; 
+          this.listaMovimientoCaja = this.caja.movimientocajas;
+           
           console.log(this.listaMovimientoCaja);                
         }
       });

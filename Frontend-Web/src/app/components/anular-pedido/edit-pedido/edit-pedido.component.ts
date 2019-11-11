@@ -14,6 +14,7 @@ export class EditPedidoComponent implements OnInit {
   private listaPedidos: any[] = [];
   private precioTotalPedido: number;
   private simbolo: string;
+  private listaPedidosmensaje : any[]=[];
 
   constructor(
     private router: Router,
@@ -50,6 +51,9 @@ export class EditPedidoComponent implements OnInit {
 
           var length = this.listaPedidos.length;
           for (let i = 0; i < length; i++) {
+            if(this.listaPedidos[i]['pedidoestados'][0].estadopedido.idEstadoPedido ==3){
+              this.listaPedidosmensaje.push(this.listaPedidos[i]);
+             }
             _this.precioTotalPedido = 0;
             var detalles = this.listaPedidos[i].detallepedidoproductos.length;
             for (let j = 0; j < detalles; j++) {
