@@ -5,11 +5,30 @@
                 <br>
                 <h1>Módulo de Reportes</h1>
                 <h3>Sarym</h3>
-                <br>
-                <app-reporte-top-producto></app-reporte-top-producto>
+                <br>    
+                <div class="row-buscador" *ngIf='!mostrar'>
+                    <div class="col">
+                        <label>Fecha Desde</label>
+                        <input type="date" class="form-control mr-sm-2" placeholder="Ingrese fecha desde">
+                    </div>
+                    <br>
+                    <div class="col">
+                        <label>Fecha Hasta</label>
+                        <input type="date" class="form-control mr-sm-2">
+                    </div>
+                    <div class="col">
+                        <br>
+                        <button (click)="mostrarReportes()" class="btn btn-primary">Generar Reporte</button>
+                        </div>
+                </div>
+
+                <div *ngIf='mostrar'>
+                    <app-reporte-top-producto></app-reporte-top-producto>
+                </div>
+  
             </div>
         </div>
-        <div class="text-center">
+        <div class="text-center" *ngIf='mostrar' >
             <hr>
             <div class="container" id="2">
                 <app-reporte-top-menu></app-reporte-top-menu>
@@ -28,7 +47,7 @@
             </div>
         </div>
         <br>
-        <div class="buttons-botton">
+        <div class="buttons-botton" *ngIf='mostrar'>
             <div class="row">
                 <div class="col"></div>
                 <div class="col-2"> 
