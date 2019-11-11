@@ -128,7 +128,7 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
              
               if(estadia != null ){
               
-                _this.mozoEstadiaServicio.updateEstadia(estadia)
+                _this.mozoEstadiaServicio.updateEstadoEstadia(estadia)
                   .then((response) => {
                     console.log("ACTUALIZADO", response);
 
@@ -150,18 +150,19 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
                             _this.estadia['pedidos'].forEach( (item) => {
                               let rempPedido: any = {
                                 idPedido: item.idPedido,
-                                idEstadoPedido: 2,
+                                idEstadoPedido: 7,
                                 descripcionPedidoEstado:"anulacion de Pedido por anulacion de Estadia"   
                               }
+                              if(item['pedidoestados'][0].estadopedido.idEstadoPedido ==3 || item['pedidoestados'][0].estadopedido.idEstadoPedido ==4 || item['pedidoestados'][0].estadopedido.idEstadoPedido ==5){
                               _this.pedidoServicio.updatePedidoEstado(rempPedido)
                               .then((response) => {
 
                                 console.log("se actualizo el estado de Pedido", response);
                               })
-
+                            }
                             }) 
 
-                            _this.router.navigate(['/search_mozo_estadia/']);
+                            _this.router.navigate(['/search_gestionar_estado_estadia/']);
 
 
                           }

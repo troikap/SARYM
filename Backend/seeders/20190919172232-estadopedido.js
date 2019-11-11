@@ -27,7 +27,7 @@ module.exports = {
             { 
                 idEstadoPedido: 7, codEstadoPedido: "FSP1", nombreEstadoPedido: "Finalizado sin Pago", createdAt: currentDate, updatedAt: currentDate
             },
-            , ], {}
+             ], {}
         );
     },
 
