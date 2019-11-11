@@ -72,4 +72,8 @@ export class ListaPedidoPage implements OnInit {
   crearComensal() {
     console.log("Logica crearComensal")
   }
+
+  seleccionarPedido() {
+    
+  }
 }
