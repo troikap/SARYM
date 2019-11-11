@@ -121,11 +121,4 @@ export class VerQRReservaPage implements OnInit {
     
   }
 
-  onBack() {
-    console.log("Retrocediendo.")
-    this.variable = false;
-    this.datos = null;
-    this.navController.navigateRoot('/search-gestionar.reserva');
-  }
-
 }

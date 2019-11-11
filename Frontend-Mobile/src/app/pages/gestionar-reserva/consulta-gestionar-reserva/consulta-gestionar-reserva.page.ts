@@ -113,7 +113,7 @@ export class ConsultaGestionarReservaPage implements OnInit {
 
   editarReserva() {
     console.log("Editar Reserva");
-    this.navController.navigateRoot(['/crud-gestionar-reserva', this.idReserva, 'editar' ]);
+    this.navController.navigateForward(['/crud-gestionar-reserva', this.idReserva, 'editar' ]);
   }
 
   anularReserva() {
@@ -126,7 +126,7 @@ export class ConsultaGestionarReservaPage implements OnInit {
 
   verQrReserva() {
     console.log("Ver QR Reserva");
-    this.navController.navigateRoot(['/ver-qr-reserva', this.idReserva ]);
+    this.navController.navigateForward(['/ver-qr-reserva', this.idReserva ]);
   }
 
   getDTOCambioEstadoEliminarReserva() {
@@ -164,7 +164,7 @@ export class ConsultaGestionarReservaPage implements OnInit {
               if (resp.tipo != 2) {
                 this.toastService.toastSuccess("Se ha anulado correctamente la reserva seleccionada", 2500);
                 setTimeout(()=>{
-                  this.navController.navigateRoot(['/search-gestionar-reserva']);
+                  this.navController.navigateForward(['/search-gestionar-reserva']);
                  }, 2500);
               }
               else {

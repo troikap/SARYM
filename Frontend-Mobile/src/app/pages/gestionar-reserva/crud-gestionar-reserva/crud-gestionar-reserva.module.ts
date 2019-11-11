@@ -9,7 +9,8 @@ import { CrudGestionarReservaPage } from './crud-gestionar-reserva.page';
 
 import { BrMaskerModule } from 'br-mask';
 import { IonicSelectableModule } from 'ionic-selectable';
-import { AjustarPalabraPipe } from 'src/app/pipes/ajustar-palabra.pipe';
+// import { AjustarPalabraPipe } from 'src/app/pipes/ajustar-palabra.pipe';
+import { PipesModule } from 'src/app/shared/pipe.module';
 
 const routes: Routes = [
   {
@@ -26,11 +27,12 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     BrMaskerModule,
     ReactiveFormsModule,
-    IonicSelectableModule
+    IonicSelectableModule,
+    PipesModule
   ],
   declarations: [
-    CrudGestionarReservaPage,
-    AjustarPalabraPipe
+    CrudGestionarReservaPage
+    // AjustarPalabraPipe
   ]
 })
 export class CrudGestionarReservaPageModule {}
