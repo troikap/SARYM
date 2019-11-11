@@ -1,13 +1,10 @@
 <div class="contenedor-pagina">
     <div class="table-container">
         <h2 class="titulo">Seleccione Archivo</h2>
-
         <hr>
-        <div class="form-section">
+        <div class="form-section upload">
             <form [formGroup]="myForm" (ngSubmit)="onUpload()">
-
-
-                <div class="card text-center" style="width: 20rem;">
+                <div class="card text-center">
                     <div class="card-header">
                         <div *ngIf="nombreArchivo != null">
                             <img class="card-img-top" [src]="archivoCargado" [alt]="nombreElemento">
@@ -32,8 +29,6 @@
                         </table>
                     </div>
                 </div>
-
-
             </form>
         </div>
     </div>
