@@ -75,7 +75,7 @@ export class UnirseGestionarReservaPage implements OnInit {
           cssClass: 'secondary',
           handler: (blah) => {
             console.log('Confirm Cancel');
-            this.navController.navigateBack('/home');
+            this.navController.navigateForward('/home');
           }
         }, {
           text: 'Unirse',
