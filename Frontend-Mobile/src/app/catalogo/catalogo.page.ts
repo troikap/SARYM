@@ -39,7 +39,8 @@ export class CatalogoPage implements OnInit {
     public menupromocionservice: MenupromocionService,
     private storage: StorageService,
   ) { 
-    this.getToken();
+    this.traerProductos();
+    this.traerMenusPromociones();
   }
 
   ngOnInit() {
@@ -85,7 +86,7 @@ export class CatalogoPage implements OnInit {
   }
 
   traerProductos(){
-    this.productoservice.getProductos(this.token)
+    this.productoservice.getProductos()
       .then( ( res: any ) => {
         console.log("prod ,",res)
         this.productos = res.data;
@@ -96,7 +97,7 @@ export class CatalogoPage implements OnInit {
       })
   }
   traerMenusPromociones(){
-    this.menupromocionservice.getMenuPromociones(this.token)
+    this.menupromocionservice.getMenuPromociones()
       .then( ( res: any ) => {
         this.menus = [];
         this.promociones = [];
@@ -117,15 +118,6 @@ export class CatalogoPage implements OnInit {
   
   loadDefault(event) {
     event.target.src = '/assets/imgs/logo-sarym.png';
-  }
-
-  async getToken() {
-    await this.storage.getOneObject('token')
-      .then( resp => {
-          this.token = resp;
-          this.traerProductos();
-          this.traerMenusPromociones();
-      })
   }
 }
 

@@ -1,0 +1,47 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Seleccione Prod/Men/Prom</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content *ngIf="productos && menus && promociones">
+    <ion-segment mode="ios">
+        <ion-segment-button checked (ionSelect)="seleccionTipo('productos')">
+            <ion-label>Productos</ion-label>
+        </ion-segment-button>
+        <ion-segment-button (ionSelect)="seleccionTipo('menus')">
+            <ion-label>Menus</ion-label>
+        </ion-segment-button>
+        <ion-segment-button (ionSelect)="seleccionTipo('promociones')">
+            <ion-label>Promociones</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+  <ion-card *ngIf="seleccion == 'productos'">
+    <ion-item href="javascript:void(0)" (click)="seleccionaProducto(item)" class="activated" *ngFor="let item of this[seleccion]" [ngClass]="{ 'activo': item.productoestados[0].estadoproducto.nombreEstadoProducto == 'Activo' , 'enfalta': item.productoestados[0].estadoproducto.nombreEstadoProducto == 'En Falta' , 'inactivo': item.productoestados[0].estadoproducto.nombreEstadoProducto == 'Inactivo', 'eliminado': item.productoestados[0].estadoproducto.nombreEstadoProducto == 'Eliminado'}">
+        <!-- PRODUCTOS -->
+        <ion-thumbnail slot="start" *ngIf="seleccion == 'productos'">
+            <ion-img src="{{rutaImagenProducto}}{{item.pathImagenProducto}}" ></ion-img>
+        </ion-thumbnail>
+        <ion-label *ngIf="seleccion == 'productos'">
+            <p class="text">{{item.nombreProducto}} - {{item.rubro?.nombreRubro}}</p>
+            <p class="text">{{item.cantidadMedida}} {{item.unidadmedida?.nombreUnidadMedida}}</p>
+            <p class="precio">{{item.precioproductos[0]?.importePrecioProducto}} {{item.precioproductos[0]?.tipomoneda?.simboloTipoMoneda}}</p>
+        </ion-label>
+    </ion-item>
+  </ion-card>
+  <ion-card *ngIf="seleccion == 'promociones' || seleccion == 'menus'">
+    <ion-item href="javascript:void(0)" (click)="seleccionaMenuPromocion(item)" class="activated" *ngFor="let item of this[seleccion]" [ngClass]="{ 'activo': item.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Activo' , 'enfalta': item.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'En Falta' , 'inactivo': item.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Inactivo', 'eliminado': item.menupromocionestados[0].estadomenupromocion.nombreEstadoMenuPromocion == 'Eliminado'}">
+        <!-- MENUS y PROMOCIONES -->
+        <ion-thumbnail slot="start" *ngIf="seleccion == 'promociones' || seleccion == 'menus'">
+            <ion-img  src="{{rutaImagenMenuPromocion}}{{item.pathImagenMenuPromocion}}"></ion-img>
+        </ion-thumbnail>
+        <ion-label *ngIf="seleccion == 'promociones' || seleccion == 'menus'">
+            <p class="text">{{item.codMenuPromocion}}</p>
+            <p class="text">{{item.nombreMenuPromocion}}</p>
+            <p class="precio">{{item.preciomenupromocions[0]?.importePrecioMenuPromocion}} {{item.preciomenupromocions[0]?.tipomoneda?.simboloTipoMoneda}}</p>
+        </ion-label>
+    </ion-item>
+  </ion-card>
+</ion-content>

@@ -6,18 +6,8 @@
     <ion-title>Seleccione Comensal</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content *ngIf='reserva'>
-  <!-- <ion-card *ngFor="let item of reserva.comensals" color="medium" (click)="seleccionarComensal(item)" mode="ios">
-      <ion-card-header>
-        <ion-card-title>Alias: <strong>{{item.aliasComensal}}</strong> -  Edad: <strong>{{item.edadComensal}}</strong></ion-card-title>
-      </ion-card-header>
-      <ion-card-content *ngIf="item.usuario">
-          <ion-card-subtitle>Usuario Asociado: <strong> {{item.usuario.nombreUsuario}} {{item.usuario.apellidoUsuario}}</strong></ion-card-subtitle>
-          <ion-card-subtitle>Cuit: <strong>{{item.usuario.cuitUsuario}}</strong></ion-card-subtitle>
-      </ion-card-content>
-  </ion-card> -->
-
+  <ion-title padding>Identificador de Reserva: {{reserva.idReserva}}</ion-title>
   <ion-item-sliding *ngFor="let item of reserva.comensals">
     <ion-item (click)="seleccionarComensal(item)">
       <ion-card color=success class="card-inter">

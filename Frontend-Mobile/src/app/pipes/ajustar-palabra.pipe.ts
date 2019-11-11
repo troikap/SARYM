@@ -6,9 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class AjustarPalabraPipe implements PipeTransform {
 
   transform(palabra: string, largo: number): string {
-
-    console.log("AjustarPalabraPipe");
-
     let texto_return = "";
     let sumaLargo = 0;
     let palabraArray  = palabra.split(" ");
@@ -32,7 +29,6 @@ export class AjustarPalabraPipe implements PipeTransform {
       } 
       i++;
     }
-    console.log("texto_return", texto_return)
     return texto_return;
   }
 }

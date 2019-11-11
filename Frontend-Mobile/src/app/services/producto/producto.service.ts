@@ -6,6 +6,7 @@ import { Producto } from './producto.model'
 const URL = environment.urlNgrok || environment.url;
 const dir = '/producto';
 
+const tokenEnviroment = environment.token;
 @Injectable({
   providedIn: 'root'
 })
@@ -15,9 +16,9 @@ export class ProductoService {
     public http: HttpClient
   ) { }
 
-  getProductos(token: string): Promise<Producto[]> {
+  getProductos(): Promise<Producto[]> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', tokenEnviroment);
     return this.http
       .get(URL + dir, {headers})
       .toPromise()
@@ -29,7 +30,7 @@ export class ProductoService {
 
   getProducto( id: number , token: string): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token',tokenEnviroment);
     return this.http
       .get(`${URL}${dir}/${id}`, {headers})
       .toPromise()
