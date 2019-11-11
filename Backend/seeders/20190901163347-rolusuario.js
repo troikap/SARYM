@@ -13,6 +13,15 @@ module.exports = {
                 "fechaYHoraAltaRolUsuario": currentDate,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
+            },
+            {
+                "idRolUsuario": 20,
+                "idUsuario": 20,
+                "idRol": 1,
+                "fechaYHoraBajaRolUsuario": null,
+                "fechaYHoraAltaRolUsuario": currentDate,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
             }
             // ,
             // {

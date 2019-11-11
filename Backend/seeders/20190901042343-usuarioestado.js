@@ -14,6 +14,16 @@ module.exports = {
                 "fechaYHoraAltaUsuarioEstado": currentDate,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
+            },
+            {
+                "idUsuarioEstado": 20,
+                "idUsuario": 20,
+                "idEstadoUsuario": 1,
+                "descripcionUsuarioEstado": "",
+                "fechaYHoraBajaUsuarioEstado": null,
+                "fechaYHoraAltaUsuarioEstado": currentDate,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
             }
             // , 
             // {
