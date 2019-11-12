@@ -7,7 +7,9 @@
   </ion-toolbar>
 </ion-header>
 <ion-content *ngIf='reserva'>
-  <ion-title padding>Identificador de Reserva: {{reserva.idReserva}}</ion-title>
+  <ion-card>
+    <ion-title color="dark" align="middle" padding>Identificador de Reserva: {{reserva.idReserva}}</ion-title>
+  </ion-card>
   <ion-item-sliding *ngFor="let item of reserva.comensals">
     <ion-item (click)="seleccionarComensal(item)">
       <ion-card color=success class="card-inter">

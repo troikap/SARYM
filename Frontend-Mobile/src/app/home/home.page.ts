@@ -98,10 +98,6 @@ export class HomePage implements OnInit {
       case "confirmar-reserva":
         page = `/`;
         break;
-
-
-
-       
     }
     this.navController.navigateForward(page);
   }
