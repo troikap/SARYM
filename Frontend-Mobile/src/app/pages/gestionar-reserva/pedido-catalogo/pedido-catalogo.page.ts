@@ -158,7 +158,8 @@ export class PedidoCatalogoPage implements OnInit {
           {
             name: 'cantidad',
             type: 'number',
-            placeholder: 'Ingrese Cantidad'
+            placeholder: 'Ingrese Cantidad',
+            min: 15
           },
         ],
         buttons: [
@@ -172,24 +173,28 @@ export class PedidoCatalogoPage implements OnInit {
           }, {
             text: 'Aceptar',
             handler: ( info ) => {
-              let tipo;
-              let nombre;
-              if (data.idProducto) {
-                tipo = 'idProducto';
-                nombre = 'Producto';
-              } else {
-                tipo = 'idMenuPromocion';
-                nombre = data.tipomenupromocion.nombreTipoMenuPromocion
-              }
-              let pathDetalle = { idPedido: this.idPedido, detalle: [ {[tipo]: data[tipo], cantidadPedidoProducto: info.cantidad} ]}
-              this.pedidoService.setDetallePedidoProducto( pathDetalle )
-              .then( res => {
-                if ( res.tipo == 1){
-                  this.toastService.toastSuccess(`Detalle creado!. ${nombre} agregado a su Pedido.`, 3000)
+              if (info.cantidad > 0) {
+                let tipo;
+                let nombre;
+                if (data.idProducto) {
+                  tipo = 'idProducto';
+                  nombre = 'Producto';
                 } else {
-                  this.toastService.toastWarning(`Detalle no se pudo crear`, 4000)
+                  tipo = 'idMenuPromocion';
+                  nombre = data.tipomenupromocion.nombreTipoMenuPromocion
                 }
-              })
+                let pathDetalle = { idPedido: this.idPedido, detalle: [ {[tipo]: data[tipo], cantidadPedidoProducto: info.cantidad} ]}
+                this.pedidoService.setDetallePedidoProducto( pathDetalle )
+                .then( res => {
+                  if ( res.tipo == 1){
+                    this.toastService.toastSuccess(`Detalle creado!. ${nombre} agregado a su Pedido.`, 3000)
+                  } else {
+                    this.toastService.toastWarning(`Detalle no se pudo crear`, 4000)
+                  }
+                })
+              } else {
+                this.toastService.toastError('La cantidad ingresada es incorrecta! Debe ser positiva.', 2000)
+              }
             }
           }
         ]

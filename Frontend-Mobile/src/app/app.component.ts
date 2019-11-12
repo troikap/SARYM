@@ -22,50 +22,50 @@ export class AppComponent {
       icon: 'home'
     },
     {
-      title: 'Catálogo',
+      title: 'Carta',
       url: '/catalogo',
       icon: 'clipboard'
     },
-    {
-      title: 'Mi Saldo',
-      url: '/mi-saldo',
-      icon: 'filing'
-    },
-    {
-      title: 'Camera',
-      url: '/card-page',
-      icon: 'beaker',
-    },
-    {
-      title: 'Options',
-      children: [
-        {
-          title: 'Ionic',
-          url: '/ionic',
-          icon: 'settings'
-        },
-        {
-          title: 'Alert',
-          url: '/alert',
-          icon: 'logo-google'
-        },
-        {
-          title: 'Avatar',
-          url: '/avatar',
-          icon: 'beaker',
-        },
-        {
-          title: 'Botones',
-          url: '/botones',
-          icon: 'logo-google',
-        },
-        {
-          title: 'Cards',
-          url: '/card',
-          icon: 'beaker',
-        },
-      ]
-    },
+    // {
+    //   title: 'Mi Saldo',
+    //   url: '/mi-saldo',
+    //   icon: 'filing'
+    // },
+    // {
+    //   title: 'Camera',
+    //   url: '/card-page',
+    //   icon: 'beaker',
+    // },
+    // {
+    //   title: 'Options',
+    //   children: [
+    //     {
+    //       title: 'Ionic',
+    //       url: '/ionic',
+    //       icon: 'settings'
+    //     },
+    //     {
+    //       title: 'Alert',
+    //       url: '/alert',
+    //       icon: 'logo-google'
+    //     },
+    //     {
+    //       title: 'Avatar',
+    //       url: '/avatar',
+    //       icon: 'beaker',
+    //     },
+    //     {
+    //       title: 'Botones',
+    //       url: '/botones',
+    //       icon: 'logo-google',
+    //     },
+    //     {
+    //       title: 'Cards',
+    //       url: '/card',
+    //       icon: 'beaker',
+    //     },
+    //   ]
+    // },
     {
       title: 'Cerrar Sesión',
       url: '/logueo',

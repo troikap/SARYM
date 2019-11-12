@@ -40,14 +40,20 @@ addLog(log: Log): Promise<any> {
   })
 }
 
-addComensal(comensal): Promise<any> {
+ addComensal(comensal): Promise<any> {
+  console.log("comensal!!!!!! : ",comensal)
+
   return this.storage.get(COMENSAL_RESERVA_KEY)
-  .then( ( comensales ) => {
+  .then( async (comensales ) => {
     let esta = false;
     if (comensales) {
       for ( let element of comensales ) {
         if (element.idReserva == comensal.idReserva ) {
           esta = true;
+          if (element.idComensal != comensal.idComensal) {
+            element.idComensal = comensal.idComensal;
+            return await this.storage.set(COMENSAL_RESERVA_KEY, comensales);
+          }
         }
       }
       if ( !esta ) {
