@@ -37,7 +37,7 @@
                 <ion-label color="primary" position="fixed">Cant. Personas</ion-label>
                 <ion-input class="form-control" type="number" placeholder="Cantidad Comensales" formControlName="cantidadComensal" id="cantidadComensal"></ion-input>
             </ion-item>
-            <ion-title>Seleccione Mesa/s</ion-title>
+            <h1 padding>Seleccione Mesa/s</h1>
             <ion-button padding (click)="mostrar5 = !mostrar5" position="fixed">Mostrar Mesas</ion-button>
             <ion-list *ngIf="mostrar5">
                 <ion-item class="form-group" *ngFor='let element of checkBoxList; let i = index'>
@@ -52,10 +52,10 @@
     </form>
     <form [formGroup]="form2" *ngIf="form2">
         <ion-row padding>
-            <ion-title>Comensal </ion-title>
-            <ion-button (click)="mostrar = !mostrar">
+            <h1 padding>Comensal </h1>
+            <!-- <ion-button (click)="mostrar = !mostrar">
                 <ion-icon name="help"> </ion-icon>
-            </ion-button>
+            </ion-button> -->
         </ion-row>
         <div class="input-group-append" *ngIf="mostrar">
             <button class="btn btn-clear btn-dark tooltip-custom" type="button" (click)="mostrar = !mostrar">
