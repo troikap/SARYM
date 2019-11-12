@@ -5,10 +5,10 @@
                 <input #termino id="botonBuscar" type="text" (keyup)="buscarElemento(termino.value)" class="form-control mr-sm-2" placeholder="Buscar Usuario...">
             </div>
         </div>
-        <div class="buttons-botton" *ngIf="listaUsuarios.length > 5">
+        <div class="buttons-botton" *ngIf="listaUsuarios.length >= 5">
             <div class="row">
                 <div class="col"></div>
-                <div class="col-2"> 
+                <div class="col-2">
                     <button [routerLink]="['/home']" class="btn btn-primary">Volver</button>
                 </div>
                 <div class="col"></div>
@@ -16,7 +16,7 @@
                     <button [routerLink]="['/usuario_crud/0/crear']" class="btn btn-success">Crear</button>
                 </div>
                 <div class="col"></div>
-            </div>  
+            </div>
         </div>
         <hr>
         <div class="row animated fadeIn fast" *ngIf="listaUsuarios.length == 0">
@@ -65,7 +65,7 @@
         <div class="buttons-botton" *ngIf="listaUsuarios.length < 5">
             <div class="row">
                 <div class="col"></div>
-                <div class="col-2"> 
+                <div class="col-2">
                     <button [routerLink]="['/home']" class="btn btn-primary">Volver</button>
                 </div>
                 <div class="col"></div>
@@ -73,7 +73,7 @@
                     <button [routerLink]="['/usuario_crud/0/crear']" class="btn btn-success">Crear</button>
                 </div>
                 <div class="col"></div>
-            </div>  
+            </div>
         </div>
     </div>
 </div>

@@ -80,6 +80,27 @@ module.exports = {
             // {
             //     "idUsuarioEstado": 19, "idUsuario": 19, "idEstadoUsuario": 3, "descripcionUsuarioEstado": "Admin", "fechaYHoraBajaUsuarioEstado": null, "fechaYHoraAltaUsuarioEstado": currentDate, "createdAt": currentDate, "updatedAt": currentDate
             // },
+            ,
+            {
+                "idUsuarioEstado": 21,
+                "idUsuario": 21,
+                "idEstadoUsuario": 1,
+                "descripcionUsuarioEstado": "",
+                "fechaYHoraBajaUsuarioEstado": null,
+                "fechaYHoraAltaUsuarioEstado": currentDate,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            },
+            {
+                "idUsuarioEstado": 22,
+                "idUsuario": 22,
+                "idEstadoUsuario": 2,
+                "descripcionUsuarioEstado": "",
+                "fechaYHoraBajaUsuarioEstado": null,
+                "fechaYHoraAltaUsuarioEstado": currentDate,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            }
         ], {});
     },
 

@@ -13,7 +13,7 @@ export class SearchGestionarEstadoEstadiaComponent implements OnInit {
 
   listaUsuarios : any[] = [];
   listaEstadias: any[] = [];
-  
+  listaEstadiasmensaje : any[]=[];
 
   constructor(
     private router: Router,
@@ -53,7 +53,11 @@ export class SearchGestionarEstadoEstadiaComponent implements OnInit {
   getAllEstadias() {    
     this.mozoestadiaservicio.getEstadias()
       .then((res: any) => {
-       
+        res.data.forEach( (item) => {
+        if(item['estadiaestados'][0].estadoestadium.idEstadoEstadia ==1){
+         this.listaEstadiasmensaje.push(item);
+        }
+        })
         this.listaEstadias =  res.data;         
         console.log(res); 
       })
