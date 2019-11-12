@@ -295,6 +295,35 @@ module.exports = {
             //     "createdAt": currentDate,
             //     "updatedAt": currentDate
             // },
+            , {
+                "idUsuario": 21,
+                "cuitUsuario": 20338231637,
+                "nombreUsuario": "Rodrigo",
+                "apellidoUsuario": "Cámara Robles",
+                "contrasenaUsuario": "$2b$10$NBITOKBLswcWatA454Jsjef32/NzJxEBXuFOSNV3t552buiEkVPcK",
+                "dniUsuario": 33823163,
+                "domicilioUsuario": "Manso 1114",
+                "emailUsuario": "rodri.camara@hotmail.com",
+                "idDepartamento": 4,
+                "nroCelularUsuario": 2613004793,
+                "nroTelefonoUsuario": 2614396049,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            }, {
+                "idUsuario": 22,
+                "cuitUsuario": 20370013927,
+                "nombreUsuario": "Hernán David",
+                "apellidoUsuario": "Videla",
+                "contrasenaUsuario": "$2b$10$NBITOKBLswcWatA454Jsjef32/NzJxEBXuFOSNV3t552buiEkVPcK",
+                "dniUsuario": 37001392,
+                "domicilioUsuario": "Julio Preciado 873",
+                "emailUsuario": "hernan.08.10@gmail.com",
+                "idDepartamento": 4,
+                "nroCelularUsuario": 2615183786,
+                "nroTelefonoUsuario": 2614524932,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            },
         ], {});
     },
 
