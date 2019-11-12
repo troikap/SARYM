@@ -13,45 +13,50 @@ export class ToastService {
   // The color to use from your application's color palette for TOAST. Default options are: "primary", 
   // "secondary", "tertiary", "success", "warning", "danger", "light", "medium", and "dark".
 
-  public async toastPrimary(pMensaje: string, time: number) {
+  public async toastPrimary(pMensaje: string, time: number, position?: any) {
+    if(!position) position = "middle";
     const toast = await this.toastController.create({
       message: pMensaje,
       duration: time,
       color: 'primary',
-      position: 'middle',
+      position: position,
       translucent: true
     });
     toast.present();
   }
 
-  async toastWarning(pMensaje: string, time: number) {
+  async toastWarning(pMensaje: string, time: number, position?: any) {
+    if(!position) position = "middle";
     const toast = await this.toastController.create({
       message: pMensaje,
       duration: time,
       color: 'warning',
-      position: 'middle',
+      position: position,
       translucent: true
     });
     toast.present();
   }
 
-  async toastSuccess(pMensaje: string, time: number) {
+  async toastSuccess(pMensaje: string, time: number,position?: any) {
+    if(!position) position = "middle";
     const toast = await this.toastController.create({
       message: pMensaje,
       duration: time,
       color: 'success',
-      position: 'middle',
+      position: position,
       translucent: true
     });
     toast.present();
   }
 
-  async toastError(pMensaje: string, time: number) {
+  async toastError(pMensaje: string, time: number, position?: any) {
+    // top, bottom and middle
+    if(!position) position = "middle";
     const toast = await this.toastController.create({
       message: pMensaje,
       duration: time,
       color: 'danger',
-      position: 'middle',
+      position: position,
       translucent: true
     });
     toast.present();

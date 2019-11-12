@@ -7,6 +7,10 @@ div.main.login {
     background-color: yellow!important;
 }
 
+.upload {
+    width: 30rem;
+}
+
 button.traer {
     margin: 5px;
 }
@@ -45,7 +49,6 @@ option {
     // // border-left: 1px solid white;
     // // border-right: 1px solid white;
     // box-shadow: 2px 2px 2px white;
-
 }
 
 
@@ -62,7 +65,7 @@ option {
         }
         &.ng-valid.ng-touched:not(.has-focus) {
             color: map-get($theme-colors, success) !important;
-            border: 1px solid  map-get($theme-colors, success) !important;
+            border: 1px solid map-get($theme-colors, success) !important;
         }
         &.has-focus {
             color: dark;
@@ -77,7 +80,7 @@ option {
         }
         &.ng-valid.ng-touched:not(.has-focus) {
             color: map-get($theme-colors, success) !important;
-            border: 1px solid  map-get($theme-colors, success) !important;
+            border: 1px solid map-get($theme-colors, success) !important;
         }
         &.has-focus {
             color: dark;

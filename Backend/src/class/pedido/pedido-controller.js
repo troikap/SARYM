@@ -300,6 +300,7 @@ PedidoController.create = (req, res) => {
             locals['tipo'] = 2;
             res.json(locals);
           } else {
+            body['fechaYHoraInicioPedido'] = new Date();
             PedidoModelo.create(body).then(result => {
                 locals['title'] = `${legend} creada.`;
                 locals['data'] = result;
@@ -481,6 +482,7 @@ let body = req.body;
 PedidoController.editarDetallePedidoProducto = (req, res) => {
     var locals = { detalles: [] };
     let body = req.body;
+    console.log("BODY ", body)
     PedidoModelo.findOne({
         where: {
         [idtable]: body[idtable] },

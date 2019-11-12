@@ -6,6 +6,8 @@ import { MenuPromocion } from './menupromocion.model'
 const URL = environment.urlNgrok || environment.url;
 const dir = '/menupromocion';
 
+const tokenEnviroment = environment.token;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,9 +17,9 @@ export class MenupromocionService {
     public http: HttpClient
   ) { }
 
-  getMenuPromociones(token: string): Promise<MenuPromocion[]> {
+  getMenuPromociones(): Promise<MenuPromocion[]> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', tokenEnviroment);
     return this.http
       .get(URL + dir, {headers})
       .toPromise()
@@ -27,9 +29,9 @@ export class MenupromocionService {
       .catch(  );
   }
 
-  getMenuPromocion( id: number , token: string): Promise<any> {
+  getMenuPromocion( id: number): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', tokenEnviroment);
     return this.http
       .get(`${URL}${dir}/${id}`, {headers})
       .toPromise()

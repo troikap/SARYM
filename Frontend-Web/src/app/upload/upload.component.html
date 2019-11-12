@@ -1,39 +1,35 @@
-<h2 class="titulo">Seleccione Archivo</h2>
-
-<hr>
-
-<div class="container">
-    <div class="form-section">
-        <form [formGroup]="myForm" (ngSubmit)="onUpload()">
-
-
-            <div class="card text-center" style="width: 20rem;">
-                <div class="card-header">
-                    <div *ngIf="nombreArchivo != null">
-                        <img class="card-img-top" [src]="archivoCargado" [alt]="nombreElemento">
-                        <label for="nombreFoto" class="col col-form-label">{{nombreArchivo}}</label>
+<div class="contenedor-pagina">
+    <div class="table-container">
+        <h2 class="titulo">Seleccione Archivo</h2>
+        <hr>
+        <div class="form-section upload">
+            <form [formGroup]="myForm" (ngSubmit)="onUpload()">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <div *ngIf="nombreArchivo != null">
+                            <img class="card-img-top" [src]="archivoCargado" [alt]="nombreElemento">
+                            <label for="nombreFoto" class="col col-form-label">{{nombreArchivo}}</label>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="archivo" class="col col-form-label">Imagen</label>
+                            <input type="file" formControlName="archivo" class="form-control" (change)="onFileChange($event)">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <td width="40%"><button type="submit" class="btn btn-primary btn-block" [disabled]="!myForm.valid">Cargar</button></td>
+                                    <td width="20%">&nbsp;</td>
+                                    <td width="40%"><button type="button" class="btn btn-secondary btn-block" (click)="cerrar()">Cerrar</button></td>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="archivo" class="col col-form-label">Imagen</label>
-                        <input type="file" formControlName="archivo" class="form-control" (change)="onFileChange($event)">
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                                <td width="40%"><button type="submit" class="btn btn-primary btn-block" [disabled]="!myForm.valid">Cargar</button></td>
-                                <td width="20%">&nbsp;</td>
-                                <td width="40%"><button type="button" class="btn btn-secondary btn-block" (click)="cerrar()">Cerrar</button></td>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-
-
-        </form>
+            </form>
+        </div>
     </div>
 </div>

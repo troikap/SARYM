@@ -8,7 +8,7 @@ module.exports = {
         return queryInterface.bulkInsert('rubros', [
             { idRubro: 1, codRubro: 'ENTR', nombreRubro: 'Entradas', descripcionRubro: 'Entradas variadas', "createdAt": currentDate, "updatedAt": currentDate },
             { idRubro: 2, codRubro: 'PESC', nombreRubro: 'Pescados', descripcionRubro: 'Pescados frescos', "createdAt": currentDate, "updatedAt": currentDate },
-            { idRubro: 3, codRubro: 'CAR', nombreRubro: 'Carnes', descripcionRubro: 'Carnes rojas de novillo, chivo', "createdAt": currentDate, "updatedAt": currentDate },
+            { idRubro: 3, codRubro: 'CAR', nombreRubro: 'Carnes', descripcionRubro: 'Carnes rojas y blancas', "createdAt": currentDate, "updatedAt": currentDate },
             { idRubro: 4, codRubro: 'PAST', nombreRubro: 'Pastas', descripcionRubro: 'Pastas caseras', "createdAt": currentDate, "updatedAt": currentDate },
             { idRubro: 5, codRubro: 'ENS', nombreRubro: 'Ensaladas', descripcionRubro: 'Ensaladas frescas de la casa', "createdAt": currentDate, "updatedAt": currentDate },
             { idRubro: 6, codRubro: 'SAND', nombreRubro: 'Sandwiches', descripcionRubro: 'Sandwiches de pan francés', "createdAt": currentDate, "updatedAt": currentDate },
@@ -19,6 +19,7 @@ module.exports = {
             { idRubro: 11, codRubro: 'GAS', nombreRubro: 'Gaseosas', descripcionRubro: 'Gaseosas línea Pepsi', "createdAt": currentDate, "updatedAt": currentDate },
             { idRubro: 12, codRubro: 'CEL', nombreRubro: 'Celiacos', descripcionRubro: 'Todo para celíacos', "createdAt": currentDate, "updatedAt": currentDate },
             { idRubro: 13, codRubro: 'VEG', nombreRubro: 'Veganos', descripcionRubro: 'Todo para veganos', "createdAt": currentDate, "updatedAt": currentDate },
+            { idRubro: 14, codRubro: 'ROT', nombreRubro: 'Rotisería', descripcionRubro: 'Rotisería', "createdAt": currentDate, "updatedAt": currentDate },
 
         ], {});
     },

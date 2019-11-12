@@ -7,24 +7,25 @@
 @import "./assets/styles/otros.scss";
 @import "./assets/styles/buttons.scss";
 @import "./assets/styles/navbar.scss";
-
-
-
 html {
     height: 100%;
-    
 }
+
 body {
     padding-bottom: 0px;
     height: 100%;
 }
 
 .contenedor-pagina {
-    padding-top:60px;
+    padding-top: 60px;
+}
+
+.contendror-tarjeta-horizontal {
+    padding: 30px 80px;
 }
 
 .main_container_img {
-    background-image: url("./assets/imagenes/imagen-login.png") ;
+    background-image: url("./assets/imagenes/imagen-login.png");
     background-color: transparent;
     height: auto;
     min-height: 100% !important;
@@ -34,9 +35,7 @@ body {
 //     height: auto;
 //     min-height: 100% !important;
 //     // min-height: calc(100% - 60px) !important;
-
 // }
-
 
 /*Animación*/
 

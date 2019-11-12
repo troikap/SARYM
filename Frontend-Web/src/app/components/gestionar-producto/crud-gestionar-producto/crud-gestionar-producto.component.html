@@ -85,7 +85,7 @@
                         <a href="#VerImagen" class="btn btn-primary" data-toggle="collapse">Ver Imagen</a>
                     </p>
                     <hr>
-                    <div id="VerImagen" class="collapse">
+                    <div id="VerImagen" class="collapse" *ngIf="producto">
                         <div class="card mb-3">
                             <div class="row no-gutters animated fadeIn fast">
                                 <div class="col-md-4">
@@ -116,7 +116,6 @@
                 <button onclick="history.back()" class="btn btn-primary">Cancelar</button>
             </div>
             <div class="col"></div>
-        </div>  
+        </div>
     </div>
-</div>    
-
+</div>

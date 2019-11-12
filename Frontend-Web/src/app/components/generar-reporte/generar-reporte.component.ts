@@ -8,9 +8,12 @@ import * as html2canvas from 'html2canvas';
   styleUrls: ['./generar-reporte.component.scss']
 })
 export class GenerarReporteComponent implements OnInit {
+  
+  public mostrar = false;
 
+  constructor(   ) { 
 
-  constructor() { }
+  }
 
   ngOnInit() {
   }
@@ -41,6 +44,10 @@ export class GenerarReporteComponent implements OnInit {
     }
     let fecha = Date.now();
     doc.save('Reporte_Sarym_' + fecha + '.pdf');
+  }
+
+  mostrarReportes(){
+    this.mostrar = true;
   }
 
   //http://blog.nubecolectiva.com/generar-pdf-con-angular-js-5/
