@@ -71,4 +71,5 @@ export class SearchPedidoComponent implements OnInit {
   this.router.navigate( [`/edit_anular_pedido/${idElemento}`] );
 
   }
+
 }

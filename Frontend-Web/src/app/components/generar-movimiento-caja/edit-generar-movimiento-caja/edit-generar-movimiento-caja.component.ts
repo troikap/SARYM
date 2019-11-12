@@ -86,5 +86,8 @@ export class EditGenerarMovimientoCajaComponent implements OnInit {
   this.router.navigate( [`/generarmovimientocaja_crud/${this.idCaja}`] );
 
   }
+  goBack(){
+    this.router.navigate(['/generarmovimientocaja'])
+  }
 
 }
