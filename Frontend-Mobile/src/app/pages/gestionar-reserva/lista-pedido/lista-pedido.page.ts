@@ -60,14 +60,20 @@ export class ListaPedidoPage implements OnInit {
     console.log("CUARTO ")
   }
 
-  traerReserva(){
-    this.reservaservicio.getReserva( this.idReserva )
-    .then( reserva => {
+  async traerReserva(){
+    await this.reservaservicio.getReserva(  this.idReserva )
+    .then( async reserva => {
       console.log("RESERVA ", reserva)
+      let pedidosComensal: any[] = [];
       this.reserva = reserva;
       reserva.pedidos.forEach(element => {
-        this.mostrar.push(false);
+        if (element.idComensal == this.idComensal) {
+          pedidosComensal.push(element);
+          this.mostrar.push(false);
+        }
       });
+      this.reserva.pedidos = pedidosComensal;
+      console.log("PEDIDOS DE COMENSAL ,", pedidosComensal)
       this.calcularTotalCostoPedido();
       console.log("Comensales" ,reserva.comensals)
       this.comensales = reserva.comensals
@@ -217,7 +223,8 @@ export class ListaPedidoPage implements OnInit {
           name: 'cantidad',
           type: 'number',
           value: data.cantidadPedidoProducto,
-          placeholder: 'Ingrese Cantidad'
+          placeholder: 'Ingrese Cantidad',
+          min: 15,
         },
       ],
       buttons: [
@@ -231,28 +238,32 @@ export class ListaPedidoPage implements OnInit {
         }, {
           text: 'Aceptar',
           handler: ( info ) => {
-            console.log("DATA ", data)
-            let tipo;
-            let nombre;
-            if (data.idProducto) {
-              tipo = 'idProducto';
-              nombre = 'Producto';
-            } else {
-              tipo = 'idMenuPromocion';
-              nombre = data.menupromocion.tipomenupromocion.nombreTipoMenuPromocion
-            }
-            let pathDetalle = { idPedido: idPedido, detalle: [ {idDetallePedidoProducto: data.idDetallePedidoProducto, cantidadPedidoProducto: info.cantidad} ]}
-            console.log("pathDetalle ", pathDetalle)
-            this.pedidoService.setDetallePedidoProducto( pathDetalle )
-            .then( res => {
-              console.log("resssss ----- ", res)
-              if ( res.tipo == 1){
-                this.toastService.toastSuccess(`Detalle modificado!. Cantidad del ${nombre} cambiado en su Pedido.`, 3000)
+            if (info.cantidad > 0) {
+              console.log("DATA ", data)
+              let tipo;
+              let nombre;
+              if (data.idProducto) {
+                tipo = 'idProducto';
+                nombre = 'Producto';
               } else {
-                this.toastService.toastWarning(`Detalle no se pudo editar`, 4000)
+                tipo = 'idMenuPromocion';
+                nombre = data.menupromocion.tipomenupromocion.nombreTipoMenuPromocion
               }
-              this.traerReserva();
-            })
+              let pathDetalle = { idPedido: idPedido, detalle: [ {idDetallePedidoProducto: data.idDetallePedidoProducto, cantidadPedidoProducto: info.cantidad} ]}
+              console.log("pathDetalle ", pathDetalle)
+              this.pedidoService.setDetallePedidoProducto( pathDetalle )
+              .then( res => {
+                console.log("resssss ----- ", res)
+                if ( res.tipo == 1){
+                  this.toastService.toastSuccess(`Detalle modificado!. Cantidad del ${nombre} cambiado en su Pedido.`, 3000)
+                } else {
+                  this.toastService.toastWarning(`Detalle no se pudo editar`, 4000)
+                }
+                this.traerReserva();
+              })
+            } else {
+              this.toastService.toastError('La cantidad ingresada es incorrecta! Debe ser positiva.', 2000)
+            }
           }
         }
       ]

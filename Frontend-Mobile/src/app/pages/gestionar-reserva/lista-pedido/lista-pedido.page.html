@@ -7,7 +7,13 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-card *ngIf="reserva == null">
+    <h3 padding ><strong>Debe generar o pertenecer a una reserva para poder interactuar con ella.</strong></h3>
+</ion-card>
 <ion-content *ngIf='reserva'>
+  <ion-card>
+    <ion-title color="dark" align="middle" padding>Identificador Comensal: {{idComensal}}</ion-title>
+  </ion-card>
   <div *ngFor="let item of reserva.pedidos; let i = index">
       <ion-item-sliding>
           <ion-item (click)="mostrar[i] = !mostrar[i]">
@@ -78,62 +84,6 @@
         </ion-item-sliding>
       </div>
   </div>
-
-
-
-
-    <!-- <ion-item-sliding *ngFor="let item of reserva.pedidos; let i = index">
-        <ion-item (click)="mostrar[i] = !mostrar[i]">
-          <ion-card color=success class="card-inter" [ngClass]="{ 'activo': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Reservado' ||
-                                                   item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'En Preparación' ||
-                                                   item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'A Entregar' ,
-                                                  'pendiente': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Pendiente de Pago', 
-                                                  'anulado': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Anulado', 
-                                                  'eliminado': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Eliminado',
-                                                  'finalizado': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Finalizado'}">
-            <ion-card-header>
-              <ion-card-title>Codigo: <strong>{{item.codPedido}}</strong></ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-card-title>Importe: <strong>$ {{item.importeTotal}}</strong></ion-card-title>
-              <ion-card-title>Estado: <strong>{{item.pedidoestados[0].estadopedido.nombreEstadoPedido}}</strong></ion-card-title>
-            </ion-card-content>
-          </ion-card>
-        </ion-item>
-        <div *ngIf="mostrar[i]">
-          <ion-card padding color="primary" *ngFor="let elemento of item.detallepedidoproductos">
-            <div *ngIf="elemento.producto">
-                <ion-card-title>Producto: <strong> {{elemento.producto.nombreProducto}}</strong></ion-card-title>
-                <ion-card-title align="right">Cantidad: <strong>{{elemento.cantidadPedidoProducto}}</strong></ion-card-title>
-                <ion-card-title align="right">Precio: <strong> $ {{elemento.producto.precioproductos[0].importePrecioProducto}}</strong></ion-card-title>
-                <ion-card-title align="right">Sub Total: <strong>{{elemento.cantidadPedidoProducto}} * {{elemento.producto.precioproductos[0].importePrecioProducto}} = 
-                  $ {{elemento.producto.precioproductos[0].importePrecioProducto * elemento.cantidadPedidoProducto}} </strong></ion-card-title>
-            </div>
-            <div *ngIf="elemento.menupromocion">
-              <div *ngIf="elemento.menupromocion.tipomenupromocion.nombreTipoMenuPromocion == 'Menu'">
-                  <ion-card-title>Menu: <strong> {{elemento.menupromocion.nombreMenuPromocion}}</strong></ion-card-title>
-              </div>
-              <div *ngIf="elemento.menupromocion.tipomenupromocion.nombreTipoMenuPromocion == 'Promocion'">
-                  <ion-card-title>Promocion: <strong> {{elemento.menupromocion.nombreMenuPromocion}}</strong></ion-card-title>
-              </div>
-                <ion-card-title align="right">Cantidad: <strong>{{elemento.cantidadPedidoProducto}}</strong></ion-card-title>
-                <ion-card-title align="right">Precio: <strong> $ {{elemento.menupromocion.preciomenupromocions[0].importePrecioMenuPromocion}}</strong></ion-card-title>
-                <ion-card-title align="right">Sub Total: <strong>{{elemento.cantidadPedidoProducto}} * {{elemento.menupromocion.preciomenupromocions[0].importePrecioMenuPromocion}} = 
-                  $ {{elemento.menupromocion.preciomenupromocions[0].importePrecioMenuPromocion * elemento.cantidadPedidoProducto}} </strong></ion-card-title>
-            </div>
-          </ion-card>
-        </div>
-        <ion-item-options side="start">
-            <ion-item-option color="danger" (click)="eliminarPedido()">
-                <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-item-option>
-        </ion-item-options>
-        <ion-item-options side="end">
-          <ion-item-option style="background-color:green" (click)="editarPedido(item)">
-              <ion-icon slot="icon-only" name="create"></ion-icon>
-          </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding> -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="crearPedido()">
     <ion-fab-button>
         <ion-icon name="add"></ion-icon>

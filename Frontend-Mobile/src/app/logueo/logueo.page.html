@@ -32,7 +32,7 @@
                     </form>
                     <ion-button expand='full' shape='round' color='primary' (click)='loguear()' [disabled]="!form.valid">Iniciar Sesión</ion-button>
                     <ion-button expand='full' shape='round' (click)="goTo('registro-usuario')" color='primary'>Registrarse</ion-button>
-                    <ion-button expand='full' shape='round' (click)='iniciarInvitado()' color='primary'>Invitado</ion-button>
+                    <ion-button expand='full' shape='round' (click)='iniciarInvitado()' [disabled]=true color='primary'>Invitado</ion-button>
                 </ion-col>
             </ion-row>
             <ion-row class='mt-10 terms-text'>

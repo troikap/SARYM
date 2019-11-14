@@ -66,8 +66,8 @@ export class RegistroUsuarioPage implements OnInit {
       nroTelefonoUsuario: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9\-]{12}$/)])],
       gender: [''],
       contrasenaUsuario_group: new FormGroup({
-        contrasenaUsuario: new FormControl('', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(25)])),
-        contrasenaUsuarioRepeat: new FormControl('', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(25)]))
+        contrasenaUsuario: new FormControl('', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(25)])),
+        contrasenaUsuarioRepeat: new FormControl('', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(25)]))
       }, { validators: CustomValidator.equalValidator({ first_control_name: 'contrasenaUsuario', second_control_name: 'contrasenaUsuarioRepeat' }) })
     });
   }

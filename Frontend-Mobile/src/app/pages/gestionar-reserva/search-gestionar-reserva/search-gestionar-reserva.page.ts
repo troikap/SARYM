@@ -26,13 +26,7 @@ export class SearchGestionarReservaPage implements OnInit {
   }
 
   ngOnInit() {
-    //this.getAllElements();
-    // this.cargarOnFocus();
   }
-
-  // cargarOnFocus() {
-  //   $("#botonBuscar").focus();
-  // }
 
   loadCurrentUsuario() {
     this.storage.getCurrentUsuario().then((data) => {
