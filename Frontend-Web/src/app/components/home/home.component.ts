@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HomeService, IconoHome } from 'src/app/services/home/home.service';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl} from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import { UploadService } from 'src/app/services/upload/upload.service';
 
 
@@ -43,21 +43,15 @@ export class HomeComponent implements OnInit {
     }
 
   ngOnInit() {
-    console.log("Rol del usuario: ", localStorage.getItem("rolUsuario"));
   }
 
   onUpload(){
-    console.log("Upload");
-    console.log("this From :",this.myForm)
     this.uploadService.uploadFile( this.myForm ).then((res) => {
-      console.log('RESPUESTA ; ',res)
     })
   }
 
   onFileChange(e) {
-    console.log('FileChange ', e.target.files)
     this.uploadedFiles = e.target.files;
-    console.log(" OK " ,this.uploadedFiles)
   }
 
   goTo( ruta: string) {

@@ -5,14 +5,13 @@ import { Producto } from 'src/app/model/producto/producto.model';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-consulta-gestionar-producto',
-  templateUrl: './consulta-gestionar-producto.component.html',
-  styleUrls: ['./consulta-gestionar-producto.component.scss']
+  selector: "app-consulta-gestionar-producto",
+  templateUrl: "./consulta-gestionar-producto.component.html",
+  styleUrls: ["./consulta-gestionar-producto.component.scss"]
 })
 export class ConsultaGestionarProductoComponent implements OnInit {
-
   producto: Producto;
-  estadoProducto: string;  
+  estadoProducto: string;
 
   tipoElemento = "producto";
 
@@ -21,28 +20,22 @@ export class ConsultaGestionarProductoComponent implements OnInit {
   constructor(
     public productoService: ProductoService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
-    
+    private router: Router
   ) {
     this.activatedRoute.params.subscribe(params => {
-      // console.log("Parámetro de entrada: ", params.id);
-      this.productoService.getProducto(params.id)
-        .then((res: Producto) => {
-          console.log("Datos del Producto obtenido: ", res);
-          this.producto = res;
-          this.estadoProducto = res['productoestados'][0].estadoproducto.nombreEstadoProducto;
-          console.log("Estado Producto: ", this.estadoProducto);
-        });
-
+      this.productoService.getProducto(params.id).then((res: Producto) => {
+        this.producto = res;
+        this.estadoProducto =
+          res["productoestados"][0].estadoproducto.nombreEstadoProducto;
       });
-   }
-
-  ngOnInit() {
+    });
   }
+
+  ngOnInit() {}
 
   generarAccion(accion: string) {
-    console.log("accion: ", accion);
-    this.router.navigate( [`/producto_crud/${this.producto.idProducto}/${accion}`] );
+    this.router.navigate([
+      `/producto_crud/${this.producto.idProducto}/${accion}`
+    ]);
   }
-
 }

@@ -1,174 +1,158 @@
-import { Injectable } from '@angular/core';
-import { HttpClient , HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { Producto } from 'src/app/model/producto/producto.model';
-
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { environment } from "src/environments/environment";
+import { Producto } from "src/app/model/producto/producto.model";
+import { map } from "rxjs/operators";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
-
 export class ProductoService {
-  
   url = environment.urlNgrok || environment.url;
-  dir = '/producto';
-  dir2 = '/todo';
-  dirEstado = '/estadoproducto';
-  ditActalizarDatos = '/actualizarDatos'
-  dirCambiarEstado = '/cambiarEstado';
-  dirHabilitarDeshabilitarProducto = '/habilitarDeshabilitarProducto';
-  dirCambiarPrecio = '/cambiarPrecio';
+  dir = "/producto";
+  dir2 = "/todo";
+  dirEstado = "/estadoproducto";
+  ditActalizarDatos = "/actualizarDatos";
+  dirCambiarEstado = "/cambiarEstado";
+  dirHabilitarDeshabilitarProducto = "/habilitarDeshabilitarProducto";
+  dirCambiarPrecio = "/cambiarPrecio";
 
   tokenEnviroment = environment.token;
 
-  constructor(
-    public http: HttpClient
-  ) { }
+  constructor(public http: HttpClient) {}
 
-  getProductosByAll( termino: string) { //Observador
-    console.log("Service getProductosByAll: Termino = ", termino);
+  getProductosByAll(termino: string) {
     if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
-      headers = headers.append('token', this.tokenEnviroment);
+      headers = headers.append("token", this.tokenEnviroment);
       return this.http
-        .get(`${this.url}${this.dir}${this.dir2}/${termino}`, {headers})
-        .pipe( map ((data: any) => {
-          console.log(data.data);
-          if (data != null) {
-            return data.data;
-          }
-      }));
-    }
-    else {
-      // console.log("Service getProductosByAll: SIN TERMINO");
+        .get(`${this.url}${this.dir}${this.dir2}/${termino}`, { headers })
+        .pipe(
+          map((data: any) => {
+            if (data != null) {
+              return data.data;
+            }
+          })
+        );
+    } else {
     }
   }
 
-  getAllProductos() { //Promesa
+  getAllProductos() {
+    //Promesa
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .get(`${this.url}${this.dir}`, {headers})
+      .get(`${this.url}${this.dir}`, { headers })
       .toPromise()
       .then(response => {
-        console.log("Prodcutos Obtenidos: ", response)
         return response;
       })
-      .catch( err => {
-        console.log("ERROR : ",err)
-      } );
+      .catch(err => {
+        console.log("ERROR : ", err);
+      });
   }
 
-
-  getProducto( id: number ): Promise<Producto> {
+  getProducto(id: number): Promise<Producto> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .get(`${this.url}${this.dir}/${id}`, {headers}) 
+      .get(`${this.url}${this.dir}/${id}`, { headers })
       .toPromise()
       .then((response: any) => {
         let prod = response.data as Producto;
-        console.log("Datos Obtenidos del Servicio getProducto:", prod);
         return prod;
       })
-      .catch(  );
+      .catch();
   }
 
-  updateProducto( datas: any ): Promise<any> {
+  updateProducto(datas: any): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR:", datas)
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .put(`${this.url}${this.dir}${this.ditActalizarDatos}`, datas, {headers})
+      .put(`${this.url}${this.dir}${this.ditActalizarDatos}`, datas, {
+        headers
+      })
       .toPromise()
       .then(response => {
         return response;
       })
-      .catch(  );
+      .catch();
   }
 
-  deleteProductos( datas: any ): Promise<any> {
+  deleteProductos(datas: any): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    console.log("Valor Header:", headers);
-    console.log("DATOS A ENVIAR :",datas);
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .delete(`${this.url}${this.dir}/${datas.idProductos}`, {headers})
+      .delete(`${this.url}${this.dir}/${datas.idProductos}`, { headers })
       .toPromise()
       .then(response => {
         return response;
       })
-      .catch(  );
+      .catch();
   }
 
-  crearProducto( datas ): Promise<any> {
+  crearProducto(datas): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment); 
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .post(`${this.url}${this.dir}`, datas, {headers})
+      .post(`${this.url}${this.dir}`, datas, { headers })
       .toPromise()
       .then(response => {
         return response;
       })
-      .catch(  );
+      .catch();
   }
 
-  cambiarEstado( datas: any ): Promise<any> {
+  cambiarEstado(datas: any): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR :",datas)
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .put(`${this.url}${this.dir}${this.dirCambiarEstado}`, datas, {headers})
+      .put(`${this.url}${this.dir}${this.dirCambiarEstado}`, datas, { headers })
       .toPromise()
       .then(response => {
-        console.log("Servicio cambiarEstado()", response);
         return response;
       })
-      .catch(  );
+      .catch();
   }
 
-  habilitarDeshabilitarProducto( datas: any ): Promise<any> {
+  habilitarDeshabilitarProducto(datas: any): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR :",datas)
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .put(`${this.url}${this.dir}${this.dirHabilitarDeshabilitarProducto}`, datas, {headers})
+      .put(
+        `${this.url}${this.dir}${this.dirHabilitarDeshabilitarProducto}`,
+        datas,
+        { headers }
+      )
       .toPromise()
       .then(response => {
-        console.log("Servicio cambiarEstado()", response);
         return response;
       })
-      .catch(  );
+      .catch();
   }
 
-  cambiarPrecio( datas: any ): Promise<any> {
+  cambiarPrecio(datas: any): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR :",datas)
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .put(`${this.url}${this.dir}${this.dirCambiarPrecio}`, datas, {headers})
+      .put(`${this.url}${this.dir}${this.dirCambiarPrecio}`, datas, { headers })
       .toPromise()
       .then(response => {
-        console.log("Servicio cambiarPrecio()", response);
         return response;
       })
-      .catch(  );
+      .catch();
   }
 
   getAllEstadoProducto() {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .get(`${this.url}${this.dirEstado}`, {headers})
+      .get(`${this.url}${this.dirEstado}`, { headers })
       .toPromise()
       .then(response => {
-        console.log("Estado Productos Obtenidos: ", response)
         return response;
       })
-      .catch( err => {
-        console.log("ERROR : ",err)
-      } );
+      .catch(err => {});
   }
 }

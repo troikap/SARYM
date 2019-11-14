@@ -1,32 +1,28 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders , HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 const url = environment.urlNgrok || environment.url;
-const dir = '/estadousuario';
+const dir = "/estadousuario";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class EstadoUsuarioService {
-
   tokenEnviroment = environment.token;
 
-  constructor( 
-    public http: HttpClient
-  ) { }
+  constructor(public http: HttpClient) {}
 
-   getEstadosUsuarios( ): Promise<EstadoUsuario[]> {
+  getEstadosUsuarios(): Promise<EstadoUsuario[]> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .get( (url + dir), {headers})
+      .get(url + dir, { headers })
       .toPromise()
       .then(response => {
-        // console.log('RESPUESTA',response)
-        return response['data'] as EstadoUsuario[];
+        return response["data"] as EstadoUsuario[];
       })
-      .catch(  );
+      .catch();
   }
 }
 

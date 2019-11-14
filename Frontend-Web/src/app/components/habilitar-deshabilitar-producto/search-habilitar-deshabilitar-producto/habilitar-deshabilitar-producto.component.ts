@@ -6,24 +6,25 @@ import { UploadService } from 'src/app/services/upload/upload.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-habilitar-deshabilitar-producto',
-  templateUrl: './habilitar-deshabilitar-producto.component.html',
-  styleUrls: ['./habilitar-deshabilitar-producto.component.scss']
+  selector: "app-habilitar-deshabilitar-producto",
+  templateUrl: "./habilitar-deshabilitar-producto.component.html",
+  styleUrls: ["./habilitar-deshabilitar-producto.component.scss"]
 })
 export class HabilitarDeshabilitarProductoComponent implements OnInit {
-
-  public listaProductos: any [] = [];
-  public listaProductosProvisoria: any []=[];
+  public listaProductos: any[] = [];
+  public listaProductosProvisoria: any[] = [];
 
   tipoElemento = "producto";
 
-  public rutaImagen = `${environment.urlNgrok || environment.url}/traerImagen/${this.tipoElemento}/`;
+  public rutaImagen = `${environment.urlNgrok || environment.url}/traerImagen/${
+    this.tipoElemento
+  }/`;
 
   constructor(
     public productoService: ProductoService,
     private router: Router,
     public uploadService: UploadService
-    ) { }
+  ) {}
 
   ngOnInit() {
     this.getAllElements();
@@ -35,61 +36,47 @@ export class HabilitarDeshabilitarProductoComponent implements OnInit {
   }
 
   buscarElemento(termino: string) {
-    
-    console.log(termino);
-
     if (termino.trim() !== "") {
-      this.productoService.getProductosByAll(termino)
-      .subscribe((data: any) => { // Llamo a un Observer
-        console.log(data);
+      this.productoService.getProductosByAll(termino).subscribe((data: any) => {
         if (data != null) {
-          console.log("RESULT ----------------->", data);
-          this.listaProductosProvisoria =  data;
-        this.listaProductos=[];
-        var length = this.listaProductosProvisoria.length;
-        
-for (let i = 0; i < length; i++) {
-let producto = this.listaProductosProvisoria[i];
-  if(producto.productoestados[0].estadoproducto.idEstadoProducto == 1 || producto.productoestados[0].estadoproducto.idEstadoProducto == 2 ){
-    this.listaProductos.push(producto)
-  }
-}
+          this.listaProductosProvisoria = data;
+          this.listaProductos = [];
+          var length = this.listaProductosProvisoria.length;
 
-          // this.listaProductos.push(data); // Para insertar un solo elemento
-        }
-        else {
+          for (let i = 0; i < length; i++) {
+            let producto = this.listaProductosProvisoria[i];
+            if (
+              producto.productoestados[0].estadoproducto.idEstadoProducto == 1 || producto.productoestados[0].estadoproducto.idEstadoProducto == 2 ) {
+              this.listaProductos.push(producto);
+            }
+          }
+        } else {
           this.listaProductos = [];
         }
       });
-    }
-    else {
+    } else {
       this.getAllElements();
     }
   }
 
   getAllElements() {
-    let _this =this;
-    this.productoService.getAllProductos()
-      .then((res: any) => {
-        console.log("getAllElements", res.data);
-        this.listaProductosProvisoria =  res.data;
-        this.listaProductos=[];
-        var length = this.listaProductosProvisoria.length;
-        
-for (let i = 0; i < length; i++) {
-let producto = this.listaProductosProvisoria[i];
-console.log("ITERACION : ",i)
-  if(producto.productoestados[0].estadoproducto.idEstadoProducto == 1 || producto.productoestados[0].estadoproducto.idEstadoProducto == 2 ){
-    this.listaProductos.push(producto)
-  }
-}
-      })
+    let _this = this;
+    this.productoService.getAllProductos().then((res: any) => {
+      this.listaProductosProvisoria = res.data;
+      this.listaProductos = [];
+      var length = this.listaProductosProvisoria.length;
+      for (let i = 0; i < length; i++) {
+        let producto = this.listaProductosProvisoria[i];
+        if (
+          producto.productoestados[0].estadoproducto.idEstadoProducto == 1 ||producto.productoestados[0].estadoproducto.idEstadoProducto == 2
+        ) {
+          this.listaProductos.push(producto);
+        }
+      }
+    });
   }
 
   consultarElemento(idElemento: number) {
-    console.log("idElemento: ", idElemento);
-
-    this.router.navigate( [`/crud_habilitar_deshabilitar_producto/${idElemento}`] );
+    this.router.navigate([`/crud_habilitar_deshabilitar_producto/${idElemento}`]);
   }
-
 }

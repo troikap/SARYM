@@ -36,22 +36,43 @@ export class CrudUsuarioComponent implements OnInit {
   ) {
     this.form = new FormGroup({
       idUsuario: new FormControl({ value: "", disabled: true }),
-      nombreUsuario: new FormControl("", [ Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)]),
-      apellidoUsuario: new FormControl("", [ Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)]),
+      nombreUsuario: new FormControl("", [
+        Validators.required,
+        Validators.pattern(
+          /^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/
+        )
+      ]),
+      apellidoUsuario: new FormControl("", [
+        Validators.required,
+        Validators.pattern(
+          /^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/
+        )
+      ]),
       contrasenaUsuario: new FormControl(""),
       contrasenaUsuarioRepeat: new FormControl(""),
-      cuitUsuario: new FormControl("", [ Validators.required, Validators.pattern(/^((20)|(23)|(24)|(25)|(26)|(27)|(30))[0-9]{9}$/)]),
+      cuitUsuario: new FormControl("", [
+        Validators.required,
+        Validators.pattern(/^((20)|(23)|(24)|(25)|(26)|(27)|(30))[0-9]{9}$/)
+      ]),
       dniUsuario: new FormControl("", Validators.required),
       domicilioUsuario: new FormControl("", Validators.required),
-      emailUsuario: new FormControl("", [ Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]),
+      emailUsuario: new FormControl("", [
+        Validators.required,
+        Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)
+      ]),
       idDepartamento: new FormControl("", Validators.required),
-      nroCelularUsuario: new FormControl("", [ Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
-      nroTelefonoUsuario: new FormControl("", [ Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
+      nroCelularUsuario: new FormControl("", [
+        Validators.required,
+        Validators.pattern(/^[0-9\-]{9,12}$/)
+      ]),
+      nroTelefonoUsuario: new FormControl("", [
+        Validators.required,
+        Validators.pattern(/^[0-9\-]{9,12}$/)
+      ]),
       idRol: new FormControl("", Validators.required),
       idEstadoUsuario: new FormControl("")
     });
     this.activatedRoute.params.subscribe(params => {
-      console.log("PAREMTROS DE URL", params);
       this.accionGet = params.accion;
       this.idUsuario = params.id;
 
@@ -66,7 +87,11 @@ export class CrudUsuarioComponent implements OnInit {
       if (this.accionGet == "crear") {
         this.form
           .get("contrasenaUsuario")
-          .setValidators([ Validators.required, Validators.minLength(8), Validators.maxLength(25)]);
+          .setValidators([
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(25)
+          ]);
         this.form.get("contrasenaUsuario").updateValueAndValidity();
         this.form
           .get("contrasenaUsuarioRepeat")
@@ -147,7 +172,8 @@ export class CrudUsuarioComponent implements OnInit {
               nroCelularUsuario: this.usuario["nroCelularUsuario"],
               nroTelefonoUsuario: this.usuario["nroTelefonoUsuario"],
               idRol: this.usuario["rolusuarios"][0].rol.idRol,
-              idEstadoUsuario: this.usuario["usuarioestados"][0].estadousuario.idEstadoUsuario
+              idEstadoUsuario: this.usuario["usuarioestados"][0].estadousuario
+                .idEstadoUsuario
             };
             this.form.setValue(this.newForm);
             this.setValidatorsDNI();
@@ -160,8 +186,8 @@ export class CrudUsuarioComponent implements OnInit {
 
   reemplazarUsuario(): Usuario {
     let id = null;
-    if ( this.usuario ) {
-    id = this.usuario.idUsuario;
+    if (this.usuario) {
+      id = this.usuario.idUsuario;
     }
     let rempUsuario: Usuario = {
       idUsuario: id,
@@ -200,7 +226,8 @@ export class CrudUsuarioComponent implements OnInit {
               let user = _this.reemplazarUsuario();
               _this.usuarioservicio.updateUsuario(user).then(response => {
                 const titulo = "Éxito";
-                const mensaje = "Se ha actualizado el registro de usuario de forma exitrosa";
+                const mensaje =
+                  "Se ha actualizado el registro de usuario de forma exitrosa";
                 ($ as any).confirm({
                   title: titulo,
                   content: mensaje,
@@ -222,28 +249,27 @@ export class CrudUsuarioComponent implements OnInit {
           },
           cerrar: {
             text: "Cerrar",
-            action: function() {
-            }
+            action: function() {}
           }
         }
       });
     } else if (this.usuarioEncontrado && this.accionGet === "eliminar") {
       let user = _this.reemplazarUsuario();
-      if( user.idEstadoUsuario == 3 ) {
+      if (user.idEstadoUsuario == 3) {
         ($ as any).confirm({
           title: "Error",
           content: "El Usuario ya se encuentra eliminado",
-          type: 'red',
+          type: "red",
           typeAnimated: true,
-          theme: 'material',
+          theme: "material",
           buttons: {
-              aceptar: {
-                  text: 'Aceptar',
-                  btnClass: 'btn-red',
-                  action: function(){
-                    _this.router.navigate(["/usuario/"]);
-                  }
+            aceptar: {
+              text: "Aceptar",
+              btnClass: "btn-red",
+              action: function() {
+                _this.router.navigate(["/usuario/"]);
               }
+            }
           }
         });
       } else {
@@ -261,7 +287,8 @@ export class CrudUsuarioComponent implements OnInit {
                 let user = _this.reemplazarUsuario();
                 _this.usuarioservicio.deleteUsuario(user).then(response => {
                   const titulo = "Éxito";
-                  const mensaje = "Se ha eliminado el registro de usuario de forma exitosa";
+                  const mensaje =
+                    "Se ha eliminado el registro de usuario de forma exitosa";
                   ($ as any).confirm({
                     title: titulo,
                     content: mensaje,
@@ -283,9 +310,7 @@ export class CrudUsuarioComponent implements OnInit {
             },
             cerrar: {
               text: "Cerrar",
-              action: function() {
-                console.log("Eliminación cancelada");
-              }
+              action: function() {}
             }
           }
         });
@@ -306,7 +331,8 @@ export class CrudUsuarioComponent implements OnInit {
               _this.usuarioservicio.setUsuario(user).then(response => {
                 if (response.tipo !== 2) {
                   const titulo = "Éxito";
-                  const mensaje = "Se ha Creado un nuevo registro de usuario de forma exitosa";
+                  const mensaje =
+                    "Se ha Creado un nuevo registro de usuario de forma exitosa";
                   ($ as any).confirm({
                     title: titulo,
                     content: mensaje,
@@ -334,8 +360,7 @@ export class CrudUsuarioComponent implements OnInit {
                       aceptar: {
                         text: "Aceptar",
                         btnClass: "btn-red",
-                        action: function() {
-                        }
+                        action: function() {}
                       }
                     }
                   });
@@ -345,8 +370,7 @@ export class CrudUsuarioComponent implements OnInit {
           },
           cerrar: {
             text: "Cerrar",
-            action: function() {
-            }
+            action: function() {}
           }
         }
       });

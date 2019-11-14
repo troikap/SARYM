@@ -16,18 +16,19 @@ export class LoginComponent implements OnInit {
   private apellidoUsuarioLog: string;
   private idUsuario: string;
 
-  private invalidotitle = 'Datos Inválidos';
-  private invalidomsj = 'Combinación de Usuario y Contraseña incorrectos.';
-  private susptitle = 'Usuario Suspendido';
-  private suspmsj = 'El Usuario ingresado se encuentra Suspendido o dado de Baja.';
-  private valtitle = 'Bienvenido';
-  private valmsj = 'Le damos la bienvenida ';
+  private invalidotitle = "Datos Inválidos";
+  private invalidomsj = "Combinación de Usuario y Contraseña incorrectos.";
+  private susptitle = "Usuario Suspendido";
+  private suspmsj =
+    "El Usuario ingresado se encuentra Suspendido o dado de Baja.";
+  private valtitle = "Bienvenido";
+  private valmsj = "Le damos la bienvenida ";
   private algo = null;
 
   constructor(
     private formBuilder: FormBuilder,
     private usuarioservicio: UsuarioService,
-    private router: Router,
+    private router: Router
   ) {
     this.form = this.formBuilder.group({
       cuitUsuario: ["", Validators.required],
@@ -36,35 +37,30 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   loguear() {
-    console.log("FORMULARIO , ", this.form);
     this.usuarioservicio
       .loguear(this.form.value.cuitUsuario, this.form.value.contrasenaUsuario)
       .then(algo => {
         if (algo.tipo == 2) {
-          console.log("MENSAJE ", algo.title);
           let titulo = `${this.invalidotitle}`;
           let mensaje = `${this.invalidomsj}`;
           ($ as any).confirm({
             title: titulo,
             content: mensaje,
-            type: 'red',
+            type: "red",
             typeAnimated: true,
-            theme: 'material',
+            theme: "material",
             buttons: {
               aceptar: {
-                text: 'Aceptar',
-                btnClass: 'btn-red',
-                action: function () {
-                }
+                text: "Aceptar",
+                btnClass: "btn-red",
+                action: function() {}
               }
             }
           });
-
         } else if (algo.tipo == 1) {
-          console.log(algo.title);
           this.logueo = {
             cuit: this.form.value.cuitUsuario,
             pass: this.form.value.contrasenaUsuario,
@@ -73,34 +69,37 @@ export class LoginComponent implements OnInit {
           };
           localStorage.setItem("token", algo.token);
           if (this.form.value.checkRecordar) {
-           // this.actualizarLog(this.logueo);
+            // this.actualizarLog(this.logueo);
           }
-          
+
           this.nombreUsuarioLog = algo.UsuarioEstado.nombreUsuario;
           this.apellidoUsuarioLog = algo.UsuarioEstado.apellidoUsuario;
           this.rol = algo.rol.idRol;
           this.idUsuario = algo.UsuarioEstado.idUsuario;
           localStorage.setItem("rolUsuario", this.rol);
-          localStorage.setItem("idUsuario",this.idUsuario);
+          localStorage.setItem("idUsuario", this.idUsuario);
 
           let _this = this;
 
-          if (this.rol == "Administrador" || this.rol == "Encargado" || this.rol == "Cocina" ) {
-            console.log("SE LOGUEA COMO", this.rol)
+          if (
+            this.rol == "Administrador" ||
+            this.rol == "Encargado" ||
+            this.rol == "Cocina"
+          ) {
             let titulo = `${this.valtitle}`;
             let mensaje = `${this.valmsj} ${_this.nombreUsuarioLog} ${_this.apellidoUsuarioLog} `;
             ($ as any).confirm({
               title: titulo,
               content: mensaje,
-              type: 'blue',
+              type: "blue",
               typeAnimated: true,
-              theme: 'material',
+              theme: "material",
               buttons: {
                 aceptar: {
-                  text: 'Aceptar',
-                  btnClass: 'btn-blue',
-                  action: function () {
-                  _this.router.navigate([`/home`]);
+                  text: "Aceptar",
+                  btnClass: "btn-blue",
+                  action: function() {
+                    _this.router.navigate([`/home`]);
                   }
                 }
               }
@@ -110,16 +109,15 @@ export class LoginComponent implements OnInit {
             ($ as any).confirm({
               title: "Error",
               content: "Ud. no tiene acceso al sistema",
-              type: 'red',
+              type: "red",
               typeAnimated: true,
-              theme: 'material',
+              theme: "material",
               buttons: {
-                  aceptar: {
-                      text: 'Aceptar',
-                      btnClass: 'btn-red',
-                      action: function(){
-                      }
-                  }
+                aceptar: {
+                  text: "Aceptar",
+                  btnClass: "btn-red",
+                  action: function() {}
+                }
               }
             });
           }
@@ -128,31 +126,18 @@ export class LoginComponent implements OnInit {
           ($ as any).confirm({
             title: `${this.susptitle}`,
             content: `${this.suspmsj}`,
-            type: 'orange',
+            type: "orange",
             typeAnimated: true,
-            theme: 'material',
+            theme: "material",
             buttons: {
-                aceptar: {
-                    text: 'Aceptar',
-                    btnClass: 'btn-orange',
-                    action: function(){
-                    }
-                }
+              aceptar: {
+                text: "Aceptar",
+                btnClass: "btn-orange",
+                action: function() {}
+              }
             }
-          });          
-          }
+          });
+        }
       });
   }
-/*
-  actualizarLog(log: any) {
-    log.date = new Date();
-    localStorage.actualizarLog(log).then(res => {
-      if (!res) {
-        console.log("No Actualizo Log");
-      } else {
-        console.log("Actualizo Log");
-      }
-    });
-  }
-*/
 }
