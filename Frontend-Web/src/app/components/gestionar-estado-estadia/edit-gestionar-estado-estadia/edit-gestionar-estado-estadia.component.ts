@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MozoEstadiaService } from '../../../services/mozo-estadia/mozo-estadia';
+import { PedidoService } from '../../../services/pedido/pedido.service';
 import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-edit-gestionar-estado-estadia',
@@ -18,6 +19,7 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
   private listaNumerosMesa: any[]=[];
   private estadosEstadia: any[]=[];
   private date: string;
+  private listaComensales: any[]=[]
 
 
   constructor(
@@ -25,6 +27,7 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private mozoEstadiaServicio: MozoEstadiaService,
+    private pedidoServicio: PedidoService,
     private datePipe: DatePipe
   ) {
     this.form = new FormGroup({
@@ -32,7 +35,8 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
       'mesa': new FormControl({ value: '', disabled: true }),      
       'fechaYHoraInicioEstadia': new FormControl({ value: '', disabled: true}),
       'mozoEstadia': new FormControl({ value: '', disabled: true}),  
-      'estadoEstadia':new FormControl({ value: '', disabled: true})
+      'estadoEstadia':new FormControl({ value: '', disabled: true}),
+      'comensales':new FormControl({ value: '', disabled: true})
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -45,7 +49,6 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
   }
 
   ngOnInit() {   
-    this.traerEstadoEstadia(); 
   }
 
 
@@ -63,6 +66,11 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
               console.log(this.estadia['detalleestadiamesas'][i].mesa.nroMesa);
               this.listaNumerosMesa.push(this.estadia['detalleestadiamesas'][i].mesa.nroMesa)
             }
+            var lengthcomensales = this.estadia['comensals'].length;
+            for (let i = 0; i < lengthcomensales; i++) {
+              console.log(this.estadia['comensals'][i].aliasComensal);
+              this.listaComensales.push(this.estadia['comensals'][i].aliasComensal)
+            }
             this.date = this.estadia['fechaYHoraInicioEstadia'];
             console.log(this.listaNumerosMesa);
             this.newForm = {
@@ -70,7 +78,8 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
               mesa: this.listaNumerosMesa.join(),
               fechaYHoraInicioEstadia: this.datePipe.transform(this.date,'dd/MM/yyyy hh:mm:ss'), 
               mozoEstadia:this.estadia['mozoestadium'].usuario.nombreUsuario+" "+this.estadia['mozoestadium'].usuario.apellidoUsuario,
-              estadoEstadia: this.estadia['estadiaestados'][0].estadoestadium.nombreEstadoEstadia
+              estadoEstadia: this.estadia['estadiaestados'][0].estadoestadium.nombreEstadoEstadia,
+              comensales: this.listaComensales.join()
             }
 
             this.form.setValue(this.newForm);
@@ -83,13 +92,13 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
   reemplazarEstadia(): any {
     console.log("Funcion 'reemplazarEstadia()', ejecutada");
  
-      let rempCaja: any = {
+      let rempEstadia: any = {
         idEstadia: this.idEstadia,
-        idEstadoEstadia: this.form.value['estadoEstadia'],
+        idEstadoEstadia: 3,
         descripcionEstadiaEstado:"anulacion de Estadia por parte del encargado"   
       }
       //console.log(rempCaja);
-      return rempCaja;
+      return rempEstadia;
 
     
 
@@ -119,7 +128,7 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
              
               if(estadia != null ){
               
-                _this.mozoEstadiaServicio.updateEstadia(estadia)
+                _this.mozoEstadiaServicio.updateEstadoEstadia(estadia)
                   .then((response) => {
                     console.log("ACTUALIZADO", response);
 
@@ -137,8 +146,23 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
                           text: 'Aceptar',
                           btnClass: 'btn-green',
                           action: function () {
-                            //ACCION
-                            _this.router.navigate(['/search_mozo_estadia/']);
+
+                            _this.estadia['pedidos'].forEach( (item) => {
+                              let rempPedido: any = {
+                                idPedido: item.idPedido,
+                                idEstadoPedido: 7,
+                                descripcionPedidoEstado:"anulacion de Pedido por anulacion de Estadia"   
+                              }
+                              if(item['pedidoestados'][0].estadopedido.idEstadoPedido ==3 || item['pedidoestados'][0].estadopedido.idEstadoPedido ==4 || item['pedidoestados'][0].estadopedido.idEstadoPedido ==5){
+                              _this.pedidoServicio.updatePedidoEstado(rempPedido)
+                              .then((response) => {
+
+                                console.log("se actualizo el estado de Pedido", response);
+                              })
+                            }
+                            }) 
+
+                            _this.router.navigate(['/search_gestionar_estado_estadia/']);
 
 
                           }
@@ -167,12 +191,5 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
     
     
   }
-  traerEstadoEstadia() {
-    this.mozoEstadiaServicio.getEstadosEstadia()
-      .then((res) => {
-        this.estadosEstadia = res['data'];     
-      console.log("estos son los mozo Estadia",this.estadosEstadia)
-      })
-      
-  }
+  
 }

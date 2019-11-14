@@ -18,7 +18,6 @@ export class TratarFechaProvider {
             mes = mm;
         }
         let dateFormateada = `${yy}-${mes}-${dia}`;
-        console.log("dateFormateado: ", dateFormateada);
         return dateFormateada;
     }
 
@@ -39,7 +38,6 @@ export class TratarFechaProvider {
             tratarHora = horas;
         }
         let timeFormateado = `${tratarHora}:${tratarMinuto}`;
-        console.log("timeFormateado: ", timeFormateado);
         return timeFormateado;
     }
 

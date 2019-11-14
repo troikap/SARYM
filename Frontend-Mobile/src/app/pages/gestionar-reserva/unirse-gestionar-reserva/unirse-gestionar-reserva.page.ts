@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Comensal, Reserva } from 'src/app/models/modelos';
 import { ReservaService } from 'src/app/services/reserva/reserva.service';
+import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 
 @Component({
   selector: 'app-unirse-gestionar-reserva',
@@ -27,13 +28,15 @@ export class UnirseGestionarReservaPage implements OnInit {
   private comensal: Comensal;
   private comensales: Comensal[] = [];
   private tokenReserva;
+  private usuario;
 
   constructor(
     private barcodeScanner: BarcodeScanner,
     private alertController: AlertController,
     private navController: NavController,
     public activatedRoute: ActivatedRoute,
-    private reservaservicio: ReservaService
+    private reservaServicio: ReservaService,
+    private usuarioServicio: UsuarioService
   ) { }
 
   ngOnInit() {
@@ -50,24 +53,22 @@ export class UnirseGestionarReservaPage implements OnInit {
     })
     .catch(err => {
       console.log('Error', err);
-      this.qrDataCodify = 'MS0xLTIwMTktMDktMjMvMjM6Mzk=';
+      this.qrDataCodify = 'My0yMS0yMDE5LTExLTIzLzE3OjAw';
       this.presentAlert()
     });
   }
 
   async presentAlert() {
     this.secretCode = atob( this.qrDataCodify );
-    this.nameArray = this.secretCode.split('@'),
-    this.name = this.nameArray[this.nameArray.length - 1];
-    const names = this.name;
-    const date = this.nameArray[0];
-    console.log('secretCode ',this.secretCode);
-    console.log('qrDataCodify ',this.qrDataCodify);
-
+    this.nameArray = this.secretCode.split('-');
+    let idReserva = this.nameArray[0]
+    let idUsuario = this.nameArray[1]
+    await this.traerUsuario(idUsuario);
+    let nombreUsuario = `${this.usuario.Usuario.nombreUsuario} ${this.usuario.Usuario.apellidoUsuario}`
     const alert = await this.alertController.create(
       {
       header: 'Leyendo QR',
-      message: 'Esto es lo que trae: ' + names + ' ' + date,
+      message: `Desea Unirse a la reserva N° ${idReserva} de ${nombreUsuario}?`,
       buttons: [
         {
           text: 'Cancel',
@@ -75,18 +76,25 @@ export class UnirseGestionarReservaPage implements OnInit {
           cssClass: 'secondary',
           handler: (blah) => {
             console.log('Confirm Cancel');
-            this.navController.navigateForward('/home');
+            this.navController.navigateBack('/home');
           }
         }, {
           text: 'Unirse',
           handler: () => {
             console.log('Confirm Okay');
             // ACA TENDRIA QUE IR A MOSTRAR LA ESTADIA PARA SELECCIONAR EL COMENSAL
+            this.navController.navigateForward(`seleccion-comensal/${idReserva}`)
           }
         }
       ]
     });
-    // this.pararqr = true;
     await alert.present();
+  }
+
+  async traerUsuario( idUsuario ) {
+    await this.usuarioServicio.getUsuario(  idUsuario )
+    .then( async usuario => {
+       this.usuario = await usuario;
+    })
   }
 }

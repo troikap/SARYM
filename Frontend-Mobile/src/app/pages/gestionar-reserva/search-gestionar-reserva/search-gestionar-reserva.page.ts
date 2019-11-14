@@ -26,13 +26,7 @@ export class SearchGestionarReservaPage implements OnInit {
   }
 
   ngOnInit() {
-    //this.getAllElements();
-    // this.cargarOnFocus();
   }
-
-  // cargarOnFocus() {
-  //   $("#botonBuscar").focus();
-  // }
 
   loadCurrentUsuario() {
     this.storage.getCurrentUsuario().then((data) => {
@@ -49,6 +43,11 @@ export class SearchGestionarReservaPage implements OnInit {
         console.log("getReservasUsrLogueado", res);
         this.listaReservas =  res;
       })
+  }
+
+  realizarPedido(item) {
+    let idReserva = item.data.idReserva;
+    this.navController.navigateForward([`/seleccion-comensal/${idReserva}`])
   }
 
   crearReserva() {

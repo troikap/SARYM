@@ -29,7 +29,6 @@ const PedidoModelo = sequelize.define('pedido', {
     },
     codPedido: {
         type: Sequelize.STRING,
-        allowNull: false
     },
     fechaYHoraInicioPedido: {
         type: Sequelize.DATE,

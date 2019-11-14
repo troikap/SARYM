@@ -13,6 +13,15 @@ module.exports = {
                 "fechaYHoraAltaRolUsuario": currentDate,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
+            },
+            {
+                "idRolUsuario": 20,
+                "idUsuario": 20,
+                "idRol": 1,
+                "fechaYHoraBajaRolUsuario": null,
+                "fechaYHoraAltaRolUsuario": currentDate,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
             }
             // ,
             // {
@@ -177,6 +186,25 @@ module.exports = {
             //     "createdAt": currentDate,
             //     "updatedAt": currentDate
             // }
+            ,
+            {
+                "idRolUsuario": 21,
+                "idUsuario": 21,
+                "idRol": 3,
+                "fechaYHoraBajaRolUsuario": null,
+                "fechaYHoraAltaRolUsuario": currentDate,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            },
+            {
+                "idRolUsuario": 22,
+                "idUsuario": 22,
+                "idRol": 3,
+                "fechaYHoraBajaRolUsuario": null,
+                "fechaYHoraAltaRolUsuario": currentDate,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            }
         ], {});
     },
 

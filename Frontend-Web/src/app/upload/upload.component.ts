@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { HomeService, IconoHome } from 'src/app/services/home/home.service';
-import { FormBuilder, FormGroup, FormControl,Validators} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
 
 import { UploadService } from 'src/app/services/upload/upload.service';
 
@@ -18,7 +16,6 @@ export class UploadComponent implements OnInit {
   private myForm: FormGroup;
   public uploadedFiles;
   public nombreArchivo;
-
   public carpetas= 
   [
     { key: 'producto', value: 'producto' },
@@ -38,11 +35,9 @@ export class UploadComponent implements OnInit {
     private router: Router
   ) 
     { 
-
     this.myForm = new FormGroup({
       'archivo': new FormControl('', Validators.required)
     });
-
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params.id);
       this.idElemento  = params.id;
@@ -50,9 +45,7 @@ export class UploadComponent implements OnInit {
       this.pathElemento = params.path;
       this.redirigir = params.retorno;
     });
-
   }
-
   ngOnInit() {
   }
 
@@ -73,12 +66,9 @@ export class UploadComponent implements OnInit {
       .then((res:any) => {
         console.log('RESPUESTA ; ',res);
         this.nombreArchivo = res.path; // Path del archivo creado
-        
         console.log("Nombre archivo: ",this.nombreArchivo);
-
         //Obtener Imagen
         this.archivoCargado = this.uploadService.getFile(this.pathElemento, this.nombreArchivo);
-
         ($ as any).confirm({
           title: "Éxito",
           content: "Su imagen ha sido cargada con éxito",
@@ -95,10 +85,8 @@ export class UploadComponent implements OnInit {
               }
           }
         });
-
       })
     } else {
-      
       ($ as any).confirm({
         title: "Error",
         content: "Seleccione imagen..",
@@ -115,7 +103,6 @@ export class UploadComponent implements OnInit {
             }
         }
       });
-
     }
   }
 
@@ -128,6 +115,4 @@ export class UploadComponent implements OnInit {
       this.uploadedFiles = e.target.files[0];
     }
   }
-
-
 }

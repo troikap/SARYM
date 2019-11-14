@@ -207,6 +207,7 @@ pedido = [
     "fechaYHoraInicioPedido",
     "idEstadia",
     "idReserva",
+    "idComensal",
 ]
 
 detallepedidoproducto = [
@@ -238,7 +239,8 @@ pedidoestado = [
     "idPedidoEstado",
     "descripcionPedidoEstado",
     "fechaYHoraAltaPedidoEstado",
-    "fechaYHoraBajaPedidoEstado"
+    "fechaYHoraBajaPedidoEstado",
+    
 ]
 
 estadopedido = [

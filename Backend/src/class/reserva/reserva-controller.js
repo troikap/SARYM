@@ -20,7 +20,8 @@ const tratarError = require("../../middlewares/handleError"),
   PrecioProductoModelo = require("../precioproducto/precioproducto-model"),
   PedidoEstadoModelo = require("../pedidoestado/pedidoestado-model"),
   EstadoPedidoModelo = require("../estadopedido/estadopedido-model"),
-  
+  TipoMenuPromocioModelo = require("../tipomenupromocion/tipomenupromocion-model"),
+
   legend = "Reserva",
   legend2 = "ReservaEstado",
   legend3 = "EstadoReserva",
@@ -297,6 +298,10 @@ ReservaController.getOne = (req, res) => {
                     model: PrecioMenuPromocionModelo,
                     attributes: attributes.preciomenupromocion,
                     where: { fechaYHoraHastaPrecioMenuPromocion: null},
+                  },
+                  {
+                    model: TipoMenuPromocioModelo,
+                    attributes: attributes.tipomenupromocion,
                   },
                 ]
               },
