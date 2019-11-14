@@ -10,9 +10,10 @@ import * as html2canvas from 'html2canvas';
 export class GenerarReporteComponent implements OnInit {
   
   public mostrar = false;
+  public fechaActual;
 
-  constructor(   ) { 
-
+  constructor() {
+    this.fechaActual = new Date().toJSON().split('T')[0];
   }
 
   ngOnInit() {
@@ -47,7 +48,7 @@ export class GenerarReporteComponent implements OnInit {
   }
 
   mostrarReportes(){
-    this.mostrar = true;
+    this.mostrar = true;   
   }
 
   //http://blog.nubecolectiva.com/generar-pdf-con-angular-js-5/
