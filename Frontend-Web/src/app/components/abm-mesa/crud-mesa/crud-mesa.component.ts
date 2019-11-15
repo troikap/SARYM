@@ -1,12 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-  ValidatorFn,
-  ValidationErrors
-} from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { MesaService } from "../../../services/mesa/mesa.service";
 import { Mesa } from "../../../model/mesa/mesa.model";
@@ -39,20 +32,30 @@ export class CrudMesaComponent implements OnInit {
     private router: Router,
     private mesaService: MesaService,
     private estadoMesaService: EstadoMesaService,
-    private sectorService: SectorService,
-
+    private sectorService: SectorService
   ) {
     this.form = this.formBuilder.group({
       idMesa: [""],
-      nroMesa: ["", Validators.compose([Validators.required, Validators.pattern(/^([0-9]{3}|[0-9]{2}|[0-9]{1})$/)])],
-      capacidadMesa: ["", Validators.compose([Validators.required, Validators.pattern(/^([0-9]{2}|[0-9]{1})$/)])],
+      nroMesa: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^([0-9]{3}|[0-9]{2}|[0-9]{1})$/)
+        ])
+      ],
+      capacidadMesa: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^([0-9]{2}|[0-9]{1})$/)
+        ])
+      ],
       nroUbicacion: ["", Validators.required],
       idEstadoMesa: ["", Validators.required],
       idSector: ["", Validators.required]
     });
 
     this.activatedRoute.params.subscribe(params => {
-      console.log("PAREMTROS DE URL", params);
       this.accionGet = params.accion;
       this.idMesa = params.id;
       if (this.accionGet !== "crear") {
@@ -68,29 +71,27 @@ export class CrudMesaComponent implements OnInit {
   }
 
   traerMesa() {
-    console.log("Funcion 'traerMesa()', ejecutada");
-    console.log(this.idMesa);
     if (this.idMesa !== 0) {
       this.mesaService.getMesa(this.idMesa).then(res => {
         if (res["tipo"] == 2) {
-          console.log("Error de base de datos, tipo 2");
         } else {
           if (res) {
             this.mesa = res["data"];
-            this.estadoMesaActual = this.mesa["mesaestados"][0].estadomesa.idEstadoMesa;
+            this.estadoMesaActual = this.mesa[
+              "mesaestados"
+            ][0].estadomesa.idEstadoMesa;
             this.newForm = {
               idMesa: this.mesa["idMesa"],
               nroMesa: this.mesa["nroMesa"],
               capacidadMesa: this.mesa["capacidadMesa"],
               nroUbicacion: this.mesa["nroUbicacion"],
               idEstadoMesa: this.mesa["mesaestados"][0].estadomesa.idEstadoMesa,
-              idSector: this.mesa["sector"].idSector,
+              idSector: this.mesa["sector"].idSector
             };
             this.form.setValue(this.newForm);
             if (this.accionGet == "eliminar") {
               this.form.disable();
             }
-            console.log("FORM", this.form);
           }
         }
       });
@@ -98,10 +99,8 @@ export class CrudMesaComponent implements OnInit {
   }
 
   reemplazarMesa(): Mesa {
-    console.log("Funcion 'reemplazarMesa()', ejecutada");
     let us = null;
     if (this.mesa && this.mesa.idMesa) {
-      console.log("SETEO DE ID :");
       us = this.mesa.idMesa;
     }
     let reempMesa: Mesa = {
@@ -116,7 +115,6 @@ export class CrudMesaComponent implements OnInit {
   }
 
   guardar() {
-    console.log(this.form);
     let _this = this; //Asigno el contexto a una variable, ya que se pierde al ingresar a la función de mensajeria
     const titulo = "Confirmación";
     const mensaje = `¿Está seguro que desea ${this.accionGet} el elemento seleccionado?`;
@@ -131,30 +129,27 @@ export class CrudMesaComponent implements OnInit {
           aceptar: {
             text: "Aceptar",
             btnClass: "btn-blue",
-            action: function () {
+            action: function() {
               let mesa = _this.reemplazarMesa();
               let actualizarMesa = {};
-
               actualizarMesa["idMesa"] = mesa.idMesa;
               actualizarMesa["nroMesa"] = mesa.nroMesa;
               actualizarMesa["capacidadMesa"] = mesa.capacidadMesa;
               actualizarMesa["nroUbicacion"] = mesa.nroUbicacion;
               actualizarMesa["idSector"] = mesa.idSector;
-
               //Si el estadoMesa ha sido modificado, actualizo su estado.
               if (mesa.idEstadoMesa != _this.estadoMesaActual) {
                 let actualizarEstado = {};
                 actualizarEstado["idMesa"] = mesa.idMesa;
                 actualizarEstado["idEstadoMesa"] = mesa.idEstadoMesa;
-                _this.mesaService.updateMesaEstado(actualizarEstado).then(response => {
-                  console.log("Estado de mesa actualizado.");
-                });
+                _this.mesaService
+                  .updateMesaEstado(actualizarEstado)
+                  .then(response => {});
               }
-
               _this.mesaService.updateMesa(actualizarMesa).then(response => {
-                console.log("Mesa actualizada", response);
                 const titulo = "Éxito";
-                const mensaje = "Se ha actualizado el registro de mesa de forma exitrosa";
+                const mensaje =
+                  "Se ha actualizado el registro de mesa de forma exitrosa";
                 ($ as any).confirm({
                   title: titulo,
                   content: mensaje,
@@ -165,7 +160,7 @@ export class CrudMesaComponent implements OnInit {
                     aceptar: {
                       text: "Aceptar",
                       btnClass: "btn-green",
-                      action: function () {
+                      action: function() {
                         _this.router.navigate(["/mesa/"]);
                       }
                     }
@@ -176,9 +171,7 @@ export class CrudMesaComponent implements OnInit {
           },
           cerrar: {
             text: "Cerrar",
-            action: function () {
-              console.log("Edición Cancelada");
-            }
+            action: function() {}
           }
         }
       });
@@ -193,15 +186,16 @@ export class CrudMesaComponent implements OnInit {
           aceptar: {
             text: "Aceptar",
             btnClass: "btn-blue",
-            action: function () {
+            action: function() {
               let mesa = _this.reemplazarMesa();
               let deletes = {};
               deletes["idMesa"] = mesa.idMesa;
               deletes["idEstadoMesa"] = 5;
               _this.mesaService.deleteMesa(deletes).then(response => {
-                if (response['tipo'] == 1) {
+                if (response["tipo"] == 1) {
                   const titulo = "Éxito";
-                  const mensaje = "Se ha eliminado el registro de mesa de forma exitosa";
+                  const mensaje =
+                    "Se ha eliminado el registro de mesa de forma exitosa";
                   ($ as any).confirm({
                     title: titulo,
                     content: mensaje,
@@ -212,7 +206,7 @@ export class CrudMesaComponent implements OnInit {
                       aceptar: {
                         text: "Aceptar",
                         btnClass: "btn-green",
-                        action: function () {
+                        action: function() {
                           _this.router.navigate(["/mesa/"]);
                         }
                       }
@@ -221,16 +215,17 @@ export class CrudMesaComponent implements OnInit {
                 } else {
                   ($ as any).confirm({
                     title: "Error",
-                    content: "No se ha podido completar exitosamente la solicitud",
-                    type: 'red',
+                    content:
+                      "No se ha podido completar exitosamente la solicitud",
+                    type: "red",
                     typeAnimated: true,
-                    theme: 'material',
+                    theme: "material",
                     buttons: {
                       aceptar: {
-                        text: 'Aceptar',
-                        btnClass: 'btn-red',
-                        action: function () {
-                          _this.router.navigate(['/mesa/']);
+                        text: "Aceptar",
+                        btnClass: "btn-red",
+                        action: function() {
+                          _this.router.navigate(["/mesa/"]);
                         }
                       }
                     }
@@ -241,9 +236,7 @@ export class CrudMesaComponent implements OnInit {
           },
           cerrar: {
             text: "Cerrar",
-            action: function () {
-              console.log("Eliminación cancelada");
-            }
+            action: function() {}
           }
         }
       });
@@ -258,13 +251,13 @@ export class CrudMesaComponent implements OnInit {
           aceptar: {
             text: "Aceptar",
             btnClass: "btn-blue",
-            action: function () {
+            action: function() {
               let m = _this.reemplazarMesa();
               _this.mesaService.setMesa(m).then(response => {
                 if (response.tipo !== 2) {
-                  console.log("CREADO", response);
                   const titulo = "Éxito";
-                  const mensaje = "Se ha Creado un nuevo registro de mesa de forma exitosa";
+                  const mensaje =
+                    "Se ha Creado un nuevo registro de mesa de forma exitosa";
                   ($ as any).confirm({
                     title: titulo,
                     content: mensaje,
@@ -275,14 +268,13 @@ export class CrudMesaComponent implements OnInit {
                       aceptar: {
                         text: "Aceptar",
                         btnClass: "btn-green",
-                        action: function () {
+                        action: function() {
                           _this.router.navigate(["/mesa/"]);
                         }
                       }
                     }
                   });
                 } else {
-                  console.log("ERROR", response);
                   ($ as any).confirm({
                     title: "Error",
                     content: `Ya existe el registro. No es posible realizar esta acción`,
@@ -293,9 +285,7 @@ export class CrudMesaComponent implements OnInit {
                       aceptar: {
                         text: "Aceptar",
                         btnClass: "btn-red",
-                        action: function () {
-                          console.log("Mensaje de error aceptado");
-                        }
+                        action: function() {}
                       }
                     }
                   });
@@ -305,9 +295,7 @@ export class CrudMesaComponent implements OnInit {
           },
           cerrar: {
             text: "Cerrar",
-            action: function () {
-              console.log("Creación Cancelada");
-            }
+            action: function() {}
           }
         }
       });

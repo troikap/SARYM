@@ -1,172 +1,155 @@
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-
 import { map } from 'rxjs/operators';
-import { MenuPromocion } from 'src/app/model/menu-promocion/menu-promocion.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class MenuPromocionService {
-
   url = environment.urlNgrok || environment.url;
-  dir = '/menupromocion';
-  dir2 = '/todo';
-  dirEstado = '/estadomenupromocion';
-  ditActalizarDatos = '/actualizarDatos'
-  dirCambiarEstado = '/cambiarEstado';
-  dirHabilitarDeshabilitarMenuPromocion = '/habilitarDeshabilitarMenuPromocion';
-  dirCambiarPrecio = '/cambiarPrecio';
-  dirEditarProducto = '/editarProductos';
+  dir = "/menupromocion";
+  dir2 = "/todo";
+  dirEstado = "/estadomenupromocion";
+  ditActalizarDatos = "/actualizarDatos";
+  dirCambiarEstado = "/cambiarEstado";
+  dirHabilitarDeshabilitarMenuPromocion = "/habilitarDeshabilitarMenuPromocion";
+  dirCambiarPrecio = "/cambiarPrecio";
+  dirEditarProducto = "/editarProductos";
 
   tokenEnviroment = environment.token;
 
-  constructor(
-    public http: HttpClient
-  ) { }
+  constructor(public http: HttpClient) {}
 
-  getMenuPromocionByAll( termino: string) { //Observador
-    console.log("Service getMenuPromocionByAll: Termino = ", termino);
+  getMenuPromocionByAll(termino: string) {
     if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
-      headers = headers.append('token', this.tokenEnviroment);
+      headers = headers.append("token", this.tokenEnviroment);
       return this.http
-        .get(`${this.url}${this.dir}${this.dir2}/${termino}`, {headers})
-        .pipe( map ((data: any) => {
-          console.log(data.data);
-          if (data != null) {
-            return data.data;
-          }
-      }));
-    }
-    else {
-      // console.log("Service getMenuPromocionByAll: SIN TERMINO");
+        .get(`${this.url}${this.dir}${this.dir2}/${termino}`, { headers })
+        .pipe(
+          map((data: any) => {
+            if (data != null) {
+              return data.data;
+            }
+          })
+        );
+    } else {
     }
   }
 
-  getAllMenuPromocion() { //Promesa
+  getAllMenuPromocion() {
+    //Promesa
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .get(`${this.url}${this.dir}`, {headers})
+      .get(`${this.url}${this.dir}`, { headers })
       .toPromise()
       .then(response => {
-        console.log("Menu Promocion Obtenidos: ", response)
         return response;
       })
-      .catch( err => {
-        console.log("ERROR : ",err)
-      } );
+      .catch(err => {});
   }
 
-
-  getMenuPromocion( id: number ) {
+  getMenuPromocion(id: number) {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .get(`${this.url}${this.dir}/${id}`, {headers}) 
+      .get(`${this.url}${this.dir}/${id}`, { headers })
       .toPromise()
       .then((response: any) => {
-        console.log("Servicio getMenuPromocion: ", response.data);
         return response.data;
       })
-      .catch(  );
+      .catch();
   }
 
-  updateMenuPromocion( datas: any ): Promise<any> {
+  updateMenuPromocion(datas: any): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR:", datas)
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .put(`${this.url}${this.dir}${this.ditActalizarDatos}`, datas, {headers})
+      .put(`${this.url}${this.dir}${this.ditActalizarDatos}`, datas, { headers })
       .toPromise()
       .then(response => {
         return response;
       })
-      .catch(  );
+      .catch();
   }
 
-  deleteMenuPromocion( datas: any ): Promise<any> {
+  deleteMenuPromocion(datas: any): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    console.log("Valor Header:", headers);
-    console.log("DATOS A ENVIAR :",datas);
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .delete(`${this.url}${this.dir}/${datas.idMenuPromocion}`, {headers})
+      .delete(`${this.url}${this.dir}/${datas.idMenuPromocion}`, { headers })
       .toPromise()
       .then(response => {
         return response;
       })
-      .catch(  );
+      .catch();
   }
 
-  crearMenuPromocion( datas ): Promise<any> {
+  crearMenuPromocion(datas): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment); 
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .post(`${this.url}${this.dir}`, datas, {headers})
+      .post(`${this.url}${this.dir}`, datas, { headers })
       .toPromise()
       .then(response => {
         return response;
       })
-      .catch(  );
-  }
-  
-  cambiarEstado( datas: any ): Promise<any> {
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR :",datas)
-    return this.http
-      .put(`${this.url}${this.dir}${this.dirCambiarEstado}`, datas, {headers})
-      .toPromise()
-      .then(response => {
-        console.log("Servicio cambiarEstado()", response);
-        return response;
-      })
-      .catch(  );
+      .catch();
   }
 
-  habilitarDeshabilitarMenuPromocion(): Promise<any>{
+  cambiarEstado(datas: any): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR :")
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .put(`${this.url}${this.dir}${this.dirHabilitarDeshabilitarMenuPromocion}`,{}, {headers})
+      .put(`${this.url}${this.dir}${this.dirCambiarEstado}`, datas, { headers })
       .toPromise()
       .then(response => {
-        console.log("Servicio cambiarEstado()", response);
         return response;
       })
-      .catch(  );
+      .catch();
   }
 
-  cambiarPrecio( datas: any ): Promise<any> {
+  habilitarDeshabilitarMenuPromocion(): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR :",datas)
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .put(`${this.url}${this.dir}${this.dirCambiarPrecio}`, datas, {headers})
+      .put(
+        `${this.url}${this.dir}${this.dirHabilitarDeshabilitarMenuPromocion}`,
+        {},
+        { headers }
+      )
       .toPromise()
       .then(response => {
-        console.log("Servicio cambiarPrecio()", response);
         return response;
       })
-      .catch(  );
+      .catch();
+  }
+
+  cambiarPrecio(datas: any): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append("token", this.tokenEnviroment);
+    return this.http
+      .put(`${this.url}${this.dir}${this.dirCambiarPrecio}`, datas, { headers })
+      .toPromise()
+      .then(response => {
+        return response;
+      })
+      .catch();
   }
 
   editarProductoMenuPromocion(datas: any): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR :",datas)
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-    .put(`${this.url}${this.dir}${this.dirEditarProducto}`, datas, {headers})
-    .toPromise()
-    .then(response => {
-      console.log("Servicio editarProductoMenuPromocion()", response);
-      return response;
-    })
-    .catch();
+      .put(`${this.url}${this.dir}${this.dirEditarProducto}`, datas, {
+        headers
+      })
+      .toPromise()
+      .then(response => {
+        return response;
+      })
+      .catch();
   }
-
 }

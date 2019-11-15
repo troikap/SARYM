@@ -1,27 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
-import { FormGroup, FormControl, Validators} from '@angular/forms';
-
-import { UploadService } from 'src/app/services/upload/upload.service';
+import { UploadService } from "src/app/services/upload/upload.service";
 
 @Component({
-  selector: 'app-upload',
-  templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.scss']
+  selector: "app-upload",
+  templateUrl: "./upload.component.html",
+  styleUrls: ["./upload.component.scss"]
 })
 export class UploadComponent implements OnInit {
-
   private myForm: FormGroup;
   public uploadedFiles;
   public nombreArchivo;
-  public carpetas= 
-  [
-    { key: 'producto', value: 'producto' },
-    { key: 'menu', value: 'menu' },
-    { key: 'promocion', value: 'promocion' },
-  ]
+  public carpetas = [
+    { key: "producto", value: "producto" },
+    { key: "menu", value: "menu" },
+    { key: "promocion", value: "promocion" }
+  ];
 
   public idElemento;
   public nombreElemento;
@@ -29,85 +26,72 @@ export class UploadComponent implements OnInit {
   public archivoCargado;
   public redirigir;
 
-  constructor( 
-    private activatedRoute: ActivatedRoute, 
+  constructor(
+    private activatedRoute: ActivatedRoute,
     public uploadService: UploadService,
     private router: Router
-  ) 
-    { 
+  ) {
     this.myForm = new FormGroup({
-      'archivo': new FormControl('', Validators.required)
+      archivo: new FormControl("", Validators.required)
     });
     this.activatedRoute.params.subscribe(params => {
-      console.log("PAREMTROS DE URL", params.id);
-      this.idElemento  = params.id;
+      this.idElemento = params.id;
       this.nombreElemento = params.nombre;
       this.pathElemento = params.path;
       this.redirigir = params.retorno;
     });
   }
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  prueba() {
-    console.log(this.myForm);
-  }
-
-  onUpload(){
-    if (this.uploadedFiles != null ){
-      console.log("Upload");
+  onUpload() {
+    if (this.uploadedFiles != null) {
       const foto = this.uploadedFiles;
       const formData = new FormData();
-      formData.append('archivo', foto);
-      formData.append('nombre', this.nombreElemento)
-      formData.append('carpeta', this.pathElemento)
-      formData.append('id', this.idElemento)
-      this.uploadService.uploadFile( formData )
-      .then((res:any) => {
-        console.log('RESPUESTA ; ',res);
-        this.nombreArchivo = res.path; // Path del archivo creado
-        console.log("Nombre archivo: ",this.nombreArchivo);
-        //Obtener Imagen
-        this.archivoCargado = this.uploadService.getFile(this.pathElemento, this.nombreArchivo);
+      formData.append("archivo", foto);
+      formData.append("nombre", this.nombreElemento);
+      formData.append("carpeta", this.pathElemento);
+      formData.append("id", this.idElemento);
+      this.uploadService.uploadFile(formData).then((res: any) => {
+        this.nombreArchivo = res.path;
+        this.archivoCargado = this.uploadService.getFile(
+          this.pathElemento,
+          this.nombreArchivo
+        );
         ($ as any).confirm({
           title: "Éxito",
           content: "Su imagen ha sido cargada con éxito",
-          type: 'green',
+          type: "green",
           typeAnimated: true,
-          theme: 'material',
+          theme: "material",
           buttons: {
-              aceptar: {
-                  text: 'Aceptar',
-                  btnClass: 'btn-green',
-                  action: function(){
-                    console.log("Confirmación de Imagen cargada");
-                  }
-              }
+            aceptar: {
+              text: "Aceptar",
+              btnClass: "btn-green",
+              action: function() {}
+            }
           }
         });
-      })
+      });
     } else {
       ($ as any).confirm({
         title: "Error",
         content: "Seleccione imagen..",
-        type: 'red',
+        type: "red",
         typeAnimated: true,
-        theme: 'material',
+        theme: "material",
         buttons: {
-            aceptar: {
-                text: 'Aceptar',
-                btnClass: 'btn-red',
-                action: function(){
-                  console.log("Confirmación de error, por usuario.");
-                }
-            }
+          aceptar: {
+            text: "Aceptar",
+            btnClass: "btn-red",
+            action: function() {}
+          }
         }
       });
     }
   }
 
   cerrar() {
-    this.router.navigate( [`/${this.redirigir}`] );
+    this.router.navigate([`/${this.redirigir}`]);
   }
 
   onFileChange(e) {
