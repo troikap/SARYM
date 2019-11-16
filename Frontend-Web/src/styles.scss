@@ -7,6 +7,9 @@
 @import "./assets/styles/otros.scss";
 @import "./assets/styles/buttons.scss";
 @import "./assets/styles/navbar.scss";
+@import './bootstrap/bootstrap.min.css';
+@import './bootstrap/jquery-confirm.min.css';
+
 html {
     height: 100%;
 }
