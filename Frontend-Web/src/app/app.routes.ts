@@ -3,6 +3,7 @@ import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RoleGuardService } from '../app/services/role-guard.service';
+
 //IMPORTS PARA ROL ADMINISTRADOR
 import { AbmUsuarioComponent } from './components/abm-usuario/search-usuario/abm-usuario.component';
 import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud-usuario.component';
@@ -27,6 +28,9 @@ import { CrudGestionarMenupromocionComponent } from './components/gestionar-menu
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { UploadComponent } from './upload/upload.component';
+import { BackupModuleComponent } from './components/backup-module/backup-module.component';
+import { SearchRolComponent } from './components/abm-rol/search-rol/search-rol.component';
+import { CrudRolComponent } from './components/abm-rol/crud-rol/crud-rol.component';
 
 //IMPORTS PARA ROL ENCARGADO
 import { AbmAbrirCajaComponent } from './components/abrir-caja/search-abrir-caja/abm-abrir-caja.component';
@@ -48,7 +52,6 @@ import { EditGestionarEstadoEstadiaComponent } from './components/gestionar-esta
 
 //IMPORTS PARA ROL COCINERO
 import { SearchActualizarPedidosComponent } from './components/actualizar-comanda-cocina/search-pedidos/search-actualizar-pedidos.component';
-
 
 const routes: Routes = [
   { path: "home", component: HomeComponent },
@@ -79,7 +82,10 @@ const routes: Routes = [
   { path: "reporte", component: GenerarReporteComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "upload/:id/:nombre/:path/:retorno", component: UploadComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "upload", component: UploadComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
-
+  { path: "backup", component: BackupModuleComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
+  { path: "rol", component: SearchRolComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
+  { path: "rol_crud/:id/:accion", component: CrudRolComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
+  
   //RUTAS ENCARGADO  
   { path: "abrircaja", component: AbmAbrirCajaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
   { path: "abrircaja/:id/:accion", component: EditAbrirCajaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},

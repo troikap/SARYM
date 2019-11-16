@@ -62,6 +62,9 @@ export class HomeComponent implements OnInit {
     case 'abm-usuario':
       next = '/usuario';
     break;
+    case 'abm-rol':
+      next = '/rol';
+    break;
     case 'abm-tipomoneda':
       next = '/tipomoneda';
     break;
@@ -115,6 +118,8 @@ export class HomeComponent implements OnInit {
     break;
     case 'upload':
       next = '/upload';
+    case 'backup':
+        next = '/backup';
     break;
     }
     this.routes.navigate([next]);
