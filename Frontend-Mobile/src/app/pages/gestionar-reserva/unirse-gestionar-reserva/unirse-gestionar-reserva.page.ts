@@ -53,7 +53,7 @@ export class UnirseGestionarReservaPage implements OnInit {
     })
     .catch(err => {
       console.log('Error', err);
-      this.qrDataCodify = 'My0yMS0yMDE5LTExLTIzLzE3OjAw';
+      this.qrDataCodify = 'My0yMy0yMDE5LTExLTEzLzEwOjUx';
       this.presentAlert()
     });
   }

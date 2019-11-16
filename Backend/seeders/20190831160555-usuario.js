@@ -94,50 +94,51 @@ module.exports = {
             //     "nroTelefonoUsuario": 2613875472,
             //     "createdAt": currentDate,
             //     "updatedAt": currentDate
-            // }, {
-            //     "idUsuario": 6,
-            //     "cuitUsuario": 20111111112,
-            //     "nombreUsuario": "Admin",
-            //     "apellidoUsuario": "Suspendido",
-            //     "contrasenaUsuario": "$2b$10$NBITOKBLswcWatA454Jsjef32/NzJxEBXuFOSNV3t552buiEkVPcK",
-            //     "dniUsuario": 11111111,
-            //     "domicilioUsuario": "Villa Mercedes 1235",
-            //     "emailUsuario": "adminsuspendido@gmail.com",
-            //     "idDepartamento": 2,
-            //     "nroCelularUsuario": 2614318023,
-            //     "nroTelefonoUsuario": 2613875472,
-            //     "createdAt": currentDate,
-            //     "updatedAt": currentDate
-            // }, {
-            //     "idUsuario": 7,
-            //     "cuitUsuario": 20111111113,
-            //     "nombreUsuario": "Admin",
-            //     "apellidoUsuario": "Eliminado",
-            //     "contrasenaUsuario": "$2b$10$NBITOKBLswcWatA454Jsjef32/NzJxEBXuFOSNV3t552buiEkVPcK",
-            //     "dniUsuario": 11111111,
-            //     "domicilioUsuario": "Villa Mercedes 1235",
-            //     "emailUsuario": "admineliminado@gmail.com",
-            //     "idDepartamento": 2,
-            //     "nroCelularUsuario": 2614318023,
-            //     "nroTelefonoUsuario": 2613875472,
-            //     "createdAt": currentDate,
-            //     "updatedAt": currentDate
-            // }, {
-            //     "idUsuario": 8,
-            //     "cuitUsuario": 20222222221,
-            //     "nombreUsuario": "Encargado",
-            //     "apellidoUsuario": "Activo",
-            //     "contrasenaUsuario": "$2b$10$NBITOKBLswcWatA454Jsjef32/NzJxEBXuFOSNV3t552buiEkVPcK",
-            //     "dniUsuario": 22222222,
-            //     "domicilioUsuario": "Villa Mercedes 1235",
-            //     "emailUsuario": "encargadoactivo@gmail.com",
-            //     "idDepartamento": 2,
-            //     "nroCelularUsuario": 2614318023,
-            //     "nroTelefonoUsuario": 2613875472,
-            //     "createdAt": currentDate,
-            //     "updatedAt": currentDate
-            // },
-            // {
+            // }
+            , {
+                "idUsuario": 6,
+                "cuitUsuario": 20111111112,
+                "nombreUsuario": "Admin",
+                "apellidoUsuario": "Suspendido",
+                "contrasenaUsuario": "$2b$10$NBITOKBLswcWatA454Jsjef32/NzJxEBXuFOSNV3t552buiEkVPcK",
+                "dniUsuario": 11111111,
+                "domicilioUsuario": "Villa Mercedes 1235",
+                "emailUsuario": "adminsuspendido@gmail.com",
+                "idDepartamento": 2,
+                "nroCelularUsuario": 2614318023,
+                "nroTelefonoUsuario": 2613875472,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            }, {
+                "idUsuario": 7,
+                "cuitUsuario": 20111111113,
+                "nombreUsuario": "Admin",
+                "apellidoUsuario": "Eliminado",
+                "contrasenaUsuario": "$2b$10$NBITOKBLswcWatA454Jsjef32/NzJxEBXuFOSNV3t552buiEkVPcK",
+                "dniUsuario": 11111111,
+                "domicilioUsuario": "Villa Mercedes 1235",
+                "emailUsuario": "admineliminado@gmail.com",
+                "idDepartamento": 2,
+                "nroCelularUsuario": 2614318023,
+                "nroTelefonoUsuario": 2613875472,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            }, {
+                "idUsuario": 8,
+                "cuitUsuario": 20222222221,
+                "nombreUsuario": "Encargado",
+                "apellidoUsuario": "Activo",
+                "contrasenaUsuario": "$2b$10$NBITOKBLswcWatA454Jsjef32/NzJxEBXuFOSNV3t552buiEkVPcK",
+                "dniUsuario": 22222222,
+                "domicilioUsuario": "Villa Mercedes 1235",
+                "emailUsuario": "encargadoactivo@gmail.com",
+                "idDepartamento": 2,
+                "nroCelularUsuario": 2614318023,
+                "nroTelefonoUsuario": 2613875472,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            }
+            // ,{
             //     "idUsuario": 9,
             //     "cuitUsuario": 20222222222,
             //     "nombreUsuario": "Encargado",
@@ -165,22 +166,23 @@ module.exports = {
             //     "nroTelefonoUsuario": 2613875472,
             //     "createdAt": currentDate,
             //     "updatedAt": currentDate
-            // }, {
-            //     "idUsuario": 11,
-            //     "cuitUsuario": 20333333331,
-            //     "nombreUsuario": "Mozo",
-            //     "apellidoUsuario": "Activo",
-            //     "contrasenaUsuario": "$2b$10$NBITOKBLswcWatA454Jsjef32/NzJxEBXuFOSNV3t552buiEkVPcK",
-            //     "dniUsuario": 22222222,
-            //     "domicilioUsuario": "Villa Mercedes 1235",
-            //     "emailUsuario": "mozoactivo@gmail.com",
-            //     "idDepartamento": 2,
-            //     "nroCelularUsuario": 2614318023,
-            //     "nroTelefonoUsuario": 2613875472,
-            //     "createdAt": currentDate,
-            //     "updatedAt": currentDate
-            // },
-            // {
+            // }
+            , {
+                "idUsuario": 11,
+                "cuitUsuario": 20333333331,
+                "nombreUsuario": "Mozo",
+                "apellidoUsuario": "Activo",
+                "contrasenaUsuario": "$2b$10$NBITOKBLswcWatA454Jsjef32/NzJxEBXuFOSNV3t552buiEkVPcK",
+                "dniUsuario": 22222222,
+                "domicilioUsuario": "Villa Mercedes 1235",
+                "emailUsuario": "mozoactivo@gmail.com",
+                "idDepartamento": 2,
+                "nroCelularUsuario": 2614318023,
+                "nroTelefonoUsuario": 2613875472,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            }
+            //, {
             //     "idUsuario": 12,
             //     "cuitUsuario": 20333333332,
             //     "nombreUsuario": "Mozo",
@@ -208,22 +210,23 @@ module.exports = {
             //     "nroTelefonoUsuario": 2613875472,
             //     "createdAt": currentDate,
             //     "updatedAt": currentDate
-            // }, {
-            //     "idUsuario": 14,
-            //     "cuitUsuario": 20444444441,
-            //     "nombreUsuario": "Cocinero",
-            //     "apellidoUsuario": "Activo",
-            //     "contrasenaUsuario": "$2b$10$NBITOKBLswcWatA454Jsjef32/NzJxEBXuFOSNV3t552buiEkVPcK",
-            //     "dniUsuario": 44444444,
-            //     "domicilioUsuario": "Villa Mercedes 1235",
-            //     "emailUsuario": "cocineroactivo@gmail.com",
-            //     "idDepartamento": 2,
-            //     "nroCelularUsuario": 2614318023,
-            //     "nroTelefonoUsuario": 2613875472,
-            //     "createdAt": currentDate,
-            //     "updatedAt": currentDate
-            // },
-            // {
+            // }
+            , {
+                "idUsuario": 14,
+                "cuitUsuario": 20444444441,
+                "nombreUsuario": "Cocinero",
+                "apellidoUsuario": "Activo",
+                "contrasenaUsuario": "$2b$10$NBITOKBLswcWatA454Jsjef32/NzJxEBXuFOSNV3t552buiEkVPcK",
+                "dniUsuario": 44444444,
+                "domicilioUsuario": "Villa Mercedes 1235",
+                "emailUsuario": "cocineroactivo@gmail.com",
+                "idDepartamento": 2,
+                "nroCelularUsuario": 2614318023,
+                "nroTelefonoUsuario": 2613875472,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            }
+            //, {
             //     "idUsuario": 15,
             //     "cuitUsuario": 20444444442,
             //     "nombreUsuario": "Cocinero",
@@ -251,22 +254,23 @@ module.exports = {
             //     "nroTelefonoUsuario": 2613875472,
             //     "createdAt": currentDate,
             //     "updatedAt": currentDate
-            // }, {
-            //     "idUsuario": 17,
-            //     "cuitUsuario": 20555555551,
-            //     "nombreUsuario": "Cliente",
-            //     "apellidoUsuario": "Activo",
-            //     "contrasenaUsuario": "$2b$10$NBITOKBLswcWatA454Jsjef32/NzJxEBXuFOSNV3t552buiEkVPcK",
-            //     "dniUsuario": 55555555,
-            //     "domicilioUsuario": "Villa Mercedes 1235",
-            //     "emailUsuario": "clienteactivo@gmail.com",
-            //     "idDepartamento": 2,
-            //     "nroCelularUsuario": 2614318023,
-            //     "nroTelefonoUsuario": 2613875472,
-            //     "createdAt": currentDate,
-            //     "updatedAt": currentDate
-            // },
-            // {
+            // }
+            , {
+                "idUsuario": 17,
+                "cuitUsuario": 20555555551,
+                "nombreUsuario": "Cliente",
+                "apellidoUsuario": "Activo",
+                "contrasenaUsuario": "$2b$10$NBITOKBLswcWatA454Jsjef32/NzJxEBXuFOSNV3t552buiEkVPcK",
+                "dniUsuario": 55555555,
+                "domicilioUsuario": "Villa Mercedes 1235",
+                "emailUsuario": "clienteactivo@gmail.com",
+                "idDepartamento": 2,
+                "nroCelularUsuario": 2614318023,
+                "nroTelefonoUsuario": 2613875472,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            }
+            //, {
             //     "idUsuario": 18,
             //     "cuitUsuario": 20555555552,
             //     "nombreUsuario": "Cliente",
@@ -323,7 +327,7 @@ module.exports = {
                 "nroTelefonoUsuario": 2614524932,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
-            },
+            }
         ], {});
     },
 

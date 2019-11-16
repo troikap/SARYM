@@ -1,107 +1,107 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Registro de Usuario</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Registro de Usuario</ion-title>
+    </ion-toolbar>
 </ion-header>
 <ion-content no-padding>
-  <ion-row >
-    <ion-col class="login">
-      <form [formGroup]="form" *ngIf="form">
-        <ion-item class="form-group">
-          <ion-label color="primary" padding>Dni</ion-label>
-          <ion-input slot="end" class="form-control" type='number' id='dniUsuario' placeholder='Ingrese DNI' formControlName='dniUsuario' (ionChange)="validateCuit()"></ion-input>
-        </ion-item>
-        <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.required && form.controls.dniUsuario.touched">Campo Obligatorio.</p>
-        <p class="input-error-msg" *ngIf="(form.controls.dniUsuario.errors?.min || form.controls.dniUsuario.errors?.max) && form.controls.dniUsuario.touched">Debería ser por ejemplo: 12345678.</p>
-        <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.not_equals && form.controls.dniUsuario.touched">Debe Calcular el Cuit.</p>
-        <ion-row *ngIf="isDNI == true && cuitValidated == false">
-          <ion-col>
-            <ion-list>
-              <ion-item>
-                <ion-label floating>Calcular CUIT</ion-label>
-                <ion-select (ionChange)="onChangeGen()" formControlName="gender">
-                  <ion-select-option value="masculino">Masculino</ion-select-option>
-                  <ion-select-option value="femenino">Femenino</ion-select-option>
-                  <ion-select-option value="empresa">Empresa</ion-select-option>
-                </ion-select>
-              </ion-item>
-            </ion-list>
-          </ion-col>
-        </ion-row>
-        <ion-item class="form-group">
-          <ion-label color="primary" padding >Cuit</ion-label>
-          <ion-input slot="end" class="form-control" type='number' id='cuitUsuario' placeholder='Ingrese Cuit' formControlName='cuitUsuario' disabled (ionChange)="modificadoCuit()"></ion-input>
-        </ion-item>
-        <p class="input-error-msg" *ngIf="form.controls.cuitUsuario.errors?.required && form.controls.cuitUsuario.touched">Campo Obligatorio.</p>
-        <p class="input-error-msg" *ngIf="(form.controls.cuitUsuario.errors?.min || form.controls.cuitUsuario.errors?.max) && form.controls.cuitUsuario.touched">Debería ser por ejemplo: 20 12345678 6.</p>
-        <p class="input-error-msg" *ngIf="existenciaUsuario">{{mensajeExistenciaUsuario}}</p>
-        <ion-item class="form-group">
-          <ion-label color="primary" padding>Nombre</ion-label>
-          <ion-input slot="end" class="form-control" type='text' id='nombreUsuario' placeholder='Ingrese Nombre' formControlName='nombreUsuario'></ion-input>
-        </ion-item>
-        <p class="input-error-msg" *ngIf="form.controls.nombreUsuario.errors?.required && form.controls.nombreUsuario.touched">Campo Obligatorio.</p>
-        <ion-item class="form-group">
-          <ion-label color="primary" padding>Apellido</ion-label>
-          <ion-input slot="end" class="form-control" type='text' id='apellidoUsuario' placeholder='Ingrese Apellido' formControlName='apellidoUsuario'></ion-input>
-        </ion-item>
-        <p class="input-error-msg" *ngIf="form.controls.apellidoUsuario.errors?.required && form.controls.apellidoUsuario.touched">Campo Obligatorio.</p>
-        <ion-item class="form-group">
-          <ion-label color="primary" padding class="label-large">Email</ion-label>
-          <ion-input slot="end" class="form-control" type="email" id='emailUsuario' placeholder='Ingrese Email' formControlName="emailUsuario"></ion-input>
-        </ion-item>
-        <p class="input-error-msg" *ngIf="form.controls.emailUsuario.errors?.required && form.controls.emailUsuario.touched">Campo Obligatorio.</p>
-        <p class="input-error-msg" *ngIf="form.controls.emailUsuario.errors?.pattern && form.controls.emailUsuario.touched">Debería ser por ejemplo: sarym@gmail.com.</p>
-        <ion-item class="form-group">
-          <ion-label color="primary" padding class="label-large">Domicilio</ion-label>
-          <ion-input slot="end" class="form-control" type='text' id='domicilioUsuario' placeholder='Ingrese Domicilio' formControlName='domicilioUsuario'></ion-input>
-        </ion-item>
-        <p class="input-error-msg" *ngIf="form.controls.domicilioUsuario.errors?.required && form.controls.domicilioUsuario.touched">Campo Obligatorio.</p>
-        <ion-item class="form-group">
-          <ion-label color="primary" padding>Departamento</ion-label>
-          <ion-select  placeholder='SELECCIONE' formControlName='idDepartamento'> 
-            <ion-select-option *ngFor='let element of departamentos' [value]='element.idDepartamento'>{{element.nombreDepartamento}}</ion-select-option>
-          </ion-select>
-        </ion-item>
-        <p class="input-error-msg" *ngIf="form.controls.idDepartamento.errors?.required && form.controls.idDepartamento.touched">Campo Obligatorio.</p>
-        <ion-item class="form-group">
-          <ion-label color="primary" padding>Nro. Celular</ion-label>
-          <ion-input slot="end" class="form-control" type="tel" id='nroCelularUsuario' placeholder='Ingrese Celular' formControlName='nroCelularUsuario' [brmasker]="{mask:'000-000-0000', len:12, userCaracters: true}"></ion-input>
-        </ion-item>
-        <p class="input-error-msg" *ngIf="form.controls.nroCelularUsuario.errors?.required && form.controls.nroCelularUsuario.touched">Campo Obligatorio.</p>
-        <p class="input-error-msg" *ngIf="form.controls.nroCelularUsuario.errors?.pattern && form.controls.nroCelularUsuario.touched">Debería ser por ejemplo: 261-123-4567.</p>
-        <ion-item class="form-group">
-          <ion-label color="primary" padding>Telefono Fijo</ion-label>
-          <ion-input slot="end" class="form-control" type="tel" id='nroTelefonoUsuario' placeholder='Ingrese Teléfono' formControlName='nroTelefonoUsuario' [brmasker]="{mask:'000-000-0000', len:12, userCaracters: true}"></ion-input>
-        </ion-item>
-        <p class="input-error-msg" *ngIf="form.controls.nroTelefonoUsuario.errors?.required && form.controls.nroTelefonoUsuario.touched">Campo Obligatorio.</p>
-        <p class="input-error-msg" *ngIf="form.controls.nroTelefonoUsuario.errors?.pattern && (form.controls.nroTelefonoUsuario.touched || form.controls.nroTelefonoUsuario.dirty)">Debería ser por ejemplo: 261-123-4567.</p>
+    <ion-row>
+        <ion-col class="login">
+            <form [formGroup]="form" *ngIf="form">
+                <ion-item class="form-group">
+                    <ion-label color="primary" padding>Dni</ion-label>
+                    <ion-input slot="end" class="form-control" type='number' id='dniUsuario' placeholder='Ingrese DNI' formControlName='dniUsuario' (ionChange)="validateCuit()"></ion-input>
+                </ion-item>
+                <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.required && form.controls.dniUsuario.touched">Campo Obligatorio.</p>
+                <p class="input-error-msg" *ngIf="(form.controls.dniUsuario.errors?.min || form.controls.dniUsuario.errors?.max) && form.controls.dniUsuario.touched">Debería ser por ejemplo: 12345678.</p>
+                <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.not_equals && form.controls.dniUsuario.touched">Debe Calcular el Cuit.</p>
+                <ion-row *ngIf="isDNI == true && cuitValidated == false">
+                    <ion-col>
+                        <ion-list>
+                            <ion-item>
+                                <ion-label floating>Calcular CUIT</ion-label>
+                                <ion-select (ionChange)="onChangeGen()" formControlName="gender">
+                                    <ion-select-option value="masculino">Masculino</ion-select-option>
+                                    <ion-select-option value="femenino">Femenino</ion-select-option>
+                                    <ion-select-option value="empresa">Empresa</ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                        </ion-list>
+                    </ion-col>
+                </ion-row>
+                <ion-item class="form-group">
+                    <ion-label color="primary" padding>Cuit</ion-label>
+                    <ion-input slot="end" class="form-control" type='number' id='cuitUsuario' placeholder='Ingrese Cuit' formControlName='cuitUsuario' disabled (ionChange)="modificadoCuit()"></ion-input>
+                </ion-item>
+                <p class="input-error-msg" *ngIf="form.controls.cuitUsuario.errors?.required && form.controls.cuitUsuario.touched">Campo Obligatorio.</p>
+                <p class="input-error-msg" *ngIf="(form.controls.cuitUsuario.errors?.min || form.controls.cuitUsuario.errors?.max) && form.controls.cuitUsuario.touched">Debería ser por ejemplo: 20 12345678 6.</p>
+                <p class="input-error-msg" *ngIf="existenciaUsuario">{{mensajeExistenciaUsuario}}</p>
+                <ion-item class="form-group">
+                    <ion-label color="primary" padding>Nombre</ion-label>
+                    <ion-input slot="end" class="form-control" type='text' id='nombreUsuario' placeholder='Ingrese Nombre' formControlName='nombreUsuario'></ion-input>
+                </ion-item>
+                <p class="input-error-msg" *ngIf="form.controls.nombreUsuario.errors?.required && form.controls.nombreUsuario.touched">Campo Obligatorio.</p>
+                <ion-item class="form-group">
+                    <ion-label color="primary" padding>Apellido</ion-label>
+                    <ion-input slot="end" class="form-control" type='text' id='apellidoUsuario' placeholder='Ingrese Apellido' formControlName='apellidoUsuario'></ion-input>
+                </ion-item>
+                <p class="input-error-msg" *ngIf="form.controls.apellidoUsuario.errors?.required && form.controls.apellidoUsuario.touched">Campo Obligatorio.</p>
+                <ion-item class="form-group">
+                    <ion-label color="primary" padding class="label-large">Email</ion-label>
+                    <ion-input slot="end" class="form-control" type="email" id='emailUsuario' placeholder='Ingrese Email' formControlName="emailUsuario"></ion-input>
+                </ion-item>
+                <p class="input-error-msg" *ngIf="form.controls.emailUsuario.errors?.required && form.controls.emailUsuario.touched">Campo Obligatorio.</p>
+                <p class="input-error-msg" *ngIf="form.controls.emailUsuario.errors?.pattern && form.controls.emailUsuario.touched">Debería ser por ejemplo: sarym@gmail.com.</p>
+                <ion-item class="form-group">
+                    <ion-label color="primary" padding class="label-large">Domicilio</ion-label>
+                    <ion-input slot="end" class="form-control" type='text' id='domicilioUsuario' placeholder='Ingrese Domicilio' formControlName='domicilioUsuario'></ion-input>
+                </ion-item>
+                <p class="input-error-msg" *ngIf="form.controls.domicilioUsuario.errors?.required && form.controls.domicilioUsuario.touched">Campo Obligatorio.</p>
+                <ion-item class="form-group">
+                    <ion-label color="primary" padding>Departamento</ion-label>
+                    <ion-select placeholder='SELECCIONE' formControlName='idDepartamento'>
+                        <ion-select-option *ngFor='let element of departamentos' [value]='element.idDepartamento'>{{element.nombreDepartamento}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <p class="input-error-msg" *ngIf="form.controls.idDepartamento.errors?.required && form.controls.idDepartamento.touched">Campo Obligatorio.</p>
+                <ion-item class="form-group">
+                    <ion-label color="primary" padding>Nro. Celular</ion-label>
+                    <ion-input slot="end" class="form-control" type="tel" id='nroCelularUsuario' placeholder='Ingrese Celular' formControlName='nroCelularUsuario' [brmasker]="{mask:'000-000-0000', len:12, userCaracters: true}"></ion-input>
+                </ion-item>
+                <p class="input-error-msg" *ngIf="form.controls.nroCelularUsuario.errors?.required && form.controls.nroCelularUsuario.touched">Campo Obligatorio.</p>
+                <p class="input-error-msg" *ngIf="form.controls.nroCelularUsuario.errors?.pattern && form.controls.nroCelularUsuario.touched">Debería ser por ejemplo: 261-123-4567.</p>
+                <ion-item class="form-group">
+                    <ion-label color="primary" padding>Telefono Fijo</ion-label>
+                    <ion-input slot="end" class="form-control" type="tel" id='nroTelefonoUsuario' placeholder='Ingrese Teléfono' formControlName='nroTelefonoUsuario' [brmasker]="{mask:'000-000-0000', len:12, userCaracters: true}"></ion-input>
+                </ion-item>
+                <p class="input-error-msg" *ngIf="form.controls.nroTelefonoUsuario.errors?.required && form.controls.nroTelefonoUsuario.touched">Campo Obligatorio.</p>
+                <p class="input-error-msg" *ngIf="form.controls.nroTelefonoUsuario.errors?.pattern && (form.controls.nroTelefonoUsuario.touched || form.controls.nroTelefonoUsuario.dirty)">Debería ser por ejemplo: 261-123-4567.</p>
 
-        <form [formGroup]="form.get('contrasenaUsuario_group')" *ngIf="this.id == 0">
-          <ion-item class="form-group">
-            <ion-label color="primary" padding>Contraseña</ion-label>
-            <ion-input slot="end" class="form-control" type="password" id='contrasenaUsuario' name="contrasenaUsuario" placeholder='Contraseña' formControlName='contrasenaUsuario'></ion-input>
-          </ion-item>
-          <p class="input-error-msg" *ngIf="form.get('contrasenaUsuario_group').get('contrasenaUsuario').hasError('required') && form.get('contrasenaUsuario_group').get('contrasenaUsuario').touched">Campo Obligatorio.</p>
-          <p class="input-error-msg" *ngIf="(form.get('contrasenaUsuario_group').get('contrasenaUsuario').hasError('minlength') || form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('maxlength')) && form.get('contrasenaUsuario_group').get('contrasenaUsuario').touched">Debería ser mayor a 8 letras y menor a 25.</p>
-          <ion-item class="form-group">
-            <ion-label color="primary" padding>Repetir Contraseña</ion-label>
-            <ion-input slot="end" class="form-control" type="password" id='contrasenaUsuarioRepeat' name="contrasenaUsuarioRepeat" placeholder='Repetir Cont' formControlName='contrasenaUsuarioRepeat'></ion-input>
-          </ion-item>
-          <p class="input-error-msg" *ngIf="form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('required') && form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').touched && form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').dirty">Campo Obligatorio.</p>
-          <p class="input-error-msg" *ngIf="(form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('minlength') || form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('maxlength')) && form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').touched">Debería ser mayor a 8 letras y menor a 25.</p>
-          <p class="input-error-msg" *ngIf="form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('not_equal') && form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').touched">Contraseñas no Coinciden.</p>
-        </form>
-      </form>
-    </ion-col>
-  </ion-row>
+                <form [formGroup]="form.get('contrasenaUsuario_group')" *ngIf="this.id == 0">
+                    <ion-item class="form-group">
+                        <ion-label color="primary" padding>Contraseña</ion-label>
+                        <ion-input slot="end" class="form-control" type="password" id='contrasenaUsuario' name="contrasenaUsuario" placeholder='Contraseña' formControlName='contrasenaUsuario'></ion-input>
+                    </ion-item>
+                    <p class="input-error-msg" *ngIf="form.get('contrasenaUsuario_group').get('contrasenaUsuario').hasError('required') && form.get('contrasenaUsuario_group').get('contrasenaUsuario').touched">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="(form.get('contrasenaUsuario_group').get('contrasenaUsuario').hasError('minlength') || form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('maxlength')) && form.get('contrasenaUsuario_group').get('contrasenaUsuario').touched">Debería ser mayor a 8 letras y menor a 25.</p>
+                    <ion-item class="form-group">
+                        <ion-label color="primary" padding>Repetir Contraseña</ion-label>
+                        <ion-input slot="end" class="form-control" type="password" id='contrasenaUsuarioRepeat' name="contrasenaUsuarioRepeat" placeholder='Repetir Cont' formControlName='contrasenaUsuarioRepeat'></ion-input>
+                    </ion-item>
+                    <p class="input-error-msg" *ngIf="form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('required') && form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').touched && form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').dirty">Campo Obligatorio.</p>
+                    <p class="input-error-msg" *ngIf="(form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('minlength') || form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('maxlength')) && form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').touched">Debería ser mayor a 8 letras y menor a 25.</p>
+                    <p class="input-error-msg" *ngIf="form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('not_equal') && form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').touched">Contraseñas no Coinciden.</p>
+                </form>
+            </form>
+        </ion-col>
+    </ion-row>
 </ion-content>
 <ion-footer>
-  <ion-row class="white-background">
-    <ion-col size="10" offset="1" padding>
-      <ion-button *ngIf="form" class="mt-10" [disabled]="!form.valid" (click)="guardar()" expand="full" shape="round">Guardar</ion-button>
-    </ion-col>
-  </ion-row>
+    <ion-row class="white-background">
+        <ion-col size="10" offset="1" padding>
+            <ion-button *ngIf="form" class="mt-10" [disabled]="!form.valid" (click)="guardar()" expand="full" shape="round">Guardar</ion-button>
+        </ion-col>
+    </ion-row>
 </ion-footer>
