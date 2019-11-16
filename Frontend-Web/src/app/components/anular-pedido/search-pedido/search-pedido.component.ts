@@ -55,4 +55,5 @@ export class SearchPedidoComponent implements OnInit {
   editEstadia(idElemento: number) {
     this.router.navigate([`/edit_anular_pedido/${idElemento}`]);
   }
+
 }

@@ -10,7 +10,7 @@ module.exports = {
                 "idUsuario": 1,
                 "idReserva": 1,
                 "idEstadia": 1,
-                "aliasComensal": "Pepito Honguito",
+                "aliasComensal": "Froms Seeders 1",
                 "edadComensal": 45,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
@@ -20,7 +20,7 @@ module.exports = {
                 "idUsuario": null,
                 "idReserva": 1,
                 "idEstadia": 1,
-                "aliasComensal": "Otro Pepito",
+                "aliasComensal": "Froms Seeders 2",
                 "edadComensal": 20,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
