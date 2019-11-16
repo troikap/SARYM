@@ -11,8 +11,6 @@ export class NavbarComponent implements OnInit {
   mySubscription: any;
 
   constructor(private router: Router) {
-    // this.variableRol = localStorage.getItem("rolUsuario");
-    console.log("navbar: ", this.variableRol);
     this.mySubscription = setInterval( () => { 
       this.variableRol = localStorage.getItem("rolUsuario");
    }, 500);
