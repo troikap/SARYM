@@ -62,6 +62,9 @@ export class HomeComponent implements OnInit {
     case 'abm-usuario':
       next = '/usuario';
     break;
+    case 'abm-rol':
+      next = '/rol';
+    break;
     case 'abm-tipomoneda':
       next = '/tipomoneda';
     break;

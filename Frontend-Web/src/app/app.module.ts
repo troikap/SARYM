@@ -64,6 +64,8 @@ import { SearchGestionarEstadoEstadiaComponent } from './components/gestionar-es
 import { EditGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/edit-gestionar-estado-estadia/edit-gestionar-estado-estadia.component';
 import { BackupModuleComponent } from './components/backup-module/backup-module.component';
 import { SearchActualizarPedidosComponent } from './components/actualizar-comanda-cocina/search-pedidos/search-actualizar-pedidos.component';
+import { CrudRolComponent } from './components/abm-rol/crud-rol/crud-rol.component';
+import { SearchRolComponent } from './components/abm-rol/search-rol/search-rol.component';
 
 @NgModule({
   declarations: [
@@ -117,7 +119,9 @@ import { SearchActualizarPedidosComponent } from './components/actualizar-comand
     SearchGestionarEstadoEstadiaComponent,
     EditGestionarEstadoEstadiaComponent,
     BackupModuleComponent,
-    SearchActualizarPedidosComponent
+    SearchActualizarPedidosComponent,
+    CrudRolComponent,
+    SearchRolComponent
   ],
   imports: [
     BrowserModule,

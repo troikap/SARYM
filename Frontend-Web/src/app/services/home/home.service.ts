@@ -92,7 +92,15 @@ export class HomeService {
       path: "/backup",
       img: "assets/imagenes/backup.png",
       responsable: "Administrador"
-    }
+    },
+    {
+      id: "11",
+      nombre: "ABM Rol",
+      clave: "abm-rol",
+      path: "/rol",
+      img: "assets/imagenes/rol.png",
+      responsable: "Administrador"
+    },
   ];
   private encargado: IconoHome[] = [
     {
