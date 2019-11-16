@@ -84,7 +84,7 @@ export class LoginComponent implements OnInit {
           if (
             this.rol == "Administrador" ||
             this.rol == "Encargado" ||
-            this.rol == "Cocina"
+            this.rol == "Cocinero"
           ) {
             let titulo = `${this.valtitle}`;
             let mensaje = `${this.valmsj} ${_this.nombreUsuarioLog} ${_this.apellidoUsuarioLog} `;

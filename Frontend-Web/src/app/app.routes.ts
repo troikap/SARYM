@@ -48,6 +48,10 @@ import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedid
 import { SearchGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/search-gestionar-estado-estadia/search-gestionar-estado-estadia.component';
 import { EditGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/edit-gestionar-estado-estadia/edit-gestionar-estado-estadia.component';
 
+//IMPORTS PARA ROL COCINERO
+import { SearchActualizarPedidosComponent } from './components/actualizar-comanda-cocina/search-pedidos/search-actualizar-pedidos.component';
+
+
 const routes: Routes = [
   { path: "home", component: HomeComponent },
   { path: "login", component: LoginComponent },
@@ -94,9 +98,11 @@ const routes: Routes = [
   { path: 'edit_anular_pedido/:id', component: EditPedidoComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
   { path: 'detalle_anular_pedido/:id', component: DetallePedidoComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
   { path: 'search_mozo_estadia', component: SearchComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
-
   { path: 'search_gestionar_estado_estadia', component: SearchGestionarEstadoEstadiaComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},  
   { path: 'edit_gestionar_estado_estadia/:id', component: EditGestionarEstadoEstadiaComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
+
+  //RUTAS COCINERO
+  { path: 'search_actualizar_comanda_cocina', component: SearchActualizarPedidosComponent , canActivate: [RoleGuardService], data: { expectedRole:['Cocinero']}},
 
   { path: "**", redirectTo: "login" },
   { path: "", redirectTo: "/login", pathMatch: "full" },  
