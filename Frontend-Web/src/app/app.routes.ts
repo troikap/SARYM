@@ -53,7 +53,7 @@ const routes: Routes = [
   { path: "login", component: LoginComponent },
 
   //RUTAS ADMINISTRADOR  
-  { path: "usuario", component: AbmUsuarioComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
+  { path: "usuario", component: AbmUsuarioComponent, canActivate: [RoleGuardService], data: { expectedRole:['Encargado', 'Administrador']}},
   { path: "usuario_crud/:id/:accion", component: CrudUsuarioComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "unidadmedida", component: AbmUnidadmedidaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "unidadmedida_crud/:id/:accion", component: AbmUnidadmedidaCreateComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}}, 
@@ -61,7 +61,7 @@ const routes: Routes = [
   { path: "caja_edit/:id/:accion", component: EditCajaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}}, 
   { path: "mesa", component: AbmMesaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "mesa_crud/:id/:accion", component: CrudMesaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
-  { path: "rubro", component: AbmRubroComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
+  { path: "rubro", component: AbmRubroComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador', 'Encargado']}},
   { path: "rubro_crud/:id/:accion", component: CrudRubroComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "sector", component: AbmSectorComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "sector_crud/:id/:accion", component: CrudSectorComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
