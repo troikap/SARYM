@@ -1,50 +1,43 @@
-import { Injectable } from '@angular/core';
-import { HttpClient , HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-
-
-import { map } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class MozoEstadiaService {
+  url = environment.urlNgrok || environment.url;
+  dir = "/estadia";
+  dir1 = "/getToMesa";
+  dir2 = "/mozoestadia";
+  dir3 = "/todo";
+  dir4 = "/generada";
+  dir5 = "/actualizarDatos";
+  dir6 = "/cambiarEstado";
 
-   url = environment.urlNgrok || environment.url;
-   dir = '/estadia';
-   dir1= '/getToMesa';
-   dir2= '/mozoestadia';
-   dir3 = '/todo';
-   dir4 = '/generada';
-   dir5 = '/actualizarDatos'; 
-   dir6= '/cambiarEstado'
+  tokenEnviroment = environment.token;
 
-   tokenEnviroment = environment.token;
+  constructor(public http: HttpClient) {}
 
-  constructor(
-    public http: HttpClient
-  ) { }
-
- 
-
-  getEstadiaByAll( termino: string) { //Observador
-    console.log("parametro en servicio",termino);
+  getEstadiaByAll(termino: string) {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', this.tokenEnviroment);
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .post(`${this.url}${this.dir}${this.dir1}/${termino}`, termino, {headers})
+      .post(`${this.url}${this.dir}${this.dir1}/${termino}`, termino, {
+        headers
+      })
       .toPromise()
       .then(response => {
         return response as any;
       })
-      .catch(  );
+      .catch();
   }
 
   getEstadias(): Promise<any[]> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', this.tokenEnviroment);
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .get(this.url + this.dir, {headers})
+      .get(this.url + this.dir, { headers })
       .toPromise()
       .then(response => {
         return response as any;
@@ -53,65 +46,59 @@ export class MozoEstadiaService {
   }
   getEstadosEstadia(): Promise<any[]> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', this.tokenEnviroment);
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .get(this.url + this.dir6, {headers})
+      .get(this.url + this.dir6, { headers })
       .toPromise()
       .then(response => {
         return response as any;
       })
       .catch();
   }
-  getEstadia( id: number ): Promise<any> {
+  getEstadia(id: number): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', this.tokenEnviroment);
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .get(`${this.url}${this.dir}/${id}`, {headers})
+      .get(`${this.url}${this.dir}/${id}`, { headers })
       .toPromise()
       .then(response => {
         return response as any;
       })
-      .catch(  );
+      .catch();
   }
 
-  
-
-  updateEstadia( datas: any ): Promise<any> {
+  updateEstadia(datas: any): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', this.tokenEnviroment);
-     console.log("DATOS A ENVIAR :",datas)
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .put(`${this.url}${this.dir}${this.dir5}`, datas, {headers})
+      .put(`${this.url}${this.dir}${this.dir5}`, datas, { headers })
       .toPromise()
       .then(response => {
         return response as any;
       })
-      .catch(  );
+      .catch();
   }
-  updateEstadoEstadia( datas: any ): Promise<any> {
+  updateEstadoEstadia(datas: any): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', this.tokenEnviroment);
-     console.log("DATOS A ENVIAR :",datas)
+    headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .put(`${this.url}${this.dir}${this.dir6}`, datas, {headers})
+      .put(`${this.url}${this.dir}${this.dir6}`, datas, { headers })
       .toPromise()
       .then(response => {
         return response as any;
       })
-      .catch(  );
+      .catch();
   }
 
-  getMozoEstadia(){
+  getMozoEstadia() {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('token', this.tokenEnviroment);
-   return this.http
-     .get(this.url + this.dir2, {headers})
-     .toPromise()
-     .then(response => {
-       return response as any;
-     })
-     .catch();
-
+    headers = headers.append("token", this.tokenEnviroment);
+    return this.http
+      .get(this.url + this.dir2, { headers })
+      .toPromise()
+      .then(response => {
+        return response as any;
+      })
+      .catch();
   }
- 
 }

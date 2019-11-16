@@ -1,28 +1,29 @@
-import * as $ from 'jquery'
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductoService } from 'src/app/services/producto/producto.service';
 import { UploadService } from 'src/app/services/upload/upload.service';
 import { environment } from 'src/environments/environment';
+import * as $ from 'jquery'
 
 @Component({
-  selector: 'app-gestionar-producto',
-  templateUrl: './gestionar-producto.component.html',
-  styleUrls: ['./gestionar-producto.component.scss']
+  selector: "app-gestionar-producto",
+  templateUrl: "./gestionar-producto.component.html",
+  styleUrls: ["./gestionar-producto.component.scss"]
 })
 export class GestionarProductoComponent implements OnInit {
-
-  public listaProductos: any [] = [];
+  public listaProductos: any[] = [];
 
   tipoElemento = "producto";
 
-  public rutaImagen = `${environment.urlNgrok || environment.url}/traerImagen/${this.tipoElemento}/`;
+  public rutaImagen = `${environment.urlNgrok || environment.url}/traerImagen/${
+    this.tipoElemento
+  }/`;
 
   constructor(
     public productoService: ProductoService,
     private router: Router,
     public uploadService: UploadService
-    ) { }
+  ) {}
 
   ngOnInit() {
     this.getAllElements();
@@ -34,44 +35,31 @@ export class GestionarProductoComponent implements OnInit {
   }
 
   buscarElemento(termino: string) {
-    
-    console.log(termino);
-
     if (termino.trim() !== "") {
-      this.productoService.getProductosByAll(termino)
-      .subscribe((data: any) => { // Llamo a un Observer
-        console.log(data);
+      this.productoService.getProductosByAll(termino).subscribe((data: any) => {
+        // Llamo a un Observer
         if (data != null) {
-          console.log("RESULT ----------------->", data);
           this.listaProductos = data;
-
-          // this.listaProductos.push(data); // Para insertar un solo elemento
-        }
-        else {
+        } else {
           this.listaProductos = [];
         }
       });
-    }
-    else {
+    } else {
       this.getAllElements();
     }
   }
 
   getAllElements() {
-    this.productoService.getAllProductos()
-      .then((res: any) => {
-        console.log("getAllElements", res.data);
-        this.listaProductos =  res.data;
-      })
+    this.productoService.getAllProductos().then((res: any) => {
+      this.listaProductos = res.data;
+    });
   }
 
   consultarElemento(idElemento: number) {
-    console.log("idElemento: ", idElemento);
-
-    this.router.navigate( [`/producto_consulta/${idElemento}`] );
+    this.router.navigate([`/producto_consulta/${idElemento}`]);
   }
 
   crearProducto() {
-    this.router.navigate( ['/producto_crud/0/crear']);
+    this.router.navigate(["/producto_crud/0/crear"]);
   }
 }
