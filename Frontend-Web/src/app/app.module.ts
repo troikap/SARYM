@@ -116,11 +116,8 @@ import { SearchActualizarPedidosComponent } from './components/actualizar-comand
     DetallePedidoComponent,
     SearchGestionarEstadoEstadiaComponent,
     EditGestionarEstadoEstadiaComponent,
-<<<<<<< HEAD
     BackupModuleComponent,
-=======
     SearchActualizarPedidosComponent
->>>>>>> Hernan
   ],
   imports: [
     BrowserModule,
