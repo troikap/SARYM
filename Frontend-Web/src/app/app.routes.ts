@@ -3,6 +3,7 @@ import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RoleGuardService } from '../app/services/role-guard.service';
+
 //IMPORTS PARA ROL ADMINISTRADOR
 import { AbmUsuarioComponent } from './components/abm-usuario/search-usuario/abm-usuario.component';
 import { CrudUsuarioComponent } from './components/abm-usuario/crud-usuario/crud-usuario.component';
@@ -27,6 +28,9 @@ import { CrudGestionarMenupromocionComponent } from './components/gestionar-menu
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { UploadComponent } from './upload/upload.component';
+import { BackupModuleComponent } from './components/backup-module/backup-module.component';
+import { SearchRolComponent } from './components/abm-rol/search-rol/search-rol.component';
+import { CrudRolComponent } from './components/abm-rol/crud-rol/crud-rol.component';
 
 //IMPORTS PARA ROL ENCARGADO
 import { AbmAbrirCajaComponent } from './components/abrir-caja/search-abrir-caja/abm-abrir-caja.component';
@@ -46,12 +50,15 @@ import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedid
 import { SearchGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/search-gestionar-estado-estadia/search-gestionar-estado-estadia.component';
 import { EditGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/edit-gestionar-estado-estadia/edit-gestionar-estado-estadia.component';
 
+//IMPORTS PARA ROL COCINERO
+import { SearchActualizarPedidosComponent } from './components/actualizar-comanda-cocina/search-pedidos/search-actualizar-pedidos.component';
+
 const routes: Routes = [
   { path: "home", component: HomeComponent },
   { path: "login", component: LoginComponent },
 
   //RUTAS ADMINISTRADOR  
-  { path: "usuario", component: AbmUsuarioComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
+  { path: "usuario", component: AbmUsuarioComponent, canActivate: [RoleGuardService], data: { expectedRole:['Encargado', 'Administrador']}},
   { path: "usuario_crud/:id/:accion", component: CrudUsuarioComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "unidadmedida", component: AbmUnidadmedidaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "unidadmedida_crud/:id/:accion", component: AbmUnidadmedidaCreateComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}}, 
@@ -59,7 +66,7 @@ const routes: Routes = [
   { path: "caja_edit/:id/:accion", component: EditCajaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}}, 
   { path: "mesa", component: AbmMesaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "mesa_crud/:id/:accion", component: CrudMesaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
-  { path: "rubro", component: AbmRubroComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
+  { path: "rubro", component: AbmRubroComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador', 'Encargado']}},
   { path: "rubro_crud/:id/:accion", component: CrudRubroComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "sector", component: AbmSectorComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "sector_crud/:id/:accion", component: CrudSectorComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
@@ -75,7 +82,10 @@ const routes: Routes = [
   { path: "reporte", component: GenerarReporteComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "upload/:id/:nombre/:path/:retorno", component: UploadComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
   { path: "upload", component: UploadComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
-
+  { path: "backup", component: BackupModuleComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
+  { path: "rol", component: SearchRolComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
+  { path: "rol_crud/:id/:accion", component: CrudRolComponent, canActivate: [RoleGuardService], data: { expectedRole:['Administrador']}},
+  
   //RUTAS ENCARGADO  
   { path: "abrircaja", component: AbmAbrirCajaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
   { path: "abrircaja/:id/:accion", component: EditAbrirCajaComponent, canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
@@ -91,9 +101,11 @@ const routes: Routes = [
   { path: 'edit_anular_pedido/:id', component: EditPedidoComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
   { path: 'detalle_anular_pedido/:id', component: DetallePedidoComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
   { path: 'search_mozo_estadia', component: SearchComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
-
   { path: 'search_gestionar_estado_estadia', component: SearchGestionarEstadoEstadiaComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},  
   { path: 'edit_gestionar_estado_estadia/:id', component: EditGestionarEstadoEstadiaComponent , canActivate: [RoleGuardService], data: { expectedRole:['Encargado']}},
+
+  //RUTAS COCINERO
+  { path: 'search_actualizar_comanda_cocina', component: SearchActualizarPedidosComponent , canActivate: [RoleGuardService], data: { expectedRole:['Cocinero']}},
 
   { path: "**", redirectTo: "login" },
   { path: "", redirectTo: "/login", pathMatch: "full" },  

@@ -84,7 +84,23 @@ export class HomeService {
       path: "/reporte",
       img: "assets/imagenes/reportes.png",
       responsable: "Administrador"
-    }
+    },
+    {
+      id: "10",
+      nombre: "Generar Backup",
+      clave: "backup",
+      path: "/backup",
+      img: "assets/imagenes/backup.png",
+      responsable: "Administrador"
+    },
+    {
+      id: "11",
+      nombre: "ABM Rol",
+      clave: "abm-rol",
+      path: "/rol",
+      img: "assets/imagenes/rol.png",
+      responsable: "Administrador"
+    },
   ];
   private encargado: IconoHome[] = [
     {
@@ -147,18 +163,10 @@ export class HomeService {
   private cocinero: IconoHome[] = [
     {
       id: "0",
-      nombre: "Enviar Pedido",
-      clave: "enviar-pedido",
-      path: "/enviarpedido",
-      img: "assets/imagenes/caja.png",
-      responsable: "Cocinero"
-    },
-    {
-      id: "1",
-      nombre: "Cambiar Estado Pedido",
-      clave: "cambiar-estado-pedido",
-      path: "/cambiarestadopedido",
-      img: "assets/imagenes/caja.png",
+      nombre: "Actualizar Comanda Cocina",
+      clave: "actualizar-comanda-cocina",
+      path: "/search_actualizar_comanda_cocina",
+      img: "assets/imagenes/comida-y-restaurante.png",
       responsable: "Cocinero"
     }
   ];

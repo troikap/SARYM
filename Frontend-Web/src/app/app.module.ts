@@ -62,6 +62,10 @@ import { RoleGuardService } from './services/role-guard.service';
 import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedido/detalle-pedido.component';
 import { SearchGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/search-gestionar-estado-estadia/search-gestionar-estado-estadia.component';
 import { EditGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/edit-gestionar-estado-estadia/edit-gestionar-estado-estadia.component';
+import { BackupModuleComponent } from './components/backup-module/backup-module.component';
+import { SearchActualizarPedidosComponent } from './components/actualizar-comanda-cocina/search-pedidos/search-actualizar-pedidos.component';
+import { CrudRolComponent } from './components/abm-rol/crud-rol/crud-rol.component';
+import { SearchRolComponent } from './components/abm-rol/search-rol/search-rol.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +118,10 @@ import { EditGestionarEstadoEstadiaComponent } from './components/gestionar-esta
     DetallePedidoComponent,
     SearchGestionarEstadoEstadiaComponent,
     EditGestionarEstadoEstadiaComponent,
+    BackupModuleComponent,
+    SearchActualizarPedidosComponent,
+    CrudRolComponent,
+    SearchRolComponent
   ],
   imports: [
     BrowserModule,
