@@ -1,0 +1,20 @@
+<div class="contenedor-pagina">
+    <div class="table-container">
+        <div class="jumbotron">
+            <h1 class="display-4">Módulo de Backup y Recuperación</h1>
+            <p class="lead">
+                Usted podrá generar un Backup de toda la Base de Datos del sistema y recuperar la información de un un archivo de Backup previamente generado.<br>Se recomienda no realizar acciones con usuarios conectados.
+            </p>
+            <hr class="my-4">
+            <p>Presione el siguiente botón para generar un archivo de Backup de todo el sistema. El mismo puede demorar unos minutos en ser generado.</p>
+            <button type="button" class="btn btn-primary btn-lg" id="generarBackupId" (click)="generarBackup()">Generar Backup</button>
+            <hr>
+            <p>Presione el siguiente botón para cargar un archivo de Backup del sistema, previamente generado. El mismo puede demorar unos minutos en ser cargado.</p>
+            <p style="color:red;">
+                <strong>¡Precación!</strong><br>La siguiente acción reemplazará los datos actuales del sistema. Tenga en cuenta que la carga de un archivo de Backup recuperará los datos del sistema a la fecha y hora en que se generó dicho archivo. Se
+                recomienda discreción antes de continuar.
+            </p>
+            <button type="button" class="btn btn-warning btn-lg" id="getBackupId" (click)="getBackup()">Cargar Backup</button>
+        </div>
+    </div>
+</div>
