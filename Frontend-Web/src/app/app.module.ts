@@ -62,8 +62,7 @@ import { RoleGuardService } from './services/role-guard.service';
 import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedido/detalle-pedido.component';
 import { SearchGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/search-gestionar-estado-estadia/search-gestionar-estado-estadia.component';
 import { EditGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/edit-gestionar-estado-estadia/edit-gestionar-estado-estadia.component';
-import { SearchEnviarPedidoComponent } from './components/enviar-pedido/search-enviar-pedido/search-enviar-pedido.component';
-import { SearchCambiarEstadoPedidoComponent } from './components/cambiar-estado-pedido/search-cambiar-estado-pedido/search-cambiar-estado-pedido.component';
+import { SearchActualizarPedidosComponent } from './components/actualizar-comanda-cocina/search-pedidos/search-actualizar-pedidos.component';
 
 @NgModule({
   declarations: [
@@ -116,8 +115,7 @@ import { SearchCambiarEstadoPedidoComponent } from './components/cambiar-estado-
     DetallePedidoComponent,
     SearchGestionarEstadoEstadiaComponent,
     EditGestionarEstadoEstadiaComponent,
-    SearchEnviarPedidoComponent,
-    SearchCambiarEstadoPedidoComponent,
+    SearchActualizarPedidosComponent
   ],
   imports: [
     BrowserModule,

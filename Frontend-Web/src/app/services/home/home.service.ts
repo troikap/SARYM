@@ -147,17 +147,9 @@ export class HomeService {
   private cocinero: IconoHome[] = [
     {
       id: "0",
-      nombre: "Enviar Pedido",
-      clave: "enviar-pedido",
-      path: "/enviarpedido",
-      img: "assets/imagenes/caja.png",
-      responsable: "Cocinero"
-    },
-    {
-      id: "1",
-      nombre: "Cambiar Estado Pedido",
-      clave: "cambiar-estado-pedido",
-      path: "/cambiarestadopedido",
+      nombre: "Actualizar Comanda Cocina",
+      clave: "actualizar-comanda-cocina",
+      path: "/search_actualizar_comanda_cocina",
       img: "assets/imagenes/caja.png",
       responsable: "Cocinero"
     }
