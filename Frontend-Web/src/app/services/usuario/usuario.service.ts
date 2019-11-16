@@ -54,8 +54,8 @@ export class UsuarioService {
       .then(response => {
         return response as Usuario;
       })
-      .catch(err => {
-        console.log("ERROR : ", err);
+      .catch( err => {
+        return err;
       });
   }
 

@@ -26,7 +26,12 @@
                         "styles": [
                             "src/styles.scss"
                         ],
-                        "scripts": []
+                        "scripts": [
+                            "src/bootstrap/jquery-3.3.1.slim.min.js",
+                            "src/bootstrap/jquery-confirm.min.js",
+                            "src/bootstrap/popper.min.js",
+                            "src/bootstrap/bootstrap.min.js"
+                        ]
                     },
                     "configurations": {
                         "production": {
@@ -88,7 +93,12 @@
                         "styles": [
                             "src/styles.scss"
                         ],
-                        "scripts": []
+                        "scripts": [
+                            "src/bootstrap/jquery-3.3.1.slim.min.js",
+                            "src/bootstrap/jquery-confirm.min.js",
+                            "src/bootstrap/popper.min.js",
+                            "src/bootstrap/bootstrap.min.js"
+                        ]
                     }
                 },
                 "lint": {
