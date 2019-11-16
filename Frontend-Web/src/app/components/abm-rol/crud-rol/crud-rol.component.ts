@@ -16,6 +16,7 @@ export class CrudRolComponent implements OnInit {
   private idRol: number = null;
   accionGet;
 
+  public funcionesRol;
   public funcionesAsignadas;
 
   constructor(
@@ -64,6 +65,18 @@ export class CrudRolComponent implements OnInit {
         }
       });
     }
+  }
+
+  reemplazarRol(): Rol {
+    let rol = null;
+    if (this.rol && this.rol.idRol) {
+      rol = this.rol.idRol;
+    }
+    let reempRol: Rol = {
+      idRol: rol,
+      nombreRol: this.form.value["nombreRol"],
+    };
+    return reempRol;
   }
 
   traerFuncionesRol() {
