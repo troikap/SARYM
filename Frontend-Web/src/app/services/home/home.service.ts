@@ -84,6 +84,14 @@ export class HomeService {
       path: "/reporte",
       img: "assets/imagenes/reportes.png",
       responsable: "Administrador"
+    },
+    {
+      id: "10",
+      nombre: "Generar Backup",
+      clave: "backup",
+      path: "/backup",
+      img: "assets/imagenes/backup.png",
+      responsable: "Administrador"
     }
   ];
   private encargado: IconoHome[] = [
