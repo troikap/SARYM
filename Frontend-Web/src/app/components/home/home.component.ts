@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   
   iconosHome: IconoHome [];
   iconosEncargado: IconoHome [];
+  iconosCocinero: IconoHome [];
 
   variableRol: string;
   variableLibre = false;
@@ -33,6 +34,7 @@ export class HomeComponent implements OnInit {
       this.activatedRoute.params.subscribe(params => {
         this.iconosHome = this.homeService.getIconosHome();
         this.iconosEncargado = this.homeService.getIconosEncargado();
+        this.iconosCocinero = this.homeService.getIconosCocinero();
       });
 
       this.myForm = this.formBuilder.group({
@@ -108,11 +110,8 @@ export class HomeComponent implements OnInit {
     case 'gestionar-estado-estadia':
       next = '/search_gestionar_estado_estadia';
     break;
-    case 'enviar-pedido':
-      next = '/enviarpedido';
-    break;
-    case 'cambiar-estado-pedido':
-      next = '/cambiarestadopedido';
+    case 'actualizar-comanda-cocina':
+      next = '/search_actualizar_comanda_cocina';
     break;
     case 'upload':
       next = '/upload';
