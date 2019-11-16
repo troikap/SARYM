@@ -5,30 +5,40 @@
                 <br>
                 <h1>Módulo de Reportes</h1>
                 <h3>Sarym</h3>
-                <br>    
+                <br>
                 <div class="row-buscador" *ngIf='!mostrar'>
-                    <div class="col">
-                        <label>Fecha Desde</label>
-                        <input [max]="fechaActual" min="2018-01-01"  type="date" class="form-control mr-sm-2" placeholder="Ingrese fecha desde">
+                    <div class="container">
+                        <div class="form-section">
+                            <form [formGroup]="form" (ngSubmit)="guardar()">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Fecha Inicio</label>
+                                        <input class="form-control" id="fechaDesde" formControlName="fechaDesde" [max]="fechaActual" min="2018-01-01" type="date"                                           class="form-control mr-sm-2" placeholder="Ingrese fecha desde">
+                                        <p class="input-error-msg" *ngIf="form.controls.fechaDesde.errors?.required && form.controls.fechaDesde.touched">Campo Obligatorio.</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Fecha Fin</label>
+                                        <input class="form-control" id="fechaHasta" formControlName="fechaHasta" [max]="fechaActual" min="2018-01-01" type="date"                                          class="form-control mr-sm-2">
+                                        <p class="input-error-msg" *ngIf="form.controls.fechaHasta.errors?.required && form.controls.fechaHasta.touched">Campo Obligatorio.</p>
+                                        <p class="input-error-msg" *ngIf="form.controls.fechaHasta.errors?.not_equal && form.controls.fechaHasta.touched">La fecha inicio debe ser mayor que la fecha fin.</p>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <br>
+                                    <button (click)="mostrarReportes()" class="btn btn-primary"
+                                        [disabled]="!form.valid">Generar Reporte</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <br>
-                    <div class="col">
-                        <label>Fecha Hasta</label>
-                        <input #hasta [max]="fechaActual" min="2018-01-01" type="date" class="form-control mr-sm-2">
-                    </div>
-                    <div class="col">
-                        <br>
-                        <button (click)="mostrarReportes()" class="btn btn-primary">Generar Reporte</button>
-                        </div>
                 </div>
-
                 <div *ngIf='mostrar'>
                     <app-reporte-top-producto></app-reporte-top-producto>
                 </div>
-  
             </div>
         </div>
-        <div class="text-center" *ngIf='mostrar' >
+        <div class="text-center" *ngIf='mostrar'>
             <hr>
             <div class="container" id="2">
                 <app-reporte-top-menu></app-reporte-top-menu>
@@ -50,7 +60,7 @@
         <div class="buttons-botton" *ngIf='mostrar'>
             <div class="row">
                 <div class="col"></div>
-                <div class="col-2"> 
+                <div class="col-2">
                     <button [routerLink]="['/home']" class="btn btn-primary">Volver</button>
                 </div>
                 <div class="col"></div>
@@ -58,6 +68,6 @@
                     <button (click)="generarPDF()" class="btn btn-info">Exportar a PDF</button>
                 </div>
                 <div class="col"></div>
-            </div>  
+            </div>
         </div>
-</div>
+    </div>
