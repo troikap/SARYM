@@ -15,7 +15,6 @@ export class RoleGuardService implements CanActivate {
       //Recuperamos el rol del token.
       const tokenPayload = decode(token);
       const rolFromToken = tokenPayload["RolUsuario"];
-      console.log("rol from token", rolFromToken);
       if (!this.userService.isAuthenticated()) {
         ($ as any).confirm({
           title: "Error",
@@ -36,10 +35,7 @@ export class RoleGuardService implements CanActivate {
         });
       } else {
         for (let item of expectedRole) {
-          console.log("ITEM DE EXPECTEDROLE", item);
-          console.log("EXPECTEDROLE list", expectedRole);
           if (item == rolFromToken) {
-            console.log("LO ENCONTRO");
             return true;
           }
         }
