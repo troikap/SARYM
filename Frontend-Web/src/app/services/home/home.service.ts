@@ -148,8 +148,8 @@ export class HomeService {
     {
       id: "0",
       nombre: "Actualizar Comanda Cocina",
-      clave: "actualizar-comanda-cocina",
-      path: "/search_actualizar_comanda_cocina",
+      clave: "enviar-pedido",
+      path: "/enviar_pedido",
       img: "assets/imagenes/comida-y-restaurante.png",
       responsable: "Cocinero"
     }

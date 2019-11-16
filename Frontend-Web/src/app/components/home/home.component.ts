@@ -110,8 +110,8 @@ export class HomeComponent implements OnInit {
     case 'gestionar-estado-estadia':
       next = '/search_gestionar_estado_estadia';
     break;
-    case 'actualizar-comanda-cocina':
-      next = '/search_actualizar_comanda_cocina';
+    case 'enviar-pedido':
+      next = '/enviar_pedido';
     break;
     case 'upload':
       next = '/upload';

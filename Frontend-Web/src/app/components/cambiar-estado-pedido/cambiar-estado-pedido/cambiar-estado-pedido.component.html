@@ -1,0 +1,29 @@
+<div class="contenedor-pagina">
+    <div class="table-container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/enviar_pedido']">A Elaborar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" [routerLink]="['/cambiar_estado_pedido']">Enviados</a>
+            </li>
+        </ul>
+        <br>
+        <div class="card-columns">
+            <div class="card" style="max-width: 18rem;" *ngFor="let pedido of listaPedidosEnviados">
+                <div class="card-body">
+                    <h5 class="card-title">Mesa N°: {{pedido.mesas}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Comensal: {{pedido.comensal.aliasComensal}}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Hora Inicio: {{pedido.fechaYHoraInicioPedido}}</h6>
+                    <div class="grid" *ngFor="let detalles of pedido.detallepedidoproductos">
+                        <p class="card-text" *ngIf="detalles.menupromocion == null">{{detalles.cantidadPedidoProducto}}
+                            {{detalles.producto.nombreProducto}}</p>
+                        <p class="card-text" *ngIf="detalles.menupromocion != null">{{detalles.cantidadPedidoProducto}}
+                            {{detalles.menupromocion.codMenuPromocion}}</p>
+                    </div>
+                    <button class="btn btn-warning">Enviar a Elaborar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

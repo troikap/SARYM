@@ -63,6 +63,8 @@ import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedid
 import { SearchGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/search-gestionar-estado-estadia/search-gestionar-estado-estadia.component';
 import { EditGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/edit-gestionar-estado-estadia/edit-gestionar-estado-estadia.component';
 import { SearchActualizarPedidosComponent } from './components/actualizar-comanda-cocina/search-pedidos/search-actualizar-pedidos.component';
+import { EnviarPedidoComponent } from './components/enviar-pedido/enviar-pedido/enviar-pedido.component';
+import { CambiarEstadoPedidoComponent } from './components/cambiar-estado-pedido/cambiar-estado-pedido/cambiar-estado-pedido.component';
 
 @NgModule({
   declarations: [
@@ -115,7 +117,9 @@ import { SearchActualizarPedidosComponent } from './components/actualizar-comand
     DetallePedidoComponent,
     SearchGestionarEstadoEstadiaComponent,
     EditGestionarEstadoEstadiaComponent,
-    SearchActualizarPedidosComponent
+    SearchActualizarPedidosComponent,
+    EnviarPedidoComponent,
+    CambiarEstadoPedidoComponent
   ],
   imports: [
     BrowserModule,
