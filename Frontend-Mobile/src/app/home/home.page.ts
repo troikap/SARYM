@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 
 import { StorageService, Log } from '../services/storage/storage.service';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +13,7 @@ export class HomePage implements OnInit {
 
   private logueo: Log;
   private currentUsuario: string;
+  selectOption;
 
   slidesCliente = [
     {
@@ -41,7 +42,8 @@ export class HomePage implements OnInit {
   constructor(
     private menu: MenuController,
     private storage: StorageService,
-    private navController: NavController
+    private navController: NavController,
+    private alertController: AlertController,
   ) {
     this.loadLog()
   }
@@ -73,7 +75,7 @@ export class HomePage implements OnInit {
         page = `/seleccion-comensal/1`;
         break;
       case "search-gestionar-reserva":
-        page = `/search-gestionar-reserva`;
+        // page = `/search-gestionar-reserva`;
         break;
       // case 'realizar-pedido':
       //   page = `/realizar-pedido`;
@@ -111,5 +113,36 @@ export class HomePage implements OnInit {
           console.log('ERRORR')
         }
       })
+  }
+
+  seleccionarMis(){
+    this.ConfirmMisEstadiaReserva();
+  }
+
+  async ConfirmMisEstadiaReserva() {
+    const alert = await this.alertController.create({
+      header: 'Seleccione una Respuesta',
+      buttons: [
+        {
+          text: 'Volver',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, 
+        {
+          text: 'Ver mis Reservas',
+          handler: () => {
+            this.navController.navigateForward('/search-gestionar-reserva');
+          }
+        },
+        {
+          text: 'Ver mi Estadia Actual',
+          handler: () => {
+            this.navController.navigateForward('/search-gestionar-estadia');
+          }
+        }
+      ]
+    });
+    await alert.present();
+    return 'hola'
   }
 }

@@ -29,3 +29,16 @@ ion-item {
 .descripcion-mesa {
     font-size: 5rem;
 }
+
+ion-datetime {
+    text-align: center;
+}
+
+form {
+    ion-row {
+        ion-col {
+            display: flex;
+            align-items: center;
+        }
+    }
+}

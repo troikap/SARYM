@@ -2,17 +2,16 @@
 
 const Sequelize = require('sequelize');
 const sequelize = require('../../database/connection');
-const FuncionRolModelo = require("../funcionrol/funcionrol-model");
 
-const RolModelo = sequelize.define('rol', {
+const FuncionModelo = sequelize.define('funcion', {
 	// attributes
-	idRol: {
+	idFuncion: {
 		type: Sequelize.INTEGER,
 		primaryKey: true,
 		allowNull: false,
 		autoIncrement: true
 	},
-	nombreRol: {
+	nombreFuncion: {
 		type: Sequelize.STRING,
 		allowNull: false,
 		unique: true
@@ -21,6 +20,4 @@ const RolModelo = sequelize.define('rol', {
 	// options
 });
 
-	RolModelo.hasMany(FuncionRolModelo, { foreignKey: "idRol" });
-
-module.exports = RolModelo 
+module.exports = FuncionModelo 

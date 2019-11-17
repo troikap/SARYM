@@ -59,6 +59,7 @@ sequelize.sync({ force: false }); // force = false  crea nuevos modelos/tablas d
 // require('../class/unidadmedida/unidadmedida-model');
 // require('../class/usuario/usuario-model');
 // require('../class/usuarioestado/usuarioestado-model');
+//  require('../class/funcionrol/funcionrol-model');
 
 
 // let fecha = fechaArgentina.getFechaArgentina();
