@@ -27,7 +27,7 @@ export class CrudRolComponent implements OnInit {
   ) {
     this.form = new FormGroup({
       idRol: new FormControl({ value: "", disabled: true }),
-      idRolFuncion: new FormControl(""),
+      idFuncion: new FormControl(""),
       nombreRol: new FormControl("", [ Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)])
     });
 
@@ -43,8 +43,8 @@ export class CrudRolComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.traerFunciones();
     this.traerFuncionesRol();
-    this.traerRolFunciones();
     this.setValueChangeFunciones();
   }
 
@@ -58,7 +58,7 @@ export class CrudRolComponent implements OnInit {
             
             this.newForm = {
               idRol: this.idRol,
-              idRolFuncion: "",
+              idFuncion: "",
               nombreRol: this.rol["nombreRol"],
             };
             this.form.setValue(this.newForm);
@@ -83,26 +83,26 @@ export class CrudRolComponent implements OnInit {
     return reempRol;
   }
 
-  traerFuncionesRol() {
+  traerFunciones() {
     console.log("Traer Funciones existentes");
     // this.rolService.getFuncionesRolAll().then(res => {
     //   this.funcionesRol = res;
     // });
 
     /////HARDCODE FUNCTIONS --> ELIMINAR CUANDO ESTE BACKEND DE FUNCIONES/////
-    this.funcionesRol.push({"idRolFuncion":"1", "nombreRolFuncion":"Consulta Usuario"});
-    this.funcionesRol.push({"idRolFuncion":"2", "nombreRolFuncion":"ABM Usuario"});
-    this.funcionesRol.push({"idRolFuncion":"3", "nombreRolFuncion":"Buscar Producto"});
-    this.funcionesRol.push({"idRolFuncion":"4", "nombreRolFuncion":"Consulta Producto"});
-    this.funcionesRol.push({"idRolFuncion":"5", "nombreRolFuncion":"ABM Producto"});
-    this.funcionesRol.push({"idRolFuncion":"6", "nombreRolFuncion":"Consulta Abrir Caja"});
-    this.funcionesRol.push({"idRolFuncion":"7", "nombreRolFuncion":"ABM Abrir Caja"});
+    this.funcionesRol.push({"idFuncion":"1", "nombreFuncion":"Consulta Usuario"});
+    this.funcionesRol.push({"idFuncion":"2", "nombreFuncion":"ABM Usuario"});
+    this.funcionesRol.push({"idFuncion":"3", "nombreFuncion":"Buscar Producto"});
+    this.funcionesRol.push({"idFuncion":"4", "nombreFuncion":"Consulta Producto"});
+    this.funcionesRol.push({"idFuncion":"5", "nombreFuncion":"ABM Producto"});
+    this.funcionesRol.push({"idFuncion":"6", "nombreFuncion":"Consulta Abrir Caja"});
+    this.funcionesRol.push({"idFuncion":"7", "nombreFuncion":"ABM Abrir Caja"});
 
     console.log("funcionesRol: ", this.funcionesRol);
     /////////////////////////////////////////////////////////////////////////
   }
 
-  traerRolFunciones () {
+  traerFuncionesRol () {
     console.log("Traer Funciones del Rol");
     // this.rolService.getFuncionesRol().then(res => {
     //   this.funcionesAsignadas = res;
@@ -110,10 +110,10 @@ export class CrudRolComponent implements OnInit {
 
   }
 
-  eliminarFuncion(idRolFuncion) { //NO elimino. Genero un nuevo arreglo para no tener problemas de ínidices en la lista
+  eliminarFuncion(idFuncion) { //NO elimino. Genero un nuevo arreglo para no tener problemas de ínidices en la lista
     let funcionesAsignadasAux = []; //No asigno directamente la variable, pues Angular todo lo pasa por referencia. Luego creo una nueva lista
     for(let item of this.funcionesAsignadas) { 
-      if (item.idRolFuncion != idRolFuncion) {
+      if (item.idFuncion != idFuncion) {
         funcionesAsignadasAux.push(item);
       }
     }
@@ -121,17 +121,17 @@ export class CrudRolComponent implements OnInit {
   }
 
   setValueChangeFunciones() {
-    this.form.get("idRolFuncion").valueChanges.subscribe(idx => {
+    this.form.get("idFuncion").valueChanges.subscribe(idx => {
       if (idx != "") {
         let insertar = true;
         for(let item of this.funcionesRol) {
           for (let itemAsig of this.funcionesAsignadas) {
-            if (itemAsig.idRolFuncion == idx) {
+            if (itemAsig.idFuncion == idx) {
               insertar = false;
             }
           }
           if (insertar) {
-            if (item.idRolFuncion == idx) {
+            if (item.idFuncion == idx) {
               this.funcionesAsignadas.push(item);
               break;
             }
@@ -166,8 +166,7 @@ export class CrudRolComponent implements OnInit {
     for (let item of this.funcionesAsignadas) {
       let dtoFuncionesRol: any = {
         idRol: this.idRol,
-        idRolFuncionRol: item.idRolFuncion,
-        nombreRolFuncion:  item.nombreRolFuncion,
+        idFuncion: item.idFuncion
       }
       listaFuncionesAsignadas.push(dtoFuncionesRol);
     }
