@@ -12,6 +12,7 @@ require('../database/sincronizar-bd');
 const { verificaToken } = require('../middlewares/autenticacion');
 
 var TokenController = require('../class/token/token-controller');
+const configMensaje = require('../middlewares/configMensaje');
 
 var UsuarioController = require('../class/usuario/usuario-controller');
 var DepartamentoController = require('../class/departamento/departamento-controller');
@@ -54,6 +55,12 @@ router
     .post('/subirImagen', UploadController.subirImagen)
     .get('/traerImagen/:tipo/:img?', UploadController.traerImagen)
     .post('/verificarTokenRol', TokenController.verificarTokenRol)
+    .post('/envioEmail', (req, res) => {
+        configMensaje(req.body);
+        res.status(200).send();
+    })
+    // .post('/recuperarDatosToken', UsuarioController.recuperarDatosToken)
+
 
 // reporte
 
