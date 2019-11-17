@@ -83,16 +83,13 @@ export class GenerarReporteComponent implements OnInit {
       if (resp < this.form.value.fechaHasta) {
         this.form.controls.fechaHasta.setErrors(null);
       } else {
-        console.log("MAL DESDE FECHA DESDE");
         this.form.controls.fechaHasta.setErrors({ not_equal: true });
       }
     });
     this.form.get("fechaHasta").valueChanges.subscribe(resp => {
       if (resp > this.form.value.fechaDesde) {
-        console.log("OK DESDE FECHA HASTA");
         this.form.controls.fechaHasta.setErrors(null);
       } else {
-        console.log("MAL DESDE FECHA HASTA");
         this.form.controls.fechaHasta.setErrors({ not_equal: true });
       }
     });
