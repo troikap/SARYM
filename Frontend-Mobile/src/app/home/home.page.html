@@ -26,7 +26,7 @@
             <ion-list class="list-radius" *ngIf="currentUsuario=='Cliente' || currentUsuario=='Administrador' ">
                 <ion-item no-padding color="primary" (click)="goTo('unirse-reserva')">
                     <ion-icon color="light" class="list-icon" name="ios-share"></ion-icon>
-                    <ion-label color="light">UNIRSE A RESERVA</ion-label>
+                    <ion-label color="light">UNIRSE A RESERVA o ESTADIA</ion-label>
                 </ion-item>
                 <ion-item no-padding (click)="goTo('nueva-reserva')">
                     <ion-icon color="primary" class="list-icon" name="add-circle"></ion-icon>
@@ -40,9 +40,9 @@
                     <ion-icon color="primary" class="list-icon" name="ios-restaurant"></ion-icon>
                     <ion-label color="primary">CARTA</ion-label>
                 </ion-item>
-                <ion-item no-padding (click)="goTo('search-gestionar-reserva')">
+                <ion-item no-padding (click)="seleccionarMis()">
                     <ion-icon color="primary" class="list-icon" name="bookmarks"></ion-icon>
-                    <ion-label color="primary">MIS RESERVAS</ion-label>
+                    <ion-label color="primary">MIS RESERVAS o ESTADIA</ion-label>
                 </ion-item>
             </ion-list>
             <!--FIN CLIENTE -->

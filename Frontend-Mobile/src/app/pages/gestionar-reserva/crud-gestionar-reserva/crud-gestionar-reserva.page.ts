@@ -29,15 +29,12 @@ export class CrudGestionarReservaPage implements OnInit {
   private currentUsuario;
   private mesas: Mesa[];
   checkBoxList = [];
-
   private fechaDesde;
   private fechaHasta;
-
   public accionGet;
   private idReserva = 0;
   private reserva: Reserva;
   private newForm = {};
-
   constructor(
     private formBuilder: FormBuilder,
     public toastController: ToastController,
@@ -58,7 +55,7 @@ export class CrudGestionarReservaPage implements OnInit {
       fechaReserva: ['', Validators.required],
       horaEntrada: ['', Validators.required],
       horaSalida: ['', Validators.required],
-      cantidadComensal: '',
+      cantidadComensal: ['', Validators.required],
       idMesa: [null, Validators.required],
     });
 
@@ -73,8 +70,6 @@ export class CrudGestionarReservaPage implements OnInit {
 
   ngOnInit() {
     this.tratarFecha();
-    // this.validarCantidadComensales();
-    // this.validarEdadComensal();
   }
 
 prueba() {
@@ -181,7 +176,6 @@ prueba() {
   loadCurrentUsuario() {
     this.storage.getCurrentUsuario().then((data) => {
       this.currentUsuario = data;
-      console.log("USUARIO ", this.currentUsuario)
       if ( this.accionGet == 'crear') {
         this.comensales.push({
           aliasComensal: `${this.currentUsuario.nombreUsuario} ${this.currentUsuario.apellidoUsuario}`,
@@ -194,7 +188,6 @@ prueba() {
   }
 
   cambiarEdadComensal( valor ){
-    console.log("EDAD ",valor.target.value)
     this.comensales[0].edadComensal = Number(valor.target.value)
   }
 
@@ -209,7 +202,6 @@ prueba() {
           'isChecked': false
         })
       }
-      console.log("traerMesas: ", this.checkBoxList);
       if (this.accionGet == "crear") {
         console.log("CREANDO")
         this.resetComensal();
@@ -245,7 +237,6 @@ prueba() {
     if (cuit != null) {
       this.usuarioservicio.validarExistenciaUsuario( cuit )
       .then( (res) => {
-        console.log("RESPUESTA ", res)
         if (res.tipo == 2) {
           this.existenciaUsuario = true;
           this.comensal = {
@@ -300,7 +291,7 @@ prueba() {
     } else {
       this.comensales.splice(num,1);
     }
-    this.toastService.toastSuccess("Comensal Eliminado", 2500);
+    this.toastService.toastSuccess("Comensal Eliminado", 2000);
   }
 
   async crearEditarReserva() {
@@ -310,7 +301,7 @@ prueba() {
     let fechaReservaTratada = this.tratarFechaProvider.traerDate( this.form.value['fechaReserva'] );
     let horaEntradaTratada = this.tratarFechaProvider.verificarTime( horaEntrada );
     let horaSalidaTratada = this.tratarFechaProvider.verificarTime( horaSalida );
-    let cantidadComensales = this.comensales.length;
+    let cantidadComensales = this.form.value['cantidadComensal']; 
     if (this.accionGet == "crear") {
       reserva = {
         fechaReserva: fechaReservaTratada,
@@ -354,13 +345,11 @@ prueba() {
   }
 
   agregarTokenReserva( data, reserva ) {
-    console.log("DATA ",reserva)
     let tokenReserva = `${data.id}-${this.currentUsuario.id}-${reserva.fechaReserva}/${reserva.horaEntradaReserva}`;
     return tokenReserva
   }
 
   async enviarReservaCrear(reserva, comensales, mesas) {
-    console.log("Datos Reserva a Enviar en enviarReservaCrear", reserva);
     await this.reservaservicio.setReserva( reserva )
     .then( async res => {
       if( res.tipo == 1) {
@@ -400,15 +389,11 @@ prueba() {
   }
 
   async enviarReservaEditar(reserva, comensales, mesas) {
-    
     console.log("enviarReservaEditar, reserva: ", reserva);
     console.log("comensales", comensales);
     console.log("mesas", mesas);
-
-
     this.reservaservicio.updateReserva( reserva )
     .then( update => {
-      console.log("RESERVA ACTUALIZADA ", update)
       if (update.tipo == 1) {
         let pathComensales= {};
         pathComensales['detalle'] = comensales;
@@ -441,7 +426,6 @@ prueba() {
       .subscribe( respuesta => {
         const horaSalida = this.form.get('horaSalida').value || 0;
         const nuevaHoraEntrada = respuesta;
-        console.log("HORA ++++++++++++++++++ ",horaSalida)
         let horaSalidaTratado = this.tratarFechaProvider.traerTime(horaSalida)
         let horaEntradaTratado = this.tratarFechaProvider.traerTime(nuevaHoraEntrada)
         if (  horaSalidaTratado < ( this.addTimes(horaEntradaTratado , '00:30') )) {
