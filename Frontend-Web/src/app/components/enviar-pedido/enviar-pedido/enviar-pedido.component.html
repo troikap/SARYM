@@ -1,0 +1,36 @@
+<div class="contenedor-pagina">
+    <div class="table-container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" [routerLink]="['/enviar_pedido']">A Elaborar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/cambiar_estado_pedido']">Enviados</a>
+            </li>
+        </ul>
+        <br>
+        <div class="card-columns">
+            <div class="card" style="width: 16rem;" *ngFor="let pedido of listaPedidosEnPreparacion" [ngClass]="{
+                'bg-success': pedido.horaDesdeComienzo < 3 , 
+                'bg-warning': pedido.horaDesdeComienzo >= 3 && pedido.horaDesdeComienzo < 5 , 
+                'bg-danger': pedido.horaDesdeComienzo >= 5
+            }">
+                <div class="card-body">
+                    <h5 class="card-title">Mesa N°: {{pedido.mesas}}</h5>
+                    <h6 class="card-subtitle mb-2 text-white">Comensal: {{pedido.comensal.aliasComensal}}</h6>
+                    <h6 class="card-subtitle mb-2 text-white">Hora de Inicio: {{pedido.fechaYHoraInicioPedido | date: 'h:mm a'}}</h6>
+                    <h6 class="card-subtitle mb-2 text-white">Tiempo desde Inicio: {{pedido.horaDesdeComienzo}} min</h6>
+                    <div class="grid" *ngFor="let detalles of pedido.detallepedidoproductos">
+                        <p class="card-text" *ngIf="detalles.menupromocion == null">{{detalles.cantidadPedidoProducto}}
+                            {{detalles.producto.nombreProducto}}</p>
+                        <p class="card-text" *ngIf="detalles.menupromocion != null">{{detalles.cantidadPedidoProducto}}
+                            {{detalles.menupromocion.codMenuPromocion}}</p>
+                    </div>
+                    <div>
+                    <button class="btn btn-secondary" (click)="enviarPedido(pedido.idPedido)">Enviar Pedido</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
