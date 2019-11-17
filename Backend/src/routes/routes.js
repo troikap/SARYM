@@ -33,6 +33,8 @@ var ReservaController = require('../class/reserva/reserva-controller');
 var EstadiaController = require('../class/estadia/estadia-controller');
 var PagoController = require('../class/pago/pago-controller');
 var MozoEstadiaController = require('../class/mozoestadia/mozoestadia-controller');
+var FuncionController = require('../class/funcion/funcion-controller');
+
 
 // estados
 var EstadoUsuarioController = require('../class/estadousuario/estadousuario-controller');
@@ -178,6 +180,16 @@ router
     .post('/rol', verificaToken, RolController.create)
     .put('/rol', verificaToken, RolController.update)
     .delete('/rol/:idRol', verificaToken, RolController.destroy)
+    .put('/rol/editarFuncion', verificaToken, RolController.editarFuncion)
+
+// funcion
+    .get('/funcion', verificaToken, FuncionController.getAll)
+    .get('/funcion/:idFuncion', verificaToken, FuncionController.getOne)
+    .get('/funcion/name/:nombreFuncion', verificaToken, FuncionController.getToName)
+    .get('/funcion/todo/:anyAttribute', verificaToken, FuncionController.getToAllAttributes)
+    .post('/funcion', verificaToken, FuncionController.create)
+    .put('/funcion', verificaToken, FuncionController.update)
+    .delete('/funcion/:idFuncion', verificaToken, FuncionController.destroy)
 
 // tipomoneda
     .get('/tipomoneda', verificaToken, TipoMonedaController.getAll)

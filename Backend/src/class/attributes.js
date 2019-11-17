@@ -332,6 +332,17 @@ mediopago = [
     "nombreMedioPago",
 ]
 
+funcionrol = [
+    'idFuncionRol',
+    'fechaYHoraAltaFuncionRol',
+    'fechaYHoraBajaFuncionRol'
+];
+
+funcion = [
+    'idFuncion',
+    'nombreFuncion'
+]
+
 module.exports = {
     usuario, 
     usuarioestado, 
@@ -379,5 +390,7 @@ module.exports = {
     mozoestadia,
     pago,
     pagopedido,
-    mediopago
+    mediopago,
+    funcionrol,
+    funcion
 }

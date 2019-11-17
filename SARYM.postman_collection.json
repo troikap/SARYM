@@ -951,7 +951,7 @@
 				{
 					"name": "Get Reserva :id",
 					"request": {
-						"url": "localhost:3000/reserva/12",
+						"url": "localhost:3000/reserva/2",
 						"method": "GET",
 						"header": [
 							{
@@ -1175,7 +1175,7 @@
 				{
 					"name": "Get Estadia :id",
 					"request": {
-						"url": "localhost:3000/estadia/5",
+						"url": "localhost:3000/estadia/1",
 						"method": "GET",
 						"header": [
 							{
@@ -1389,6 +1389,23 @@
 						"description": "Trae todos los Usuarios"
 					},
 					"response": []
+				},
+				{
+					"name": "Get Estadia :idUsuario",
+					"request": {
+						"url": "localhost:3000/estadia/getToUsuario/1",
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
 				}
 			]
 		},
@@ -1565,7 +1582,7 @@
 				{
 					"name": "Get Mozo Estadia :id",
 					"request": {
-						"url": "localhost:3000/mozoestadia/10",
+						"url": "localhost:3000/mozoestadia/1",
 						"method": "GET",
 						"header": [
 							{
@@ -2014,9 +2031,175 @@
 					"response": []
 				},
 				{
+					"name": "Put Rol editarFuncion",
+					"request": {
+						"url": "localhost:3000/rol/editarFuncion",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idRol\":2,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idFuncionRol\": 7,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idFuncion\": 5\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idFuncionRol\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idFuncionRol\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"idFuncion\": 4\n\t\t},\n\t\t{\n\t\t\t\"idFuncion\": 5\n\t\t}\n\t]\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
 					"name": "Del Rol : id",
 					"request": {
 						"url": "localhost:3000/rol/6",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Funcion",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Funcion",
+					"request": {
+						"url": "localhost:3000/funcion",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Funcion :id",
+					"request": {
+						"url": "localhost:3000/funcion/2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Funcion  :name",
+					"request": {
+						"url": "localhost:3000/funcion/name/i",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Funcion :anyAttribute",
+					"request": {
+						"url": "localhost:3000/funcion/todo/a",
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Funcion",
+					"request": {
+						"url": "localhost:3000/funcion",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idFuncion\" : 6,\n\t\"nombreFuncion\": \"OTRO\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Funcion",
+					"request": {
+						"url": "localhost:3000/funcion",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idFuncion\": 6,\n    \"nombreFuncion\": \"Administradora\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Funcion :id",
+					"request": {
+						"url": "localhost:3000/funcion/6",
 						"method": "DELETE",
 						"header": [
 							{
