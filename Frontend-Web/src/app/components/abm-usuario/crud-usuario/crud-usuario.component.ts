@@ -356,7 +356,7 @@ export class CrudUsuarioComponent implements OnInit {
   }
   traerRoles() {
     this.rolservicio.getRoles().then(res => {
-      this.roles = res;
+      this.roles = res['data'];
     });
   }
   traerEstadosUsuarios() {

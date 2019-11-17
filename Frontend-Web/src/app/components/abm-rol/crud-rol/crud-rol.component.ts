@@ -27,7 +27,7 @@ export class CrudRolComponent implements OnInit {
   ) {
     this.form = new FormGroup({
       idRol: new FormControl({ value: "", disabled: true }),
-      idFuncion: new FormControl(""),
+      idRolFuncion: new FormControl(""),
       nombreRol: new FormControl("", [ Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)])
     });
 
@@ -58,7 +58,7 @@ export class CrudRolComponent implements OnInit {
             
             this.newForm = {
               idRol: this.idRol,
-              idFuncion: "",
+              idRolFuncion: "",
               nombreRol: this.rol["nombreRol"],
             };
             this.form.setValue(this.newForm);
@@ -78,7 +78,6 @@ export class CrudRolComponent implements OnInit {
     }
     let reempRol: any = {
       idRol: rol,
-      idFuncion: null,
       nombreRol: this.form.value["nombreRol"]
     };
     return reempRol;
@@ -91,13 +90,13 @@ export class CrudRolComponent implements OnInit {
     // });
 
     /////HARDCODE FUNCTIONS --> ELIMINAR CUANDO ESTE BACKEND DE FUNCIONES/////
-    this.funcionesRol.push({"idFuncion":"1", "nombreFuncion":"Consulta Usuario"});
-    this.funcionesRol.push({"idFuncion":"2", "nombreFuncion":"ABM Usuario"});
-    this.funcionesRol.push( {"idFuncion":"3", "nombreFuncion":"Buscar Producto"});
-    this.funcionesRol.push({"idFuncion":"4", "nombreFuncion":"Consulta Producto"});
-    this.funcionesRol.push({"idFuncion":"5", "nombreFuncion":"ABM Producto"});
-    this.funcionesRol.push({"idFuncion":"6", "nombreFuncion":"Consulta Abrir Caja"});
-    this.funcionesRol.push({"idFuncion":"7", "nombreFuncion":"ABM Abrir Caja"});
+    this.funcionesRol.push({"idRolFuncion":"1", "nombreRolFuncion":"Consulta Usuario"});
+    this.funcionesRol.push({"idRolFuncion":"2", "nombreRolFuncion":"ABM Usuario"});
+    this.funcionesRol.push({"idRolFuncion":"3", "nombreRolFuncion":"Buscar Producto"});
+    this.funcionesRol.push({"idRolFuncion":"4", "nombreRolFuncion":"Consulta Producto"});
+    this.funcionesRol.push({"idRolFuncion":"5", "nombreRolFuncion":"ABM Producto"});
+    this.funcionesRol.push({"idRolFuncion":"6", "nombreRolFuncion":"Consulta Abrir Caja"});
+    this.funcionesRol.push({"idRolFuncion":"7", "nombreRolFuncion":"ABM Abrir Caja"});
 
     console.log("funcionesRol: ", this.funcionesRol);
     /////////////////////////////////////////////////////////////////////////
@@ -111,10 +110,10 @@ export class CrudRolComponent implements OnInit {
 
   }
 
-  eliminarFuncion(idFuncion) { //NO elimino. Genero un nuevo arreglo para no tener problemas de ínidices en la lista
+  eliminarFuncion(idRolFuncion) { //NO elimino. Genero un nuevo arreglo para no tener problemas de ínidices en la lista
     let funcionesAsignadasAux = []; //No asigno directamente la variable, pues Angular todo lo pasa por referencia. Luego creo una nueva lista
     for(let item of this.funcionesAsignadas) { 
-      if (item.idFuncion != idFuncion) {
+      if (item.idRolFuncion != idRolFuncion) {
         funcionesAsignadasAux.push(item);
       }
     }
@@ -122,17 +121,17 @@ export class CrudRolComponent implements OnInit {
   }
 
   setValueChangeFunciones() {
-    this.form.get("idFuncion").valueChanges.subscribe(idx => {
+    this.form.get("idRolFuncion").valueChanges.subscribe(idx => {
       if (idx != "") {
         let insertar = true;
         for(let item of this.funcionesRol) {
           for (let itemAsig of this.funcionesAsignadas) {
-            if (itemAsig.idFuncion == idx) {
+            if (itemAsig.idRolFuncion == idx) {
               insertar = false;
             }
           }
           if (insertar) {
-            if (item.idFuncion == idx) {
+            if (item.idRolFuncion == idx) {
               this.funcionesAsignadas.push(item);
               break;
             }
@@ -157,5 +156,246 @@ export class CrudRolComponent implements OnInit {
         }
       }
     });
+  }
+
+  getDTOFuncionesRol (): any[] {
+    console.log("Funcion 'getDTOFuncionesRol()', ejecutada");
+    
+    let listaFuncionesAsignadas = [];
+
+    for (let item of this.funcionesAsignadas) {
+      let dtoFuncionesRol: any = {
+        idRol: this.idRol,
+        idRolFuncionRol: item.idRolFuncion,
+        nombreRolFuncion:  item.nombreRolFuncion,
+      }
+      listaFuncionesAsignadas.push(dtoFuncionesRol);
+    }
+    return listaFuncionesAsignadas;
+  }
+
+  guardar() {
+    let _this = this;
+    const titulo = "Confirmación";
+    const mensaje = `¿Está seguro que desea ${this.accionGet} el elemento seleccionado?`;
+    if (this.rolEncontrado && this.accionGet === "editar") {
+      ($ as any).confirm({
+        title: titulo,
+        content: mensaje,
+        type: "blue",
+        typeAnimated: true,
+        theme: "material",
+        buttons: {
+          aceptar: {
+            text: "Aceptar",
+            btnClass: "btn-blue",
+            action: function() {
+              let rol = _this.reemplazarRol();
+              _this.rolService.updateRol(rol).then(response => {
+
+
+                let listaFuncionesRol = _this.getDTOFuncionesRol();
+                console.log("listaFuncionesRol:", listaFuncionesRol);
+                //Continuar actualizando, luego que esté el backend
+
+
+                const titulo = "Éxito";
+                const mensaje = "Se ha actualizado el registro de Rol de forma exitrosa";
+                ($ as any).confirm({
+                  title: titulo,
+                  content: mensaje,
+                  type: "green",
+                  typeAnimated: true,
+                  theme: "material",
+                  buttons: {
+                    aceptar: {
+                      text: "Aceptar",
+                      btnClass: "btn-green",
+                      action: function() {
+                        _this.router.navigate(["/rol"]);
+                      }
+                    }
+                  }
+                });
+              });
+            }
+          },
+          cerrar: {
+            text: "Cerrar",
+            action: function() {}
+          }
+        }
+      });
+    } else if (this.rolEncontrado && this.accionGet === "eliminar") {
+      let rol = _this.reemplazarRol();
+      ($ as any).confirm({
+        title: titulo,
+        content: mensaje,
+        type: "blue",
+        typeAnimated: true,
+        theme: "material",
+        buttons: {
+          aceptar: {
+            text: "Aceptar",
+            btnClass: "btn-blue",
+            action: function() {
+              let rol = _this.reemplazarRol();
+              _this.rolService.deleteRol(rol).then(response => {
+                if (response.tipo == 1) {
+                  const titulo = "Éxito";
+                  const mensaje = "Se ha eliminado el registro de Rol de forma exitosa";
+                  ($ as any).confirm({
+                    title: titulo,
+                    content: mensaje,
+                    type: "green",
+                    typeAnimated: true,
+                    theme: "material",
+                    buttons: {
+                      aceptar: {
+                        text: "Aceptar",
+                        btnClass: "btn-green",
+                        action: function() {
+                          _this.router.navigate(["/rol"]);
+                        }
+                      }
+                    }
+                  });
+                }
+                else if (response.tipo == 2) {
+                  const titulo = "Error";
+                  const mensaje = "No se ha podido eliminar el Rol seleccionado, el mismo está siendo usado por al menos un usuario del sistema. No es posible realizar esta acción";
+                  ($ as any).confirm({
+                    title: titulo,
+                    content: mensaje,
+                    type: "red",
+                    typeAnimated: true,
+                    theme: "material",
+                    buttons: {
+                      aceptar: {
+                        text: "Aceptar",
+                        btnClass: "btn-red",
+                        action: function() {
+                          _this.router.navigate(["/rol"]);
+                        }
+                      }
+                    }
+                  });
+                }
+                else {
+                  const titulo = "Error";
+                  const mensaje = `${response.title}. No es posible realizar esta acción`;
+                  ($ as any).confirm({
+                    title: titulo,
+                    content: mensaje,
+                    type: "red",
+                    typeAnimated: true,
+                    theme: "material",
+                    buttons: {
+                      aceptar: {
+                        text: "Aceptar",
+                        btnClass: "btn-red",
+                        action: function() {
+                          _this.router.navigate(["/rol"]);
+                        }
+                      }
+                    }
+                  });
+                }
+              });
+            }
+          },
+          cerrar: {
+            text: "Cerrar",
+            action: function() {}
+          }
+        }
+      });
+    } else {
+      ($ as any).confirm({
+        title: titulo,
+        content: "¿Confirma la creación de un nuevo registro?",
+        type: "blue",
+        typeAnimated: true,
+        theme: "material",
+        buttons: {
+          aceptar: {
+            text: "Aceptar",
+            btnClass: "btn-blue",
+            action: function() {
+              let rol = _this.reemplazarRol();
+              _this.rolService.setRol(rol).then(response => {
+
+
+                let listaFuncionesRol = _this.getDTOFuncionesRol();
+                console.log("listaFuncionesRol:", listaFuncionesRol);
+                //Continuar actualizando, luego que esté el backend
+
+
+                if (response.tipo !== 2) {
+                  const titulo = "Éxito";
+                  const mensaje = "Se ha Creado un nuevo registro de Rol de forma exitosa";
+                  ($ as any).confirm({
+                    title: titulo,
+                    content: mensaje,
+                    type: "green",
+                    typeAnimated: true,
+                    theme: "material",
+                    buttons: {
+                      aceptar: {
+                        text: "Aceptar",
+                        btnClass: "btn-green",
+                        action: function() {
+                          _this.router.navigate(["/rol"]);
+                        }
+                      }
+                    }
+                  });
+                }
+                else if (response.tipo == 2) {
+                  const titulo = "Error";
+                  const mensaje = "No se ha podido crear el Rol ingresado. El mismo ya existe generado en el sistema. Imposible realizar esta acción.";
+                  ($ as any).confirm({
+                    title: titulo,
+                    content: mensaje,
+                    type: "red",
+                    typeAnimated: true,
+                    theme: "material",
+                    buttons: {
+                      aceptar: {
+                        text: "Aceptar",
+                        btnClass: "btn-red",
+                        action: function() {
+                          _this.router.navigate(["/rol"]);
+                        }
+                      }
+                    }
+                  });
+                }
+                else {
+                  ($ as any).confirm({
+                    title: "Error",
+                    content: `${response.title}. No es posible realizar esta acción`,
+                    type: "red",
+                    typeAnimated: true,
+                    theme: "material",
+                    buttons: {
+                      aceptar: {
+                        text: "Aceptar",
+                        btnClass: "btn-red",
+                        action: function() {}
+                      }
+                    }
+                  });
+                }
+              });
+            }
+          },
+          cerrar: {
+            text: "Cerrar",
+            action: function() {}
+          }
+        }
+      });
+    }
   }
 }

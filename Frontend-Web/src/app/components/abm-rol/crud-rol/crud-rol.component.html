@@ -1,7 +1,7 @@
 <div class="contenedor-pagina">
     <br>
     <div *ngIf="accionGet =='crear'">
-        <h2 class="titulo">Nueva Rol</h2>
+        <h2 class="titulo">Nuevo Rol</h2>
     </div>
     <div *ngIf="accionGet =='editar'">
         <h2 class="titulo">Editar Rol</h2>
@@ -29,14 +29,14 @@
                 </div>
                 <div class="form-group row">
                     <div class="col">
-                        <label for="idFuncion" class="col col-form-label">Función</label>
-                        <select Placeholder='Seleccione' formControlName='idFuncion' class="form-control"> 
-                            <option *ngFor='let funcion of funcionesRol' [value]='funcion.idFuncion'>{{funcion.nombreFuncion}}</option>
+                        <label for="idRolFuncion" class="col col-form-label">Función</label>
+                        <select Placeholder='Seleccione' formControlName='idRolFuncion' class="form-control"> 
+                            <option *ngFor='let funcion of funcionesRol' [value]='funcion.idRolFuncion'>{{funcion.nombreRolFuncion}}</option>
                         </select>
                     </div>
                 </div>
                 <div>
-                    <div *ngIf="funcionesAsignadas.length != 0" class="container">
+                    <div class="container" *ngIf="funcionesAsignadas.length != 0">
                         <hr>
                         <h3>Lista de Funciones asociadas</h3>
                         <br>
@@ -50,10 +50,10 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor='let funAsignadas of funcionesAsignadas'>
-                                    <th scope="row" width="10%">{{funAsignadas.idFuncion}}</th>
-                                    <td width="80%">{{funAsignadas.nombreFuncion}}</td>
+                                    <th scope="row" width="10%">{{funAsignadas.idRolFuncion}}</th>
+                                    <td width="80%">{{funAsignadas.nombreRolFuncion}}</td>
                                     <td width="10%">
-                                        <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Eliminar" title="Eliminar" (click)="eliminarFuncion(funAsignadas.idFuncion)" style="cursor: pointer;">
+                                        <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Eliminar" title="Eliminar" (click)="eliminarFuncion(funAsignadas.idRolFuncion)" style="cursor: pointer;">
                                     </td>
                                 </tr>
                             </tbody>
