@@ -31,7 +31,7 @@
                     <div class="col">
                         <label for="idFuncion" class="col col-form-label">Función</label>
                         <select Placeholder='Seleccione' formControlName='idFuncion' class="form-control"> 
-                            <option *ngFor='let funcion of funcionesRol' [value]='funcion.idFuncion'>{{funcion.nombreFuncion}}</option>
+                            <option *ngFor='let funcion of funcionesRol' [value]='funcion.idFuncion'>{{funcion.idFuncion}} - {{funcion.nombreFuncion}}</option>
                         </select>
                     </div>
                 </div>

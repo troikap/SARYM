@@ -19,6 +19,8 @@ export class CrudRolComponent implements OnInit {
   public funcionesRol = [];
   public funcionesAsignadas = [];
 
+  public listaOrdenada = [];
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -84,8 +86,13 @@ export class CrudRolComponent implements OnInit {
   }
 
   traerFunciones() {
+    
     this.rolService.getFuncionesRolAll().then((res: any) => {
       this.funcionesRol = res.data;
+      console.log(this.funcionesRol);
+      // this.ordenarList(res.data);
+      // // this.funcionesRol = this.listaOrdenada;
+      // console.log("Lista ordenada: ",this.listaOrdenada );
     });
 
     // /////HARDCODE FUNCTIONS --> ELIMINAR CUANDO ESTE BACKEND DE FUNCIONES/////
@@ -99,6 +106,48 @@ export class CrudRolComponent implements OnInit {
 
     // console.log("funcionesRol: ", this.funcionesRol);
     // /////////////////////////////////////////////////////////////////////////
+  }
+
+  ordenarList(lista: any[]) {
+    console.log("ordenarList");
+    let i = 0;
+    let cortar = true;
+    for (let i = 0; (lista.length - 1); i++) {
+      let item1 = lista.length[i];
+      for (let j = 1; lista.length; j++) {
+        let item2 = lista.length[j];
+        if (item1.idFuncion > item2.idFuncion) {
+          
+        }
+      }
+    }
+      for (let item of lista) {
+        if (i != 0) {
+          for (let item2 of lista) {
+            console.log("idFuncion1: ", item.idFuncion);
+            console.log("idFuncion2: ", item2.idFuncion);
+            if (item.idFuncion > item2.idFuncion) {
+              this.listaOrdenada.push(item2);
+              cortar = false;
+              break;
+            }
+          }
+        }
+        else {
+          // this.listaOrdenada.push(item);
+        }
+        i ++;
+      }
+      
+      let listaAux = [];
+      for (let item of this.listaOrdenada) {
+        listaAux.push(item);
+      }
+
+      if (!cortar) {
+        this.listaOrdenada = [];
+        this.ordenarList(listaAux);
+      }
   }
 
   traerFuncionesRol () {
