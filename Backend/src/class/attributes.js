@@ -334,6 +334,7 @@ mediopago = [
 
 funcionrol = [
     'idFuncionRol',
+    'idFuncion',
     'fechaYHoraAltaFuncionRol',
     'fechaYHoraBajaFuncionRol'
 ];
