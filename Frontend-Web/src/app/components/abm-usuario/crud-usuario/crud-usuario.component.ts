@@ -36,39 +36,17 @@ export class CrudUsuarioComponent implements OnInit {
   ) {
     this.form = new FormGroup({
       idUsuario: new FormControl({ value: "", disabled: true }),
-      nombreUsuario: new FormControl("", [
-        Validators.required,
-        Validators.pattern(
-          /^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/
-        )
-      ]),
-      apellidoUsuario: new FormControl("", [
-        Validators.required,
-        Validators.pattern(
-          /^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/
-        )
-      ]),
+      nombreUsuario: new FormControl("", [ Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)]),
+      apellidoUsuario: new FormControl("", [ Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)]),
       contrasenaUsuario: new FormControl(""),
       contrasenaUsuarioRepeat: new FormControl(""),
-      cuitUsuario: new FormControl("", [
-        Validators.required,
-        Validators.pattern(/^((20)|(23)|(24)|(25)|(26)|(27)|(30))[0-9]{9}$/)
-      ]),
+      cuitUsuario: new FormControl("", [ Validators.required, Validators.pattern(/^((20)|(23)|(24)|(25)|(26)|(27)|(30))[0-9]{9}$/)]),
       dniUsuario: new FormControl("", Validators.required),
       domicilioUsuario: new FormControl("", Validators.required),
-      emailUsuario: new FormControl("", [
-        Validators.required,
-        Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)
-      ]),
+      emailUsuario: new FormControl("", [ Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]),
       idDepartamento: new FormControl("", Validators.required),
-      nroCelularUsuario: new FormControl("", [
-        Validators.required,
-        Validators.pattern(/^[0-9\-]{9,12}$/)
-      ]),
-      nroTelefonoUsuario: new FormControl("", [
-        Validators.required,
-        Validators.pattern(/^[0-9\-]{9,12}$/)
-      ]),
+      nroCelularUsuario: new FormControl("", [ Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
+      nroTelefonoUsuario: new FormControl("", [ Validators.required, Validators.pattern(/^[0-9\-]{9,12}$/)]),
       idRol: new FormControl("", Validators.required),
       idEstadoUsuario: new FormControl("")
     });
@@ -85,17 +63,9 @@ export class CrudUsuarioComponent implements OnInit {
       }
 
       if (this.accionGet == "crear") {
-        this.form
-          .get("contrasenaUsuario")
-          .setValidators([
-            Validators.required,
-            Validators.minLength(8),
-            Validators.maxLength(25)
-          ]);
+        this.form.get("contrasenaUsuario").setValidators([ Validators.required, Validators.minLength(8), Validators.maxLength(25)]);
         this.form.get("contrasenaUsuario").updateValueAndValidity();
-        this.form
-          .get("contrasenaUsuarioRepeat")
-          .setValidators(Validators.required);
+        this.form.get("contrasenaUsuarioRepeat").setValidators(Validators.required);
         this.form.get("contrasenaUsuarioRepeat").updateValueAndValidity();
         this.setValueChangeContraseñaRepeat();
       }
@@ -127,17 +97,9 @@ export class CrudUsuarioComponent implements OnInit {
     if (this.accionGet == "editar") {
       this.form.get("contrasenaUsuario").valueChanges.subscribe(resp => {
         if (this.countEditarPass == 0) {
-          this.form
-            .get("contrasenaUsuario")
-            .setValidators([
-              Validators.required,
-              Validators.minLength(8),
-              Validators.maxLength(25)
-            ]);
+          this.form.get("contrasenaUsuario").setValidators([ Validators.required, Validators.minLength(8), Validators.maxLength(25)]);
           this.setValueChangeContraseñaRepeat();
-          this.form
-            .get("contrasenaUsuarioRepeat")
-            .setValidators(Validators.required);
+          this.form.get("contrasenaUsuarioRepeat").setValidators(Validators.required);
         }
 
         this.countEditarPass++;
@@ -382,9 +344,7 @@ export class CrudUsuarioComponent implements OnInit {
       if (resp == this.form.value.contrasenaUsuario) {
         this.form.controls.contrasenaUsuarioRepeat.setErrors(null);
       } else {
-        this.form.controls.contrasenaUsuarioRepeat.setErrors({
-          not_equal: true
-        });
+        this.form.controls.contrasenaUsuarioRepeat.setErrors({ not_equal: true });
       }
     });
   }
@@ -396,7 +356,7 @@ export class CrudUsuarioComponent implements OnInit {
   }
   traerRoles() {
     this.rolservicio.getRoles().then(res => {
-      this.roles = res;
+      this.roles = res['data'];
     });
   }
   traerEstadosUsuarios() {

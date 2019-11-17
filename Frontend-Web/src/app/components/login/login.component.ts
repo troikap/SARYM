@@ -19,8 +19,7 @@ export class LoginComponent implements OnInit {
   private invalidotitle = "Datos Inválidos";
   private invalidomsj = "Combinación de Usuario y Contraseña incorrectos.";
   private susptitle = "Usuario Suspendido";
-  private suspmsj =
-    "El Usuario ingresado se encuentra Suspendido o dado de Baja.";
+  private suspmsj = "El Usuario ingresado se encuentra Suspendido o dado de Baja.";
   private valtitle = "Bienvenido";
   private valmsj = "Le damos la bienvenida ";
   private algo = null;
@@ -37,78 +36,19 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   loguear() {
     this.usuarioservicio
       .loguear(this.form.value.cuitUsuario, this.form.value.contrasenaUsuario)
-      .then(algo => {
-        if (algo.tipo == 2) {
-          let titulo = `${this.invalidotitle}`;
-          let mensaje = `${this.invalidomsj}`;
-          ($ as any).confirm({
-            title: titulo,
-            content: mensaje,
-            type: "red",
-            typeAnimated: true,
-            theme: "material",
-            buttons: {
-              aceptar: {
-                text: "Aceptar",
-                btnClass: "btn-red",
-                action: function() {}
-              }
-            }
-          });
-        } else if (algo.tipo == 1) {
-          this.logueo = {
-            cuit: this.form.value.cuitUsuario,
-            pass: this.form.value.contrasenaUsuario,
-            id: algo.Usuario,
-            date: null
-          };
-          localStorage.setItem("token", algo.token);
-          if (this.form.value.checkRecordar) {
-            // this.actualizarLog(this.logueo);
-          }
-
-          this.nombreUsuarioLog = algo.UsuarioEstado.nombreUsuario;
-          this.apellidoUsuarioLog = algo.UsuarioEstado.apellidoUsuario;
-          this.rol = algo.rol.idRol;
-          this.idUsuario = algo.UsuarioEstado.idUsuario;
-          localStorage.setItem("rolUsuario", this.rol);
-          localStorage.setItem("idUsuario", this.idUsuario);
-
-          let _this = this;
-
-          if (
-            this.rol == "Administrador" ||
-            this.rol == "Encargado" ||
-            this.rol == "Cocina"
-          ) {
-            let titulo = `${this.valtitle}`;
-            let mensaje = `${this.valmsj} ${_this.nombreUsuarioLog} ${_this.apellidoUsuarioLog} `;
+      .then( algo => {
+        if ( algo.tipo != null ) {
+          if (algo.tipo == 2) {
+            let titulo = `${this.invalidotitle}`;
+            let mensaje = `${this.invalidomsj}`;
             ($ as any).confirm({
               title: titulo,
               content: mensaje,
-              type: "blue",
-              typeAnimated: true,
-              theme: "material",
-              buttons: {
-                aceptar: {
-                  text: "Aceptar",
-                  btnClass: "btn-blue",
-                  action: function() {
-                    _this.router.navigate([`/home`]);
-                  }
-                }
-              }
-            });
-          } else {
-            //Error, se logeo con otro idRol distinto a los anteriores
-            ($ as any).confirm({
-              title: "Error",
-              content: "Ud. no tiene acceso al sistema",
               type: "red",
               typeAnimated: true,
               theme: "material",
@@ -116,24 +56,89 @@ export class LoginComponent implements OnInit {
                 aceptar: {
                   text: "Aceptar",
                   btnClass: "btn-red",
-                  action: function() {}
+                }
+              }
+            });
+          } else if (algo.tipo == 1) {
+            this.logueo = {
+              cuit: this.form.value.cuitUsuario,
+              pass: this.form.value.contrasenaUsuario,
+              id: algo.Usuario,
+              date: null
+            };
+            localStorage.setItem("token", algo.token);
+            this.nombreUsuarioLog = algo.UsuarioEstado.nombreUsuario;
+            this.apellidoUsuarioLog = algo.UsuarioEstado.apellidoUsuario;
+            this.rol = algo.rol.idRol;
+            this.idUsuario = algo.UsuarioEstado.idUsuario;
+            localStorage.setItem("rolUsuario", this.rol);
+            localStorage.setItem("idUsuario", this.idUsuario);
+
+            let _this = this;
+
+            if (this.rol == "Administrador" || this.rol == "Encargado" || this.rol == "Cocinero") {
+              let titulo = `${this.valtitle}`;
+              let mensaje = `${this.valmsj} ${_this.nombreUsuarioLog} ${_this.apellidoUsuarioLog} `;
+              ($ as any).confirm({
+                title: titulo,
+                content: mensaje,
+                type: "blue",
+                typeAnimated: true,
+                theme: "material",
+                buttons: {
+                  aceptar: {
+                    text: "Aceptar",
+                    btnClass: "btn-blue",
+                    action: function () {
+                      _this.router.navigate([`/home`]);
+                    }
+                  }
+                }
+              });
+            } else {
+              //Error, se logeo con otro idRol distinto a los anteriores
+              ($ as any).confirm({
+                title: "Error",
+                content: "Ud. no tiene acceso al sistema",
+                type: "red",
+                typeAnimated: true,
+                theme: "material",
+                buttons: {
+                  aceptar: {
+                    text: "Aceptar",
+                    btnClass: "btn-red",
+                  }
+                }
+              });
+            }
+          } else {
+            //algo.tipo==3 usuario suspendido
+            ($ as any).confirm({
+              title: `${this.susptitle}`,
+              content: `${this.suspmsj}`,
+              type: "orange",
+              typeAnimated: true,
+              theme: "material",
+              buttons: {
+                aceptar: {
+                  text: "Aceptar",
+                  btnClass: "btn-orange",
                 }
               }
             });
           }
         } else {
-          //algo.tipo==3 usuario suspendido
+          //NO SE PUDO CONECTAR CON LA BASE DE DATOS
           ($ as any).confirm({
-            title: `${this.susptitle}`,
-            content: `${this.suspmsj}`,
-            type: "orange",
+            title: "Error",
+            content: "Error de base de datos.",
+            type: 'red',
             typeAnimated: true,
-            theme: "material",
+            theme: 'material',
             buttons: {
               aceptar: {
-                text: "Aceptar",
-                btnClass: "btn-orange",
-                action: function() {}
+                text: 'Aceptar',
+                btnClass: 'btn-red',
               }
             }
           });

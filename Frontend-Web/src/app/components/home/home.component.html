@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="card-columns" *ngIf="variableRol=='Cocinero' || variableLibre">
-                <div class="card animated fadeIn fast" *ngFor="let iconos of iconosEncargado">
+                <div class="card animated fadeIn fast" *ngFor="let iconos of iconosCocinero">
                     <img [src]="iconos.img" class="card-img-top" [alt]="iconos.nombre" (click)="goTo(iconos.clave)" style="cursor: pointer;">
                     <div class="card-body">
                         <h4 class="card-title" style="text-align: center; font-weight: bold; cursor: pointer;" (click)="goTo(iconos.clave)">{{iconos.nombre}}</h4>

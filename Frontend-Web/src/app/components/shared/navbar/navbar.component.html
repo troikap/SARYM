@@ -16,6 +16,7 @@
                         <a class="dropdown-item" [routerLink]="['/home']">Home</a>
                         <div class="dropdown-divider bg-dark"></div>
                         <a class="dropdown-item" [routerLink]="['/usuario']">Usuario</a>
+                        <a class="dropdown-item" [routerLink]="['/rol']">Rol</a>
                         <a class="dropdown-item" [routerLink]="['/unidadmedida']">Unidad Medida</a>
                         <a class="dropdown-item" [routerLink]="['/caja']">Caja</a>
                         <a class="dropdown-item" [routerLink]="['/mesa']">Mesa</a>
@@ -25,6 +26,7 @@
                         <a class="dropdown-item" [routerLink]="['/producto']">Gestionar Producto</a>
                         <a class="dropdown-item" [routerLink]="['/menupromocion']">Gestionar Menu Promocion</a>
                         <a class="dropdown-item" [routerLink]="['/reporte']">Generar Reporte</a>
+                        <a class="dropdown-item" [routerLink]="['/backup']">Backup</a>
                     </div>
                     <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown" *ngIf="variableRol=='Encargado'">
                         <a class="nav-link" [routerLink]="['/home']">Home</a>
@@ -33,19 +35,18 @@
                         <a class="nav-link" [routerLink]="['/cerrarcaja']">Cerrar Caja</a>
                         <a class="nav-link" [routerLink]="['/generarmovimientocaja']">Generar Movimiento Caja</a>
                         <a class="nav-link" [routerLink]="['/search_mozo_estadia']">Reasignar Mozo a Estadia</a>
-                        <a class="nav-link" [routerLink]="['/habilitar-deshabilitar-producto']">Habilitar/Deshabilitar
-                            Producto</a>
+                        <a class="nav-link" [routerLink]="['/habilitar-deshabilitar-producto']">Habilitar/Deshabilitar Producto</a>
                         <a class="nav-link" [routerLink]="['/search_anular_pedido']">Anular Pedido</a>
                         <a class="nav-link" [routerLink]="['/search_gestionar_estado_estadia']">Gestionar Estado Estadia</a>
                     </div>
                     <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown" *ngIf="variableRol=='Cocinero'">
                         <a class="nav-link" [routerLink]="['/home']">Home</a>
                         <div class="dropdown-divider bg-dark"></div>
-                        <a class="nav-link" [routerLink]="['/enviarpedido']">Enviar Pedido</a>
-                        <a class="nav-link" [routerLink]="['/cambiarestadopedido']">Cambiar Estado Pedido</a>
+                        <a class="nav-link" [routerLink]="['/enviar_pedido']">Actualizar Comanda Cocina</a>
                     </div>
                 </li>
             </ul>
+            <small class="card text-white bg-dark mb-3"> {{stringLabel}} </small>
             <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="cerrarSesion()">Cerrar
                 Sesión</button>
         </div>

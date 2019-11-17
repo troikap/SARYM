@@ -1,0 +1,89 @@
+<div class="contenedor-pagina">
+    <br>
+    <div *ngIf="accionGet =='crear'">
+        <h2 class="titulo">Nuevo Rol</h2>
+    </div>
+    <div *ngIf="accionGet =='editar'">
+        <h2 class="titulo">Editar Rol</h2>
+    </div>
+    <div *ngIf="accionGet =='eliminar'">
+        <h2 class="titulo">Eliminar Rol</h2>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="form-section">
+            <form [formGroup]="form" (ngSubmit)="guardar()">
+                <div class="form-group">
+                    <div *ngIf="accionGet !='crear'">
+                        <label for="idRol" class="col col-form-label">Id</label>
+                        <input type="text" id="idRol" placeholder="Identificador" formControlName="idRol" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="nombreRol" class="col col-form-label">Nombre de Rol</label>
+                        <input type="text" class="form-control" id="nombreRol" placeholder="Ingrese Nombre de Rol" formControlName="nombreRol">
+                        <p class="input-error-msg" *ngIf="form.controls.nombreRol.errors?.required && form.controls.nombreRol.touched">Campo Obligatorio.</p>
+                        <p class="input-error-msg" *ngIf="form.controls.nombreRol.errors?.pattern && form.controls.nombreRol.touched">Por Ejemplo: Administrador.</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="idRolFuncion" class="col col-form-label">Función</label>
+                        <select Placeholder='Seleccione' formControlName='idRolFuncion' class="form-control"> 
+                            <option *ngFor='let funcion of funcionesRol' [value]='funcion.idRolFuncion'>{{funcion.nombreRolFuncion}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div class="container" *ngIf="funcionesAsignadas.length != 0">
+                        <hr>
+                        <h3>Lista de Funciones asociadas</h3>
+                        <br>
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col" width="10%">Id</th>
+                                    <th scope="col" width="80%">Nombre</th>
+                                    <th scope="col" width="10%">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor='let funAsignadas of funcionesAsignadas'>
+                                    <th scope="row" width="10%">{{funAsignadas.idRolFuncion}}</th>
+                                    <td width="80%">{{funAsignadas.nombreRolFuncion}}</td>
+                                    <td width="10%">
+                                        <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Eliminar" title="Eliminar" (click)="eliminarFuncion(funAsignadas.idRolFuncion)" style="cursor: pointer;">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row animated fadeIn fast" *ngIf="funcionesAsignadas.length == 0">
+                        <div class="col-md-12">
+                            <div class="alert alert-info" role="alert" style="text-align: center;">
+                                No ha cargado ninguna función al Rol
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div *ngIf="accionGet != 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+                </div>
+                <div *ngIf="accionGet == 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block">Eliminar</button>
+                </div>
+            </form>
+        </div>
+        <hr>
+        <div class="buttons-botton">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-2">
+                    <button onclick="history.back()" class="btn btn-primary">Cancelar</button>
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+    </div>

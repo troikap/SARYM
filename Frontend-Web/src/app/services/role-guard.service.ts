@@ -26,7 +26,7 @@ export class RoleGuardService implements CanActivate {
             aceptar: {
               text: "Aceptar",
               btnClass: "btn-red",
-              action: function() {
+              action: function () {
                 localStorage.clear();
                 _this.router.navigate(["/login"]);
               }
@@ -37,26 +37,27 @@ export class RoleGuardService implements CanActivate {
         for (let item of expectedRole) {
           if (item == rolFromToken) {
             return true;
-          } else {
-            ($ as any).confirm({
-              title: "Error",
-              content: "Ud. no tiene permisos para acceder a esta URL.",
-              type: "red",
-              typeAnimated: true,
-              theme: "material",
-              buttons: {
-                aceptar: {
-                  text: "Aceptar",
-                  btnClass: "btn-red",
-                  action: function() {
-                    _this.router.navigate(["/home"]);
-                  }
-                }
-              }
-            });
-            return false;
           }
         }
+        // no retorno true en ninguna vuelta del for, por ende no encontró permisos y ejecuta el siguiente bloque de código,
+        //solo va a entrar aca cdo en el bloque anterior no haya retornado alguna vez con true;
+        ($ as any).confirm({
+          title: "Error",
+          content: "Ud. no tiene permisos para acceder a esta URL.",
+          type: "red",
+          typeAnimated: true,
+          theme: "material",
+          buttons: {
+            aceptar: {
+              text: "Aceptar",
+              btnClass: "btn-red",
+              action: function () {
+                _this.router.navigate(["/home"]);
+              }
+            }
+          }
+        });
+        return false;
       }
     } else {
       ($ as any).confirm({
@@ -70,7 +71,7 @@ export class RoleGuardService implements CanActivate {
           aceptar: {
             text: "Aceptar",
             btnClass: "btn-red",
-            action: function() {
+            action: function () {
               localStorage.clear();
               _this.router.navigate(["/login"]);
             }
