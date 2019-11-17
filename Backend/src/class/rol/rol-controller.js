@@ -35,8 +35,11 @@ RolController.getToAllAttributes = (req, res, next) => {
       include: [{
         model: FuncionModelo,
         attributes: attributes.funcion,
-      }]
-    }]
+      }],
+    }],
+    order: [ 
+      [ FuncionRolModelo,  'idFuncion', 'ASC']
+    ]
   }).then(project => {
       if (!project || project == 0) {
         locals['title'] = `Registro no encontrado con valor: ${req.params[nombretable]}`;
@@ -54,17 +57,20 @@ RolController.getToName = (req, res, next) => {
   let locals = {};
   RolModelo.findAll({
     where: { [nombretable]: { [Op.substring]: req.params[nombretable] }},
-    attributes: attributes.rol,
-    include: [{
-      model: FuncionRolModelo,
-      attributes: attributes.funcionrol,
-      where: {  fechaYHoraBajaFuncionRol: null },
-      required: false,
+      attributes: attributes.rol,
       include: [{
-        model: FuncionModelo,
-        attributes: attributes.funcion,
-      }]
-    }]
+        model: FuncionRolModelo,
+        attributes: attributes.funcionrol,
+        where: {  fechaYHoraBajaFuncionRol: null },
+        required: false,
+        include: [{
+          model: FuncionModelo,
+          attributes: attributes.funcion,
+        }],
+      }],
+      order: [ 
+        [ FuncionRolModelo,  'idFuncion', 'ASC']
+      ]
   }).then(project => {
     if (!project || project == 0) {
       locals['title'] = `Registro no encontrado con valor: ${req.params[nombretable]}`;
@@ -90,8 +96,11 @@ RolController.getAll = (req, res, next) => {
       include: [{
         model: FuncionModelo,
         attributes: attributes.funcion,
-      }]
-    }]
+      }],
+    }],
+    order: [ 
+      [ FuncionRolModelo,  'idFuncion', 'ASC']
+    ]
   }).then(projects => {
     if (!projects || projects == 0) {
       locals['title'] = `No existen registros de ${legend}`;
@@ -110,16 +119,19 @@ RolController.getOne = (req, res, next) => {
   RolModelo.findOne({
     where: {[idtable]: req.params[idtable]},
     attributes: attributes.rol,
-    include: [{
-      model: FuncionRolModelo,
-      attributes: attributes.funcionrol,
-      where: {  fechaYHoraBajaFuncionRol: null },
-      required: false,
       include: [{
-        model: FuncionModelo,
-        attributes: attributes.funcion,
-      }]
-    }]
+        model: FuncionRolModelo,
+        attributes: attributes.funcionrol,
+        where: {  fechaYHoraBajaFuncionRol: null },
+        required: false,
+        include: [{
+          model: FuncionModelo,
+          attributes: attributes.funcion,
+        }],
+      }],
+      order: [ 
+        [ FuncionRolModelo,  'idFuncion', 'ASC']
+      ]
   }).then(project => {
     if (!project || project == 0) {
       locals['title'] = `No existe el registro : ${req.params[idtable]}` ;
@@ -263,16 +275,19 @@ RolController.editarFuncion = (req, res) => {
     where: {
     [idtable]: body[idtable] },
     attributes: attributes.rol,
-    include: [{
-      model: FuncionRolModelo,
-      attributes: attributes.funcionrol,
-      where: {  fechaYHoraBajaFuncionRol: null },
-      required: false,
       include: [{
-        model: FuncionModelo,
-        attributes: attributes.funcion,
-      }]
-    }]
+        model: FuncionRolModelo,
+        attributes: attributes.funcionrol,
+        where: {  fechaYHoraBajaFuncionRol: null },
+        required: false,
+        include: [{
+          model: FuncionModelo,
+          attributes: attributes.funcion,
+        }],
+      }],
+      order: [ 
+        [ FuncionRolModelo,  'idFuncion', 'ASC']
+      ]
   }).then( async response => {
       if(!response || response == 0) {
           locals['title'] = `No existe ${legend} con id ${idtable}`;
@@ -292,7 +307,7 @@ RolController.editarFuncion = (req, res) => {
                               })
                           } else {
                               locals.detalles.push({
-                                  ['title']: `Detalle eliminado con ${[idtable2]} = ${elem[[idtable2]]}`,
+                                  ['title']: `Detalle eliminado con ${[idtable2]} = ${elem[idtable2]}`,
                                   ['tipo']: 1
                               })
                           }
@@ -308,7 +323,7 @@ RolController.editarFuncion = (req, res) => {
                                   ['tipo']: 2
                               })
                           } else {
-                            await FuncionRolModelo.findOne({ where: { [idtable3]: elem[idtable3] ,  [idtable]: body[idtable] }}).then( async (funcionrol) => {
+                            await FuncionRolModelo.findOne({ where: { [idtable3]: elem[idtable3] ,  [idtable]: body[idtable], 'fechaYHoraBajaFuncionRol': null }}).then( async (funcionrol) => {
                               if(!funcionrol || funcionrol == 0) {
                                 elem['fechaYHoraAltaFuncionRol'] = fechaArgentina.getFechaArgentina();
                                 await FuncionRolModelo.create(elem).then((resp) => {
@@ -326,7 +341,7 @@ RolController.editarFuncion = (req, res) => {
                                 })
                               } else {
                                 locals.detalles.push({
-                                  ['title']: `No existe ${legend3} con id ${elem[idtable3]}`,
+                                  ['title']: `No existe ${legend2} con id ${elem[idtable2]}`,
                                   ['tipo']: 2
                               })
                               }

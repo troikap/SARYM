@@ -85,10 +85,8 @@ export class UsuarioService {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', tokenEnviroment);
      let data = {headers}
-     console.log("UUUUUUUUUUUUUUUUUU ", data)
      data['idRol'] = 5;
      data['idEstadoUsuario'] = 1;
-     console.log("UUUUUUUUUUUUUUUUUU ", data)
     return this.http
       .post(`${URL}${dir}`, datas, data)
       .toPromise()
@@ -97,20 +95,19 @@ export class UsuarioService {
       })
       .catch(  );
   }
-}
-/*
 
-export interface Usuario {
-  idUsuario: string;
-  cuitUsuario: number;
-  nombreUsuario: string;
-  apellidoUsuario: string;
-  contrasenaUsuario: string;
-  dniUsuario: number;
-  domicilioUsuario: string;
-  emailUsuario: string;
-  idDepartamento: number;
-  nroCelularUsuario: number;
-  nroTelefonoUsuario: number;
+  recuperarDatosToken( token ): Promise<any> {
+    let value = { token }
+    return this.http
+      .post(`${URL}/recuperarDatosToken`, value)
+      .toPromise()
+      .then( (response: any) => {
+        console.log()
+        return response;
+      })
+      .catch( err => {
+        console.log("ERROR: ",err)
+      } );
+  }
+  
 }
-*/
