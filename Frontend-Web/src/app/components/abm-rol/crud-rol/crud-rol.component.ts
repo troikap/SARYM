@@ -37,6 +37,7 @@ export class CrudRolComponent implements OnInit {
       if (this.accionGet !== "crear") {
         this.rolEncontrado = true;
         this.traerRol();
+        this.traerFuncionesRol();
       }
     });
 
@@ -44,7 +45,6 @@ export class CrudRolComponent implements OnInit {
 
   ngOnInit() {
     this.traerFunciones();
-    this.traerFuncionesRol();
     this.setValueChangeFunciones();
   }
 
@@ -84,30 +84,31 @@ export class CrudRolComponent implements OnInit {
   }
 
   traerFunciones() {
-    console.log("Traer Funciones existentes");
-    // this.rolService.getFuncionesRolAll().then(res => {
-    //   this.funcionesRol = res;
-    // });
+    this.rolService.getFuncionesRolAll().then((res: any) => {
+      this.funcionesRol = res.data;
+    });
 
-    /////HARDCODE FUNCTIONS --> ELIMINAR CUANDO ESTE BACKEND DE FUNCIONES/////
-    this.funcionesRol.push({"idFuncion":"1", "nombreFuncion":"Consulta Usuario"});
-    this.funcionesRol.push({"idFuncion":"2", "nombreFuncion":"ABM Usuario"});
-    this.funcionesRol.push({"idFuncion":"3", "nombreFuncion":"Buscar Producto"});
-    this.funcionesRol.push({"idFuncion":"4", "nombreFuncion":"Consulta Producto"});
-    this.funcionesRol.push({"idFuncion":"5", "nombreFuncion":"ABM Producto"});
-    this.funcionesRol.push({"idFuncion":"6", "nombreFuncion":"Consulta Abrir Caja"});
-    this.funcionesRol.push({"idFuncion":"7", "nombreFuncion":"ABM Abrir Caja"});
+    // /////HARDCODE FUNCTIONS --> ELIMINAR CUANDO ESTE BACKEND DE FUNCIONES/////
+    // this.funcionesRol.push({"idFuncion":"1", "nombreFuncion":"Consulta Usuario"});
+    // this.funcionesRol.push({"idFuncion":"2", "nombreFuncion":"ABM Usuario"});
+    // this.funcionesRol.push({"idFuncion":"3", "nombreFuncion":"Buscar Producto"});
+    // this.funcionesRol.push({"idFuncion":"4", "nombreFuncion":"Consulta Producto"});
+    // this.funcionesRol.push({"idFuncion":"5", "nombreFuncion":"ABM Producto"});
+    // this.funcionesRol.push({"idFuncion":"6", "nombreFuncion":"Consulta Abrir Caja"});
+    // this.funcionesRol.push({"idFuncion":"7", "nombreFuncion":"ABM Abrir Caja"});
 
-    console.log("funcionesRol: ", this.funcionesRol);
-    /////////////////////////////////////////////////////////////////////////
+    // console.log("funcionesRol: ", this.funcionesRol);
+    // /////////////////////////////////////////////////////////////////////////
   }
 
   traerFuncionesRol () {
-    console.log("Traer Funciones del Rol");
-    // this.rolService.getFuncionesRol().then(res => {
-    //   this.funcionesAsignadas = res;
-    // });
-
+    let listaAux = [];
+    this.rolService.getRol(this.idRol).then(res => {
+      listaAux = res.data.funcionrols;
+      for (let item of listaAux) {
+        this.funcionesAsignadas.push(item.funcion);
+      }
+    });
   }
 
   eliminarFuncion(idFuncion) { //NO elimino. Genero un nuevo arreglo para no tener problemas de ínidices en la lista
