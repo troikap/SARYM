@@ -89,6 +89,7 @@ RolController.getAll = (req, res, next) => {
       required: false,
       include: [{
         model: FuncionModelo,
+        order: [ [idtable3], 'ASC'],
         attributes: attributes.funcion,
       }]
     }]

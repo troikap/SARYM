@@ -50,6 +50,8 @@ const routes: Routes = [
   { path: 'consultar-salon', loadChildren: './pages/mozo/consultar-salon/consultar-salon.module#ConsultarSalonPageModule' },
   { path: 'home-invitado', loadChildren: './pages/invitado/home-invitado/home-invitado.module#HomeInvitadoPageModule' },
   { path: 'pedido-catalogo/comensal/:idComensal/pedido/:idPedido', loadChildren: './pages/gestionar-reserva/pedido-catalogo/pedido-catalogo.module#PedidoCatalogoPageModule' },
+  { path: 'recuperar-contrasenia/:token', loadChildren: './pages/recuperar-contrasenia/recuperar-contrasenia.module#RecuperarContraseniaPageModule' },
+
 
   
 
