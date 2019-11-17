@@ -4,6 +4,7 @@ import { PedidoService } from '../../../services/pedido/pedido.service';
 import { ProductoService } from '../../../services/producto/producto.service';
 import { MenuPromocionService } from '../../../services/menu-promocion/menu-promocion.service';
 import { MozoEstadiaService } from '../../../services/mozo-estadia/mozo-estadia';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-cambiar-estado-pedido',
@@ -13,6 +14,9 @@ import { MozoEstadiaService } from '../../../services/mozo-estadia/mozo-estadia'
 export class CambiarEstadoPedidoComponent implements OnInit {
   private listaPedidosEnviados: any[] = [];
   private listaPedidos: any[] = [];
+  private horaActual: Date = new Date()
+  
+  
 
   constructor(
     private router: Router,
@@ -20,7 +24,8 @@ export class CambiarEstadoPedidoComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private productoService: ProductoService,
     private menuPromocionService: MenuPromocionService,
-    private mozoestadiaservicio: MozoEstadiaService
+    private mozoestadiaservicio: MozoEstadiaService,
+    private datePipe: DatePipe
   ) {
     setInterval( () => { 
       location.reload()}, 10000);
@@ -29,7 +34,10 @@ export class CambiarEstadoPedidoComponent implements OnInit {
   ngOnInit() {
     this.traerPedidos();
   }
+  
   traerPedidos() {
+    console.log(this.datePipe.transform(this.horaActual,
+      "h:mm"))
     this.pedidoServicio.getPedidos().then((data: any) => {
       this.listaPedidos = data.data;
       for (let item of this.listaPedidos) {
@@ -46,7 +54,6 @@ export class CambiarEstadoPedidoComponent implements OnInit {
           this.listaPedidosEnviados.push(item);          
         }
       }
-      console.log(this.listaPedidosEnviados);
     })
   }
 }
