@@ -68,9 +68,8 @@ import { EnviarPedidoComponent } from './components/enviar-pedido/enviar-pedido/
 import { CambiarEstadoPedidoComponent } from './components/cambiar-estado-pedido/cambiar-estado-pedido/cambiar-estado-pedido.component';
 import { CrudRolComponent } from './components/abm-rol/crud-rol/crud-rol.component';
 import { SearchRolComponent } from './components/abm-rol/search-rol/search-rol.component';
-import { RecuperarContraseniaComponent } from './components/recuperar-contrasenia/recuperar-contrasenia.component';
 import { FechaArgentinaProvider } from './providers/fechaArgentina.provider';
-
+import { RecuperarContraseniaComponent } from './components/recuperar-contrasenia/recuperar-contrasenia.component';
 
 @NgModule({
   declarations: [

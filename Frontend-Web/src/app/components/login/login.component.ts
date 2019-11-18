@@ -2,8 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { UsuarioService } from "../../services/usuario/usuario.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { environment } from 'src/environments/environment';
 import { FechaArgentinaProvider } from '../../providers/fechaArgentina.provider';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: "app-login",
