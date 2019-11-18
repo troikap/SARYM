@@ -13,7 +13,8 @@ export class RolService {
   dir = "/rol";
   dir2 = "/codRol";
   dir3 = "/todo";
-  dir4 = "/funcion";;
+  dir4 = "/funcion";
+  dir5 = "/editarFuncion";
 
   tokenEnviroment = environment.token;
 
@@ -95,6 +96,18 @@ export class RolService {
       .then(response => {
         console.log("Servicio getFuncionesRol: ", response);
         return response as any[];
+      })
+      .catch();
+  }
+
+  updateFuncionesRol(datas: any): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append("token", this.tokenEnviroment);
+    return this.http
+      .put(`${this.url}${this.dir}${this.dir5}`, datas, { headers })
+      .toPromise()
+      .then(response => {
+        return response as Rol;
       })
       .catch();
   }

@@ -52,7 +52,7 @@
                                 <tr *ngFor='let funAsignadas of funcionesAsignadas'>
                                     <th scope="row" width="10%">{{funAsignadas.idFuncion}}</th>
                                     <td width="80%">{{funAsignadas.nombreFuncion}}</td>
-                                    <td width="10%">
+                                    <td width="10%" *ngIf="accionGet != 'eliminar'">
                                         <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Eliminar" title="Eliminar" (click)="eliminarFuncion(funAsignadas.idFuncion)" style="cursor: pointer;">
                                     </td>
                                 </tr>
