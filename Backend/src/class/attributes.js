@@ -299,7 +299,9 @@ estadoestadia = [
 ]
 
 detalleestadiamesa = [
-    "idDetalleEstadiaMesa"
+    "idDetalleEstadiaMesa",
+    "idMesa",
+    "idEstadia"
 ]
 
 clienteestadia = [

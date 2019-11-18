@@ -66,7 +66,8 @@ export class HomePage implements OnInit {
         page = `/crud-gestionar-reserva/0/crear`;
         break;
       case "unirse-reserva":
-        page = `/unirse-gestionar-reserva`;
+        // page = `/unirse-gestionar-reserva`;
+        page = `/unirse-reserva-estadia`;
         break;
       // case "realizar-pedido":
       //   page = `/ver-qr-reserva/1`;

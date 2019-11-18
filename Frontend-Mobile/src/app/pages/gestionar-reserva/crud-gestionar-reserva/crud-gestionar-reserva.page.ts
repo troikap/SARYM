@@ -342,7 +342,7 @@ prueba() {
   }
 
   agregarCodigoReserva( data ) {
-    let codReserva = `${this.currentUsuario.id}-${this.currentUsuario.cuit}-${data.fechaReserva}/${data.horaEntradaReserva}`;
+    let codReserva = `${this.currentUsuario.id}-${this.currentUsuario.cuit}-${data.fechaReserva}/${data.horaEntradaReserva}-RESERVA`;
     data['codReserva'] = codReserva;
     return data
   }

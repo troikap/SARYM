@@ -61,7 +61,8 @@ export class SearchGestionarEstadiaPage implements OnInit {
 
   unirseEstadia() {
     console.log("crearReserva");
-    this.navController.navigateForward(['/unirse-gestionar-reserva' ]);
+    // this.navController.navigateForward(['/unirse-gestionar-reserva' ]);
+    this.navController.navigateForward(['/unirse-reserva-estadia' ]);
   }
 
   consultarEstadia( idEstadia: number) {
