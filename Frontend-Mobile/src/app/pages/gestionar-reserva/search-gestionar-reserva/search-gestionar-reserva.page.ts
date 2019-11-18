@@ -47,7 +47,7 @@ export class SearchGestionarReservaPage implements OnInit {
 
   realizarPedido(item) {
     let idReserva = item.data.idReserva;
-    this.navController.navigateForward([`/seleccion-comensal/${idReserva}`])
+    this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}`])
   }
 
   crearReserva() {

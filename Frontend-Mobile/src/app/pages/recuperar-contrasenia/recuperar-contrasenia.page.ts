@@ -36,7 +36,6 @@ export class RecuperarContraseniaPage implements OnInit {
         contrasenaUsuarioRepeat: new FormControl('', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(25)]))
       }, { validators: CustomValidator.equalValidator({ first_control_name: 'contrasenaUsuario', second_control_name: 'contrasenaUsuarioRepeat' }) })
     });
-    this.prueba()
   }
 
   ngOnInit() {
@@ -52,6 +51,8 @@ export class RecuperarContraseniaPage implements OnInit {
           this.recuperarInfoToken(params["token"]);
         } else {
           console.log("NO TRAJO TOKEN")
+          this.toastService.toastError('Acceso no Autorizado.',2000);
+          this.navController.navigateRoot('/home')
         }
       });
   }
@@ -71,7 +72,13 @@ export class RecuperarContraseniaPage implements OnInit {
   recuperarInfoToken( token ) {
     this.usuarioservicio.recuperarDatosToken( token )
       .then((res) => {
-        this.idUsuario = res.data.idUsuario;
+        console.log("RESPUESTA DE TOKEN ", res)
+        if ( res != null ) {
+          this.idUsuario = res.data.idUsuario;
+        } else {
+          this.toastService.toastError('El tiempo para acceder a esta página ha Caducado.',3000);
+          this.navController.navigateRoot('/home')
+        }
       })
   }
 

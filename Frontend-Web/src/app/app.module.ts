@@ -69,6 +69,8 @@ import { CambiarEstadoPedidoComponent } from './components/cambiar-estado-pedido
 import { CrudRolComponent } from './components/abm-rol/crud-rol/crud-rol.component';
 import { SearchRolComponent } from './components/abm-rol/search-rol/search-rol.component';
 import { RecuperarContraseniaComponent } from './components/recuperar-contrasenia/recuperar-contrasenia.component';
+import { FechaArgentinaProvider } from './providers/fechaArgentina.provider';
+
 
 @NgModule({
   declarations: [
@@ -147,7 +149,7 @@ import { RecuperarContraseniaComponent } from './components/recuperar-contraseni
     })
 
   ],
-    providers: [UploadService, RoleGuardService, DatePipe],
+    providers: [UploadService, RoleGuardService, DatePipe, FechaArgentinaProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -16,7 +16,10 @@
                 <ion-label>
                     <p class="text">
                         <ion-grid>
-                            <ion-title>Estadia N°: {{estadia.idEstadia}}</ion-title>
+                            <ion-row>
+                                <ion-title>Estadia N°: {{estadia.idEstadia}}</ion-title>
+                                <ion-button  align='rigth' (click)="mostrar = !mostrar"><ion-icon  name="barcode"></ion-icon></ion-button>
+                            </ion-row>
                             <br>
                             <ion-row>
                                 <ion-col>
@@ -37,49 +40,34 @@
                                     <strong>Cantidad de Comensales:</strong> {{estadia.cantPersonas}}
                                 </ion-col>
                             </ion-row>
-                            <ion-row>
-                                <ion-col>
-                                    <ion-button color="success" (click)="consultarEstadia(estadia.idEstadia)">Consultar Estadia</ion-button>
-                                </ion-col>
-                                <ion-col align="rigth">
-                                    <ion-button  (click)="realizarPedido(estadia)">Realizar Pedido</ion-button>
-                                </ion-col>
-                            </ion-row>
                         </ion-grid>
                     </p>
+                    <div class="buttons">
+                        <ion-row>
+                            <ion-col>
+                                <ion-button color="success" (click)="consultarEstadia(estadia.idEstadia)">Consultar Estadia</ion-button>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col>
+                                <ion-button (click)="realizarPedido(estadia)">Realizar Pedido</ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </div>
                 </ion-label>
             </ion-item>
-            <ion-item-options side="start">
-                <ion-item-option color="danger" (click)="anularEstadia(estadia.idEstadia)">
-                    <ion-icon slot="icon-only" name="trash"></ion-icon>
-                </ion-item-option>
-            </ion-item-options>
-            <ion-item-options side="end">
-                <ion-item-option style="background-color:green" (click)="editarEstadia(estadia.idEstadia)">
-                    <ion-icon slot="icon-only" name="create"></ion-icon>
-                </ion-item-option>
-                <ion-item-option color="secondary" (click)="verQrEstadia(estadia.idEstadia)">
-                    <ion-icon slot="icon-only" name="barcode"></ion-icon>
-                </ion-item-option>
-            </ion-item-options>
         </ion-item-sliding>
     </ion-card>
-    <ion-card>
-        <ngx-qrcode [(qrc-value)]="createdCode"></ngx-qrcode>
-        <ion-card-content>
-            <p>Value: {{createdCode}} </p>
-        </ion-card-content>
-    </ion-card>
-    <ion-card *ngIf="scannedCode">
-        <ion-card-content>
-            Result from Scan: {{scannedCode}}
-        </ion-card-content>
-    </ion-card>
-    <h2 padding> <strong>Para compartir tu estadia con tus amigos!</strong></h2>
-    <ion-item *ngIf="!estadia">
-        <ion-label floating>Usted no posee Estadia asociada</ion-label>
-    </ion-item>
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="crearReserva()">
+    <div *ngIf= mostrar>
+        <ion-card *ngIf="createdCode">
+            <ngx-qrcode [(qrc-value)]="createdCode"></ngx-qrcode>
+        </ion-card>
+        <h2 padding> <strong>Para compartir tu estadia con tus amigos!</strong></h2>
+        <ion-item *ngIf="!estadia">
+            <ion-label floating>Usted no posee Estadia asociada</ion-label>
+        </ion-item>
+    </div>
+    <ion-fab *ngIf="!estadia" vertical="bottom" horizontal="end" slot="fixed" (click)="unirseEstadia()">
         <ion-fab-button>
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>

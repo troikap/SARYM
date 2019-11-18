@@ -40,7 +40,7 @@ const routes: Routes = [
   { path: 'ver-qr-reserva/:id', loadChildren: './pages/gestionar-reserva/ver-qr-reserva/ver-qr-reserva.module#VerQRReservaPageModule' },
   
   { path: 'lista-pedido/reserva/:idReserva/comensal/:idComensal', loadChildren: './pages/gestionar-reserva/lista-pedido/lista-pedido.module#ListaPedidoPageModule' },
-  { path: 'seleccion-comensal/:idReserva', loadChildren: './pages/gestionar-reserva/seleccion-comensal/seleccion-comensal.module#SeleccionComensalPageModule' },
+  { path: 'seleccion-comensal/reserva/:idReserva', loadChildren: './pages/gestionar-reserva/seleccion-comensal/seleccion-comensal.module#SeleccionComensalPageModule' },
   { path: 'seleccion-pedido/reserva/:idReserva/comensal/:idComensal', loadChildren: './pages/gestionar-reserva/seleccion-pedido/seleccion-pedido.module#SeleccionPedidoPageModule' },
 
 // estadia
