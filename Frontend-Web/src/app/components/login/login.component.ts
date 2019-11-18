@@ -38,6 +38,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() { }
 
+  recuperarContrasenia() {
+    console.log("Recupar contraseña");
+  }
+
   loguear() {
     this.usuarioservicio
       .loguear(this.form.value.cuitUsuario, this.form.value.contrasenaUsuario)
