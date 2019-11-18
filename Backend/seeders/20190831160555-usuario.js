@@ -13,7 +13,7 @@ module.exports = {
                 "contrasenaUsuario": "$2b$10$NBITOKBLswcWatA454Jsjef32/NzJxEBXuFOSNV3t552buiEkVPcK",
                 "dniUsuario": 36850688,
                 "domicilioUsuario": "Villa Mercedes 1235",
-                "emailUsuario": "lucaz_pato@gmail.com",
+                "emailUsuario": "lucasperezgracia@gmail.com",
                 "idDepartamento": 1,
                 "nroCelularUsuario": 2614318023,
                 "nroTelefonoUsuario": 2613875478,

@@ -22,6 +22,7 @@ usuario2 = [
     'idDepartamento',
     'nroCelularUsuario',
     'nroTelefonoUsuario',
+    'contrasenaUsuario'
 ];
 
 usuarioestado = [
@@ -346,6 +347,7 @@ funcion = [
 
 module.exports = {
     usuario, 
+    usuario2,
     usuarioestado, 
     estadousuario, 
     rolusuario, 

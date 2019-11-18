@@ -47,7 +47,6 @@ export class UsuarioService {
     console.log(`${URL}/existUser`, value)
     return this.http.post(`${URL}/existUser`, value).toPromise()
     .then( (response) => {
-      console.log("Response ,",response)
       return response;
     })
     .catch( (err) => {
@@ -106,6 +105,25 @@ export class UsuarioService {
         return response;
       })
       .catch( err => {
+        console.log("ERROR: ",err)
+      } );
+  }
+
+  envioEmail(data){
+    let value = { email: data.data.emailUsuario, nombreUsuario: data.data.nombreUsuario, apellidoUsuario: data.data.apellidoUsuario, idUsuario: data.data.idUsuario }
+    return this.http
+      .post(`${URL}/envioEmail`, value)
+      .toPromise()
+      .then( (response: any) => {
+        if (response == null ){
+          response = {};
+        }
+        console.log("resPONSE ", response)
+        response['tipo'] = 1;
+        return response;
+      })
+      .catch( err => {
+        err['tipo'] = 2;
         console.log("ERROR: ",err)
       } );
   }

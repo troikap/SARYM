@@ -9,7 +9,7 @@ require('../config');
 //sincronizador
 require('../database/sincronizar-bd');
 
-const { verificaToken } = require('../middlewares/autenticacion');
+const { verificaToken, verificaTokenRecuperacion } = require('../middlewares/autenticacion');
 
 var TokenController = require('../class/token/token-controller');
 const configMensaje = require('../middlewares/configMensaje');
@@ -59,8 +59,7 @@ router
         configMensaje(req.body);
         res.status(200).send();
     })
-    // .post('/recuperarDatosToken', UsuarioController.recuperarDatosToken)
-
+    .post('/recuperarDatosToken', verificaTokenRecuperacion, UsuarioController.recuperarDatosToken)
 
 // reporte
 

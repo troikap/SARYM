@@ -7,6 +7,8 @@
 
 //TOKEN 1 DIA:
 process.env.CADUCIDAD_TOKEN = 1000 * 60 * 60 * 24;
+process.env.CADUCIDAD_TOKENRECUPERACION = 1000 * 60 * 60;
+
 
 //TOKEN PRUEBA 1 MINUTO
 //process.env.CADUCIDAD_TOKEN = 1000 * 60;
