@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators, FormControl } from "@angular/forms";
+import { FormGroup, Validators, FormControl } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { DepartamentoService, Departamento } from "../../../services/departamento/departamento.service";
 import { RolService, Rol } from "../../../services/rol/rol.service";
@@ -27,7 +27,6 @@ export class CrudUsuarioComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder,
     private router: Router,
     private departamnetoservicio: DepartamentoService,
     private rolservicio: RolService,

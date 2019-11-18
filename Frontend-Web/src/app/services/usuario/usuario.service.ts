@@ -16,6 +16,11 @@ export class UsuarioService {
   dir2 = "/cuitUsuario";
   dir3 = "/todo";
   dirToken = "/verificarTokenRol";
+
+  dirExistUsr = "/existUser";
+  dirEnvioMail = "/envioEmail";
+  dirRecuperarToken = "/recuperarDatosToken";
+
   tokenEstaLogueado: string;
 
   tokenEnviroment = environment.token;
@@ -44,6 +49,56 @@ export class UsuarioService {
   getRolUsuarioLoggeado() {
     let rolUsuario = localStorage.getItem("rolUsuario");
     return rolUsuario;
+  }
+
+  validarExistenciaUsuario( cuit: number ): Promise<any> {
+    let value = {cuitUsuario: cuit};
+    
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append("token", this.tokenEnviroment);
+    return this.http
+      .post(`${this.url}${this.dirExistUsr}`, value)
+      .toPromise()
+      .then(response => {
+        console.log("validarExistenciaUsuario: ", response);
+        return response;
+      })
+      .catch( (err) => {
+        console.log("ERROR: ",err)
+      })
+  }
+
+  envioEmail(data){
+    let value = { origen: 'http://localhost:4200', email: data.data.emailUsuario, nombreUsuario: data.data.nombreUsuario, apellidoUsuario: data.data.apellidoUsuario, idUsuario: data.data.idUsuario, cuitUsuario: data.data.cuitUsuario }
+    return this.http
+      .post(`${this.url}${this.dirEnvioMail}`, value)
+      .toPromise()
+      .then( (response: any) => {
+        if (response == null ){
+          response = {};
+        }
+        console.log("response ", response)
+        response['tipo'] = 1;
+        return response;
+      })
+      .catch( err => {
+        err['tipo'] = 2;
+        console.log("ERROR: ",err)
+      } );
+  }
+
+  recuperarDatosToken( token ): Promise<any> {
+    let value = { token }
+    return this.http
+      .post(`${this.url}${this.dirRecuperarToken}`, value)
+      .toPromise()
+      .then( (response: any) => {
+        console.log()
+        return response;
+      })
+      .catch( err => {
+        console.log("ERROR: ",err)
+      } );
   }
 
   loguear(cuit: number, pass: string): Promise<any> {

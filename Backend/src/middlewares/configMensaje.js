@@ -10,7 +10,6 @@ module.exports = (formulario) => {
 
     let EMAIL = 'sarymresto@gmail.com';
     let ASUNTO = 'Recuperación de Contraseña';
-    let MENSAJE = "Necesitamos que Corrobores el EMAIL. Gracias Atte: SARYM";
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -21,24 +20,37 @@ module.exports = (formulario) => {
         }
     });
     const mailOptions = {
-        from: `” SARYM” <${EMAIL}>`,
+        from: `Equipo SARYM<${EMAIL}>`,
         to: `${formulario.email}`, // Cambia esta parte por el destinatario
         subject: ASUNTO,
         html: `<div style="padding-top: 60px;">
-        <div style="padding-top: 10px; width: 90%; margin: auto;">
-            <div><img src="../assets/no-imagen.jpg" alt="Logo SARYM"></div>
-            <div style="padding: 2rem 1rem; margin-bottom: 2rem; background-color: #e9ecef; border-radius: 0.3rem;">
-                <h1 style="font-size: 3.5rem; font-weight: 300; line-height: 1.2;">
-                    Módulo de Backup y Recuperación
-                </h1>
-                <p style="font-size: 1.25rem; font-weight: 300;">
-                    Usted podrá generar un Backup de toda la Base de Datos del sistema y recuperar la información de un un archivo de Backup previamente generado.<br>Se recomienda no realizar acciones con usuarios conectados.
-                </p>
-                <hr style="margin-top: 1.5rem !important;">
-                <p>Presione el siguiente botón para generar un archivo de Backup de todo el sistema. El mismo puede demorar unos minutos en ser generado.</p>
+            <div style="padding-top: 10px; width: 90%; margin: auto;">
+                <div style="padding: 2rem 3rem; margin-bottom: 2rem; background-color: #e9ecef; border-radius: 0.3rem;">
+                    <h2 style="font-size: 3.5rem; font-weight: 300; line-height: 1.2;">
+                    Equipo SARYM
+                    </h2>
+                    <p style="font-size: 1.25rem; font-weight: 300;">
+                        Notificación de restablecimiento de Contraseña
+                    </p>
+                    <hr style="margin-top: 1.5rem !important;">
+                    <p><strong>Estimado ${formulario.nombreUsuario} ${formulario.apellidoUsuario}:<strong></p>
+                    <p>Se ha solicitado un restablecimiento de contraseña del usuario <strong>${formulario.cuitUsuario}</strong> de la App de SARYM.</p>
+                    <p>Para continuar con el proceso de recuperación, haga click en el siguiente enlace: 
+                    <a href= ${formulario.origen}/recuperar-contrasenia/${token}">Recuperar Contraseña</a>.
+                    <br> 
+                    Si usted no solicitó un restablecimiento de contraseña, desestime el siguiente correo.</p>
+                    <br>
+                    <div>--</div>
+                    <p>Muchas gracias,
+                    <br>
+                    <strong>Equipo SARYM<strong></p>
+                    <br>
+                    <div style="font-size:10px; font-style: italic;">
+                        <p>Por favor no responda a este mensaje. Las respuestas a este mensaje seran dirigidas a un buzón de correo sin supervisión.</p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>`
+        </div>`
             // html: `
             // <strong>Nombre:</strong> ${formulario.nombreUsuario}  ${formulario.apellidoUsuario} <br/>
             // <strong>E-mail:</strong> ${formulario.email} <br/>
