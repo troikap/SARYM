@@ -33,6 +33,7 @@
                     <ion-button expand='full' shape='round' color='primary' (click)='loguear()' [disabled]="!form.valid">Iniciar Sesión</ion-button>
                     <ion-button expand='full' shape='round' (click)="goTo('registro-usuario')" color='primary'>Registrarse</ion-button>
                     <ion-button expand='full' shape='round' (click)='iniciarInvitado()' [disabled]=true color='primary'>Invitado</ion-button>
+                    <a (click)='recuperarContrasenia()' color='primary'>Recuperar Contraseña</a>
                 </ion-col>
             </ion-row>
             <ion-row class='mt-10 terms-text'>

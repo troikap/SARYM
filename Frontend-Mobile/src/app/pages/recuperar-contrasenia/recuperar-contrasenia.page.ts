@@ -6,6 +6,7 @@ import { StorageService, Log } from '../../services/storage/storage.service';
 import { ToastController } from '@ionic/angular';
 import * as CustomValidator from '../../utils/custom-validators.util';
 import { NavController } from '@ionic/angular';
+import { ToastService } from '../../providers/toast.service';
 
 @Component({
   selector: 'app-recuperar-contrasenia',
@@ -16,6 +17,8 @@ export class RecuperarContraseniaPage implements OnInit {
 
   private form: FormGroup;
   private token;
+  private idUsuario;
+
 
   constructor(
     private router: Router,
@@ -24,7 +27,8 @@ export class RecuperarContraseniaPage implements OnInit {
     public activatedRoute: ActivatedRoute,
     private storage: StorageService,
     public toastController: ToastController,
-    private navController: NavController
+    private navController: NavController,
+    private toastService: ToastService
   ) {
     this.form = this.formBuilder.group({
       contrasenaUsuario_group: new FormGroup({
@@ -32,6 +36,7 @@ export class RecuperarContraseniaPage implements OnInit {
         contrasenaUsuarioRepeat: new FormControl('', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(25)]))
       }, { validators: CustomValidator.equalValidator({ first_control_name: 'contrasenaUsuario', second_control_name: 'contrasenaUsuarioRepeat' }) })
     });
+    this.prueba()
   }
 
   ngOnInit() {
@@ -42,9 +47,9 @@ export class RecuperarContraseniaPage implements OnInit {
     this.activatedRoute.params
       .subscribe(params => {
         this.token = params["token"];
-        if (this.token != 0) {
+        if (this.token != null) {
           console.log("Buscando Usuario")
-          this.recuperarInfoToken(this.token);
+          this.recuperarInfoToken(params["token"]);
         } else {
           console.log("NO TRAJO TOKEN")
         }
@@ -52,59 +57,23 @@ export class RecuperarContraseniaPage implements OnInit {
   }
 
   guardar() {
-    this.storage.getOneObject('token')
-      .then((res) => {
-        let usuario = this.crearNuevoUsuario();
-        if (this.id != 0) {
-          this.usuarioservicio.updateUsuario(usuario)
-            .then((resp) => {
-              this.presentToast(resp);
-            })
-            .catch((err) => {
-              console.log("ERROR ", err)
-            })
-        } else {
-          if (this.id == 0) {
-            this.usuarioservicio.setUsuario(usuario)
-              .then((resp) => {
-                this.presentToast(resp);
-                this.navController.navigateRoot('/logueo');
-              })
-              .catch((err) => {
-                console.log("ERROR ", err)
-              })
-          }
-        }
+    let usuario = { idUsuario: this.idUsuario, contrasenaUsuario: this.form.value.contrasenaUsuario_group.contrasenaUsuario}
+    this.usuarioservicio.updateUsuario(usuario)
+      .then((resp) => {
+        this.toastService.toastSuccess('Contraseña guardada correctamente.',2000);
+        this.navController.navigateRoot('/logueo');
+      })
+      .catch((err) => {
+        console.log("ERROR ", err)
       })
   }
 
-  crearNuevoUsuario() {
-    let data = {};
-    data = {
-      "cuitUsuario": this.form.value.cuitUsuario,
-      "nombreUsuario": this.form.value.nombreUsuario,
-      "apellidoUsuario": this.form.value.apellidoUsuario,
-      "contrasenaUsuario": this.form.value.contrasenaUsuario,
-      "dniUsuario": this.form.value.dniUsuario,
-      "domicilioUsuario": this.form.value.domicilioUsuario,
-      "emailUsuario": this.form.value.emailUsuario,
-      "idDepartamento": this.form.value.idDepartamento,
-      "nroCelularUsuario": Number(this.form.value.nroCelularUsuario.substr(0, 3) + this.form.value.nroCelularUsuario.substr(4, 3) + this.form.value.nroCelularUsuario.substr(8)),
-      "nroTelefonoUsuario": Number(this.form.value.nroTelefonoUsuario.substr(0, 3) + this.form.value.nroTelefonoUsuario.substr(4, 3) + this.form.value.nroTelefonoUsuario.substr(8))
-    }
-    if (this.id > 0) {
-      data['idUsuario'] = Number(this.id);
-    } else {
-      data['contrasenaUsuario'] = this.form.value['contrasenaUsuario_group']['contrasenaUsuario']
-    }
-    return data;
-  }
-
-  recuperarInfoToken(token) {
-    this.usuarioservicio.getUsuario(id)
+  recuperarInfoToken( token ) {
+    this.usuarioservicio.recuperarDatosToken( token )
       .then((res) => {
-        this.usuario = res['Usuario'];
-        this.transformarForm();
+        console.log("EStamos ACA")
+        console.log("RESPUESTA ",res)
+        this.idUsuario = res.data.idUsuario;
       })
   }
 

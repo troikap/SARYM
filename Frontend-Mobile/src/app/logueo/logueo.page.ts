@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from '../services/usuario/usuario.service';
 import { StorageService, Log } from '../services/storage/storage.service';
 import { AlertController, MenuController, NavController } from '@ionic/angular';
+import { ToastService } from '../providers/toast.service'
 
 @Component({
   selector: 'app-logueo',
@@ -23,6 +24,7 @@ export class LogueoPage implements OnInit {
   private error = "Error"
   private errormsj = "Ud. no tiene permisos para acceder al sistema mobile"; 
   private algo = null;
+  private contador = 1;
 
   constructor(private router: Router,
     private formBuilder: FormBuilder,
@@ -30,7 +32,8 @@ export class LogueoPage implements OnInit {
     private storage: StorageService,
     public alertController: AlertController,
     private menu: MenuController,
-    private navController: NavController
+    private navController: NavController, 
+    private toastService: ToastService,
     ) { 
       this.menu.enable(false)
       this.loadLog();
@@ -172,5 +175,76 @@ export class LogueoPage implements OnInit {
     this.menu.enable(false);
     this.navController.navigateRoot('/home-invitado')
   }
+
+  recuperarContrasenia() {
+    console.log("REcuperando")
+    if (this.contador > 0 ) {
+      this.confirmarRecuperacion();
+    } else {
+      this.solicitarAyuda();
+    }
+  }
+
+  async confirmarRecuperacion() {
+    const alert = await this.alertController.create({
+      header: 'Recuperación de Contraseña',
+      message: 'Esta seguro de que desea recuperar su contraseña?. De ser correcto, digite su N° de cuit y le enviaremos un Email a su correo.',
+      inputs: [
+        {
+          name: 'cuit',
+          type: 'number',
+          placeholder: 'Ingrese su cuit',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Recuperar',
+          handler: ( resp ) => {
+            if ( resp.cuit.length == 11 ) {
+              this.usuarioservicio.validarExistenciaUsuario(resp.cuit)
+              .then( resp => {
+                if (resp.tipo == 2 ) {
+                  console.log("RESOYESTA ", resp)
+                  this.usuarioservicio.envioEmail(resp)
+                  .then( respuesta => {
+                    if (respuesta['tipo'] == 1 ) {
+                      this.toastService.toastSuccess('Se ha enviado un Email al correo asociado.', 2500)
+                    } else {
+                      this.toastService.toastError('Se produjo un error al intentar enviar el Email.', 2000)
+                    }
+                  })
+                } else {
+                  this.toastService.toastWarning('No hemos podido encontrar el Usuario.', 1500)
+                  this.contador -= 1;
+                }
+              })
+            } else {
+              this.toastService.toastError('Cuit Ingresado es incorrecto.', 1500)
+            }
+          }
+        }
+      ],
+      cssClass: 'alertPrimary',
+    });
+    await alert.present();
+  } 
+
+  async solicitarAyuda() {
+    const alert = await this.alertController.create({
+      header: 'Excesos de Ingresos',
+      message: 'Usted ha superado el limite de intentos. Por favor, comuniquese a nuestro correo de Email: sarymresto@gmail.com',
+      buttons: [
+        {
+          text: 'Ok',
+        }, 
+      ],
+      cssClass: 'alertError',
+    });
+    await alert.present();
+  } 
 
 }
