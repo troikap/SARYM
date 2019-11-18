@@ -24,7 +24,7 @@ export class LogueoPage implements OnInit {
   private error = "Error"
   private errormsj = "Ud. no tiene permisos para acceder al sistema mobile"; 
   private algo = null;
-  private contador = 1;
+  private contador = 3;
 
   constructor(private router: Router,
     private formBuilder: FormBuilder,
@@ -208,7 +208,6 @@ export class LogueoPage implements OnInit {
               this.usuarioservicio.validarExistenciaUsuario(resp.cuit)
               .then( resp => {
                 if (resp.tipo == 2 ) {
-                  console.log("RESOYESTA ", resp)
                   this.usuarioservicio.envioEmail(resp)
                   .then( respuesta => {
                     if (respuesta['tipo'] == 1 ) {

@@ -579,7 +579,6 @@ UsuarioController.update = (req, res) => {
                                                 fechaYHoraAltaUsuarioEstado: fechaArgentina.getFechaArgentina()
                                             };
                                         }
-                                        console.log("PUSH ", pushEstado)
                                             // CREANDO INSTANCIA USUARIO ESTADO
                                         UsuarioEstadoModelo.create(pushEstado)
                                             .then(result => {
@@ -732,9 +731,6 @@ UsuarioController.recuperarDatosToken = (req, res) => {
     let locals = {};
     let body = req.body;
     let idUsuario = req.idUsuario;
-    console.log("REQUIRE ", req.body)
-    console.log("REQUIRE ", req.idUsuario)
-
     UsuarioModelo.findOne({
         where: { idUsuario: idUsuario },
         attributes: attributes.usuario,
