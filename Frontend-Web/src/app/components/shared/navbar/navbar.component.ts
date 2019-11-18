@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import decode from "jwt-decode";
 
 @Component({
   selector: 'app-navbar',
@@ -10,9 +11,24 @@ export class NavbarComponent implements OnInit {
   variableLibre = false;  
   mySubscription: any;
 
+  nombreUsuario: string;
+  apellidoUsuario: string;
+  stringLabel: string;
+
   constructor(private router: Router) {
     this.mySubscription = setInterval( () => { 
       this.variableRol = localStorage.getItem("rolUsuario");
+
+
+      if ( localStorage.getItem("token") ) {
+        const token = localStorage.getItem("token");
+        const tokenPayload = decode(token);
+        this.nombreUsuario = tokenPayload.nombreUsuario;
+        this.apellidoUsuario = tokenPayload.apellidoUsuario;
+        this.stringLabel = `${this.nombreUsuario} ${this.apellidoUsuario} - ${this.variableRol}`;
+      }
+
+
    }, 500);
 
   }
