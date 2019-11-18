@@ -57,6 +57,11 @@ export class HomePage implements OnInit {
   async goTo(key: string) {
     await this.loadLog()
     let id = this.logueo.id;
+
+    if (id == -1) { //Invitado
+      id = 0;
+    }
+
     let page;
     switch (key) {
       case "registro-usuario":
