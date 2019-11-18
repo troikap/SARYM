@@ -64,6 +64,7 @@ export class UnirseGestionarReservaPage implements OnInit {
     let idReserva = this.nameArray[0]
     let idUsuario = this.nameArray[1]
     await this.traerUsuario(idUsuario);
+    console.log("ENCONTRADO ", this.secretCode)
     let nombreUsuario = `${this.usuario.Usuario.nombreUsuario} ${this.usuario.Usuario.apellidoUsuario}`
     const alert = await this.alertController.create(
       {

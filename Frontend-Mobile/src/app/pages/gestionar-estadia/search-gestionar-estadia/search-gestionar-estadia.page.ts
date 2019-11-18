@@ -13,6 +13,7 @@ export class SearchGestionarEstadiaPage implements OnInit {
   public estadia;
   private currentUsuario;
   private idUsuarioLogueado: number;
+  private createdCode;
 
   constructor(
     private estadiaService: EstadiaService,
@@ -39,11 +40,17 @@ export class SearchGestionarEstadiaPage implements OnInit {
     });
   }
 
+  createCode() {
+    console.log('Creando QR');
+    this.createdCode = btoa( this.estadia.tokenEstadia );
+  }
+
   getEstadiaUsrLogueado() {
     this.estadiaService.getEstadiasPorUsuario(this.idUsuarioLogueado)
       .then((res: any) => {
         console.log("getEstadiaUsrLogueado", res);
         this.estadia =  res.data;
+        this.createCode();
       })
   }
 
@@ -52,9 +59,9 @@ export class SearchGestionarEstadiaPage implements OnInit {
     this.navController.navigateForward([`/seleccion-comensal/${idReserva}`])
   }
 
-  crearReserva() {
+  unirseEstadia() {
     console.log("crearReserva");
-    this.navController.navigateForward(['/crud-gestionar-reserva', 0, 'crear' ]);
+    this.navController.navigateForward(['/unirse-gestionar-reserva' ]);
   }
 
   consultarReserva(pIdReserva: number) {

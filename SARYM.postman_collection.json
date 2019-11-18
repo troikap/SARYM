@@ -2049,7 +2049,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idRol\":2,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idFuncionRol\": 7,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idFuncion\": 5\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idFuncionRol\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idFuncionRol\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"idFuncion\": 4\n\t\t},\n\t\t{\n\t\t\t\"idFuncion\": 5\n\t\t}\n\t]\n}"
+							"raw": "{\n\t\"idRol\":2,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idFuncion\": 1\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idFuncionRol\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idFuncionRol\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"idFuncion\": 4\n\t\t},\n\t\t{\n\t\t\t\"idFuncion\": 5\n\t\t}\n\t]\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -4571,6 +4571,32 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdWl0VXN1YXJpbyI6MjAzNjg1MDY4ODYsIm5vbWJyZVVzdWFyaW8iOiJMdWNhcyIsImFwZWxsaWRvVXN1YXJpbyI6IlBlcmV6IiwiUm9sVXN1YXJpbyI6IkFkbWluaXN0cmFkb3IiLCJpYXQiOjE1NzI3MjIwNTQsImV4cCI6MTU3MjcyNDY0Nn0.i8AafDO-_P5nzCHUXu82w1tBUdUwtPhMIEs8AYgHmvk\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Email",
+			"description": "",
+			"item": [
+				{
+					"name": "Post Envio Email",
+					"request": {
+						"url": "localhost:3000/envioEmail",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nombre\": \"Lucas\",\n\t\"email\": \"sarymresto@gmail.com\",\n\t\"to\": \"lucasperezgracia@gmail.com\",\n\t\"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdWl0VXN1YXJpbyI6MjAzNjg1MDY4ODYsIm5vbWJyZVVzdWFyaW8iOiJMdWNhcyIsImFwZWxsaWRvVXN1YXJpbyI6IlBlcmV6IiwiUm9sVXN1YXJpbyI6IkFkbWluaXN0cmFkb3IiLCJpYXQiOjE1NzQwMzM5OTcsImV4cCI6MTU3NDEyMDM5N30.B55zDcDLGUeo34i2OsgLLYp3wgOHhtIKwMe87JOkJ10\",\n\t\"mensaje\": \"Necesitamos que Corrobores el EMAIL. Gracias Atte: SARYM\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},

@@ -64,11 +64,8 @@
             </ion-item-options>
         </ion-item-sliding>
     </ion-card>
-    <ion-card>
+    <ion-card *ngIf="createdCode">
         <ngx-qrcode [(qrc-value)]="createdCode"></ngx-qrcode>
-        <ion-card-content>
-            <p>Value: {{createdCode}} </p>
-        </ion-card-content>
     </ion-card>
     <ion-card *ngIf="scannedCode">
         <ion-card-content>
@@ -79,7 +76,7 @@
     <ion-item *ngIf="!estadia">
         <ion-label floating>Usted no posee Estadia asociada</ion-label>
     </ion-item>
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="crearReserva()">
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="unirseEstadia()">
         <ion-fab-button>
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>
