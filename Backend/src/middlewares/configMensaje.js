@@ -36,7 +36,7 @@ module.exports = (formulario) => {
                     <p><strong>Estimado ${formulario.nombreUsuario} ${formulario.apellidoUsuario}:<strong></p>
                     <p>Se ha solicitado un restablecimiento de contraseña del usuario <strong>${formulario.cuitUsuario}</strong> de la App de SARYM.</p>
                     <p>Para continuar con el proceso de recuperación, haga click en el siguiente enlace: 
-                    <a href= ${formulario.origen}/recuperar-contrasenia/${token}">Recuperar Contraseña</a>.
+                    <a href= ${formulario.origen}/recuperar-contrasenia/${token}>Recuperar Contraseña</a>.
                     <br> 
                     Si usted no solicitó un restablecimiento de contraseña, desestime el siguiente correo.</p>
                     <br>
