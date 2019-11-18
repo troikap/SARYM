@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { UsuarioService } from "../../services/usuario/usuario.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FechaArgentinaProvider } from '../../providers/fechaArgentina.provider';
 
 @Component({
   selector: "app-login",
@@ -27,7 +28,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private usuarioservicio: UsuarioService,
-    private router: Router
+    private router: Router,
+    private fechaArgentinaProvider: FechaArgentinaProvider,
   ) {
     this.form = this.formBuilder.group({
       cuitUsuario: ["", Validators.required],
@@ -36,7 +38,10 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    console.log("FECHA ", new Date())
+    console.log('fecha Argentina ', this.fechaArgentinaProvider.getFechaArgentina()) // ESTO HERNAN USALO CON LA LINEA 32 y 5
+   }
 
   loguear() {
     this.usuarioservicio

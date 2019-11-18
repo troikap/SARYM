@@ -72,7 +72,7 @@ export class HomePage implements OnInit {
       //   page = `/ver-qr-reserva/1`;
       //   break;
       case "realizar-pedido":
-        page = `/seleccion-comensal/1`;
+        page = `/seleccion-comensal/reserva/1`;
         break;
       case "search-gestionar-reserva":
         // page = `/search-gestionar-reserva`;

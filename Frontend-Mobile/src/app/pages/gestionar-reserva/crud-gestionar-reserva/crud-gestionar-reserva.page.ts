@@ -375,7 +375,7 @@ prueba() {
                 .then( respo => {
                   this.toastService.toastSuccess(`Reserva Creada Satisfactoriamente. N° ${res.id}`, 2500);
                   setTimeout(()=>{
-                    this.navController.navigateForward([`/seleccion-comensal/${res.id}`]);
+                    this.navController.navigateForward([`/seleccion-comensal/reserva/${res.id}`]);
                     }, 2500);
                 })
               } else {

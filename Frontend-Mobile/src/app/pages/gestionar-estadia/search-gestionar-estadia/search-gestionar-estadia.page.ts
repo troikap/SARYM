@@ -56,7 +56,7 @@ export class SearchGestionarEstadiaPage implements OnInit {
 
   realizarPedido(item) {
     let idReserva = item.data.idReserva;
-    this.navController.navigateForward([`/seleccion-comensal/${idReserva}`])
+    this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}`])
   }
 
   unirseEstadia() {
@@ -64,9 +64,9 @@ export class SearchGestionarEstadiaPage implements OnInit {
     this.navController.navigateForward(['/unirse-gestionar-reserva' ]);
   }
 
-  consultarReserva(pIdReserva: number) {
-    console.log("Consultar Reserva", pIdReserva);
-    this.navController.navigateForward(['/consulta-gestionar-reserva', pIdReserva ]);
+  consultaEstadia( idEstadia: number) {
+    console.log("Consultar Estadia", idEstadia);
+    this.navController.navigateForward(['/consulta-gestionar-estadia', idEstadia ]);
   }
 
   editarReserva(pIdReserva: number) {
