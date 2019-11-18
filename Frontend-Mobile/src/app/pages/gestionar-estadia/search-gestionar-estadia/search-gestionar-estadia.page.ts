@@ -64,7 +64,7 @@ export class SearchGestionarEstadiaPage implements OnInit {
     this.navController.navigateForward(['/unirse-gestionar-reserva' ]);
   }
 
-  consultaEstadia( idEstadia: number) {
+  consultarEstadia( idEstadia: number) {
     console.log("Consultar Estadia", idEstadia);
     this.navController.navigateForward(['/consulta-gestionar-estadia', idEstadia ]);
   }

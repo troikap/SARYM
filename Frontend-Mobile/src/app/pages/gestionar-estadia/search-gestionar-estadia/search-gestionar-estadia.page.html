@@ -42,16 +42,18 @@
                             </ion-row>
                         </ion-grid>
                     </p>
-                    <ion-row>
-                        <ion-col  align="rigth">
-                            <ion-button slot=end color="success" (click)="consultarEstadia(estadia.idEstadia)">Consultar Estadia</ion-button>
-                        </ion-col>
-                    </ion-row>
-                    <ion-row>
-                        <ion-col align="rigth">
-                            <ion-button  (click)="realizarPedido(estadia)">Realizar Pedido</ion-button>
-                        </ion-col>
-                    </ion-row>
+                    <div class="buttons">
+                        <ion-row>
+                            <ion-col>
+                                <ion-button color="success" (click)="consultarEstadia(estadia.idEstadia)">Consultar Estadia</ion-button>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col>
+                                <ion-button (click)="realizarPedido(estadia)">Realizar Pedido</ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </div>
                 </ion-label>
             </ion-item>
         </ion-item-sliding>
