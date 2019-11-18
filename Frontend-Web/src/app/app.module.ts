@@ -70,6 +70,7 @@ import { CrudRolComponent } from './components/abm-rol/crud-rol/crud-rol.compone
 import { SearchRolComponent } from './components/abm-rol/search-rol/search-rol.component';
 import { FechaArgentinaProvider } from './providers/fechaArgentina.provider';
 
+import { RecuperarContraseniaComponent } from './components/recuperar-contrasenia/recuperar-contrasenia.component';
 
 @NgModule({
   declarations: [
@@ -127,7 +128,8 @@ import { FechaArgentinaProvider } from './providers/fechaArgentina.provider';
     CambiarEstadoPedidoComponent,
     BackupModuleComponent,
     CrudRolComponent,
-    SearchRolComponent
+    SearchRolComponent,
+    RecuperarContraseniaComponent
   ],
   imports: [
     BrowserModule,

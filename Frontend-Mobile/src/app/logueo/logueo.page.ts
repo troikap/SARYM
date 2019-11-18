@@ -5,13 +5,16 @@ import { UsuarioService } from '../services/usuario/usuario.service';
 import { StorageService, Log } from '../services/storage/storage.service';
 import { AlertController, MenuController, NavController } from '@ionic/angular';
 import { ToastService } from '../providers/toast.service'
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-logueo',
   templateUrl: './logueo.page.html',
   styleUrls: ['./logueo.page.scss'],
 })
+
 export class LogueoPage implements OnInit {
+  private contadorIntentoContrasenia = environment.contRecPass;
 
   private form: FormGroup;
   private logueo: Log;
@@ -24,7 +27,6 @@ export class LogueoPage implements OnInit {
   private error = "Error"
   private errormsj = "Ud. no tiene permisos para acceder al sistema mobile"; 
   private algo = null;
-  private contador = 3;
 
   constructor(private router: Router,
     private formBuilder: FormBuilder,
@@ -178,7 +180,7 @@ export class LogueoPage implements OnInit {
 
   recuperarContrasenia() {
     console.log("REcuperando")
-    if (this.contador > 0 ) {
+    if (this.contadorIntentoContrasenia > 0 ) {
       this.confirmarRecuperacion();
     } else {
       this.solicitarAyuda();
@@ -218,7 +220,7 @@ export class LogueoPage implements OnInit {
                   })
                 } else {
                   this.toastService.toastWarning('No hemos podido encontrar el Usuario.', 1500)
-                  this.contador -= 1;
+                  this.contadorIntentoContrasenia -= 1;
                 }
               })
             } else {

@@ -31,7 +31,7 @@
                     <div class="col">
                         <label for="idFuncion" class="col col-form-label">Función</label>
                         <select Placeholder='Seleccione' formControlName='idFuncion' class="form-control"> 
-                            <option *ngFor='let funcion of funcionesRol' [value]='funcion.idFuncion'>{{funcion.nombreFuncion}}</option>
+                            <option *ngFor='let funcion of funcionesRol' [value]='funcion.idFuncion'>{{funcion.idFuncion}} - {{funcion.nombreFuncion}}</option>
                         </select>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                                 <tr *ngFor='let funAsignadas of funcionesAsignadas'>
                                     <th scope="row" width="10%">{{funAsignadas.idFuncion}}</th>
                                     <td width="80%">{{funAsignadas.nombreFuncion}}</td>
-                                    <td width="10%">
+                                    <td width="10%" *ngIf="accionGet != 'eliminar'">
                                         <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Eliminar" title="Eliminar" (click)="eliminarFuncion(funAsignadas.idFuncion)" style="cursor: pointer;">
                                     </td>
                                 </tr>
