@@ -29,9 +29,9 @@
                 </div>
                 <div class="form-group row">
                     <div class="col">
-                        <label for="idRolFuncion" class="col col-form-label">Función</label>
-                        <select Placeholder='Seleccione' formControlName='idRolFuncion' class="form-control"> 
-                            <option *ngFor='let funcion of funcionesRol' [value]='funcion.idRolFuncion'>{{funcion.nombreRolFuncion}}</option>
+                        <label for="idFuncion" class="col col-form-label">Función</label>
+                        <select Placeholder='Seleccione' formControlName='idFuncion' class="form-control"> 
+                            <option *ngFor='let funcion of funcionesRol' [value]='funcion.idFuncion'>{{funcion.idFuncion}} - {{funcion.nombreFuncion}}</option>
                         </select>
                     </div>
                 </div>
@@ -50,10 +50,10 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor='let funAsignadas of funcionesAsignadas'>
-                                    <th scope="row" width="10%">{{funAsignadas.idRolFuncion}}</th>
-                                    <td width="80%">{{funAsignadas.nombreRolFuncion}}</td>
-                                    <td width="10%">
-                                        <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Eliminar" title="Eliminar" (click)="eliminarFuncion(funAsignadas.idRolFuncion)" style="cursor: pointer;">
+                                    <th scope="row" width="10%">{{funAsignadas.idFuncion}}</th>
+                                    <td width="80%">{{funAsignadas.nombreFuncion}}</td>
+                                    <td width="10%" *ngIf="accionGet != 'eliminar'">
+                                        <img src="../../../../assets/imagenes/eliminar_ico.png" alt="Eliminar" title="Eliminar" (click)="eliminarFuncion(funAsignadas.idFuncion)" style="cursor: pointer;">
                                     </td>
                                 </tr>
                             </tbody>
