@@ -13,8 +13,7 @@ export class RolService {
   dir = "/rol";
   dir2 = "/codRol";
   dir3 = "/todo";
-  dir4 = "/funcionRolAll";
-  dir5 = "/funcionesRol";
+  dir4 = "/funcion";;
 
   tokenEnviroment = environment.token;
 
@@ -91,7 +90,7 @@ export class RolService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .get(`${this.url}${this.dir5}/${id}`, { headers })
+      .get(`${this.url}${this.dir4}/${id}`, { headers })
       .toPromise()
       .then(response => {
         console.log("Servicio getFuncionesRol: ", response);
