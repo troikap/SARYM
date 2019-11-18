@@ -6,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { SearchGestionarEstadiaPage } from './search-gestionar-estadia.page';
+import { NgxQRCodeModule } from 'ngx-qrcode2';
+
 
 const routes: Routes = [
   {
@@ -19,7 +21,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    NgxQRCodeModule
   ],
   declarations: [SearchGestionarEstadiaPage]
 })

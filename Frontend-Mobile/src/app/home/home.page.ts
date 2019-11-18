@@ -140,7 +140,8 @@ export class HomePage implements OnInit {
             this.navController.navigateForward('/search-gestionar-estadia');
           }
         }
-      ]
+      ],
+      cssClass: 'alertPrimaryModificado'
     });
     await alert.present();
     return 'hola'
