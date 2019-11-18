@@ -28,7 +28,23 @@ export class RecuperarContraseniaComponent implements OnInit {
           console.log("Buscando Usuario")
           this.recuperarInfoToken(params["token"]);
         } else {
-          console.log("NO TRAJO TOKEN")
+          let _this = this;
+          ($ as any).confirm({
+            title: "Error",
+            content: "Acceso no autorizado",
+            type: 'red',
+            typeAnimated: true,
+            theme: 'material',
+            buttons: {
+                aceptar: {
+                    text: 'Aceptar',
+                    btnClass: 'btn-red',
+                    action: function(){
+                      _this.router.navigate(["/loguin"]);
+                    }
+                }
+            }
+          });
         }
     });
 
@@ -41,7 +57,27 @@ export class RecuperarContraseniaComponent implements OnInit {
   recuperarInfoToken( token ) {
     this.usuarioservicio.recuperarDatosToken( token )
       .then((res) => {
-        this.idUsuario = res.data.idUsuario;
+        if ( res != null ) {
+          this.idUsuario = res.data.idUsuario;
+        } else {
+          let _this = this;
+          ($ as any).confirm({
+            title: "Error",
+            content: "El tiempo para Recuperar Contraseña ha Caducado",
+            type: 'red',
+            typeAnimated: true,
+            theme: 'material',
+            buttons: {
+                aceptar: {
+                    text: 'Aceptar',
+                    btnClass: 'btn-red',
+                    action: function(){
+                      _this.router.navigate(["/loguin"]);
+                    }
+                }
+            }
+          });
+        }
       })
   }
 
@@ -79,8 +115,22 @@ export class RecuperarContraseniaComponent implements OnInit {
         });
       })
       .catch((err) => {
-        console.log("ERROR ", err)
+        ($ as any).confirm({
+          title: "Error",
+          content: "Ha ocurrido un error al intentar actualizar la contraseña: " + err,
+          type: 'red',
+          typeAnimated: true,
+          theme: 'material',
+          buttons: {
+            aceptar: {
+                text: 'Aceptar',
+                btnClass: 'btn-red',
+                action: function(){
+                  _this.router.navigate(["/loguin"]);
+                }
+            }
+          }
+        });
       })
   }
-
 }
