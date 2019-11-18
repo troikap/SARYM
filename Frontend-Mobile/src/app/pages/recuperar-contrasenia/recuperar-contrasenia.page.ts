@@ -52,7 +52,7 @@ export class RecuperarContraseniaPage implements OnInit {
         } else {
           console.log("NO TRAJO TOKEN")
           this.toastService.toastError('Acceso no Autorizado.',2000);
-          this.navController.navigateRoot('/home')
+          this.navController.navigateRoot('/logueo')
         }
       });
   }
@@ -76,8 +76,8 @@ export class RecuperarContraseniaPage implements OnInit {
         if ( res != null ) {
           this.idUsuario = res.data.idUsuario;
         } else {
-          this.toastService.toastError('El tiempo para acceder a esta página ha Caducado.',3000);
-          this.navController.navigateRoot('/home')
+          this.toastService.toastError('El tiempo para Recuperar Contraseña ha Caducado.',3000);
+          this.navController.navigateRoot('/logueo')
         }
       })
   }
