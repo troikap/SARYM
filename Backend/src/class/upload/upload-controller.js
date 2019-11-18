@@ -148,9 +148,12 @@ function borrarImagen(nombreImagen, tipo) {
 UploadController.traerImagen = (req, res, next) => {
     let tipo = req.params.tipo;
     let img = req.params.img;
-    let pathImagen = path.resolve(__dirname, `../../../uploads/${tipo}/${img}`)
-    console.log("PATH IMAGEN ", pathImagen)
-
+    let pathImagen;
+    if (tipo == null) {
+        pathImagen = path.resolve(__dirname, `../../../uploads/${img}`)
+    } else {
+        pathImagen = path.resolve(__dirname, `../../../uploads/${tipo}/${img}`)
+    }
     if (fs.existsSync(pathImagen)) {
         res.sendFile(pathImagen);
     } else {

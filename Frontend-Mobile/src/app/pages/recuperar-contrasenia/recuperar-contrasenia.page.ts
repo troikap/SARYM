@@ -71,8 +71,6 @@ export class RecuperarContraseniaPage implements OnInit {
   recuperarInfoToken( token ) {
     this.usuarioservicio.recuperarDatosToken( token )
       .then((res) => {
-        console.log("EStamos ACA")
-        console.log("RESPUESTA ",res)
         this.idUsuario = res.data.idUsuario;
       })
   }

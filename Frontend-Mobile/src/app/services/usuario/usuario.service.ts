@@ -43,8 +43,6 @@ export class UsuarioService {
 
   validarExistenciaUsuario( cuit: number ): Promise<any> {
     let value = { cuitUsuario: cuit};
-    let cuitUsuario = cuit;
-    console.log(`${URL}/existUser`, value)
     return this.http.post(`${URL}/existUser`, value).toPromise()
     .then( (response) => {
       return response;

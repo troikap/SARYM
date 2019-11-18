@@ -54,6 +54,7 @@ router
     .post('/existUser', UsuarioController.validateExistUser)
     .post('/subirImagen', UploadController.subirImagen)
     .get('/traerImagen/:tipo/:img?', UploadController.traerImagen)
+    .get('/traerImagen/:img?', UploadController.traerImagen)
     .post('/verificarTokenRol', TokenController.verificarTokenRol)
     .post('/envioEmail', (req, res) => {
         configMensaje(req.body);
