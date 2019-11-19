@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
-import { NavController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { StorageService } from '../../../services/storage/storage.service';
 import { ReservaService } from '../../../services/reserva/reserva.service';
@@ -29,7 +28,8 @@ export class SeleccionComensalPage implements OnInit {
     private storage: StorageService,
     private reservaservicio: ReservaService,
     private toastService: ToastService,
-  ) { }
+  ) {
+   }
 
   ngOnInit() {
     console.log("PAGE SeleccionComensalPage")
