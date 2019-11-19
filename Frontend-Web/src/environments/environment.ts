@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   url: 'http://localhost:3000',
   urlNgrok: '',
-  token: 'libre'
+  token: 'libre',
+  contRecPass: 3
 };
 
 /*

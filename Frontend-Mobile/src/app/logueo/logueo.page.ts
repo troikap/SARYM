@@ -4,13 +4,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from '../services/usuario/usuario.service';
 import { StorageService, Log } from '../services/storage/storage.service';
 import { AlertController, MenuController, NavController } from '@ionic/angular';
+import { ToastService } from '../providers/toast.service'
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-logueo',
   templateUrl: './logueo.page.html',
   styleUrls: ['./logueo.page.scss'],
 })
+
 export class LogueoPage implements OnInit {
+  private contadorIntentoContrasenia = environment.contRecPass;
 
   private form: FormGroup;
   private logueo: Log;
@@ -30,7 +34,8 @@ export class LogueoPage implements OnInit {
     private storage: StorageService,
     public alertController: AlertController,
     private menu: MenuController,
-    private navController: NavController
+    private navController: NavController, 
+    private toastService: ToastService,
     ) { 
       this.menu.enable(false)
       this.loadLog();
@@ -81,7 +86,7 @@ export class LogueoPage implements OnInit {
           this.logueo['nombreUsuario'] = this.algo.UsuarioEstado.nombreUsuario;
           this.logueo['apellidoUsuario'] = this.algo.UsuarioEstado.apellidoUsuario;
           this.storage.setOneObject( 'currentUsuario', this.logueo)
-          this.alert();
+          this.alertar();
           this.menu.enable(true);
           this.navController.navigateRoot('/home')
         } else {
@@ -94,13 +99,13 @@ export class LogueoPage implements OnInit {
         } else {
           console.log("SUSPENDIDO INHAVILITAD")
         }
-        this.alert();
+        this.alertar();
       }
     })
   }
 
   actualizarLog(log: Log) {
-     log.date = new Date();
+    log.date = new Date();
     this.storage.actualizarLog(log)
       .then( res => {
         if (!res) {
@@ -127,7 +132,7 @@ export class LogueoPage implements OnInit {
     this.navController.navigateForward(page);
   }
 
-  async alert() {
+  async alertar() {
     if (this.algo.tipo == 1) {
       const alert = await this.alertController.create({
         header: this.valtitle,
@@ -168,9 +173,91 @@ export class LogueoPage implements OnInit {
     } 
 
   iniciarInvitado() {
-    this.storage.setOneObject( 'currentUsuario', "Invitado")
-    this.menu.enable(false);
-    this.navController.navigateRoot('/home-invitado')
+    let logear = {
+      cuit: -1,
+      pass: "Invitado",
+      id: -1,
+      date: new Date(),
+      rolUsuario: "Invitado",
+      idRolUsuario: -1,
+      nombreUsuario: "Invitado",
+      apellidoUsuario: "Invitado"
+    }
+    this.storage.setOneObject('token',"libre")
+    this.storage.setOneObject('currentUsuario', logear)
+    this.menu.enable(true);
+    this.navController.navigateRoot('/home');
+    // this.navController.navigateRoot('/home-invitado');
   }
+
+  recuperarContrasenia() {
+    console.log("Recuperando")
+    if (this.contadorIntentoContrasenia > 0 ) {
+      this.confirmarRecuperacion();
+    } else {
+      this.solicitarAyuda();
+    }
+  }
+
+  async confirmarRecuperacion() {
+    const alert = await this.alertController.create({
+      header: 'Recuperación de Contraseña',
+      message: 'Esta seguro de que desea recuperar su contraseña?. De ser correcto, digite su N° de cuit y le enviaremos un Email a su correo.',
+      inputs: [
+        {
+          name: 'cuit',
+          type: 'number',
+          placeholder: 'Ingrese su cuit',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Recuperar',
+          handler: ( resp ) => {
+            if ( resp.cuit.length == 11 ) {
+              this.usuarioservicio.validarExistenciaUsuario(resp.cuit)
+              .then( resp => {
+                if (resp.tipo == 2 ) {
+                  this.usuarioservicio.envioEmail(resp)
+                  .then( respuesta => {
+                    if (respuesta['tipo'] == 1 ) {
+                      this.toastService.toastSuccess('Se ha enviado un Email al correo asociado.', 2500)
+                    } else {
+                      this.toastService.toastError('Se produjo un error al intentar enviar el Email.', 2000)
+                    }
+                  })
+                } else {
+                  this.toastService.toastWarning('No hemos podido encontrar el Usuario.', 1500)
+                  this.contadorIntentoContrasenia -= 1;
+                }
+              })
+            } else {
+              this.toastService.toastError('Cuit Ingresado es incorrecto.', 1500)
+            }
+          }
+        }
+      ],
+      cssClass: 'alertPrimary',
+    });
+    await alert.present();
+  } 
+
+  async solicitarAyuda() {
+    const alert = await this.alertController.create({
+      header: 'Excesos de Ingresos',
+      message: 'Usted ha superado el limite de intentos. Por favor, comuniquese a nuestro correo de Email: sarymresto@gmail.com',
+      buttons: [
+        {
+          text: 'Ok',
+        }, 
+      ],
+      cssClass: 'alertError',
+    });
+    await alert.present();
+  } 
 
 }

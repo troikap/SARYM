@@ -22,6 +22,7 @@ usuario2 = [
     'idDepartamento',
     'nroCelularUsuario',
     'nroTelefonoUsuario',
+    'contrasenaUsuario'
 ];
 
 usuarioestado = [
@@ -298,7 +299,9 @@ estadoestadia = [
 ]
 
 detalleestadiamesa = [
-    "idDetalleEstadiaMesa"
+    "idDetalleEstadiaMesa",
+    "idMesa",
+    "idEstadia"
 ]
 
 clienteestadia = [
@@ -332,8 +335,21 @@ mediopago = [
     "nombreMedioPago",
 ]
 
+funcionrol = [
+    'idFuncionRol',
+    'idFuncion',
+    'fechaYHoraAltaFuncionRol',
+    'fechaYHoraBajaFuncionRol'
+];
+
+funcion = [
+    'idFuncion',
+    'nombreFuncion'
+]
+
 module.exports = {
     usuario, 
+    usuario2,
     usuarioestado, 
     estadousuario, 
     rolusuario, 
@@ -379,5 +395,7 @@ module.exports = {
     mozoestadia,
     pago,
     pagopedido,
-    mediopago
+    mediopago,
+    funcionrol,
+    funcion
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators, FormControl } from "@angular/forms";
+import { FormGroup, Validators, FormControl } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { RolService, Rol } from 'src/app/services/rol/rol.service';
 
@@ -14,20 +14,21 @@ export class CrudRolComponent implements OnInit {
   private rol: Rol;
   private newForm = {};
   private idRol: number = null;
-  accionGet;
+  public accionGet: string;
 
   public funcionesRol = [];
   public funcionesAsignadas = [];
 
+  private funcionesAsignadasInicial = [];
+
   constructor(
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder,
     private router: Router,
     private rolService: RolService,
   ) {
     this.form = new FormGroup({
       idRol: new FormControl({ value: "", disabled: true }),
-      idRolFuncion: new FormControl(""),
+      idFuncion: new FormControl(""),
       nombreRol: new FormControl("", [ Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)])
     });
 
@@ -37,14 +38,14 @@ export class CrudRolComponent implements OnInit {
       if (this.accionGet !== "crear") {
         this.rolEncontrado = true;
         this.traerRol();
+        this.traerFuncionesRol();
       }
     });
 
    }
 
   ngOnInit() {
-    this.traerFuncionesRol();
-    this.traerRolFunciones();
+    this.traerFunciones();
     this.setValueChangeFunciones();
   }
 
@@ -58,7 +59,7 @@ export class CrudRolComponent implements OnInit {
             
             this.newForm = {
               idRol: this.idRol,
-              idRolFuncion: "",
+              idFuncion: "",
               nombreRol: this.rol["nombreRol"],
             };
             this.form.setValue(this.newForm);
@@ -83,56 +84,101 @@ export class CrudRolComponent implements OnInit {
     return reempRol;
   }
 
-  traerFuncionesRol() {
-    console.log("Traer Funciones existentes");
-    // this.rolService.getFuncionesRolAll().then(res => {
-    //   this.funcionesRol = res;
-    // });
+  traerFunciones() {
+    
+    this.rolService.getFuncionesRolAll().then((res: any) => {
+      this.funcionesRol = res.data;
+      this.ordenarBurbujaList(this.funcionesRol);
+    });
 
-    /////HARDCODE FUNCTIONS --> ELIMINAR CUANDO ESTE BACKEND DE FUNCIONES/////
-    this.funcionesRol.push({"idRolFuncion":"1", "nombreRolFuncion":"Consulta Usuario"});
-    this.funcionesRol.push({"idRolFuncion":"2", "nombreRolFuncion":"ABM Usuario"});
-    this.funcionesRol.push({"idRolFuncion":"3", "nombreRolFuncion":"Buscar Producto"});
-    this.funcionesRol.push({"idRolFuncion":"4", "nombreRolFuncion":"Consulta Producto"});
-    this.funcionesRol.push({"idRolFuncion":"5", "nombreRolFuncion":"ABM Producto"});
-    this.funcionesRol.push({"idRolFuncion":"6", "nombreRolFuncion":"Consulta Abrir Caja"});
-    this.funcionesRol.push({"idRolFuncion":"7", "nombreRolFuncion":"ABM Abrir Caja"});
+    // /////HARDCODE FUNCTIONS --> ELIMINAR CUANDO ESTE BACKEND DE FUNCIONES/////
+    // this.funcionesRol.push({"idFuncion":"1", "nombreFuncion":"Consulta Usuario"});
+    // this.funcionesRol.push({"idFuncion":"2", "nombreFuncion":"ABM Usuario"});
+    // this.funcionesRol.push({"idFuncion":"3", "nombreFuncion":"Buscar Producto"});
+    // this.funcionesRol.push({"idFuncion":"4", "nombreFuncion":"Consulta Producto"});
+    // this.funcionesRol.push({"idFuncion":"5", "nombreFuncion":"ABM Producto"});
+    // this.funcionesRol.push({"idFuncion":"6", "nombreFuncion":"Consulta Abrir Caja"});
+    // this.funcionesRol.push({"idFuncion":"7", "nombreFuncion":"ABM Abrir Caja"});
 
-    console.log("funcionesRol: ", this.funcionesRol);
-    /////////////////////////////////////////////////////////////////////////
+    // console.log("funcionesRol: ", this.funcionesRol);
+    // /////////////////////////////////////////////////////////////////////////
   }
 
-  traerRolFunciones () {
-    console.log("Traer Funciones del Rol");
-    // this.rolService.getFuncionesRol().then(res => {
-    //   this.funcionesAsignadas = res;
-    // });
+  ordenarBurbujaList(lista: any[]) {
+    let i = 1;
+    let ordenada = false;
 
+    while(i < lista.length && !ordenada) {
+      i++;
+      ordenada = true;
+      for (let j = 0; j < (lista.length - 1); j++) {
+        if (lista[j].idFuncion > lista[j+1].idFuncion) {
+          ordenada = false;
+
+          let aux = lista[j];
+          lista[j] = lista[j+1];
+          lista[j+1] = aux;
+        }
+      }
+    }
   }
 
-  eliminarFuncion(idRolFuncion) { //NO elimino. Genero un nuevo arreglo para no tener problemas de ínidices en la lista
+  traerFuncionesRol () {
+    let listaAux = [];
+    this.rolService.getRol(this.idRol).then(res => {
+      listaAux = res.data.funcionrols;
+      for (let item of listaAux) {
+        this.funcionesAsignadas.push(item.funcion);
+        this.funcionesAsignadasInicial.push(item.funcion);
+      }
+    });
+  }
+
+  eliminarFuncion(idFuncion: number) { //NO elimino. Genero un nuevo arreglo para no tener problemas de ínidices en la lista
     let funcionesAsignadasAux = []; //No asigno directamente la variable, pues Angular todo lo pasa por referencia. Luego creo una nueva lista
     for(let item of this.funcionesAsignadas) { 
-      if (item.idRolFuncion != idRolFuncion) {
+      if (item.idFuncion != idFuncion) {
         funcionesAsignadasAux.push(item);
       }
     }
     this.funcionesAsignadas = funcionesAsignadasAux;
+    this.ordenarBurbujaList(this.funcionesAsignadas);
   }
 
   setValueChangeFunciones() {
-    this.form.get("idRolFuncion").valueChanges.subscribe(idx => {
+    this.form.get("idFuncion").valueChanges.subscribe(idx => {
       if (idx != "") {
         let insertar = true;
         for(let item of this.funcionesRol) {
           for (let itemAsig of this.funcionesAsignadas) {
-            if (itemAsig.idRolFuncion == idx) {
+            if (itemAsig.idFuncion == idx) {
               insertar = false;
             }
           }
           if (insertar) {
-            if (item.idRolFuncion == idx) {
-              this.funcionesAsignadas.push(item);
+            if (item.idFuncion == idx) {
+              let _this = this;
+              ($ as any).confirm({
+                title: "Confirmar",
+                content: "¿Desaa Agregar la función seleccionada?",
+                type: 'blue',
+                typeAnimated: true,
+                theme: 'material',
+                buttons: {
+                    aceptar: {
+                        text: 'Aceptar',
+                        btnClass: 'btn-blue',
+                        action: function(){
+                          _this.funcionesAsignadas.push(item);
+                          _this.ordenarBurbujaList(_this.funcionesAsignadas);
+                        }
+                    },
+                    cerrar: {
+                      text: 'Cerrar',
+                      action: function(){}
+                  }
+                }
+              });
               break;
             }
           }
@@ -158,26 +204,71 @@ export class CrudRolComponent implements OnInit {
     });
   }
 
+  getDTOEliminarFuncionesRol() {
+    let editarFuncion = {
+      idRol: this.idRol,
+      detalle: this.getDTOListaEliminar()
+    }
+    return editarFuncion;
+  }
+
+  getDTOCrearFuncionesRol() {
+    let editarFuncion = {
+      idRol: this.idRol,
+      detalle: this.getDTOFuncionesRol()
+    }
+    return editarFuncion;
+  }
+
   getDTOFuncionesRol (): any[] {
-    console.log("Funcion 'getDTOFuncionesRol()', ejecutada");
-    
     let listaFuncionesAsignadas = [];
 
     for (let item of this.funcionesAsignadas) {
       let dtoFuncionesRol: any = {
-        idRol: this.idRol,
-        idRolFuncionRol: item.idRolFuncion,
-        nombreRolFuncion:  item.nombreRolFuncion,
+        idFuncion: item.idFuncion
       }
       listaFuncionesAsignadas.push(dtoFuncionesRol);
     }
     return listaFuncionesAsignadas;
   }
 
+  getDTOListaEliminar(): any [] {
+    let funcionesAElmiminar = [];
+    let dtoListaEliminar = [];
+
+    let encuentra;
+    for (let item of this.funcionesAsignadasInicial) {
+      encuentra = false;
+      for (let item1 of this.funcionesAsignadas) {
+        if (item.idFuncion == item1.idFuncion) {
+          encuentra = true;
+        }
+      }
+      if(!encuentra) { //Si NO encuentra el elemento
+        funcionesAElmiminar.push(item);
+      }
+    }
+    
+    for (let item of this.rol['funcionrols']) {
+      for (let item1 of funcionesAElmiminar) {
+        if (item.idFuncion == item1.idFuncion) {
+          let dtoFuncionEliminar: any = {
+            idFuncionRol: item.idFuncionRol,
+            baja: true
+          }
+          dtoListaEliminar.push(dtoFuncionEliminar);
+        }
+      }
+    }
+
+    return dtoListaEliminar;
+  }
+
   guardar() {
     let _this = this;
     const titulo = "Confirmación";
     const mensaje = `¿Está seguro que desea ${this.accionGet} el elemento seleccionado?`;
+
     if (this.rolEncontrado && this.accionGet === "editar") {
       ($ as any).confirm({
         title: titulo,
@@ -193,30 +284,97 @@ export class CrudRolComponent implements OnInit {
               let rol = _this.reemplazarRol();
               _this.rolService.updateRol(rol).then(response => {
 
+                let dtoListaEliminar = _this.getDTOEliminarFuncionesRol();
+                let listaFuncionesCrearRol = _this.getDTOCrearFuncionesRol();
 
-                let listaFuncionesRol = _this.getDTOFuncionesRol();
-                console.log("listaFuncionesRol:", listaFuncionesRol);
-                //Continuar actualizando, luego que esté el backend
-
-
-                const titulo = "Éxito";
-                const mensaje = "Se ha actualizado el registro de Rol de forma exitrosa";
-                ($ as any).confirm({
-                  title: titulo,
-                  content: mensaje,
-                  type: "green",
-                  typeAnimated: true,
-                  theme: "material",
-                  buttons: {
-                    aceptar: {
-                      text: "Aceptar",
-                      btnClass: "btn-green",
-                      action: function() {
-                        _this.router.navigate(["/rol"]);
+                if (dtoListaEliminar.detalle.length > 0) {
+                  _this.rolService.updateFuncionesRol(dtoListaEliminar).then(response => {
+                    if (listaFuncionesCrearRol.detalle.length > 0) {
+                      _this.rolService.updateFuncionesRol(listaFuncionesCrearRol).then(response => {
+                        const titulo = "Éxito";
+                        const mensaje = "Se ha actualizado el registro de Rol de forma exitrosa";
+                        ($ as any).confirm({
+                          title: titulo,
+                          content: mensaje,
+                          type: "green",
+                          typeAnimated: true,
+                          theme: "material",
+                          buttons: {
+                            aceptar: {
+                              text: "Aceptar",
+                              btnClass: "btn-green",
+                              action: function() {
+                                _this.router.navigate(["/rol"]);
+                              }
+                            }
+                          }
+                        });
+                      });
+                    }
+                    else {
+                      const titulo = "Éxito";
+                      const mensaje = "Se ha actualizado el registro de Rol de forma exitrosa";
+                      ($ as any).confirm({
+                        title: titulo,
+                        content: mensaje,
+                        type: "green",
+                        typeAnimated: true,
+                        theme: "material",
+                        buttons: {
+                          aceptar: {
+                            text: "Aceptar",
+                            btnClass: "btn-green",
+                            action: function() {
+                              _this.router.navigate(["/rol"]);
+                            }
+                          }
+                        }
+                      });
+                    }
+                  });
+                } 
+                else if (listaFuncionesCrearRol.detalle.length > 0) {
+                  _this.rolService.updateFuncionesRol(listaFuncionesCrearRol).then(response => {
+                    const titulo = "Éxito";
+                    const mensaje = "Se ha actualizado el registro de Rol de forma exitrosa";
+                    ($ as any).confirm({
+                      title: titulo,
+                      content: mensaje,
+                      type: "green",
+                      typeAnimated: true,
+                      theme: "material",
+                      buttons: {
+                        aceptar: {
+                          text: "Aceptar",
+                          btnClass: "btn-green",
+                          action: function() {
+                            _this.router.navigate(["/rol"]);
+                          }
+                        }
+                      }
+                    });
+                  });
+                }
+                else {
+                  const titulo = "Éxito";
+                  const mensaje = "Se ha actualizado el registro de Rol de forma exitrosa";
+                  ($ as any).confirm({
+                    title: titulo,
+                    content: mensaje,
+                    type: "green",
+                    typeAnimated: true,
+                    theme: "material",
+                    buttons: {
+                      aceptar: {
+                        text: "Aceptar",
+                        btnClass: "btn-green",
+                        action: function() {
+                          _this.router.navigate(["/rol"]);
+                        }
                       }
                     }
-                  }
-                });
+                  });
+                }
               });
             }
           },
@@ -242,23 +400,26 @@ export class CrudRolComponent implements OnInit {
               let rol = _this.reemplazarRol();
               _this.rolService.deleteRol(rol).then(response => {
                 if (response.tipo == 1) {
-                  const titulo = "Éxito";
-                  const mensaje = "Se ha eliminado el registro de Rol de forma exitosa";
-                  ($ as any).confirm({
-                    title: titulo,
-                    content: mensaje,
-                    type: "green",
-                    typeAnimated: true,
-                    theme: "material",
-                    buttons: {
-                      aceptar: {
-                        text: "Aceptar",
-                        btnClass: "btn-green",
-                        action: function() {
-                          _this.router.navigate(["/rol"]);
+                  let dtoListaEliminar = _this.getDTOEliminarFuncionesRol();
+                  _this.rolService.updateFuncionesRol(dtoListaEliminar).then(response => {
+                    const titulo = "Éxito";
+                    const mensaje = "Se ha eliminado el registro de Rol de forma exitosa";
+                    ($ as any).confirm({
+                      title: titulo,
+                      content: mensaje,
+                      type: "green",
+                      typeAnimated: true,
+                      theme: "material",
+                      buttons: {
+                        aceptar: {
+                          text: "Aceptar",
+                          btnClass: "btn-green",
+                          action: function() {
+                            _this.router.navigate(["/rol"]);
+                          }
                         }
                       }
-                    }
+                    });
                   });
                 }
                 else if (response.tipo == 2) {
@@ -324,31 +485,28 @@ export class CrudRolComponent implements OnInit {
             action: function() {
               let rol = _this.reemplazarRol();
               _this.rolService.setRol(rol).then(response => {
-
-
-                let listaFuncionesRol = _this.getDTOFuncionesRol();
-                console.log("listaFuncionesRol:", listaFuncionesRol);
-                //Continuar actualizando, luego que esté el backend
-
-
                 if (response.tipo !== 2) {
-                  const titulo = "Éxito";
-                  const mensaje = "Se ha Creado un nuevo registro de Rol de forma exitosa";
-                  ($ as any).confirm({
-                    title: titulo,
-                    content: mensaje,
-                    type: "green",
-                    typeAnimated: true,
-                    theme: "material",
-                    buttons: {
-                      aceptar: {
-                        text: "Aceptar",
-                        btnClass: "btn-green",
-                        action: function() {
-                          _this.router.navigate(["/rol"]);
+                  _this.idRol = response.id;
+                  let listaFuncionesCrearRol = _this.getDTOCrearFuncionesRol();
+                  _this.rolService.updateFuncionesRol(listaFuncionesCrearRol).then(response => {
+                    const titulo = "Éxito";
+                    const mensaje = "Se ha Creado un nuevo registro de Rol de forma exitosa";
+                    ($ as any).confirm({
+                      title: titulo,
+                      content: mensaje,
+                      type: "green",
+                      typeAnimated: true,
+                      theme: "material",
+                      buttons: {
+                        aceptar: {
+                          text: "Aceptar",
+                          btnClass: "btn-green",
+                          action: function() {
+                            _this.router.navigate(["/rol"]);
+                          }
                         }
                       }
-                    }
+                    });
                   });
                 }
                 else if (response.tipo == 2) {

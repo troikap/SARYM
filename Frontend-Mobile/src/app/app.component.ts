@@ -90,10 +90,11 @@ export class AppComponent {
     });
   }
 
-  prueba( ruta: string) {
+  accion( ruta: string) {
     console.log("RUTA ",ruta)
     if (ruta == '/logueo') {
       this.storage.delOneItem('currentUsuario');
+      this.storage.delOneItem('token');
       this.menu.enable(false);
       this.navController.navigateRoot(ruta)
     } else {

@@ -1,5 +1,6 @@
 
 // Vencimiento
+// 1000 milisegundos = 1 segundo
 // 60 segundo
 // 60 minutos
 // 24 horas
@@ -7,6 +8,8 @@
 
 //TOKEN 1 DIA:
 process.env.CADUCIDAD_TOKEN = 1000 * 60 * 60 * 24;
+process.env.CADUCIDAD_TOKENRECUPERACION = 1000 * 60;
+
 
 //TOKEN PRUEBA 1 MINUTO
 //process.env.CADUCIDAD_TOKEN = 1000 * 60;
