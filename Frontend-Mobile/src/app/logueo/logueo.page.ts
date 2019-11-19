@@ -86,7 +86,7 @@ export class LogueoPage implements OnInit {
           this.logueo['nombreUsuario'] = this.algo.UsuarioEstado.nombreUsuario;
           this.logueo['apellidoUsuario'] = this.algo.UsuarioEstado.apellidoUsuario;
           this.storage.setOneObject( 'currentUsuario', this.logueo)
-          this.alert();
+          this.alertar();
           this.menu.enable(true);
           this.navController.navigateRoot('/home')
         } else {
@@ -99,13 +99,13 @@ export class LogueoPage implements OnInit {
         } else {
           console.log("SUSPENDIDO INHAVILITAD")
         }
-        this.alert();
+        this.alertar();
       }
     })
   }
 
   actualizarLog(log: Log) {
-     log.date = new Date();
+    log.date = new Date();
     this.storage.actualizarLog(log)
       .then( res => {
         if (!res) {
@@ -132,7 +132,7 @@ export class LogueoPage implements OnInit {
     this.navController.navigateForward(page);
   }
 
-  async alert() {
+  async alertar() {
     if (this.algo.tipo == 1) {
       const alert = await this.alertController.create({
         header: this.valtitle,
@@ -173,13 +173,25 @@ export class LogueoPage implements OnInit {
     } 
 
   iniciarInvitado() {
-    this.storage.setOneObject( 'currentUsuario', "Invitado")
-    this.menu.enable(false);
-    this.navController.navigateRoot('/home-invitado')
+    let logear = {
+      cuit: -1,
+      pass: "Invitado",
+      id: -1,
+      date: new Date(),
+      rolUsuario: "Invitado",
+      idRolUsuario: -1,
+      nombreUsuario: "Invitado",
+      apellidoUsuario: "Invitado"
+    }
+    this.storage.setOneObject('token',"libre")
+    this.storage.setOneObject('currentUsuario', logear)
+    this.menu.enable(true);
+    this.navController.navigateRoot('/home');
+    // this.navController.navigateRoot('/home-invitado');
   }
 
   recuperarContrasenia() {
-    console.log("REcuperando")
+    console.log("Recuperando")
     if (this.contadorIntentoContrasenia > 0 ) {
       this.confirmarRecuperacion();
     } else {

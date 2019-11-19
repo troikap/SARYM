@@ -19,7 +19,6 @@ export class RecuperarContraseniaPage implements OnInit {
   private token;
   private idUsuario;
 
-
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -47,10 +46,8 @@ export class RecuperarContraseniaPage implements OnInit {
       .subscribe(params => {
         this.token = params["token"];
         if (this.token != null) {
-          console.log("Buscando Usuario")
           this.recuperarInfoToken(params["token"]);
         } else {
-          console.log("NO TRAJO TOKEN")
           this.toastService.toastError('Acceso no Autorizado.',2000);
           this.navController.navigateRoot('/logueo')
         }
@@ -65,19 +62,19 @@ export class RecuperarContraseniaPage implements OnInit {
         this.navController.navigateRoot('/logueo');
       })
       .catch((err) => {
-        console.log("ERROR ", err)
+        this.toastService.toastError('Ha ocurrido un error al intentar actualizar la contraseña: ' + err, 3000);
+        this.navController.navigateRoot('/logueo');
       })
   }
 
   recuperarInfoToken( token ) {
     this.usuarioservicio.recuperarDatosToken( token )
       .then((res) => {
-        console.log("RESPUESTA DE TOKEN ", res)
         if ( res != null ) {
           this.idUsuario = res.data.idUsuario;
         } else {
-          this.toastService.toastError('El tiempo para Recuperar Contraseña ha Caducado.',3000);
-          this.navController.navigateRoot('/logueo')
+          this.toastService.toastError('El tiempo para Recuperar Contraseña ha Caducado.', 3000);
+          this.navController.navigateRoot('/logueo');
         }
       })
   }
