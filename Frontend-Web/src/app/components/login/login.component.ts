@@ -4,6 +4,7 @@ import { UsuarioService } from "../../services/usuario/usuario.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FechaArgentinaProvider } from '../../providers/fechaArgentina.provider';
 import { environment } from 'src/environments/environment';
+import { RolService } from 'src/app/services/rol/rol.service';
 
 @Component({
   selector: "app-login",
@@ -34,6 +35,7 @@ export class LoginComponent implements OnInit {
     private usuarioservicio: UsuarioService,
     private router: Router,
     private fechaArgentinaProvider: FechaArgentinaProvider,
+    private rolService: RolService,
   ) {
     this.form = this.formBuilder.group({
       cuitUsuario: ["", Validators.required],
@@ -199,6 +201,17 @@ export class LoginComponent implements OnInit {
     });
   } 
 
+  setearFuncionesRolEnRol() {
+    this.rolService.getFuncionesByRol3(this.rol).then((res: any) => {
+      let array = [];
+      console.log("RESPUESTA", res)
+      for (let item of res) {
+        array.push(item.funcion.nombreFuncion);
+      }
+      localStorage.setItem('FuncionesRol', JSON.stringify(array));
+    });
+  }
+
   loguear() {
     this.usuarioservicio
       .loguear(this.form.value.cuitUsuario, this.form.value.contrasenaUsuario)
@@ -235,6 +248,8 @@ export class LoginComponent implements OnInit {
             localStorage.setItem("rolUsuario", this.rol);
             localStorage.setItem("idUsuario", this.idUsuario);
 
+            this.setearFuncionesRolEnRol();
+  
             let _this = this;
 
             if (this.rol == "Administrador" || this.rol == "Encargado" || this.rol == "Cocinero") {

@@ -304,6 +304,9 @@ export class CrudRolComponent implements OnInit {
                               text: "Aceptar",
                               btnClass: "btn-green",
                               action: function() {
+                                //localStorage.getItem("FuncionesRol")
+                                console.log("LISTAAAAA", listaFuncionesCrearRol);
+                                console.log("DTOFUNCIONESROL",this.dtoFuncionesRol)
                                 _this.router.navigate(["/rol"]);
                               }
                             }
