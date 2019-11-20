@@ -1,0 +1,44 @@
+.label-fixed.sc-ion-label-md-h {
+    -ms-flex: 0 0 100px;
+    flex: 0 0 100px;
+    width: 100px;
+    min-width: 150px;
+    max-width: 200px;
+}
+
+ion-item {
+    ion-datetime {
+        font-size: 18px;
+        margin: auto auto;
+    }
+}
+
+.active {
+    height: 200px;
+    width: 100%
+}
+.noactive {
+    height: 70px;
+    width: 20%;
+    span {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+.descripcion-mesa {
+    font-size: 5rem;
+}
+
+ion-datetime {
+    text-align: center;
+}
+
+form {
+    ion-row {
+        ion-col {
+            display: flex;
+            align-items: center;
+        }
+    }
+}

@@ -299,7 +299,9 @@ estadoestadia = [
 ]
 
 detalleestadiamesa = [
-    "idDetalleEstadiaMesa"
+    "idDetalleEstadiaMesa",
+    "idMesa",
+    "idEstadia"
 ]
 
 clienteestadia = [
@@ -311,6 +313,8 @@ clienteestadia = [
 mozoestadia = [
     "idMozoEstadia",
     "idUsuario",
+    "idEstadia",
+    "descripcionMozoEstadia",
     "fechaYHoraInicioMozoEstadia",
     "fechaYHoraFinMozoEstadia"
 ]

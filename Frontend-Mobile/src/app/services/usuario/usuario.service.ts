@@ -43,8 +43,6 @@ export class UsuarioService {
 
   validarExistenciaUsuario( cuit: number ): Promise<any> {
     let value = { cuitUsuario: cuit};
-    let cuitUsuario = cuit;
-    console.log(`${URL}/existUser`, value)
     return this.http.post(`${URL}/existUser`, value).toPromise()
     .then( (response) => {
       return response;
@@ -110,7 +108,7 @@ export class UsuarioService {
   }
 
   envioEmail(data){
-    let value = { email: data.data.emailUsuario, nombreUsuario: data.data.nombreUsuario, apellidoUsuario: data.data.apellidoUsuario, idUsuario: data.data.idUsuario }
+    let value = { origen: 'http://localhost:8100', email: data.data.emailUsuario, nombreUsuario: data.data.nombreUsuario, apellidoUsuario: data.data.apellidoUsuario, idUsuario: data.data.idUsuario, cuitUsuario: data.data.cuitUsuario }
     return this.http
       .post(`${URL}/envioEmail`, value)
       .toPromise()

@@ -4,7 +4,6 @@ const Sequelize = require("sequelize");
 const UsuarioEstadoModelo = require("../usuarioestado/usuarioestado-model");
 const RolUsuarioModelo = require("../rolusuario/rolusuario-model");
 const DepartamentoModelo = require("../departamento/departamento-model");
-// const ComensalModelo = require("../comensal/comensal-model");
 var sequelize = require("../../database/connection");
 
 const UsuarioModelo = sequelize.define(
@@ -58,11 +57,6 @@ const UsuarioModelo = sequelize.define(
 
 UsuarioModelo.hasMany(UsuarioEstadoModelo, { foreignKey: "idUsuario" });
 UsuarioModelo.hasMany(RolUsuarioModelo, { foreignKey: "idUsuario" });
-
-
-// UsuarioModelo.hasOne(ComensalModelo, { foreignKey: "idUsuario" });
-
-
 UsuarioModelo.belongsTo(DepartamentoModelo, { foreignKey: "idDepartamento" });
 
 

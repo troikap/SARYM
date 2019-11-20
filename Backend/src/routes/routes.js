@@ -53,7 +53,8 @@ router
     .post('/login', UsuarioController.login)
     .post('/existUser', UsuarioController.validateExistUser)
     .post('/subirImagen', UploadController.subirImagen)
-    .get('/traerImagen/:tipo/:img?', UploadController.traerImagen)
+    .get('/traerImagen/:tipo/:img', UploadController.traerImagen)
+    .get('/traerImagen/:img?', UploadController.traerImagen)
     .post('/verificarTokenRol', TokenController.verificarTokenRol)
     .post('/envioEmail', (req, res) => {
         configMensaje(req.body);
@@ -117,6 +118,7 @@ router
     .put('/estadia/editarClienteEstadia', verificaToken, EstadiaController.editarClienteEstadia)
     .post('/estadia/getToMesa/:idMesa', verificaToken, EstadiaController.getToMesa)
     .post('/estadia/getToUsuario/:idUsuario', verificaToken, EstadiaController.getToUsuario)
+    .put('/estadia/cambiarMozoEstadia', verificaToken, EstadiaController.cambiarMozoEstadia)
 
 // reserva
     .get('/reserva', verificaToken, ReservaController.getAll)
@@ -255,11 +257,10 @@ router
     .put('/caja/realizarMovimiento', verificaToken, CajaController.realizarMovimiento)
 
 // mozoestadia
-    .get('/mozoestadia', verificaToken, MozoEstadiaController.getAll)
-    .get('/mozoestadia/:idMozoEstadia', verificaToken, MozoEstadiaController.getOne)
-    .post('/mozoestadia', verificaToken, MozoEstadiaController.create)
-    .put('/mozoestadia/actualizarDatos', verificaToken, MozoEstadiaController.actualizarDatos)
-
+    // .get('/mozoestadia', verificaToken, MozoEstadiaController.getAll)
+    // .get('/mozoestadia/:idMozoEstadia', verificaToken, MozoEstadiaController.getOne)
+    // .post('/mozoestadia', verificaToken, MozoEstadiaController.create)
+    // .put('/mozoestadia/actualizarDatos', verificaToken, MozoEstadiaController.actualizarDatos)
 
 // ESTADOS ------------------------------------------------------------------------------------------------
 

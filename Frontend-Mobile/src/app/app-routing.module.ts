@@ -36,11 +36,11 @@ const routes: Routes = [
   { path: 'search-gestionar-reserva', loadChildren: './pages/gestionar-reserva/search-gestionar-reserva/search-gestionar-reserva.module#SearchGestionarReservaPageModule' },
   { path: 'crud-gestionar-reserva/:id/:accion', loadChildren: './pages/gestionar-reserva/crud-gestionar-reserva/crud-gestionar-reserva.module#CrudGestionarReservaPageModule' },
   { path: 'consulta-gestionar-reserva/:id', loadChildren: './pages/gestionar-reserva/consulta-gestionar-reserva/consulta-gestionar-reserva.module#ConsultaGestionarReservaPageModule' },
-  { path: 'unirse-gestionar-reserva', loadChildren: './pages/gestionar-reserva/unirse-gestionar-reserva/unirse-gestionar-reserva.module#UnirseGestionarReservaPageModule' },
+  // { path: 'unirse-gestionar-reserva', loadChildren: './pages/gestionar-reserva/unirse-gestionar-reserva/unirse-gestionar-reserva.module#UnirseGestionarReservaPageModule' },
   { path: 'ver-qr-reserva/:id', loadChildren: './pages/gestionar-reserva/ver-qr-reserva/ver-qr-reserva.module#VerQRReservaPageModule' },
   
   { path: 'lista-pedido/reserva/:idReserva/comensal/:idComensal', loadChildren: './pages/gestionar-reserva/lista-pedido/lista-pedido.module#ListaPedidoPageModule' },
-  { path: 'seleccion-comensal/:idReserva', loadChildren: './pages/gestionar-reserva/seleccion-comensal/seleccion-comensal.module#SeleccionComensalPageModule' },
+  { path: 'seleccion-comensal/reserva/:idReserva', loadChildren: './pages/gestionar-reserva/seleccion-comensal/seleccion-comensal.module#SeleccionComensalPageModule' },
   { path: 'seleccion-pedido/reserva/:idReserva/comensal/:idComensal', loadChildren: './pages/gestionar-reserva/seleccion-pedido/seleccion-pedido.module#SeleccionPedidoPageModule' },
 
 // estadia
@@ -51,7 +51,11 @@ const routes: Routes = [
   { path: 'home-invitado', loadChildren: './pages/invitado/home-invitado/home-invitado.module#HomeInvitadoPageModule' },
   { path: 'pedido-catalogo/comensal/:idComensal/pedido/:idPedido', loadChildren: './pages/gestionar-reserva/pedido-catalogo/pedido-catalogo.module#PedidoCatalogoPageModule' },
   { path: 'recuperar-contrasenia/:token', loadChildren: './pages/recuperar-contrasenia/recuperar-contrasenia.module#RecuperarContraseniaPageModule' },
-  
+
+// unirse reserva estadia
+  { path: 'unirse-reserva-estadia', loadChildren: './pages/unirse-reserva-estadia/unirse-reserva-estadia.module#UnirseReservaEstadiaPageModule' },
+  { path: 'ver-qr-estadia/:id', loadChildren: './pages/gestionar-estadia/ver-qr-estadia/ver-qr-estadia.module#VerQrEstadiaPageModule' },
+
 ];
 
 @NgModule({

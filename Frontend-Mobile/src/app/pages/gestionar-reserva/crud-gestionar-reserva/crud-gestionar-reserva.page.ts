@@ -12,6 +12,8 @@ import { Reserva, Comensal } from 'src/app/models/modelos';
 import { TratarFechaProvider } from '../../../providers/tratarFecha.provider';
 import { AlertService } from '../../../providers/alert.service';
 import { ToastService } from '../../../providers/toast.service';
+import { LoaderService } from '../../../providers/loader.service';
+
 
 @Component({
   selector: 'app-crud-gestionar-reserva',
@@ -46,7 +48,8 @@ export class CrudGestionarReservaPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private tratarFechaProvider: TratarFechaProvider,
     private alertService: AlertService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private loaderService: LoaderService
   ) {
     
     this.loadCurrentUsuario();
@@ -339,13 +342,14 @@ prueba() {
   }
 
   agregarCodigoReserva( data ) {
-    let codReserva = `${this.currentUsuario.id}-${this.currentUsuario.cuit}-${data.fechaReserva}/${data.horaEntradaReserva}`;
+    let codReserva = `${this.currentUsuario.id}-${this.currentUsuario.cuit}-${data.fechaReserva}/${data.horaEntradaReserva}-RESERVA`;
     data['codReserva'] = codReserva;
     return data
   }
 
+  // TOKEN RESERVA
   agregarTokenReserva( data, reserva ) {
-    let tokenReserva = `${data.id}-${this.currentUsuario.id}-${reserva.fechaReserva}/${reserva.horaEntradaReserva}`;
+    let tokenReserva = `RESERVA-${data.id}-${this.currentUsuario.id}-${reserva.fechaReserva}/${reserva.horaEntradaReserva}`;
     return tokenReserva
   }
 
@@ -371,7 +375,7 @@ prueba() {
                 .then( respo => {
                   this.toastService.toastSuccess(`Reserva Creada Satisfactoriamente. N° ${res.id}`, 2500);
                   setTimeout(()=>{
-                    this.navController.navigateForward([`/seleccion-comensal/${res.id}`]);
+                    this.navController.navigateForward([`/seleccion-comensal/reserva/${res.id}`]);
                     }, 2500);
                 })
               } else {

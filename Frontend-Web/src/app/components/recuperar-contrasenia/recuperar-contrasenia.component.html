@@ -1,0 +1,30 @@
+<div class="contenedor-pagina">
+    <br>
+    <h2 class="titulo">Recuperar Conraseña</h2>
+
+    <hr>
+    <div class="container">
+        <div class="form-section">
+            <form [formGroup]="form" (ngSubmit)="enviar()">
+                <div class="form-group row" *ngIf="accionGet != 'eliminar'">
+                    <div class="col">
+                        <label for="contrasenaUsuario" class="col col-form-label">Contraseña</label>
+                        <input class="form-control" type="password" id="contrasenaUsuario" placeholder="Ingrese Contraseña" formControlName="contrasenaUsuario">
+                        <p class="input-error-msg" *ngIf="form.controls.contrasenaUsuario.errors?.required && form.controls.contrasenaUsuario.touched">Campo Obligatorio.</p>
+                        <p class="input-error-msg" *ngIf="(form.controls.contrasenaUsuario.errors?.minlength || form.controls.contrasenaUsuario.errors?.maxlength) && form.controls.contrasenaUsuario.touched">Debe tener entre 8 y 25 caracteres.</p>
+                    </div>
+                    <div class="col" *ngIf="form.value.contrasenaUsuario != null">
+                        <label for="contrasenaUsuarioRepeat" class="col col-form-label">Repetir Contraseña</label>
+                        <input class="form-control" type="password" id="contrasenaUsuarioRepeat" placeholder="Repita Contraseña" formControlName="contrasenaUsuarioRepeat">
+                        <p class="input-error-msg" *ngIf="form.controls.contrasenaUsuarioRepeat.errors?.required && form.controls.contrasenaUsuarioRepeat.touched">Campo Obligatorio.</p>
+                        <p class="input-error-msg" *ngIf="form.controls.contrasenaUsuarioRepeat.errors?.not_equal && form.controls.contrasenaUsuarioRepeat.touched">Las contraseñas no coinciden.</p>
+                        <p class="input-error-msg" *ngIf="(form.controls.contrasenaUsuarioRepeat.errors?.minlength || form.controls.contrasenaUsuarioRepeat.errors?.maxlength) && form.controls.contrasenaUsuarioRepeat.touched">Debe tener entre 8 y 25 caracteres.</p>
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

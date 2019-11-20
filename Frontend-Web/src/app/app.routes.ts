@@ -55,6 +55,9 @@ import { SearchActualizarPedidosComponent } from './components/actualizar-comand
 import { EnviarPedidoComponent } from './components/enviar-pedido/enviar-pedido/enviar-pedido.component';
 import { CambiarEstadoPedidoComponent } from './components/cambiar-estado-pedido/cambiar-estado-pedido/cambiar-estado-pedido.component';
 
+//IMPORT LOGUIN
+import { RecuperarContraseniaComponent } from './components/recuperar-contrasenia/recuperar-contrasenia.component';
+
 const routes: Routes = [
   { path: "home", component: HomeComponent },
   { path: "login", component: LoginComponent },
@@ -110,6 +113,9 @@ const routes: Routes = [
   { path: 'search_actualizar_comanda_cocina', component: SearchActualizarPedidosComponent , canActivate: [RoleGuardService], data: { nombreFuncion:['Consulta Comanda Cocina']}},
   { path: 'enviar_pedido', component: EnviarPedidoComponent , canActivate: [RoleGuardService], data: { nombreFuncion:['Enviar Pedido (Comanda Cocina)']}},
   { path: 'cambiar_estado_pedido', component: CambiarEstadoPedidoComponent , canActivate: [RoleGuardService], data: { nombreFuncion:['Cambiar Estado Pedido (Comanda Cocina)']}},
+
+  //LOGUIN
+  { path: 'recuperar-contrasenia/:token', component: RecuperarContraseniaComponent},
 
   { path: "**", redirectTo: "login" },
   { path: "", redirectTo: "/login", pathMatch: "full" },  

@@ -57,6 +57,11 @@ export class HomePage implements OnInit {
   async goTo(key: string) {
     await this.loadLog()
     let id = this.logueo.id;
+
+    if (id == -1) { //Invitado
+      id = 0;
+    }
+
     let page;
     switch (key) {
       case "registro-usuario":
@@ -66,13 +71,14 @@ export class HomePage implements OnInit {
         page = `/crud-gestionar-reserva/0/crear`;
         break;
       case "unirse-reserva":
-        page = `/unirse-gestionar-reserva`;
+        // page = `/unirse-gestionar-reserva`;
+        page = `/unirse-reserva-estadia`;
         break;
       // case "realizar-pedido":
       //   page = `/ver-qr-reserva/1`;
       //   break;
       case "realizar-pedido":
-        page = `/seleccion-comensal/1`;
+        page = `/seleccion-comensal/reserva/1`;
         break;
       case "search-gestionar-reserva":
         // page = `/search-gestionar-reserva`;
@@ -107,6 +113,7 @@ export class HomePage implements OnInit {
   async loadLog() {
     await this.storage.getCurrentUsuario()
       .then(async logs => {
+        console.log("LOG:-----------", logs);
         this.logueo = logs;
         this.currentUsuario = await logs['rolUsuario'];
         if (!logs) {
@@ -140,7 +147,8 @@ export class HomePage implements OnInit {
             this.navController.navigateForward('/search-gestionar-estadia');
           }
         }
-      ]
+      ],
+      cssClass: 'alertPrimaryModificado'
     });
     await alert.present();
     return 'hola'

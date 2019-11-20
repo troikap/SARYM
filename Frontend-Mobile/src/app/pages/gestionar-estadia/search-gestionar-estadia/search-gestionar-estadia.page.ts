@@ -13,6 +13,7 @@ export class SearchGestionarEstadiaPage implements OnInit {
   public estadia;
   private currentUsuario;
   private idUsuarioLogueado: number;
+  private createdCode;
 
   constructor(
     private estadiaService: EstadiaService,
@@ -39,27 +40,34 @@ export class SearchGestionarEstadiaPage implements OnInit {
     });
   }
 
+  createCode() {
+    console.log('Creando QR');
+    this.createdCode = btoa( this.estadia.tokenEstadia );
+  }
+
   getEstadiaUsrLogueado() {
     this.estadiaService.getEstadiasPorUsuario(this.idUsuarioLogueado)
       .then((res: any) => {
         console.log("getEstadiaUsrLogueado", res);
         this.estadia =  res.data;
+        this.createCode();
       })
   }
 
   realizarPedido(item) {
     let idReserva = item.data.idReserva;
-    this.navController.navigateForward([`/seleccion-comensal/${idReserva}`])
+    this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}`])
   }
 
-  crearReserva() {
+  unirseEstadia() {
     console.log("crearReserva");
-    this.navController.navigateForward(['/crud-gestionar-reserva', 0, 'crear' ]);
+    // this.navController.navigateForward(['/unirse-gestionar-reserva' ]);
+    this.navController.navigateForward(['/unirse-reserva-estadia' ]);
   }
 
-  consultarReserva(pIdReserva: number) {
-    console.log("Consultar Reserva", pIdReserva);
-    this.navController.navigateForward(['/consulta-gestionar-reserva', pIdReserva ]);
+  consultarEstadia( idEstadia: number) {
+    console.log("Consultar Estadia", idEstadia);
+    this.navController.navigateForward(['/consulta-gestionar-estadia', idEstadia ]);
   }
 
   editarReserva(pIdReserva: number) {

@@ -5,13 +5,16 @@ import { UsuarioService } from '../services/usuario/usuario.service';
 import { StorageService, Log } from '../services/storage/storage.service';
 import { AlertController, MenuController, NavController } from '@ionic/angular';
 import { ToastService } from '../providers/toast.service'
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-logueo',
   templateUrl: './logueo.page.html',
   styleUrls: ['./logueo.page.scss'],
 })
+
 export class LogueoPage implements OnInit {
+  private contadorIntentoContrasenia = environment.contRecPass;
 
   private form: FormGroup;
   private logueo: Log;
@@ -24,7 +27,6 @@ export class LogueoPage implements OnInit {
   private error = "Error"
   private errormsj = "Ud. no tiene permisos para acceder al sistema mobile"; 
   private algo = null;
-  private contador = 1;
 
   constructor(private router: Router,
     private formBuilder: FormBuilder,
@@ -84,7 +86,7 @@ export class LogueoPage implements OnInit {
           this.logueo['nombreUsuario'] = this.algo.UsuarioEstado.nombreUsuario;
           this.logueo['apellidoUsuario'] = this.algo.UsuarioEstado.apellidoUsuario;
           this.storage.setOneObject( 'currentUsuario', this.logueo)
-          this.alert();
+          this.alertar();
           this.menu.enable(true);
           this.navController.navigateRoot('/home')
         } else {
@@ -97,13 +99,13 @@ export class LogueoPage implements OnInit {
         } else {
           console.log("SUSPENDIDO INHAVILITAD")
         }
-        this.alert();
+        this.alertar();
       }
     })
   }
 
   actualizarLog(log: Log) {
-     log.date = new Date();
+    log.date = new Date();
     this.storage.actualizarLog(log)
       .then( res => {
         if (!res) {
@@ -130,7 +132,7 @@ export class LogueoPage implements OnInit {
     this.navController.navigateForward(page);
   }
 
-  async alert() {
+  async alertar() {
     if (this.algo.tipo == 1) {
       const alert = await this.alertController.create({
         header: this.valtitle,
@@ -171,14 +173,26 @@ export class LogueoPage implements OnInit {
     } 
 
   iniciarInvitado() {
-    this.storage.setOneObject( 'currentUsuario', "Invitado")
-    this.menu.enable(false);
-    this.navController.navigateRoot('/home-invitado')
+    let logear = {
+      cuit: -1,
+      pass: "Invitado",
+      id: -1,
+      date: new Date(),
+      rolUsuario: "Invitado",
+      idRolUsuario: -1,
+      nombreUsuario: "Invitado",
+      apellidoUsuario: "Invitado"
+    }
+    this.storage.setOneObject('token',"libre")
+    this.storage.setOneObject('currentUsuario', logear)
+    this.menu.enable(true);
+    this.navController.navigateRoot('/home');
+    // this.navController.navigateRoot('/home-invitado');
   }
 
   recuperarContrasenia() {
-    console.log("REcuperando")
-    if (this.contador > 0 ) {
+    console.log("Recuperando")
+    if (this.contadorIntentoContrasenia > 0 ) {
       this.confirmarRecuperacion();
     } else {
       this.solicitarAyuda();
@@ -208,7 +222,6 @@ export class LogueoPage implements OnInit {
               this.usuarioservicio.validarExistenciaUsuario(resp.cuit)
               .then( resp => {
                 if (resp.tipo == 2 ) {
-                  console.log("RESOYESTA ", resp)
                   this.usuarioservicio.envioEmail(resp)
                   .then( respuesta => {
                     if (respuesta['tipo'] == 1 ) {
@@ -219,7 +232,7 @@ export class LogueoPage implements OnInit {
                   })
                 } else {
                   this.toastService.toastWarning('No hemos podido encontrar el Usuario.', 1500)
-                  this.contador -= 1;
+                  this.contadorIntentoContrasenia -= 1;
                 }
               })
             } else {

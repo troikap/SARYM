@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>Estadia N° {{idEstadia}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-row>
+      <ion-col>
+      </ion-col>
+  </ion-row>
+  <div *ngIf="datos && datos.comensales">
+      <ion-card *ngFor="let comen of datos.comensales; let i = index">
+          <ion-card-header>
+              <ion-card-title>
+                  Alias: {{comen.aliasComensal}}
+              </ion-card-title>
+              <ion-card-subtitle>
+                  Edad: {{comen.edadComensal}} - Usuario: {{comen.idUsuario}}
+              </ion-card-subtitle>
+          </ion-card-header>
+      </ion-card>
+  </div>
+  <ion-card>
+      <ngx-qrcode [(qrc-value)]="createdCode"></ngx-qrcode>
+      <ion-card-content>
+          <p>Value: {{createdCode}} </p>
+      </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="scannedCode">
+      <ion-card-content>
+          Result from Scan: {{scannedCode}}
+      </ion-card-content>
+  </ion-card>
+  <h2 padding> <strong>Para compartir tu estadia con tus amigos!</strong></h2>
+</ion-content>

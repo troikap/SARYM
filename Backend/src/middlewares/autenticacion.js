@@ -28,7 +28,6 @@ let verificaToken = (req, res, next) => {
 
 let verificaTokenRecuperacion = (req, res, next) => {
     let token = req.body['token'];
-    console.log("TOKEN ",token)
     jwt.verify(token, process.env.SEED, (err, decoded) => {
         if (err) {
             console.log("Error Nombre: ", err);
@@ -39,7 +38,6 @@ let verificaTokenRecuperacion = (req, res, next) => {
                 }
             })
         }
-        console.log("--------------------------- idUsuario = ",decoded.idUsuario)
         req.idUsuario = decoded.idUsuario;
         next();
     })
