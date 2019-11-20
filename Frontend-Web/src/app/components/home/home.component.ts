@@ -21,22 +21,24 @@ export class HomeComponent implements OnInit {
   private myForm: FormGroup;
   uploadedFiles: Array<File> = [];
 
-  constructor( private activatedRoute: ActivatedRoute, 
-               private homeService: HomeService, 
-               private routes: Router,
-               private formBuilder: FormBuilder,
-               public uploadService: UploadService ) 
-    { 
-      this.activatedRoute.params.subscribe(params => {
-        this.iconosHome = this.homeService.getIconosHome();
-      });
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private homeService: HomeService,
+    private routes: Router,
+    private formBuilder: FormBuilder,
+    public uploadService: UploadService) 
+    
+  {
+    this.activatedRoute.params.subscribe(params => {
+      this.iconosHome = this.homeService.getIconosHome();
+    });
 
-      this.myForm = this.formBuilder.group({
-        'archivo': new FormControl()
-      });
-      this.variableRol = localStorage.getItem("rolUsuario");
+    this.myForm = this.formBuilder.group({
+      'archivo': new FormControl()
+    });
+    this.variableRol = localStorage.getItem("rolUsuario");
 
-    }
+  }
 
   ngOnInit() {
   }

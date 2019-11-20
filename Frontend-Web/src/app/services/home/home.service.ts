@@ -163,7 +163,7 @@ export class HomeService {
       clave: "enviar-pedido",
       path: "/enviar_pedido",
       img: "assets/imagenes/comida-y-restaurante.png",
-      nombreFuncion: "Enviar Pedido (Comanda Cocina)'"
+      nombreFuncion: "Enviar Pedido (Comanda Cocina)"
     }
   ];
 

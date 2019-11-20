@@ -42,7 +42,6 @@ export class SearchRolComponent implements OnInit {
 
   getAllElements() {
     this.rolService.getRoles().then((res: any) => {
-      console.log("getAllElements", res);
       this.listaRoles = res.data;
     });
   }
