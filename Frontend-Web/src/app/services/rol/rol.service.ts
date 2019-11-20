@@ -27,7 +27,6 @@ export class RolService {
       .get(this.url + this.dir, { headers })
       .toPromise()
       .then(response => {
-        console.log("Servicio getRoles: ", response);
         return response as Rol[];
       })
       .catch();
@@ -53,7 +52,6 @@ export class RolService {
         .get(`${this.url}${this.dir}${this.dir3}/${termino}`, { headers })
         .pipe(
           map((data: any) => {
-            console.log("bbbbbbbbbbbbbbbbbbbbbbbb", data)
             if (data != null) {
               return data.data;
             }
@@ -118,27 +116,25 @@ export class RolService {
       .catch();
   }
 
-  getFuncionesRolAll (): Promise<any[]>{
+  getFuncionesRolAll(): Promise<any[]> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append("token", this.tokenEnviroment);
     return this.http
       .get(this.url + this.dir4, { headers })
       .toPromise()
       .then(response => {
-        console.log("Servicio getFuncionesRolAll: ", response);
         return response as any[];
       })
       .catch();
   }
 
-  getFuncionesRol (id: number): Promise<any[]>{
+  getFuncionesRol(id: number): Promise<any[]> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append("token", this.tokenEnviroment);
     return this.http
       .get(`${this.url}${this.dir4}/${id}`, { headers })
       .toPromise()
       .then(response => {
-        console.log("Servicio getFuncionesRol: ", response);
         return response as any[];
       })
       .catch();
