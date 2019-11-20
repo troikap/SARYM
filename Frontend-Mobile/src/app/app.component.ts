@@ -95,6 +95,8 @@ export class AppComponent {
     if (ruta == '/logueo') {
       this.storage.delOneItem('currentUsuario');
       this.storage.delOneItem('token');
+      this.storage.delOneItem('reserva');
+      this.storage.delOneItem('estadia');
       this.menu.enable(false);
       this.navController.navigateRoot(ruta)
     } else {

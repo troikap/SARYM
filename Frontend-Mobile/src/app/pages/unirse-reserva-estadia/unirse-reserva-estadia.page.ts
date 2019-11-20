@@ -7,6 +7,7 @@
   import { ReservaService } from 'src/app/services/reserva/reserva.service';
   import { UsuarioService } from 'src/app/services/usuario/usuario.service';
   import { ToastService } from '../../providers/toast.service'
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
   selector: 'app-unirse-reserva-estadia',
@@ -30,15 +31,20 @@ export class UnirseReservaEstadiaPage implements OnInit {
     private comensales: Comensal[] = [];
     private tokenReserva;
     private usuario;
-  
+
+    private rutaTipo;
+    private idReservaEstadia;
+    private idUsuario;
+    private nombreUsuario;
+
     constructor(
       private barcodeScanner: BarcodeScanner,
       private alertController: AlertController,
       private navController: NavController,
       public activatedRoute: ActivatedRoute,
-      private reservaServicio: ReservaService,
       private usuarioServicio: UsuarioService,
       private toastService: ToastService,
+      private storage: StorageService
     ) { }
   
     ngOnInit() {
@@ -55,7 +61,7 @@ export class UnirseReservaEstadiaPage implements OnInit {
       })
       .catch(err => {
         console.log('Error', err);
-        this.qrDataCodify = 'UkVTRVJWQS0yLTEtMjAxOS0xMS0xOC8wOToxMw==';
+        this.qrDataCodify = 'UkVTRVJWQS0yLTE3LTIwMTktMTEtMjEvMTU6MjY=';
         this.presentAlert()
       });
     }
@@ -73,24 +79,23 @@ export class UnirseReservaEstadiaPage implements OnInit {
         console.log("SECRETO ", this.secretCode)
         this.nameArray = this.secretCode.split('-');
         let tipo = this.nameArray[0];
-        let idReservaEstadia = this.nameArray[1];
-        let rutaTipo;
+        this.idReservaEstadia = this.nameArray[1];
         if (tipo == "RESERVA") {
-          rutaTipo = 'reserva';
+          this.rutaTipo = 'reserva';
         } else if (tipo == "ESTADIA") {
-          rutaTipo = 'estadia';
+          this.rutaTipo = 'estadia';
         } else {
           this.toastService.toastError('QR leido es incorrecto', 2000)
           this.navController.back();
         }
-        let idUsuario = this.nameArray[2];
-        await this.traerUsuario(idUsuario);
+        this.idUsuario = this.nameArray[2];
+        await this.traerUsuario();
         console.log("ENCONTRADO ", this.secretCode)
-        let nombreUsuario = `${this.usuario.Usuario.nombreUsuario} ${this.usuario.Usuario.apellidoUsuario}`
+        this.nombreUsuario = `${this.usuario.Usuario.nombreUsuario} ${this.usuario.Usuario.apellidoUsuario}`        
         const alert = await this.alertController.create(
           {
           header: 'Leyendo QR',
-          message: `Desea Unirse a la reserva N° ${idReservaEstadia} de ${nombreUsuario}?`,
+          message: `¿Desea Unirse a la ${this.rutaTipo} N° ${this.idReservaEstadia} de ${this.nombreUsuario}?`,
           buttons: [
             {
               text: 'Cancel',
@@ -105,7 +110,8 @@ export class UnirseReservaEstadiaPage implements OnInit {
               handler: () => {
                 console.log('Confirm Okay');
                 // ACA TENDRIA QUE IR A MOSTRAR LA ESTADIA PARA SELECCIONAR EL COMENSAL
-                this.navController.navigateForward(`seleccion-comensal/${rutaTipo}/${idReservaEstadia}`)
+                this.insertarReservaEstadiaComensalStorage();
+                this.navController.navigateForward(`seleccion-comensal/${this.rutaTipo}/${this.idReservaEstadia}`)
               }
             }
           ],
@@ -114,9 +120,20 @@ export class UnirseReservaEstadiaPage implements OnInit {
         await alert.present();
       }
     }
-  
-    async traerUsuario( idUsuario ) {
-      await this.usuarioServicio.getUsuario(  idUsuario )
+    
+    insertarReservaEstadiaComensalStorage() {
+      //Elimino lo existente relacionado en storage, para no duplicar datos. Solo podra existir una reserva y estadía a la vez, para
+      //un usuario logueado.
+
+      let reservaEstadia = {
+        idReservaEstadia: this.idReservaEstadia,
+        idUsuarioCreador: this.idUsuario
+      }
+      this.storage.setOneObject(this.rutaTipo, reservaEstadia);
+    }
+    
+    async traerUsuario() {
+      await this.usuarioServicio.getUsuario(  this.idUsuario )
       .then( async usuario => {
          this.usuario = await usuario;
       })

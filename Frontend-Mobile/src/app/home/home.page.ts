@@ -113,6 +113,7 @@ export class HomePage implements OnInit {
   async loadLog() {
     await this.storage.getCurrentUsuario()
       .then(async logs => {
+        console.log("LOG:-----------", logs);
         this.logueo = logs;
         this.currentUsuario = await logs['rolUsuario'];
         if (!logs) {

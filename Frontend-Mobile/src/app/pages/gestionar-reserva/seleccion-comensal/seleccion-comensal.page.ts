@@ -20,6 +20,8 @@ export class SeleccionComensalPage implements OnInit {
   reserva: Reserva;
   comensales: Comensal[];
   modificarComensal = false;
+  private nombreUsuario;
+
   pathDetalleComensalUsuario: {idReserva: number, detalle: [{aliasComensal: string, edadComensal: number, idUsuario?: number}]};
 
   constructor(
@@ -42,7 +44,16 @@ export class SeleccionComensalPage implements OnInit {
         }).unsubscribe();
         this.traerUsuario();
         this.traerReserva();
+        this.loadCurrentUsuario();
     }
+  }
+
+  loadCurrentUsuario() {
+    this.storage.getCurrentUsuario().then((data) => {
+      let currentUsuario: any = data;
+      this.nombreUsuario = currentUsuario.rolUsuario;
+      console.log("this.nombreUsuario : ", this.nombreUsuario );
+    });
   }
 
   ionViewWillEnter(){
