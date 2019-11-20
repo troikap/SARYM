@@ -12,7 +12,7 @@ export class RolService {
   
   dir = "/rol";
   dir2 = "/codRol";
-  dir3 = "/todo";
+  dir3 = "/name";
   dir4 = "/funcion";
   dir5 = "/editarFuncion";
 
@@ -53,6 +53,7 @@ export class RolService {
         .get(`${this.url}${this.dir}${this.dir3}/${termino}`, { headers })
         .pipe(
           map((data: any) => {
+            console.log("bbbbbbbbbbbbbbbbbbbbbbbb", data)
             if (data != null) {
               return data.data;
             }
@@ -60,6 +61,49 @@ export class RolService {
         );
     } else {
     }
+  }
+
+  getFuncionesByRol(termino: string): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append("token", this.tokenEnviroment);
+    return this.http
+      .get(`${this.url}${this.dir}${this.dir3}/${termino}`, { headers })
+      .toPromise()
+      .then(response => {
+        return response as Rol;
+      })
+      .catch();
+  }
+
+  getFuncionesByRol3(termino: string): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append("token", this.tokenEnviroment);
+    return this.http
+      .get(`${this.url}${this.dir}${this.dir3}/${termino}`, { headers })
+      .toPromise()
+      .then(response => {
+        return response['data'][0].funcionrols;
+      })
+      .catch();
+  }
+
+  getFuncionesByRol2(termino: string, nombreFuncion: string): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append("token", this.tokenEnviroment);
+    return this.http
+      .get(`${this.url}${this.dir}${this.dir3}/${termino}`, { headers })
+      .toPromise()
+      .then(response => {
+        let aux = false;
+        let funcionRols = response['data'][0].funcionrols;
+        for (let item of funcionRols) {
+          if (item.funcion.nombreFuncion == nombreFuncion) {
+            aux = true;
+          }
+        }
+        return aux;
+      })
+      .catch();
   }
 
   getRol(id: number): Promise<any> {
