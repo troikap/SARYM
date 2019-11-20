@@ -22,9 +22,11 @@ const routes: Routes = [
 // mozo
   { path: 'consultar-salon', loadChildren: './pages/mozo/consultar-salon/consultar-salon.module#ConsultarSalonPageModule' },
   { path: 'pedidos-a-enviar', loadChildren: './pages/mozo/pedidos-a-enviar/pedidos-a-enviar.module#PedidosAEnviarPageModule' },
-  { path: 'generar-estadia', loadChildren: './pages/mozo/generar-estadia/generar-estadia.module#GenerarEstadiaPageModule' },
   { path: 'mostrar-mesas', loadChildren: './pages/mozo/generar-estadia/mostrar-mesas/mostrar-mesas.module#MostrarMesasPageModule' },
-  
+  { path: 'confirar-reserva', loadChildren: './pages/mozo/confirar-reserva/confirar-reserva.module#ConfirarReservaPageModule' },
+  { path: 'crud-generar-estadia/:id/:accion/:tipo', loadChildren: './pages/mozo/crud-generar-estadia/crud-generar-estadia.module#CrudGenerarEstadiaPageModule' },
+
+
 // invitado
   { path: 'home-invitado', loadChildren: './pages/invitado/home-invitado/home-invitado.module#HomeInvitadoPageModule' },
 

@@ -71,7 +71,6 @@ export class HomePage implements OnInit {
         page = `/crud-gestionar-reserva/0/crear`;
         break;
       case "unirse-reserva":
-        // page = `/unirse-gestionar-reserva`;
         page = `/unirse-reserva-estadia`;
         break;
       // case "realizar-pedido":
@@ -104,7 +103,7 @@ export class HomePage implements OnInit {
         page = `/pedidos-a-enviar`;
         break;
       case "confirmar-reserva":
-        page = `/`;
+        page = `/confirar-reserva`;
         break;
     }
     this.navController.navigateForward(page);
