@@ -42,6 +42,7 @@ export class EnviarPedidoComponent implements OnInit {
           let horaPedido = new Date(item.fechaYHoraInicioPedido);
              let horaDesdeComienzo = (this.horaActual.getTime() - horaPedido.getTime())/(1000*60);
              item.horaDesdeComienzo = Math.trunc(horaDesdeComienzo);
+             item.fechaYHoraInicioPedido.setTime
           this.mozoestadiaservicio.getEstadia(item.idEstadia).then((dataEstadia: any) => {
            for(let i of dataEstadia.data['detalleestadiamesas']){
             

@@ -14,7 +14,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Mesa N°: {{pedido.mesas}}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Comensal: {{pedido.comensal.aliasComensal}}</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">Hora Inicio: {{pedido.fechaYHoraInicioPedido | date: 'h:mm a'}}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Hora Inicio: {{pedido.fechaYHoraInicioPedido | date: 'HH:mm'}}</h6>
                     <h6 class="card-subtitle mb-2 text-muted">Hora Fin: {{pedido.pedidoestados[0].fechaYHoraAltaPedidoEstado | date: 'h:mm a'}}</h6>
                     <div class="grid" *ngFor="let detalles of pedido.detallepedidoproductos">
                         <p class="card-text" *ngIf="detalles.menupromocion == null">{{detalles.cantidadPedidoProducto}}

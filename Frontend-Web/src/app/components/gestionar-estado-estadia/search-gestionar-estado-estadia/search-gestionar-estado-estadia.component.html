@@ -42,7 +42,7 @@
             <tbody  *ngFor="let lista of listaEstadias">
                 <tr *ngIf ="lista.estadiaestados[0].estadoestadium.idEstadoEstadia == 1" >                     
                     <td align="center">{{lista.cantPersonas}}</td>            
-                    <td>{{lista.fechaYHoraInicioEstadia | date: 'dd/MM/yyyy hh:mm:ss'}}</td>                                     
+                    <td>{{lista.fechaYHoraInicioEstadia | date: 'dd/MM/yyyy HH:mm'}}</td>                                     
                     <td>
                         <div class="row">
                             <div class="col-1"  *ngFor="let listaMesas of lista.detalleestadiamesas">{{listaMesas.mesa.nroMesa}}</div>
