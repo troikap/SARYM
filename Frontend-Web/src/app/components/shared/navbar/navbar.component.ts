@@ -25,11 +25,6 @@ export class NavbarComponent implements OnInit {
 
     this.mySubscription = setInterval(() => {
       this.variableRol = localStorage.getItem("rolUsuario");
-
-      this.activatedRoute.params.subscribe(params => {
-        this.iconosHome = this.homeService.getIconosHome();
-      });
-
       if (localStorage.getItem("token")) {
         const token = localStorage.getItem("token");
         const tokenPayload = decode(token);
@@ -37,9 +32,15 @@ export class NavbarComponent implements OnInit {
         this.apellidoUsuario = tokenPayload.apellidoUsuario;
         this.stringLabel = `${this.nombreUsuario} ${this.apellidoUsuario} - ${this.variableRol}`;
       }
-
+      
+      this.activatedRoute.params.subscribe(params => {
+        this.iconosHome = this.homeService.getIconosHome();
+      });
 
     }, 500);
+
+
+
 
   }
 
