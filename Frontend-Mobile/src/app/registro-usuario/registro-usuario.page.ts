@@ -166,10 +166,8 @@ export class RegistroUsuarioPage implements OnInit {
     .subscribe((resp) => {
       let cuit = String(this.form.value.cuitUsuario).slice(2,10);
       if ( Number(cuit) == Number(resp)) {
-        console.log("Son Iguales")
         this.form.controls.dniUsuario.setErrors(null);
       } else {
-        console.log("No son Iguales")
         this.form.controls.dniUsuario.setErrors({not_equals: true});
       }
       this.form.controls.dniUsuario.valid;
@@ -214,30 +212,30 @@ export class RegistroUsuarioPage implements OnInit {
   }
 
   guardar() {
-    this.storage.getOneObject('token')
-      .then((res) => {
-        let usuario = this.crearNuevoUsuario();
-        if (this.id != 0) {
-          this.usuarioservicio.updateUsuario(usuario)
-            .then((resp) => {
-              this.presentToast(resp);
-            })
-            .catch((err) => {
-              console.log("ERROR ", err)
-            })
-        } else {
-          if (this.id == 0) {
-            this.usuarioservicio.setUsuario(usuario)
-              .then((resp) => {
-                this.presentToast(resp);
-                this.navController.navigateRoot('/logueo');
-              })
-              .catch((err) => {
-                console.log("ERROR ", err)
-              })
-          }
-        }
-      })
+    let usuario = this.crearNuevoUsuario();
+    if (this.id != 0) {
+      this.usuarioservicio.updateUsuario(usuario)
+        .then((resp) => {
+          this.presentToast(resp, 'editado');
+        })
+        .catch((err) => {
+          console.log("ERROR ", err)
+        })
+    } else {
+      if (this.id == 0) {
+        usuario['activadoUsuario'] = false;
+        this.usuarioservicio.setUsuario(usuario)
+          .then((resp) => {
+            this.presentToast(resp, 'creado');
+            usuario['idUsuario'] = resp.Usuario['idUsuario']
+            this.usuarioservicio.envioEmail(usuario);
+            this.navController.navigateRoot('/logueo');
+          })
+          .catch((err) => {
+            console.log("ERROR ", err)
+          })
+      }
+    }
   }
 
   crearNuevoUsuario() {
@@ -312,16 +310,30 @@ export class RegistroUsuarioPage implements OnInit {
     }
   }
 
-  async presentToast(data) {
+  async presentToast(data, tipo) {
     console.log("data" ,data)
+    let addMensaje = 'Verifique su correo para activar su cuenta.'
+    
     if (data.tipo == 1) {
-      const toast = await this.toastController.create({
-        message: data.title.descripcion,
-        duration: 3000,
-        color: 'success',
-        position: 'middle',
-        translucent: true
-      });
+      let toast;
+      if (tipo == 'creado') {
+        toast = await this.toastController.create({
+          message: `${data.title.descripcion} ${addMensaje}`,
+          duration: 3000,
+          color: 'success',
+          position: 'middle',
+          translucent: true
+        });
+      } else {
+        toast = await this.toastController.create({
+          message: `${data.title.descripcion}`,
+          duration: 3000,
+          color: 'success',
+          position: 'middle',
+          translucent: true
+        });
+      }
+     
       toast.present();
     }
     if (data.tipo == 2) {

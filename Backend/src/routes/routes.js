@@ -61,7 +61,8 @@ router
         res.status(200).send();
     })
     .post('/recuperarDatosToken', verificaTokenRecuperacion, UsuarioController.recuperarDatosToken)
-
+    .post('/activarUsuario', UsuarioController.activarUsuario)
+    
 // reporte
 
 // usuario

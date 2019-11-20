@@ -9,6 +9,7 @@ usuario = [
     'idDepartamento',
     'nroCelularUsuario',
     'nroTelefonoUsuario',
+    'activadoUsuario'
   ];
 
 usuario2 = [
@@ -22,7 +23,8 @@ usuario2 = [
     'idDepartamento',
     'nroCelularUsuario',
     'nroTelefonoUsuario',
-    'contrasenaUsuario'
+    'contrasenaUsuario',
+    'activadoUsuario'
 ];
 
 usuarioestado = [
