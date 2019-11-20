@@ -10,7 +10,6 @@ sequelize.sync({ force: false }); // force = false  crea nuevos modelos/tablas d
 //  node_modules/.bin/sequelize seed:generate --name demo-user          crea nueva semilla
 // node_modules/.bin/sequelize db:seed:all        para correr la semilla
 
-
 // models
 
 // require('../class/caja/caja-model');
