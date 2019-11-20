@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>Recuperar Contraseña</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content no-padding>
+  <ion-row class="recuperacion-contrasenia"> 
+      <ion-col >
+        <form [formGroup]="form" *ngIf="form">
+          <form [formGroup]="form.get('contrasenaUsuario_group')" >
+              <ion-item class="form-group">
+                <ion-label padding position="floating" color="primary" >Contraseña</ion-label>
+                <ion-input padding class="form-control" type="password" id='contrasenaUsuario' name="contrasenaUsuario" placeholder='Contraseña' formControlName='contrasenaUsuario'></ion-input>
+              </ion-item>
+              <p class="input-error-msg" *ngIf="form.get('contrasenaUsuario_group').get('contrasenaUsuario').hasError('required') && form.get('contrasenaUsuario_group').get('contrasenaUsuario').touched">Campo Obligatorio.</p>
+              <p class="input-error-msg" *ngIf="(form.get('contrasenaUsuario_group').get('contrasenaUsuario').hasError('minlength') || form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('maxlength')) && form.get('contrasenaUsuario_group').get('contrasenaUsuario').touched">Debería ser mayor a 8 letras y menor a 25.</p>
+              <ion-item class="form-group">
+                  <ion-label padding position="floating" color="primary" >Repetir Contraseña</ion-label>
+                  <ion-input padding class="form-control" type="password" id='contrasenaUsuarioRepeat' name="contrasenaUsuarioRepeat" placeholder='Repetir Contraseña' formControlName='contrasenaUsuarioRepeat'></ion-input>
+              </ion-item>
+              <p class="input-error-msg" *ngIf="form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('required') && form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').touched && form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').dirty">Campo Obligatorio.</p>
+              <p class="input-error-msg" *ngIf="(form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('minlength') || form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('maxlength')) && form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').touched">Debería ser mayor a 8 letras y menor a 25.</p>
+              <p class="input-error-msg" *ngIf="form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').hasError('not_equal') && form.get('contrasenaUsuario_group').get('contrasenaUsuarioRepeat').touched">Contraseñas no Coinciden.</p>
+          </form>
+        </form>
+      </ion-col>
+  </ion-row>
+</ion-content>
+<ion-footer>
+  <ion-row class="white-background">
+      <ion-col size="10" offset="1" padding>
+          <ion-button *ngIf="form" class="mt-10" [disabled]="!form.valid" (click)="guardar()" expand="full" shape="round">Guardar</ion-button>
+      </ion-col>
+  </ion-row>
+</ion-footer>

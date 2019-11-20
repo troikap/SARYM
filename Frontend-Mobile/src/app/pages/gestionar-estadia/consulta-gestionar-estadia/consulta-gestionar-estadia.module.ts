@@ -6,6 +6,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ConsultaGestionarEstadiaPage } from './consulta-gestionar-estadia.page';
+import { PipesModule } from 'src/app/shared/pipe.module';
+import { NgxQRCodeModule } from 'ngx-qrcode2';
+
 
 const routes: Routes = [
   {
@@ -19,7 +22,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    NgxQRCodeModule,
+    PipesModule,
   ],
   declarations: [ConsultaGestionarEstadiaPage]
 })

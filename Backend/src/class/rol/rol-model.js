@@ -2,6 +2,7 @@
 
 const Sequelize = require('sequelize');
 const sequelize = require('../../database/connection');
+const FuncionRolModelo = require("../funcionrol/funcionrol-model");
 
 const RolModelo = sequelize.define('rol', {
 	// attributes
@@ -19,5 +20,7 @@ const RolModelo = sequelize.define('rol', {
 }, {
 	// options
 });
+
+	RolModelo.hasMany(FuncionRolModelo, { foreignKey: "idRol" });
 
 module.exports = RolModelo 

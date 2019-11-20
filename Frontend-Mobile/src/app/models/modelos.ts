@@ -272,11 +272,15 @@ export interface Detallereservamesa {
 }
 
 export interface Estadia {
-    idEstadia: Number,
+    idEstadia?: Number,
     cantPersonas: Number,
     fechaYHoraInicioEstadia: Date,
     fechaYHoraFinEstadia: Date,
     tokenEstadia: String,
+    comensals?: Comensal[],
+    detalleestadiamesas?: Detalleestadiamesa[],
+    pedidos?: Pedido[],
+    estadiaestados?: Estadiaestado,
 }
 
 export interface Estadiaestado {
@@ -294,6 +298,8 @@ export interface Estadoestadia {
 
 export interface Detalleestadiamesa {
     idDetalleEstadiaMesa: Number,
+    idMesa?: Number,
+    idEstadia?: Number
 }
 
 export interface Clienteestadia {

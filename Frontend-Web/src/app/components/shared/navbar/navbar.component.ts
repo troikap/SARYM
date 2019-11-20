@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import decode from "jwt-decode";
+import { IconoHome, HomeService } from 'src/app/services/home/home.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,13 +15,22 @@ export class NavbarComponent implements OnInit {
   nombreUsuario: string;
   apellidoUsuario: string;
   stringLabel: string;
+  iconosHome: IconoHome [];
 
-  constructor(private router: Router) {
-    this.mySubscription = setInterval( () => { 
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private homeService: HomeService, 
+  ) {
+
+    this.mySubscription = setInterval(() => {
       this.variableRol = localStorage.getItem("rolUsuario");
 
+      this.activatedRoute.params.subscribe(params => {
+        this.iconosHome = this.homeService.getIconosHome();
+      });
 
-      if ( localStorage.getItem("token") ) {
+      if (localStorage.getItem("token")) {
         const token = localStorage.getItem("token");
         const tokenPayload = decode(token);
         this.nombreUsuario = tokenPayload.nombreUsuario;
@@ -29,7 +39,7 @@ export class NavbarComponent implements OnInit {
       }
 
 
-   }, 500);
+    }, 500);
 
   }
 

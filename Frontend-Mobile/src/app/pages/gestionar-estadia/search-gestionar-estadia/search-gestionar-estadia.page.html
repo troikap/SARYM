@@ -1,9 +1,75 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>search-gestionar-estadia</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Mi Estadia</ion-title>
+    </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
+    <ion-card *ngIf="!estadia">
+        <h3 padding ><strong>Debe generar o pertenecer a una estadia para poder interactuar con ella.</strong></h3>
+    </ion-card>
+    <ion-card>
+        <ion-item-sliding>
+            <ion-item *ngIf="estadia">
+                <ion-label>
+                    <p class="text">
+                        <ion-grid>
+                            <ion-row>
+                                <ion-title>Estadia N°: {{estadia.idEstadia}}</ion-title>
+                                <ion-button  align='rigth' (click)="mostrar = !mostrar"><ion-icon  name="barcode"></ion-icon></ion-button>
+                            </ion-row>
+                            <br>
+                            <ion-row>
+                                <ion-col>
+                                    <strong>Fecha Ingreso</strong>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col>
+                                    {{estadia.fechaYHoraInicioEstadia | date:'dd/MM/yyyy'}}
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </p>
+                    <p class="text">
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col>
+                                    <strong>Cantidad de Comensales:</strong> {{estadia.cantPersonas}}
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </p>
+                    <div class="buttons">
+                        <ion-row>
+                            <ion-col>
+                                <ion-button color="success" (click)="consultarEstadia(estadia.idEstadia)">Consultar Estadia</ion-button>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col>
+                                <ion-button (click)="realizarPedido(estadia)">Realizar Pedido</ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                </ion-label>
+            </ion-item>
+        </ion-item-sliding>
+    </ion-card>
+    <div *ngIf= mostrar>
+        <ion-card *ngIf="createdCode">
+            <ngx-qrcode [(qrc-value)]="createdCode"></ngx-qrcode>
+        </ion-card>
+        <h2 padding> <strong>Para compartir tu estadia con tus amigos!</strong></h2>
+        <ion-item *ngIf="!estadia">
+            <ion-label floating>Usted no posee Estadia asociada</ion-label>
+        </ion-item>
+    </div>
+    <ion-fab *ngIf="!estadia" vertical="bottom" horizontal="end" slot="fixed" (click)="unirseEstadia()">
+        <ion-fab-button>
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 </ion-content>

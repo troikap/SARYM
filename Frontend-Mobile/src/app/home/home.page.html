@@ -19,6 +19,10 @@
             <ion-slide *ngFor="let item of slidesMozo" [ngStyle]="{ 'background-image': 'url(' + item.url + ')'}">
             </ion-slide>
         </ion-slides>
+        <ion-slides pager="true" *ngIf="currentUsuario=='Invitado'">
+            <ion-slide *ngFor="let item of slidesCliente" [ngStyle]="{ 'background-image': 'url(' + item.url + ')'}">
+            </ion-slide>
+        </ion-slides>
     </ion-content>
     <ion-footer color="primary">
         <ion-toolbar>
@@ -26,7 +30,7 @@
             <ion-list class="list-radius" *ngIf="currentUsuario=='Cliente' || currentUsuario=='Administrador' ">
                 <ion-item no-padding color="primary" (click)="goTo('unirse-reserva')">
                     <ion-icon color="light" class="list-icon" name="ios-share"></ion-icon>
-                    <ion-label color="light">UNIRSE A RESERVA</ion-label>
+                    <ion-label color="light">UNIRSE A RESERVA o ESTADIA</ion-label>
                 </ion-item>
                 <ion-item no-padding (click)="goTo('nueva-reserva')">
                     <ion-icon color="primary" class="list-icon" name="add-circle"></ion-icon>
@@ -40,9 +44,9 @@
                     <ion-icon color="primary" class="list-icon" name="ios-restaurant"></ion-icon>
                     <ion-label color="primary">CARTA</ion-label>
                 </ion-item>
-                <ion-item no-padding (click)="goTo('search-gestionar-reserva')">
+                <ion-item no-padding (click)="seleccionarMis()">
                     <ion-icon color="primary" class="list-icon" name="bookmarks"></ion-icon>
-                    <ion-label color="primary">MIS RESERVAS</ion-label>
+                    <ion-label color="primary">MIS RESERVAS o ESTADIA</ion-label>
                 </ion-item>
             </ion-list>
             <!--FIN CLIENTE -->
@@ -71,6 +75,27 @@
                 </ion-item>
             </ion-list>
             <!-- FIN MOZO -->
+
+            <!-- INVITADO -->
+            <ion-list class="list-radius" *ngIf="currentUsuario=='Invitado'">
+                <ion-item no-padding color="primary" (click)="goTo('unirse-reserva')">
+                    <ion-icon color="light" class="list-icon" name="ios-share"></ion-icon>
+                    <ion-label color="light">UNIRSE A RESERVA o ESTADIA</ion-label>
+                </ion-item>
+                <ion-item no-padding (click)="goTo('realizar-pedido')">
+                    <ion-icon color="primary" class="list-icon" name="ios-create"></ion-icon>
+                    <ion-label color="primary">REALIZAR PEDIDO</ion-label>
+                </ion-item>
+                <ion-item no-padding (click)="goTo('catalogo')">
+                    <ion-icon color="primary" class="list-icon" name="ios-restaurant"></ion-icon>
+                    <ion-label color="primary">CARTA</ion-label>
+                </ion-item>
+                <ion-item no-padding (click)="seleccionarMis()">
+                    <ion-icon color="primary" class="list-icon" name="bookmarks"></ion-icon>
+                    <ion-label color="primary">MIS RESERVAS o ESTADIA</ion-label>
+                </ion-item>
+            </ion-list>
+            <!--FIN INVITADO -->
         </ion-toolbar>
     </ion-footer>
 </div>

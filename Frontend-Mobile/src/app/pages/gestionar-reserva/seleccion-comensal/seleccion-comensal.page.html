@@ -1,36 +1,36 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Seleccione Comensal</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Seleccione Comensal</ion-title>
+    </ion-toolbar>
 </ion-header>
-<ion-content *ngIf='reserva'>
-  <ion-card>
-    <ion-title color="dark" align="middle" padding>Identificador de Reserva: {{reserva.idReserva}}</ion-title>
-  </ion-card>
-  <ion-item-sliding *ngFor="let item of reserva.comensals">
-    <ion-item (click)="seleccionarComensal(item)">
-      <ion-card color=success class="card-inter">
-        <ion-card-header>
-          <ion-card-title>Alias: <strong>{{item.aliasComensal}}</strong> -  Edad: <strong>{{item.edadComensal}}</strong></ion-card-title>
-        </ion-card-header>
-        <ion-card-content *ngIf="item.usuario">
-          <ion-card-subtitle>Usuario Asociado: <strong> {{item.usuario.nombreUsuario}} {{item.usuario.apellidoUsuario}}</strong></ion-card-subtitle>
-          <ion-card-subtitle>Cuit: <strong>{{item.usuario.cuitUsuario}}</strong></ion-card-subtitle>
-      </ion-card-content>
-      </ion-card>
-    </ion-item>
-    <ion-item-options side="start">
-        <ion-item-option color="danger" (click)="eliminarComensal()">
-            <ion-icon slot="icon-only" name="trash"></ion-icon>
-        </ion-item-option>
-    </ion-item-options>
-  </ion-item-sliding>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="crearComensal()">
-  <ion-fab-button>
-      <ion-icon name="add"></ion-icon>
-  </ion-fab-button>
-  </ion-fab>
+<ion-content *ngIf='reserva && nombreUsuario'>
+    <ion-card>
+        <ion-title color="dark" align="middle" padding>Identificador de Reserva: {{reserva.idReserva}}</ion-title>
+    </ion-card>
+    <ion-item-sliding *ngFor="let item of reserva.comensals">
+        <ion-item (click)="seleccionarComensal(item)">
+            <ion-card color=success class="card-inter">
+                <ion-card-header>
+                    <ion-card-title>Alias: <strong>{{item.aliasComensal}}</strong> - Edad: <strong>{{item.edadComensal}}</strong></ion-card-title>
+                </ion-card-header>
+                <ion-card-content *ngIf="item.usuario">
+                    <ion-card-subtitle>Usuario Asociado: <strong> {{item.usuario.nombreUsuario}} {{item.usuario.apellidoUsuario}}</strong></ion-card-subtitle>
+                    <ion-card-subtitle>Cuit: <strong>{{item.usuario.cuitUsuario}}</strong></ion-card-subtitle>
+                </ion-card-content>
+            </ion-card>
+        </ion-item>
+        <ion-item-options side="start" *ngIf="nombreUsuario != 'Invitado'">
+            <ion-item-option color="danger" (click)="eliminarComensal()">
+                <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-item-option>
+        </ion-item-options>
+    </ion-item-sliding>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="crearComensal()" *ngIf="nombreUsuario != 'Invitado'">
+        <ion-fab-button>
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 </ion-content>

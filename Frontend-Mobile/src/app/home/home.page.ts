@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 
 import { StorageService, Log } from '../services/storage/storage.service';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +13,7 @@ export class HomePage implements OnInit {
 
   private logueo: Log;
   private currentUsuario: string;
+  selectOption;
 
   slidesCliente = [
     {
@@ -41,7 +42,8 @@ export class HomePage implements OnInit {
   constructor(
     private menu: MenuController,
     private storage: StorageService,
-    private navController: NavController
+    private navController: NavController,
+    private alertController: AlertController,
   ) {
     this.loadLog()
   }
@@ -55,6 +57,11 @@ export class HomePage implements OnInit {
   async goTo(key: string) {
     await this.loadLog()
     let id = this.logueo.id;
+
+    if (id == -1) { //Invitado
+      id = 0;
+    }
+
     let page;
     switch (key) {
       case "registro-usuario":
@@ -64,16 +71,17 @@ export class HomePage implements OnInit {
         page = `/crud-gestionar-reserva/0/crear`;
         break;
       case "unirse-reserva":
-        page = `/unirse-gestionar-reserva`;
+        // page = `/unirse-gestionar-reserva`;
+        page = `/unirse-reserva-estadia`;
         break;
       // case "realizar-pedido":
       //   page = `/ver-qr-reserva/1`;
       //   break;
       case "realizar-pedido":
-        page = `/seleccion-comensal/1`;
+        page = `/seleccion-comensal/reserva/1`;
         break;
       case "search-gestionar-reserva":
-        page = `/search-gestionar-reserva`;
+        // page = `/search-gestionar-reserva`;
         break;
       // case 'realizar-pedido':
       //   page = `/realizar-pedido`;
@@ -105,11 +113,44 @@ export class HomePage implements OnInit {
   async loadLog() {
     await this.storage.getCurrentUsuario()
       .then(async logs => {
+        console.log("LOG:-----------", logs);
         this.logueo = logs;
         this.currentUsuario = await logs['rolUsuario'];
         if (!logs) {
           console.log('ERRORR')
         }
       })
+  }
+
+  seleccionarMis(){
+    this.ConfirmMisEstadiaReserva();
+  }
+
+  async ConfirmMisEstadiaReserva() {
+    const alert = await this.alertController.create({
+      header: 'Seleccione una Respuesta',
+      buttons: [
+        {
+          text: 'Volver',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, 
+        {
+          text: 'Ver mis Reservas',
+          handler: () => {
+            this.navController.navigateForward('/search-gestionar-reserva');
+          }
+        },
+        {
+          text: 'Ver mi Estadia Actual',
+          handler: () => {
+            this.navController.navigateForward('/search-gestionar-estadia');
+          }
+        }
+      ],
+      cssClass: 'alertPrimaryModificado'
+    });
+    await alert.present();
+    return 'hola'
   }
 }

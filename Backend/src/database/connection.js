@@ -14,7 +14,7 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize(dbOptions.database, dbOptions.user, dbOptions.password, {
     host: dbOptions.host,
     dialect: 'mysql',
-    logging: true // si es false no muestra nada / si es true muestra el log de las creaciones de la bd
+    logging: false // si es false no muestra nada / si es true muestra el log de las creaciones de la bd
 });
 
 sequelize

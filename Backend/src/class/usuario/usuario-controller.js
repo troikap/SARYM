@@ -475,7 +475,7 @@ UsuarioController.update = (req, res) => {
         UsuarioModelo.findOne({
             where: {
                 [idtable]: body[idtable] },
-            attributes: attributes.usuario,
+            attributes: attributes.usuario2,
             include: [{
                     model: UsuarioEstadoModelo,
                     where: { fechaYHoraBajaUsuarioEstado: null },
@@ -579,7 +579,6 @@ UsuarioController.update = (req, res) => {
                                                 fechaYHoraAltaUsuarioEstado: fechaArgentina.getFechaArgentina()
                                             };
                                         }
-                                        console.log("PUSH ", pushEstado)
                                             // CREANDO INSTANCIA USUARIO ESTADO
                                         UsuarioEstadoModelo.create(pushEstado)
                                             .then(result => {
@@ -726,6 +725,48 @@ UsuarioController.validateUser = (req, res, next) => {
             next();
         }
     })
+}
+
+UsuarioController.recuperarDatosToken = (req, res) => {
+    let locals = {};
+    let body = req.body;
+    let idUsuario = req.idUsuario;
+    UsuarioModelo.findOne({
+        where: { idUsuario: idUsuario },
+        attributes: attributes.usuario,
+        include: [{
+                model: UsuarioEstadoModelo,
+                where: { fechaYHoraBajaUsuarioEstado: null },
+                attributes: attributes.usuarioestado,
+                include: [{
+                    model: EstadoUsuarioModelo,
+                    attributes: attributes.estadousuario
+                }]
+            },
+            {
+                model: RolUsuarioModelo,
+                where: { fechaYHoraBajaRolUsuario: null },
+                attributes: attributes.rolusuario,
+                include: [{
+                    model: RolModelo,
+                    attributes: attributes.rol
+                }]
+            },
+            {
+                model: DepartamentoModelo,
+                attributes: attributes.departamento
+            }
+        ],
+    }).then(response => {
+        if (!response || response == 0) {
+            locals['title'] = `No existe el registro : ${idUsuario}`;
+            locals['tipo'] = 2;
+        } else {
+            locals['data'] = response.dataValues;
+            locals['tipo'] = 1
+        }
+        res.json(locals);
+    });
 }
 
 module.exports = UsuarioController;

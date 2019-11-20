@@ -43,11 +43,8 @@ export class UsuarioService {
 
   validarExistenciaUsuario( cuit: number ): Promise<any> {
     let value = { cuitUsuario: cuit};
-    let cuitUsuario = cuit;
-    console.log(`${URL}/existUser`, value)
     return this.http.post(`${URL}/existUser`, value).toPromise()
     .then( (response) => {
-      console.log("Response ,",response)
       return response;
     })
     .catch( (err) => {
@@ -85,10 +82,8 @@ export class UsuarioService {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', tokenEnviroment);
      let data = {headers}
-     console.log("UUUUUUUUUUUUUUUUUU ", data)
      data['idRol'] = 5;
      data['idEstadoUsuario'] = 1;
-     console.log("UUUUUUUUUUUUUUUUUU ", data)
     return this.http
       .post(`${URL}${dir}`, datas, data)
       .toPromise()
@@ -97,20 +92,38 @@ export class UsuarioService {
       })
       .catch(  );
   }
-}
-/*
 
-export interface Usuario {
-  idUsuario: string;
-  cuitUsuario: number;
-  nombreUsuario: string;
-  apellidoUsuario: string;
-  contrasenaUsuario: string;
-  dniUsuario: number;
-  domicilioUsuario: string;
-  emailUsuario: string;
-  idDepartamento: number;
-  nroCelularUsuario: number;
-  nroTelefonoUsuario: number;
+  recuperarDatosToken( token ): Promise<any> {
+    let value = { token }
+    return this.http
+      .post(`${URL}/recuperarDatosToken`, value)
+      .toPromise()
+      .then( (response: any) => {
+        console.log()
+        return response;
+      })
+      .catch( err => {
+        console.log("ERROR: ",err)
+      } );
+  }
+
+  envioEmail(data){
+    let value = { origen: 'http://localhost:8100', email: data.data.emailUsuario, nombreUsuario: data.data.nombreUsuario, apellidoUsuario: data.data.apellidoUsuario, idUsuario: data.data.idUsuario, cuitUsuario: data.data.cuitUsuario }
+    return this.http
+      .post(`${URL}/envioEmail`, value)
+      .toPromise()
+      .then( (response: any) => {
+        if (response == null ){
+          response = {};
+        }
+        console.log("resPONSE ", response)
+        response['tipo'] = 1;
+        return response;
+      })
+      .catch( err => {
+        err['tipo'] = 2;
+        console.log("ERROR: ",err)
+      } );
+  }
+  
 }
-*/

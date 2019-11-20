@@ -9,9 +9,10 @@ require('../config');
 //sincronizador
 require('../database/sincronizar-bd');
 
-const { verificaToken } = require('../middlewares/autenticacion');
+const { verificaToken, verificaTokenRecuperacion } = require('../middlewares/autenticacion');
 
 var TokenController = require('../class/token/token-controller');
+const configMensaje = require('../middlewares/configMensaje');
 
 var UsuarioController = require('../class/usuario/usuario-controller');
 var DepartamentoController = require('../class/departamento/departamento-controller');
@@ -33,6 +34,8 @@ var ReservaController = require('../class/reserva/reserva-controller');
 var EstadiaController = require('../class/estadia/estadia-controller');
 var PagoController = require('../class/pago/pago-controller');
 var MozoEstadiaController = require('../class/mozoestadia/mozoestadia-controller');
+var FuncionController = require('../class/funcion/funcion-controller');
+
 
 // estados
 var EstadoUsuarioController = require('../class/estadousuario/estadousuario-controller');
@@ -50,8 +53,14 @@ router
     .post('/login', UsuarioController.login)
     .post('/existUser', UsuarioController.validateExistUser)
     .post('/subirImagen', UploadController.subirImagen)
-    .get('/traerImagen/:tipo/:img?', UploadController.traerImagen)
+    .get('/traerImagen/:tipo/:img', UploadController.traerImagen)
+    .get('/traerImagen/:img?', UploadController.traerImagen)
     .post('/verificarTokenRol', TokenController.verificarTokenRol)
+    .post('/envioEmail', (req, res) => {
+        configMensaje(req.body);
+        res.status(200).send();
+    })
+    .post('/recuperarDatosToken', verificaTokenRecuperacion, UsuarioController.recuperarDatosToken)
 
 // reporte
 
@@ -108,6 +117,8 @@ router
     .put('/estadia/editarMesa', verificaToken, EstadiaController.editarMesa)
     .put('/estadia/editarClienteEstadia', verificaToken, EstadiaController.editarClienteEstadia)
     .post('/estadia/getToMesa/:idMesa', verificaToken, EstadiaController.getToMesa)
+    .post('/estadia/getToUsuario/:idUsuario', verificaToken, EstadiaController.getToUsuario)
+    .put('/estadia/cambiarMozoEstadia', verificaToken, EstadiaController.cambiarMozoEstadia)
 
 // reserva
     .get('/reserva', verificaToken, ReservaController.getAll)
@@ -177,6 +188,16 @@ router
     .post('/rol', verificaToken, RolController.create)
     .put('/rol', verificaToken, RolController.update)
     .delete('/rol/:idRol', verificaToken, RolController.destroy)
+    .put('/rol/editarFuncion', verificaToken, RolController.editarFuncion)
+
+// funcion
+    .get('/funcion', verificaToken, FuncionController.getAll)
+    .get('/funcion/:idFuncion', verificaToken, FuncionController.getOne)
+    .get('/funcion/name/:nombreFuncion', verificaToken, FuncionController.getToName)
+    .get('/funcion/todo/:anyAttribute', verificaToken, FuncionController.getToAllAttributes)
+    .post('/funcion', verificaToken, FuncionController.create)
+    .put('/funcion', verificaToken, FuncionController.update)
+    .delete('/funcion/:idFuncion', verificaToken, FuncionController.destroy)
 
 // tipomoneda
     .get('/tipomoneda', verificaToken, TipoMonedaController.getAll)
@@ -236,11 +257,10 @@ router
     .put('/caja/realizarMovimiento', verificaToken, CajaController.realizarMovimiento)
 
 // mozoestadia
-    .get('/mozoestadia', verificaToken, MozoEstadiaController.getAll)
-    .get('/mozoestadia/:idMozoEstadia', verificaToken, MozoEstadiaController.getOne)
-    .post('/mozoestadia', verificaToken, MozoEstadiaController.create)
-    .put('/mozoestadia/actualizarDatos', verificaToken, MozoEstadiaController.actualizarDatos)
-
+    // .get('/mozoestadia', verificaToken, MozoEstadiaController.getAll)
+    // .get('/mozoestadia/:idMozoEstadia', verificaToken, MozoEstadiaController.getOne)
+    // .post('/mozoestadia', verificaToken, MozoEstadiaController.create)
+    // .put('/mozoestadia/actualizarDatos', verificaToken, MozoEstadiaController.actualizarDatos)
 
 // ESTADOS ------------------------------------------------------------------------------------------------
 

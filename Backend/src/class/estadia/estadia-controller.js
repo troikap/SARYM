@@ -109,6 +109,7 @@ EstadiaController.getToAllAttributes = (req, res, next) => {
       {
         model: MozoEstadiaModelo,
         attributes: attributes.mozoestadia,
+        where: { fechaYHoraFinMozoEstadia: null },
         include: [
           {
               model: UsuarioModelo,
@@ -183,6 +184,7 @@ EstadiaController.getToName = (req, res, next) => {
       {
         model: MozoEstadiaModelo,
         attributes: attributes.mozoestadia,
+        where: { fechaYHoraFinMozoEstadia: null },
         include: [
           {
               model: UsuarioModelo,
@@ -256,6 +258,7 @@ EstadiaController.getAll = (req, res) => {
       {
         model: MozoEstadiaModelo,
         attributes: attributes.mozoestadia,
+        where: { fechaYHoraFinMozoEstadia: null },
         include: [
           {
               model: UsuarioModelo,
@@ -386,6 +389,7 @@ EstadiaController.getOne = (req, res) => {
       {
         model: MozoEstadiaModelo,
         attributes: attributes.mozoestadia,
+        where: { fechaYHoraFinMozoEstadia: null },
         include: [
           {
               model: UsuarioModelo,
@@ -416,38 +420,43 @@ EstadiaController.create = (req, res) => {
       locals['tipo'] = 2;
       res.json(locals);
     } else {
-      MozoEstadiaModelo.findOne({ where: {[idtable9]: body[idtable9]} }).then( mozoestadia => {
+      let pushMozoEstadia = {};
+      pushMozoEstadia['descripcionMozoEstadia'] = body['descripcionMozoEstadia'] || "Mozo Asignado.";
+      pushMozoEstadia[idtable] = result[idtable];
+      pushMozoEstadia['fechaYHoraInicioMozoEstadia'] = fechaArgentina.getFechaArgentina();
+      pushMozoEstadia[idtable5] = body[idtable5];
+      MozoEstadiaModelo.create( pushMozoEstadia ).then( mozoestadia => {
         if ( !mozoestadia || mozoestadia == 0 ) {
-          locals['title'] = `No existe instancia de ${legend9} con ${idtable9}.`;
+          locals['title'] = `No se pudo crear ${legend9}.`;
           locals['tipo'] = 2;
           res.json(locals);
         } else {
-            if (body['fechaYHoraInicioEstadia'] == null) {
-              body['fechaYHoraInicioEstadia'] = fechaArgentina.getFechaArgentina();
-            } 
-            EstadiaModelo.create(body).then(result => {
-            locals['title'] = `${legend} creada.`;
-            locals['data'] = result;
-            locals['id'] = result[idtable];
-            locals['tipo'] = 1;
-            let pushEstadiaEstado = {};
-            pushEstadiaEstado['descripcionEstadiaEstado'] = body['descripcionEstadiaEstado'] || "Reciente.";
-            pushEstadiaEstado[idtable] = result[idtable];
-            pushEstadiaEstado['fechaYHoraAltaEstadiaEstado'] = fechaArgentina.getFechaArgentina();
-            pushEstadiaEstado[idtable3] = 1;
-                EstadiaEstadoModelo.create(pushEstadiaEstado).then( response => {
-                    locals['title'] = `${legend} creado. ${legend2} creado.`;
-                    locals['data'] = response;
-                    locals['tipo'] = 1;
-                    res.json(locals);
-                }).catch((error) => {
-                    locals = tratarError.tratarError(error, legend);
-                    res.json(locals);
-                });
-            }).catch((error) => {
-                locals = tratarError.tratarError(error, legend);
-                res.json(locals);
-            });
+          if (body['fechaYHoraInicioEstadia'] == null) {
+            body['fechaYHoraInicioEstadia'] = fechaArgentina.getFechaArgentina();
+          } 
+          EstadiaModelo.create(body).then(result => {
+          locals['title'] = `${legend} creada.`;
+          locals['data'] = result;
+          locals['id'] = result[idtable];
+          locals['tipo'] = 1;
+          let pushEstadiaEstado = {};
+          pushEstadiaEstado['descripcionEstadiaEstado'] = body['descripcionEstadiaEstado'] || "Reciente.";
+          pushEstadiaEstado[idtable] = result[idtable];
+          pushEstadiaEstado['fechaYHoraAltaEstadiaEstado'] = fechaArgentina.getFechaArgentina();
+          pushEstadiaEstado[idtable3] = 1;
+              EstadiaEstadoModelo.create(pushEstadiaEstado).then( response => {
+                  locals['title'] = `${legend} creado. ${legend2} creado.`;
+                  locals['data'] = response;
+                  locals['tipo'] = 1;
+                  res.json(locals);
+              }).catch((error) => {
+                  locals = tratarError.tratarError(error, legend);
+                  res.json(locals);
+              });
+          }).catch((error) => {
+              locals = tratarError.tratarError(error, legend);
+              res.json(locals);
+          });
         }
       })
     }
@@ -507,6 +516,7 @@ EstadiaController.actualizarDatos = (req, res) => {
       {
         model: MozoEstadiaModelo,
         attributes: attributes.mozoestadia,
+        where: { fechaYHoraFinMozoEstadia: null },
         include: [
           {
               model: UsuarioModelo,
@@ -592,6 +602,7 @@ EstadiaController.cambiarEstado = (req, res) => {
       {
         model: MozoEstadiaModelo,
         attributes: attributes.mozoestadia,
+        where: { fechaYHoraFinMozoEstadia: null },
         include: [
           {
               model: UsuarioModelo,
@@ -863,6 +874,7 @@ EstadiaController.editarComensal = (req, res) => {
         {
           model: MozoEstadiaModelo,
           attributes: attributes.mozoestadia,
+          where: { fechaYHoraFinMozoEstadia: null },
           include: [
             {
                 model: UsuarioModelo,
@@ -1013,6 +1025,7 @@ EstadiaController.editarClienteEstadia = (req, res) => {
         {
           model: MozoEstadiaModelo,
           attributes: attributes.mozoestadia,
+          where: { fechaYHoraFinMozoEstadia: null },
           include: [
             {
                 model: UsuarioModelo,
@@ -1112,7 +1125,6 @@ EstadiaController.editarClienteEstadia = (req, res) => {
 EstadiaController.getToMesa = (req, res) => {
   let locals = {};
   let params = req.params;
-  console.log("body ", params)
   EstadiaModelo.findAll({ 
     attributes: attributes.estadia,
     include: [
@@ -1139,7 +1151,6 @@ EstadiaController.getToMesa = (req, res) => {
       locals['title'] = `No existen registros de ${legend}.`;
       locals['tipo'] = 2;
     } else {
-      console.log("ESTADIA ", projects[0].dataValues.idEstadia)
       await EstadiaModelo.findOne({
       where: { [idtable]: projects[0].dataValues.idEstadia },
         attributes: attributes.estadia,
@@ -1212,5 +1223,262 @@ EstadiaController.getToMesa = (req, res) => {
     res.json(locals);
   });
 }
+
+EstadiaController.getToUsuario = (req, res) => {
+  let locals = {};
+  let params = req.params;
+  EstadiaModelo.findAll({ 
+    attributes: attributes.estadia,
+    include: [
+      {
+        model: EstadiaEstadoModelo,
+        where: { fechaYHoraBajaEstadiaEstado: null , idEstadoEstadia: 1 },
+        attributes: attributes.estadiaestado,
+        include: [
+            {
+            model: EstadoEstadiaModelo,
+            attributes: attributes.estadoestadia
+            }
+        ]
+      },
+      {
+        model: DetalleEstadiaMesaModelo,
+        attributes: attributes.detalleestadiamesa,
+        include: [
+          {
+              model: MesaModelo,
+              attributes: attributes.mesa
+          }
+        ]
+      },
+      {
+        model: ReservaModelo,
+        attributes: attributes.reserva,
+      },
+      {
+        model: PedidoModelo,
+        attributes: attributes.pedido,
+      },
+      {
+        model: ComensalModelo,
+        attributes: attributes.comensal,
+      },
+      {
+        model: ClienteEstadiaModelo,
+        attributes: attributes.clienteestadia,
+        where: {idUsuario: params.idUsuario}
+      },
+      {
+        model: MozoEstadiaModelo,
+        attributes: attributes.mozoestadia,
+        where: { fechaYHoraFinMozoEstadia: null },
+        include: [
+          {
+              model: UsuarioModelo,
+              attributes: attributes.usuario
+          }
+        ]
+      },
+    ],
+  }).then( async projects => {
+    if (!projects || projects == 0) {
+      locals['title'] = `No existen registros de ${legend}.`;
+      locals['tipo'] = 2;
+    } else {
+      await EstadiaModelo.findOne({
+      where: { [idtable]: projects[0].dataValues.idEstadia },
+        attributes: attributes.estadia,
+        include: [
+          {
+            model: EstadiaEstadoModelo,
+            where: { fechaYHoraBajaEstadiaEstado: null },
+            attributes: attributes.estadiaestado,
+            include: [
+                {
+                model: EstadoEstadiaModelo,
+                attributes: attributes.estadoestadia
+                }
+            ]
+          },
+          {
+            model: DetalleEstadiaMesaModelo,
+            attributes: attributes.detalleestadiamesa,
+            include: [
+              {
+                  model: MesaModelo,
+                  attributes: attributes.mesa
+              }
+            ]
+          },
+          {
+            model: ReservaModelo,
+            attributes: attributes.reserva,
+          },
+          {
+            model: PedidoModelo,
+            attributes: attributes.pedido,
+          },
+          {
+            model: ComensalModelo,
+            attributes: attributes.comensal,
+          },
+          {
+            model: ClienteEstadiaModelo,
+            attributes: attributes.clienteestadia,
+            include: [
+              {
+                  model: UsuarioModelo,
+                  attributes: attributes.usuario
+              }
+            ]
+          },
+          {
+            model: MozoEstadiaModelo,
+            attributes: attributes.mozoestadia,
+            include: [
+              {
+                  model: UsuarioModelo,
+                  attributes: attributes.usuario
+              }
+            ]
+          },
+        ],
+      }).then( async estadia => {
+        if (!estadia || estadia == 0) {
+          locals['title'] = `No existen registros de ${legend}.`;
+          locals['tipo'] = 2;
+        } else {
+          locals['title'] = `${legend}`;
+          locals['data'] = estadia;
+          locals['tipo'] = 1;
+        }
+      })
+    }
+    res.json(locals);
+  });
+}
+
+EstadiaController.cambiarMozoEstadia = (req, res) => {
+  let locals = {};
+  let body = req.body;
+  EstadiaModelo.findOne({
+    where: {
+      [idtable]: body[idtable] },
+      attributes: attributes.estadia,
+      include: [
+        {
+          model: EstadiaEstadoModelo,
+          where: { fechaYHoraBajaEstadiaEstado: null },
+          attributes: attributes.estadiaestado,
+          include: [
+              {
+              model: EstadoEstadiaModelo,
+              attributes: attributes.estadoestadia
+              }
+          ]
+        },
+        {
+          model: DetalleEstadiaMesaModelo,
+          attributes: attributes.detalleestadiamesa,
+          include: [
+            {
+                model: MesaModelo,
+                attributes: attributes.mesa
+            }
+          ]
+        },
+        {
+          model: ReservaModelo,
+          attributes: attributes.reserva,
+        },
+        {
+          model: PedidoModelo,
+          attributes: attributes.pedido,
+        },
+        {
+          model: ComensalModelo,
+          attributes: attributes.comensal,
+        },
+        {
+          model: ClienteEstadiaModelo,
+          attributes: attributes.clienteestadia,
+          include: [
+            {
+                model: UsuarioModelo,
+                attributes: attributes.usuario
+            }
+          ]
+        },
+        {
+          model: MozoEstadiaModelo,
+          attributes: attributes.mozoestadia,
+          where: { fechaYHoraFinMozoEstadia: null },
+          include: [
+            {
+                model: UsuarioModelo,
+                attributes: attributes.usuario
+            }
+          ]
+        },
+      ],
+    }).then(response => {
+    if (!response || response == 0) {
+      locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
+      locals['tipo'] = 2;
+      res.json(locals);
+    } else {
+      if (!body[idtable5]) {
+        locals['title'] = `No se envia ${legend5}.`;
+        locals['tipo'] = 2;
+        res.json(locals);
+      } else {
+        console.log("RESPUESTA ", response.dataValues.mozoestadia[0].dataValues[idtable5])
+        if (response.dataValues.mozoestadia[0].dataValues[idtable5] != body[idtable5]) {
+        MozoEstadiaModelo.findOne({where: { [idtable5]: body[idtable5] }}).then((mozoestadia) =>{
+          if(!mozoestadia || mozoestadia == 0) {
+            locals['title'] = `No existe ${legend5} con id ${idtable5}.`;
+            locals['tipo'] = 2;
+            res.json(locals);
+          } else {
+            let pushEstadiaEstado = {};
+            pushEstadiaEstado['fechaYHoraFinMozoEstadia'] = fechaArgentina.getFechaArgentina();
+              MozoEstadiaModelo.update(pushEstadiaEstado , {
+                where: { [idtable]: body[idtable], fechaYHoraFinMozoEstadia: null }
+            }).then((respons) => {
+              if(!respons || respons == 0) {
+                locals['title'] = `No existe ${legend9} habilitado.`;
+                locals['tipo'] = 2;
+                res.json(locals);
+              } else {
+                body['fechaYHoraInicioMozoEstadia'] = fechaArgentina.getFechaArgentina();
+                MozoEstadiaModelo.create(body).then((resp) => {
+                  if (!resp || resp == 0 ){
+                    locals['title'] = `No se pudo crear ${legend9}.`;
+                    locals['tipo'] = 2;
+                  } else {
+                    locals['title'] = `Se realizo correctamente el cambio de ${legend9}.`;
+                    locals['tipo'] = 1;
+                  }
+                  res.json(locals);
+                }).catch((error) => {
+                  locals = tratarError.tratarError(error, legend);
+                  res.json(locals);
+                });
+              }
+            }).catch((error) => {
+              locals = tratarError.tratarError(error, legend);
+              res.json(locals);
+            });
+          }
+        })
+        } else {
+            locals['title'] = `${legend} ya se encuentra con ese ${legend9}.`;
+            locals['tipo'] = 2;
+            res.json(locals);
+        }
+      }
+    }
+  });
+};
 
 module.exports = EstadiaController;
