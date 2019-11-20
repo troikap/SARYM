@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Reserva, Comensal, Mesa } from 'src/app/models/modelos';
 import { AlertService } from 'src/app/providers/alert.service';
 import { ToastService } from 'src/app/providers/toast.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class ConsultaGestionarReservaPage implements OnInit {
   public comensales: Comensal[] = [];
   private mesasTodas: any[];
   public mesas: any[] = [];
+  public nombreUsuario;
 
   constructor(
     private toastController: ToastController,
@@ -30,7 +32,8 @@ export class ConsultaGestionarReservaPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private alertController: AlertController,
     private alertService: AlertService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private storage: StorageService
   ) {
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params);
@@ -41,7 +44,6 @@ export class ConsultaGestionarReservaPage implements OnInit {
 
   ngOnInit() {
     this.traerMesas();
-    this.traerReserva();
   }
   
   async traerMesas(){
@@ -50,7 +52,18 @@ export class ConsultaGestionarReservaPage implements OnInit {
       this.mesasTodas =  resp['data'];
       
       console.log("traerMesas: ", this.mesasTodas );
+
+      this.traerReserva();
+      
     })
+  }
+  
+  loadCurrentUsuario() {
+    this.storage.getCurrentUsuario().then((data) => {
+      let currentUsuario: any = data;
+      this.nombreUsuario = currentUsuario.rolUsuario;
+      console.log("this.nombreUsuario : ", this.nombreUsuario );
+    });
   }
 
   async traerReserva() {
@@ -89,12 +102,12 @@ export class ConsultaGestionarReservaPage implements OnInit {
           for(let detalleReserva of res.detallereservamesas) {
             idMesaReserva = detalleReserva.idMesa;
 
-            for(let mesasTodas of this.mesasTodas) {
-              let idMesaTodas = mesasTodas.idMesa;
+            for(let mesasTodasParam of this.mesasTodas) {
+              let idMesaTodas = mesasTodasParam.idMesa;
               if (idMesaReserva == idMesaTodas) {
-                mesasMap['nroMesa'] = mesasTodas.nroMesa;
-                mesasMap['capacidadMesa'] = mesasTodas.capacidadMesa;
-                mesasMap['nombreSector'] = mesasTodas.sector.nombreSector;
+                mesasMap['nroMesa'] = mesasTodasParam.nroMesa;
+                mesasMap['capacidadMesa'] = mesasTodasParam.capacidadMesa;
+                mesasMap['nombreSector'] = mesasTodasParam.sector.nombreSector;
 
                 this.mesas.push(mesasMap);
               }
@@ -105,7 +118,8 @@ export class ConsultaGestionarReservaPage implements OnInit {
             idMesaReserva = null;
           }
           console.log("Mesas de la reserva: ", this.mesas);
-
+          
+          this.loadCurrentUsuario();
         }
       });
     }

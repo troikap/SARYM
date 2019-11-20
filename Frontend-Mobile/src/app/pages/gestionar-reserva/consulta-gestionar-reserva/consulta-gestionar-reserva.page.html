@@ -6,8 +6,7 @@
         <ion-title *ngIf="reserva">Reserva N° {{reserva.idReserva}}</ion-title>
     </ion-toolbar>
 </ion-header>
-
-<ion-content *ngIf="reserva && comensales && mesas">
+<ion-content *ngIf="reserva && comensales && mesas && nombreUsuario">
     <ion-card>
         <ion-list>
             <ion-item>
@@ -37,10 +36,8 @@
             <ion-item>
                 <ion-label>
                     <h1>Mesas</h1>
-
                     <ion-list *ngFor="let mesa of mesas">
                         <ion-item>
-
                             <ion-grid>
                                 <ion-row>
                                     <ion-col>
@@ -67,16 +64,13 @@
                                     </ion-col>
                                 </ion-row>
                             </ion-grid>
-
                         </ion-item>
                     </ion-list>
-
                 </ion-label>
             </ion-item>
             <ion-item>
                 <ion-label>
                     <h1>Lista de Comensales</h1>
-
                     <ion-list *ngFor="let comensal of comensales">
                         <ion-item>
 
@@ -109,14 +103,12 @@
 
                         </ion-item>
                     </ion-list>
-
-
                 </ion-label>
             </ion-item>
         </ion-list>
     </ion-card>
     <div>
-        <ion-fab vertical="botton" horizontal="end" slot="fixed">
+        <ion-fab vertical="botton" horizontal="end" slot="fixed" *ngIf="nombreUsuario != 'Invitado'">
             <ion-fab-button>
                 <ion-icon name="arrow-dropleft"></ion-icon>
             </ion-fab-button>

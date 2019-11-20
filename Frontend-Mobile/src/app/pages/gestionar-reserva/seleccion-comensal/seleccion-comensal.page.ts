@@ -19,6 +19,8 @@ export class SeleccionComensalPage implements OnInit {
   reserva: Reserva;
   comensales: Comensal[];
   modificarComensal = false;
+  private nombreUsuario;
+
   pathDetalleComensalUsuario: {idReserva: number, detalle: [{aliasComensal: string, edadComensal: number, idUsuario?: number}]};
 
   constructor(
@@ -42,7 +44,16 @@ export class SeleccionComensalPage implements OnInit {
         }).unsubscribe();
         this.traerUsuario();
         this.traerReserva();
+        this.loadCurrentUsuario();
     }
+  }
+
+  loadCurrentUsuario() {
+    this.storage.getCurrentUsuario().then((data) => {
+      let currentUsuario: any = data;
+      this.nombreUsuario = currentUsuario.rolUsuario;
+      console.log("this.nombreUsuario : ", this.nombreUsuario );
+    });
   }
 
   ionViewWillEnter(){
@@ -120,7 +131,22 @@ export class SeleccionComensalPage implements OnInit {
   }
 
   seleccionarComensal( item ) {
-    this.confirmacionComensal( item );
+    this.storage.getOneObject("comensalReserva").then((data) => {
+      if (data != null) {
+        let idComensalStorage = data[0].idComensal;
+        if (idComensalStorage != item.idComensal) {
+          this.confirmacionComensal( item );
+        }
+        else {
+          this.guardarComensal(item);
+          this.navController.navigateForward([`/lista-pedido/reserva/${this.idReserva}/comensal/${item.idComensal}`])
+        }
+      }
+      else {
+        this.guardarComensal(item);
+        this.navController.navigateForward([`/lista-pedido/reserva/${this.idReserva}/comensal/${item.idComensal}`])
+      }
+    });    
   }
 
   async guardarComensal( item ) {
@@ -143,9 +169,9 @@ export class SeleccionComensalPage implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
-            if (this.idReserva && this.idComensal){
-              this.navController.navigateForward([`/lista-pedido/reserva/${this.idReserva}/comensal/${this.idComensal}`])
-            }
+            // if (this.idReserva && this.idComensal){
+            //   this.navController.navigateForward([`/lista-pedido/reserva/${this.idReserva}/comensal/${this.idComensal}`])
+            // }
           }
         }, {
           text: 'Asociarme',

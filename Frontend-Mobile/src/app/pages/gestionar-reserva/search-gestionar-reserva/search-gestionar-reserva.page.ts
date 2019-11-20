@@ -12,8 +12,11 @@ import { NavController,  AlertController, ToastController } from '@ionic/angular
 export class SearchGestionarReservaPage implements OnInit {
   
   public listaReservas: any [] = [];
+  public reservaInvitado: any;
   private currentUsuario;
   private idUsuarioLogueado: number;
+  public nombreUsuario;
+  public traeReservasInvitado = false;
 
   constructor(
     private reservaService: ReservaService,
@@ -32,21 +35,58 @@ export class SearchGestionarReservaPage implements OnInit {
     this.storage.getCurrentUsuario().then((data) => {
       this.currentUsuario = data;
       console.log("USUARIO ", this.currentUsuario);
-      this.idUsuarioLogueado =  this.currentUsuario.id;
+      this.nombreUsuario = this.currentUsuario.rolUsuario;
+      this.idUsuarioLogueado =  this.currentUsuario.id; //Si this.idUsuarioLogueado == -1, es usuario invitado
+      console.log("this.idUsuarioLogueado : ", this.idUsuarioLogueado );
+      console.log("this.nombreUsuario : ", this.nombreUsuario );
       this.getReservasUsrLogueado();
     });
   }
 
   getReservasUsrLogueado() {
-    this.reservaService.getReservasPorUsuario(this.idUsuarioLogueado)
+    if (this.idUsuarioLogueado !== -1) { // Si NO es Usuario Invitado
+      this.reservaService.getReservasPorUsuario(this.idUsuarioLogueado)
       .then((res: any) => {
         console.log("getReservasUsrLogueado", res);
-        this.listaReservas =  res;
+        if(res.tipo != 2) {
+          this.listaReservas =  res;
+        }        
       })
+    }
+    else {
+      let idReserva = null;
+      this.storage.getOneObject("reserva").then((res: any) => {
+        console.log("STORAGE reserva:-------" ,res);
+        if (res != null && res != "") {
+          this.traeReservasInvitado = true;
+
+          idReserva = res.idReservaEstadia;
+          console.log("idReserva: ", idReserva);
+          this.reservaService.getReserva(idReserva)
+          .then((res: any) => {
+            console.log("getReservasUsrLogueado INVITADO: ", res);
+            if(res.tipo != 2) {
+              this.reservaInvitado =  res;
+            }
+            else {
+              console.log("ERROR: ", res);
+            }
+          })
+        }
+        else {
+          console.log("sin reserva Invitado");
+        }
+      });
+    }
   }
 
   realizarPedido(item) {
     let idReserva = item.data.idReserva;
+    this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}`])
+  }
+
+  realizarPedidoInvitado(item) {
+    let idReserva = item.idReserva;
     this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}`])
   }
 
