@@ -5,7 +5,6 @@ import { HomeService, IconoHome } from 'src/app/services/home/home.service';
 import { FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import { UploadService } from 'src/app/services/upload/upload.service';
 
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -15,34 +14,31 @@ import { UploadService } from 'src/app/services/upload/upload.service';
 export class HomeComponent implements OnInit {
   
   iconosHome: IconoHome [];
-  iconosEncargado: IconoHome [];
-  iconosCocinero: IconoHome [];
 
   variableRol: string;
-  variableLibre = false;
   public respuestaImagenEnviada: any;
   public resultadoCarga: any;
   private myForm: FormGroup;
   uploadedFiles: Array<File> = [];
 
-  constructor( private activatedRoute: ActivatedRoute, 
-               private homeService: HomeService, 
-               private routes: Router,
-               private formBuilder: FormBuilder,
-               public uploadService: UploadService ) 
-    { 
-      this.activatedRoute.params.subscribe(params => {
-        this.iconosHome = this.homeService.getIconosHome();
-        this.iconosEncargado = this.homeService.getIconosEncargado();
-        this.iconosCocinero = this.homeService.getIconosCocinero();
-      });
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private homeService: HomeService,
+    private routes: Router,
+    private formBuilder: FormBuilder,
+    public uploadService: UploadService) 
+    
+  {
+    this.activatedRoute.params.subscribe(params => {
+      this.iconosHome = this.homeService.getIconosHome();
+    });
 
-      this.myForm = this.formBuilder.group({
-        'archivo': new FormControl()
-      });
-      this.variableRol = localStorage.getItem("rolUsuario");
+    this.myForm = this.formBuilder.group({
+      'archivo': new FormControl()
+    });
+    this.variableRol = localStorage.getItem("rolUsuario");
 
-    }
+  }
 
   ngOnInit() {
   }

@@ -11,7 +11,7 @@ export class HomeService {
       clave: "abm-usuario",
       path: "/usuario",
       img: "assets/imagenes/user_accounts.png",
-      responsable: "Administrador"
+      nombreFuncion: "Consulta Usuario"
     },
     {
       id: "1",
@@ -19,7 +19,7 @@ export class HomeService {
       clave: "abm-tipomoneda",
       path: "/tipomoneda",
       img: "assets/imagenes/tipo-moneda.png",
-      responsable: "Administrador"
+      nombreFuncion: "Consulta Tipo Moneda"
     },
     {
       id: "2",
@@ -27,7 +27,7 @@ export class HomeService {
       clave: "abm-unidadmedida",
       path: "/unidadmedida",
       img: "assets/imagenes/unidad-medida.png",
-      responsable: "Administrador"
+      nombreFuncion: "Consulta Unidad Medida"
     },
     {
       id: "3",
@@ -35,7 +35,7 @@ export class HomeService {
       clave: "abm-caja",
       path: "/caja",
       img: "assets/imagenes/caja.png",
-      responsable: "Administrador"
+      nombreFuncion: "Consulta Caja"
     },
     {
       id: "4",
@@ -43,7 +43,7 @@ export class HomeService {
       clave: "abm-mesa",
       path: "/mesa",
       img: "assets/imagenes/config_general.png",
-      responsable: "Administrador"
+      nombreFuncion: "Consulta Mesa"
     },
     {
       id: "5",
@@ -51,7 +51,7 @@ export class HomeService {
       clave: "abm-rubro",
       path: "/rubro",
       img: "assets/imagenes/rubro.png",
-      responsable: "Administrador"
+      nombreFuncion: "Consulta Rubro"
     },
     {
       id: "6",
@@ -59,7 +59,7 @@ export class HomeService {
       clave: "abm-sector",
       path: "/sector",
       img: "assets/imagenes/ubicacion.png",
-      responsable: "Administrador"
+      nombreFuncion: "Consulta Sector"
     },
     {
       id: "7",
@@ -67,7 +67,7 @@ export class HomeService {
       clave: "gestionar-producto",
       path: "/producto",
       img: "assets/imagenes/producto.png",
-      responsable: "Administrador"
+      nombreFuncion: "Consulta Producto"
     },
     {
       id: "8",
@@ -75,7 +75,7 @@ export class HomeService {
       clave: "gestionar-menupromocion",
       path: "/menupromocion",
       img: "assets/imagenes/menu-promocion.png",
-      responsable: "Administrador"
+      nombreFuncion: "Consultar Menu-Promocion"
     },
     {
       id: "9",
@@ -83,7 +83,7 @@ export class HomeService {
       clave: "generar-reporte",
       path: "/reporte",
       img: "assets/imagenes/reportes.png",
-      responsable: "Administrador"
+      nombreFuncion: "Generar Reporte"
     },
     {
       id: "10",
@@ -91,7 +91,7 @@ export class HomeService {
       clave: "backup",
       path: "/backup",
       img: "assets/imagenes/backup.png",
-      responsable: "Administrador"
+      nombreFuncion: "Gestionar Backup"
     },
     {
       id: "11",
@@ -99,91 +99,89 @@ export class HomeService {
       clave: "abm-rol",
       path: "/rol",
       img: "assets/imagenes/rol.png",
-      responsable: "Administrador"
+      nombreFuncion: "Consulta Rol"
     },
-  ];
-  private encargado: IconoHome[] = [
     {
-      id: "0",
+      id: "12",
       nombre: "Abrir Caja",
       clave: "abrir-caja",
       path: "/abrircaja",
       img: "assets/imagenes/caja-registradora-abrir.png",
-      responsable: "Encargado"
+      nombreFuncion: "Consulta Abrir Caja"
     },
     {
-      id: "1",
+      id: "13",
       nombre: "Cerrar Caja",
       clave: "cerrar-caja",
       path: "/cerrarcaja",
       img: "assets/imagenes/caja-registradora-cerrar.png",
-      responsable: "Encargado"
+      nombreFuncion: "Consulta Cerrar Caja"
     },
     {
-      id: "2",
+      id: "14",
       nombre: "Generar Movimiento Caja",
       clave: "generar-movimiento-caja",
       path: "/generarmovimientocaja",
       img: "assets/imagenes/movimiento-caja.png",
-      responsable: "Encargado"
+      nombreFuncion: "Consultar movimiento de caja"
     },
     {
-      id: "3",
+      id: "15",
       nombre: "Reasignar Mozo a Estadia",
       clave: "reasignar-mozo-a-estadia",
       path: "/reasignarmozoaestadia",
       img: "assets/imagenes/camarero.png",
-      responsable: "Encargado"
+      nombreFuncion: "Consulta Mozo-Estadia"
     },
     {
-      id: "4",
+      id: "16",
       nombre: "Habilitar/Deshabilitar Producto",
       clave: "habilitar-deshabilitar-producto",
       path: "/habilitar-deshabilitar-producto",
       img: "assets/imagenes/producto.png",
-      responsable: "Encargado"
+      nombreFuncion: "Consulta Habilitar-Deshabilitar Producto"
     },
     {
-      id: "5",
+      id: "17",
       nombre: "Anular Pedido",
       clave: "anular-pedido",
       path: "/search_anular_pedido",
       img: "assets/imagenes/menu-promocion.png",
-      responsable: "Encargado"
+      nombreFuncion: "Consulta Anular Pedido"
     },
     {
-      id: "6",
+      id: "18",
       nombre: "Gestionar Estado Estadia",
       clave: "gestionar-estado-estadia",
       path: "/search_gestionar_estado_estadia",
       img: "assets/imagenes/cena.png",
-      responsable: "Encargado"
-    }
-  ];
-  private cocinero: IconoHome[] = [
+      nombreFuncion: "Consulta de Gestion de Estado-Estadia"
+    },
     {
-      id: "0",
+      id: "19",
       nombre: "Actualizar Comanda Cocina",
       clave: "enviar-pedido",
       path: "/enviar_pedido",
       img: "assets/imagenes/comida-y-restaurante.png",
-      responsable: "Cocinero"
+      nombreFuncion: "Enviar Pedido (Comanda Cocina)"
     }
   ];
 
-  constructor() {}
+  constructor() { }
 
   getIconosHome(): IconoHome[] {
-    return this.iconos;
-  }
-  getIconosEncargado(): IconoHome[] {
-    return this.encargado;
-  }
-  getIconosCocinero(): IconoHome[] {
-    return this.cocinero;
-  }
-  getIconoHomeParticular(idx: number): IconoHome {
-    return this.iconos[idx];
+    let iconosHabilitados: IconoHome[] = [];
+    let lista = localStorage.getItem("FuncionesRol");
+    let funcionesRecuperadas = JSON.parse(lista);
+
+    for (let itemIcono of this.iconos) {
+      for (let itemFuncionesRecuperadas of funcionesRecuperadas) {
+        if (itemIcono.nombreFuncion == itemFuncionesRecuperadas) {
+          iconosHabilitados.push(itemIcono);
+        }
+      }
+    }
+    return iconosHabilitados;
   }
 }
 
@@ -193,5 +191,5 @@ export interface IconoHome {
   clave: string;
   path: string;
   img: string;
-  responsable: string;
+  nombreFuncion: string;
 }

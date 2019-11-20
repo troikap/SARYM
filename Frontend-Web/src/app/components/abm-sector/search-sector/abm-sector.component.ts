@@ -31,14 +31,10 @@ export class AbmSectorComponent implements OnInit {
 
   buscarElemento(termino: string) {
 
-    console.log(termino);
-
     if (termino.trim() !== "") {
       this.sectorService.getSectorByAll(termino)
-        .subscribe((data: any) => { // Llamo a un Observer
-          console.log(data);
+        .subscribe((data: any) => {
           if (data != null) {
-            console.log("RESULT ----------------->", data);
             this.listaSectores = data;
           }
         });
@@ -51,16 +47,12 @@ export class AbmSectorComponent implements OnInit {
   getAllElements() {
     this.sectorService.getSectores()
       .then((res: any) => {
-        console.log("TRAIGO: ", res);
         this.listaSectores = res.data;
       })
 
   }
 
   crudElemento(idElemento: number, accion: string) {
-    console.log("idElemento: ", idElemento);
-    console.log("accion: ", accion);
-
     this.router.navigate([`/sector_crud/${idElemento}/${accion}`]);
   }
 

@@ -21,6 +21,7 @@ export class EstadiaService {
   dirComensal = "/getToComensal";
   dirCambiarEstado = '/cambiarEstado';
   dirUsuario = "/getToUsuario";
+  dirCambiarMozoEstadia = "/cambiarMozoEstadia";
 
   constructor( 
     public http: HttpClient,
@@ -151,6 +152,20 @@ export class EstadiaService {
       .toPromise()
       .then(response => {
         console.log("Servicio cambiarEstado()", response);
+        return response;
+      })
+      .catch(  );
+  }
+
+  cambiarMozoEstadia( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log("DATOS A ENVIAR :",datas)
+    return this.http
+      .put(`${this.url}${this.dir}${this.dirCambiarMozoEstadia}`, datas, {headers})
+      .toPromise()
+      .then(response => {
+        console.log("Servicio cambiarMozoEstadia()", response);
         return response;
       })
       .catch(  );

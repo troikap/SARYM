@@ -341,10 +341,10 @@ export class CrudGestionarEstadiaPage implements OnInit {
                   pathMesas['idEstadia'] = res.id;
                   this.estadiaServicio.setMesasEstadia( pathMesas )
                   .then( respo => {
-                    this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2500);
+                    this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
                     setTimeout(()=>{
                       this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}`]);
-                      }, 2500);
+                      }, 2000);
                   })
                 } else {
                   this.toastService.toastError("No se han podido crear los comensales:" + resp.title, 2500);
@@ -392,36 +392,6 @@ export class CrudGestionarEstadiaPage implements OnInit {
         }
       })
     }
-  
-    // setValidatorsHours() {
-    //   this.form.get('horaEntrada').valueChanges
-    //     .subscribe( respuesta => {
-    //       const horaSalida = this.form.get('horaSalida').value || 0;
-    //       const nuevaHoraEntrada = respuesta;
-    //       let horaSalidaTratado = this.tratarFechaProvider.traerTime(horaSalida)
-    //       let horaEntradaTratado = this.tratarFechaProvider.traerTime(nuevaHoraEntrada)
-    //       if (  horaSalidaTratado < ( this.addTimes(horaEntradaTratado , '00:30') )) {
-    //         this.form.controls.horaEntrada.setErrors({pattern: true});
-    //       } else {
-    //         this.form.controls.horaEntrada.setErrors(null);
-    //         this.form.controls.horaSalida.setErrors(null);
-    //       }
-    //   });
-  
-    //   this.form.get('horaSalida').valueChanges
-    //   .subscribe( respuesta => {
-    //     const horaEntrada = this.form.get('horaEntrada').value || 0;
-    //     const nuevaHoraSalida = respuesta;
-    //     let horaSalidaTratado = this.tratarFechaProvider.traerTime(nuevaHoraSalida)
-    //     let horaEntradaTratado = this.tratarFechaProvider.traerTime(horaEntrada)
-    //     if ( this.addTimes(horaEntradaTratado , '00:30') > horaSalidaTratado ) {
-    //       this.form.controls.horaSalida.setErrors({pattern: true});
-    //     } else {
-    //       this.form.controls.horaSalida.setErrors(null);
-    //       this.form.controls.horaEntrada.setErrors(null);
-    //     }
-    //   });
-    // }
   
     addTimes(startTime, endTime) {
       var times = [ 0, 0, 0 ]

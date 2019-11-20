@@ -1,10 +1,10 @@
-
 // Vencimiento
 // 1000 milisegundos = 1 segundo
 // 60 segundo
 // 60 minutos
 // 24 horas
 // 30 dias
+
 
 //TOKEN 1 DIA:
 process.env.CADUCIDAD_TOKEN = 1000 * 60 * 60 * 24;

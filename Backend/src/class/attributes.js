@@ -313,6 +313,8 @@ clienteestadia = [
 mozoestadia = [
     "idMozoEstadia",
     "idUsuario",
+    "idEstadia",
+    "descripcionMozoEstadia",
     "fechaYHoraInicioMozoEstadia",
     "fechaYHoraFinMozoEstadia"
 ]

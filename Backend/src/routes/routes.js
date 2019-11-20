@@ -17,7 +17,7 @@ const configMensaje = require('../middlewares/configMensaje');
 var UsuarioController = require('../class/usuario/usuario-controller');
 var DepartamentoController = require('../class/departamento/departamento-controller');
 var RolController = require('../class/rol/rol-controller');
-var ProductoController =    require('../class/producto/producto-controller');
+var ProductoController = require('../class/producto/producto-controller');
 var MenuPromocionController = require('../class/menupromocion/menupromocion-controller');
 var MesaController = require('../class/mesa/mesa-controller');
 var TipoMonedaController = require('../class/tipomoneda/tipomoneda-controller');
@@ -65,7 +65,7 @@ router
 // reporte
 
 // usuario
-    .get('/usuario', verificaToken, UsuarioController.getAll)
+.get('/usuario', verificaToken, UsuarioController.getAll)
     .post('/usuario', verificaToken, UsuarioController.create)
     .put('/usuario', verificaToken, UsuarioController.update)
     .get('/usuario/:idUsuario', verificaToken, UsuarioController.getOne)
@@ -76,7 +76,7 @@ router
     .delete('/usuario/:idUsuario', verificaToken, UsuarioController.destroy)
 
 // pago
-    .get('/pago', verificaToken, PagoController.getAll)
+.get('/pago', verificaToken, PagoController.getAll)
     .get('/pago/:idPago', verificaToken, PagoController.getOne)
     .get('/pago/name/:codPago', verificaToken, PagoController.getToName)
     .get('/pago/todo/:anyAttribute', verificaToken, PagoController.getToAllAttributes)
@@ -85,7 +85,7 @@ router
     .put('/pago/editarPagoPedido', verificaToken, PagoController.editarPagoPedido)
 
 // producto
-    .get('/producto', verificaToken, ProductoController.getAll)
+.get('/producto', verificaToken, ProductoController.getAll)
     .get('/producto/:idProducto', verificaToken, ProductoController.getOne)
     .get('/producto/name/:nombreProducto', verificaToken, ProductoController.getToName)
     .get('/producto/todo/:anyAttribute', verificaToken, ProductoController.getToAllAttributes)
@@ -96,7 +96,7 @@ router
     .put('/producto/habilitarDeshabilitarProducto', verificaToken, ProductoController.habilitarDeshabilitarProducto)
 
 // pedido
-    .get('/pedido', verificaToken, PedidoController.getAll)
+.get('/pedido', verificaToken, PedidoController.getAll)
     .get('/pedido/:idPedido', verificaToken, PedidoController.getOne)
     .get('/pedido/name/:codPedido', verificaToken, PedidoController.getToName)
     .get('/pedido/todo/:anyAttribute', verificaToken, PedidoController.getToAllAttributes)
@@ -106,7 +106,7 @@ router
     .put('/pedido/editarDetallePedidoProducto', verificaToken, PedidoController.editarDetallePedidoProducto)
 
 // estadia
-    .get('/estadia', verificaToken, EstadiaController.getAll)
+.get('/estadia', verificaToken, EstadiaController.getAll)
     .get('/estadia/:idEstadia', verificaToken, EstadiaController.getOne)
     .get('/estadia/name/:idEstadia', verificaToken, EstadiaController.getToName)
     .get('/estadia/todo/:anyAttribute', verificaToken, EstadiaController.getToAllAttributes)
@@ -118,9 +118,10 @@ router
     .put('/estadia/editarClienteEstadia', verificaToken, EstadiaController.editarClienteEstadia)
     .post('/estadia/getToMesa/:idMesa', verificaToken, EstadiaController.getToMesa)
     .post('/estadia/getToUsuario/:idUsuario', verificaToken, EstadiaController.getToUsuario)
+    .put('/estadia/cambiarMozoEstadia', verificaToken, EstadiaController.cambiarMozoEstadia)
 
 // reserva
-    .get('/reserva', verificaToken, ReservaController.getAll)
+.get('/reserva', verificaToken, ReservaController.getAll)
     .get('/reserva/:idReserva', verificaToken, ReservaController.getOne)
     .get('/reserva/name/:codReserva', verificaToken, ReservaController.getToName)
     .get('/reserva/todo/:anyAttribute', verificaToken, ReservaController.getToAllAttributes)
@@ -132,7 +133,7 @@ router
     .post('/reserva/getToComensal/:idUsuario', verificaToken, ReservaController.getToComensal)
 
 // menupromocion
-    .get('/menupromocion', verificaToken, MenuPromocionController.getAll)
+.get('/menupromocion', verificaToken, MenuPromocionController.getAll)
     .get('/menupromocion/:idMenuPromocion', verificaToken, MenuPromocionController.getOne)
     .get('/menupromocion/name/:nombreMenuPromocion', verificaToken, MenuPromocionController.getToName)
     .get('/menupromocion/todo/:anyAttribute', verificaToken, MenuPromocionController.getToAllAttributes)
@@ -144,7 +145,7 @@ router
     .put('/menupromocion/habilitarDeshabilitarMenuPromocion', verificaToken, MenuPromocionController.habilitarDeshabilitarMenuPromocion)
 
 // mesa
-    .get('/mesa', verificaToken, MesaController.getAll)
+.get('/mesa', verificaToken, MesaController.getAll)
     .get('/mesa/:idMesa', verificaToken, MesaController.getOne)
     .get('/mesa/name/:nroMesa', verificaToken, MesaController.getToName)
     .get('/mesa/todo/:anyAttribute', verificaToken, MesaController.getToAllAttributes)
@@ -153,7 +154,7 @@ router
     .put('/mesa/cambiarEstado', verificaToken, MesaController.cambiarEstado)
 
 // mediopago
-    .get('/mediopago', verificaToken, MedioPagoController.getAll)
+.get('/mediopago', verificaToken, MedioPagoController.getAll)
     .get('/mediopago/:idMedioPago', verificaToken, MedioPagoController.getOne)
     .get('/mediopago/name/:nombreMedioPago', verificaToken, MedioPagoController.getToName)
     .get('/mediopago/todo/:anyAttribute', verificaToken, MedioPagoController.getToAllAttributes)
@@ -162,7 +163,7 @@ router
     .delete('/mediopago/:idMedioPago', verificaToken, MedioPagoController.destroy)
 
 // tipomovimientocaja
-    .get('/tipomovimientocaja', verificaToken, TipoMovimientoCajaController.getAll)
+.get('/tipomovimientocaja', verificaToken, TipoMovimientoCajaController.getAll)
     .get('/tipomovimientocaja/:idTipoMovimientoCaja', verificaToken, TipoMovimientoCajaController.getOne)
     .get('/tipomovimientocaja/name/:nombreTipoMovimientoCaja', verificaToken, TipoMovimientoCajaController.getToName)
     .get('/tipomovimientocaja/todo/:anyAttribute', verificaToken, TipoMovimientoCajaController.getToAllAttributes)
@@ -171,7 +172,7 @@ router
     .delete('/tipomovimientocaja/:idTipoMovimientoCaja', verificaToken, TipoMovimientoCajaController.destroy)
 
 // departamento
-    .get('/departamento', verificaToken, DepartamentoController.getAll)
+.get('/departamento', verificaToken, DepartamentoController.getAll)
     .get('/departamento/:idDepartamento', verificaToken, DepartamentoController.getOne)
     .get('/departamento/name/:nombreDepartamento', verificaToken, DepartamentoController.getToName)
     .get('/departamento/todo/:anyAttribute', verificaToken, DepartamentoController.getToAllAttributes)
@@ -180,7 +181,7 @@ router
     .delete('/departamento/:idDepartamento', verificaToken, DepartamentoController.destroy)
 
 // rol
-    .get('/rol', verificaToken, RolController.getAll)
+.get('/rol', verificaToken, RolController.getAll)
     .get('/rol/:idRol', verificaToken, RolController.getOne)
     .get('/rol/name/:nombreRol', verificaToken, RolController.getToName)
     .get('/rol/todo/:anyAttribute', verificaToken, RolController.getToAllAttributes)
@@ -190,7 +191,7 @@ router
     .put('/rol/editarFuncion', verificaToken, RolController.editarFuncion)
 
 // funcion
-    .get('/funcion', verificaToken, FuncionController.getAll)
+.get('/funcion', verificaToken, FuncionController.getAll)
     .get('/funcion/:idFuncion', verificaToken, FuncionController.getOne)
     .get('/funcion/name/:nombreFuncion', verificaToken, FuncionController.getToName)
     .get('/funcion/todo/:anyAttribute', verificaToken, FuncionController.getToAllAttributes)
@@ -199,7 +200,7 @@ router
     .delete('/funcion/:idFuncion', verificaToken, FuncionController.destroy)
 
 // tipomoneda
-    .get('/tipomoneda', verificaToken, TipoMonedaController.getAll)
+.get('/tipomoneda', verificaToken, TipoMonedaController.getAll)
     .get('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.getOne)
     .get('/tipomoneda/name/:nombreTipoMoneda', verificaToken, TipoMonedaController.getToName)
     .get('/tipomoneda/todo/:anyAttribute', verificaToken, TipoMonedaController.getToAllAttributes)
@@ -208,7 +209,7 @@ router
     .delete('/tipomoneda/:idTipoMoneda', verificaToken, TipoMonedaController.destroy)
 
 // tipomenupromocion
-    .get('/tipomenupromocion', verificaToken, TipoMenuPromocionController.getAll)
+.get('/tipomenupromocion', verificaToken, TipoMenuPromocionController.getAll)
     .get('/tipomenupromocion/:idTipoMenuPromocion', verificaToken, TipoMenuPromocionController.getOne)
     .get('/tipomenupromocion/name/:nombreTipMenuPromocion', verificaToken, TipoMenuPromocionController.getToName)
     .get('/tipomenupromocion/todo/:anyAttribute', verificaToken, TipoMenuPromocionController.getToAllAttributes)
@@ -217,7 +218,7 @@ router
     .delete('/tipomenupromocion/:idTipoMenuPromocion', verificaToken, TipoMenuPromocionController.destroy)
 
 // unidadmedida
-    .get('/unidadmedida', verificaToken, UnidadMedidaController.getAll)
+.get('/unidadmedida', verificaToken, UnidadMedidaController.getAll)
     .post('/unidadmedida', verificaToken, UnidadMedidaController.create)
     .put('/unidadmedida', verificaToken, UnidadMedidaController.update)
     .get('/unidadmedida/:idUnidadMedida', verificaToken, UnidadMedidaController.getOne)
@@ -226,7 +227,7 @@ router
     .delete('/unidadmedida/:idUnidadMedida', verificaToken, UnidadMedidaController.destroy)
 
 // rubro
-    .get('/rubro', verificaToken, RubroController.getAll)
+.get('/rubro', verificaToken, RubroController.getAll)
     .get('/rubro/:idRubro', verificaToken, RubroController.getOne)
     .get('/rubro/name/:nombreRubro', verificaToken, RubroController.getToName)
     .get('/rubro/todo/:anyAttribute', verificaToken, RubroController.getToAllAttributes)
@@ -235,7 +236,7 @@ router
     .delete('/rubro/:idRubro', verificaToken, RubroController.destroy)
 
 // sector
-    .get('/sector', verificaToken, SectorController.getAll)
+.get('/sector', verificaToken, SectorController.getAll)
     .get('/sector/:idSector', verificaToken, SectorController.getOne)
     .get('/sector/name/:nombreSector', verificaToken, SectorController.getToName)
     .get('/sector/todo/:anyAttribute', verificaToken, SectorController.getToAllAttributes)
@@ -244,7 +245,7 @@ router
     .delete('/sector/:idSector', verificaToken, SectorController.destroy)
 
 // caja
-    .get('/caja', verificaToken, CajaController.getAll)
+.get('/caja', verificaToken, CajaController.getAll)
     .get('/caja/:idCaja', verificaToken, CajaController.getOne)
     .get('/caja/name/:nroCaja', verificaToken, CajaController.getToName)
     .get('/caja/todo/:anyAttribute', verificaToken, CajaController.getToAllAttributes)
@@ -256,16 +257,15 @@ router
     .put('/caja/realizarMovimiento', verificaToken, CajaController.realizarMovimiento)
 
 // mozoestadia
-    .get('/mozoestadia', verificaToken, MozoEstadiaController.getAll)
-    .get('/mozoestadia/:idMozoEstadia', verificaToken, MozoEstadiaController.getOne)
-    .post('/mozoestadia', verificaToken, MozoEstadiaController.create)
-    .put('/mozoestadia/actualizarDatos', verificaToken, MozoEstadiaController.actualizarDatos)
-
+// .get('/mozoestadia', verificaToken, MozoEstadiaController.getAll)
+// .get('/mozoestadia/:idMozoEstadia', verificaToken, MozoEstadiaController.getOne)
+// .post('/mozoestadia', verificaToken, MozoEstadiaController.create)
+// .put('/mozoestadia/actualizarDatos', verificaToken, MozoEstadiaController.actualizarDatos)
 
 // ESTADOS ------------------------------------------------------------------------------------------------
 
 // estadocaja
-    .get('/estadocaja', verificaToken, EstadoCajaController.getAll)
+.get('/estadocaja', verificaToken, EstadoCajaController.getAll)
     .get('/estadocaja/:idEstadoCaja', verificaToken, EstadoCajaController.getOne)
     .get('/estadocaja/name/:nombreEstadoCaja', verificaToken, EstadoCajaController.getToName)
     .get('/estadocaja/todo/:anyAttribute', verificaToken, EstadoCajaController.getToAllAttributes)
@@ -274,7 +274,7 @@ router
     .delete('/estadocaja/:idEstadoCaja', verificaToken, EstadoCajaController.destroy)
 
 // estadousuario
-    .get('/estadousuario', verificaToken, EstadoUsuarioController.getAll)
+.get('/estadousuario', verificaToken, EstadoUsuarioController.getAll)
     .get('/estadousuario/:idEstadoUsuario', verificaToken, EstadoUsuarioController.getOne)
     .get('/estadousuario/name/:nombreEstadoUsuario', verificaToken, EstadoUsuarioController.getToName)
     .get('/estadousuario/todo/:anyAttribute', verificaToken, EstadoUsuarioController.getToAllAttributes)
@@ -283,7 +283,7 @@ router
     .delete('/estadousuario/:idEstadoUsuario', verificaToken, EstadoUsuarioController.destroy)
 
 // estadoestadia
-    .get('/estadoestadia', verificaToken, EstadoEstadiaController.getAll)
+.get('/estadoestadia', verificaToken, EstadoEstadiaController.getAll)
     .get('/estadoestadia/:idEstadoEstadia', verificaToken, EstadoEstadiaController.getOne)
     .get('/estadoestadia/name/:nombreEstadoEstadia', verificaToken, EstadoEstadiaController.getToName)
     .get('/estadoestadia/todo/:anyAttribute', verificaToken, EstadoEstadiaController.getToAllAttributes)
@@ -292,7 +292,7 @@ router
     .delete('/estadoestadia/:idEstadoEstadia', verificaToken, EstadoEstadiaController.destroy)
 
 // estadomenupromocion
-    .get('/estadomenupromocion', verificaToken, EstadoMenuPromocionController.getAll)
+.get('/estadomenupromocion', verificaToken, EstadoMenuPromocionController.getAll)
     .get('/estadomenupromocion/:idEstadoMenuPromocion', verificaToken, EstadoMenuPromocionController.getOne)
     .get('/estadomenupromocion/name/:nombreEstadoMenuPromocion', verificaToken, EstadoMenuPromocionController.getToName)
     .get('/estadomenupromocion/todo/:anyAttribute', verificaToken, EstadoMenuPromocionController.getToAllAttributes)
@@ -301,7 +301,7 @@ router
     .delete('/estadomenupromocion/:idEstadoMenuPromocion', verificaToken, EstadoMenuPromocionController.destroy)
 
 // estadoreserva
-    .get('/estadoreserva', verificaToken, EstadoReservaController.getAll)
+.get('/estadoreserva', verificaToken, EstadoReservaController.getAll)
     .get('/estadoreserva/:idEstadoReserva', verificaToken, EstadoReservaController.getOne)
     .get('/estadoreserva/name/:nombreEstadoReserva', verificaToken, EstadoReservaController.getToName)
     .get('/estadoreserva/todo/:anyAttribute', verificaToken, EstadoReservaController.getToAllAttributes)
@@ -310,7 +310,7 @@ router
     .delete('/estadoreserva/:idEstadoReserva', verificaToken, EstadoReservaController.destroy)
 
 // estadoproducto
-    .get('/estadoproducto', verificaToken, EstadoProductoController.getAll)
+.get('/estadoproducto', verificaToken, EstadoProductoController.getAll)
     .get('/estadoproducto/:idEstadoProducto', verificaToken, EstadoProductoController.getOne)
     .get('/estadoproducto/name/:nombreEstadoProducto', verificaToken, EstadoProductoController.getToName)
     .get('/estadoproducto/todo/:anyAttribute', verificaToken, EstadoProductoController.getToAllAttributes)
@@ -319,7 +319,7 @@ router
     .delete('/estadoproducto/:idEstadoProducto', verificaToken, EstadoProductoController.destroy)
 
 // estadopedido
-    .get('/estadopedido', verificaToken, EstadoPedidoController.getAll)
+.get('/estadopedido', verificaToken, EstadoPedidoController.getAll)
     .get('/estadopedido/:idEstadoPedido', verificaToken, EstadoPedidoController.getOne)
     .get('/estadopedido/name/:nombreEstadoPedido', verificaToken, EstadoPedidoController.getToName)
     .get('/estadopedido/todo/:anyAttribute', verificaToken, EstadoPedidoController.getToAllAttributes)
@@ -328,7 +328,7 @@ router
     .delete('/estadopedido/:idEstadoPedido', verificaToken, EstadoPedidoController.destroy)
 
 // estadomesa
-    .get('/estadomesa', verificaToken, EstadoMesaController.getAll)
+.get('/estadomesa', verificaToken, EstadoMesaController.getAll)
     .get('/estadomesa/:idEstadoMesa', verificaToken, EstadoMesaController.getOne)
     .get('/estadomesa/name/:nombreEstadoMesa', verificaToken, EstadoMesaController.getToName)
     .get('/estadomesa/todo/:anyAttribute', verificaToken, EstadoMesaController.getToAllAttributes)
@@ -337,6 +337,6 @@ router
     .delete('/estadomesa/:idEstadoMesa', verificaToken, EstadoMesaController.destroy)
 
 // use
-    .use(TipoMonedaController.error404)
+.use(TipoMonedaController.error404)
 
 module.exports = router
