@@ -5,7 +5,6 @@ import { HomeService, IconoHome } from 'src/app/services/home/home.service';
 import { FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import { UploadService } from 'src/app/services/upload/upload.service';
 
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -15,11 +14,8 @@ import { UploadService } from 'src/app/services/upload/upload.service';
 export class HomeComponent implements OnInit {
   
   iconosHome: IconoHome [];
-  iconosEncargado: IconoHome [];
-  iconosCocinero: IconoHome [];
 
   variableRol: string;
-  variableLibre = false;
   public respuestaImagenEnviada: any;
   public resultadoCarga: any;
   private myForm: FormGroup;
@@ -33,8 +29,6 @@ export class HomeComponent implements OnInit {
     { 
       this.activatedRoute.params.subscribe(params => {
         this.iconosHome = this.homeService.getIconosHome();
-        this.iconosEncargado = this.homeService.getIconosEncargado();
-        this.iconosCocinero = this.homeService.getIconosCocinero();
       });
 
       this.myForm = this.formBuilder.group({
