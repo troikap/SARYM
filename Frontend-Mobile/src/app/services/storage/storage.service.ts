@@ -13,32 +13,13 @@ const CURRENT_KEY = 'currentUsuario';
 const COMENSAL_RESERVA_KEY = 'comensalReserva';
 const COMENSAL_ESTADIA_KEY = 'comensalEstadia';
 
-
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
-
   constructor(
     private storage: Storage
   ) { }
-
-  // Create   
-addLog(log: Log): Promise<any> {
-  console.log("ESTO ES LOG :", log)
-  return this.storage.get(LOG_KEY)
-  .then( (logs: Log[]) => {
-    console.log("METRAIGOLOGUEO : ",logs)
-    if (logs) {
-      logs.push(log)
-      return this.storage.set(LOG_KEY, logs);
-    } else {
-      return this.storage.set(LOG_KEY, [log]);
-    }
-  })
-}
 
  addComensal(comensal): Promise<any> {
   console.log("comensal!!!!!! : ",comensal)
@@ -176,37 +157,7 @@ actualizarLog(log: Log): Promise<any> {
         return this.storage.set(LOG_KEY, toKeep);
       })
   }
-
-
-
-// Delete
-// deleteItem(id: number): Promise<Item> {
-//   return this.storage.get(ITEMS_KEY)
-//     .then((items: Item[]) => {
-//       if (!items || items.length === 0) {
-//         return null;
-//       }
-//       let toKeep: Item[] = [];
-//       for (let i of items) {
-//         if (i.id !== id) {
-//           toKeep.push(i);
-//         }
-//       }
-//       return this.storage.set(ITEMS_KEY, toKeep);
-//     })
-// }
-
-  setOneItem(name: string, value: string) {
-    //     Guardar datos en el navegador
-      this.storage.set(name, value);
-    }
-    
-    getOneItem(name: string) {
-    //     Recuperar datos
-    this.storage.get(name)
-      .then((res) => {
-      })
-    }
+        
     setOneObject(name: string, object: any) {
     //     Guardar objetos en el LocalStorage
       this.storage.set(name, object);
@@ -226,5 +177,38 @@ actualizarLog(log: Log): Promise<any> {
     //     Para eliminar todas las variables guardadas en el localStorage haremos:
       this.storage.clear();
     }
+
+    
+ // Create   
+// addLog(log: Log): Promise<any> {
+//   console.log("ESTO ES LOG :", log)
+//   return this.storage.get(LOG_KEY)
+//   .then( (logs: Log[]) => {
+//     console.log("METRAIGOLOGUEO : ",logs)
+//     if (logs) {
+//       logs.push(log)
+//       return this.storage.set(LOG_KEY, logs);
+//     } else {
+//       return this.storage.set(LOG_KEY, [log]);
+//     }
+//   })
+// }
+
+// Delete
+// deleteItem(id: number): Promise<Item> {
+//   return this.storage.get(ITEMS_KEY)
+//     .then((items: Item[]) => {
+//       if (!items || items.length === 0) {
+//         return null;
+//       }
+//       let toKeep: Item[] = [];
+//       for (let i of items) {
+//         if (i.id !== id) {
+//           toKeep.push(i);
+//         }
+//       }
+//       return this.storage.set(ITEMS_KEY, toKeep);
+//     })
+// }
 
 }

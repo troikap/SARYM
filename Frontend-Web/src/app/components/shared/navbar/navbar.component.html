@@ -1,54 +1,30 @@
 <div class="" *ngIf="variableRol!=null">
-
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <a class="navbar-brand">
             <img src="assets\imagenes\logo-sarym_no_title.png" width="50" height="45" alt="Logo">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown bg-dark">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" routerLinkActive="active">Inicio</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" *ngIf="variableRol=='Administrador'">
-                        <a class="dropdown-item" [routerLink]="['/home']">Home</a>
-                        <div class="dropdown-divider bg-dark"></div>
-                        <a class="dropdown-item" [routerLink]="['/usuario']">Usuario</a>
-                        <a class="dropdown-item" [routerLink]="['/rol']">Rol</a>
-                        <a class="dropdown-item" [routerLink]="['/unidadmedida']">Unidad Medida</a>
-                        <a class="dropdown-item" [routerLink]="['/caja']">Caja</a>
-                        <a class="dropdown-item" [routerLink]="['/mesa']">Mesa</a>
-                        <a class="dropdown-item" [routerLink]="['/rubro']">Rubro</a>
-                        <a class="dropdown-item" [routerLink]="['/sector']">Sector</a>
-                        <a class="dropdown-item" [routerLink]="['/tipomoneda']">Tipo Moneda</a>
-                        <a class="dropdown-item" [routerLink]="['/producto']">Gestionar Producto</a>
-                        <a class="dropdown-item" [routerLink]="['/menupromocion']">Gestionar Menu Promocion</a>
-                        <a class="dropdown-item" [routerLink]="['/reporte']">Generar Reporte</a>
-                        <a class="dropdown-item" [routerLink]="['/backup']">Backup</a>
-                    </div>
-                    <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown" *ngIf="variableRol=='Encargado'">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inicio</a>
+                    <div class="dropdown-menu bg-dark">
                         <a class="nav-link" [routerLink]="['/home']">Home</a>
-                        <div class="dropdown-divider bg-dark"></div>
-                        <a class="nav-link" [routerLink]="['/abrircaja']">Abrir Caja</a>
-                        <a class="nav-link" [routerLink]="['/cerrarcaja']">Cerrar Caja</a>
-                        <a class="nav-link" [routerLink]="['/generarmovimientocaja']">Generar Movimiento Caja</a>
-                        <a class="nav-link" [routerLink]="['/search_mozo_estadia']">Reasignar Mozo a Estadia</a>
-                        <a class="nav-link" [routerLink]="['/habilitar-deshabilitar-producto']">Habilitar/Deshabilitar Producto</a>
-                        <a class="nav-link" [routerLink]="['/search_anular_pedido']">Anular Pedido</a>
-                        <a class="nav-link" [routerLink]="['/search_gestionar_estado_estadia']">Gestionar Estado Estadia</a>
-                    </div>
-                    <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown" *ngIf="variableRol=='Cocinero'">
-                        <a class="nav-link" [routerLink]="['/home']">Home</a>
-                        <div class="dropdown-divider bg-dark"></div>
-                        <a class="nav-link" [routerLink]="['/enviar_pedido']">Actualizar Comanda Cocina</a>
+                        <div class="card animated fadeIn fast bg-dark" *ngFor="let iconos of iconosHome">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]=iconos.path>{{iconos.nombre}}</a>
+                        </div>
                     </div>
                 </li>
             </ul>
-            <small class="card text-white bg-dark mb-3"> {{stringLabel}} </small>
-            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="cerrarSesion()">Cerrar
-                Sesión</button>
+            <div style=margin-top:14px;margin-right:15px>
+                <small class="card text-white bg-dark mb-3">{{stringLabel}}</small>
+            </div>
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="cerrarSesion()">Cerrar Sesión</button>
         </div>
     </nav>
 </div>

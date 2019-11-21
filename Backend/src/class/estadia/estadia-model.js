@@ -14,36 +14,33 @@ var sequelize = require("../../database/connection");
 // DEFINICION DEL MODELO
 const EstadiaModelo = sequelize.define("estadia", {
     // attributes
-    idEstadia: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    idReserva: {
-        type: Sequelize.INTEGER,
-        unique: true
-    },
-    idMozoEstadia: {
-        type: Sequelize.INTEGER
-    },
-    cantPersonas: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-    fechaYHoraInicioEstadia: {
-        type: Sequelize.DATE,
-        allowNull: false
-    },
-    fechaYHoraFinEstadia: {
-        type: Sequelize.DATE
-    },
-    tokenEstadia: {
-        type: Sequelize.STRING
+        idEstadia: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        idReserva: {
+            type: Sequelize.INTEGER,
+            unique: true
+        },
+        cantPersonas: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        fechaYHoraInicioEstadia: {
+            type: Sequelize.DATE,
+            allowNull: false
+        },
+        fechaYHoraFinEstadia: {
+            type: Sequelize.DATE
+        },
+        tokenEstadia: {
+            type: Sequelize.STRING
+        }
+    }, {
+        // options
     }
-}, {
-    // options
-}
 );
 
 EstadiaModelo.hasMany(DetalleEstadiMesaModelo, { foreignKey: "idEstadia" });
@@ -52,8 +49,6 @@ EstadiaModelo.hasMany(EstadiaEstadoModelo, { foreignKey: "idEstadia" });
 EstadiaModelo.belongsTo(ReservaModelo, { foreignKey: "idReserva" });
 EstadiaModelo.hasMany(PedidoModelo, { foreignKey: "idEstadia" });
 EstadiaModelo.hasMany(ComensalModelo, { foreignKey: "idEstadia" });
-
-EstadiaModelo.belongsTo(MozoEstadiaModelo, { foreignKey: "idMozoEstadia" });
-
+EstadiaModelo.hasMany(MozoEstadiaModelo, { foreignKey: "idEstadia" });
 
 module.exports = EstadiaModelo;

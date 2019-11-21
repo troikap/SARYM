@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, Validators, FormControl } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { RolService, Rol } from 'src/app/services/rol/rol.service';
+import decode from "jwt-decode";
 
 @Component({
   selector: 'app-crud-rol',
@@ -29,7 +30,7 @@ export class CrudRolComponent implements OnInit {
     this.form = new FormGroup({
       idRol: new FormControl({ value: "", disabled: true }),
       idFuncion: new FormControl(""),
-      nombreRol: new FormControl("", [ Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)])
+      nombreRol: new FormControl("", [Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)])
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -42,11 +43,27 @@ export class CrudRolComponent implements OnInit {
       }
     });
 
-   }
+  }
 
   ngOnInit() {
     this.traerFunciones();
     this.setValueChangeFunciones();
+  }
+ 
+  actualizarStorage() {
+     //Si estoy modificando funciones para mi mismo rol (con el que estoy autenticado), actualizo el storage.
+    let token = localStorage.getItem("token");
+    let tokenPayload = decode(token);
+    let rolFromToken = tokenPayload["RolUsuario"];
+    if (this.rol.nombreRol == rolFromToken) {
+      let arrayFuncionesRol = this.getDTOFuncionesRol();
+      let nuevoArrayFunionesRol = [];
+      for (let item of arrayFuncionesRol) {
+        nuevoArrayFunionesRol.push(item.nombreFuncion);
+      }
+      localStorage.removeItem("FuncionesRol");
+      localStorage.setItem('FuncionesRol', JSON.stringify(nuevoArrayFunionesRol));
+    }
   }
 
   traerRol() {
@@ -56,7 +73,7 @@ export class CrudRolComponent implements OnInit {
         } else {
           if (res) {
             this.rol = res["data"];
-            
+
             this.newForm = {
               idRol: this.idRol,
               idFuncion: "",
@@ -85,7 +102,7 @@ export class CrudRolComponent implements OnInit {
   }
 
   traerFunciones() {
-    
+
     this.rolService.getFuncionesRolAll().then((res: any) => {
       this.funcionesRol = res.data;
       this.ordenarBurbujaList(this.funcionesRol);
@@ -108,22 +125,22 @@ export class CrudRolComponent implements OnInit {
     let i = 1;
     let ordenada = false;
 
-    while(i < lista.length && !ordenada) {
+    while (i < lista.length && !ordenada) {
       i++;
       ordenada = true;
       for (let j = 0; j < (lista.length - 1); j++) {
-        if (lista[j].idFuncion > lista[j+1].idFuncion) {
+        if (lista[j].idFuncion > lista[j + 1].idFuncion) {
           ordenada = false;
 
           let aux = lista[j];
-          lista[j] = lista[j+1];
-          lista[j+1] = aux;
+          lista[j] = lista[j + 1];
+          lista[j + 1] = aux;
         }
       }
     }
   }
 
-  traerFuncionesRol () {
+  traerFuncionesRol() {
     let listaAux = [];
     this.rolService.getRol(this.idRol).then(res => {
       listaAux = res.data.funcionrols;
@@ -136,7 +153,7 @@ export class CrudRolComponent implements OnInit {
 
   eliminarFuncion(idFuncion: number) { //NO elimino. Genero un nuevo arreglo para no tener problemas de ínidices en la lista
     let funcionesAsignadasAux = []; //No asigno directamente la variable, pues Angular todo lo pasa por referencia. Luego creo una nueva lista
-    for(let item of this.funcionesAsignadas) { 
+    for (let item of this.funcionesAsignadas) {
       if (item.idFuncion != idFuncion) {
         funcionesAsignadasAux.push(item);
       }
@@ -149,7 +166,7 @@ export class CrudRolComponent implements OnInit {
     this.form.get("idFuncion").valueChanges.subscribe(idx => {
       if (idx != "") {
         let insertar = true;
-        for(let item of this.funcionesRol) {
+        for (let item of this.funcionesRol) {
           for (let itemAsig of this.funcionesAsignadas) {
             if (itemAsig.idFuncion == idx) {
               insertar = false;
@@ -165,17 +182,17 @@ export class CrudRolComponent implements OnInit {
                 typeAnimated: true,
                 theme: 'material',
                 buttons: {
-                    aceptar: {
-                        text: 'Aceptar',
-                        btnClass: 'btn-blue',
-                        action: function(){
-                          _this.funcionesAsignadas.push(item);
-                          _this.ordenarBurbujaList(_this.funcionesAsignadas);
-                        }
-                    },
-                    cerrar: {
-                      text: 'Cerrar',
-                      action: function(){}
+                  aceptar: {
+                    text: 'Aceptar',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                      _this.funcionesAsignadas.push(item);
+                      _this.ordenarBurbujaList(_this.funcionesAsignadas);
+                    }
+                  },
+                  cerrar: {
+                    text: 'Cerrar',
+                    action: function () { }
                   }
                 }
               });
@@ -190,11 +207,11 @@ export class CrudRolComponent implements OnInit {
               typeAnimated: true,
               theme: 'material',
               buttons: {
-                  aceptar: {
-                      text: 'Aceptar',
-                      btnClass: 'btn-blue',
-                      action: function(){}
-                  }
+                aceptar: {
+                  text: 'Aceptar',
+                  btnClass: 'btn-blue',
+                  action: function () { }
+                }
               }
             });
             break;
@@ -220,19 +237,20 @@ export class CrudRolComponent implements OnInit {
     return editarFuncion;
   }
 
-  getDTOFuncionesRol (): any[] {
+  getDTOFuncionesRol(): any[] {
     let listaFuncionesAsignadas = [];
 
     for (let item of this.funcionesAsignadas) {
       let dtoFuncionesRol: any = {
-        idFuncion: item.idFuncion
+        idFuncion: item.idFuncion,
+        nombreFuncion : item.nombreFuncion
       }
       listaFuncionesAsignadas.push(dtoFuncionesRol);
     }
     return listaFuncionesAsignadas;
   }
 
-  getDTOListaEliminar(): any [] {
+  getDTOListaEliminar(): any[] {
     let funcionesAElmiminar = [];
     let dtoListaEliminar = [];
 
@@ -244,11 +262,11 @@ export class CrudRolComponent implements OnInit {
           encuentra = true;
         }
       }
-      if(!encuentra) { //Si NO encuentra el elemento
+      if (!encuentra) { //Si NO encuentra el elemento
         funcionesAElmiminar.push(item);
       }
     }
-    
+
     for (let item of this.rol['funcionrols']) {
       for (let item1 of funcionesAElmiminar) {
         if (item.idFuncion == item1.idFuncion) {
@@ -280,7 +298,7 @@ export class CrudRolComponent implements OnInit {
           aceptar: {
             text: "Aceptar",
             btnClass: "btn-blue",
-            action: function() {
+            action: function () {
               let rol = _this.reemplazarRol();
               _this.rolService.updateRol(rol).then(response => {
 
@@ -303,7 +321,8 @@ export class CrudRolComponent implements OnInit {
                             aceptar: {
                               text: "Aceptar",
                               btnClass: "btn-green",
-                              action: function() {
+                              action: function () {
+                                _this.actualizarStorage();
                                 _this.router.navigate(["/rol"]);
                               }
                             }
@@ -324,7 +343,8 @@ export class CrudRolComponent implements OnInit {
                           aceptar: {
                             text: "Aceptar",
                             btnClass: "btn-green",
-                            action: function() {
+                            action: function () {
+                              _this.actualizarStorage();
                               _this.router.navigate(["/rol"]);
                             }
                           }
@@ -332,7 +352,7 @@ export class CrudRolComponent implements OnInit {
                       });
                     }
                   });
-                } 
+                }
                 else if (listaFuncionesCrearRol.detalle.length > 0) {
                   _this.rolService.updateFuncionesRol(listaFuncionesCrearRol).then(response => {
                     const titulo = "Éxito";
@@ -347,7 +367,8 @@ export class CrudRolComponent implements OnInit {
                         aceptar: {
                           text: "Aceptar",
                           btnClass: "btn-green",
-                          action: function() {
+                          action: function () {         
+                            _this.actualizarStorage();
                             _this.router.navigate(["/rol"]);
                           }
                         }
@@ -368,7 +389,8 @@ export class CrudRolComponent implements OnInit {
                       aceptar: {
                         text: "Aceptar",
                         btnClass: "btn-green",
-                        action: function() {
+                        action: function () {
+                          _this.actualizarStorage();
                           _this.router.navigate(["/rol"]);
                         }
                       }
@@ -380,7 +402,7 @@ export class CrudRolComponent implements OnInit {
           },
           cerrar: {
             text: "Cerrar",
-            action: function() {}
+            action: function () { }
           }
         }
       });
@@ -396,7 +418,7 @@ export class CrudRolComponent implements OnInit {
           aceptar: {
             text: "Aceptar",
             btnClass: "btn-blue",
-            action: function() {
+            action: function () {
               let rol = _this.reemplazarRol();
               _this.rolService.deleteRol(rol).then(response => {
                 if (response.tipo == 1) {
@@ -414,7 +436,7 @@ export class CrudRolComponent implements OnInit {
                         aceptar: {
                           text: "Aceptar",
                           btnClass: "btn-green",
-                          action: function() {
+                          action: function () {
                             _this.router.navigate(["/rol"]);
                           }
                         }
@@ -435,7 +457,7 @@ export class CrudRolComponent implements OnInit {
                       aceptar: {
                         text: "Aceptar",
                         btnClass: "btn-red",
-                        action: function() {
+                        action: function () {
                           _this.router.navigate(["/rol"]);
                         }
                       }
@@ -455,7 +477,7 @@ export class CrudRolComponent implements OnInit {
                       aceptar: {
                         text: "Aceptar",
                         btnClass: "btn-red",
-                        action: function() {
+                        action: function () {
                           _this.router.navigate(["/rol"]);
                         }
                       }
@@ -467,7 +489,7 @@ export class CrudRolComponent implements OnInit {
           },
           cerrar: {
             text: "Cerrar",
-            action: function() {}
+            action: function () { }
           }
         }
       });
@@ -482,7 +504,7 @@ export class CrudRolComponent implements OnInit {
           aceptar: {
             text: "Aceptar",
             btnClass: "btn-blue",
-            action: function() {
+            action: function () {
               let rol = _this.reemplazarRol();
               _this.rolService.setRol(rol).then(response => {
                 if (response.tipo !== 2) {
@@ -501,7 +523,7 @@ export class CrudRolComponent implements OnInit {
                         aceptar: {
                           text: "Aceptar",
                           btnClass: "btn-green",
-                          action: function() {
+                          action: function () {
                             _this.router.navigate(["/rol"]);
                           }
                         }
@@ -522,7 +544,7 @@ export class CrudRolComponent implements OnInit {
                       aceptar: {
                         text: "Aceptar",
                         btnClass: "btn-red",
-                        action: function() {
+                        action: function () {
                           _this.router.navigate(["/rol"]);
                         }
                       }
@@ -540,7 +562,7 @@ export class CrudRolComponent implements OnInit {
                       aceptar: {
                         text: "Aceptar",
                         btnClass: "btn-red",
-                        action: function() {}
+                        action: function () { }
                       }
                     }
                   });
@@ -550,7 +572,7 @@ export class CrudRolComponent implements OnInit {
           },
           cerrar: {
             text: "Cerrar",
-            action: function() {}
+            action: function () { }
           }
         }
       });
