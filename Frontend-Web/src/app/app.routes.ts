@@ -117,9 +117,6 @@ const routes: Routes = [
   //LOGUIN
   { path: 'recuperar-contrasenia/:token', component: RecuperarContraseniaComponent},
 
-  //LOGUIN
-  { path: 'recuperar-contrasenia/:token', component: RecuperarContraseniaComponent},
-
   { path: "**", redirectTo: "login" },
   { path: "", redirectTo: "/login", pathMatch: "full" },  
 ];

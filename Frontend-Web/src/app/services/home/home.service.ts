@@ -171,9 +171,11 @@ export class HomeService {
 
   getIconosHome(): IconoHome[] {
     let iconosHabilitados: IconoHome[] = [];
-    let lista = localStorage.getItem("FuncionesRol");
-    let funcionesRecuperadas = JSON.parse(lista);
-
+    let funcionesRecuperadas: [] = [];
+    if ( localStorage.getItem("FuncionesRol") ) {
+      let lista = localStorage.getItem("FuncionesRol");
+      funcionesRecuperadas = JSON.parse(lista);
+    }
     for (let itemIcono of this.iconos) {
       for (let itemFuncionesRecuperadas of funcionesRecuperadas) {
         if (itemIcono.nombreFuncion == itemFuncionesRecuperadas) {

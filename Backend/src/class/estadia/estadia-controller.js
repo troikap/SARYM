@@ -55,11 +55,16 @@ EstadiaController.getToAllAttributes = (req, res, next) => {
     let locals = {};
     EstadiaModelo.findAll({
         where: {
-            [Op.or]: [
-                { idEstadia: {
-                        [Op.eq]: req.params.anyAttribute } },
-                { idReserva: {
-                        [Op.eq]: req.params.anyAttribute } },
+            [Op.or]: [{
+                    idEstadia: {
+                        [Op.eq]: req.params.anyAttribute
+                    }
+                },
+                {
+                    idReserva: {
+                        [Op.eq]: req.params.anyAttribute
+                    }
+                },
                 Sequelize.literal("`estadiaestados->estadoestadium`.`nombreEstadoEstadia` LIKE '%" + req.params.anyAttribute + "%'"),
             ]
         },
@@ -130,7 +135,9 @@ EstadiaController.getToName = (req, res, next) => {
     EstadiaModelo.findAll({
         where: {
             [nombretable]: {
-                [Op.substring]: req.params[nombretable] } },
+                [Op.substring]: req.params[nombretable]
+            }
+        },
         attributes: attributes.estadia,
         include: [{
                 model: EstadiaEstadoModelo,
@@ -261,7 +268,8 @@ EstadiaController.getOne = (req, res) => {
     let locals = {};
     EstadiaModelo.findOne({
         where: {
-            [idtable]: req.params[idtable] },
+            [idtable]: req.params[idtable]
+        },
         attributes: attributes.estadia,
         include: [{
                 model: EstadiaEstadoModelo,
@@ -371,8 +379,11 @@ EstadiaController.getOne = (req, res) => {
 EstadiaController.create = (req, res) => {
     let body = req.body;
     let locals = {};
-    EstadoEstadiaModelo.findOne({ where: {
-            [idtable3]: 1 } }).then(responses => {
+    EstadoEstadiaModelo.findOne({
+        where: {
+            [idtable3]: 1
+        }
+    }).then(responses => {
         if (!responses || responses == 0) {
             locals['title'] = `No existe instancia de ${legend3} con ${idtable3}.`;
             locals['tipo'] = 2;
@@ -426,7 +437,8 @@ EstadiaController.actualizarDatos = (req, res) => {
     let body = req.body;
     EstadiaModelo.findOne({
         where: {
-            [idtable]: body[idtable] },
+            [idtable]: body[idtable]
+        },
         attributes: attributes.estadia,
         include: [{
                 model: EstadiaEstadoModelo,
@@ -481,8 +493,11 @@ EstadiaController.actualizarDatos = (req, res) => {
             locals['tipo'] = 2;
             res.json(locals);
         } else {
-            EstadiaModelo.update(body, { where: {
-                    [idtable]: body[idtable] } }).then(result => {
+            EstadiaModelo.update(body, {
+                where: {
+                    [idtable]: body[idtable]
+                }
+            }).then(result => {
                 if (!result || result == 0) {
                     locals['title'] = `No se Actualizo ${legend} con id ${body[idtable]}.`;
                     locals['tipo'] = 2;
@@ -566,8 +581,11 @@ EstadiaController.cambiarEstado = (req, res) => {
                 res.json(locals);
             } else {
                 if (response.dataValues.estadiaestados[0].dataValues.estadoestadium[idtable3] != body[idtable3]) {
-                    EstadoEstadiaModelo.findOne({ where: {
-                            [idtable3]: body[idtable3] } }).then((estadoestadia) => {
+                    EstadoEstadiaModelo.findOne({
+                        where: {
+                            [idtable3]: body[idtable3]
+                        }
+                    }).then((estadoestadia) => {
                         if (!estadoestadia || estadoestadia == 0) {
                             locals['title'] = `No existe ${legend3} con id ${idtable3}.`;
                             locals['tipo'] = 2;
@@ -577,7 +595,9 @@ EstadiaController.cambiarEstado = (req, res) => {
                             pushEstadiaEstado['fechaYHoraBajaEstadiaEstado'] = fechaArgentina.getFechaArgentina();
                             EstadiaEstadoModelo.update(pushEstadiaEstado, {
                                 where: {
-                                    [idtable]: body[idtable], fechaYHoraBajaEstadiaEstado: null }
+                                    [idtable]: body[idtable],
+                                    fechaYHoraBajaEstadiaEstado: null
+                                }
                             }).then((respons) => {
                                 if (!respons || respons == 0) {
                                     locals['title'] = `No existe ${legend2} habilitado.`;
@@ -680,8 +700,11 @@ EstadiaController.editarMesa = (req, res) => {
                 if (elem['idDetalleEstadiaMesa']) {
                     if (elem['baja'] == true) {
                         console.log("BORRAR   :---------------------------")
-                        await DetalleEstadiaMesaModelo.destroy({ where: {
-                                [idtable7]: elem[idtable7] } }).then((resp) => {
+                        await DetalleEstadiaMesaModelo.destroy({
+                            where: {
+                                [idtable7]: elem[idtable7]
+                            }
+                        }).then((resp) => {
                             if (!resp || resp == 0) {
                                 locals.detalles.push({
                                     ['title']: `Detalle NO eliminado con ${[idtable7]} = ${elem[[idtable7]]}`,
@@ -698,16 +721,23 @@ EstadiaController.editarMesa = (req, res) => {
                 } else {
                     elem[idtable] = body[idtable];
                     if (elem[idtable4] != null) {
-                        await MesaModelo.findOne({ where: {
-                                [idtable4]: elem[idtable4] } }).then(async(mesa) => {
+                        await MesaModelo.findOne({
+                            where: {
+                                [idtable4]: elem[idtable4]
+                            }
+                        }).then(async(mesa) => {
                             if (!mesa || mesa == 0) {
                                 locals.detalles.push({
                                     ['title']: `No existe ${legend4} con id ${idtable4}`,
                                     ['tipo']: 2
                                 })
                             } else {
-                                await DetalleEstadiaMesaModelo.findOne({ where: {
-                                        [idtable4]: elem[idtable4], [idtable]: body[idtable] } }).then(async(detalleestadiamesa) => {
+                                await DetalleEstadiaMesaModelo.findOne({
+                                    where: {
+                                        [idtable4]: elem[idtable4],
+                                        [idtable]: body[idtable]
+                                    }
+                                }).then(async(detalleestadiamesa) => {
                                     if (!detalleestadiamesa || detalleestadiamesa == 0) {
                                         await DetalleEstadiaMesaModelo.create(elem).then((resp) => {
                                             if (!resp || resp == 0) {
@@ -825,8 +855,11 @@ EstadiaController.editarComensal = (req, res) => {
             for (let elem of body.detalle) {
                 if (elem[idtable6]) {
                     if (elem['baja'] == true) {
-                        await ComensalModelo.destroy({ where: {
-                                [idtable6]: elem[idtable6] } }).then((resp) => {
+                        await ComensalModelo.destroy({
+                            where: {
+                                [idtable6]: elem[idtable6]
+                            }
+                        }).then((resp) => {
                             if (!resp || resp == 0) {
                                 locals.detalles.push({
                                     ['title']: `Comensal NO eliminado con ${[idtable6]} = ${elem[[idtable6]]}.`,
@@ -840,8 +873,11 @@ EstadiaController.editarComensal = (req, res) => {
                             }
                         })
                     } else {
-                        await ComensalModelo.update(elem, { where: {
-                                [idtable6]: elem[idtable6] } }).then((resp) => {
+                        await ComensalModelo.update(elem, {
+                            where: {
+                                [idtable6]: elem[idtable6]
+                            }
+                        }).then((resp) => {
                             if (!resp || resp == 0) {
                                 locals.detalles.push({
                                     ['title']: `Comensal NO editado con ${[idtable6]} = ${elem[[idtable6]]}.`,
@@ -857,8 +893,12 @@ EstadiaController.editarComensal = (req, res) => {
                     }
                 } else {
                     elem[idtable] = body[idtable];
-                    await ComensalModelo.findOne({ where: {
-                            [idtable]: elem[idtable], aliasComensal: elem['aliasComensal'] } }).then(async(Comensal) => {
+                    await ComensalModelo.findOne({
+                        where: {
+                            [idtable]: elem[idtable],
+                            aliasComensal: elem['aliasComensal']
+                        }
+                    }).then(async(Comensal) => {
                         if (!Comensal || Comensal == 0) {
                             await ComensalModelo.create(elem).then((resp) => {
                                 if (!resp || resp == 0) {
@@ -972,8 +1012,11 @@ EstadiaController.editarClienteEstadia = (req, res) => {
                 if (elem['idClienteEstadia']) {
                     if (elem['baja'] == true) {
                         console.log("BORRAR   :---------------------------")
-                        await ClienteEstadiaModelo.destroy({ where: {
-                                [idtable10]: elem[idtable10] } }).then((resp) => {
+                        await ClienteEstadiaModelo.destroy({
+                            where: {
+                                [idtable10]: elem[idtable10]
+                            }
+                        }).then((resp) => {
                             if (!resp || resp == 0) {
                                 locals.detalles.push({
                                     ['title']: `Detalle NO eliminado con ${[idtable10]} = ${elem[[idtable10]]}.`,
@@ -990,16 +1033,23 @@ EstadiaController.editarClienteEstadia = (req, res) => {
                 } else {
                     elem[idtable] = body[idtable];
                     if (elem[idtable5] != null) {
-                        await UsuarioModelo.findOne({ where: {
-                                [idtable5]: elem[idtable5] } }).then(async(mesa) => {
+                        await UsuarioModelo.findOne({
+                            where: {
+                                [idtable5]: elem[idtable5]
+                            }
+                        }).then(async(mesa) => {
                             if (!mesa || mesa == 0) {
                                 locals.detalles.push({
                                     ['title']: `No existe ${legend5} con id ${idtable5}.`,
                                     ['tipo']: 2
                                 })
                             } else {
-                                await ClienteEstadiaModelo.findOne({ where: {
-                                        [idtable5]: elem[idtable5], [idtable]: body[idtable] } }).then(async(clienteestadia) => {
+                                await ClienteEstadiaModelo.findOne({
+                                    where: {
+                                        [idtable5]: elem[idtable5],
+                                        [idtable]: body[idtable]
+                                    }
+                                }).then(async(clienteestadia) => {
                                     if (!clienteestadia || clienteestadia == 0) {
                                         await ClienteEstadiaModelo.create(elem).then((resp) => {
                                             if (!resp || resp == 0) {
@@ -1069,8 +1119,11 @@ EstadiaController.getToMesa = (req, res) => {
             },
             {
                 model: DetalleEstadiaMesaModelo,
-                where: { idMesa: {
-                        [Op.eq]: params.idMesa } },
+                where: {
+                    idMesa: {
+                        [Op.eq]: params.idMesa
+                    }
+                },
                 attributes: attributes.detalleestadiamesa,
             },
         ],
@@ -1081,7 +1134,8 @@ EstadiaController.getToMesa = (req, res) => {
         } else {
             await EstadiaModelo.findOne({
                 where: {
-                    [idtable]: projects[0].dataValues.idEstadia },
+                    [idtable]: projects[0].dataValues.idEstadia
+                },
                 attributes: attributes.estadia,
                 include: [{
                         model: EstadiaEstadoModelo,
@@ -1199,7 +1253,8 @@ EstadiaController.getToUsuario = (req, res) => {
         } else {
             await EstadiaModelo.findOne({
                 where: {
-                    [idtable]: projects[0].dataValues.idEstadia },
+                    [idtable]: projects[0].dataValues.idEstadia
+                },
                 attributes: attributes.estadia,
                 include: [{
                         model: EstadiaEstadoModelo,
@@ -1318,7 +1373,8 @@ EstadiaController.getToUsuario = (req, res) => {
         } else {
             await EstadiaModelo.findOne({
                 where: {
-                    [idtable]: projects[0].dataValues.idEstadia },
+                    [idtable]: projects[0].dataValues.idEstadia
+                },
                 attributes: attributes.estadia,
                 include: [{
                         model: EstadiaEstadoModelo,
@@ -1449,8 +1505,11 @@ EstadiaController.cambiarMozoEstadia = (req, res) => {
             } else {
                 console.log("RESPUESTA ", response.dataValues.mozoestadia[0].dataValues[idtable5])
                 if (response.dataValues.mozoestadia[0].dataValues[idtable5] != body[idtable5]) {
-                    MozoEstadiaModelo.findOne({ where: {
-                            [idtable5]: body[idtable5] } }).then((mozoestadia) => {
+                    MozoEstadiaModelo.findOne({
+                        where: {
+                            [idtable5]: body[idtable5]
+                        }
+                    }).then((mozoestadia) => {
                         if (!mozoestadia || mozoestadia == 0) {
                             locals['title'] = `No existe ${legend5} con id ${idtable5}.`;
                             locals['tipo'] = 2;
@@ -1460,7 +1519,9 @@ EstadiaController.cambiarMozoEstadia = (req, res) => {
                             pushEstadiaEstado['fechaYHoraFinMozoEstadia'] = fechaArgentina.getFechaArgentina();
                             MozoEstadiaModelo.update(pushEstadiaEstado, {
                                 where: {
-                                    [idtable]: body[idtable], fechaYHoraFinMozoEstadia: null }
+                                    [idtable]: body[idtable],
+                                    fechaYHoraFinMozoEstadia: null
+                                }
                             }).then((respons) => {
                                 if (!respons || respons == 0) {
                                     locals['title'] = `No existe ${legend9} habilitado.`;
