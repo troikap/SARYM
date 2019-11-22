@@ -64,37 +64,43 @@ export class LogueoPage implements OnInit {
 
   loguear() {
     this.usuarioservicio.loguear(this.form.value.cuitUsuario , this.form.value.contrasenaUsuario )
-    .then(algo => {
-      this.algo = algo;
-      if (algo.tipo == 1) {
-        let rol = algo.rol.idRol;
-        if ( rol == "Cliente" || rol == "Mozo" || rol == "Administrador" ) {
-          let fecha = new Date();
-          this.logueo = {cuit: this.form.value.cuitUsuario, pass: this.form.value.contrasenaUsuario, id: algo.usuario , date: fecha}
-          console.log("TOKEN ",algo.token)
-          this.storage.setOneObject( 'token',algo.token)
-          if (this.form.value.checkRecordar){
-            this.actualizarLog(this.logueo);
+    .then(logueado => {
+      console.log("DEVOLVIENDO ESTO ", logueado)
+      this.algo = logueado;
+      if (logueado.tipo == 1) {
+        let activado = logueado.UsuarioEstado.activadoUsuario;
+        if ( activado == true ){ 
+          let rol = logueado.rol.idRol;
+          if ( rol == "Cliente" || rol == "Mozo" || rol == "Administrador" ) {
+            let fecha = new Date();
+            this.logueo = {cuit: this.form.value.cuitUsuario, pass: this.form.value.contrasenaUsuario, id: logueado.usuario , date: fecha}
+            console.log("TOKEN ",logueado.token)
+            this.storage.setOneObject( 'token',logueado.token)
+            if (this.form.value.checkRecordar){
+              this.actualizarLog(this.logueo);
+            }
+            if ( rol == "Mozo" ) {
+              //servicio que cree instancia de clase intermedia Mozo-Estadia
+              //verificar que cuando se desloguee un mozo, termine esta instancia.
+            }
+  
+            this.logueo['rolUsuario'] = this.algo.rol.idRol;
+            this.logueo['idRolUsuario'] = this.algo.rol.nombreRol;
+            this.logueo['nombreUsuario'] = this.algo.UsuarioEstado.nombreUsuario;
+            this.logueo['apellidoUsuario'] = this.algo.UsuarioEstado.apellidoUsuario;
+            this.storage.setOneObject( 'currentUsuario', this.logueo)
+            this.alertar();
+            this.menu.enable(true);
+            this.navController.navigateRoot('/home')
+          } else {
+            this.alertRol();
           }
-          if ( rol == "Mozo" ) {
-            //servicio que cree instancia de clase intermedia Mozo-Estadia
-            //verificar que cuando se desloguee un mozo, termine esta instancia.
-          }
-
-          this.logueo['rolUsuario'] = this.algo.rol.idRol;
-          this.logueo['idRolUsuario'] = this.algo.rol.nombreRol;
-          this.logueo['nombreUsuario'] = this.algo.UsuarioEstado.nombreUsuario;
-          this.logueo['apellidoUsuario'] = this.algo.UsuarioEstado.apellidoUsuario;
-          this.storage.setOneObject( 'currentUsuario', this.logueo)
-          this.alertar();
-          this.menu.enable(true);
-          this.navController.navigateRoot('/home')
         } else {
-          this.alertRol();
+          this.toastService.toastWarning('Debería verificar su correo y activar su cuenta.', 3000)
         }
 
       } else {
-        if (algo.tipo == 2){
+        if (logueado.tipo == 2){
           console.log("INVALIDOS")
         } else {
           console.log("SUSPENDIDO INHAVILITAD")

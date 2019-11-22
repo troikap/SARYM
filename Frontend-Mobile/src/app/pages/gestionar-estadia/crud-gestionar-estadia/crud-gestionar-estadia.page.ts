@@ -10,7 +10,6 @@ import { Mesa } from '../../../services/mesa/mesa.model';
 import { ActivatedRoute } from '@angular/router';
 import { Estadia, Comensal } from 'src/app/models/modelos';
 import { TratarFechaProvider } from '../../../providers/tratarFecha.provider';
-import { AlertService } from '../../../providers/alert.service';
 import { ToastService } from '../../../providers/toast.service';
 import { LoaderService } from '../../../providers/loader.service';
 
@@ -48,7 +47,6 @@ export class CrudGestionarEstadiaPage implements OnInit {
       private mesaServicio: MesaService,
       private activatedRoute: ActivatedRoute,
       private tratarFechaProvider: TratarFechaProvider,
-      private alertService: AlertService,
       private toastService: ToastService,
     ) {
       

@@ -20,7 +20,8 @@ console.log("currentTime ", currentTime)
 //TOKEN 1 DIA:
 process.env.CADUCIDAD_TOKEN = 1000 * 60 * 60 * 24;
 process.env.CADUCIDAD_TOKENRECUPERACION = 1000 * 60;
-process.env.TZ = 'UTC+2';
+process.env.CADUCIDAD_TOKENACTIVACION = 1000 * 60 * 60 * 24 * 12;
+
 
 //TOKEN PRUEBA 1 MINUTO
 //process.env.CADUCIDAD_TOKEN = 1000 * 60;

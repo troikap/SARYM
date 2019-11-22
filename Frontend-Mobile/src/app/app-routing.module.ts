@@ -57,6 +57,8 @@ const routes: Routes = [
 // unirse reserva estadia
   { path: 'unirse-reserva-estadia', loadChildren: './pages/unirse-reserva-estadia/unirse-reserva-estadia.module#UnirseReservaEstadiaPageModule' },
   { path: 'ver-qr-estadia/:id', loadChildren: './pages/gestionar-estadia/ver-qr-estadia/ver-qr-estadia.module#VerQrEstadiaPageModule' },
+  { path: 'activar-usuario/:token', loadChildren: './pages/activar-usuario/activar-usuario.module#ActivarUsuarioPageModule' },
+
 
 ];
 

@@ -17,6 +17,7 @@ module.exports = {
                 "idDepartamento": 1,
                 "nroCelularUsuario": 2614318023,
                 "nroTelefonoUsuario": 2613875478,
+                "activadoUsuario": true,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
             },
@@ -32,6 +33,7 @@ module.exports = {
                 "idDepartamento": 1,
                 "nroCelularUsuario": 2616803184,
                 "nroTelefonoUsuario": 2614302095,
+                "activadoUsuario": true,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
             }
@@ -107,6 +109,7 @@ module.exports = {
                 "idDepartamento": 2,
                 "nroCelularUsuario": 2614318023,
                 "nroTelefonoUsuario": 2613875472,
+                "activadoUsuario": true,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
             }, {
@@ -121,6 +124,7 @@ module.exports = {
                 "idDepartamento": 2,
                 "nroCelularUsuario": 2614318023,
                 "nroTelefonoUsuario": 2613875472,
+                "activadoUsuario": true,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
             }, {
@@ -135,6 +139,7 @@ module.exports = {
                 "idDepartamento": 2,
                 "nroCelularUsuario": 2614318023,
                 "nroTelefonoUsuario": 2613875472,
+                "activadoUsuario": true,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
             }
@@ -179,6 +184,7 @@ module.exports = {
                 "idDepartamento": 2,
                 "nroCelularUsuario": 2614318023,
                 "nroTelefonoUsuario": 2613875472,
+                "activadoUsuario": true,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
             }
@@ -223,6 +229,7 @@ module.exports = {
                 "idDepartamento": 2,
                 "nroCelularUsuario": 2614318023,
                 "nroTelefonoUsuario": 2613875472,
+                "activadoUsuario": true,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
             }
@@ -267,6 +274,7 @@ module.exports = {
                 "idDepartamento": 2,
                 "nroCelularUsuario": 2614318023,
                 "nroTelefonoUsuario": 2613875472,
+                "activadoUsuario": true,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
             }
@@ -311,9 +319,11 @@ module.exports = {
                 "idDepartamento": 4,
                 "nroCelularUsuario": 2613004793,
                 "nroTelefonoUsuario": 2614396049,
+                "activadoUsuario": true,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
-            }, {
+            }, 
+            {
                 "idUsuario": 22,
                 "cuitUsuario": 20370013927,
                 "nombreUsuario": "Hernán David",
@@ -325,6 +335,7 @@ module.exports = {
                 "idDepartamento": 4,
                 "nroCelularUsuario": 2615183786,
                 "nroTelefonoUsuario": 2614524932,
+                "activadoUsuario": true,
                 "createdAt": currentDate,
                 "updatedAt": currentDate
             }
