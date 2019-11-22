@@ -67,7 +67,7 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
           mesa: this.listaNumerosMesa.join(),
           fechaYHoraInicioEstadia: this.datePipe.transform(
             this.date,
-            "dd/MM/yyyy hh:mm:ss"
+            "dd/MM/yyyy HH:mm"
           ),
           mozoEstadia:
             this.estadia["mozoestadium"].usuario.nombreUsuario +
@@ -95,7 +95,7 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
   guardar() {
     let _this = this; //Asigno el contexto a una variable, ya que se pierde al ingresar a la función de mensajeria
     const titulo = "Confirmación";
-    const mensaje = `¿Está seguro que desea reasignar el mozo seleccionado?`;
+    const mensaje = `¿Está seguro que desea anular la estadia seleccionada?`;
 
     ($ as any).confirm({
       title: titulo,
@@ -115,7 +115,7 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
                 .updateEstadoEstadia(estadia)
                 .then(response => {
                   const titulo = "Éxito";
-                  const mensaje = "Se ha modificado el mozo de forma exitosa";
+                  const mensaje = "Se ha modificado la estadia de forma exitosa";
                   ($ as any).confirm({
                     title: titulo,
                     content: mensaje,

@@ -33,7 +33,7 @@
             <tbody  *ngFor="let lista of listaMovimientoCaja">
                 <tr>                     
                     <th scope="row">{{lista.idMovimientoCaja}}</th>
-                    <td>{{lista.fechaYHoraMovimientoCaja | date: 'dd/MM/yyyy hh:mm:ss' }}</td>            
+                    <td>{{lista.fechaYHoraMovimientoCaja | date: 'dd/MM/yyyy HH:mm' }}</td>            
                     <td>{{lista.montoMovimientoCaja}}</td>
                     <td>{{lista.descripcionMovimientoCaja}}</td> 
                     <td>{{lista.tipomovimientocaja.nombreTipoMovimientoCaja}}</td>

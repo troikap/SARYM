@@ -2,6 +2,7 @@
 
 const fechaArgentina = require("../src/middlewares/fechaArgentina");
 var currentDate = fechaArgentina.getFechaArgentina();
+console.log(currentDate);
 
 module.exports = {
     up: (queryInterface, Sequelize) => {

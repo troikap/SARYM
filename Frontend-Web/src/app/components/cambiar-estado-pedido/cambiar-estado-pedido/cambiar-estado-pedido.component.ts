@@ -56,4 +56,61 @@ export class CambiarEstadoPedidoComponent implements OnInit {
       }
     })
   }
+  enviarPedido(id:number){
+    let newForm={
+      idPedido:id,
+      idEstadoPedido:3,
+      descripcionPedidoEstado:"Se revierte el envio del pedido por parte del cocinero"
+    }
+    let _this = this;
+    const titulo = "Confirmación";
+    const mensaje = `¿Está seguro que desea revertir el envio?`;
+    ($ as any).confirm({
+      title: titulo,
+      content: "¿Confirma volver el pedido a elaborar?",
+      type: "blue",
+      typeAnimated: true,
+      theme: "material",
+      buttons: {
+        aceptar: {
+          text: "Aceptar",
+          btnClass: "btn-blue",
+          action: function() {
+            let nuevaCaja: any = {
+              idUsuario: localStorage.getItem("idUsuario")
+            };
+            _this.pedidoServicio.updatePedidoEstado(newForm).then(response => {
+              if (response.tipo !== 2) {
+                //TODO CORRECTO
+                const titulo = "Éxito";
+                const mensaje =
+                  "Se ha enviado el pedido de forma exitosa";
+  
+                ($ as any).confirm({
+                  title: titulo,
+                  content: mensaje,
+                  type: "green",
+                  typeAnimated: true,
+                  theme: "material",
+                  buttons: {
+                    aceptar: {
+                      text: "Aceptar",
+                      btnClass: "btn-green",
+                      action: function() {
+                        location.reload();
+                      }
+                    }
+                  }
+                });
+              } 
+            });
+          }
+        },
+        cerrar: {
+          text: "Cerrar",
+          action: function() {}
+        }
+      }
+    });
+  }
 }

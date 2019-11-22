@@ -67,7 +67,7 @@ export class EditComponent implements OnInit{
             this.newForm = {
               cantPersonas: this.estadia['cantPersonas'],                           
               mesa: this.listaNumerosMesa.join(),
-              fechaYHoraInicioEstadia: this.datePipe.transform(this.date,'dd/MM/yyyy hh:mm:ss'), 
+              fechaYHoraInicioEstadia: this.datePipe.transform(this.date,'dd/MM/yyyy HH:mm'), 
               mozoEstadia:""
             }
 
