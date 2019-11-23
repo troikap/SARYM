@@ -25,7 +25,6 @@ export class RecuperarContraseniaComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.token = params["token"];
         if (this.token != null) {
-          console.log("Buscando Usuario")
           this.recuperarInfoToken(params["token"]);
         } else {
           let _this = this;
@@ -93,7 +92,6 @@ export class RecuperarContraseniaComponent implements OnInit {
 
   enviar() {
     let _this = this;
-    console.log("Contraseña del form: ",  this.form.value.contrasenaUsuario);
     let usuario = { idUsuario: this.idUsuario, contrasenaUsuario: this.form.value.contrasenaUsuario}
     this.usuarioservicio.updateUsuario(usuario)
       .then((resp) => {

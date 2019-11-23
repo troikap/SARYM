@@ -60,7 +60,6 @@ export class UsuarioService {
       .post(`${this.url}${this.dirExistUsr}`, value)
       .toPromise()
       .then(response => {
-        console.log("validarExistenciaUsuario: ", response);
         return response;
       })
       .catch( (err) => {
@@ -77,7 +76,6 @@ export class UsuarioService {
         if (response == null ){
           response = {};
         }
-        console.log("response ", response)
         response['tipo'] = 1;
         return response;
       })
@@ -93,7 +91,6 @@ export class UsuarioService {
       .post(`${this.url}${this.dirRecuperarToken}`, value)
       .toPromise()
       .then( (response: any) => {
-        console.log()
         return response;
       })
       .catch( err => {

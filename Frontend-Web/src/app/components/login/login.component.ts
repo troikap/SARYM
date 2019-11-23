@@ -45,12 +45,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("FECHA ", new Date())
-    console.log('fecha Argentina ', this.fechaArgentinaProvider.getFechaArgentina()) // ESTO HERNAN USALO CON LA LINEA 32 y 5
-   }
+  }
 
   recuperarContrasenia() {
-    console.log("Recuperando")
     if (this.contadorIntentoContrasenia > 0 ) {
       this.confirmarRecuperacion();
     } else {
@@ -94,7 +91,6 @@ export class LoginComponent implements OnInit {
                   else if ( cuit.length == 11 ) {
                     _this.usuarioservicio.validarExistenciaUsuario(cuit)
                     .then( resp => {
-                      console.log("resp: ", resp);
                       if (resp.tipo == 2 ) {
                         _this.usuarioservicio.envioEmail(resp)
                         .then( respuesta => {
