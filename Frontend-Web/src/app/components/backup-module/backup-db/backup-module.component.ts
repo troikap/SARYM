@@ -29,7 +29,6 @@ export class BackupModuleComponent implements OnInit {
   }
 
   generarBackup() {
-    console.log("Generar Backup");
     let _this = this;
     ($ as any).confirm({
       title: "Confirmar",
@@ -72,11 +71,10 @@ export class BackupModuleComponent implements OnInit {
   }
 
   cargarBackup() {
-    console.log("cargarBackup");
     let _this = this;
     ($ as any).confirm({
       title: "Atención",
-      content: "¿Desea cargar un archivo de Backup?<br>Si continúa se reemplazarán todos los datos del sistema a la fecha y hora del archivo de Backup cargado.",
+      content: "¿Desea cargar un archivo de Backup?<br>Si continúa se reemplazarán todos los datos del sistema a la fecha y hora del archivo de Backup cargado",
       type: 'orange',
       typeAnimated: true,
       theme: 'material',

@@ -1,7 +1,7 @@
-import * as $ from "jquery";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { RolService } from 'src/app/services/rol/rol.service';
+import * as $ from "jquery";
 
 @Component({
   selector: 'app-search-rol',
@@ -28,7 +28,6 @@ export class SearchRolComponent implements OnInit {
   buscarElemento(termino: string) {
     if (termino.trim() !== "") {
       this.rolService.getRolByAll(termino).subscribe((data: any) => {
-        // Llamo a un Observer
         if (data != null) {
           this.listaRoles = data;
         } else {
@@ -49,5 +48,4 @@ export class SearchRolComponent implements OnInit {
   crudElemento(idElemento: number, accion: string) {
     this.router.navigate([`/rol_crud/${idElemento}/${accion}`]);
   }
-
 }
