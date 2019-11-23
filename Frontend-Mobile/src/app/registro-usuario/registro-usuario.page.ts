@@ -228,7 +228,7 @@ export class RegistroUsuarioPage implements OnInit {
           .then((resp) => {
             this.presentToast(resp, 'creado');
             usuario['idUsuario'] = resp.Usuario['idUsuario']
-            this.usuarioservicio.envioEmail(usuario);
+            this.usuarioservicio.envioEmail(usuario, 'activar');
             this.navController.navigateRoot('/logueo');
           })
           .catch((err) => {

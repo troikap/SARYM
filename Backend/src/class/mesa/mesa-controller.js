@@ -179,7 +179,7 @@ MesaController.getOne = (req, res, next) => {
 
 MesaController.create = (req, res) => {
   let locals = {};
-  EstadoMesaModelo.findOne({ where: {[idtable3]: 1 } }).then( responses => {
+  EstadoMesaModelo.findOne({ where: {[idtable3]: 2 } }).then( responses => {
     if ( !responses || responses == 0 ) {
         locals['title'] = `No existe instancia de ${legend3} con ${idtable3}.`;
         locals['tipo'] = 2;
@@ -199,7 +199,7 @@ MesaController.create = (req, res) => {
             let pushMesaEstado = {};
             pushMesaEstado[idtable] = result[idtable];
             pushMesaEstado['fechaYHoraAltaMesaEstado'] = fechaArgentina.getFechaArgentina();
-            pushMesaEstado[idtable3] = 1;
+            pushMesaEstado[idtable3] = 2;
             MesaEstadoModelo.create(pushMesaEstado).then( response => {
               locals['title'] = `${legend} creado. ${legend2} creado.`;
               locals['data'] = response;

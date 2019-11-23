@@ -80,8 +80,8 @@ export class LogueoPage implements OnInit {
               this.actualizarLog(this.logueo);
             }
             if ( rol == "Mozo" ) {
-              //servicio que cree instancia de clase intermedia Mozo-Estadia
-              //verificar que cuando se desloguee un mozo, termine esta instancia.
+              //servicio que cree instancia de clase intermedia Mozo-Estadia      ----    se cambio por ... solo se crea clase cuando se genera estadia..
+              //verificar que cuando se desloguee un mozo, termine esta instancia.  ---- no va mas... no se inunda mas!!!
             }
   
             this.logueo['rolUsuario'] = this.algo.rol.idRol;
@@ -228,7 +228,7 @@ export class LogueoPage implements OnInit {
               this.usuarioservicio.validarExistenciaUsuario(resp.cuit)
               .then( resp => {
                 if (resp.tipo == 2 ) {
-                  this.usuarioservicio.envioEmail(resp)
+                  this.usuarioservicio.envioEmail(resp.data, 'recuperar')
                   .then( respuesta => {
                     if (respuesta['tipo'] == 1 ) {
                       this.toastService.toastSuccess('Se ha enviado un Email al correo asociado.', 2500)

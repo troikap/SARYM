@@ -285,9 +285,9 @@ PedidoController.create = (req, res) => {
     let body = req.body;
     let locals = {};
     let buscarID;
-    if ( body['idReserva'] != null ) {
+    if ( body['idReserva'] != null  ) {
         buscarID = 1;
-    } else { buscarID = 2}
+    } else { buscarID = 3}
     EstadoPedidoModelo.findOne({ where: {[idtable3]: buscarID } }).then( responses => {
       if ( !responses || responses == 0 ) {
         locals['title'] = `No existe instancia de ${legend3} con ${idtable3}.`;

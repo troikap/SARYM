@@ -749,7 +749,10 @@ ReservaController.editarComensal = (req, res) => {
                             ['tipo']: 1
                         })
                     }
-                })
+                }).catch((error) => {
+                  locals = tratarError.tratarError(error, legend);
+                  res.json(locals);
+                });
             } else {
               await ComensalModelo.update(elem, {where: {[idtable6]: elem[idtable6]}}).then((resp) => {
                   if(!resp || resp == 0) {
@@ -770,6 +773,7 @@ ReservaController.editarComensal = (req, res) => {
           await ComensalModelo.findOne({ where: { [idtable]: elem[idtable] , aliasComensal: elem['aliasComensal'] }}).then( async (Comensal) => {
             if(!Comensal || Comensal == 0) {
               await ComensalModelo.create(elem).then((resp) => {
+                console.log("ELEMNTO ", elem)
                 if(!resp || resp == 0) {
                     locals.detalles.push({
                         ['title']: `Comensal NO creado: ${elem[idtable6]}`,
@@ -795,10 +799,15 @@ ReservaController.editarComensal = (req, res) => {
         }
         if ( Object.keys(body.detalle).length == i) {
           let correcto = true;
-          for (let elem of locals.detalles) {
-              if (elem.tipo == 2){
-                  correcto = false
-              }
+          console.log("LOCALS DE COMENSAL ",locals)
+          if ( locals.detalles != null ) {
+            for (let elem of locals.detalles) {
+                if (elem.tipo == 2){
+                    correcto = false
+                }
+            }
+          } else {
+            correcto = false
           }
           if (correcto) {
               locals['title'] = 'Registros actualizados correctamente';
