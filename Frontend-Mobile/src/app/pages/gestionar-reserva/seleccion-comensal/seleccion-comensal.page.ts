@@ -201,7 +201,7 @@ export class SeleccionComensalPage implements OnInit {
         this.toastService.toastSuccess('Comensal eliminado correctamente.', 1500)
         this.traerReserva();
       } else {
-        this.toastService.toastError('No se pudo eliminar Comensal ya que tiene pedidos asociados.', 2500)
+        this.ConfirmarEliminarComensalAsociado('Problemas al Eliminar', 'El Comensal posee pedidos asociados, desea eliminar Comensal con sus Pedidos asociados?', pathComensal);
       }
     }).catch( error => {
       console.log("ERROR ", error)
@@ -227,7 +227,7 @@ export class SeleccionComensalPage implements OnInit {
           name: 'edad',
           type: 'number',
           placeholder: 'Ingrese Edad',
-          min: 15,
+          min: 10,
           max: 99
         }
       ],
@@ -258,7 +258,7 @@ export class SeleccionComensalPage implements OnInit {
             } else if ( !info.alias ) {
               this.toastService.toastError('Ingrese Alias.', 2000)
             } else { 
-              this.toastService.toastError('La edad debe ser positiva y mayor a 15 años.', 2000)
+              this.toastService.toastError('La edad debe ser positiva y mayor a 10 años.', 2000)
             }
           }
         }
@@ -305,7 +305,7 @@ export class SeleccionComensalPage implements OnInit {
       })
   }
 
-  async ConfirmarEliminarComensalAsociado(pTitulo: string, pMensaje: string) {
+  async ConfirmarEliminarComensalAsociado(pTitulo: string, pMensaje: string, pathComensal) {
     const alert = await this.alertController.create({
       header: pTitulo,
       message: pMensaje,
@@ -321,6 +321,8 @@ export class SeleccionComensalPage implements OnInit {
           text: 'Eliminar',
           handler: ( info ) => {
             console.log("Obligar eliminacion de comensal con pedidos asociados")
+            this.reservaServicio.setComensalesReserva(pathComensal, true)
+            // ACTUALIZAR COMENSAL SACANDO ASOCIACION A RESERVA Y SE ANULAN LOS PEDIDOS RELACIONADOS A LA RESERVA
           }
         }
       ]

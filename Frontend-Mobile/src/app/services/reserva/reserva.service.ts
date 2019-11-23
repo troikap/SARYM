@@ -113,17 +113,18 @@ export class ReservaService {
       .catch(  );
   }
 
-  setComensalesReserva( datas ): Promise<any> {
+  setComensalesReserva( datas, eliminar? ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
-    return this.http
-      .put(`${this.url}${this.dir}${this.dir2}`, datas, data)
-      .toPromise()
-      .then(response => {
-        return response as Reserva;
-      })
-      .catch(  );
+     datas['eliminar'] = eliminar;
+       return this.http
+         .put(`${this.url}${this.dir}${this.dir2}`, datas, data)
+         .toPromise()
+         .then(response => {
+           return response as Reserva;
+         })
+         .catch(  );
   }
 
   setMesasReserva( datas ): Promise<any> {

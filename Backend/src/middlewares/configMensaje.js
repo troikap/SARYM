@@ -25,14 +25,14 @@ module.exports = async (formulario) => {
             html: `<div style="padding-top: 60px;">
                 <div style="padding-top: 10px; width: 90%; margin: auto;">
                     <div style="padding: 2rem 3rem; margin-bottom: 2rem; background-color: #e9ecef; border-radius: 0.3rem;">
-                        <h2 style="font-size: 3rem; font-weight: 300; line-height: 1.2;">
+                        <h2 style="font-size: 2.5rem; font-weight: 300; line-height: 1.2;">
                         Equipo SARYM
                         </h2>
                         <p style="font-size: 1.25rem; font-weight: 300;">
                             Notificación de restablecimiento de Contraseña
                         </p>
                         <hr style="margin-top: 1.5rem !important;">
-                        <p><strong>Estimado ${formulario.nombreUsuario} ${formulario.apellidoUsuario}:<strong></p>
+                        <p><strong>Estimado/a ${formulario.nombreUsuario} ${formulario.apellidoUsuario}:<strong></p>
                         <p>Se ha solicitado un restablecimiento de contraseña del usuario <strong>${formulario.cuitUsuario}</strong> de la App de SARYM.</p>
                         <p>Para continuar con el proceso de recuperación, haga click en el siguiente enlace: 
                         <a href= ${formulario.origen}/recuperar-contrasenia/${token}>Recuperar Contraseña</a>.
@@ -75,14 +75,14 @@ module.exports = async (formulario) => {
             html: `<div style="padding-top: 60px;">
                 <div style="padding-top: 10px; width: 90%; margin: auto;">
                     <div style="padding: 2rem 3rem; margin-bottom: 2rem; background-color: #e9ecef; border-radius: 0.3rem;">
-                        <h2 style="font-size: 3rem; font-weight: 300; line-height: 1.2;">
+                        <h2 style="font-size: 2.5rem; font-weight: 300; line-height: 1.2;">
                         Equipo SARYM
                         </h2>
                         <p style="font-size: 1.25rem; font-weight: 300;">
                             Notificación de activación de cuenta de Usuario
                         </p>
                         <hr style="margin-top: 1.5rem !important;">
-                        <p><strong>Estimado ${formulario.nombreUsuario} ${formulario.apellidoUsuario}:<strong></p>
+                        <p><strong>Estimado/a ${formulario.nombreUsuario} ${formulario.apellidoUsuario}:<strong></p>
                         <p>Se ha solicitado la activación del usuario <strong>${formulario.cuitUsuario}</strong> de la App de SARYM.</p>
                         <p>Para continuar con el proceso de activación, haga click en el siguiente enlace: 
                         <a href= ${formulario.origen}/activar-usuario/${token}>Activar Cuenta de Usuario</a>.

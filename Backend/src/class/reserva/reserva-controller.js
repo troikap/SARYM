@@ -682,6 +682,7 @@ ReservaController.editarMesa = (req, res) => {
 ReservaController.editarComensal = (req, res) => {
   let locals = { detalles: [] };
   let body = req.body;
+  console.log("body  ",body)
   ReservaModelo.findOne({
     where: {
     [idtable]: body[idtable] },
