@@ -40,8 +40,17 @@ export class SearchRolComponent implements OnInit {
   }
 
   getAllElements() {
-    this.rolService.getRoles().then((res: any) => {
-      this.listaRoles = res.data;
+    this.rolService.getRoles().then((res: any) => { 
+      let arrayAFiltrar = [];
+      //DESCARTAMOS MOZOS Y CLIENTS PQ NO TIENEN ACCESO AL SISTEMA WEB.
+      let arrayFiltrado = [];
+      arrayAFiltrar = res.data;           
+      for ( let item of arrayAFiltrar ){
+        if ( item.nombreRol != "Cliente" && item.nombreRol != "Mozo" ) {
+          arrayFiltrado.push(item);
+        }
+      }
+      this.listaRoles = arrayFiltrado;
     });
   }
 

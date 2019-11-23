@@ -338,6 +338,7 @@ export class CrudRolComponent implements OnInit {
                 }
                 else if (listaFuncionesCrearRol.detalle.length > 0) {
                   _this.rolService.updateFuncionesRol(listaFuncionesCrearRol).then(response => {
+                    console.log("RESPONSE", response)
                     const titulo = "Éxito";
                     const mensaje = "Se ha actualizado el registro de Rol de forma exitrosa";
                     ($ as any).confirm({
