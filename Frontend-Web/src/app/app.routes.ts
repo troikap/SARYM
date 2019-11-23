@@ -28,7 +28,7 @@ import { CrudGestionarMenupromocionComponent } from './components/gestionar-menu
 import { AgregarProductoGestionarMenupromocionComponent } from './components/gestionar-menupromocion/agregar-producto-gestionar-menupromocion/agregar-producto-gestionar-menupromocion.component';
 import { GenerarReporteComponent } from './components/generar-reporte/generar-reporte.component';
 import { UploadComponent } from './upload/upload.component';
-import { BackupModuleComponent } from './components/backup-module/backup-module.component';
+import { BackupModuleComponent } from './components/backup-module/backup-db/backup-module.component';
 import { SearchRolComponent } from './components/abm-rol/search-rol/search-rol.component';
 import { CrudRolComponent } from './components/abm-rol/crud-rol/crud-rol.component';
 
@@ -57,6 +57,7 @@ import { CambiarEstadoPedidoComponent } from './components/cambiar-estado-pedido
 
 //IMPORT LOGUIN
 import { RecuperarContraseniaComponent } from './components/recuperar-contrasenia/recuperar-contrasenia.component';
+import { BackupAppComponent } from './components/backup-module/backup-app/backup-app/backup-app.component';
 
 const routes: Routes = [
   { path: "home", component: HomeComponent },
@@ -88,6 +89,7 @@ const routes: Routes = [
   { path: "upload/:id/:nombre/:path/:retorno", component: UploadComponent, canActivate: [RoleGuardService], data: { nombreFuncion:['Cargar Imagen Producto o Menu-Promocion']}},
   { path: "upload", component: UploadComponent, canActivate: [RoleGuardService], data: { nombreFuncion:['Cargar Imagen Producto o Menu-Promocion']}},
   { path: "backup", component: BackupModuleComponent, canActivate: [RoleGuardService], data: { nombreFuncion:['Gestionar Backup']}},
+  { path: "backupApp", component: BackupAppComponent, canActivate: [RoleGuardService], data: { nombreFuncion:['Gestionar Backup']}},
   { path: "rol", component: SearchRolComponent, canActivate: [RoleGuardService], data: { nombreFuncion:['Consulta Rol']}},
   { path: "rol_crud/:id/:accion", component: CrudRolComponent, canActivate: [RoleGuardService], data: { nombreFuncion:['Editar Rol']}},
   

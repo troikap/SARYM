@@ -107,7 +107,8 @@ export class UsuarioService {
       } );
   }
 
-  envioEmail(data){
+  envioEmail(data, tipo){
+    console.log("DATA ",data)
     let value = { 
       origen: 'http://localhost:8100', 
       email: data.emailUsuario, 
@@ -115,7 +116,7 @@ export class UsuarioService {
       apellidoUsuario: data.apellidoUsuario, 
       idUsuario: data.idUsuario, 
       cuitUsuario: data.cuitUsuario,
-      tipo: 'activar' }
+      tipo: tipo }
     return this.http
       .post(`${URL}/envioEmail`, value)
       .toPromise()

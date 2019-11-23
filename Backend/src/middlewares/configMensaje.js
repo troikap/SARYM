@@ -1,31 +1,27 @@
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 require('../config');
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'sarymresto@gmail.com', // Cambialo por tu email
+        pass: 'uszhfrzolaqtsbez' // Cambialo por tu password
+        // uszhfrzolaqtsbez
+        // sarym2019
+    }
+});
 
-module.exports = (formulario) => {
-    console.log("FORMULARIO ", formulario)
-    let mailOptions;
+module.exports = async (formulario) => {
     let EMAIL = 'sarymresto@gmail.com';
-    let ASUNTO;
-    let token; 
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'sarymresto@gmail.com', // Cambialo por tu email
-            pass: 'uszhfrzolaqtsbez' // Cambialo por tu password
-            // uszhfrzolaqtsbez
-            // sarym2019
-        }
-    });
     if ( formulario.tipo == 'recuperar') {
-        this.token = jwt.sign({
+        let token = await jwt.sign({
             idUsuario: formulario.idUsuario
         }, process.env.SEED, { expiresIn: process.env.CADUCIDAD_TOKENRECUPERACION })
-        this.ASUNTO = 'Recuperación de Contraseña';
-        this.mailOptions = {
+        let ASUNTO = 'Recuperación de Contraseña';
+        let mailOptions = {
             from: `Equipo SARYM<${EMAIL}>`,
             to: `${formulario.email}`, // Cambia esta parte por el destinatario
-            subject: this.ASUNTO,
+            subject: ASUNTO,
             html: `<div style="padding-top: 60px;">
                 <div style="padding-top: 10px; width: 90%; margin: auto;">
                     <div style="padding: 2rem 3rem; margin-bottom: 2rem; background-color: #e9ecef; border-radius: 0.3rem;">
@@ -39,7 +35,7 @@ module.exports = (formulario) => {
                         <p><strong>Estimado ${formulario.nombreUsuario} ${formulario.apellidoUsuario}:<strong></p>
                         <p>Se ha solicitado un restablecimiento de contraseña del usuario <strong>${formulario.cuitUsuario}</strong> de la App de SARYM.</p>
                         <p>Para continuar con el proceso de recuperación, haga click en el siguiente enlace: 
-                        <a href= ${formulario.origen}/recuperar-contrasenia/${this.token}>Recuperar Contraseña</a>.
+                        <a href= ${formulario.origen}/recuperar-contrasenia/${token}>Recuperar Contraseña</a>.
                         <br> 
                         Si usted no solicitó un restablecimiento de contraseña, desestime el siguiente correo.</p>
                         <br>
@@ -61,16 +57,21 @@ module.exports = (formulario) => {
                 // <a href="http://localhost:8100/recuperar-contrasenia/${token}">Recuperar Contraseña</a>
                 // `
         };
-
+        transporter.sendMail( mailOptions,  (err, info) => {
+            if ( err)
+                console.log("ERROR ", err)
+            else
+                console.log("INFORMACION ", info);
+        });
     } else if (formulario.tipo == 'activar') {
-        this.token = jwt.sign({
+        let token = await jwt.sign({
             idUsuario: formulario.idUsuario
         }, process.env.SEED, { expiresIn: process.env.CADUCIDAD_TOKENACTIVACION })
-        this.ASUNTO = 'Activación de Cuenta Usuario SARYM';
-        this.mailOptions = {
+        let ASUNTO = 'Activación de Cuenta Usuario SARYM';
+        let mailOptions = await {
             from: `Equipo SARYM<${EMAIL}>`,
             to: `${formulario.email}`, // Cambia esta parte por el destinatario
-            subject: this.ASUNTO,
+            subject: ASUNTO,
             html: `<div style="padding-top: 60px;">
                 <div style="padding-top: 10px; width: 90%; margin: auto;">
                     <div style="padding: 2rem 3rem; margin-bottom: 2rem; background-color: #e9ecef; border-radius: 0.3rem;">
@@ -84,7 +85,7 @@ module.exports = (formulario) => {
                         <p><strong>Estimado ${formulario.nombreUsuario} ${formulario.apellidoUsuario}:<strong></p>
                         <p>Se ha solicitado la activación del usuario <strong>${formulario.cuitUsuario}</strong> de la App de SARYM.</p>
                         <p>Para continuar con el proceso de activación, haga click en el siguiente enlace: 
-                        <a href= ${formulario.origen}/activar-usuario/${this.token}>Activar Cuenta de Usuario</a>.
+                        <a href= ${formulario.origen}/activar-usuario/${token}>Activar Cuenta de Usuario</a>.
                         <br>
                         Si usted no solicitó la activación de cuenta de Usuario SARYM, desestime el siguiente correo.</p>
                         <br>
@@ -106,12 +107,11 @@ module.exports = (formulario) => {
                 // <a href="http://localhost:8100/recuperar-contrasenia/${token}">Recuperar Contraseña</a>
                 // `
         };
+        transporter.sendMail( mailOptions,  (err, info) => {
+            if ( err)
+                console.log("ERROR ", err)
+            else
+                console.log("INFORMACION ", info);
+        });
     }
-
-    transporter.sendMail( this.mailOptions, function(err, info) {
-        if (err)
-            console.log("ERROR ", err)
-        else
-            console.log("INFORMACION ", info);
-    });
 }

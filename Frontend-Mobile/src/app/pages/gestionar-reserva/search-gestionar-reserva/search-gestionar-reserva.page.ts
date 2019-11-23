@@ -82,12 +82,12 @@ export class SearchGestionarReservaPage implements OnInit {
 
   realizarPedido(item) {
     let idReserva = item.data.idReserva;
-    this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}`])
+    this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}/edicion`])
   }
 
   realizarPedidoInvitado(item) {
     let idReserva = item.idReserva;
-    this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}`])
+    this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}/edicion`])
   }
 
   crearReserva() {

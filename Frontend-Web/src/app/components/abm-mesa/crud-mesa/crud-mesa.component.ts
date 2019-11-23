@@ -36,22 +36,10 @@ export class CrudMesaComponent implements OnInit {
   ) {
     this.form = this.formBuilder.group({
       idMesa: [""],
-      nroMesa: [
-        "",
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(/^([0-9]{3}|[0-9]{2}|[0-9]{1})$/)
-        ])
-      ],
-      capacidadMesa: [
-        "",
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(/^([0-9]{2}|[0-9]{1})$/)
-        ])
-      ],
+      nroMesa: ["", Validators.compose([ Validators.required, Validators.pattern(/^([0-9]{3}|[0-9]{2}|[0-9]{1})$/)])],
+      capacidadMesa: [ "",  Validators.compose([ Validators.required, Validators.pattern(/^([0-9]{2}|[0-9]{1})$/)])],
       nroUbicacion: ["", Validators.required],
-      idEstadoMesa: ["", Validators.required],
+      idEstadoMesa: [""],
       idSector: ["", Validators.required]
     });
 

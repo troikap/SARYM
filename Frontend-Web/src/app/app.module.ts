@@ -62,7 +62,7 @@ import { RoleGuardService } from './services/role-guard.service';
 import { DetallePedidoComponent } from './components/anular-pedido/detalle-pedido/detalle-pedido.component';
 import { SearchGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/search-gestionar-estado-estadia/search-gestionar-estado-estadia.component';
 import { EditGestionarEstadoEstadiaComponent } from './components/gestionar-estado-estadia/edit-gestionar-estado-estadia/edit-gestionar-estado-estadia.component';
-import { BackupModuleComponent } from './components/backup-module/backup-module.component';
+import { BackupModuleComponent } from './components/backup-module/backup-db/backup-module.component';
 import { SearchActualizarPedidosComponent } from './components/actualizar-comanda-cocina/search-pedidos/search-actualizar-pedidos.component';
 import { EnviarPedidoComponent } from './components/enviar-pedido/enviar-pedido/enviar-pedido.component';
 import { CambiarEstadoPedidoComponent } from './components/cambiar-estado-pedido/cambiar-estado-pedido/cambiar-estado-pedido.component';
@@ -70,6 +70,7 @@ import { CrudRolComponent } from './components/abm-rol/crud-rol/crud-rol.compone
 import { SearchRolComponent } from './components/abm-rol/search-rol/search-rol.component';
 import { FechaArgentinaProvider } from './providers/fechaArgentina.provider';
 import { RecuperarContraseniaComponent } from './components/recuperar-contrasenia/recuperar-contrasenia.component';
+import { BackupAppComponent } from './components/backup-module/backup-app/backup-app/backup-app.component';
 
 @NgModule({
   declarations: [
@@ -128,7 +129,8 @@ import { RecuperarContraseniaComponent } from './components/recuperar-contraseni
     BackupModuleComponent,
     CrudRolComponent,
     SearchRolComponent,
-    RecuperarContraseniaComponent
+    RecuperarContraseniaComponent,
+    BackupAppComponent
   ],
   imports: [
     BrowserModule,

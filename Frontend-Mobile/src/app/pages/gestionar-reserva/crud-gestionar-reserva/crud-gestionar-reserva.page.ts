@@ -367,6 +367,7 @@ prueba() {
             pathComensales['idReserva'] = res.id;
             this.reservaservicio.setComensalesReserva( pathComensales )
             .then( resp => {
+              console.log("COMENSALES ",resp)
               if (resp.tipo == 1 ){
                 let pathMesas= {};
                 pathMesas['detalle'] = mesas;
@@ -375,7 +376,7 @@ prueba() {
                 .then( respo => {
                   this.toastService.toastSuccess(`Reserva Creada Satisfactoriamente. N° ${res.id}`, 2500);
                   setTimeout(()=>{
-                    this.navController.navigateForward([`/seleccion-comensal/reserva/${res.id}`]);
+                    this.navController.navigateForward([`/seleccion-comensal/reserva/${res.id}/creacion`]);
                     }, 2500);
                 })
               } else {

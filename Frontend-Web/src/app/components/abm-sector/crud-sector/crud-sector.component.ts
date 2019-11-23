@@ -26,20 +26,8 @@ export class CrudSectorComponent implements OnInit {
   ) {
     this.form = this.formBuilder.group({
       idSector: [""],
-      codSector: [
-        "",
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(/^([A-Z]+|[0-9]+)+$/)
-        ])
-      ],
-      nombreSector: [
-        "",
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú0-9]+$/)
-        ])
-      ],
+      codSector: [ "", Validators.compose([ Validators.required, Validators.pattern(/^([A-Z]+|[0-9]+)+$/)])],
+      nombreSector: [ "", Validators.compose([ Validators.required, Validators.pattern(/^([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+((\s)([A-ZÑÁÉÍÓÚ]{1})[a-zñáéíóú]+)*$/)])],
       fechaYHoraBajaSector: [""]
     });
 

@@ -341,7 +341,7 @@ export class CrudGestionarEstadiaPage implements OnInit {
                   .then( respo => {
                     this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
                     setTimeout(()=>{
-                      this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}`]);
+                      this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}/creacion`]);
                       }, 2000);
                   })
                 } else {

@@ -55,8 +55,10 @@ export class SearchGestionarEstadiaPage implements OnInit {
   }
 
   realizarPedido(item) {
-    let idReserva = item.data.idReserva;
-    this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}`])
+    console.log("ESTADIA  ", item)
+
+    let idEstadia = item.idEstadia;
+    this.navController.navigateForward([`/seleccion-comensal/estadia/${idEstadia}/edicion`])
   }
 
   unirseEstadia() {

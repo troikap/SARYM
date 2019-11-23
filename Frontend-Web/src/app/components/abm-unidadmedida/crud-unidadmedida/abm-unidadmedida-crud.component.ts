@@ -177,7 +177,7 @@ export class AbmUnidadmedidaCreateComponent implements OnInit {
                   if (response.tipo == 2) {
                     const titulo = "Error";
                     const mensaje =
-                      "No se ha podido eliminar la Unidad de Medida ingresada. La misma ya está siendo usada en otra entidad.";
+                      "No se ha podido eliminar la Unidad de Medida seleccionada. La misma ya está siendo usada en otra entidad";
                     ($ as any).confirm({
                       title: titulo,
                       content: mensaje,
