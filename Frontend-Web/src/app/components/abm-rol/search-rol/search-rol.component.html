@@ -1,5 +1,18 @@
 <div class="contenedor-pagina">
     <div class="table-container">
+
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" [routerLink]="['/backup']">Base de Datos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/']">Aplicación</a>
+            </li>
+        </ul>
+
+
+
         <div class="row-buscador">
             <div class="col">
                 <input #termino id="botonBuscar" type="text" (keyup)="buscarElemento(termino.value)" class="form-control mr-sm-2" placeholder="Buscar Rol...">
