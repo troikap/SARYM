@@ -51,8 +51,7 @@ const UsuarioModelo = sequelize.define(
         type: Sequelize.BIGINT(10)
     },
     activadoUsuario: {
-        type: Sequelize.BOOLEAN,
-        define: false
+        type: Sequelize.BOOLEAN
     }
 }, {
     // options

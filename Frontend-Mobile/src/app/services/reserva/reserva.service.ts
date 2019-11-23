@@ -11,20 +11,20 @@ import { StorageService } from '../storage/storage.service';
 })
 export class ReservaService {
   
-  url = environment.urlNgrok || environment.url;
+  private url = environment.urlNgrok || environment.url;
 
-  tokenEnviroment = environment.token;
+  private tokenEnviroment = environment.token;
 
-  dir = '/reserva';
-  dir2 = '/editarComensal';
-  dir3 = '/editarMesa';
-  dir4 = '/actualizarDatos';
-  dirTodo = "/todo";
-  dirComensal = "/getToComensal";
-  dirCambiarEstado = '/cambiarEstado';
+  private dir = '/reserva';
+  private dir2 = '/editarComensal';
+  private dir3 = '/editarMesa';
+  private dir4 = '/actualizarDatos';
+  private dirTodo = "/todo";
+  private dirComensal = "/getToComensal";
+  private dirCambiarEstado = '/cambiarEstado';
 
   constructor( 
-    public http: HttpClient,
+    private http: HttpClient,
     private storage: StorageService,
   ) { }
 

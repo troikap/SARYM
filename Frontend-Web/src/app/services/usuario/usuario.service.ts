@@ -68,7 +68,7 @@ export class UsuarioService {
   }
 
   envioEmail(data){
-    let value = { origen: 'http://localhost:4200', email: data.data.emailUsuario, nombreUsuario: data.data.nombreUsuario, apellidoUsuario: data.data.apellidoUsuario, idUsuario: data.data.idUsuario, cuitUsuario: data.data.cuitUsuario }
+    let value = { origen: 'http://localhost:4200', email: data.data.emailUsuario, nombreUsuario: data.data.nombreUsuario, apellidoUsuario: data.data.apellidoUsuario, idUsuario: data.data.idUsuario, cuitUsuario: data.data.cuitUsuario , tipo: 'recuperar'}
     return this.http
       .post(`${this.url}${this.dirEnvioMail}`, value)
       .toPromise()
@@ -196,6 +196,7 @@ export class UsuarioService {
   setUsuario(datas: any): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append("token", this.tokenEnviroment);
+    datas['activadoUsuario'] = true;
     return this.http
       .post(`${this.url}${this.dir}`, datas, { headers })
       .toPromise()
