@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
 export class LogueoPage implements OnInit {
   private contadorIntentoContrasenia = environment.contRecPass;
 
-  private form: FormGroup;
+  public form: FormGroup;
   private logueo: Log;
   private invalidotitle = 'Datos Inválidos';
   private invalidomsj = 'Combinación de Usuario y Contraseña incorrectos.';

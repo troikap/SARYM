@@ -17,11 +17,11 @@ import {
   styleUrls: ["./mostrar-mesas.page.scss"]
 })
 export class MostrarMesasPage implements OnInit {
-  private mesas: Mesa[];
-  private idMesasSeleccionadas: Number[] = [];
-  private algo: any;
-  checkBoxList = [];
-  private form: FormGroup;
+  public mesas: Mesa[];
+  public idMesasSeleccionadas: Number[] = [];
+  public algo: any;
+  public checkBoxList = [];
+  public form: FormGroup;
 
   constructor(
     private mesaservicio: MesaService,

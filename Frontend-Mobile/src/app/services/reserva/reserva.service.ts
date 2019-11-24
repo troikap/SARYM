@@ -122,7 +122,7 @@ export class ReservaService {
          .put(`${this.url}${this.dir}${this.dir2}`, datas, data)
          .toPromise()
          .then(response => {
-           return response as Reserva;
+           return response;
          })
          .catch(  );
   }

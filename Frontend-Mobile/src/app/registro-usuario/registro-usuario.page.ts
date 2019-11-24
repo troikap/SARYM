@@ -15,19 +15,19 @@ import { NavController } from '@ionic/angular';
 })
 export class RegistroUsuarioPage implements OnInit {
 
-  private form: FormGroup;
-  private form1: FormGroup;
-  private form2: FormGroup;
-  private departamentos: Departamento[];
-  private newForm = {};
-  private usuario = {}
-  private id: number = 0;
-  private existenciaUsuario: boolean = false;
-  private mensajeExistenciaUsuario: string = null;
-  private nuevoUsuario: boolean = false;
-  gender: string = '';
-  isDNI: boolean = false;
-  cuitValidated: boolean = false;
+  public form: FormGroup;
+  public form1: FormGroup;
+  public form2: FormGroup;
+  public departamentos: Departamento[];
+  public newForm = {};
+  public usuario = {}
+  public id: number = 0;
+  public existenciaUsuario: boolean = false;
+  public mensajeExistenciaUsuario: string = null;
+  public nuevoUsuario: boolean = false;
+  public gender: string = '';
+  public isDNI: boolean = false;
+  public cuitValidated: boolean = false;
 
   constructor(
     private router: Router,

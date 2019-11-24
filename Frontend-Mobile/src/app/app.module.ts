@@ -26,7 +26,7 @@ import { TratarFechaProvider } from './providers/tratarFecha.provider';
 //qr
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 
 //form
 import { FormsModule , ReactiveFormsModule } from '@angular/forms';
@@ -37,13 +37,15 @@ import { BrMaskerModule } from 'br-mask';
 import { IonicSelectableModule } from 'ionic-selectable';
 
 //camera
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 
 //storage
 import { IonicStorageModule } from '@ionic/storage';
 
 //modal
 import { ModalDetalleCatalogoPage } from './modal/modal-detalle-catalogo/modal-detalle-catalogo.page';
+// import { ModalDetalleCatalogoPageModule } from './modal/modal-detalle-catalogo/modal-detalle-catalogo.module';
+
 
 
 @NgModule({

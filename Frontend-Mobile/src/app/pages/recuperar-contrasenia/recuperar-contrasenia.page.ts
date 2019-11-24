@@ -15,9 +15,9 @@ import { ToastService } from '../../providers/toast.service';
 })
 export class RecuperarContraseniaPage implements OnInit {
 
-  private form: FormGroup;
-  private token;
-  private idUsuario;
+  public form: FormGroup;
+  public token;
+  public idUsuario;
 
   constructor(
     private router: Router,

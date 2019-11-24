@@ -13,20 +13,20 @@ import { EstadiaService } from 'src/app/services/estadia/estadia.service';
 })
 export class VerQrEstadiaPage implements OnInit {
 
-    private datos;
-    private valor;
-    private qrDataCodify;
+    public datos;
+    public valor;
+    public qrDataCodify;
     public createdCode;
-    private secretCode;
-    private nameArray;
-    private name;
+    public secretCode;
+    public nameArray;
+    public name;
     public mostrar: boolean = false;
     public variable: boolean = false;
     public scannedCode;
     public idEstadia;
-    private comensal: Comensal;
-    private comensales: Comensal[] = [];
-    private tokenEstadia;
+    public comensal: Comensal;
+    public comensales: Comensal[] = [];
+    public tokenEstadia;
   
     constructor(
       private barcodeScanner: BarcodeScanner,

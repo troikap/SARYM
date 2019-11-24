@@ -22,21 +22,23 @@ import { LoaderService } from '../../../providers/loader.service';
 })
 export class CrudGestionarReservaPage implements OnInit {
 
-  private form: FormGroup;
-  private form2: FormGroup;
-  private comensal: Comensal;
-  private comensales: Comensal[] = [];
-  private mensajeExistenciaUsuario: string = null;
-  private existenciaUsuario: boolean = false;
-  private currentUsuario;
-  private mesas: Mesa[];
-  checkBoxList = [];
-  private fechaDesde;
-  private fechaHasta;
+  public form: FormGroup;
+  public form2: FormGroup;
+  public comensal: Comensal;
+  public comensales: Comensal[] = [];
+  public mensajeExistenciaUsuario: string = null;
+  public existenciaUsuario: boolean = false;
+  public currentUsuario;
+  public mesas: Mesa[];
+  public checkBoxList = [];
+  public fechaDesde;
+  public fechaHasta;
   public accionGet;
-  private idReserva = 0;
-  private reserva: Reserva;
-  private newForm = {};
+  public idReserva = 0;
+  public reserva: Reserva;
+  public newForm = {};
+  public mostrar5;
+  
   constructor(
     private formBuilder: FormBuilder,
     public toastController: ToastController,

@@ -13,16 +13,16 @@ import { ToastService } from '../../../providers/toast.service';
 })
 export class SeleccionComensalPage implements OnInit {
    
-    idEstadia;
-    idComensal;
-    currentUsuario;
-    estadia: Estadia;
-    comensales: Comensal[];
-    modificarComensal = false;
-    from;
-    private nombreUsuario;
+    public idEstadia;
+    public idComensal;
+    public currentUsuario;
+    public estadia: Estadia;
+    public comensales: Comensal[];
+    public modificarComensal = false;
+    public from;
+    public nombreUsuario;
   
-    pathDetalleComensalUsuario: {idEstadia: number, detalle: [{aliasComensal: string, edadComensal: number, idUsuario?: number}]};
+    public pathDetalleComensalUsuario: {idEstadia: number, detalle: [{aliasComensal: string, edadComensal: number, idUsuario?: number}]};
   
     constructor(
       private alertController: AlertController,
@@ -135,16 +135,14 @@ export class SeleccionComensalPage implements OnInit {
     seleccionarComensal( item ) {
       this.storage.getOneObject("comensalEstadia").then((data) => {
         if (data != null) {
-          let idComensalStorage = data[0].idComensal;
+          let idComensalStorage = data.idComensal;
           if (idComensalStorage != item.idComensal) {
             this.confirmacionComensal( item );
           }
           else {
-            this.guardarComensal(item);
             this.navController.navigateForward([`/lista-pedido/estadia/${this.idEstadia}/comensal/${item.idComensal}`])
           }
-        }
-        else {
+        } else {
           this.guardarComensal(item);
           this.navController.navigateForward([`/lista-pedido/estadia/${this.idEstadia}/comensal/${item.idComensal}`])
         }
@@ -154,11 +152,9 @@ export class SeleccionComensalPage implements OnInit {
     async guardarComensal( item ) {
       let comensal = { 
         idComensal: item.idComensal, 
-        idEstadia: this.estadia.idEstadia , 
-        // fechaReserva: this.reserva.fechaReserva, 
-        // horaEntradaReserva: this.reserva.horaEntradaReserva 
+        idEstadia: this.estadia.idEstadia
       }
-      await this.storage.addComensal( comensal )
+      await this.storage.setComensalEstadia( comensal )
     }
   
     async confirmacionComensal( item ) {
@@ -171,9 +167,6 @@ export class SeleccionComensalPage implements OnInit {
             role: 'cancel',
             cssClass: 'secondary',
             handler: () => {
-              // if (this.idEstadia && this.idComensal){
-              //   this.navController.navigateForward([`/lista-pedido/reserva/${this.idEstadia}/comensal/${this.idComensal}`])
-              // }
             }
           }, {
             text: 'Asociarme',
@@ -282,9 +275,9 @@ export class SeleccionComensalPage implements OnInit {
       this.estadiaServicie.setComensalesEstadia( path )
         .then( res => {
           if ( res.tipo == 1){
-            this.toastService.toastSuccess(`Comensal agregado Correctamente!.`, 3000)
+            this.toastService.toastSuccess(`Comensal agregado Correctamente!.`, 2000)
           } else {
-            this.toastService.toastWarning(`Comensal no se pudo crear`, 4000)
+            this.toastService.toastWarning(`Comensal no se pudo crear`, 2000)
           }
           this.traerEstadia();
         })
@@ -294,7 +287,7 @@ export class SeleccionComensalPage implements OnInit {
       if ( this.from == 'creacion' ) {
         this.navController.navigateRoot('/home')
       } else if (this.from == "edicion") {
-        this.navController.back();
+        this.navController.navigateBack('/search-gestionar-estadia');
       }
     }
   }

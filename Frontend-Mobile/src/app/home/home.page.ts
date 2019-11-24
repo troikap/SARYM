@@ -12,7 +12,7 @@ import { NavController, AlertController } from '@ionic/angular';
 export class HomePage implements OnInit {
 
   private logueo: Log;
-  private currentUsuario: string;
+  public currentUsuario: string;
   selectOption;
 
   slidesCliente = [

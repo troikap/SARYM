@@ -22,8 +22,6 @@ export class StorageService {
   ) { }
 
  addComensal(comensal): Promise<any> {
-  console.log("comensal!!!!!! : ",comensal)
-
   return this.storage.get(COMENSAL_RESERVA_KEY)
   .then( async (comensales ) => {
     let esta = false;
@@ -48,6 +46,31 @@ export class StorageService {
   })
 }
 
+setComensalEstadia(comensal): Promise<any> {
+  return this.storage.get(COMENSAL_ESTADIA_KEY)
+  .then( async (comensalStorage ) => {
+    let esta = false;
+    if (comensalStorage) {
+      if (comensalStorage.idEstadia == comensal.idEstadia ) {
+        esta = true;
+        if (comensalStorage.idComensal != comensal.idComensal) {
+          comensalStorage.idComensal = comensal.idComensal;
+          return await this.storage.set(COMENSAL_ESTADIA_KEY, comensalStorage);
+        }
+      } else {
+        if ( !esta ) {
+          comensalStorage.push(comensal)
+          console.log("Se agrego al Storage")
+          return this.storage.set(COMENSAL_ESTADIA_KEY, comensalStorage);
+        }
+
+      }
+    } else {
+      return this.storage.set(COMENSAL_ESTADIA_KEY, comensal );
+    }
+  })
+}
+
 validarComensal(): Promise<any> {
   let fechaActual = new Date();
   let numeroActual = Number(fechaActual);
@@ -56,12 +79,6 @@ validarComensal(): Promise<any> {
   .then( ( comensales ) => {
     let registrosVigentes: any[] = [];
     if (comensales) {
-      // EJEMPLO PARA ACTIVAR TOAST EN SELECCIONE COMENSAL
-      // let newElement = {fechaReserva: "2019-10-30",
-      //   horaEntradaReserva: "18:59:00",
-      //   idComensal: 20,
-      //   idReserva: 10}
-      //   registrosVigentes.push( newElement )
       for ( let element of comensales ) {
         let fecha = String(element.fechaReserva) +' '+ String( element.horaEntradaReserva);
         let fechaReserva = new Date(fecha);
@@ -70,6 +87,30 @@ validarComensal(): Promise<any> {
           // Borrar
           console.log("Se esta eliminado comensal por Vendimiento", )
           actualizarReservas.push({idReserva: element.idReserva, vencida: true, idComensal: element.idComensal})
+        } else {
+          console.log("Esta vigente")
+          registrosVigentes.push( element )
+        }
+      }
+      this.storage.set(COMENSAL_RESERVA_KEY, registrosVigentes)
+      return actualizarReservas;
+    } else {
+      return actualizarReservas;
+    }
+  })
+}
+
+eliminarComensalReserva( idComensal ): Promise<any> {
+  console.log(" COMENSAL A ELIMINAR EN STORAGE ", idComensal)
+  let actualizarReservas: any[] = [];
+  return this.storage.get(COMENSAL_RESERVA_KEY)
+  .then( ( comensales ) => {
+    let registrosVigentes: any[] = [];
+    if (comensales) {
+      for ( let element of comensales ) {
+        if ( idComensal == element.idComensal  ) {
+          // Borrar
+          console.log("Se esta eliminado comensal por Eliminacion", )
         } else {
           console.log("Esta vigente")
           registrosVigentes.push( element )

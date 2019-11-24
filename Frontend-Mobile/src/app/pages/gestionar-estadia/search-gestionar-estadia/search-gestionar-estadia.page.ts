@@ -14,6 +14,7 @@ export class SearchGestionarEstadiaPage implements OnInit {
   private currentUsuario;
   private idUsuarioLogueado: number;
   private createdCode;
+  public mostrar;
 
   constructor(
     private estadiaService: EstadiaService,

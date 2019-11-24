@@ -22,10 +22,10 @@ export class CrudGestionarEstadiaPage implements OnInit {
 
     mierda = new Date();
 
-    private form: FormGroup;
-    private form2: FormGroup;
+    public form: FormGroup;
+    public form2: FormGroup;
     private comensal: Comensal;
-    private comensales: Comensal[] = [];
+    public comensales: Comensal[] = [];
     private mensajeExistenciaUsuario: string = null;
     private existenciaUsuario: boolean = false;
     private currentUsuario;
@@ -35,7 +35,7 @@ export class CrudGestionarEstadiaPage implements OnInit {
     private fechaHasta;
     public accionGet;
     private idEstadia = 0;
-    private estadia: Estadia;
+    public estadia: Estadia;
     private newForm = {};
     constructor(
       private formBuilder: FormBuilder,

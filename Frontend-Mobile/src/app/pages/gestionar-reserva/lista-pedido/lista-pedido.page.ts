@@ -36,7 +36,6 @@ export class ListaPedidoPage implements OnInit {
     console.log("PAGE SeleccionComensalPage")
     this.activatedRoute.params
       .subscribe(params => {
-        console.log("PARAMETROS ", params)
         this.idReserva = params.idReserva;
         this.idComensal = params.idComensal;
       })
@@ -44,20 +43,16 @@ export class ListaPedidoPage implements OnInit {
   }
 
   ionViewWillEnter(){
-    console.log("PRIMERO ")
     this.traerReserva();
   }
 
   ionViewDidEnter(){
-    console.log("SEGUNDO ")
   }
 
   ionViewWillLeave(){
-    console.log("TERCERO ")
   }
 
   ionViewDidLeave(){
-    console.log("CUARTO ")
   }
 
   async traerReserva(){
@@ -117,10 +112,10 @@ export class ListaPedidoPage implements OnInit {
         this.pedidoService.updatePedido(pathCodigo)
         .then( res => {
           if ( res.tipo == 1){
-            this.toastService.toastSuccess(`Pedido N° ${resp.id} creado!`, 3000)
+            this.toastService.toastSuccess(`Pedido N° ${resp.id} creado!`, 2000)
             this.traerReserva();
           } else {
-            this.toastService.toastWarning(`Pedido N° ${resp.id} creado!. No se pudo actualizar Codigo.`, 4000)
+            this.toastService.toastWarning(`Pedido N° ${resp.id} creado!. No se pudo actualizar Codigo.`, 3000)
           }
         })
       }
@@ -201,9 +196,9 @@ export class ListaPedidoPage implements OnInit {
               this.pedidoService.cambiarEstado( pathPedidoEstado)
               .then( res => {
                 if (res.tipo == 1){
-                  this.toastService.toastSuccess(`Pedido N° ${data.idPedido} Anulado!`, 3000)
+                  this.toastService.toastSuccess(`Pedido N° ${data.idPedido} Anulado!`, 2000)
                 } else {
-                  this.toastService.toastWarning(`Problemas al intentar anular Pedido N° ${data.idPedido}.`, 4000)
+                  this.toastService.toastWarning(`Problemas al intentar anular Pedido N° ${data.idPedido}.`, 3000)
                 }
                 this.traerReserva();
               })

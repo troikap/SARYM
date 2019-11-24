@@ -187,9 +187,9 @@ export class PedidoCatalogoPage implements OnInit {
                 this.pedidoService.setDetallePedidoProducto( pathDetalle )
                 .then( res => {
                   if ( res.tipo == 1){
-                    this.toastService.toastSuccess(`Detalle creado!. ${nombre} agregado a su Pedido.`, 3000)
+                    this.toastService.toastSuccess(`Detalle creado!. ${nombre} agregado a su Pedido.`, 2000)
                   } else {
-                    this.toastService.toastWarning(`Detalle no se pudo crear`, 4000)
+                    this.toastService.toastWarning(`Detalle no se pudo crear`, 2500)
                   }
                 })
               } else {
