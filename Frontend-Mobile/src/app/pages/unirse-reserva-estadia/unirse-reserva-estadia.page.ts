@@ -61,7 +61,7 @@ export class UnirseReservaEstadiaPage implements OnInit {
       })
       .catch(err => {
         console.log('Error', err);
-        this.qrDataCodify = 'UkVTRVJWQS0yLTE3LTIwMTktMTEtMjEvMTU6MjY=';
+        this.qrDataCodify = 'UkVTRVJWQS0yLTE3LTIwMTktMTEtMjUvMTQ6MzQ=';
         this.presentAlert()
       });
     }
@@ -111,7 +111,7 @@ export class UnirseReservaEstadiaPage implements OnInit {
                 console.log('Confirm Okay');
                 // ACA TENDRIA QUE IR A MOSTRAR LA ESTADIA PARA SELECCIONAR EL COMENSAL
                 this.insertarReservaEstadiaComensalStorage();
-                this.navController.navigateForward(`seleccion-comensal/${this.rutaTipo}/${this.idReservaEstadia}`)
+                this.navController.navigateForward(`seleccion-comensal/${this.rutaTipo}/${this.idReservaEstadia}/creacion`)
               }
             }
           ],
@@ -127,7 +127,8 @@ export class UnirseReservaEstadiaPage implements OnInit {
 
       let reservaEstadia = {
         idReservaEstadia: this.idReservaEstadia,
-        idUsuarioCreador: this.idUsuario
+        idUsuarioCreador: this.idUsuario,
+        tipo: this.rutaTipo
       }
       this.storage.setOneObject(this.rutaTipo, reservaEstadia);
     }

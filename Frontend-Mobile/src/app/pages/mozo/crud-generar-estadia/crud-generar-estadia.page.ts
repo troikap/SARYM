@@ -93,6 +93,15 @@ export class CrudGenerarEstadiaPage implements OnInit {
   ngOnInit() {
     this.tratarFecha();
   }
+
+  goBack() {
+    if ( this.origenDatos == 'confReserva' ) {
+      this.navController.navigateRoot('/home');
+    } else if (this.origenDatos == "estadia") {
+      console.log("*************************VERIFICAR A DONDE SE DEBE DIRIGIR*************************");
+      //this.navController.navigateBack('/search-gestionar-reserva');
+    }
+  }
   
   loadCurrentUsuario() {
     this.storage.getCurrentUsuario().then((data) => {

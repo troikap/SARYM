@@ -12,10 +12,10 @@ import { NavController,  AlertController, ToastController } from '@ionic/angular
 export class SearchGestionarReservaPage implements OnInit {
   
   public listaReservas: any [] = [];
-  public reservaInvitado: any;
-  private currentUsuario;
-  private idUsuarioLogueado: number;
-  public nombreUsuario;
+  public reservaInvitado: any = null;
+  private currentUsuario = null;
+  private idUsuarioLogueado: number = 0;
+  public nombreUsuario = null;
   public traeReservasInvitado = false;
 
   constructor(
@@ -29,6 +29,25 @@ export class SearchGestionarReservaPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  doRefresh(event) {
+    
+    this.resetDatos();
+    this.loadCurrentUsuario();
+
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
+  }
+
+  resetDatos() {
+    this.listaReservas = [];
+    this.reservaInvitado = null;
+    this.currentUsuario = null;
+    this.idUsuarioLogueado = 0;
+    this.nombreUsuario = null;
+    this.traeReservasInvitado = false;
   }
 
   loadCurrentUsuario() {
