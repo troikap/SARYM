@@ -104,7 +104,7 @@ export class HomePage implements OnInit {
         page = `/pedidos-a-enviar`;
         break;
       case "confirmar-reserva":
-        page = `/confirar-reserva`;
+        page = `/confirmar-reserva`;
         break;
     }
     this.navController.navigateForward(page);

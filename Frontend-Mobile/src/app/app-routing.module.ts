@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'consultar-salon', loadChildren: './pages/mozo/consultar-salon/consultar-salon.module#ConsultarSalonPageModule' },
   { path: 'pedidos-a-enviar', loadChildren: './pages/mozo/pedidos-a-enviar/pedidos-a-enviar.module#PedidosAEnviarPageModule' },
   { path: 'mostrar-mesas', loadChildren: './pages/mozo/generar-estadia/mostrar-mesas/mostrar-mesas.module#MostrarMesasPageModule' },
-  { path: 'confirar-reserva', loadChildren: './pages/mozo/confirar-reserva/confirar-reserva.module#ConfirarReservaPageModule' },
+  { path: 'confirmar-reserva', loadChildren: './pages/mozo/confirmar-reserva/confirmar-reserva.module#ConfirmarReservaPageModule' },
   { path: 'crud-generar-estadia/:id/:accion/:tipo', loadChildren: './pages/mozo/crud-generar-estadia/crud-generar-estadia.module#CrudGenerarEstadiaPageModule' },
 
 // invitado

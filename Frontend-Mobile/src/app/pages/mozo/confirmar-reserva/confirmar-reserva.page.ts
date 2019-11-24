@@ -10,11 +10,11 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 import { ToastService } from 'src/app/providers/toast.service';
 
 @Component({
-  selector: 'app-confirar-reserva',
-  templateUrl: './confirar-reserva.page.html',
-  styleUrls: ['./confirar-reserva.page.scss'],
+  selector: 'app-confirmar-reserva',
+  templateUrl: './confirmar-reserva.page.html',
+  styleUrls: ['./confirmar-reserva.page.scss'],
 })
-export class ConfirarReservaPage implements OnInit {
+export class ConfirmarReservaPage implements OnInit {
 
   private qrDataCodify;
   public createdCode;
@@ -95,13 +95,11 @@ export class ConfirarReservaPage implements OnInit {
             role: 'cancel',
             cssClass: 'secondary',
             handler: (blah) => {
-              console.log('Confirm Cancel');
               this.navController.navigateBack('/home');
             }
           }, {
-            text: 'Unirse',
+            text: 'Confirmar',
             handler: () => {
-              console.log('Confirm Okay');
               this.navController.navigateForward(`crud-generar-estadia/${this.idReserva}/editar/confReserva`)
             }
           }
