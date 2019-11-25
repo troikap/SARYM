@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 import { UsuarioService } from '../../../services/usuario/usuario.service';
 import { ReservaService } from '../../../services/reserva/reserva.service';
 import { MesaService } from '../../../services/mesa/mesa.service';
@@ -22,14 +22,14 @@ import { EstadiaService } from 'src/app/services/estadia/estadia.service';
 })
 export class CrudGenerarEstadiaPage implements OnInit {
   
-  public form: FormGroup;
-  public form2: FormGroup;
-  public comensal: Comensal;
+  public form: FormGroup = null;
+  public form2: FormGroup = null;
+  public comensal: Comensal = null;
   public comensales: Comensal[] = [];
   public mensajeExistenciaUsuario: string = null;
   public existenciaUsuario: boolean = false;
   public currentUsuario;
-  public mesas: Mesa[];
+  public mesas: Mesa[] = [];
   public checkBoxList = [];
   public fechaDesde;
   public fechaHasta;
@@ -37,8 +37,8 @@ export class CrudGenerarEstadiaPage implements OnInit {
   public idReserva = 0;
   public idEstadia = 0;
   public tipo;
-  public reserva: Reserva;
-  public estadia: Estadia;
+  public reserva: Reserva = null;
+  public estadia: Estadia = null;
   public newForm = {};
   public origenDatos;
 
@@ -65,10 +65,10 @@ export class CrudGenerarEstadiaPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private tratarFechaProvider: TratarFechaProvider,
     private alertService: AlertService,
+    private alertController: AlertController,
     private toastService: ToastService,
     private loaderService: LoaderService
   ) { 
-    
     this.form = this.formBuilder.group({
       cantPersonas: ['', Validators.required],
       idMesa: [null, Validators.required],
@@ -84,14 +84,13 @@ export class CrudGenerarEstadiaPage implements OnInit {
       else if (this.origenDatos == "estadia") {
         this.idEstadia = params.id;
       }
-      
-      this.loadCurrentUsuario();
-      this.traerMesas();
     });
   }
 
   ngOnInit() {
     this.tratarFecha();
+    this.loadCurrentUsuario();
+    this.traerMesas();
   }
 
   goBack() {
@@ -106,14 +105,6 @@ export class CrudGenerarEstadiaPage implements OnInit {
   loadCurrentUsuario() {
     this.storage.getCurrentUsuario().then((data) => {
       this.currentUsuario = data;
-      // if (this.origenDatos == "confReserva" || (this.origenDatos == "estadia" && this.accionGet == "crear")) {
-      //   this.comensales.push({
-      //     aliasComensal: `${this.currentUsuario.nombreUsuario} ${this.currentUsuario.apellidoUsuario}`,
-      //     edadComensal: 20,
-      //     idUsuario: this.currentUsuario.id,
-      //     cuitUsuario: this.currentUsuario.cuit
-      //   })
-      // }
     })
   }
 
@@ -130,7 +121,6 @@ export class CrudGenerarEstadiaPage implements OnInit {
       }
       if (this.accionGet == "crear") {
         console.log("CREANDO");
-        this.resetComensal();
       }
       else if (this.accionGet == "editar") {
         console.log("EDITANDO");
@@ -139,10 +129,22 @@ export class CrudGenerarEstadiaPage implements OnInit {
         }
         else {
           this.traerEstadia();
-          this.resetComensal();
         }
       }
+      this.resetComensal();
     })
+  }
+
+  traerComensales(comensales) {
+    let comensal;
+    for (let i = 0; i < comensales.length; i++) {
+      comensal = {};
+      comensal = comensales[i];
+      if (comensales[i].usuario) {
+        comensal['cuitUsuario'] = comensales[i].usuario.cuitUsuario;
+      }
+      this.comensales.push(comensal);
+    }
   }
   
   traerReserva() {
@@ -159,16 +161,8 @@ export class CrudGenerarEstadiaPage implements OnInit {
           console.log("TrearReserva: ", this.reserva);
 
           // Comensales
-          let comensal;
-          console.log("COMENSALES" , res.comensals)
-          for (let i = 0; i < res.comensals.length; i++) {
-            comensal = {};
-            comensal = res.comensals[i];
-            if (res.comensals[i].usuario) {
-              comensal['cuitUsuario'] = res.comensals[i].usuario.cuitUsuario;
-            }
-            this.comensales.push(comensal);
-          }
+          console.log("COMENSALES" , res.comensals);
+          this.traerComensales(res.comensals);
           // Fechas
           // this.horaEntradaReserva = this.reserva.horaEntradaReserva;
           // this.horaSalidaReserva = this.reserva.horaSalidaReserva;
@@ -223,16 +217,9 @@ export class CrudGenerarEstadiaPage implements OnInit {
           console.log("TrearEstadia: ", this.estadia);
 
           // Comensales
-          let comensal;
-          console.log("COMENSALES" , res.comensals)
-          for (let i = 0; i < res.comensals.length; i++) {
-            comensal = {};
-            comensal = res.comensals[i];
-            if (res.comensals[i].usuario) {
-              comensal['cuitUsuario'] = res.comensals[i].usuario.cuitUsuario;
-            }
-            this.comensales.push(comensal);
-          }
+          console.log("COMENSALES" , res.comensals);
+          this.traerComensales(res.comensals);
+
           this.newForm = {
             cantPersonas: this.estadia.cantPersonas,
             idMesa: null     
@@ -322,7 +309,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
     this.comensales[0].edadComensal = Number(valor.target.value)
   }
 
-  validarExistenciaUsuario(){
+  agregarNuevoComensal(){
     console.log("Validar Existencia")
     const cuit = this.form2.value.cuitUsuario;
     console.log(cuit)
@@ -337,9 +324,13 @@ export class CrudGenerarEstadiaPage implements OnInit {
             cuitUsuario: this.form2.value.cuitUsuario,
             idUsuario: res.data.idUsuario
           }
-          this.comensales.push(this.comensal);
-          this.resetComensal();
-          this.toastService.toastSuccess("Comensal Agregado", 2500);
+
+          if(this.origenDatos == "confReserva") {
+            this.crearComensalReserva();
+          }
+          else { //es estadia
+            this.crearComensalEstadia();
+          }
         } else {
           this.existenciaUsuario = false;
           this.mensajeExistenciaUsuario = res.descripcion;
@@ -353,23 +344,245 @@ export class CrudGenerarEstadiaPage implements OnInit {
         aliasComensal: this.form2.value.aliasComensal,
         edadComensal: this.form2.value.edadComensal
       }
+
+      if(this.origenDatos == "confReserva") {
+        this.crearComensalReserva();
+      }
+      else { //es estadia
+        this.crearComensalEstadia();
+      }
+    }
+  }
+
+  crearComensalReserva() {
+    let comenz = [];
+    comenz.push(this.comensal);
+
+    let pathComensales= {};
+    pathComensales['detalle'] = comenz;
+    pathComensales['idReserva'] = this.idReserva;
+
+    this.reservaservicio.setComensalesReserva( pathComensales )
+    .then( resp => {
+      console.log("COMENSALES ",resp)
+      if (resp.tipo == 1 ){
+        // this.comensales.push(this.comensal);
+        this.resetComensal();
+        this.toastService.toastSuccess("Comensal Agregado", 2500);
+
+        this.actualizarComensales();
+      }
+      else {
+        this.toastService.toastWarning("Ha ocurrido un error al crear al Comensal en la Reserva", 2500);
+      }
+    });
+  }
+  crearComensalEstadia() {
+    let comenz = [];
+    comenz.push(this.comensal);
+
+    let pathComensales= {};
+    pathComensales['detalle'] = comenz;
+    
+    if (this.accionGet == "editar") { // Creo Comensal
+
+      pathComensales['idEstadia'] = this.idEstadia;
+
+      this.estadiaServicio.setComensalesEstadia( pathComensales )
+      .then( resp => {
+        if (resp.tipo == 1 ){
+          // this.comensales.push(this.comensal);
+          this.resetComensal();
+          this.toastService.toastSuccess("Comensal Agregado", 2500);
+
+          this.actualizarComensales();
+        }
+        else {
+          this.toastService.toastWarning("Ha ocurrido un error al crear al Comensal en la Estadía", 2500);
+        }
+      });
+    }
+    else { // this.accionGet == "crear" --> No creo Comensal.
       this.comensales.push(this.comensal);
       this.resetComensal();
       this.toastService.toastSuccess("Comensal Agregado", 2500);
     }
   }
 
-  nuevoComensal() {
-    this.validarExistenciaUsuario();
+  actualizarComensales() {
+    this.comensales = [];
+    
+    if (this.idEstadia != 0) {
+      this.estadiaServicio.getEstadia(this.idEstadia)
+      .then( res => {
+        // Comensales
+        console.log("COMENSALES" , res.comensals);
+        this.traerComensales(res.comensals);
+      });
+    }
+    else if (this.idReserva != 0) {
+      this.reservaservicio.getReserva(this.idReserva)
+      .then( res => {
+        // Comensales
+        console.log("COMENSALES" , res.comensals);
+        this.traerComensales(res.comensals);
+      });
+    }
   }
 
-  eliminarComensal( num: number){
-    if (  this.comensales[num].idComensal ) {
-      this.comensales[num].baja = true;
-    } else {
-      this.comensales.splice(num,1);
+  nuevoComensal() {
+    this.agregarNuevoComensal();
+  }
+
+  eliminarComensal( num: number, idComensal){
+    this.confirmarEliminado(num, idComensal);
+  }
+
+  cargarPedido(num: number) {
+    if (this.origenDatos == "confReserva") { //Pedidos para Reserva
+      this.navController.navigateForward([`/lista-pedido/reserva/${this.idReserva}/comensal/${num}`]);
     }
-    this.toastService.toastSuccess("Comensal Eliminado", 2000);
+    else { // Pedidos para Estadía
+      this.navController.navigateForward([`/lista-pedido/reserva/${this.idEstadia}/comensal/${num}`]);
+    }    
+  }
+
+  async confirmarEliminado(num: number, idComensal) {
+
+    console.log("idComensal: ", idComensal);
+
+    const alert = await this.alertController.create({
+      header: 'Confirmar',
+      message: `¿Desea Eliminar el comensal seleccionado?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: ( resp ) => {
+            // no hacer nada
+          }
+        }, {
+          text: 'Eliminar Comensal',
+          handler: () => {
+            if (this.origenDatos == "confReserva") {
+              let pathComensal = { 
+                idReserva: this.idReserva,
+                detalle: [ 
+                  { 
+                    idComensal: idComensal, 
+                    baja: true
+                  }
+                ]
+              };
+              this.reservaservicio.setComensalesReserva(pathComensal)
+              .then( respuesta => {
+                if (respuesta.tipo == 1){
+                  this.toastService.toastSuccess('Comensal eliminado correctamente.', 1500)
+                  this.actualizarComensales();
+                } else {
+                  this.ConfirmarEliminarComensalAsociado('Confirmar Eliminado', 'El Comensal posee pedidos asociados. ¿Desea eliminar el Comensal con todos sus Pedidos?', pathComensal, idComensal);
+                }
+              }).catch( error => {
+                console.log("ERROR ", error)
+              });
+            }
+            else if (this.origenDatos == "estadia" && this.accionGet == "editar") {
+              let pathComensal = { 
+                idEstadia: this.idEstadia,
+                detalle: [ 
+                  { 
+                    idComensal: idComensal, 
+                    baja: true
+                  }
+                ]
+              };
+              this.estadiaServicio.setComensalesEstadia(pathComensal)
+              .then( respuesta => {
+                if (respuesta.tipo == 1){
+                  this.toastService.toastSuccess('Comensal eliminado correctamente.', 1500)
+                  this.actualizarComensales();
+                } else {
+                  this.ConfirmarEliminarComensalAsociado('Confirmar Eliminado', 'El Comensal posee pedidos asociados. ¿Desea eliminar el Comensal con todos sus Pedidos?', pathComensal, idComensal);
+                }
+              }).catch( error => {
+                console.log("ERROR ", error)
+              });
+            }
+            else { // this.origenDatos == "estadia" && this.accionGet == "crear"
+              if ( this.comensales[num].idComensal ) {
+                this.comensales[num].baja = true;
+              } else {
+                this.comensales.splice(num,1);
+              }
+              this.toastService.toastSuccess("Comensal Eliminado", 2000);
+            }
+          }
+        }
+      ],
+      cssClass: 'alertWarning',
+    });
+    await alert.present();
+  } 
+
+  async ConfirmarEliminarComensalAsociado(pTitulo: string, pMensaje: string, pathComensal, idComensal: number) {
+    const alert = await this.alertController.create({
+      header: pTitulo,
+      message: pMensaje,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Cancelado');
+          }
+        }, {
+          text: 'Eliminar',
+          handler: ( info ) => {
+            if (this.origenDatos == "estadia" && this.accionGet == "editar") { //Verificar Pedidos de Estadía
+              if (this.verificarEliminarComensalEstadia(idComensal)) {
+                console.log("Obligar eliminacion de comensal con pedidos asociados")
+                this.reservaservicio.setComensalesReserva(pathComensal, true)
+                .then( respuesta => {
+                  if ( respuesta.tipo == 1 ){
+                    this.toastService.toastSuccess(`Comensal eliminado Correctamente con todos sus Pedidos asociados.`, 2500)
+                    this.actualizarComensales();
+                  }
+                })
+              }
+              else {
+                this.toastService.toastError(`No se ha podido eliminar el Comensal. El mismo posee Pedidos Finalizados o Pendientes de Pago.`, 3000)
+              }
+            }
+            else {
+              console.log("Obligar eliminacion de comensal con pedidos asociados")
+              this.reservaservicio.setComensalesReserva(pathComensal, true)
+              .then( respuesta => {
+                if ( respuesta.tipo == 1 ){
+                  this.toastService.toastSuccess(`Comensal eliminado Correctamente con todos sus Pedidos asociados.`, 2500)
+                  this.actualizarComensales();
+                }
+              })
+            }
+          }
+        }
+      ],
+      cssClass: 'alertWarning',
+    })
+    await alert.present();
+  }
+
+  verificarEliminarComensalEstadia (idComensal: number): boolean { 
+    //Si al menos un pedido se encuentra en ciertos estados, NO permitir eliminar Comensal
+    for (let item of this.estadia.pedidos) {
+      if (idComensal == item.idComensal) {
+        let estadoPedido = item['pedidoestados'][0].idPedidoEstado;
+        if (estadoPedido == 5 || estadoPedido == 6 || estadoPedido == 7 ) { // Que no permite si estado es: Finalizado, Finalizado Sin Pagar, Pendiente de Pago
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   async crearEditarEstadia() {

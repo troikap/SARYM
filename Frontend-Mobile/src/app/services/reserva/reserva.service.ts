@@ -124,7 +124,9 @@ export class ReservaService {
          .then(response => {
            return response;
          })
-         .catch(  );
+         .catch( err => {
+          console.log("Error ", err)
+        })
   }
 
   setMesasReserva( datas ): Promise<any> {

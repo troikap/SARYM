@@ -93,7 +93,7 @@ export class ListaPedidoPage implements OnInit {
 
   eliminarPedido(item) {
     console.log("Logica eliminarPedido")
-    this.Confirm("Confirmacion!", "Está seguro que desea eliminar el Pedido?", item)
+    this.Confirm("Confirmacion!", "¿Está seguro que desea eliminar el Pedido?", item)
   }
 
   crearPedido() {
@@ -151,7 +151,7 @@ export class ListaPedidoPage implements OnInit {
       tipo = "Promocion";
       nombre = item.menupromocion.nombreMenuPromocion;
     }
-    this.ConfirmEdit(`Modificar ${tipo}`, `Desea modificar ${tipo} ${nombre} del pedido N° ${idPedido}? Por favor Ingrese cantidad.`, item, idPedido)
+    this.ConfirmEdit(`Modificar ${tipo}`, `¿Desea modificar ${tipo} ${nombre} del pedido N° ${idPedido}? Por favor Ingrese cantidad.`, item, idPedido)
   }
 
   eliminarDetalle (item, idPedido) {
@@ -168,7 +168,7 @@ export class ListaPedidoPage implements OnInit {
       tipo = "Promocion";
       nombre = item.menupromocion.nombreMenuPromocion;
     }
-    this.ConfirmDelete(`Eliminar ${tipo}!`, `Desea eliminar ${tipo} ${nombre} del pedido N° ${idPedido}?`, item, idPedido)
+    this.ConfirmDelete(`Eliminar ${tipo}!`, `¿Desea eliminar ${tipo} ${nombre} del pedido N° ${idPedido}?`, item, idPedido)
   }
 
 
@@ -204,7 +204,8 @@ export class ListaPedidoPage implements OnInit {
               })
           }
         }
-      ]
+      ],
+      cssClass: 'alertWarning',
     });
     await alert.present();
   }
@@ -261,7 +262,8 @@ export class ListaPedidoPage implements OnInit {
             }
           }
         }
-      ]
+      ],
+      cssClass: 'alertPrimary'
     });
     await alert.present();
   }
@@ -300,7 +302,8 @@ export class ListaPedidoPage implements OnInit {
             })
           }
         }
-      ]
+      ],
+      cssClass: 'alertWarning'
     });
     await alert.present();
   }

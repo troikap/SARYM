@@ -182,24 +182,43 @@ export class SeleccionComensalPage implements OnInit {
           }
         }
       ],
-      cssClass: 'alert',
+      cssClass: 'alertPrimary',
     });
     await alert.present();
   } 
 
-  eliminarComensal( item ) {
-    let pathComensal = { idReserva: this.idReserva,detalle: [ { idComensal: item['idComensal'], baja: true}]};
-    this.reservaServicio.setComensalesReserva(pathComensal)
-    .then( respuesta => {
-      if (respuesta.tipo == 1){
-        this.toastService.toastSuccess('Comensal eliminado correctamente.', 1500)
-        this.traerReserva();
-      } else {
-        this.ConfirmarEliminarComensalAsociado('Problemas al Eliminar', 'El Comensal posee pedidos asociados, desea eliminar Comensal con sus Pedidos asociados?', pathComensal);
-      }
-    }).catch( error => {
-      console.log("ERROR ", error)
-    })
+  async eliminarComensal( item ) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar',
+      message: `¿Desea Eliminar el comensal seleccionado?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: ( resp ) => {
+            // no hacer nada
+          }
+        }, {
+          text: 'Eliminar Comensal',
+          handler: () => {
+            let pathComensal = { idReserva: this.idReserva,detalle: [ { idComensal: item['idComensal'], baja: true}]};
+            this.reservaServicio.setComensalesReserva(pathComensal)
+            .then( respuesta => {
+              if (respuesta.tipo == 1){
+                this.toastService.toastSuccess('Comensal eliminado correctamente.', 1500)
+                this.traerReserva();
+              } else {
+                this.ConfirmarEliminarComensalAsociado('Confirmar Eliminado', 'El Comensal posee pedidos asociados. ¿Desea eliminar el Comensal con todos sus Pedidos?', pathComensal);
+              }
+            }).catch( error => {
+              console.log("ERROR ", error)
+            });
+          }
+        }
+      ],
+      cssClass: 'alertWarning',
+    });
+    await alert.present();
   }
 
   crearComensal() {
@@ -256,7 +275,8 @@ export class SeleccionComensalPage implements OnInit {
             }
           }
         }
-      ]
+      ],
+      cssClass: 'alertPrimary',
     });
     await alert.present();
   }
@@ -281,7 +301,8 @@ export class SeleccionComensalPage implements OnInit {
             this.agregarNuevoComensal(this.pathDetalleComensalUsuario)
           }
         }
-      ]
+      ],
+      cssClass: 'alertPrimary',
     })
     await alert.present();
   }
@@ -317,14 +338,15 @@ export class SeleccionComensalPage implements OnInit {
             this.reservaServicio.setComensalesReserva(pathComensal, true)
             .then( respuesta => {
               if ( respuesta.tipo == 1 ){
-                this.toastService.toastSuccess(`Comensal eliminado Correctamente con sus Pedidos asociados.`, 2500)
+                this.toastService.toastSuccess(`Comensal eliminado Correctamente con todos sus Pedidos asociados.`, 2500)
                 this.storageService.eliminarComensalReserva( pathComensal.detalle[0].idComensal )
                 this.traerReserva();
               }
             })
           }
         }
-      ]
+      ],
+      cssClass: 'alertWarning',
     })
     await alert.present();
   }

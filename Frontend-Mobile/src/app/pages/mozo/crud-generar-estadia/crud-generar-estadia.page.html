@@ -85,7 +85,21 @@
             <ion-col size="9">
                 <h1 padding>Comensal </h1>
             </ion-col>
+            <ion-col>
+                <ion-button (click)="mostrar = !mostrar">
+                    <ion-icon name="help"> </ion-icon>
+                </ion-button>
+            </ion-col>
         </ion-row>
+        <div class="input-group-append" *ngIf="mostrar">
+            <button class="btn btn-clear btn-dark tooltip-custom" type="button" (click)="mostrar = !mostrar">
+                    <div class="tooltip-container">
+                    <p class="averageTicketSize"><b>Agregar Comensal</b></p>
+                    <p class="description">Usted puede agregar cuantos comensales quiera. Usted podrá dar permisos para que ingresen a su "Reserva" o "Estadía".</p>
+                    <i></i>
+                </div>
+            </button>
+        </div>
         <ion-item>
             <ion-label padding color="primary" position="floating">Alias Comensal</ion-label>
             <ion-input class="form-control" type="text" placeholder="Alias" formControlName="aliasComensal" id="aliasComensal"></ion-input>
@@ -99,6 +113,24 @@
             <ion-input class="form-control" type="number" placeholder="Cuit del Usuario" formControlName="cuitUsuario" id="cuitUsuario"></ion-input>
         </ion-item>
         <p class="input-error-msg" *ngIf="!existenciaUsuario">{{mensajeExistenciaUsuario}}</p>
+        <ion-row>
+            <ion-col></ion-col>
+            <ion-col size="2">
+                <ion-button (click)="mostrar2 = !mostrar2">
+                    <ion-icon name="help"> </ion-icon>
+                </ion-button>
+            </ion-col>
+            <ion-col></ion-col>
+        </ion-row>
+        <div class="input-group-append" *ngIf="mostrar2">
+            <button class="btn btn-clear btn-dark tooltip-custom" type="button" (click)="mostrar2 = !mostrar2">
+            <div class="tooltip-container">
+              <p class="averageTicketSize"><b>Como pedir Cuit de Usuario?</b></p>
+              <p class="description">Si dicho comensal esta registrado en nuestra aplicación, ¡Pídele su número de Cuit!.</p>
+              <i></i>
+            </div>
+          </button>
+        </div>
     </form>
     <ion-button *ngIf="form2" class="mt-10" (click)="nuevoComensal()" [disabled]="!form2.valid" expand="full" shape="round">Agregar Comensal</ion-button>
     <ion-card *ngFor="let comen of comensales; let i = index">
@@ -113,7 +145,8 @@
                 Usuario: {{comen.idUsuario}} - Cuit: {{comen.cuitUsuario}}
             </ion-card-subtitle>
         </ion-card-header>
-        <ion-button color="danger" class="mt-10" (click)="eliminarComensal(i)" shape="round" *ngIf="!comen.baja"> Eliminar</ion-button>
+        <ion-button color="danger" class="mt-10" (click)="eliminarComensal(i, comen.idComensal)" shape="round" *ngIf="!comen.baja">Eliminar</ion-button>
+        <ion-button color="success" class="mt-10" (click)="cargarPedido(comen.idComensal)" shape="round" *ngIf="!comen.baja && (idEstadia != 0 || idReserva != 0)">Cargar Pedidos</ion-button>
     </ion-card>
     <ion-button *ngIf="accionGet == 'editar' && origenDatos == 'confReserva'" class="mt-10" (click)="crearEditarEstadia()" [disabled]="!form.valid" expand="full">Confirmar Reserva</ion-button>
     <ion-button *ngIf="accionGet == 'crear'" class="mt-10" (click)="crearEditarEstadia()" [disabled]="!form.valid" expand="full">Crear Estadía</ion-button>
