@@ -924,6 +924,23 @@
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
 					"response": []
+				},
+				{
+					"name": "Get Pago :idEstadia",
+					"request": {
+						"url": "localhost:3000/estadia/getToUsuario/1",
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Trae todos los Usuarios"
+					},
+					"response": []
 				}
 			]
 		},
@@ -1102,7 +1119,38 @@
 				{
 					"name": "Put Reserva editarComensal",
 					"request": {
-						"url": "localhost:3000/reserva/editarComensal",
+						"url": {
+							"raw": "localhost:3000/reserva/editarComensal?algo=algo&otra cosa=hola&aa",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"reserva",
+								"editarComensal"
+							],
+							"query": [
+								{
+									"key": "algo",
+									"value": "algo",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "otra cosa",
+									"value": "hola",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "aa",
+									"value": "",
+									"equals": false,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -1118,14 +1166,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idReserva\":3,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"aliasComensal\": \"Roberto\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 1\n\t\t}\n\t],\n\t\"detalle PARA EDITAR\" :[\n\t\t{\n\t\t\t\"idComensal\": 100,\n\t\t\t\"aliasComensal\": \"Maria\",\n\t\t\t\"edadComensal\": 30,\n\t\t\t\"idUsuario\": 4\n\t\t},\n\t\t{\n\t\t\t\"idComensal\": 101,\n\t\t\t\"aliasComensal\": \"Lucrecio\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 2\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idComensal\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idComensal\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"aliasComensal\": \"Roberto\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 1\n\t\t},\n\t\t{\n\t\t\t\"aliasComensal\": \"Elian\",\n\t\t\t\"edadComensal\": 25,\n\t\t\t\"idUsuario\": 2\n\t\t}\n\t]\n}"
+							"raw": "{\n\t\"idReserva\":3,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"aliasComensal\": \"Roberto\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 1\n\t\t}\n\t],\n\t\"detalle PARA EDITAR\" :[\n\t\t{\n\t\t\t\"idComensal\": 100,\n\t\t\t\"aliasComensal\": \"Maria\",\n\t\t\t\"edadComensal\": 30,\n\t\t\t\"idUsuario\": 4\n\t\t},\n\t\t{\n\t\t\t\"idComensal\": 101,\n\t\t\t\"aliasComensal\": \"Lucrecio\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 2\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idComensal\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idComensal\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"eliminar AGREGAR elimnar true para oblicar eliminacion de comensal con pedidos iguales a 1,2\": false,\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"aliasComensal\": \"Roberto\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 1\n\t\t},\n\t\t{\n\t\t\t\"aliasComensal\": \"Elian\",\n\t\t\t\"edadComensal\": 25,\n\t\t\t\"idUsuario\": 2\n\t\t}\n\t]\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Reserva :comensal",
+					"name": "Get Reserva Comensal :idUsuario",
 					"request": {
 						"url": "localhost:3000/reserva/getToComensal/1",
 						"method": "POST",
@@ -1145,7 +1193,7 @@
 							"mode": "raw",
 							"raw": "{\n\t\"estado\": \"Generada\"\n}"
 						},
-						"description": "Trae todos los Usuarios"
+						"description": "Trae todas las reservas en estado generada, asociadas a todos los comensales asociados al idUsuario que se le manda."
 					},
 					"response": []
 				}
@@ -1342,7 +1390,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idEstadia\":5,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idComensal\": 4,\n\t\t\t\"aliasComensal\": \"Maria\",\n\t\t\t\"edadComensal\": 30,\n\t\t\t\"idUsuario\": 4\n\t\t}\n\t],\n\t\"detalle PARA EDITAR\" :[\n\t\t{\n\t\t\t\"idComensal\": 100,\n\t\t\t\"aliasComensal\": \"Maria\",\n\t\t\t\"edadComensal\": 30,\n\t\t\t\"idUsuario\": 4\n\t\t},\n\t\t{\n\t\t\t\"idComensal\": 101,\n\t\t\t\"aliasComensal\": \"Lucrecio\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 2\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idComensal\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idComensal\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"aliasComensal\": \"Roberto\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 1\n\t\t},\n\t\t{\n\t\t\t\"aliasComensal\": \"Elian\",\n\t\t\t\"edadComensal\": 25,\n\t\t\t\"idUsuario\": 2\n\t\t}\n\t]\n}"
+							"raw": "{\n\t\"idEstadia\":1,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idComensal\": 1,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"eliminar\": true,\n\t\"detalle PARA EDITAR\" :[\n\t\t{\n\t\t\t\"idComensal\": 100,\n\t\t\t\"aliasComensal\": \"Maria\",\n\t\t\t\"edadComensal\": 30,\n\t\t\t\"idUsuario\": 4\n\t\t},\n\t\t{\n\t\t\t\"idComensal\": 101,\n\t\t\t\"aliasComensal\": \"Lucrecio\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 2\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idComensal\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idComensal\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"eliminar AGREGAR elimnar true para oblicar eliminacion de comensal con pedidos diferentes a 5,6,7\": false,\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"aliasComensal\": \"Roberto\",\n\t\t\t\"edadComensal\": 20,\n\t\t\t\"idUsuario\": 1\n\t\t},\n\t\t{\n\t\t\t\"aliasComensal\": \"Elian\",\n\t\t\t\"edadComensal\": 25,\n\t\t\t\"idUsuario\": 2\n\t\t}\n\t]\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
@@ -1404,6 +1452,31 @@
 						],
 						"body": {},
 						"description": "Trae todos los Usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Put Estadia cambiarMozoEstadia",
+					"request": {
+						"url": "localhost:3000/estadia/cambiarMozoEstadia",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idEstadia\":1,\n    \"idUsuario\": 1,\n    \"descripcionMozoEstadia\": \"Modificado.....\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
 					},
 					"response": []
 				}
@@ -4527,7 +4600,33 @@
 				{
 					"name": "Get Traer Imagen",
 					"request": {
-						"url": "localhost:3000/traerImagen/menupromocion/a",
+						"url": "localhost:3000/traerImagen/",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"archivo\": \"loco\"\n}"
+						},
+						"description": "Puede o no ir el idEstadoUsuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Traer Imagen",
+					"request": {
+						"url": "localhost:3000/traerImagen/",
 						"method": "GET",
 						"header": [
 							{

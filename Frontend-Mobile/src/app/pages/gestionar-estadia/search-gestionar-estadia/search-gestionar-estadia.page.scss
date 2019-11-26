@@ -1,3 +1,11 @@
 .buttons {
     text-align: right;
 }
+
+ion-button.cash {
+    ion-icon {
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+    }
+}

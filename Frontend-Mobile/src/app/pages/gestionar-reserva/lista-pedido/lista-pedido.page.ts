@@ -20,13 +20,14 @@ export class ListaPedidoPage implements OnInit {
   reserva: Reserva;
   comensales: Comensal[];
   mostrar: Boolean[] = [];
+  aliasComensal;
 
   constructor(
     private alertController: AlertController,
     private navController: NavController,
     public activatedRoute: ActivatedRoute,
     private storage: StorageService,
-    private reservaservicio: ReservaService,
+    private reservaService: ReservaService,
     private pedidoService: PedidoService,
     private toastService: ToastService,
     private alertService: AlertService,
@@ -56,9 +57,9 @@ export class ListaPedidoPage implements OnInit {
   }
 
   async traerReserva(){
-    await this.reservaservicio.getReserva(  this.idReserva )
+    await this.reservaService.getReserva(  this.idReserva )
     .then( async reserva => {
-      console.log("RESERVA ", reserva)
+      console.log("RESERVA -------- ", reserva)
       let pedidosComensal: any[] = [];
       this.reserva = reserva;
       reserva.pedidos.forEach(element => {
@@ -68,10 +69,13 @@ export class ListaPedidoPage implements OnInit {
         }
       });
       this.reserva.pedidos = pedidosComensal;
-      console.log("PEDIDOS DE COMENSAL ,", pedidosComensal)
       this.calcularTotalCostoPedido();
-      console.log("Comensales" ,reserva.comensals)
-      this.comensales = reserva.comensals
+      this.comensales = reserva.comensals;
+      for (let item of this.comensales) {
+        if (item.idComensal == this.idComensal){
+          this.aliasComensal = item.aliasComensal;
+        }
+      }
     })
   }
 

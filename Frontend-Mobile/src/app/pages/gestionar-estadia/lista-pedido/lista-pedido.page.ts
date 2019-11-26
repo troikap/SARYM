@@ -20,6 +20,7 @@ export class ListaPedidoPage implements OnInit {
     estadia: Estadia;
     comensales: Comensal[];
     mostrar: Boolean[] = [];
+    aliasComensal;
   
     constructor(
       private alertController: AlertController,
@@ -59,10 +60,13 @@ export class ListaPedidoPage implements OnInit {
           }
         });
         this.estadia.pedidos = pedidosComensal;
-        console.log("PEDIDOS DE COMENSAL ,", pedidosComensal)
         this.calcularTotalCostoPedido();
-        console.log("Comensales" ,estadia.comensals)
-        this.comensales = estadia.comensals
+        this.comensales = estadia.comensals;
+        for (let item of this.comensales) {
+          if (item.idComensal == this.idComensal){
+            this.aliasComensal = item.aliasComensal;
+          }
+        }
       })
     }
   
@@ -115,7 +119,7 @@ export class ListaPedidoPage implements OnInit {
   
     crearCodigoPedido( data, pedido ) {
       let codigo;
-      codigo = `P${pedido.id}-R${data.idEstadia}-C${data.idComensal}`;
+      codigo = `P${pedido.id}-E${data.idEstadia}-C${data.idComensal}`;
       return codigo
     }
   

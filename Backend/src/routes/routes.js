@@ -84,6 +84,7 @@ router
     .post('/pago', verificaToken, PagoController.create)
     .put('/pago/actualizarDatos', verificaToken, PagoController.actualizarDatos)
     .put('/pago/editarPagoPedido', verificaToken, PagoController.editarPagoPedido)
+    .post('/pago/getPagoToEstadia/:idEstadia', verificaToken, PagoController.getPagoToEstadia)
 
 // producto
     .get('/producto', verificaToken, ProductoController.getAll)

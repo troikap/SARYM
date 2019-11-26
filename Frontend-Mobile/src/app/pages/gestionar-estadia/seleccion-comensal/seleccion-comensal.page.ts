@@ -29,7 +29,7 @@ export class SeleccionComensalPage implements OnInit {
       private navController: NavController,
       public activatedRoute: ActivatedRoute,
       private storage: StorageService,
-      private estadiaServicie: EstadiaService,
+      private estadiaService: EstadiaService,
       private toastService: ToastService,
     ) {
      }
@@ -91,7 +91,7 @@ export class SeleccionComensalPage implements OnInit {
               let data: {} = {idEstadia: element.idEstadia,
                 idEstadoEstadia: 2,
                 descripcionReservaEstado: `Por Vencimiento, eliminado desde Comensal ${element.idComensal}.`}
-              this.estadiaServicie.cambiarEstado(data)
+              this.estadiaService.cambiarEstado(data)
               .then( resp => {
                 if(resp.tipo == 1){
                   this.toastService.toastError( `Reserva N° ${element.idEstadia} Anulada por vencimiento.`,3000,'bottom')
@@ -123,7 +123,7 @@ export class SeleccionComensalPage implements OnInit {
     }
   
     traerEstadia(){
-      this.estadiaServicie.getEstadia( this.idEstadia )
+      this.estadiaService.getEstadia( this.idEstadia )
       .then( estadia => {
         console.log("ESTADIA ", estadia)
         this.estadia = estadia;
@@ -272,7 +272,7 @@ export class SeleccionComensalPage implements OnInit {
   
     agregarNuevoComensal( path ){
       console.log('agregando ',path);
-      this.estadiaServicie.setComensalesEstadia( path )
+      this.estadiaService.setComensalesEstadia( path )
         .then( res => {
           if ( res.tipo == 1){
             this.toastService.toastSuccess(`Comensal agregado Correctamente!.`, 2000)

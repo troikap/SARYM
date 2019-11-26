@@ -226,7 +226,9 @@ comensal = [
     "idComensal",
     "aliasComensal",
     "edadComensal",
-    "idUsuario"
+    "idUsuario",
+    "idReserva",
+    "idEstadia"
 ]
 
 comensalAll = [
@@ -243,7 +245,8 @@ pedidoestado = [
     "descripcionPedidoEstado",
     "fechaYHoraAltaPedidoEstado",
     "fechaYHoraBajaPedidoEstado",
-    
+    "idEstadoPedido",
+    "idPedido",
 ]
 
 estadopedido = [

@@ -206,6 +206,7 @@ export class SeleccionComensalPage implements OnInit {
             .then( respuesta => {
               if (respuesta.tipo == 1){
                 this.toastService.toastSuccess('Comensal eliminado correctamente.', 1500)
+                this.storageService.eliminarComensalReserva( pathComensal.detalle[0].idComensal )
                 this.traerReserva();
               } else {
                 this.ConfirmarEliminarComensalAsociado('Confirmar Eliminado', 'El Comensal posee pedidos asociados. ¿Desea eliminar el Comensal con todos sus Pedidos?', pathComensal);

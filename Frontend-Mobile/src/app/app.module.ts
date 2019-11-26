@@ -18,7 +18,7 @@ import { MesaService } from './services/mesa/mesa.service';
 import { AlertService } from './providers/alert.service';
 import { ToastService } from './providers/toast.service';
 import { LoaderService } from './providers/loader.service';
-
+import { PagoService } from './services/pago/pago.service';
 
 // providers
 import { TratarFechaProvider } from './providers/tratarFecha.provider';
@@ -80,6 +80,7 @@ import { ModalDetalleCatalogoPage } from './modal/modal-detalle-catalogo/modal-d
     AlertService,
     ToastService,
     LoaderService,
+    PagoService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

@@ -318,6 +318,7 @@ export interface Mozoestadia {
 export interface Pago {
     idPago: Number,
     idMedioPago: Number,
+    idComensal: Number,
     codPago: String,
     importeTotalAPagar: Number,
     fechaYHoraAltaPago: Date

@@ -680,7 +680,7 @@ ReservaController.editarMesa = (req, res) => {
 };
 
 ReservaController.editarComensal = (req, res) => {
-  let locals = { detalles: [] };
+  let locals = { detalles: [], pedidos:[] };
   let body = req.body;
   ReservaModelo.findOne({
     where: {
@@ -735,8 +735,17 @@ ReservaController.editarComensal = (req, res) => {
   } else {
     if ( body.eliminar ) {
       let idComen = body.detalle[0].idComensal;
-      await PedidoModelo.findAll(  {where: { idComensal: idComen } }).then( async pedidos => {
+      await PedidoModelo.findAll(  {where: { idComensal: idComen },
+        attributes: attributes.pedido,
+        include: [{
+                model: PedidoEstadoModelo,
+                attributes: attributes.pedidoestado,
+                where: { fechaYHoraBajaPedidoEstado: null }
+        }]}).then( async pedidos => {
         for (let ped of pedidos) {
+          locals.pedidos.push({
+            ['title']: `Pedido N° ${ped.dataValues.idPedido} en estado N° ${ped.dataValues.pedidoestados[0].dataValues.idEstadoPedido}`
+          })
           let pedido = ped.dataValues;
           let pushPedidoEstado = { fechaYHoraBajaPedidoEstado: fechaArgentina.getFechaArgentina()};
           await PedidoEstadoModelo.update(pushPedidoEstado , { where: { idPedido: pedido.idPedido, fechaYHoraBajaPedidoEstado: null }}).then( async (respons) => {
@@ -745,7 +754,6 @@ ReservaController.editarComensal = (req, res) => {
               ['title'] : `No existe Pedido Estado habilitado para el pedido N° ${pedido.idPedido}.`,
               ['tipo'] : 2
               })
-               // res.json(locals);
             } else {
               let pathNuevoPedido = { 
                 fechaYHoraAltaPedidoEstado: fechaArgentina.getFechaArgentina(),
@@ -764,15 +772,12 @@ ReservaController.editarComensal = (req, res) => {
                        ['tipo'] : 1
                       })
                     }
-                    // res.json(locals);
                 }).catch((error) => {
                   locals.detalles.push(tratarError.tratarError(error, legend));
-                  // res.json(locals);
                 });
             }
             }).catch((error) => {
               locals.detalles.push(tratarError.tratarError(error, legend));
-              // res.json(locals);
             });
         }
         await ComensalModelo.update( {idReserva: null} ,{ where: { idComensal: idComen }}).then( async resp => {
@@ -788,7 +793,6 @@ ReservaController.editarComensal = (req, res) => {
               })
           }
             let correcto = true;
-            console.log("LOCALS DE COMENSAL ",locals)
             if ( locals.detalles != null ) {
               for (let elem of locals.detalles) {
                   if (elem.tipo == 2){
@@ -827,7 +831,6 @@ ReservaController.editarComensal = (req, res) => {
                       }
                   }).catch((error) => {
                     locals.detalles.push( tratarError.tratarError(error, legend))
-                    // res.json(locals);
                   });
               } else {
                 await ComensalModelo.update(elem, {where: {[idtable6]: elem[idtable6]}}).then((resp) => {
@@ -857,12 +860,12 @@ ReservaController.editarComensal = (req, res) => {
                   } else {
                       locals.detalles.push({
                           ['title']: `Comensal creado: ${elem[idtable6]}`,
+                          ['data']: resp,
                           ['tipo']: 1
                       })
                   }
                 }).catch((error) => {
                   locals.detalles.push( tratarError.tratarError(error, legend));
-                  // res.json(locals);
                 });
               } else {
                 locals.detalles.push({
@@ -874,7 +877,6 @@ ReservaController.editarComensal = (req, res) => {
           }
           if ( Object.keys(body.detalle).length == i) {
             let correcto = true;
-            console.log("LOCALS DE COMENSAL ",locals)
             if ( locals.detalles != null ) {
               for (let elem of locals.detalles) {
                   if (elem.tipo == 2){
@@ -892,7 +894,7 @@ ReservaController.editarComensal = (req, res) => {
                 locals['tipo'] =  2;
             }
             res.json(locals);
-        }
+          }
         i += 1;
         }
       }
