@@ -42,8 +42,8 @@ const routes: Routes = [
   { path: 'recuperar-contrasenia/:token', loadChildren: './pages/recuperar-contrasenia/recuperar-contrasenia.module#RecuperarContraseniaPageModule' },
   { path: 'seleccion-comensal/estadia/:idEstadia/:from', loadChildren: './pages/gestionar-estadia/seleccion-comensal/seleccion-comensal.module#SeleccionComensalPageModule' },
   { path: 'lista-pedido/estadia/:idEstadia/comensal/:idComensal', loadChildren: './pages/gestionar-estadia/lista-pedido/lista-pedido.module#ListaPedidoPageModule' },
-  { path: 'lista-pago/:idEstadia', loadChildren: './pages/gestionar-estadia/lista-pago/lista-pago.module#ListaPagoPageModule' },
-  { path: 'realizar-pago/:idEstadia', loadChildren: './pages/gestionar-estadia/realizar-pago/realizar-pago.module#RealizarPagoPageModule' },
+  { path: 'lista-pago/:idEstadia', loadChildren: './pages/gestionar-estadia/pago/lista-pago/lista-pago.module#ListaPagoPageModule' },
+  { path: 'realizar-pago/:idEstadia', loadChildren: './pages/gestionar-estadia/pago/realizar-pago/realizar-pago.module#RealizarPagoPageModule' },
 
 // unirse reserva estadia
   { path: 'unirse-reserva-estadia', loadChildren: './pages/unirse-reserva-estadia/unirse-reserva-estadia.module#UnirseReservaEstadiaPageModule' },

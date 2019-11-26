@@ -33,10 +33,20 @@
       </ion-item-sliding>
       <ion-card *ngIf="mostrar[i] && item.pagopedidos[i] != null">
         <ion-card-header>
-          <ion-card-title>N° Detalle Pedido Pago: <strong>{{item.pagopedidos[i].idPagoPedido}}</strong></ion-card-title>
+          <ion-card-title>Detalle de pago N°: <strong>{{item.pagopedidos[i].idPagoPedido}}</strong></ion-card-title>
           <h3 align="right">Importe Detalle: <strong>{{item.pagopedidos[i].importePagoPedido | currency}}</strong></h3>
         </ion-card-header>
         <ion-card-content>Código N°: {{item.pagopedidos[i].pedido.codPedido}}<strong></strong></ion-card-content>
+        <ion-list *ngFor="let ped of item.pagopedidos[i].pedido.detallepedidoproductos">
+          <ion-title no-padding align="center">Cantidad: <strong>{{ped.cantidadPedidoProducto}}</strong></ion-title>
+          <ion-card *ngIf="ped.idProducto">
+            <ion-card-content>Producto: <strong>{{ped.producto.descripcionProducto}}</strong></ion-card-content>
+          </ion-card>
+          <ion-card *ngIf="ped.idMenuPromocion">
+            <ion-card-content>Menu / Promocion: <strong>{{ped.menupromocion.descripcionMenuPromocion}}</strong></ion-card-content>
+          </ion-card>
+        </ion-list>
+
       </ion-card>
       
     </div>

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, AlertController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { StorageService } from '../../../services/storage/storage.service';
-import { EstadiaService } from '../../../services/estadia/estadia.service';
-import { Estadia, Comensal } from '../../../models/modelos';
-import { PedidoService } from '../../../services/pedido/pedido.service';
-import { ToastService } from '../../../providers/toast.service';
-import { AlertService } from '../../../providers/alert.service';
+import { StorageService } from '../../../../services/storage/storage.service';
+import { EstadiaService } from '../../../../services/estadia/estadia.service';
+import { Estadia, Comensal } from '../../../../models/modelos';
+import { PedidoService } from '../../../../services/pedido/pedido.service';
+import { ToastService } from '../../../../providers/toast.service';
+import { AlertService } from '../../../../providers/alert.service';
 
 @Component({
   selector: 'app-realizar-pago',

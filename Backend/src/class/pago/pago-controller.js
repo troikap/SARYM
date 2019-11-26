@@ -14,6 +14,9 @@ const tratarError = require("../../middlewares/handleError"),
   TipoMonedaModelo = require("../tipomoneda/tipomoneda-model"),
   ComensalModelo = require("../comensal/comensal-model"),
   MedioPagoModelo = require("../mediopago/mediopago-model"),
+  ProductoModelo = require("../producto/producto-model"),
+  MenuPromocionModelo = require("../menupromocion/menupromocion-model"),
+  DetallePedidoProductoModelo = require("../detallepedidoproducto/detallepedidoproducto-model"),
 
   legend = "Pago",
   legend2 = "PagoPedido",
@@ -409,7 +412,23 @@ PagoController.getPagoToEstadia = (req, res) => {
         include: [
             {
             model: PedidoModelo,
-            attributes: attributes.pedido
+            attributes: attributes.pedido,
+            include: [
+              {
+                model: DetallePedidoProductoModelo,
+                attributes: attributes.detallepedidoproducto,
+                include: [
+                  {
+                    model: ProductoModelo,
+                    attributes: attributes.producto,
+                  },
+                  {
+                    model: MenuPromocionModelo,
+                    attributes: attributes.menupromocion,
+                  },
+                ]
+              }
+            ]
             }
         ]
       },

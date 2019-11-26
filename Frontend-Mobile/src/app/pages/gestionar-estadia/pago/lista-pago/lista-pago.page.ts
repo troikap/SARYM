@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, AlertController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { StorageService } from '../../../services/storage/storage.service';
-import { EstadiaService } from '../../../services/estadia/estadia.service';
-import { PagoService } from '../../../services/pago/pago.service';
-import { Estadia, Pago } from '../../../models/modelos';
-import { PedidoService } from '../../../services/pedido/pedido.service';
-import { ToastService } from '../../../providers/toast.service';
-import { AlertService } from '../../../providers/alert.service';
-import { LoaderService } from '../../../providers/loader.service';
+import { StorageService } from '../../../../services/storage/storage.service';
+import { EstadiaService } from '../../../../services/estadia/estadia.service';
+import { PagoService } from '../../../../services/pago/pago.service';
+import { Estadia, Pago } from '../../../../models/modelos';
+import { PedidoService } from '../../../../services/pedido/pedido.service';
+import { ToastService } from '../../../../providers/toast.service';
+import { AlertService } from '../../../../providers/alert.service';
+import { LoaderService } from '../../../../providers/loader.service';
 
   
 
