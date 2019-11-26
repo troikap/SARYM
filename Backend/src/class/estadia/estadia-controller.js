@@ -518,45 +518,69 @@ EstadiaController.create = (req, res) => {
         where: {
             [idtable3]: 1
         }
-    }).then(responses => {
+    }).then( async responses => {
         if (!responses || responses == 0) {
             locals['title'] = `No existe instancia de ${legend3} con ${idtable3}.`;
             locals['tipo'] = 2;
             res.json(locals);
         } else {
-            let pushMozoEstadia = {};
-            pushMozoEstadia['descripcionMozoEstadia'] = body['descripcionMozoEstadia'] || "Mozo Asignado.";
-            pushMozoEstadia[idtable] = result[idtable];
-            pushMozoEstadia['fechaYHoraInicioMozoEstadia'] = fechaArgentina.getFechaArgentina();
-            pushMozoEstadia[idtable5] = body[idtable5];
-            MozoEstadiaModelo.create(pushMozoEstadia).then(mozoestadia => {
-                if (!mozoestadia || mozoestadia == 0) {
-                    locals['title'] = `No se pudo crear ${legend9}.`;
+            UsuarioModelo.findOne({
+                where: {
+                    [idtable5]: body[idtable5]
+                }
+            }).then( async responses => {
+                if (!responses || responses == 0) {
+                    locals['title'] = `No existe instancia de ${legend5} con ${idtable5}: ${body[idtable5]}.`;
                     locals['tipo'] = 2;
                     res.json(locals);
                 } else {
-                    if (body['fechaYHoraInicioEstadia'] == null) {
-                        body['fechaYHoraInicioEstadia'] = fechaArgentina.getFechaArgentina();
-                    }
-                    EstadiaModelo.create(body).then(result => {
-                        locals['title'] = `${legend} creada.`;
-                        locals['data'] = result;
-                        locals['id'] = result[idtable];
-                        locals['tipo'] = 1;
-                        let pushEstadiaEstado = {};
-                        pushEstadiaEstado['descripcionEstadiaEstado'] = body['descripcionEstadiaEstado'] || "Reciente.";
-                        pushEstadiaEstado[idtable] = result[idtable];
-                        pushEstadiaEstado['fechaYHoraAltaEstadiaEstado'] = fechaArgentina.getFechaArgentina();
-                        pushEstadiaEstado[idtable3] = 1;
-                        EstadiaEstadoModelo.create(pushEstadiaEstado).then(response => {
-                            locals['title'] = `${legend} creado. ${legend2} creado.`;
-                            locals['data'] = response;
+                    let idEstadia;
+                    body['fechaYHoraInicioEstadia'] = fechaArgentina.getFechaArgentina();
+                    await EstadiaModelo.create(body).then( async result => {
+                        if (!result || result == 0) {
+                            locals['title'] = `No se pudo crear ${legend} con id ${body[idtable]}.`;
+                            locals['tipo'] = 2;
+                        } else {
+                            idEstadia = result[idtable];
+                            locals['title'] = `${legend} creada.`;
+                            locals['data'] = result;
+                            locals['id'] = result[idtable];
                             locals['tipo'] = 1;
-                            res.json(locals);
-                        }).catch((error) => {
-                            locals = tratarError.tratarError(error, legend);
-                            res.json(locals);
-                        });
+                            let pushEstadiaEstado = {};
+                            pushEstadiaEstado['descripcionEstadiaEstado'] = body['descripcionEstadiaEstado'] || "Reciente.";
+                            pushEstadiaEstado[idtable] = result[idtable];
+                            pushEstadiaEstado['fechaYHoraAltaEstadiaEstado'] = fechaArgentina.getFechaArgentina();
+                            pushEstadiaEstado[idtable3] = 1;
+                            await EstadiaEstadoModelo.create(pushEstadiaEstado).then( async response => {
+                                locals
+                                locals['title'] = `${legend} creado. ${legend2} creado.`;
+                                locals['data'] = response;
+                                locals['tipo'] = 1;
+                                let pushMozoEstadia = {};
+                                pushMozoEstadia['descripcionMozoEstadia'] = body['descripcionMozoEstadia'] || "Mozo Asignado.";
+                                pushMozoEstadia[idtable] = idEstadia;
+                                pushMozoEstadia['fechaYHoraInicioMozoEstadia'] = fechaArgentina.getFechaArgentina();
+                                pushMozoEstadia[idtable5] = body[idtable5];
+                                MozoEstadiaModelo.create(pushMozoEstadia).then(mozoestadia => {
+                                    if (!mozoestadia || mozoestadia == 0) {
+                                        locals['title2'] = `No se pudo crear ${legend9}.`;
+                                        locals['tipo2'] = 2;
+                                        res.json(locals);
+                                    } else {
+                                        locals['title2'] = `Se creo correctamente Mozo Estadia.`;
+                                        locals['tipo2'] = 1;
+                                        locals['data2'] = mozoestadia;
+                                        res.json(locals);
+                                    }
+                                }).catch((error ) => {
+                                    locals = tratarError.tratarError(error, legend);
+                                    res.json(locals);
+                                })
+                            }).catch((error) => {
+                                locals = tratarError.tratarError(error, legend);
+                                res.json(locals);
+                            });
+                        }
                     }).catch((error) => {
                         locals = tratarError.tratarError(error, legend);
                         res.json(locals);

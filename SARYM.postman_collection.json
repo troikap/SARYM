@@ -1290,7 +1290,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"cantPersonas\": 6,\n    \"tokenEstadia\": \"token1234567890aaa\",\n    \"idUsuario\": 2,\n    \"descripcionEstadiaEstado\": \"Haaola\",\n    \"idMozoEstadia\": 1\n}"
+							"raw": "{\n    \"cantPersonas\": 7,\n    \"tokenEstadia\": \"token1234567890aaa\",\n    \"idUsuario\": 2,\n    \"descripcionEstadiaEstado\": \"Haaola\"\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},
