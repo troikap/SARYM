@@ -588,7 +588,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
   async crearEditarEstadia() {
     let estadia;
     let cantPersonas = this.form.value['cantPersonas']; 
-    if (this.origenDatos == "estadia" && this.accionGet == "crear") {
+    if ((this.origenDatos == "estadia" && this.accionGet == "crear") || (this.origenDatos == "confReserva")) {
       estadia = {
         cantPersonas: cantPersonas
       }
