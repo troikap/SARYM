@@ -46,7 +46,7 @@ export class ListaPagoPage implements OnInit {
     }
 
   ngOnInit() {
-    console.log("PAGE SeleccionComensalPage")
+    console.log("PAGE ListaPagoPage")
     this.activatedRoute.params
       .subscribe(params => {
         this.idEstadia = params.idEstadia;
@@ -77,8 +77,8 @@ export class ListaPagoPage implements OnInit {
         });
       }
 
-      realizarPago() {
-        
+      seleccionComensalPago() {
+        this.navController.navigateForward( [`/seleccion-comensal-pago/${this.idEstadia}`])
       }
 
       async imprimir( item ) {

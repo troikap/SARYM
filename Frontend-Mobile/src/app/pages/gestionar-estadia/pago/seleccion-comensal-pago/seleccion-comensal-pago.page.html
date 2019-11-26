@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <ion-icon name="md-arrow-back" (click)="goBack()"></ion-icon>
+          <!-- <ion-back-button></ion-back-button> -->
+      </ion-buttons>
+      <ion-title>Seleccione Comensal Pago</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content *ngIf='estadia && nombreUsuario'>
+  <ion-card>
+      <ion-title color="dark" align="middle" padding>Estadia N°: {{estadia.idEstadia}}</ion-title>
+  </ion-card>
+  <ion-item-sliding *ngFor="let item of estadia.comensals">
+      <ion-item (click)="seleccionarComensal(item)">
+          <ion-card color=success class="card-inter">
+              <ion-card-header>
+                  <ion-card-title>Alias: <strong>{{item.aliasComensal}}</strong> - Edad: <strong>{{item.edadComensal}}</strong></ion-card-title>
+              </ion-card-header>
+              <ion-card-content *ngIf="item.usuario">
+                  <ion-card-subtitle>Usuario Asociado: <strong> {{item.usuario.nombreUsuario}} {{item.usuario.apellidoUsuario}}</strong></ion-card-subtitle>
+                  <ion-card-subtitle>Cuit: <strong>{{item.usuario.cuitUsuario}}</strong></ion-card-subtitle>
+              </ion-card-content>
+          </ion-card>
+      </ion-item>
+  </ion-item-sliding>
+</ion-content>

@@ -42,13 +42,19 @@ const routes: Routes = [
   { path: 'recuperar-contrasenia/:token', loadChildren: './pages/recuperar-contrasenia/recuperar-contrasenia.module#RecuperarContraseniaPageModule' },
   { path: 'seleccion-comensal/estadia/:idEstadia/:from', loadChildren: './pages/gestionar-estadia/seleccion-comensal/seleccion-comensal.module#SeleccionComensalPageModule' },
   { path: 'lista-pedido/estadia/:idEstadia/comensal/:idComensal', loadChildren: './pages/gestionar-estadia/lista-pedido/lista-pedido.module#ListaPedidoPageModule' },
+
+  
   { path: 'lista-pago/:idEstadia', loadChildren: './pages/gestionar-estadia/pago/lista-pago/lista-pago.module#ListaPagoPageModule' },
   { path: 'realizar-pago/:idEstadia', loadChildren: './pages/gestionar-estadia/pago/realizar-pago/realizar-pago.module#RealizarPagoPageModule' },
+  { path: 'lista-pedido-pago/:idEstadia', loadChildren: './pages/gestionar-estadia/pago/lista-pedido-pago/lista-pedido-pago.module#ListaPedidoPagoPageModule' },
+  { path: 'seleccion-comensal-pago/:idEstadia', loadChildren: './pages/gestionar-estadia/pago/seleccion-comensal-pago/seleccion-comensal-pago.module#SeleccionComensalPagoPageModule' },
 
 // unirse reserva estadia
   { path: 'unirse-reserva-estadia', loadChildren: './pages/unirse-reserva-estadia/unirse-reserva-estadia.module#UnirseReservaEstadiaPageModule' },
   { path: 'ver-qr-estadia/:id', loadChildren: './pages/gestionar-estadia/ver-qr-estadia/ver-qr-estadia.module#VerQrEstadiaPageModule' },
   { path: 'activar-usuario/:token', loadChildren: './pages/activar-usuario/activar-usuario.module#ActivarUsuarioPageModule' },
+
+
 
 
 
