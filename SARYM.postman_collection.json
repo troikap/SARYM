@@ -928,7 +928,7 @@
 				{
 					"name": "Get Pago :idEstadia",
 					"request": {
-						"url": "localhost:3000/estadia/getToUsuario/1",
+						"url": "localhost:3000/pago/getPagoToEstadia/1",
 						"method": "POST",
 						"header": [
 							{
@@ -1110,7 +1110,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"idReserva\":1,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idMesa\": 4\n\t\t}\n\t],\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idDetalleReservaMesa\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetalleReservaMesa\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"idMesa\": 4\n\t\t},\n\t\t{\n\t\t\t\"idMesa\": 5\n\t\t}\n\t]\n}"
+							"raw": "{\n\t\"idReserva\":1,\n\t\"detalle\": [\n\t\t{\n\t\t\t\"idMesa\": 4\n\t\t}\n\t],\n\t\"eliminar: true PARA OBLIGAR A DAR DE BAJA AL COMENSAL\": false,\n\t\"detalle PARA ELIMNAR\" :[\n\t\t{\n\t\t\t\"idDetalleReservaMesa\": 100,\n\t\t\t\"baja\": true\n\t\t},\n\t\t{\n\t\t\t\"idDetalleReservaMesa\": 101,\n\t\t\t\"baja\": true\n\t\t}\n\t],\n\t\"detalle PARA CREAR\" :[\n\t\t{\n\t\t\t\"idMesa\": 4\n\t\t},\n\t\t{\n\t\t\t\"idMesa\": 5\n\t\t}\n\t]\n}"
 						},
 						"description": "Puede o no ir el idEstadoUsuario"
 					},

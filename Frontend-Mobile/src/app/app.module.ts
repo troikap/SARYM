@@ -42,9 +42,6 @@ import { Camera } from '@ionic-native/camera/ngx';
 //storage
 import { IonicStorageModule } from '@ionic/storage';
 
-//modal
-import { ModalDetalleCatalogoPage } from './modal/modal-detalle-catalogo/modal-detalle-catalogo.page';
-// import { ModalDetalleCatalogoPageModule } from './modal/modal-detalle-catalogo/modal-detalle-catalogo.module';
 
 
 
@@ -72,7 +69,6 @@ import { ModalDetalleCatalogoPage } from './modal/modal-detalle-catalogo/modal-d
     DatePipe,
     QRScanner,
     Camera,
-    ModalDetalleCatalogoPage,
     ReservaService,
     MesaService,
     IonicSelectableModule,
