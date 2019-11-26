@@ -80,6 +80,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
       this.origenDatos = params.tipo;
       if (this.origenDatos == "confReserva") { //Confirmar Reserva
         this.idReserva = params.id;
+        this.verificarEstadoReserva();
       }
       else if (this.origenDatos == "estadia") {
         this.idEstadia = params.id;
@@ -88,9 +89,11 @@ export class CrudGenerarEstadiaPage implements OnInit {
   }
 
   ngOnInit() {
-    this.tratarFecha();
-    this.loadCurrentUsuario();
-    this.traerMesas();
+    if (this.origenDatos == "estadia") {
+      this.tratarFecha();
+      this.loadCurrentUsuario();
+      this.traerMesas();
+    }
   }
 
   goBack() {
@@ -100,6 +103,32 @@ export class CrudGenerarEstadiaPage implements OnInit {
       console.log("*************************VERIFICAR A DONDE SE DEBE DIRIGIR*************************");
       //this.navController.navigateBack('/search-gestionar-reserva');
     }
+  }
+
+  verificarEstadoReserva() {
+    console.log("idReserva: ", this.idReserva);
+    this.reservaservicio.getReserva(this.idReserva)
+    .then((resp: any) => {
+      console.log("resp: ", resp);
+      let estadoReserva = resp.reservaestados[0].estadoreserva.idEstadoReserva;
+      if (estadoReserva == 1) { // Generada
+        this.tratarFecha();
+        this.loadCurrentUsuario();
+        this.traerMesas();
+      }
+      else if (estadoReserva == 3) { // Reserva ya confirmada
+        this.toastService.toastWarning("La reserva ingresada ya ha sido confirmada", 2000);
+        setTimeout(()=>{
+          this.navController.navigateForward([`/home`]);
+        }, 2000);
+      }
+      else if (estadoReserva == 2) { // Reserva Anulada
+        this.toastService.toastError("La reserva ingresada se encuentra Anulada", 2000);
+        setTimeout(()=>{
+          this.navController.navigateForward([`/home`]);
+        }, 2000);
+      }
+    });
   }
   
   loadCurrentUsuario() {
@@ -653,11 +682,27 @@ export class CrudGenerarEstadiaPage implements OnInit {
                 pathMesas['idEstadia'] = res.id;
                 this.estadiaServicio.setMesasEstadia( pathMesas )
                 .then( respo => {
-                  this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
-                  setTimeout(()=>{
-                    this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}`]);
-                    }, 2000);
-                })
+                  if (respo.tipo == 1 ){
+                    let pathReserva = {};
+                    pathReserva['idReserva'] = this.idReserva;
+                    pathReserva['idEstadoReserva'] = 3; // Confirmar Reserva
+                    this.reservaservicio.cambiarEstado(pathReserva)
+                    .then( respo1 => {
+                      if (respo1.tipo == 1 ){
+                        this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
+                        setTimeout(()=>{
+                          this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}`]);
+                        }, 2000);
+                      }
+                      else {
+                        this.toastService.toastError("No se han podido confirmar la Reserva:" + respo1.title, 2500);
+                      }
+                    });
+                  }
+                  else {
+                    this.toastService.toastError("No se han podido crear las mesas:" + respo.title, 2500);
+                  }
+                });
               } else {
                 this.toastService.toastError("No se han podido crear los comensales:" + resp.title, 2500);
               }
@@ -667,7 +712,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
           }
         })
       } else {
-        this.toastService.toastError("Error:" + res.title, 2500);
+        this.toastService.toastError("Error al Crear Estadía:" + res.title, 2500);
       }
     })
   }
