@@ -24,6 +24,7 @@ const tratarError = require("../../middlewares/handleError"),
     PrecioProductoModelo = require("../precioproducto/precioproducto-model"),
     TipoMonedaModelo = require("../tipomoneda/tipomoneda-model"),
     PrecioMenuPromocionModelo = require("../preciomenupromocion/preciomenupromocion-model"),
+    TipoMenuPromocionModelo = require("../tipomenupromocion/tipomenupromocion-model"),
 
     legend = "Estadia",
     legend2 = "EstadiaEstado",
@@ -126,10 +127,15 @@ EstadiaController.getToAllAttributes = (req, res, next) => {
                                     where: { fechaYHoraHastaPrecioMenuPromocion: null },
                                     attributes: attributes.preciomenupromocion,
                                     include: [{
-                                        model: TipoMonedaModelo,
-                                        attributes: attributes.tipomoneda
-                                    }]
-                                }]
+                                            model: TipoMonedaModelo,
+                                            attributes: attributes.tipomoneda
+                                        }]
+                                    },
+                                    {
+                                        model: TipoMenuPromocionModelo,
+                                        attributes: attributes.tipomenupromocion
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -241,10 +247,15 @@ EstadiaController.getToName = (req, res, next) => {
                                     where: { fechaYHoraHastaPrecioMenuPromocion: null },
                                     attributes: attributes.preciomenupromocion,
                                     include: [{
-                                        model: TipoMonedaModelo,
-                                        attributes: attributes.tipomoneda
-                                    }]
-                                }]
+                                            model: TipoMonedaModelo,
+                                            attributes: attributes.tipomoneda
+                                        }]
+                                    },
+                                    {
+                                        model: TipoMenuPromocionModelo,
+                                        attributes: attributes.tipomenupromocion
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -351,10 +362,15 @@ EstadiaController.getAll = (req, res) => {
                                     where: { fechaYHoraHastaPrecioMenuPromocion: null },
                                     attributes: attributes.preciomenupromocion,
                                     include: [{
-                                        model: TipoMonedaModelo,
-                                        attributes: attributes.tipomoneda
-                                    }]
-                                }]
+                                            model: TipoMonedaModelo,
+                                            attributes: attributes.tipomoneda
+                                        }]
+                                    },
+                                    {
+                                        model: TipoMenuPromocionModelo,
+                                        attributes: attributes.tipomenupromocion
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -463,10 +479,15 @@ EstadiaController.getOne = (req, res) => {
                                     where: { fechaYHoraHastaPrecioMenuPromocion: null },
                                     attributes: attributes.preciomenupromocion,
                                     include: [{
-                                        model: TipoMonedaModelo,
-                                        attributes: attributes.tipomoneda
-                                    }]
-                                }]
+                                            model: TipoMonedaModelo,
+                                            attributes: attributes.tipomoneda
+                                        }]
+                                    },
+                                    {
+                                        model: TipoMenuPromocionModelo,
+                                        attributes: attributes.tipomenupromocion
+                                    }
+                                ]
                             }
                         ]
                     },

@@ -208,20 +208,21 @@ PagoController.create = (req, res) => {
     } else {
       ComensalModelo.findOne({ where: {[idtable5]: body[idtable5]} }).then( tipomoneda => {
         if ( !tipomoneda || tipomoneda == 0 ) {
-          locals['title'] = `No existe instancia de ${legend5} con ${idtable5}.`;
+          locals['title'] = `No existe instancia de ${legend5} con ${idtable5}: ${body[idtable5]}.`;
           locals['tipo'] = 2;
           res.json(locals);
         } else {
-            PagoModelo.create(body).then(result => {
-                locals['title'] = `${legend} creada.`;
-                locals['data'] = result;
-                locals['id'] = result[idtable];
-                locals['tipo'] = 1;
-                res.json(locals);
-            }).catch((error) => {
-            locals = tratarError.tratarError(error, legend);
-            res.json(locals);
-            });
+          console.log("body  ", body)
+            // PagoModelo.create(body).then(result => {
+            //     locals['title'] = `${legend} creada.`;
+            //     locals['data'] = result;
+            //     locals['id'] = result[idtable];
+            //     locals['tipo'] = 1;
+            //     res.json(locals);
+            // }).catch((error) => {
+            // locals = tratarError.tratarError(error, legend);
+            // res.json(locals);
+            // });
         }
       })
     }
