@@ -1635,53 +1635,39 @@ EstadiaController.cambiarMozoEstadia = (req, res) => {
                 locals['tipo'] = 2;
                 res.json(locals);
             } else {
-                console.log("RESPUESTA ", response.dataValues.mozoestadia[0].dataValues[idtable5])
                 if (response.dataValues.mozoestadia[0].dataValues[idtable5] != body[idtable5]) {
-                    MozoEstadiaModelo.findOne({
+                    let pushEstadiaEstado = {};
+                    pushEstadiaEstado['fechaYHoraFinMozoEstadia'] = fechaArgentina.getFechaArgentina();
+                    MozoEstadiaModelo.update(pushEstadiaEstado, {
                         where: {
-                            [idtable5]: body[idtable5],
-                            [idtable]: body[idtable]
+                            [idtable]: body[idtable],
+                            fechaYHoraFinMozoEstadia: null
                         }
-                    }).then((mozoestadia) => {
-                        if (!mozoestadia || mozoestadia == 0) {
-                            locals['title'] = `Ese ${legend5} ya esta siendo Mozo de esa Estadia.`;
+                    }).then((respons) => {
+                        if (!respons || respons == 0) {
+                            locals['title'] = `No existe ${legend9} habilitado.`;
                             locals['tipo'] = 2;
                             res.json(locals);
                         } else {
-                            let pushEstadiaEstado = {};
-                            pushEstadiaEstado['fechaYHoraFinMozoEstadia'] = fechaArgentina.getFechaArgentina();
-                            MozoEstadiaModelo.update(pushEstadiaEstado, {
-                                where: {
-                                    [idtable]: body[idtable],
-                                    fechaYHoraFinMozoEstadia: null
-                                }
-                            }).then((respons) => {
-                                if (!respons || respons == 0) {
-                                    locals['title'] = `No existe ${legend9} habilitado.`;
+                            body['fechaYHoraInicioMozoEstadia'] = fechaArgentina.getFechaArgentina();
+                            MozoEstadiaModelo.create(body).then((resp) => {
+                                if (!resp || resp == 0) {
+                                    locals['title'] = `No se pudo crear ${legend9}.`;
                                     locals['tipo'] = 2;
-                                    res.json(locals);
                                 } else {
-                                    body['fechaYHoraInicioMozoEstadia'] = fechaArgentina.getFechaArgentina();
-                                    MozoEstadiaModelo.create(body).then((resp) => {
-                                        if (!resp || resp == 0) {
-                                            locals['title'] = `No se pudo crear ${legend9}.`;
-                                            locals['tipo'] = 2;
-                                        } else {
-                                            locals['title'] = `Se realizo correctamente el cambio de ${legend9}.`;
-                                            locals['tipo'] = 1;
-                                        }
-                                        res.json(locals);
-                                    }).catch((error) => {
-                                        locals = tratarError.tratarError(error, legend);
-                                        res.json(locals);
-                                    });
+                                    locals['title'] = `Se realizo correctamente el cambio de ${legend9}.`;
+                                    locals['tipo'] = 1;
                                 }
+                                res.json(locals);
                             }).catch((error) => {
                                 locals = tratarError.tratarError(error, legend);
                                 res.json(locals);
                             });
                         }
-                    })
+                    }).catch((error) => {
+                        locals = tratarError.tratarError(error, legend);
+                        res.json(locals);
+                    });
                 } else {
                     locals['title'] = `${legend} ya se encuentra con ese ${legend9}.`;
                     locals['tipo'] = 2;
