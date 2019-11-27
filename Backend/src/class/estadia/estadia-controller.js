@@ -1145,6 +1145,7 @@ EstadiaController.editarComensal = (req, res) => {
                                 locals.detalles.push( tratarError.tratarError(error, legend))
                               });
                         } else {
+                            elem[idtable] = body[idtable];
                             await ComensalModelo.update(elem, {where: {[idtable6]: elem[idtable6]}}).then((resp) => {
                                 if (!resp || resp == 0) {
                                     locals.detalles.push({
