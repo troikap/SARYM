@@ -81,6 +81,15 @@ export class ListaPedidoPagoPage implements OnInit {
 
   realizarPago() {
     console.log("REALIZAR PAGO")
+    let pathPago = {}
+    this.pagoService.setPago('')
+    .then( respuesta => {
+      console.log("RESPUESTA ", respuesta)
+    })
+  }
+
+  cambiarMedioPago( evento ){
+    console.log("EVENTO ", evento)
   }
 
   agregarPedido( item ) {

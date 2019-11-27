@@ -1086,7 +1086,7 @@ EstadiaController.editarComensal = (req, res) => {
                               locals.detalles.push(tratarError.tratarError(error, legend));
                             });
                         }
-                        await ComensalModelo.update( {idReserva: null} ,{ where: { idComensal: idComen }}).then( async resp => {
+                        await ComensalModelo.update( {idEstadia: null} ,{ where: { idComensal: idComen }}).then( async resp => {
                           if(!resp || resp == 0) {
                             locals.detalles.push({
                                 ['title']: `Comensal NO eliminado`,
