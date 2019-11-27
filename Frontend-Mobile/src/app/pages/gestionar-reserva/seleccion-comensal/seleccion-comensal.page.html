@@ -1,14 +1,15 @@
 <ion-header>
     <ion-toolbar color="primary">
         <ion-buttons slot="start">
-            <ion-back-button></ion-back-button>
+            <ion-icon name="md-arrow-back" (click)="goBack()"></ion-icon>
+            <!-- <ion-back-button></ion-back-button> -->
         </ion-buttons>
         <ion-title>Seleccione Comensal</ion-title>
     </ion-toolbar>
 </ion-header>
 <ion-content *ngIf='reserva && nombreUsuario'>
     <ion-card>
-        <ion-title color="dark" align="middle" padding>Identificador de Reserva: {{reserva.idReserva}}</ion-title>
+        <ion-title color="dark" align="middle" padding>Reserva N°: {{reserva.idReserva}}</ion-title>
     </ion-card>
     <ion-item-sliding *ngFor="let item of reserva.comensals">
         <ion-item (click)="seleccionarComensal(item)">
@@ -23,7 +24,7 @@
             </ion-card>
         </ion-item>
         <ion-item-options side="start" *ngIf="nombreUsuario != 'Invitado'">
-            <ion-item-option color="danger" (click)="eliminarComensal()">
+            <ion-item-option color="danger" (click)="eliminarComensal(item)">
                 <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-item-option>
         </ion-item-options>

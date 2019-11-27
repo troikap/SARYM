@@ -11,20 +11,20 @@ import { StorageService } from '../storage/storage.service';
 })
 export class ReservaService {
   
-  url = environment.urlNgrok || environment.url;
+  private url = environment.urlNgrok || environment.url;
 
-  tokenEnviroment = environment.token;
+  private tokenEnviroment = environment.token;
 
-  dir = '/reserva';
-  dir2 = '/editarComensal';
-  dir3 = '/editarMesa';
-  dir4 = '/actualizarDatos';
-  dirTodo = "/todo";
-  dirComensal = "/getToComensal";
-  dirCambiarEstado = '/cambiarEstado';
+  private dir = '/reserva';
+  private dir2 = '/editarComensal';
+  private dir3 = '/editarMesa';
+  private dir4 = '/actualizarDatos';
+  private dirTodo = "/todo";
+  private dirComensal = "/getToComensal";
+  private dirCambiarEstado = '/cambiarEstado';
 
   constructor( 
-    public http: HttpClient,
+    private http: HttpClient,
     private storage: StorageService,
   ) { }
 
@@ -113,17 +113,20 @@ export class ReservaService {
       .catch(  );
   }
 
-  setComensalesReserva( datas ): Promise<any> {
+  setComensalesReserva( datas, eliminar? ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
-    return this.http
-      .put(`${this.url}${this.dir}${this.dir2}`, datas, data)
-      .toPromise()
-      .then(response => {
-        return response as Reserva;
-      })
-      .catch(  );
+     datas['eliminar'] = eliminar;
+       return this.http
+         .put(`${this.url}${this.dir}${this.dir2}`, datas, data)
+         .toPromise()
+         .then(response => {
+           return response;
+         })
+         .catch( err => {
+          console.log("Error ", err)
+        })
   }
 
   setMesasReserva( datas ): Promise<any> {

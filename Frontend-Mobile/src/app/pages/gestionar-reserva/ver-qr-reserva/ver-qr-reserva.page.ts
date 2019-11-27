@@ -12,22 +12,22 @@ import { ReservaService } from 'src/app/services/reserva/reserva.service';
   styleUrls: ['./ver-qr-reserva.page.scss'],
 })
 export class VerQRReservaPage implements OnInit {
-  private datos;
-  private valor;
-  private qrDataCodify;
+  public datos;
+  public valor;
+  public qrDataCodify;
   public createdCode;
-  private secretCode;
-  private nameArray;
-  private name;
+  public secretCode;
+  public nameArray;
+  public name;
   public mostrar: boolean = false;
   public variable: boolean = false;
   public scannedCode;
 
   public idReserva;
 
-  private comensal: Comensal;
-  private comensales: Comensal[] = [];
-  private tokenReserva;
+  public comensal: Comensal;
+  public comensales: Comensal[] = [];
+  public tokenReserva;
 
   constructor(
     private barcodeScanner: BarcodeScanner,

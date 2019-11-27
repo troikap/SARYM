@@ -113,10 +113,11 @@ export class EstadiaService {
       .catch(  );
   }
 
-  setComensalesEstadia( datas ): Promise<any> {
+  setComensalesEstadia( datas, eliminar? ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', this.tokenEnviroment);
-     let data = {headers}
+    headers = headers.append('token', this.tokenEnviroment);
+    let data = {headers}
+    datas['eliminar'] = eliminar;
     return this.http
       .put(`${this.url}${this.dir}${this.dir2}`, datas, data)
       .toPromise()

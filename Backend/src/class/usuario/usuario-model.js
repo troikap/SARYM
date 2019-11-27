@@ -49,6 +49,9 @@ const UsuarioModelo = sequelize.define(
     },
     nroTelefonoUsuario: {
         type: Sequelize.BIGINT(10)
+    },
+    activadoUsuario: {
+        type: Sequelize.BOOLEAN
     }
 }, {
     // options

@@ -14,6 +14,9 @@ const tratarError = require("../../middlewares/handleError"),
   TipoMonedaModelo = require("../tipomoneda/tipomoneda-model"),
   ComensalModelo = require("../comensal/comensal-model"),
   MedioPagoModelo = require("../mediopago/mediopago-model"),
+  ProductoModelo = require("../producto/producto-model"),
+  MenuPromocionModelo = require("../menupromocion/menupromocion-model"),
+  DetallePedidoProductoModelo = require("../detallepedidoproducto/detallepedidoproducto-model"),
 
   legend = "Pago",
   legend2 = "PagoPedido",
@@ -391,5 +394,60 @@ PagoController.editarPagoPedido = (req, res) => {
         }
     });
 };
+
+PagoController.getPagoToEstadia = (req, res) => {
+  let locals = {};
+  let params = req.params;
+  PagoModelo.findAll({
+    attributes: attributes.pago,
+    include: [
+      {
+      model: ComensalModelo,
+      where: { idEstadia: params.idEstadia },
+      attributes: attributes.comensal,
+      },
+      {
+        model: PagoPedidoModelo,
+        attributes: attributes.pagopedido,
+        include: [
+            {
+            model: PedidoModelo,
+            attributes: attributes.pedido,
+            include: [
+              {
+                model: DetallePedidoProductoModelo,
+                attributes: attributes.detallepedidoproducto,
+                include: [
+                  {
+                    model: ProductoModelo,
+                    attributes: attributes.producto,
+                  },
+                  {
+                    model: MenuPromocionModelo,
+                    attributes: attributes.menupromocion,
+                  },
+                ]
+              }
+            ]
+            }
+        ]
+      },
+      {
+        model: MedioPagoModelo,
+        attributes: attributes.mediopago,
+      },
+    ],
+  }).then(async projects => {
+      if (!projects || projects == 0) {
+        locals['title'] = `No existen registros de ${legend}.`;
+        locals['tipo'] = 2;
+      } else {
+        locals['title'] = `${legend}`;
+        locals['data'] = projects;
+        locals['tipo'] = 1;
+      }
+      res.json(locals);
+  });
+}
 
 module.exports = PagoController;

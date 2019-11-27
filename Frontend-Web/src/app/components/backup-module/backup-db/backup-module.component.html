@@ -1,0 +1,41 @@
+<div class="contenedor-pagina">
+    <div class="table-container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" style="color:blue;" [routerLink]="['/backup']"><strong>Base de Datos</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" style="color:black;" [routerLink]="['/backupApp']">Aplicación</a>
+            </li>
+        </ul>
+        <div class="jumbotron">
+            <h1 class="display-4">Módulo de Backup y Recuperación</h1>
+            <p class="lead" [innerHTML]=info></p>
+            <hr class="my-4">
+            <p [innerHTML]=accion></p>
+            <button *ngIf="backupGenerado" type="button" class="btn btn-primary btn-lg" id="generarBackupId"
+                (click)="generarBackup()">Generar Backup</button>
+            <button *ngIf="!backupGenerado" class="btn btn-primary btn-lg" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Generando Backup...
+            </button>
+            <hr>
+            <p [innerHTML]=info2></p>
+            <p style="color:red;" [innerHTML]=precacucion></p>
+            <input type="file" class="btn btn-secondary" (change)="onFileChange($event)">&nbsp;&nbsp;&nbsp;&nbsp;
+            <button *ngIf="backupCargado" type="button" class="btn btn-warning btn-lg" id="cargarBackupId"
+                (click)="cargarBackup()">Cargar Backup</button>
+            <button *ngIf="!backupCargado" class="btn btn-warning btn-lg" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Cargando Backup...
+            </button>
+        </div>
+        <div class="buttons-botton">
+            <div class="row">
+                <div class="col-2">
+                    <button [routerLink]="['/home']" class="btn btn-primary">Volver</button>
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -9,6 +9,7 @@ usuario = [
     'idDepartamento',
     'nroCelularUsuario',
     'nroTelefonoUsuario',
+    'activadoUsuario'
   ];
 
 usuario2 = [
@@ -22,7 +23,8 @@ usuario2 = [
     'idDepartamento',
     'nroCelularUsuario',
     'nroTelefonoUsuario',
-    'contrasenaUsuario'
+    'contrasenaUsuario',
+    'activadoUsuario'
 ];
 
 usuarioestado = [
@@ -224,7 +226,9 @@ comensal = [
     "idComensal",
     "aliasComensal",
     "edadComensal",
-    "idUsuario"
+    "idUsuario",
+    "idReserva",
+    "idEstadia"
 ]
 
 comensalAll = [
@@ -241,7 +245,8 @@ pedidoestado = [
     "descripcionPedidoEstado",
     "fechaYHoraAltaPedidoEstado",
     "fechaYHoraBajaPedidoEstado",
-    
+    "idEstadoPedido",
+    "idPedido",
 ]
 
 estadopedido = [

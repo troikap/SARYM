@@ -50,7 +50,10 @@
                         </ion-row>
                         <ion-row>
                             <ion-col>
-                                <ion-button (click)="realizarPedido(estadia)">Realizar Pedido</ion-button>
+                                <ion-button class="cash" color="warning" (click)="verListaPago(estadia)"><ion-icon name="cash"></ion-icon>Ver Pagos</ion-button>
+                            </ion-col>
+                            <ion-col>
+                                <ion-button (click)="realizarPedido(estadia)">Ver Comensales</ion-button>
                             </ion-col>
                         </ion-row>
                     </div>

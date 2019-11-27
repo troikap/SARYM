@@ -12,10 +12,10 @@ import { NavController,  AlertController, ToastController } from '@ionic/angular
 export class SearchGestionarReservaPage implements OnInit {
   
   public listaReservas: any [] = [];
-  public reservaInvitado: any;
-  private currentUsuario;
-  private idUsuarioLogueado: number;
-  public nombreUsuario;
+  public reservaInvitado: any = null;
+  private currentUsuario = null;
+  private idUsuarioLogueado: number = 0;
+  public nombreUsuario = null;
   public traeReservasInvitado = false;
 
   constructor(
@@ -31,14 +31,30 @@ export class SearchGestionarReservaPage implements OnInit {
   ngOnInit() {
   }
 
+  doRefresh(event) {
+    
+    this.resetDatos();
+    this.loadCurrentUsuario();
+
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
+  }
+
+  resetDatos() {
+    this.listaReservas = [];
+    this.reservaInvitado = null;
+    this.currentUsuario = null;
+    this.idUsuarioLogueado = 0;
+    this.nombreUsuario = null;
+    this.traeReservasInvitado = false;
+  }
+
   loadCurrentUsuario() {
     this.storage.getCurrentUsuario().then((data) => {
       this.currentUsuario = data;
-      console.log("USUARIO ", this.currentUsuario);
       this.nombreUsuario = this.currentUsuario.rolUsuario;
       this.idUsuarioLogueado =  this.currentUsuario.id; //Si this.idUsuarioLogueado == -1, es usuario invitado
-      console.log("this.idUsuarioLogueado : ", this.idUsuarioLogueado );
-      console.log("this.nombreUsuario : ", this.nombreUsuario );
       this.getReservasUsrLogueado();
     });
   }
@@ -47,7 +63,6 @@ export class SearchGestionarReservaPage implements OnInit {
     if (this.idUsuarioLogueado !== -1) { // Si NO es Usuario Invitado
       this.reservaService.getReservasPorUsuario(this.idUsuarioLogueado)
       .then((res: any) => {
-        console.log("getReservasUsrLogueado", res);
         if(res.tipo != 2) {
           this.listaReservas =  res;
         }        
@@ -56,15 +71,11 @@ export class SearchGestionarReservaPage implements OnInit {
     else {
       let idReserva = null;
       this.storage.getOneObject("reserva").then((res: any) => {
-        console.log("STORAGE reserva:-------" ,res);
         if (res != null && res != "") {
           this.traeReservasInvitado = true;
-
           idReserva = res.idReservaEstadia;
-          console.log("idReserva: ", idReserva);
           this.reservaService.getReserva(idReserva)
           .then((res: any) => {
-            console.log("getReservasUsrLogueado INVITADO: ", res);
             if(res.tipo != 2) {
               this.reservaInvitado =  res;
             }
@@ -82,12 +93,12 @@ export class SearchGestionarReservaPage implements OnInit {
 
   realizarPedido(item) {
     let idReserva = item.data.idReserva;
-    this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}`])
+    this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}/edicion`])
   }
 
   realizarPedidoInvitado(item) {
     let idReserva = item.idReserva;
-    this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}`])
+    this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}/edicion`])
   }
 
   crearReserva() {
@@ -149,14 +160,9 @@ export class SearchGestionarReservaPage implements OnInit {
             let dtoAnularReserva = this.getDTOCambioEstadoEliminarReserva(pIdReserva);
             this.reservaService.cambiarEstado(dtoAnularReserva)
             .then( resp => {
-              console.log("Respuesta Anular Reserva: ",resp)
-
               if (resp.tipo != 2) {
                 this.toastSuccess("Se ha anulado correctamente la reserva seleccionada");
                 this.getReservasUsrLogueado();
-                // setTimeout(()=>{
-                //   location.reload();
-                //  }, 3000);
               }
               else {
                 this.toastError(resp.title);
@@ -191,25 +197,4 @@ export class SearchGestionarReservaPage implements OnInit {
     });
     toast.present();
   }
-
-  // botonBuscar(termino: any) {
-  //   console.log("botonBuscar: ", termino);
-  //   if (termino.trim() !== "") {
-  //     this.reservaService.getProductosByAll(termino)
-  //     .subscribe((data: any) => { // Llamo a un Observer
-  //       console.log(data);
-  //       if (data != null) {
-  //         console.log("RESULT ----------------->", data);
-  //         this.listaReservas = data;
-  //       }
-  //       else {
-  //         this.listaReservas = [];
-  //       }
-  //     });
-  //   }
-  //   else {
-  //     this.getReservasUsrLogueado();
-  //   }
-  // }
-
 }

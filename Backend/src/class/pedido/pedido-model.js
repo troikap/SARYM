@@ -43,7 +43,7 @@ const PedidoModelo = sequelize.define('pedido', {
 
 // PedidoModelo.hasMany(PagoPedidoModelo, { foreignKey: "idPedido" });
 PedidoModelo.hasMany(DetallePedidoProductoModelo, { foreignKey: "idPedido" });
-PedidoModelo.hasMany(PedidoEstadoModelo, {foreignKey: "idPedido"});
+PedidoModelo.hasMany(PedidoEstadoModelo, {foreignKey: "idPedido" , onDelete: 'CASCADE', hooks: true});
 PedidoModelo.belongsTo(ComensalModelo, {foreignKey: "idComensal"});
 
 

@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <!-- <ion-icon name="md-arrow-back" (click)="goBack()"></ion-icon> -->
+          <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>Lista de Pedidos</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content *ngIf='pagos'>
+  <ion-card>
+      <ion-title color="dark" align="middle" padding>Estadia N°: {{idEstadia}}</ion-title>
+  </ion-card>
+  <div *ngFor="let item of pagos, let i = index">
+    <ion-item-sliding>
+      <ion-item lines="full" (click)="mostrar[i] = !mostrar[i]" >
+        <ion-card color=success class="card-inter">
+            <ion-card-header>
+                <ion-card-title>Codigo: <strong>{{item.codPago}}</strong></ion-card-title>
+                <ion-card-title>Fecha: <strong>{{item.fechaYHoraAltaPago | date:'dd/MM/yyyy - HH:mm'}}</strong></ion-card-title>
+                <ion-title align="right">Importe: {{item.importeTotalAPagar | currency}}</ion-title>
+            </ion-card-header>
+            <ion-card-content *ngIf="item.usuario">
+                <ion-card-subtitle>Medio de Pago: <strong> {{item.mediopago.nombreMedioPago}}</strong></ion-card-subtitle>
+            </ion-card-content>
+        </ion-card>
+      </ion-item>
+      <ion-item-options side="start">
+          <ion-item-option color="medium" (click)="imprimir( item )">
+              <ion-icon slot="icon-only" name="print"></ion-icon>
+          </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+    <ion-card *ngIf="mostrar[i] && item.pagopedidos[i] != null">
+      <ion-card-header>
+        <ion-card-title>Detalle de pago N°: <strong>{{item.pagopedidos[i].idPagoPedido}}</strong></ion-card-title>
+        <h3 align="right">Importe Detalle: <strong>{{item.pagopedidos[i].importePagoPedido | currency}}</strong></h3>
+      </ion-card-header>
+      <ion-card-content>Código N°: {{item.pagopedidos[i].pedido.codPedido}}<strong></strong></ion-card-content>
+      <ion-list *ngFor="let ped of item.pagopedidos[i].pedido.detallepedidoproductos">
+        <ion-title no-padding align="center">Cantidad: <strong>{{ped.cantidadPedidoProducto}}</strong></ion-title>
+        <ion-card *ngIf="ped.idProducto">
+          <ion-card-content>Producto: <strong>{{ped.producto.descripcionProducto}}</strong></ion-card-content>
+        </ion-card>
+        <ion-card *ngIf="ped.idMenuPromocion">
+          <ion-card-content>Menu / Promocion: <strong>{{ped.menupromocion.descripcionMenuPromocion}}</strong></ion-card-content>
+        </ion-card>
+      </ion-list>
+
+    </ion-card>
+    
+  </div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="realizarPago()">
+      <ion-fab-button>
+          <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+  </ion-fab>
+</ion-content>

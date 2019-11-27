@@ -17,7 +17,7 @@ const configMensaje = require('../middlewares/configMensaje');
 var UsuarioController = require('../class/usuario/usuario-controller');
 var DepartamentoController = require('../class/departamento/departamento-controller');
 var RolController = require('../class/rol/rol-controller');
-var ProductoController =    require('../class/producto/producto-controller');
+var ProductoController = require('../class/producto/producto-controller');
 var MenuPromocionController = require('../class/menupromocion/menupromocion-controller');
 var MesaController = require('../class/mesa/mesa-controller');
 var TipoMonedaController = require('../class/tipomoneda/tipomoneda-controller');
@@ -61,7 +61,8 @@ router
         res.status(200).send();
     })
     .post('/recuperarDatosToken', verificaTokenRecuperacion, UsuarioController.recuperarDatosToken)
-
+    .post('/activarUsuario', UsuarioController.activarUsuario)
+    
 // reporte
 
 // usuario
@@ -83,6 +84,7 @@ router
     .post('/pago', verificaToken, PagoController.create)
     .put('/pago/actualizarDatos', verificaToken, PagoController.actualizarDatos)
     .put('/pago/editarPagoPedido', verificaToken, PagoController.editarPagoPedido)
+    .post('/pago/getPagoToEstadia/:idEstadia', verificaToken, PagoController.getPagoToEstadia)
 
 // producto
     .get('/producto', verificaToken, ProductoController.getAll)
@@ -257,10 +259,10 @@ router
     .put('/caja/realizarMovimiento', verificaToken, CajaController.realizarMovimiento)
 
 // mozoestadia
-    // .get('/mozoestadia', verificaToken, MozoEstadiaController.getAll)
-    // .get('/mozoestadia/:idMozoEstadia', verificaToken, MozoEstadiaController.getOne)
-    // .post('/mozoestadia', verificaToken, MozoEstadiaController.create)
-    // .put('/mozoestadia/actualizarDatos', verificaToken, MozoEstadiaController.actualizarDatos)
+// .get('/mozoestadia', verificaToken, MozoEstadiaController.getAll)
+// .get('/mozoestadia/:idMozoEstadia', verificaToken, MozoEstadiaController.getOne)
+// .post('/mozoestadia', verificaToken, MozoEstadiaController.create)
+// .put('/mozoestadia/actualizarDatos', verificaToken, MozoEstadiaController.actualizarDatos)
 
 // ESTADOS ------------------------------------------------------------------------------------------------
 

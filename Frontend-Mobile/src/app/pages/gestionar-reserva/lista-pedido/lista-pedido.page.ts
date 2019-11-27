@@ -20,13 +20,14 @@ export class ListaPedidoPage implements OnInit {
   reserva: Reserva;
   comensales: Comensal[];
   mostrar: Boolean[] = [];
+  aliasComensal;
 
   constructor(
     private alertController: AlertController,
     private navController: NavController,
     public activatedRoute: ActivatedRoute,
     private storage: StorageService,
-    private reservaservicio: ReservaService,
+    private reservaService: ReservaService,
     private pedidoService: PedidoService,
     private toastService: ToastService,
     private alertService: AlertService,
@@ -36,7 +37,6 @@ export class ListaPedidoPage implements OnInit {
     console.log("PAGE SeleccionComensalPage")
     this.activatedRoute.params
       .subscribe(params => {
-        console.log("PARAMETROS ", params)
         this.idReserva = params.idReserva;
         this.idComensal = params.idComensal;
       })
@@ -44,26 +44,22 @@ export class ListaPedidoPage implements OnInit {
   }
 
   ionViewWillEnter(){
-    console.log("PRIMERO ")
     this.traerReserva();
   }
 
   ionViewDidEnter(){
-    console.log("SEGUNDO ")
   }
 
   ionViewWillLeave(){
-    console.log("TERCERO ")
   }
 
   ionViewDidLeave(){
-    console.log("CUARTO ")
   }
 
   async traerReserva(){
-    await this.reservaservicio.getReserva(  this.idReserva )
+    await this.reservaService.getReserva(  this.idReserva )
     .then( async reserva => {
-      console.log("RESERVA ", reserva)
+      console.log("RESERVA -------- ", reserva)
       let pedidosComensal: any[] = [];
       this.reserva = reserva;
       reserva.pedidos.forEach(element => {
@@ -73,10 +69,13 @@ export class ListaPedidoPage implements OnInit {
         }
       });
       this.reserva.pedidos = pedidosComensal;
-      console.log("PEDIDOS DE COMENSAL ,", pedidosComensal)
       this.calcularTotalCostoPedido();
-      console.log("Comensales" ,reserva.comensals)
-      this.comensales = reserva.comensals
+      this.comensales = reserva.comensals;
+      for (let item of this.comensales) {
+        if (item.idComensal == this.idComensal){
+          this.aliasComensal = item.aliasComensal;
+        }
+      }
     })
   }
 
@@ -98,7 +97,7 @@ export class ListaPedidoPage implements OnInit {
 
   eliminarPedido(item) {
     console.log("Logica eliminarPedido")
-    this.Confirm("Confirmacion!", "Está seguro que desea eliminar el Pedido?", item)
+    this.Confirm("Confirmacion!", "¿Está seguro que desea eliminar el Pedido?", item)
   }
 
   crearPedido() {
@@ -117,10 +116,10 @@ export class ListaPedidoPage implements OnInit {
         this.pedidoService.updatePedido(pathCodigo)
         .then( res => {
           if ( res.tipo == 1){
-            this.toastService.toastSuccess(`Pedido N° ${resp.id} creado!`, 3000)
+            this.toastService.toastSuccess(`Pedido N° ${resp.id} creado!`, 2000)
             this.traerReserva();
           } else {
-            this.toastService.toastWarning(`Pedido N° ${resp.id} creado!. No se pudo actualizar Codigo.`, 4000)
+            this.toastService.toastWarning(`Pedido N° ${resp.id} creado!. No se pudo actualizar Codigo.`, 3000)
           }
         })
       }
@@ -156,7 +155,7 @@ export class ListaPedidoPage implements OnInit {
       tipo = "Promocion";
       nombre = item.menupromocion.nombreMenuPromocion;
     }
-    this.ConfirmEdit(`Modificar ${tipo}`, `Desea modificar ${tipo} ${nombre} del pedido N° ${idPedido}? Por favor Ingrese cantidad.`, item, idPedido)
+    this.ConfirmEdit(`Modificar ${tipo}`, `¿Desea modificar ${tipo} ${nombre} del pedido N° ${idPedido}? Por favor Ingrese cantidad.`, item, idPedido)
   }
 
   eliminarDetalle (item, idPedido) {
@@ -173,7 +172,7 @@ export class ListaPedidoPage implements OnInit {
       tipo = "Promocion";
       nombre = item.menupromocion.nombreMenuPromocion;
     }
-    this.ConfirmDelete(`Eliminar ${tipo}!`, `Desea eliminar ${tipo} ${nombre} del pedido N° ${idPedido}?`, item, idPedido)
+    this.ConfirmDelete(`Eliminar ${tipo}!`, `¿Desea eliminar ${tipo} ${nombre} del pedido N° ${idPedido}?`, item, idPedido)
   }
 
 
@@ -201,15 +200,16 @@ export class ListaPedidoPage implements OnInit {
               this.pedidoService.cambiarEstado( pathPedidoEstado)
               .then( res => {
                 if (res.tipo == 1){
-                  this.toastService.toastSuccess(`Pedido N° ${data.idPedido} Anulado!`, 3000)
+                  this.toastService.toastSuccess(`Pedido N° ${data.idPedido} Anulado!`, 2000)
                 } else {
-                  this.toastService.toastWarning(`Problemas al intentar anular Pedido N° ${data.idPedido}.`, 4000)
+                  this.toastService.toastWarning(`Problemas al intentar anular Pedido N° ${data.idPedido}.`, 3000)
                 }
                 this.traerReserva();
               })
           }
         }
-      ]
+      ],
+      cssClass: 'alertWarning',
     });
     await alert.present();
   }
@@ -266,7 +266,8 @@ export class ListaPedidoPage implements OnInit {
             }
           }
         }
-      ]
+      ],
+      cssClass: 'alertPrimary'
     });
     await alert.present();
   }
@@ -305,7 +306,8 @@ export class ListaPedidoPage implements OnInit {
             })
           }
         }
-      ]
+      ],
+      cssClass: 'alertWarning'
     });
     await alert.present();
   }

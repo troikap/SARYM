@@ -14,6 +14,7 @@ export class SearchGestionarEstadiaPage implements OnInit {
   private currentUsuario;
   private idUsuarioLogueado: number;
   private createdCode;
+  public mostrar;
 
   constructor(
     private estadiaService: EstadiaService,
@@ -55,8 +56,13 @@ export class SearchGestionarEstadiaPage implements OnInit {
   }
 
   realizarPedido(item) {
-    let idReserva = item.data.idReserva;
-    this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}`])
+    let idEstadia = item.idEstadia;
+    this.navController.navigateForward([`/seleccion-comensal/estadia/${idEstadia}/edicion`])
+  }
+
+  verListaPago(item) {
+    let idEstadia = item.idEstadia;
+    this.navController.navigateForward([`/lista-pago/${idEstadia}`])
   }
 
   unirseEstadia() {

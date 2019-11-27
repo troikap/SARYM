@@ -7,6 +7,10 @@
     </ion-toolbar>
 </ion-header>
 <ion-content *ngIf="nombreUsuario">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" refreshingSpinner="circles"></ion-refresher-content>
+    </ion-refresher>
+
     <ion-card *ngIf="nombreUsuario != 'Invitado' && listaReservas.length == 0">
         <h3 padding><strong>Debe generar o pertenecer a una reserva para poder interactuar con ella</strong></h3>
     </ion-card>
@@ -61,7 +65,7 @@
                                     <ion-button color="success" (click)="consultarReserva(reserva.data.idReserva)">Consultar Reserva</ion-button>
                                 </ion-col>
                                 <ion-col align="rigth">
-                                    <ion-button (click)="realizarPedido(reserva)">Realizar Pedido</ion-button>
+                                    <ion-button (click)="realizarPedido(reserva)">Ver Comensales</ion-button>
                                 </ion-col>
                             </ion-row>
                         </ion-grid>

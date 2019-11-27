@@ -12,7 +12,7 @@ import { NavController, AlertController } from '@ionic/angular';
 export class HomePage implements OnInit {
 
   private logueo: Log;
-  private currentUsuario: string;
+  public currentUsuario: string;
   selectOption;
 
   slidesCliente = [
@@ -104,7 +104,7 @@ export class HomePage implements OnInit {
         page = `/pedidos-a-enviar`;
         break;
       case "confirmar-reserva":
-        page = `/`;
+        page = `/confirmar-reserva`;
         break;
     }
     this.navController.navigateForward(page);

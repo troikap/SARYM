@@ -13,22 +13,23 @@ import { ToastService } from '../../../providers/toast.service';
 })
 export class SeleccionComensalPage implements OnInit {
 
-  idReserva;
-  idComensal;
-  currentUsuario;
-  reserva: Reserva;
-  comensales: Comensal[];
-  modificarComensal = false;
-  private nombreUsuario;
+  public idReserva;
+  public idComensal;
+  public currentUsuario;
+  public reserva: Reserva;
+  public comensales: Comensal[];
+  public modificarComensal = false;
+  public from;
+  public nombreUsuario;
 
-  pathDetalleComensalUsuario: {idReserva: number, detalle: [{aliasComensal: string, edadComensal: number, idUsuario?: number}]};
+  public pathDetalleComensalUsuario: {idReserva: number, detalle: [{aliasComensal: string, edadComensal: number, idUsuario?: number}]};
 
   constructor(
     private alertController: AlertController,
     private navController: NavController,
     public activatedRoute: ActivatedRoute,
-    private storage: StorageService,
-    private reservaservicio: ReservaService,
+    private storageService: StorageService,
+    private reservaServicio: ReservaService,
     private toastService: ToastService,
   ) {
    }
@@ -39,6 +40,7 @@ export class SeleccionComensalPage implements OnInit {
     if (!this.idReserva) {
       this.activatedRoute.params
         .subscribe(params => {
+          this.from = params.from;
           this.idReserva = params.idReserva;
           this.traerComensalReservaStorage();
         }).unsubscribe();
@@ -49,16 +51,14 @@ export class SeleccionComensalPage implements OnInit {
   }
 
   loadCurrentUsuario() {
-    this.storage.getCurrentUsuario().then((data) => {
+    this.storageService.getCurrentUsuario().then((data) => {
       let currentUsuario: any = data;
       this.nombreUsuario = currentUsuario.rolUsuario;
-      console.log("this.nombreUsuario : ", this.nombreUsuario );
     });
   }
 
   ionViewWillEnter(){
-    this.storage.getComensales().then((respuesta) => {
-      console.log("Trayendo Comensales Reserva", respuesta)
+    this.storageService.getComensales().then((respuesta) => {
       if (respuesta != null) {
         respuesta.forEach(element => {
           if(element.idReserva == this.idReserva){
@@ -74,22 +74,21 @@ export class SeleccionComensalPage implements OnInit {
   }
 
   traerUsuario() {
-    this.storage.getCurrentUsuario()
+    this.storageService.getCurrentUsuario()
       .then( logs => {
         this.currentUsuario = logs['id'];
       })
   }
 
   limpiarComensalStorage(){
-    this.storage.validarComensal().then((respuesta) => {
-      console.log("Limpiando Comensales Reserva", respuesta)
+    this.storageService.validarComensal().then((respuesta) => {
       if(respuesta) {
         respuesta.forEach(element => {
           if(element.vencida) {
             let data: {} = {idReserva: element.idReserva,
               idEstadoReserva: 2,
               descripcionReservaEstado: `Por Vencimiento, eliminado desde Comensal ${element.idComensal}.`}
-            this.reservaservicio.cambiarEstado(data)
+            this.reservaServicio.cambiarEstado(data)
             .then( resp => {
               if(resp.tipo == 1){
                 this.toastService.toastError( `Reserva N° ${element.idReserva} Anulada por vencimiento.`,3000,'bottom')
@@ -105,8 +104,7 @@ export class SeleccionComensalPage implements OnInit {
 
   traerComensalReservaStorage(){
     if(!this.modificarComensal){
-      this.storage.getComensales().then((respuesta) => {
-        console.log("Trayendo Comensales Reserva", respuesta)
+      this.storageService.getComensales().then((respuesta) => {
         if (respuesta != null ){
           respuesta.forEach(element => {
             if(element.idReserva == this.idReserva){
@@ -121,24 +119,26 @@ export class SeleccionComensalPage implements OnInit {
   }
 
   traerReserva(){
-    this.reservaservicio.getReserva( this.idReserva )
+    this.reservaServicio.getReserva( this.idReserva )
     .then( reserva => {
-      console.log("RESERVA ", reserva)
       this.reserva = reserva;
-      console.log("Comensales" ,reserva.comensals)
       this.comensales = reserva.comensals
     })
   }
 
   seleccionarComensal( item ) {
-    this.storage.getOneObject("comensalReserva").then((data) => {
+    this.storageService.getOneObject("comensalReserva").then((data) => {
       if (data != null) {
-        let idComensalStorage = data[0].idComensal;
+        let idComensalStorage;
+        for ( let comen of data ){ 
+          if (comen.idReserva == this.reserva.idReserva) {
+            idComensalStorage = comen.idComensal
+          }
+        }
         if (idComensalStorage != item.idComensal) {
           this.confirmacionComensal( item );
         }
         else {
-          this.guardarComensal(item);
           this.navController.navigateForward([`/lista-pedido/reserva/${this.idReserva}/comensal/${item.idComensal}`])
         }
       }
@@ -156,7 +156,7 @@ export class SeleccionComensalPage implements OnInit {
       fechaReserva: this.reserva.fechaReserva, 
       horaEntradaReserva: this.reserva.horaEntradaReserva 
     }
-    await this.storage.addComensal( comensal )
+    await this.storageService.addComensal( comensal )
   }
 
   async confirmacionComensal( item ) {
@@ -182,13 +182,44 @@ export class SeleccionComensalPage implements OnInit {
           }
         }
       ],
-      cssClass: 'alert',
+      cssClass: 'alertPrimary',
     });
     await alert.present();
   } 
 
-  eliminarComensal() {
-    console.log("ELIMINADN COMENSAL")
+  async eliminarComensal( item ) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar',
+      message: `¿Desea Eliminar el comensal seleccionado?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: ( resp ) => {
+            // no hacer nada
+          }
+        }, {
+          text: 'Eliminar Comensal',
+          handler: () => {
+            let pathComensal = { idReserva: this.idReserva,detalle: [ { idComensal: item['idComensal'], baja: true}]};
+            this.reservaServicio.setComensalesReserva(pathComensal)
+            .then( respuesta => {
+              if (respuesta.tipo == 1){
+                this.toastService.toastSuccess('Comensal eliminado correctamente.', 1500)
+                this.storageService.eliminarComensalReserva( pathComensal.detalle[0].idComensal )
+                this.traerReserva();
+              } else {
+                this.ConfirmarEliminarComensalAsociado('Confirmar Eliminado', 'El Comensal posee pedidos asociados. ¿Desea eliminar el Comensal con todos sus Pedidos?', pathComensal);
+              }
+            }).catch( error => {
+              console.log("ERROR ", error)
+            });
+          }
+        }
+      ],
+      cssClass: 'alertWarning',
+    });
+    await alert.present();
   }
 
   crearComensal() {
@@ -210,7 +241,7 @@ export class SeleccionComensalPage implements OnInit {
           name: 'edad',
           type: 'number',
           placeholder: 'Ingrese Edad',
-          min: 15,
+          min: 10,
           max: 99
         }
       ],
@@ -225,7 +256,7 @@ export class SeleccionComensalPage implements OnInit {
         }, {
           text: 'Aceptar',
           handler: ( info ) => {
-            if ( info.alias && info.edad && info.edad >= 15 ){
+            if ( info.alias && info.edad && info.edad >= 10 ){
               this.pathDetalleComensalUsuario = { idReserva: this.idReserva, detalle: [{aliasComensal: info.alias, edadComensal: info.edad }] }
               let existe = false;
               this.reserva.comensals.forEach( element => {
@@ -241,11 +272,12 @@ export class SeleccionComensalPage implements OnInit {
             } else if ( !info.alias ) {
               this.toastService.toastError('Ingrese Alias.', 2000)
             } else { 
-              this.toastService.toastError('La edad debe ser positiva y mayor a 15 años.', 2000)
+              this.toastService.toastError('La edad debe ser positiva y mayor a 10 años.', 2000)
             }
           }
         }
-      ]
+      ],
+      cssClass: 'alertPrimary',
     });
     await alert.present();
   }
@@ -270,21 +302,62 @@ export class SeleccionComensalPage implements OnInit {
             this.agregarNuevoComensal(this.pathDetalleComensalUsuario)
           }
         }
-      ]
+      ],
+      cssClass: 'alertPrimary',
     })
     await alert.present();
   }
 
   agregarNuevoComensal( path ){
-    console.log('agregando ',path);
-    this.reservaservicio.setComensalesReserva( path )
+    this.reservaServicio.setComensalesReserva( path )
       .then( res => {
         if ( res.tipo == 1){
-          this.toastService.toastSuccess(`Comensal agregado Correctamente!.`, 3000)
+          this.toastService.toastSuccess(`Comensal agregado Correctamente!.`, 2000)
         } else {
-          this.toastService.toastWarning(`Comensal no se pudo crear`, 4000)
+          this.toastService.toastWarning(`Comensal no se pudo crear`, 2000)
         }
         this.traerReserva();
       })
+  }
+
+  async ConfirmarEliminarComensalAsociado(pTitulo: string, pMensaje: string, pathComensal) {
+    const alert = await this.alertController.create({
+      header: pTitulo,
+      message: pMensaje,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Cancelado');
+          }
+        }, {
+          text: 'Eliminar',
+          handler: ( info ) => {
+            console.log("Obligar eliminacion de comensal con pedidos asociados")
+            this.reservaServicio.setComensalesReserva(pathComensal, true)
+            .then( respuesta => {
+              if ( respuesta.tipo == 1 ){
+                this.toastService.toastSuccess(`Comensal eliminado Correctamente con todos sus Pedidos asociados.`, 2500)
+                this.storageService.eliminarComensalReserva( pathComensal.detalle[0].idComensal )
+                this.traerReserva();
+              }
+            })
+          }
+        }
+      ],
+      cssClass: 'alertWarning',
+    })
+    await alert.present();
+  }
+
+
+  goBack() {
+    if ( this.from == 'creacion' ) {
+      this.navController.navigateRoot('/home')
+    } else if (this.from == "edicion") {
+      this.navController.navigateBack('/search-gestionar-reserva');
+    }
   }
 }

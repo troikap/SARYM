@@ -16,10 +16,8 @@ export class CrudRolComponent implements OnInit {
   private newForm = {};
   private idRol: number = null;
   public accionGet: string;
-
   public funcionesRol = [];
   public funcionesAsignadas = [];
-
   private funcionesAsignadasInicial = [];
 
   constructor(
@@ -73,7 +71,6 @@ export class CrudRolComponent implements OnInit {
         } else {
           if (res) {
             this.rol = res["data"];
-
             this.newForm = {
               idRol: this.idRol,
               idFuncion: "",
@@ -102,23 +99,10 @@ export class CrudRolComponent implements OnInit {
   }
 
   traerFunciones() {
-
     this.rolService.getFuncionesRolAll().then((res: any) => {
       this.funcionesRol = res.data;
       this.ordenarBurbujaList(this.funcionesRol);
     });
-
-    // /////HARDCODE FUNCTIONS --> ELIMINAR CUANDO ESTE BACKEND DE FUNCIONES/////
-    // this.funcionesRol.push({"idFuncion":"1", "nombreFuncion":"Consulta Usuario"});
-    // this.funcionesRol.push({"idFuncion":"2", "nombreFuncion":"ABM Usuario"});
-    // this.funcionesRol.push({"idFuncion":"3", "nombreFuncion":"Buscar Producto"});
-    // this.funcionesRol.push({"idFuncion":"4", "nombreFuncion":"Consulta Producto"});
-    // this.funcionesRol.push({"idFuncion":"5", "nombreFuncion":"ABM Producto"});
-    // this.funcionesRol.push({"idFuncion":"6", "nombreFuncion":"Consulta Abrir Caja"});
-    // this.funcionesRol.push({"idFuncion":"7", "nombreFuncion":"ABM Abrir Caja"});
-
-    // console.log("funcionesRol: ", this.funcionesRol);
-    // /////////////////////////////////////////////////////////////////////////
   }
 
   ordenarBurbujaList(lista: any[]) {
@@ -131,7 +115,6 @@ export class CrudRolComponent implements OnInit {
       for (let j = 0; j < (lista.length - 1); j++) {
         if (lista[j].idFuncion > lista[j + 1].idFuncion) {
           ordenada = false;
-
           let aux = lista[j];
           lista[j] = lista[j + 1];
           lista[j + 1] = aux;
@@ -310,7 +293,7 @@ export class CrudRolComponent implements OnInit {
                     if (listaFuncionesCrearRol.detalle.length > 0) {
                       _this.rolService.updateFuncionesRol(listaFuncionesCrearRol).then(response => {
                         const titulo = "Éxito";
-                        const mensaje = "Se ha actualizado el registro de Rol de forma exitrosa";
+                        const mensaje = "Se ha actualizado el registro de Rol de forma exitosa";
                         ($ as any).confirm({
                           title: titulo,
                           content: mensaje,
@@ -355,6 +338,7 @@ export class CrudRolComponent implements OnInit {
                 }
                 else if (listaFuncionesCrearRol.detalle.length > 0) {
                   _this.rolService.updateFuncionesRol(listaFuncionesCrearRol).then(response => {
+                    console.log("RESPONSE", response)
                     const titulo = "Éxito";
                     const mensaje = "Se ha actualizado el registro de Rol de forma exitrosa";
                     ($ as any).confirm({

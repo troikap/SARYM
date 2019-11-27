@@ -680,7 +680,7 @@ ReservaController.editarMesa = (req, res) => {
 };
 
 ReservaController.editarComensal = (req, res) => {
-  let locals = { detalles: [] };
+  let locals = { detalles: [], pedidos:[] };
   let body = req.body;
   ReservaModelo.findOne({
     where: {
@@ -733,83 +733,170 @@ ReservaController.editarComensal = (req, res) => {
       locals['tipo'] = 2;
     res.json(locals);
   } else {
-    let i = 1;
-    for ( let elem of body.detalle ) {
-        if ( elem[idtable6] ) {
-            if ( elem['baja'] == true ) {
-                await ComensalModelo.destroy({where: {[idtable6]: elem[idtable6]}}).then((resp) => {
+    if ( body.eliminar ) {
+      let idComen = body.detalle[0].idComensal;
+      await PedidoModelo.findAll(  {where: { idComensal: idComen },
+        attributes: attributes.pedido,
+        include: [{
+                model: PedidoEstadoModelo,
+                attributes: attributes.pedidoestado,
+                where: { fechaYHoraBajaPedidoEstado: null }
+        }]}).then( async pedidos => {
+        for (let ped of pedidos) {
+          locals.pedidos.push({
+            ['title']: `Pedido N° ${ped.dataValues.idPedido} en estado N° ${ped.dataValues.pedidoestados[0].dataValues.idEstadoPedido}`
+          })
+          let pedido = ped.dataValues;
+          let pushPedidoEstado = { fechaYHoraBajaPedidoEstado: fechaArgentina.getFechaArgentina()};
+          await PedidoEstadoModelo.update(pushPedidoEstado , { where: { idPedido: pedido.idPedido, fechaYHoraBajaPedidoEstado: null }}).then( async (respons) => {
+            if(!respons || respons == 0) {
+              locals.detalles.push({
+              ['title'] : `No existe Pedido Estado habilitado para el pedido N° ${pedido.idPedido}.`,
+              ['tipo'] : 2
+              })
+            } else {
+              let pathNuevoPedido = { 
+                fechaYHoraAltaPedidoEstado: fechaArgentina.getFechaArgentina(),
+                idPedido: pedido.idPedido,
+                idEstadoPedido: 2
+              }
+                await PedidoEstadoModelo.create(pathNuevoPedido).then( async (resp) => {
+                    if (!resp || resp == 0 ){
+                      locals.detalles.push({
+                       ['title']: `No se pudo anular Pedido.`,
+                       ['tipo']: 2
+                      })
+                    } else {
+                      locals.detalles.push({
+                       ['title'] : `Se anulo correctamente el Pedido.`,
+                       ['tipo'] : 1
+                      })
+                    }
+                }).catch((error) => {
+                  locals.detalles.push(tratarError.tratarError(error, legend));
+                });
+            }
+            }).catch((error) => {
+              locals.detalles.push(tratarError.tratarError(error, legend));
+            });
+        }
+        await ComensalModelo.update( {idReserva: null} ,{ where: { idComensal: idComen }}).then( async resp => {
+          if(!resp || resp == 0) {
+            locals.detalles.push({
+                ['title']: `Comensal NO eliminado`,
+                ['tipo']: 2
+            })
+          } else {
+              locals.detalles.push({
+                  ['title']: `Comensal eliminado`,
+                  ['tipo']: 1
+              })
+          }
+            let correcto = true;
+            if ( locals.detalles != null ) {
+              for (let elem of locals.detalles) {
+                  if (elem.tipo == 2){
+                      correcto = false
+                  }
+              }
+            } else {
+              correcto = false
+            }
+            if (correcto) {
+                locals['title'] =  'Comensal Eliminado correctamente con sus asociaciones de Pedidos.';
+                locals['tipo'] =  1;
+            } else {
+                locals['title'] =  'No se pudo eliminar todos los registros del Comensal.';
+                locals['tipo'] =  2;
+            }
+            res.json(locals);
+        })
+      })
+    } else {
+      let i = 1;
+      for ( let elem of body.detalle ) {
+          if ( elem[idtable6] ) {
+              if ( elem['baja'] == true ) {
+                  await ComensalModelo.destroy({where: {[idtable6]: elem[idtable6]}}).then((resp) => {
+                      if(!resp || resp == 0) {
+                          locals.detalles.push({
+                              ['title']: `Comensal NO eliminado con ${[idtable6]} = ${elem[[idtable6]]}`,
+                              ['tipo']: 2
+                          })
+                      } else {
+                          locals.detalles.push({
+                              ['title']: `Comensal eliminado con ${[idtable6]} = ${elem[[idtable6]]}`,
+                              ['tipo']: 1
+                          })
+                      }
+                  }).catch((error) => {
+                    locals.detalles.push( tratarError.tratarError(error, legend))
+                  });
+              } else {
+                await ComensalModelo.update(elem, {where: {[idtable6]: elem[idtable6]}}).then((resp) => {
                     if(!resp || resp == 0) {
                         locals.detalles.push({
-                            ['title']: `Comensal NO eliminado con ${[idtable6]} = ${elem[[idtable6]]}`,
+                            ['title']: `Comensal NO editado con ${[idtable6]} = ${elem[[idtable6]]}`,
                             ['tipo']: 2
                         })
                     } else {
                         locals.detalles.push({
-                            ['title']: `Comensal eliminado con ${[idtable6]} = ${elem[[idtable6]]}`,
+                            ['title']: `Comensal editado con ${[idtable6]} = ${elem[[idtable6]]}`,
                             ['tipo']: 1
                         })
                     }
                 })
-            } else {
-              await ComensalModelo.update(elem, {where: {[idtable6]: elem[idtable6]}}).then((resp) => {
+            }
+          } else {
+            elem[idtable] = body[idtable];
+            await ComensalModelo.findOne({ where: { [idtable]: elem[idtable] , aliasComensal: elem['aliasComensal'] }}).then( async (Comensal) => {
+              if(!Comensal || Comensal == 0) {
+                await ComensalModelo.create(elem).then((resp) => {
                   if(!resp || resp == 0) {
                       locals.detalles.push({
-                          ['title']: `Comensal NO editado con ${[idtable6]} = ${elem[[idtable6]]}`,
+                          ['title']: `Comensal NO creado: ${elem[idtable6]}`,
                           ['tipo']: 2
                       })
                   } else {
                       locals.detalles.push({
-                          ['title']: `Comensal editado con ${[idtable6]} = ${elem[[idtable6]]}`,
+                          ['title']: `Comensal creado: ${elem[idtable6]}`,
+                          ['data']: resp,
                           ['tipo']: 1
                       })
                   }
-              })
-          }
-        } else {
-          elem[idtable] = body[idtable];
-          await ComensalModelo.findOne({ where: { [idtable]: elem[idtable] , aliasComensal: elem['aliasComensal'] }}).then( async (Comensal) => {
-            if(!Comensal || Comensal == 0) {
-              await ComensalModelo.create(elem).then((resp) => {
-                if(!resp || resp == 0) {
-                    locals.detalles.push({
-                        ['title']: `Comensal NO creado: ${elem[idtable6]}`,
-                        ['tipo']: 2
-                    })
-                } else {
-                    locals.detalles.push({
-                        ['title']: `Comensal creado: ${elem[idtable6]}`,
-                        ['tipo']: 1
-                    })
-                }
-              }).catch((error) => {
-                locals = tratarError.tratarError(error, legend);
-                res.json(locals);
-              });
-            } else {
-              locals.detalles.push({
-                ['title']: `Ya existe ${legend6} con id ${idtable6}`,
-                ['tipo']: 2
-              })
-            }
-          })
-        }
-        if ( Object.keys(body.detalle).length == i) {
-          let correcto = true;
-          for (let elem of locals.detalles) {
-              if (elem.tipo == 2){
-                  correcto = false
+                }).catch((error) => {
+                  locals.detalles.push( tratarError.tratarError(error, legend));
+                });
+              } else {
+                locals.detalles.push({
+                  ['title']: `Ya existe ${legend6} con id ${idtable6}`,
+                  ['tipo']: 2
+                })
               }
+            })
           }
-          if (correcto) {
-              locals['title'] = 'Registros actualizados correctamente';
-              locals['tipo'] = 1;
-          } else {
-              locals['title'] = 'Algunos registros no fueron actualizados';
-              locals['tipo'] = 2;
+          if ( Object.keys(body.detalle).length == i) {
+            let correcto = true;
+            if ( locals.detalles != null ) {
+              for (let elem of locals.detalles) {
+                  if (elem.tipo == 2){
+                      correcto = false
+                  }
+              }
+            } else {
+              correcto = false
+            }
+            if (correcto) {
+                locals['title'] =  'Registros actualizados correctamente';
+                locals['tipo'] =  1;
+            } else {
+                locals['title'] =  'Algunos registros no fueron actualizados';
+                locals['tipo'] =  2;
+            }
+            res.json(locals);
           }
-          res.json(locals);
-      }
-      i += 1;
+        i += 1;
+        }
       }
     }
   });

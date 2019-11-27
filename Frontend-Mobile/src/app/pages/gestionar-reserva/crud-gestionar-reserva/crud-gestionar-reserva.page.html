@@ -1,9 +1,10 @@
-<ion-header>
+<ion-header *ngIf="idReserva">
     <ion-toolbar color="primary">
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>Nueva Reserva</ion-title>
+        <ion-title *ngIf="accionGet == 'crear'">Nueva Reserva</ion-title>
+        <ion-title *ngIf="accionGet == 'editar'">Editar Reserva N° {{idReserva}}</ion-title>
     </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -33,7 +34,7 @@
             </ion-item>
             <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.pattern && form.controls.horaSalida.touched">Debería ser 30m mayor que la hora de Entrada.</p>
             <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.required && form.controls.horaSalida.touched">Ingrese la hora de Salida.</p>
-            <ion-item >
+            <ion-item>
                 <ion-label padding color="primary" position="floating">Cantidad de Personas</ion-label>
                 <ion-input class="form-control" type="number" placeholder="Cantidad Personas" formControlName="cantidadComensal" id="cantidadComensal"></ion-input>
             </ion-item>
@@ -51,7 +52,7 @@
         </div>
     </form>
     <form [formGroup]="form2" *ngIf="form2">
-        <ion-row >
+        <ion-row>
             <ion-col size="9">
                 <h1 padding>Comensal </h1>
             </ion-col>

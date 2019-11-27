@@ -18,7 +18,7 @@ import { MesaService } from './services/mesa/mesa.service';
 import { AlertService } from './providers/alert.service';
 import { ToastService } from './providers/toast.service';
 import { LoaderService } from './providers/loader.service';
-
+import { PagoService } from './services/pago/pago.service';
 
 // providers
 import { TratarFechaProvider } from './providers/tratarFecha.provider';
@@ -26,7 +26,7 @@ import { TratarFechaProvider } from './providers/tratarFecha.provider';
 //qr
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 
 //form
 import { FormsModule , ReactiveFormsModule } from '@angular/forms';
@@ -37,13 +37,12 @@ import { BrMaskerModule } from 'br-mask';
 import { IonicSelectableModule } from 'ionic-selectable';
 
 //camera
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 
 //storage
 import { IonicStorageModule } from '@ionic/storage';
 
-//modal
-import { ModalDetalleCatalogoPage } from './modal/modal-detalle-catalogo/modal-detalle-catalogo.page';
+
 
 
 @NgModule({
@@ -70,7 +69,6 @@ import { ModalDetalleCatalogoPage } from './modal/modal-detalle-catalogo/modal-d
     DatePipe,
     QRScanner,
     Camera,
-    ModalDetalleCatalogoPage,
     ReservaService,
     MesaService,
     IonicSelectableModule,
@@ -78,6 +76,7 @@ import { ModalDetalleCatalogoPage } from './modal/modal-detalle-catalogo/modal-d
     AlertService,
     ToastService,
     LoaderService,
+    PagoService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

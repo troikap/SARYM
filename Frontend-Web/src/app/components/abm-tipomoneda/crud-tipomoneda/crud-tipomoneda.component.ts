@@ -153,7 +153,7 @@ export class CrudTipomonedaComponent implements OnInit {
                   if (response.tipo == 2) {
                     const titulo = "Error";
                     const mensaje =
-                      "No se ha podido eliminar el Tipo de Moneda ingresado. El mismo ya está siendo utilizado en otro elemento.";
+                      "No se ha podido eliminar el Tipo de Moneda seleccionado. El mismo ya está siendo utilizado en otro elemento.";
                     ($ as any).confirm({
                       title: titulo,
                       content: mensaje,
@@ -217,8 +217,6 @@ export class CrudTipomonedaComponent implements OnInit {
                 .createTipoMoneda(unidadMed)
                 .then(response => {
                   if (response.tipo !== 2) {
-                    console.log("CREADO", response);
-
                     const titulo = "Éxito";
                     const mensaje =
                       "Se ha Creado un nuevo registro de Tipo de Moneda de forma exitosa";
