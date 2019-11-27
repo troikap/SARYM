@@ -23,10 +23,12 @@ export class ListaPedidoPagoPage implements OnInit {
   public estadia: Estadia;
   public pedidos: Pedido[];
   public modificarComensal = false;
+  public ver;
   public from;
   public nombreUsuario;
   public pathDetalleComensalUsuario: {idEstadia: number, detalle: [{aliasComensal: string, edadComensal: number, idUsuario?: number}]};
   public mostrar: any[] = [];
+  public listaPedidos: Pedido[] = []
 
   constructor(
   private alertController: AlertController,
@@ -78,8 +80,37 @@ export class ListaPedidoPagoPage implements OnInit {
   }
 
   realizarPago() {
-    
+    console.log("REALIZAR PAGO")
   }
+
+  agregarPedido( item ) {
+    this.listaPedidos.push(item);
+    let newPedidos = [];
+    for (let element of this.pedidos){
+      if (element.idPedido != item.idPedido) {
+        newPedidos.push(element);
+      }
+    }
+    this.pedidos = newPedidos;
+    console.log("PEDIDOS ---------- ", this.pedidos)
+    console.log("ITEM  ---------- ", this.listaPedidos)
+
+  }
+
+  eliminarPedido( item ) {
+    this.pedidos.push(item);
+    let newPedidos = [];
+    for (let element of this.listaPedidos){
+      if (element.idPedido != item.idPedido) {
+        newPedidos.push(element);
+      }
+    }
+    this.listaPedidos = newPedidos;
+    console.log("PEDIDOS ---------- ", this.pedidos)
+    console.log("ITEM  ---------- ", this.listaPedidos)
+
+  }
+  
 
   async imprimir( item ) {
     console.log("IMPRIMIR ", item)
