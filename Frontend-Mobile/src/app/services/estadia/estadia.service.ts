@@ -133,6 +133,7 @@ export class EstadiaService {
     headers = headers.append('token', this.tokenEnviroment);
     let data = {headers}
     datas['eliminar'] = eliminar;
+    console.log("Servicio setComensalesEstadia", datas);
     return this.http
       .put(`${this.url}${this.dir}${this.dir2}`, datas, data)
       .toPromise()

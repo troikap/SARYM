@@ -41,7 +41,6 @@ export class CrudGenerarEstadiaPage implements OnInit {
   public estadia: Estadia = null;
   public newForm = {};
   public origenDatos;
-
   private comensalesClientes = [];
 
   public nombreUsuario;
@@ -150,6 +149,8 @@ export class CrudGenerarEstadiaPage implements OnInit {
   traerMesas(){
     this.mesaservicio.getMesas()
     .then(  resp => {
+      this.mesas = [];
+      this.checkBoxList = [];
       this.mesas =  resp['data'];
       for (let mesa of  resp['data']) {
         this.checkBoxList.push({ 
@@ -175,6 +176,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
   }
 
   traerComensales(comensales) {
+    this.comensales = [];
     let comensal;
     for (let i = 0; i < comensales.length; i++) {
       comensal = {};
@@ -658,15 +660,17 @@ export class CrudGenerarEstadiaPage implements OnInit {
       this.enviarEstadiaEditar( estadia , comensales, mesas); 
     }
     else if (this.origenDatos == "confReserva") {
+      estadiaConCodigo['idReserva'] = this.idReserva;
       this.generarComensalesClientes();
       this.confirmarReserva( estadiaConCodigo , comensales, mesas);
     }
   }
 
   generarComensalesClientes() {
+    this.comensalesClientes = [];
     for (let item of this.comensales) {
       if (item.idUsuario != null) {
-        this.comensalesClientes.push(item.idUsuario);
+        this.comensalesClientes.push({"idUsuario": item.idUsuario});
       }
     }
   }
@@ -717,7 +721,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
                         if (respo2.tipo == 1 ){
                           this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
                           setTimeout(()=>{
-                            this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}`]);
+                            this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}/creacion`]);
                           }, 2000);
                         }
                         else {
@@ -806,7 +810,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
                     if (respo1.tipo == 1 ){
                       this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
                       setTimeout(()=>{
-                        this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}`]);
+                        this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}/creacion`]);
                       }, 2000);
                     }
                     else {
