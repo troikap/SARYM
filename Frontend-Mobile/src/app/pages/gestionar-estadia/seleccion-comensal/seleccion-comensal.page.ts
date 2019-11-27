@@ -132,17 +132,24 @@ export class SeleccionComensalPage implements OnInit {
       })
     }
   
+
     seleccionarComensal( item ) {
       this.storage.getOneObject("comensalEstadia").then((data) => {
         if (data != null) {
-          let idComensalStorage = data.idComensal;
+          let idComensalStorage;
+          for ( let comen of data ){ 
+            if (comen.idEstadia == this.estadia.idEstadia) {
+              idComensalStorage = comen.idComensal
+            }
+          }
           if (idComensalStorage != item.idComensal) {
             this.confirmacionComensal( item );
           }
           else {
             this.navController.navigateForward([`/lista-pedido/estadia/${this.idEstadia}/comensal/${item.idComensal}`])
           }
-        } else {
+        }
+        else {
           this.guardarComensal(item);
           this.navController.navigateForward([`/lista-pedido/estadia/${this.idEstadia}/comensal/${item.idComensal}`])
         }
@@ -152,7 +159,7 @@ export class SeleccionComensalPage implements OnInit {
     async guardarComensal( item ) {
       let comensal = { 
         idComensal: item.idComensal, 
-        idEstadia: this.estadia.idEstadia
+        idEstadia: this.estadia.idEstadia , 
       }
       await this.storage.setComensalEstadia( comensal )
     }

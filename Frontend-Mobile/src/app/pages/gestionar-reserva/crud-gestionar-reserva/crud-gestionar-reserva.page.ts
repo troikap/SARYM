@@ -78,6 +78,10 @@ export class CrudGestionarReservaPage implements OnInit {
     });
    }
 
+   // TODO: Validar Rangos horarios de apertura y cierre del local. No permitir generar reservas a cualquier hora
+
+   // TODO: Verificar por qué no está validando años ingresados de Comensal.
+
   ngOnInit() {
     this.tratarFecha();
     this.validarEdadComensal();

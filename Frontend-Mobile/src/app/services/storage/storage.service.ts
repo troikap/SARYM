@@ -36,9 +36,10 @@ export class StorageService {
         }
       }
       if ( !esta ) {
-        comensales.push(comensal)
+        let objeto = [];
+        objeto.push(comensal)
         console.log("Se agrego al Storage")
-        return this.storage.set(COMENSAL_RESERVA_KEY, comensales);
+        return this.storage.set(COMENSAL_RESERVA_KEY, objeto);
       }
     } else {
       return this.storage.set(COMENSAL_RESERVA_KEY, [comensal] );
@@ -59,14 +60,15 @@ setComensalEstadia(comensal): Promise<any> {
         }
       } else {
         if ( !esta ) {
-          comensalStorage.push(comensal)
+          let objeto = [];
+          objeto.push(comensal)
           console.log("Se agrego al Storage")
-          return this.storage.set(COMENSAL_ESTADIA_KEY, comensalStorage);
+          return this.storage.set(COMENSAL_ESTADIA_KEY, objeto);
         }
 
       }
     } else {
-      return this.storage.set(COMENSAL_ESTADIA_KEY, comensal );
+      return this.storage.set(COMENSAL_ESTADIA_KEY, [comensal] );
     }
   })
 }
