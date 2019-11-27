@@ -483,7 +483,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
       this.navController.navigateForward([`/lista-pedido/reserva/${this.idReserva}/comensal/${num}`]);
     }
     else { // Pedidos para Estadía
-      this.navController.navigateForward([`/lista-pedido/reserva/${this.idEstadia}/comensal/${num}`]);
+      this.navController.navigateForward([`/lista-pedido/estadia/${this.idEstadia}/comensal/${num}`]);
     }    
   }
 
@@ -581,8 +581,8 @@ export class CrudGenerarEstadiaPage implements OnInit {
           handler: ( info ) => {
             if (this.origenDatos == "estadia" && this.accionGet == "editar") { //Verificar Pedidos de Estadía
               if (this.verificarEliminarComensalEstadia(idComensal)) {
-                console.log("Obligar eliminacion de comensal con pedidos asociados")
-                this.reservaservicio.setComensalesReserva(pathComensal, true)
+                console.log("Obligar eliminacion de comensal con pedidos asociados", pathComensal)
+                this.estadiaServicio.setComensalesEstadia(pathComensal, true)
                 .then( respuesta => {
                   if ( respuesta.tipo == 1 ){
                     this.toastService.toastSuccess(`Comensal eliminado Correctamente con todos sus Pedidos asociados.`, 2500)
@@ -616,7 +616,8 @@ export class CrudGenerarEstadiaPage implements OnInit {
     //Si al menos un pedido se encuentra en ciertos estados, NO permitir eliminar Comensal
     for (let item of this.estadia.pedidos) {
       if (idComensal == item.idComensal) {
-        let estadoPedido = item['pedidoestados'][0].idPedidoEstado;
+        let estadoPedido = item['pedidoestados'][0].estadopedido.idEstadoPedido;
+        console.log("Estado Pedido: ", estadoPedido);
         if (estadoPedido == 5 || estadoPedido == 6 || estadoPedido == 7 ) { // Que no permite si estado es: Finalizado, Finalizado Sin Pagar, Pendiente de Pago
           return false;
         }
