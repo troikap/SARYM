@@ -63,6 +63,11 @@ export class CrudGestionarReservaPage implements OnInit {
       cantidadComensal: ['', Validators.required],
       idMesa: [null, Validators.required],
     });
+    this.form2 = this.formBuilder.group({
+      aliasComensal: "",
+      edadComensal: "",
+      cuitUsuario: ""
+    });
 
 
     this.activatedRoute.params.subscribe(params => {
@@ -75,6 +80,7 @@ export class CrudGestionarReservaPage implements OnInit {
 
   ngOnInit() {
     this.tratarFecha();
+    this.validarEdadComensal();
   }
 
 prueba() {
@@ -157,21 +163,22 @@ prueba() {
   }
 
   validarEdadComensal() {
-    this.form.get('edadComensal').valueChanges
+    this.form2.get('edadComensal').valueChanges
     .subscribe( edad => {
       if (edad > 150){
-        this.form.controls.edadComensal.setErrors({
+        this.form2.controls.edadComensal.setErrors({
           edad_maxima: true
         });
       }
       else {
-        this.form.get("edadComensal").setValidators([ Validators.required, 
+        this.form2.get("edadComensal").setValidators([ Validators.required, 
           Validators.pattern(/^([0-9]{3})+$/)]);
-        this.form.get("edadComensal").updateValueAndValidity();
+        this.form2.get("edadComensal").updateValueAndValidity();
       }
     });
   }
-  
+
+  // TODO: Validar cantidad de comensales con respecto a capacidad del total de mesas seleccionadas. No permitir más mesas que comensales..
   validarCantidadComensales() {
     this.form.get('cantidadComensal').valueChanges
     .subscribe( respuesta => {

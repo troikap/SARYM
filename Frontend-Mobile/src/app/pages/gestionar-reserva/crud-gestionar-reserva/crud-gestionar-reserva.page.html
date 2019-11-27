@@ -66,7 +66,7 @@
             <button class="btn btn-clear btn-dark tooltip-custom" type="button" (click)="mostrar = !mostrar">
                 <div class="tooltip-container">
                 <p class="averageTicketSize"><b>Agregar Comensal</b></p>
-                <p class="description">Usted puede agregar cuantos comensales quiera. Usted podrá dar permisos para que ingresen a su "Reserva" o "Estadía".</p>
+                <p class="description">Usted puede agregar cuantos comensales quiera. Usted podrá dar permisos para que ingresen a su "Reserva".</p>
                 <i></i>
                 </div>
             </button>
@@ -79,6 +79,7 @@
             <ion-label padding color="primary" position="floating">Edad Comensal</ion-label>
             <ion-input class="form-control" type="number" placeholder="Edad" formControlName="edadComensal" id="edadComensal"></ion-input>
         </ion-item>
+        <p class="input-error-msg" *ngIf="form2.controls.edadComensal.errors?.edad_maxima && form2.controls.edadComensal.touched">No puede ingrear edad mayor a 150.</p>
         <ion-item>
             <ion-label color="primary" padding position="floating">Cuit del Usuario</ion-label>
             <ion-input class="form-control" type="number" placeholder="Cuit del Usuario" formControlName="cuitUsuario" id="cuitUsuario"></ion-input>

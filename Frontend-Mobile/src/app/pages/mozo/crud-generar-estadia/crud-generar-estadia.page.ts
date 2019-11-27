@@ -42,6 +42,8 @@ export class CrudGenerarEstadiaPage implements OnInit {
   public newForm = {};
   public origenDatos;
 
+  private comensalesClientes = [];
+
   public nombreUsuario;
 
   //Datos de Reserva a mostrar
@@ -73,6 +75,11 @@ export class CrudGenerarEstadiaPage implements OnInit {
       cantPersonas: ['', Validators.required],
       idMesa: [null, Validators.required],
     });
+    this.form2 = this.formBuilder.group({
+      aliasComensal: "",
+      edadComensal: "",
+      cuitUsuario: ""
+    });
 
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params);
@@ -93,6 +100,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
       this.tratarFecha();
       this.loadCurrentUsuario();
       this.traerMesas();
+      this.validarEdadComensal();
     }
   }
 
@@ -105,6 +113,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
     }
   }
 
+  // TODO: Validar Fecha y Hora de Reserva (no antes de 30 min y no después de 30 min)
   verificarEstadoReserva() {
     console.log("idReserva: ", this.idReserva);
     this.reservaservicio.getReserva(this.idReserva)
@@ -115,6 +124,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
         this.tratarFecha();
         this.loadCurrentUsuario();
         this.traerMesas();
+        this.validarEdadComensal();
       }
       else if (estadoReserva == 3) { // Reserva ya confirmada
         this.toastService.toastWarning("La reserva ingresada ya ha sido confirmada", 2000);
@@ -297,7 +307,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
       this.form.controls.idMesa.setValue(null)
     }
   }
-
+  // TODO: Validar cantidad de comensales con respecto a capacidad del total de mesas seleccionadas. No permitir más mesas que comensales..
   validarCantidadComensales() {
     this.form.get('cantPersonas').valueChanges
     .subscribe( respuesta => {
@@ -305,17 +315,17 @@ export class CrudGenerarEstadiaPage implements OnInit {
   }
 
   validarEdadComensal() {
-    this.form.get('edadComensal').valueChanges
+    this.form2.get('edadComensal').valueChanges
     .subscribe( edad => {
       if (edad > 150){
-        this.form.controls.edadComensal.setErrors({
+        this.form2.controls.edadComensal.setErrors({
           edad_maxima: true
         });
       }
       else {
-        this.form.get("edadComensal").setValidators([ Validators.required, 
+        this.form2.get("edadComensal").setValidators([ Validators.required, 
           Validators.pattern(/^([0-9]{3})+$/)]);
-        this.form.get("edadComensal").updateValueAndValidity();
+        this.form2.get("edadComensal").updateValueAndValidity();
       }
     });
   }
@@ -637,16 +647,27 @@ export class CrudGenerarEstadiaPage implements OnInit {
       }
     }
     const comensales = this.comensales;
+    
     estadia['idUsuario'] = this.currentUsuario.id;
     let estadiaConCodigo = await this.agregarCodigoEstadia( estadia );
     if (this.origenDatos == "estadia" && this.accionGet == "crear") {
+      this.generarComensalesClientes();
       this.enviarEstadiaCrear( estadiaConCodigo , comensales, mesas); 
     }
     else if (this.origenDatos == "estadia" && this.accionGet == "editar") {
       this.enviarEstadiaEditar( estadia , comensales, mesas); 
     }
     else if (this.origenDatos == "confReserva") {
+      this.generarComensalesClientes();
       this.confirmarReserva( estadiaConCodigo , comensales, mesas);
+    }
+  }
+
+  generarComensalesClientes() {
+    for (let item of this.comensales) {
+      if (item.idUsuario != null) {
+        this.comensalesClientes.push(item.idUsuario);
+      }
     }
   }
 
@@ -662,7 +683,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
     return tokenEstadia
   }
 
-  async enviarEstadiaCrear(estadia, comensales, mesas) {
+  async confirmarReserva(estadia, comensales, mesas) {
     await this.estadiaServicio.setEstadia( estadia )
     .then( async res => {
       if( res.tipo == 1) {
@@ -682,39 +703,46 @@ export class CrudGenerarEstadiaPage implements OnInit {
                 pathMesas['idEstadia'] = res.id;
                 this.estadiaServicio.setMesasEstadia( pathMesas )
                 .then( respo => {
-                  if (respo.tipo == 1 ){
-                    let pathReserva = {};
-                    pathReserva['idReserva'] = this.idReserva;
-                    pathReserva['idEstadoReserva'] = 3; // Confirmar Reserva
-                    this.reservaservicio.cambiarEstado(pathReserva)
-                    .then( respo1 => {
-                      if (respo1.tipo == 1 ){
-                        this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
-                        setTimeout(()=>{
-                          this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}`]);
-                        }, 2000);
-                      }
-                      else {
-                        this.toastService.toastError("No se han podido confirmar la Reserva:" + respo1.title, 2500);
-                      }
-                    });
-                  }
-                  else {
-                    this.toastService.toastError("No se han podido crear las mesas:" + respo.title, 2500);
-                  }
+                  let pathClienteComensal = {};
+                  pathClienteComensal['idEstadia'] = res.id;
+                  pathClienteComensal['detalle'] = this.comensalesClientes;
+                  this.estadiaServicio.setClienteEstadia(pathClienteComensal)
+                  .then( respo1 => {
+                    if (respo1.tipo == 1 ){
+                      let pathReserva = {};
+                      pathReserva['idReserva'] = this.idReserva;
+                      pathReserva['idEstadoReserva'] = 3; // Confirmar Reserva
+                      this.reservaservicio.cambiarEstado(pathReserva)
+                      .then( respo2 => {
+                        if (respo2.tipo == 1 ){
+                          this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
+                          setTimeout(()=>{
+                            this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}`]);
+                          }, 2000);
+                        }
+                        else {
+                          this.toastService.toastError("No se han podido confirmar la Reserva:" + respo2.title, 2500);
+                        }
+                      });
+                    }
+                    else {
+                      this.toastService.toastError("No se han podido crear la relación Cliente-Comensal:" + respo1.title, 2500);
+                    }
+                  });
+                  
                 });
               } else {
                 this.toastService.toastError("No se han podido crear los comensales:" + resp.title, 2500);
               }
-            })
+            });
           } else {
             this.toastService.toastError("No se han podido crear los datos de la estadia:" + update.title, 2500);
           }
-        })
+        });
       } else {
         this.toastService.toastError("Error al Crear Estadía:" + res.title, 2500);
       }
-    })
+    });
   }
 
   async enviarEstadiaEditar(estadia, comensales, mesas) {
@@ -739,18 +767,18 @@ export class CrudGenerarEstadiaPage implements OnInit {
                 setTimeout(()=>{
                   this.navController.navigateRoot(['/consulta-gestionar-estadia', this.idEstadia ]);
                 }, 2500);
-            })
+            });
           } else {
             this.toastService.toastError("No se han podido actualizar los comensales:" + resp.title, 2500);
           }
-        })
+        });
       } else {
         this.toastService.toastError("Error:" + update.title, 2500);
       }
-    })
+    });
   }
 
-  async confirmarReserva(estadia, comensales, mesas) {
+  async enviarEstadiaCrear(estadia, comensales, mesas) {
     await this.estadiaServicio.setEstadia( estadia )
     .then( async res => {
       if( res.tipo == 1) {
@@ -770,19 +798,30 @@ export class CrudGenerarEstadiaPage implements OnInit {
                 pathMesas['idEstadia'] = res.id;
                 this.estadiaServicio.setMesasEstadia( pathMesas )
                 .then( respo => {
-                  this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
-                  setTimeout(()=>{
-                    this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}`]);
-                    }, 2000);
-                })
+                  let pathClienteComensal = {};
+                  pathClienteComensal['idEstadia'] = this.idEstadia;
+                  pathClienteComensal['detalle'] = this.comensalesClientes;
+                  this.estadiaServicio.setClienteEstadia(pathClienteComensal)
+                  .then( respo1 => {
+                    if (respo1.tipo == 1 ){
+                      this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
+                      setTimeout(()=>{
+                        this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}`]);
+                      }, 2000);
+                    }
+                    else {
+                      this.toastService.toastError("No se han podido crear la relación Cliente-Comensal:" + respo1.title, 2500);
+                    }
+                  });
+                });
               } else {
                 this.toastService.toastError("No se han podido crear los comensales:" + resp.title, 2500);
               }
-            })
+            });
           } else {
             this.toastService.toastError("No se han podido crear los datos de la estadia:" + update.title, 2500);
           }
-        })
+        });
       } else {
         this.toastService.toastError("Error:" + res.title, 2500);
       }
