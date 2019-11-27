@@ -1289,17 +1289,17 @@ EstadiaController.editarClienteEstadia = (req, res) => {
                             where: {
                                 [idtable5]: elem[idtable5]
                             }
-                        }).then(async(mesa) => {
-                            if (!mesa || mesa == 0) {
+                        }).then(async(usuario) => {
+                            if (!usuario || usuario == 0) {
                                 locals.detalles.push({
-                                    ['title']: `No existe ${legend5} con id ${idtable5}.`,
+                                    ['title']: `No existe ${legend5} con id ${idtable5}: ${elem[idtable5]}.`,
                                     ['tipo']: 2
                                 })
                             } else {
                                 await ClienteEstadiaModelo.findOne({
                                     where: {
                                         [idtable5]: elem[idtable5],
-                                        [idtable]: body[idtable]
+                                        [idtable]: elem[idtable]
                                     }
                                 }).then(async(clienteestadia) => {
                                     if (!clienteestadia || clienteestadia == 0) {
@@ -1318,7 +1318,7 @@ EstadiaController.editarClienteEstadia = (req, res) => {
                                         })
                                     } else {
                                         locals.detalles.push({
-                                            ['title']: `No existe ${legend5} con id ${idtable5}.`,
+                                            ['title']: `No existe ${legend10} con id ${idtable5}: ${elem[idtable5]}.`,
                                             ['tipo']: 2
                                         })
                                     }
@@ -1639,11 +1639,12 @@ EstadiaController.cambiarMozoEstadia = (req, res) => {
                 if (response.dataValues.mozoestadia[0].dataValues[idtable5] != body[idtable5]) {
                     MozoEstadiaModelo.findOne({
                         where: {
-                            [idtable5]: body[idtable5]
+                            [idtable5]: body[idtable5],
+                            [idtable]: body[idtable]
                         }
                     }).then((mozoestadia) => {
                         if (!mozoestadia || mozoestadia == 0) {
-                            locals['title'] = `No existe ${legend5} con id ${idtable5}.`;
+                            locals['title'] = `Ese ${legend5} ya esta siendo Mozo de esa Estadia.`;
                             locals['tipo'] = 2;
                             res.json(locals);
                         } else {

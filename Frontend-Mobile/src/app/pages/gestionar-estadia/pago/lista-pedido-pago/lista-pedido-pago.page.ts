@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { StorageService } from '../../../../services/storage/storage.service';
 import { EstadiaService } from '../../../../services/estadia/estadia.service';
 import { PagoService } from '../../../../services/pago/pago.service';
-import { Estadia, Pago } from '../../../../models/modelos';
+import { Estadia, Pago, Pedido } from '../../../../models/modelos';
 import { PedidoService } from '../../../../services/pedido/pedido.service';
 import { ToastService } from '../../../../providers/toast.service';
 import { AlertService } from '../../../../providers/alert.service';
@@ -20,8 +20,8 @@ export class ListaPedidoPagoPage implements OnInit {
   public idEstadia;
   public idComensal;
   public currentUsuario;
-  public pago: Pago;
-  public pagos: Pago[];
+  public estadia: Estadia;
+  public pedidos: Pedido[];
   public modificarComensal = false;
   public from;
   public nombreUsuario;
@@ -48,8 +48,10 @@ export class ListaPedidoPagoPage implements OnInit {
   this.activatedRoute.params
   .subscribe(params => {
     this.idEstadia = params.idEstadia;
+    this.idComensal = params.idComensal;
+    console.log("PARAMETROS ", params)
   })
-  this.traerPagos();
+  this.traerEstadia();
   }
   // ngOnInit() {
   //   console.log("PAGE SeleccionComensalPage")
@@ -102,6 +104,23 @@ export class ListaPedidoPagoPage implements OnInit {
       cssClass: 'alertPrimary',
     });
     await alert.present();
+  }
+
+  calcularTotalCostoPedido(){
+    for (let item of this.pedidos) {
+      let importe;
+      for (let elem of item.detallepedidoproductos) {
+        if (elem.producto != null) {
+          if (importe == null) importe = 0;
+          importe += ( Number(elem.producto.precioproductos[0].importePrecioProducto) * Number(elem.cantidadPedidoProducto))
+        } else if (elem.menupromocion != null) {
+          if (importe == null) importe = 0;
+          importe += ( Number(elem.menupromocion.preciomenupromocions[0].importePrecioMenuPromocion) * Number(elem.cantidadPedidoProducto))
+        }
+      }
+      item['importeTotal'] = importe;
+    }
+    console.log("MODIFICADO ",this.pedidos)
   }
 
 
@@ -169,11 +188,14 @@ export class ListaPedidoPagoPage implements OnInit {
   //   }
   // }
 
-  traerPagos(){
-    this.pagoService.getPagosPorEstadia( this.idEstadia )
-    .then( pagos => {
-      console.log("PAGOS ", pagos)
-      this.pagos = pagos;
+  traerEstadia(){
+    this.estadiaService.getEstadia( this.idEstadia )
+    .then( estadia => {
+      console.log("ESTADIA ", estadia)
+      this.estadia = estadia;
+      console.log("PEDIDOS ", estadia.pedidos)
+      this.pedidos = estadia.pedidos;
+      this.calcularTotalCostoPedido();
     })
   }
 
