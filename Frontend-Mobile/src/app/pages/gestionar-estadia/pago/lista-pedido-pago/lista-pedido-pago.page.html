@@ -7,21 +7,29 @@
       <ion-title>Lista de Pedidos</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content *ngIf='pagos'>
+<ion-content *ngIf='pedidos'>
   <ion-card>
       <ion-title color="dark" align="middle" padding>Estadia N°: {{idEstadia}}</ion-title>
   </ion-card>
-  <div *ngFor="let item of pagos, let i = index">
+  <div *ngFor="let item of pedidos, let i = index" [ngClass]="{ 'activo': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Reservado' ||
+                                                                item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'En Preparación' ||
+                                                                item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'A Entregar' ,
+                                                                'pendiente': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Pendiente de Pago', 
+                                                                'anulado': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Anulado', 
+                                                                'finalizadoImpago': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Finalizado sin Pago',
+                                                                'finalizado': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Finalizado'}">
     <ion-item-sliding>
       <ion-item lines="full" (click)="mostrar[i] = !mostrar[i]" >
-        <ion-card color=success class="card-inter">
+        <ion-card class="card-inter">
             <ion-card-header>
-                <ion-card-title>Codigo: <strong>{{item.codPago}}</strong></ion-card-title>
-                <ion-card-title>Fecha: <strong>{{item.fechaYHoraAltaPago | date:'dd/MM/yyyy - HH:mm'}}</strong></ion-card-title>
-                <ion-title align="right">Importe: {{item.importeTotalAPagar | currency}}</ion-title>
+              <ion-title no-padding>Estado: <strong>{{item.pedidoestados[0].estadopedido.nombreEstadoPedido}}</strong></ion-title>
+              <ion-card-title>Codigo: <strong>{{item.codPedido}}</strong></ion-card-title>
+              <ion-card-title>Fecha inicio: <strong>{{item.fechaYHoraInicioPedido | date:'dd/MM/yyyy - HH:mm'}}</strong></ion-card-title>
+              <ion-card-title>Fecha fin: <strong>{{item.fechaYHoraFinPedido | date:'dd/MM/yyyy - HH:mm'}} </strong></ion-card-title>
+              <ion-title align="right">Importe: {{item.importeTotal | currency}}</ion-title>
             </ion-card-header>
-            <ion-card-content *ngIf="item.usuario">
-                <ion-card-subtitle>Medio de Pago: <strong> {{item.mediopago.nombreMedioPago}}</strong></ion-card-subtitle>
+            <ion-card-content >
+                <ion-card-subtitle>Comensal: <strong> {{item.comensal.aliasComensal}} - {{item.comensal.edadComensal}}</strong> años</ion-card-subtitle>
             </ion-card-content>
         </ion-card>
       </ion-item>

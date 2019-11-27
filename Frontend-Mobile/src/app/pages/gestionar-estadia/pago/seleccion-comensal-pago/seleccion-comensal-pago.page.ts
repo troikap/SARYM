@@ -19,7 +19,7 @@ export class SeleccionComensalPagoPage implements OnInit {
   public estadia: Estadia;
   public comensales: Comensal[];
   public modificarComensal = false;
-  public from;
+  // public from;
   public nombreUsuario;
 
   public pathDetalleComensalUsuario: {idEstadia: number, detalle: [{aliasComensal: string, edadComensal: number, idUsuario?: number}]};
@@ -41,22 +41,22 @@ export class SeleccionComensalPagoPage implements OnInit {
       this.activatedRoute.params
         .subscribe(params => {
           this.idEstadia = params.idEstadia;
-          this.from = params.from;
-          this.traerComensalEstadiaStorage();
+          // this.from = params.from;
+          // this.traerComensalEstadiaStorage();
         }).unsubscribe();
-        this.traerUsuario();
+        // this.traerUsuario();
         this.traerEstadia();
-        this.loadCurrentUsuario();
+        // this.loadCurrentUsuario();
     }
   }
 
-  loadCurrentUsuario() {
-    this.storage.getCurrentUsuario().then((data) => {
-      let currentUsuario: any = data;
-      this.nombreUsuario = currentUsuario.rolUsuario;
-      console.log("this.nombreUsuario : ", this.nombreUsuario );
-    });
-  }
+  // loadCurrentUsuario() {
+  //   this.storage.getCurrentUsuario().then((data) => {
+  //     let currentUsuario: any = data;
+  //     this.nombreUsuario = currentUsuario.rolUsuario;
+  //     console.log("this.nombreUsuario : ", this.nombreUsuario );
+  //   });
+  // }
 
   ionViewWillEnter(){
     this.storage.getComensales().then((respuesta) => {
@@ -75,12 +75,12 @@ export class SeleccionComensalPagoPage implements OnInit {
 
   }
 
-  traerUsuario() {
-    this.storage.getCurrentUsuario()
-      .then( logs => {
-        this.currentUsuario = logs['id'];
-      })
-  }
+  // traerUsuario() {
+  //   this.storage.getCurrentUsuario()
+  //     .then( logs => {
+  //       this.currentUsuario = logs['id'];
+  //     })
+  // }
 
   limpiarComensalStorage(){
     this.storage.validarComensal().then((respuesta) => {
@@ -105,22 +105,22 @@ export class SeleccionComensalPagoPage implements OnInit {
     })
   }
 
-  traerComensalEstadiaStorage(){
-    if(!this.modificarComensal){
-      this.storage.getComensales().then((respuesta) => {
-        console.log("Trayendo Comensales Reserva", respuesta)
-        if (respuesta != null ){
-          respuesta.forEach(element => {
-            if(element.idEstadia == this.idEstadia){
-              this.modificarComensal = true;
-              this.idComensal = element.idComensal;
-              this.navController.navigateForward([`/lista-pedido/estadia/${this.idEstadia}/comensal/${element.idComensal}`])
-            }
-          });
-        }
-      })
-    }
-  }
+  // traerComensalEstadiaStorage(){
+  //   if(!this.modificarComensal){
+  //     this.storage.getComensales().then((respuesta) => {
+  //       console.log("Trayendo Comensales Reserva", respuesta)
+  //       if (respuesta != null ){
+  //         respuesta.forEach(element => {
+  //           if(element.idEstadia == this.idEstadia){
+  //             this.modificarComensal = true;
+  //             this.idComensal = element.idComensal;
+  //             this.navController.navigateForward([`/lista-pedido/estadia/${this.idEstadia}/comensal/${element.idComensal}`])
+  //           }
+  //         });
+  //       }
+  //     })
+  //   }
+  // }
 
   traerEstadia(){
     this.estadiaService.getEstadia( this.idEstadia )
@@ -135,20 +135,20 @@ export class SeleccionComensalPagoPage implements OnInit {
   seleccionarComensal( item ) {
     this.confirmacionComensal( item );
 
-    this.storage.getOneObject("comensalEstadia").then((data) => {
-      if (data != null) {
-        let idComensalStorage = data.idComensal;
-        if (idComensalStorage != item.idComensal) {
-          this.confirmacionComensal( item );
-        }
-        else {
-          this.navController.navigateForward([`/lista-pedido/estadia/${this.idEstadia}/comensal/${item.idComensal}`])
-        }
-      } else {
-        this.guardarComensal(item);
-        this.navController.navigateForward([`/lista-pedido/estadia/${this.idEstadia}/comensal/${item.idComensal}`])
-      }
-    });    
+    // this.storage.getOneObject("comensalEstadia").then((data) => {
+    //   if (data != null) {
+    //     let idComensalStorage = data.idComensal;
+    //     if (idComensalStorage != item.idComensal) {
+    //       this.confirmacionComensal( item );
+    //     }
+    //     else {
+    //       this.navController.navigateForward([`/lista-pedido/estadia/${this.idEstadia}/comensal/${item.idComensal}`])
+    //     }
+    //   } else {
+    //     this.guardarComensal(item);
+    //     this.navController.navigateForward([`/lista-pedido/estadia/${this.idEstadia}/comensal/${item.idComensal}`])
+    //   }
+    // });    
   }
 
   async guardarComensal( item ) {
@@ -162,7 +162,7 @@ export class SeleccionComensalPagoPage implements OnInit {
   async confirmacionComensal( item ) {
     const alert = await this.alertController.create({
       header: 'Desea pagar con este Comensal?',
-      message: `Usted realizaría le pago con el comensal seleccionado. Esta seguro?`,
+      message: `Usted realizaría el pago con el comensal seleccionado. Esta seguro?`,
       buttons: [
         {
           text: 'Cancelar',
@@ -174,7 +174,7 @@ export class SeleccionComensalPagoPage implements OnInit {
           text: 'Pagar',
           handler: () => {
             console.log('Asociando');
-            this.navController.navigateForward([`/lista-pedido/estadia/${this.idEstadia}/comensal/${item.idComensal}`])
+            this.navController.navigateForward([`/lista-pedido-pago/estadia/${this.idEstadia}/comensal/${item.idComensal}`])
           }
         }
       ],
@@ -183,11 +183,11 @@ export class SeleccionComensalPagoPage implements OnInit {
     await alert.present();
   } 
   
-  goBack() {
-    if ( this.from == 'creacion' ) {
-      this.navController.navigateRoot('/home')
-    } else if (this.from == "edicion") {
-      this.navController.navigateBack('/search-gestionar-estadia');
-    }
-  }
+  // goBack() {
+  //   if ( this.from == 'creacion' ) {
+  //     this.navController.navigateRoot('/home')
+  //   } else if (this.from == "edicion") {
+  //     this.navController.navigateBack('/search-gestionar-estadia');
+  //   }
+  // }
 }
