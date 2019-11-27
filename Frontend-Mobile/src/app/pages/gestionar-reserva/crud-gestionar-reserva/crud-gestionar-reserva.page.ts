@@ -65,7 +65,7 @@ export class CrudGestionarReservaPage implements OnInit {
     });
     this.form2 = this.formBuilder.group({
       aliasComensal: "",
-      edadComensal: "",
+      edadComensal:['',[ Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]],
       cuitUsuario: ""
     });
 
@@ -75,30 +75,14 @@ export class CrudGestionarReservaPage implements OnInit {
       this.accionGet  = params.accion;
       this.idReserva = params.id;
       this.traerMesas();
+      this.validarEdadComensal();
+      this.validarComensalNuevo();
     });
    }
 
-   // TODO: Validar Rangos horarios de apertura y cierre del local. No permitir generar reservas a cualquier hora
-
-   // TODO: Verificar por qué no está validando años ingresados de Comensal.
-
   ngOnInit() {
     this.tratarFecha();
-    this.validarEdadComensal();
   }
-
-prueba() {
-  // let  fechaReserva =  this.form.value['fechaReserva'];
-  // let  horaEntrada =  this.form.value['horaEntrada'];
-  // let  horaSalida =  this.form.value['horaSalida'];
-
-  // let horaEntradaTratada = this.tratarFechaProvider.verificarTime( horaEntrada )
-  // let horaSalidaTratada = this.tratarFechaProvider.verificarTime( horaSalida );
-  // let fechaReservaTratada = this.tratarFechaProvider.traerDate( fechaReserva );
-
-  // console.log("----------------------"+fechaReservaTratada+ horaEntradaTratada+horaSalidaTratada)
-  console.log(this.form);
-}
 
   traerReserva() {
     console.log("Funcion 'traerReserva()', ejecutada");
@@ -167,19 +151,36 @@ prueba() {
   }
 
   validarEdadComensal() {
-    this.form2.get('edadComensal').valueChanges
+    console.log("validarEdadComensal");
+    this.form.get('edadComensal').valueChanges
     .subscribe( edad => {
+      console.log("form, edad comensal: ", edad);
       if (edad > 150){
-        this.form2.controls.edadComensal.setErrors({
-          edad_maxima: true
-        });
+        this.form.controls.edadComensal.setErrors({edad_maxima: true});
       }
       else {
-        this.form2.get("edadComensal").setValidators([ Validators.required, 
-          Validators.pattern(/^([0-9]{3})+$/)]);
-        this.form2.get("edadComensal").updateValueAndValidity();
+        this.form.get("edadComensal").setValidators([ Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]);
       }
     });
+  }
+  
+  // TODO: No está andando el valueChange de aquí..
+  validarComensalNuevo() {
+    console.log("validarComensalNuevo", this.form2.value.edadComensal);
+    this.form2.get('edadComensal').valueChanges
+    .subscribe( edad => {
+      console.log("form2, edidad comensal: ", edad);
+      if (edad > 150){
+        this.form2.controls.edadComensal.setErrors({edad_maxima: true});
+      }
+      else {
+        this.form2.get("edadComensal").setValidators([ Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]);
+      }
+    });
+  }
+
+  pruaba1() {
+    console.log(this.form2);
   }
 
   // TODO: Validar cantidad de comensales con respecto a capacidad del total de mesas seleccionadas. No permitir más mesas que comensales..
@@ -444,13 +445,32 @@ prueba() {
       .subscribe( respuesta => {
         const horaSalida = this.form.get('horaSalida').value || 0;
         const nuevaHoraEntrada = respuesta;
-        let horaSalidaTratado = this.tratarFechaProvider.traerTime(horaSalida)
-        let horaEntradaTratado = this.tratarFechaProvider.traerTime(nuevaHoraEntrada)
+        let horaSalidaTratado = this.tratarFechaProvider.traerTime(horaSalida);
+        let horaEntradaTratado = this.tratarFechaProvider.traerTime(nuevaHoraEntrada);
+
         if (  horaSalidaTratado < ( this.addTimes(horaEntradaTratado , '00:30') )) {
           this.form.controls.horaEntrada.setErrors({pattern: true});
         } else {
-          this.form.controls.horaEntrada.setErrors(null);
-          this.form.controls.horaSalida.setErrors(null);
+          if (horaEntradaTratado < "10:00") {
+            this.form.controls.horaEntrada.setErrors({horaentrada_minima: true});
+          }
+          else {
+            this.form.controls.horaEntrada.setErrors(null);
+            this.form.controls.horaSalida.setErrors(null);
+          }
+        }
+
+        if (horaEntradaTratado < "10:00") {
+          this.form.controls.horaEntrada.setErrors({horaentrada_minima: true});
+        }
+        else {
+          if (  horaSalidaTratado < ( this.addTimes(horaEntradaTratado , '00:30') )) {
+            this.form.controls.horaEntrada.setErrors({pattern: true});
+          }
+          else {
+            this.form.controls.horaEntrada.setErrors(null);
+            this.form.controls.horaSalida.setErrors(null);
+          }
         }
     });
 
@@ -463,8 +483,24 @@ prueba() {
       if ( this.addTimes(horaEntradaTratado , '00:30') > horaSalidaTratado ) {
         this.form.controls.horaSalida.setErrors({pattern: true});
       } else {
-        this.form.controls.horaSalida.setErrors(null);
-        this.form.controls.horaEntrada.setErrors(null);
+        if (horaSalidaTratado > "22:00") {
+          this.form.controls.horaSalida.setErrors({horasalida_maxima: true});
+        }
+        else {
+          this.form.controls.horaSalida.setErrors(null);
+          this.form.controls.horaEntrada.setErrors(null);
+        }
+      }
+      if (horaSalidaTratado > "22:00") {
+        this.form.controls.horaSalida.setErrors({horasalida_maxima: true});
+      }
+      else {
+        if ( this.addTimes(horaEntradaTratado , '00:30') > horaSalidaTratado ) {
+          this.form.controls.horaSalida.setErrors({pattern: true});
+        } else {
+          this.form.controls.horaSalida.setErrors(null);
+          this.form.controls.horaEntrada.setErrors(null);
+        }
       }
     });
   }

@@ -28,12 +28,14 @@
             </ion-item>
             <p class="input-error-msg" *ngIf="form.controls.horaEntrada.errors?.pattern && form.controls.horaEntrada.touched">Debería ser 30m menos que hora de Salida.</p>
             <p class="input-error-msg" *ngIf="form.controls.horaEntrada.errors?.required && form.controls.horaEntrada.touched">Ingrese la hora de Entrada.</p>
+            <p class="input-error-msg" *ngIf="form.controls.horaEntrada.errors?.horaentrada_minima && form.controls.horaEntrada.touched">Ingrese Hora superior o igual a 10:00hs</p>
             <ion-item>
                 <ion-label padding color="primary" position="floating">Hora Salida</ion-label>
                 <ion-datetime formControlName="horaSalida" id="horaSalida" class="form-control" mode="ios" displayFormat="HH:mm" doneText="Elegir" placeholder="Elija Hora Salida"></ion-datetime>
             </ion-item>
             <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.pattern && form.controls.horaSalida.touched">Debería ser 30m mayor que la hora de Entrada.</p>
             <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.required && form.controls.horaSalida.touched">Ingrese la hora de Salida.</p>
+            <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.horasalida_maxima && form.controls.horaSalida.touched">Ingrese Hora inferior o igual a 22:00hs</p>
             <ion-item>
                 <ion-label padding color="primary" position="floating">Cantidad de Personas</ion-label>
                 <ion-input class="form-control" type="number" placeholder="Cantidad Personas" formControlName="cantidadComensal" id="cantidadComensal"></ion-input>
@@ -79,6 +81,8 @@
             <ion-label padding color="primary" position="floating">Edad Comensal</ion-label>
             <ion-input class="form-control" type="number" placeholder="Edad" formControlName="edadComensal" id="edadComensal"></ion-input>
         </ion-item>
+        <p class="input-error-msg" *ngIf="form2.controls.edadComensal.errors?.pattern && form2.controls.edadComensal.touched">Ingrese por ejemplo: 45.</p>
+        <p class="input-error-msg" *ngIf="form2.controls.edadComensal.errors?.required && form2.controls.edadComensal.touched">Deber ingresar la edad.</p>
         <p class="input-error-msg" *ngIf="form2.controls.edadComensal.errors?.edad_maxima && form2.controls.edadComensal.touched">No puede ingrear edad mayor a 150.</p>
         <ion-item>
             <ion-label color="primary" padding position="floating">Cuit del Usuario</ion-label>
@@ -104,6 +108,7 @@
       </button>
         </div>
     </form>
+    <ion-button *ngIf="form2" class="mt-10" (click)="pruaba1()" expand="full" shape="round">Probar</ion-button>
     <ion-button *ngIf="form2" class="mt-10" (click)="nuevoComensal()" [disabled]="!form2.valid" expand="full" shape="round">Agregar Comensal</ion-button>
     <ion-card *ngFor="let comen of comensales; let i = index">
         <ion-card-header *ngIf="!comen.baja">
