@@ -55,10 +55,10 @@ export class AbmCajaComponent implements OnInit {
   crearCaja() {
     let _this = this;
     const titulo = "Confirmación";
-    const mensaje = `¿Está seguro que desea crear el elemento seleccionado?`;
+    const mensaje = `¿Está seguro que desea crear una Caja?`;
     ($ as any).confirm({
       title: titulo,
-      content: "¿Confirma la creación de un nuevo registro?",
+      content: "¿Confirma la creación de una Caja?",
       type: "blue",
       typeAnimated: true,
       theme: "material",
