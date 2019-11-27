@@ -44,6 +44,9 @@ export class CrudGenerarEstadiaPage implements OnInit {
   public origenDatos;
   private comensalesClientes = [];
   private pedidosReserva = [];
+  public mostrarMensajeConsideracion = 0;
+  private primerPasoMesa = 0;
+  public mostrar5 = false;
 
   public nombreUsuario;
 
@@ -78,11 +81,11 @@ export class CrudGenerarEstadiaPage implements OnInit {
       idMesa: [null, Validators.required],
     });
     this.form2 = this.formBuilder.group({
-      aliasComensal: "",
-      edadComensal: "",
-      cuitUsuario: ""
+      aliasComensal: ['',[ Validators.required]],
+      edadComensal:['',[ Validators.required, Validators.pattern(/^(([1][2-9])|([2-9][0-9]))$/)]],
+      cuitUsuario: ['', [Validators.pattern(/^((20)|(23)|(24)|(25)|(26)|(27)|(30))[0-9]{9}$/)]]
     });
-
+    
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params);
       this.accionGet  = params.accion;
@@ -90,21 +93,22 @@ export class CrudGenerarEstadiaPage implements OnInit {
       if (this.origenDatos == "confReserva") { //Confirmar Reserva
         this.idReserva = params.id;
         this.verificarEstadoReserva();
+        this.validarCantidadComensales();
       }
       else if (this.origenDatos == "estadia") {
         this.idEstadia = params.id;
       }
+
+      this.mostrar5 = false;
     });
   }
-
-   // TODO: Verificar por qué no está validando años ingresados de Comensal.
 
   ngOnInit() {
     if (this.origenDatos == "estadia") {
       this.tratarFecha();
       this.loadCurrentUsuario();
-      this.traerMesas();
-      this.validarEdadComensal();
+      this.cargaInicial();
+      this.validarCantidadComensales();
     }
   }
 
@@ -126,8 +130,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
       if (estadoReserva == 1) { // Generada
         this.tratarFecha();
         this.loadCurrentUsuario();
-        this.traerMesas();
-        this.validarEdadComensal();
+        this.cargaInicial();
       }
       else if (estadoReserva == 3) { // Reserva ya confirmada
         this.toastService.toastWarning("La reserva ingresada ya ha sido confirmada", 2000);
@@ -150,33 +153,21 @@ export class CrudGenerarEstadiaPage implements OnInit {
     })
   }
 
-  traerMesas(){
-    this.mesaservicio.getMesas()
-    .then(  resp => {
-      this.mesas = [];
-      this.checkBoxList = [];
-      this.mesas =  resp['data'];
-      for (let mesa of  resp['data']) {
-        this.checkBoxList.push({ 
-          'value': mesa.idMesa,
-          'descripcion': `Mesa: N° ${mesa.nroMesa} - Cap: ${mesa.capacidadMesa}p - Sec: ${mesa.sector.nombreSector}`,
-          'isChecked': false
-        })
+  cargaInicial(){
+    if (this.accionGet == "crear") {
+      console.log("CREANDO");
+      this.actualizarMesas();
+    }
+    else if (this.accionGet == "editar") {
+      console.log("EDITANDO");
+      if (this.origenDatos == "confReserva") {
+        this.traerReserva();
       }
-      if (this.accionGet == "crear") {
-        console.log("CREANDO");
+      else {
+        this.traerEstadia();
       }
-      else if (this.accionGet == "editar") {
-        console.log("EDITANDO");
-        if (this.origenDatos == "confReserva") {
-          this.traerReserva();
-        }
-        else {
-          this.traerEstadia();
-        }
-      }
-      this.resetComensal();
-    })
+    }
+    this.resetComensal();
   }
 
   traerComensales(comensales) {
@@ -222,41 +213,11 @@ export class CrudGenerarEstadiaPage implements OnInit {
           console.log("COMENSALES" , res.comensals);
           this.traerComensales(res.comensals);
           this.actualizarComensales();
-          // Fechas
-          // this.horaEntradaReserva = this.reserva.horaEntradaReserva;
-          // this.horaSalidaReserva = this.reserva.horaSalidaReserva;
-          // this.horaEntradaCortada =  String(this.horaEntradaReserva).slice(0,5);
-          // this.horaSalidaCortada =  String(this.horaSalidaReserva).slice(0,5);
-
-          // this.fechaReserva = this.reserva.fechaReserva;
-          // this.cantPersonasReserva = this.reserva.cantPersonas;
-          
           this.newForm = {
-            // fechaReserva: this.reserva.fechaReserva, 
-            // horaEntrada: String(this.horaEntradaCortada),
-            // horaSalida: String(this.horaSalidaCortada),
             cantPersonas: this.reserva.cantPersonas,
             idMesa: null     
           }
-          this.form.setValue(this.newForm)
-          // Mesas
-          let cuenta = 0;
-          let valid = false;
-          for (let element of this.checkBoxList ) {
-            for (let item of res.detallereservamesas) {
-              if ( item.idMesa == element.value ) {
-                this.checkBoxList[cuenta].isChecked = true;
-                this.checkBoxList[cuenta].idDetalleReservaMesa = item.idDetalleReservaMesa;
-                valid = true;
-              }
-            }
-            cuenta += 1;
-          }
-          if (valid) {
-            this.form.controls.idMesa.setValue(true)
-          } else {
-            this.form.controls.idMesa.setValue(null)
-          }
+          this.form.setValue(this.newForm);
         }
       });
     }
@@ -283,78 +244,150 @@ export class CrudGenerarEstadiaPage implements OnInit {
             cantPersonas: this.estadia.cantPersonas,
             idMesa: null     
           }
-          this.form.setValue(this.newForm)
-          // Mesas
-          let cuenta = 0;
-          let valid = false;
-          for (let element of this.checkBoxList ) {
-            for (let item of res.detalleestadiamesas) {
-              // console.log("DETALLE ECUENTA ", cuenta)
-
-              // console.log("DETALLE ESTADIA MESA ", item)
-              if ( item.idMesa == element.value ) {
-              // console.log("ENTRO ---------------------------- ")
-                
-                this.checkBoxList[cuenta].isChecked = true;
-                this.checkBoxList[cuenta].idDetalleEstadiaMesa = item.idDetalleEstadiaMesa;
-                valid = true;
-              }
-            }
-            cuenta += 1;
-          }
-          console.log("this checkbox ", this.checkBoxList)
-          if (valid) {
-            this.form.controls.idMesa.setValue(true)
-          } else {
-            this.form.controls.idMesa.setValue(null)
-          }
+          this.form.setValue(this.newForm);
         }
       });
     }
   }
 
+  
   checkEvent( position ){
-    this.checkBoxList[position].isChecked = ! this.checkBoxList[position].isChecked ;
+    this.form.controls.idMesa.markAsTouched();
+
+    let cantidadComensales = this.form.value.cantPersonas;
+    let xCapacidadTotalMesas = 0;
+    this.checkBoxList[position].isChecked = ! this.checkBoxList[position].isChecked;
     let valid = false;
     for (let item of this.checkBoxList) {
       if (item.isChecked) {
+        xCapacidadTotalMesas += item.capacidad;
         valid = true;
       }
     }
     if (valid) {
-      this.form.controls.idMesa.setValue(true)
+      if (cantidadComensales != "" && cantidadComensales != null) {
+        if (cantidadComensales > xCapacidadTotalMesas) {
+          this.form.controls.idMesa.setErrors({cant_minima_comensales: true});
+          valid = false;
+        }
+        else {
+          this.form.controls.idMesa.setValue(true);
+          this.form.controls.idMesa.setErrors(null);
+        }
+      }
+      else {
+        this.form.controls.idMesa.setErrors({cant_comensales: true});
+        valid = false;
+      }
     } else {
-      this.form.controls.idMesa.setValue(null)
+      this.form.controls.idMesa.setValue(null);
+    }
+
+    if (valid && (cantidadComensales < xCapacidadTotalMesas)) {
+      this.mostrarMensajeConsideracion = 1;
+    }
+    else {
+      this.mostrarMensajeConsideracion = 0;
     }
   }
-  // TODO: Validar cantidad de comensales con respecto a capacidad del total de mesas seleccionadas. No permitir más mesas que comensales..
+
   validarCantidadComensales() {
     this.form.get('cantPersonas').valueChanges
-    .subscribe( respuesta => {
+    .subscribe(respuesta => {
+      this.form.controls.idMesa.markAsUntouched();
+      this.actualizarMesas();
     });
   }
 
-  validarEdadComensal() {
+  async actualizarMesas() {
+    await this.mesaservicio.getMesas()
+    .then(  resp => {
+      this.checkBoxList = [];
+      this.mesas =  resp['data'];
+      for (let mesa of  resp['data']) {
+        this.checkBoxList.push({ 
+          'value': mesa.idMesa,
+          'descripcion': `Mesa: N° ${mesa.nroMesa} - Cap: ${mesa.capacidadMesa}p - Sec: ${mesa.sector.nombreSector}`,
+          'isChecked': false,
+          'capacidad': mesa.capacidadMesa
+        })
+      }
+
+      if (this.origenDatos == "confReserva") {
+        this.cargarMesasReserva();
+      }
+      else if (this.origenDatos == "estadia" && this.accionGet == "editar") {
+        this.cargarMesasEstadia();
+      }
+    });
+  }
+
+  async cargarMesasReserva() {
+    await this.reservaservicio.getReserva(this.idReserva)
+    .then( res => {
+      let cuenta = 0;
+      let valid = false;
+      for (let element of this.checkBoxList ) {
+        for (let item of res.detallereservamesas) {
+          if ( item.idMesa == element.value ) {
+            this.checkBoxList[cuenta].isChecked = true;
+            this.checkBoxList[cuenta].idDetalleReservaMesa = item.idDetalleReservaMesa;
+            valid = true;
+          }
+        }
+        cuenta += 1;
+      }
+
+      if (valid) {
+        this.form.controls.idMesa.setValue(true)
+      } else {
+        this.form.controls.idMesa.setValue(null)
+      }
+    });
+  }
+
+  async cargarMesasEstadia() {
+    await this.estadiaServicio.getEstadia(this.idEstadia)
+    .then( res => {
+      let cuenta = 0;
+      let valid = false;
+      for (let element of this.checkBoxList ) {
+        for (let item of res.detalleestadiamesas) {
+          if ( item.idMesa == element.value ) {
+            this.checkBoxList[cuenta].isChecked = true;
+            this.checkBoxList[cuenta].idDetalleEstadiaMesa = item.idDetalleEstadiaMesa;
+            valid = true;
+          }
+        }
+        cuenta += 1;
+      }
+      if (valid) {
+        this.form.controls.idMesa.setValue(true)
+      } else {
+        this.form.controls.idMesa.setValue(null)
+      }
+    });
+  }
+  
+  validarComensalNuevo() {
+    console.log("validarComensalNuevo", this.form2.value.edadComensal);
     this.form2.get('edadComensal').valueChanges
     .subscribe( edad => {
+      console.log("form2, edidad comensal: ", edad);
       if (edad > 150){
-        this.form2.controls.edadComensal.setErrors({
-          edad_maxima: true
-        });
+        this.form2.controls.edadComensal.setErrors({edad_maxima: true});
       }
       else {
-        this.form2.get("edadComensal").setValidators([ Validators.required, 
-          Validators.pattern(/^([0-9]{3})+$/)]);
-        this.form2.get("edadComensal").updateValueAndValidity();
+        this.form2.get("edadComensal").setValidators([ Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]);
       }
     });
   }
 
   resetComensal() {
     this.form2 = this.formBuilder.group({
-      aliasComensal: ['', Validators.required],
-      edadComensal: [null, Validators.required],
-      cuitUsuario: [null]
+      aliasComensal: ['',[ Validators.required]],
+      edadComensal:['',[ Validators.required, Validators.pattern(/^(([1][2-9])|([2-9][0-9]))$/)]],
+      cuitUsuario: ['', [Validators.pattern(/^((20)|(23)|(24)|(25)|(26)|(27)|(30))[0-9]{9}$/)]]
     });
     this.comensal = {
       aliasComensal: '',

@@ -37,7 +37,8 @@ export class CrudGestionarReservaPage implements OnInit {
   public idReserva = 0;
   public reserva: Reserva;
   public newForm = {};
-  public mostrar5;
+  public mostrar5 = false;
+  public mostrarMensajeConsideracion = 0;
   
   constructor(
     private formBuilder: FormBuilder,
@@ -56,7 +57,7 @@ export class CrudGestionarReservaPage implements OnInit {
     
     this.loadCurrentUsuario();
     this.form = this.formBuilder.group({
-      edadComensal: ['',[ Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]],
+      edadComensal: ['',[ Validators.required, Validators.pattern(/^(([1][2-9])|([2-9][0-9]))$/)]],
       fechaReserva: ['', Validators.required],
       horaEntrada: ['', Validators.required],
       horaSalida: ['', Validators.required],
@@ -64,25 +65,29 @@ export class CrudGestionarReservaPage implements OnInit {
       idMesa: [null, Validators.required],
     });
     this.form2 = this.formBuilder.group({
-      aliasComensal: "",
-      edadComensal:['',[ Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]],
-      cuitUsuario: ""
+      aliasComensal: ['',[ Validators.required]],
+      edadComensal:['',[ Validators.required, Validators.pattern(/^(([1][2-9])|([2-9][0-9]))$/)]],
+      cuitUsuario: ['', [Validators.pattern(/^((20)|(23)|(24)|(25)|(26)|(27)|(30))[0-9]{9}$/)]]
     });
-
-
+    
     this.activatedRoute.params.subscribe(params => {
       console.log("PAREMTROS DE URL", params);
       this.accionGet  = params.accion;
       this.idReserva = params.id;
-      this.traerMesas();
-      this.validarEdadComensal();
-      this.validarComensalNuevo();
+      this.cargaInicial();
+      this.validarCantidadComensales();
+
+      this.mostrar5 = false;
     });
    }
 
   ngOnInit() {
     this.tratarFecha();
   }
+
+  // TODO: No permitir más de dos reservas la misma fecha, misma mesa, con rango de hora que toque a otra.
+
+  // TODO: No permitir más de dos reservas, misma fecha y misma hora para un mismo usuario.
 
   traerReserva() {
     console.log("Funcion 'traerReserva()', ejecutada");
@@ -125,25 +130,7 @@ export class CrudGestionarReservaPage implements OnInit {
             cantidadComensal: this.reserva.cantPersonas,
             idMesa: null     
           }
-          this.form.setValue(this.newForm)
-          // Mesas
-          let cuenta = 0;
-          let valid = false;
-          for (let element of this.checkBoxList ) {
-            for (let item of res.detallereservamesas) {
-              if ( item.idMesa == element.value ) {
-                this.checkBoxList[cuenta].isChecked = true;
-                this.checkBoxList[cuenta].idDetalleReservaMesa = item.idDetalleReservaMesa;
-                valid = true;
-              }
-            }
-            cuenta += 1;
-          }
-          if (valid) {
-            this.form.controls.idMesa.setValue(true)
-          } else {
-            this.form.controls.idMesa.setValue(null)
-          }
+          this.form.setValue(this.newForm);
         }
         this.setValidatorsHours();
       });
@@ -164,7 +151,6 @@ export class CrudGestionarReservaPage implements OnInit {
     });
   }
   
-  // TODO: No está andando el valueChange de aquí..
   validarComensalNuevo() {
     console.log("validarComensalNuevo", this.form2.value.edadComensal);
     this.form2.get('edadComensal').valueChanges
@@ -179,14 +165,54 @@ export class CrudGestionarReservaPage implements OnInit {
     });
   }
 
-  pruaba1() {
-    console.log(this.form2);
+   validarCantidadComensales() {
+    this.form.get('cantidadComensal').valueChanges
+    .subscribe(respuesta => {
+      this.form.controls.idMesa.markAsUntouched();
+      this.actualizarMesas();
+    });
   }
 
-  // TODO: Validar cantidad de comensales con respecto a capacidad del total de mesas seleccionadas. No permitir más mesas que comensales..
-  validarCantidadComensales() {
-    this.form.get('cantidadComensal').valueChanges
-    .subscribe( respuesta => {
+  async actualizarMesas() {
+    await this.mesaservicio.getMesas()
+    .then(  resp => {
+      this.checkBoxList = [];
+      this.mesas =  resp['data'];
+      for (let mesa of  resp['data']) {
+        this.checkBoxList.push({ 
+          'value': mesa.idMesa,
+          'descripcion': `Mesa: N° ${mesa.nroMesa} - Cap: ${mesa.capacidadMesa}p - Sec: ${mesa.sector.nombreSector}`,
+          'isChecked': false,
+          'capacidad': mesa.capacidadMesa
+        })
+      }
+      if (this.accionGet == "editar") {
+        this.cargarMesasReserva();
+      }
+    });
+  }
+
+  async cargarMesasReserva() {
+    await this.reservaservicio.getReserva(this.idReserva)
+    .then( res => {
+      let cuenta = 0;
+      let valid = false;
+      for (let element of this.checkBoxList ) {
+        for (let item of res.detallereservamesas) {
+          if ( item.idMesa == element.value ) {
+            this.checkBoxList[cuenta].isChecked = true;
+            this.checkBoxList[cuenta].idDetalleReservaMesa = item.idDetalleReservaMesa;
+            valid = true;
+          }
+        }
+        cuenta += 1;
+      }
+
+      if (valid) {
+        this.form.controls.idMesa.setValue(true)
+      } else {
+        this.form.controls.idMesa.setValue(null)
+      }
     });
   }
 
@@ -208,42 +234,57 @@ export class CrudGestionarReservaPage implements OnInit {
     this.comensales[0].edadComensal = Number(valor.target.value)
   }
 
-   traerMesas(){
-    this.mesaservicio.getMesas()
-    .then(  resp => {
-      this.mesas =  resp['data'];
-      for (let mesa of  resp['data']) {
-        this.checkBoxList.push({ 
-          'value': mesa.idMesa,
-          'descripcion': `Mesa: N° ${mesa.nroMesa} - Cap: ${mesa.capacidadMesa}p - Sec: ${mesa.sector.nombreSector}`,
-          'isChecked': false
-        })
-      }
-      if (this.accionGet == "crear") {
-        console.log("CREANDO")
-        this.resetComensal();
-        this.setValidatorsHours();
-      }
-      else if (this.accionGet == "editar") {
-        console.log("EDITANDO")
-        this.traerReserva();
-        this.resetComensal();
-      }
-    })
+  cargaInicial(){
+    if (this.accionGet == "crear") {
+      console.log("CREANDO")
+      this.actualizarMesas();
+      this.resetComensal();
+      this.setValidatorsHours();
+    }
+    else if (this.accionGet == "editar") {
+      console.log("EDITANDO")
+      this.traerReserva();
+      this.resetComensal();
+    }
   }
 
   checkEvent( position ){
-    this.checkBoxList[position].isChecked = ! this.checkBoxList[position].isChecked ;
+    this.form.controls.idMesa.markAsTouched();
+
+    let cantidadComensales = this.form.value.cantidadComensal;
+    let xCapacidadTotalMesas = 0;
+    this.checkBoxList[position].isChecked = ! this.checkBoxList[position].isChecked;
     let valid = false;
     for (let item of this.checkBoxList) {
       if (item.isChecked) {
+        xCapacidadTotalMesas += item.capacidad;
         valid = true;
       }
     }
     if (valid) {
-      this.form.controls.idMesa.setValue(true)
+      if (cantidadComensales != "" && cantidadComensales != null) {
+        if (cantidadComensales > xCapacidadTotalMesas) {
+          this.form.controls.idMesa.setErrors({cant_minima_comensales: true});
+          valid = false;
+        }
+        else {
+          this.form.controls.idMesa.setValue(true);
+          this.form.controls.idMesa.setErrors(null);
+        }
+      }
+      else {
+        this.form.controls.idMesa.setErrors({cant_comensales: true});
+        valid = false;
+      }
     } else {
-      this.form.controls.idMesa.setValue(null)
+      this.form.controls.idMesa.setValue(null);
+    }
+
+    if (valid && (cantidadComensales < xCapacidadTotalMesas)) {
+      this.mostrarMensajeConsideracion = 1;
+    }
+    else {
+      this.mostrarMensajeConsideracion = 0;
     }
   }
 
@@ -290,9 +331,9 @@ export class CrudGestionarReservaPage implements OnInit {
 
   resetComensal() {
     this.form2 = this.formBuilder.group({
-      aliasComensal: ['', Validators.required],
-      edadComensal: [null, Validators.required],
-      cuitUsuario: [null]
+      aliasComensal: ['',[ Validators.required]],
+      edadComensal:['',[ Validators.required, Validators.pattern(/^(([1][2-9])|([2-9][0-9]))$/)]],
+      cuitUsuario: ['', [Validators.pattern(/^((20)|(23)|(24)|(25)|(26)|(27)|(30))[0-9]{9}$/)]]
     });
     this.comensal = {
       aliasComensal: '',
@@ -347,6 +388,9 @@ export class CrudGestionarReservaPage implements OnInit {
     const comensales = this.comensales;
     reserva['idUsuario'] = this.currentUsuario.id;
     let reservaConCodigo = await this.agregarCodigoReserva( reserva );
+
+    await this.validarCreacionReserva(reserva, mesas, comensales);
+
     if (this.accionGet == "crear") {
       this.enviarReservaCrear( reservaConCodigo , comensales, mesas); 
     }
@@ -365,6 +409,13 @@ export class CrudGestionarReservaPage implements OnInit {
   agregarTokenReserva( data, reserva ) {
     let tokenReserva = `RESERVA-${data.id}-${this.currentUsuario.id}-${reserva.fechaReserva}/${reserva.horaEntradaReserva}`;
     return tokenReserva
+  }
+
+  async validarCreacionReserva(reserva, mesas, comensales) {
+    await this.reservaservicio.getReservas()
+    .then(res => {
+      let reservasTodas
+    });
   }
 
   async enviarReservaCrear(reserva, comensales, mesas) {
