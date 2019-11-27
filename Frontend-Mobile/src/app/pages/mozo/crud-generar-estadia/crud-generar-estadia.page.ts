@@ -107,8 +107,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
     if ( this.origenDatos == 'confReserva' ) {
       this.navController.navigateRoot('/home');
     } else if (this.origenDatos == "estadia") {
-      console.log("*************************VERIFICAR A DONDE SE DEBE DIRIGIR*************************");
-      //this.navController.navigateBack('/search-gestionar-reserva');
+      this.navController.navigateRoot('/home');
     }
   }
 
@@ -649,6 +648,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
       }
     }
     const comensales = this.comensales;
+    console.log("Comensales a Crear: ", comensales);
     
     estadia['idUsuario'] = this.currentUsuario.id;
     let estadiaConCodigo = await this.agregarCodigoEstadia( estadia );
@@ -803,7 +803,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
                 this.estadiaServicio.setMesasEstadia( pathMesas )
                 .then( respo => {
                   let pathClienteComensal = {};
-                  pathClienteComensal['idEstadia'] = this.idEstadia;
+                  pathClienteComensal['idEstadia'] = res.id;
                   pathClienteComensal['detalle'] = this.comensalesClientes;
                   this.estadiaServicio.setClienteEstadia(pathClienteComensal)
                   .then( respo1 => {

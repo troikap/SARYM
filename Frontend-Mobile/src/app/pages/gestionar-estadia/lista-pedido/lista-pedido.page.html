@@ -1,93 +1,93 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Lista de Pedidos</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Lista de Pedidos</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-card *ngIf="estadia == null">
-    <h3 padding ><strong>Debe generar o pertenecer a una estadia para poder interactuar con ella.</strong></h3>
+    <h3 padding><strong>Debe generar o pertenecer a una estadia para poder interactuar con ella.</strong></h3>
 </ion-card>
 <ion-content *ngIf='estadia'>
-  <ion-card>
-    <ion-title color="dark" align="middle" padding>Comensal N°: {{idComensal}}</ion-title>
-    <ion-title>Alias: {{aliasComensal}}</ion-title>
-  </ion-card>
-  <div *ngFor="let item of estadia.pedidos; let i = index">
-      <ion-item-sliding>
-          <ion-item (click)="mostrar[i] = !mostrar[i]">
-            <ion-card color=success class="card-inter" [ngClass]="{ 'activo': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Reservado' ||
+    <ion-card>
+        <ion-title color="dark" align="middle" padding>Comensal N°: {{idComensal}}</ion-title>
+        <ion-title>Alias: {{aliasComensal}}</ion-title>
+    </ion-card>
+    <div *ngFor="let item of estadia.pedidos; let i = index">
+        <ion-item-sliding>
+            <ion-item (click)="mostrar[i] = !mostrar[i]">
+                <ion-card color=success class="card-inter" [ngClass]="{ 'activo': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Reservado' ||
                                                      item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'En Preparación' ||
                                                      item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'A Entregar' ,
                                                     'pendiente': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Pendiente de Pago', 
                                                     'anulado': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Anulado', 
                                                     'eliminado': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Eliminado',
                                                     'finalizado': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Finalizado'}">
-              <ion-card-header>
-                <ion-card-title>Codigo: <strong>{{item.codPedido}}</strong></ion-card-title>
-              </ion-card-header>
-              <ion-card-content>
-                <ion-card-title>Importe: <strong>$ {{item.importeTotal}}</strong></ion-card-title>
-                <ion-card-title>Estado: <strong>{{item.pedidoestados[0].estadopedido.nombreEstadoPedido}}</strong></ion-card-title>
-              </ion-card-content>
-            </ion-card>
-          </ion-item>
-          <div  *ngIf="item.pedidoestados[0].estadopedido.nombreEstadoPedido != 'Anulado' ">
-            <ion-item-options side="start">
-                <ion-item-option color="danger" (click)="eliminarPedido(item)">
-                    <ion-icon slot="icon-only" name="trash"></ion-icon>
-                </ion-item-option>
-            </ion-item-options>
-            <ion-item-options side="end">
-              <ion-item-option style="background-color:green" (click)="editarPedido(item)">
-                  <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-              </ion-item-option>
-          </ion-item-options>
-          </div>
-      </ion-item-sliding>
-      <div *ngIf="mostrar[i] && item.pedidoestados[0].estadopedido.nombreEstadoPedido != 'Anulado'">
-        <ion-item-sliding *ngFor="let elemento of item.detallepedidoproductos">
-        <ion-item slot="end">
-          <ion-card padding color="primary" >
-              <div *ngIf="elemento.producto">
-                  <ion-card-subtitle>Producto: <strong> {{elemento.producto.nombreProducto}}</strong></ion-card-subtitle>
-                  <ion-card-subtitle align="right">Cantidad: <strong>{{elemento.cantidadPedidoProducto}}</strong></ion-card-subtitle>
-                  <ion-card-subtitle align="right">Precio: <strong> $ {{elemento.producto.precioproductos[0].importePrecioProducto}}</strong></ion-card-subtitle>
-                  <ion-card-subtitle align="right">Sub Total: <strong>{{elemento.cantidadPedidoProducto}} * {{elemento.producto.precioproductos[0].importePrecioProducto}} = 
-                    $ {{elemento.producto.precioproductos[0].importePrecioProducto * elemento.cantidadPedidoProducto}} </strong></ion-card-subtitle>
-              </div>
-              <div *ngIf="elemento.menupromocion">
-                <div *ngIf="elemento.menupromocion.tipomenupromocion.nombreTipoMenuPromocion == 'Menu'">
-                    <ion-card-subtitle>Menu: <strong> {{elemento.menupromocion.nombreMenuPromocion}}</strong></ion-card-subtitle>
-                </div>
-                <div *ngIf="elemento.menupromocion.tipomenupromocion.nombreTipoMenuPromocion == 'Promocion'">
-                    <ion-card-subtitle>Promocion: <strong> {{elemento.menupromocion.nombreMenuPromocion}}</strong></ion-card-subtitle>
-                </div>
-                  <ion-card-subtitle align="right">Cantidad: <strong>{{elemento.cantidadPedidoProducto}}</strong></ion-card-subtitle>
-                  <ion-card-subtitle align="right">Precio: <strong> $ {{elemento.menupromocion.preciomenupromocions[0].importePrecioMenuPromocion}}</strong></ion-card-subtitle>
-                  <ion-card-subtitle align="right">Sub Total: <strong>{{elemento.cantidadPedidoProducto}} * {{elemento.menupromocion.preciomenupromocions[0].importePrecioMenuPromocion}} = 
-                    $ {{elemento.menupromocion.preciomenupromocions[0].importePrecioMenuPromocion * elemento.cantidadPedidoProducto}} </strong></ion-card-subtitle>
-              </div>
-            </ion-card>
-          </ion-item>
-          <ion-item-options side="start">
-              <ion-item-option color="danger" (click)="eliminarDetalle(elemento, item.idPedido)">
-                  <ion-icon slot="icon-only" name="trash"></ion-icon>
-              </ion-item-option>
-          </ion-item-options>
-          <ion-item-options side="end">
-            <ion-item-option style="background-color:green" (click)="editarDetalle(elemento, item.idPedido)">
-                <ion-icon slot="icon-only" name="create"></ion-icon>
-            </ion-item-option>
-          </ion-item-options>
+                    <ion-card-header>
+                        <ion-card-title>Codigo: <strong>{{item.codPedido}}</strong></ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-card-title>Importe: <strong>$ {{item.importeTotal}}</strong></ion-card-title>
+                        <ion-card-title>Estado: <strong>{{item.pedidoestados[0].estadopedido.nombreEstadoPedido}}</strong></ion-card-title>
+                    </ion-card-content>
+                </ion-card>
+            </ion-item>
+            <div *ngIf="item.pedidoestados[0].estadopedido.nombreEstadoPedido != 'Anulado' ">
+                <ion-item-options side="start">
+                    <ion-item-option color="danger" (click)="eliminarPedido(item)">
+                        <ion-icon slot="icon-only" name="trash"></ion-icon>
+                    </ion-item-option>
+                </ion-item-options>
+                <ion-item-options side="end">
+                    <ion-item-option style="background-color:green" (click)="editarPedido(item)">
+                        <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+                    </ion-item-option>
+                </ion-item-options>
+            </div>
         </ion-item-sliding>
-      </div>
-  </div>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="crearPedido()">
-    <ion-fab-button>
-        <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+        <div *ngIf="mostrar[i] && item.pedidoestados[0].estadopedido.nombreEstadoPedido != 'Anulado'">
+            <ion-item-sliding *ngFor="let elemento of item.detallepedidoproductos">
+                <ion-item slot="end">
+                    <ion-card padding color="primary">
+                        <div *ngIf="elemento.producto">
+                            <ion-card-subtitle>Producto: <strong> {{elemento.producto.nombreProducto}}</strong></ion-card-subtitle>
+                            <ion-card-subtitle align="right">Cantidad: <strong>{{elemento.cantidadPedidoProducto}}</strong></ion-card-subtitle>
+                            <ion-card-subtitle align="right">Precio: <strong> $ {{elemento.producto.precioproductos[0].importePrecioProducto}}</strong></ion-card-subtitle>
+                            <ion-card-subtitle align="right">Sub Total: <strong>{{elemento.cantidadPedidoProducto}} * {{elemento.producto.precioproductos[0].importePrecioProducto}} = 
+                    $ {{elemento.producto.precioproductos[0].importePrecioProducto * elemento.cantidadPedidoProducto}} </strong></ion-card-subtitle>
+                        </div>
+                        <div *ngIf="elemento.menupromocion">
+                            <div *ngIf="elemento.menupromocion.tipomenupromocion.nombreTipoMenuPromocion == 'Menu'">
+                                <ion-card-subtitle>Menu: <strong> {{elemento.menupromocion.nombreMenuPromocion}}</strong></ion-card-subtitle>
+                            </div>
+                            <div *ngIf="elemento.menupromocion.tipomenupromocion.nombreTipoMenuPromocion == 'Promocion'">
+                                <ion-card-subtitle>Promocion: <strong> {{elemento.menupromocion.nombreMenuPromocion}}</strong></ion-card-subtitle>
+                            </div>
+                            <ion-card-subtitle align="right">Cantidad: <strong>{{elemento.cantidadPedidoProducto}}</strong></ion-card-subtitle>
+                            <ion-card-subtitle align="right">Precio: <strong> $ {{elemento.menupromocion.preciomenupromocions[0].importePrecioMenuPromocion}}</strong></ion-card-subtitle>
+                            <ion-card-subtitle align="right">Sub Total: <strong>{{elemento.cantidadPedidoProducto}} * {{elemento.menupromocion.preciomenupromocions[0].importePrecioMenuPromocion}} = 
+                    $ {{elemento.menupromocion.preciomenupromocions[0].importePrecioMenuPromocion * elemento.cantidadPedidoProducto}} </strong></ion-card-subtitle>
+                        </div>
+                    </ion-card>
+                </ion-item>
+                <ion-item-options side="start">
+                    <ion-item-option color="danger" (click)="eliminarDetalle(elemento, item.idPedido)">
+                        <ion-icon slot="icon-only" name="trash"></ion-icon>
+                    </ion-item-option>
+                </ion-item-options>
+                <ion-item-options side="end">
+                    <ion-item-option style="background-color:green" (click)="editarDetalle(elemento, item.idPedido)">
+                        <ion-icon slot="icon-only" name="create"></ion-icon>
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+        </div>
+    </div>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="crearPedido()">
+        <ion-fab-button>
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 </ion-content>

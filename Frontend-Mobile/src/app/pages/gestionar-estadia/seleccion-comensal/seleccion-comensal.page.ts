@@ -177,7 +177,7 @@ export class SeleccionComensalPage implements OnInit {
             }
           }
         ],
-        cssClass: 'alert',
+        cssClass: 'alertPrimary'
       });
       await alert.present();
     } 
@@ -319,7 +319,8 @@ export class SeleccionComensalPage implements OnInit {
               }
             }
           }
-        ]
+        ],
+        cssClass: 'alertPrimary'
       });
       await alert.present();
     }
@@ -344,7 +345,8 @@ export class SeleccionComensalPage implements OnInit {
               this.agregarNuevoComensal(this.pathDetalleComensalUsuario)
             }
           }
-        ]
+        ],
+        cssClass: 'alertPrimary'
       })
       await alert.present();
     }

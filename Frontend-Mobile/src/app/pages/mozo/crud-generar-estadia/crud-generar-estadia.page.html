@@ -59,7 +59,7 @@
             </ion-item>
         </ion-item-sliding>
     </ion-card>
-    <form [formGroup]="form" *ngIf="estadia || reserva">
+    <form [formGroup]="form" *ngIf="(estadia || reserva) || (accionGet == 'crear')">
         <ion-row padding *ngIf="origenDatos == 'estadia' && estadia">
             <ion-label padding color="primary">Fecha y hora Entrada</ion-label>
             <ion-label padding>{{estadia.fechaYHoraInicioEstadia | date:'dd/MM/yyyy, HH:mm'}}hs</ion-label>
