@@ -60,6 +60,20 @@
     </div>
   </div>
   <div *ngIf="ver">
+    <div>
+      <ion-title padding>Seleccione Forma de Pago</ion-title>
+      <ion-segment (ionChange)="cambiarMedioPago($event)" color="success">
+          <ion-segment-button value="efectivo">
+            <ion-label>Efectivo</ion-label>
+            <ion-icon name="cash"></ion-icon>
+          </ion-segment-button>
+          <ion-segment-button value="tarjeta">
+            <ion-label>Tarjeta</ion-label>
+            <ion-icon name="card"></ion-icon>
+          </ion-segment-button>
+        </ion-segment>
+    </div>
+    <ion-title padding>Pedidos Seleccionados</ion-title>
       <div *ngFor="let item of listaPedidos, let i = index" [ngClass]="{ 'activo': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Reservado' ||
                                                                     item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'En Preparación' ||
                                                                     item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'A Entregar' ,
@@ -99,5 +113,5 @@
 </ion-content>
 <ion-footer>
   <ion-button expand="full" (click)="ver = !ver" *ngIf="!ver">Ver Detalle a Pagar</ion-button>
-  <ion-button color="success" expand="full" (click)="realizarPago()" *ngIf="ver">Realizar Pago</ion-button>
+  <ion-button color="success" expand="full" [disabled]="listaPedidos.length == 0" (click)="realizarPago()" *ngIf="ver">Realizar Pago</ion-button>
 </ion-footer>
