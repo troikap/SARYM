@@ -13,6 +13,7 @@
   </ion-card>
   <ion-button expand="full" (click)="ver = !ver" *ngIf="ver">Ver Pedidos</ion-button>
   <div *ngIf="!ver">
+    <h3 *ngIf="pedidos.length == 0" align="center">No existen Pedido para ser pagado en la Estadía en Curso.</h3>
     <div *ngFor="let item of pedidos, let i = index" [ngClass]="{ 'activo': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Reservado' ||
                                                                   item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'En Preparación' ||
                                                                   item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'A Entregar' ,
@@ -74,6 +75,8 @@
         </ion-segment>
     </div>
     <ion-title padding>Pedidos Seleccionados</ion-title>
+    <h3 *ngIf="listaPedidos.length == 0" align="center">No existen Pedido seleccionados para ser pagado en la Estadía en Curso.</h3>
+
       <div *ngFor="let item of listaPedidos, let i = index" [ngClass]="{ 'activo': item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Reservado' ||
                                                                     item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'En Preparación' ||
                                                                     item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'A Entregar' ,
