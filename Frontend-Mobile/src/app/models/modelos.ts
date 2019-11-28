@@ -343,4 +343,5 @@ export interface Pedido {
     fechaYHoraInicioPedido: Date,
     fechaYHoraFinPedido: Date,
     detallepedidoproductos: Detallepedidoproducto[],
+    importeTotal?: Number
 }

@@ -3,6 +3,9 @@ import { MenuController } from '@ionic/angular';
 
 import { StorageService, Log } from '../services/storage/storage.service';
 import { NavController, AlertController } from '@ionic/angular';
+import { EstadiaService } from '../services/estadia/estadia.service';
+import { ToastService } from '../providers/toast.service';
+
 
 @Component({
   selector: 'app-home',
@@ -11,9 +14,11 @@ import { NavController, AlertController } from '@ionic/angular';
 })
 export class HomePage implements OnInit {
 
-  private logueo: Log;
+  public logueo: Log;
   public currentUsuario: string;
   selectOption;
+  public idCurrentUsuario;
+  public idEstadia;
 
   slidesCliente = [
     {
@@ -44,6 +49,8 @@ export class HomePage implements OnInit {
     private storage: StorageService,
     private navController: NavController,
     private alertController: AlertController,
+    private estadiaService: EstadiaService,
+    private toastService: ToastService
   ) {
     this.loadLog()
   }
@@ -54,8 +61,28 @@ export class HomePage implements OnInit {
   ngOnInit() {
   }
 
+  getEstadiaUsrLogueado() {
+    this.estadiaService.getEstadiasPorUsuario(this.idCurrentUsuario)
+      .then((res: any) => {
+        console.log("getEstadiaUsrLogueado", res);
+        this.idEstadia =  res.data.idEstadia;
+      })
+  }
+
+  verListaPago() {
+    this.navController.navigateForward([`/seleccion-comensal/estadia/${this.idEstadia}/edicion`])
+  }
+
+  realizarPedido() {
+    if (this.idEstadia != null) {
+      this.goTo('realizar-pedido');
+    } else {
+      this.toastService.toastWarning('Usted no se encuentra en una Estadía actualmente', 2500)
+    }
+  }
+
   async goTo(key: string) {
-    await this.loadLog()
+    // await this.loadLog()
     let id = this.logueo.id;
 
     if (id == -1) { //Invitado
@@ -78,7 +105,7 @@ export class HomePage implements OnInit {
       //   page = `/ver-qr-reserva/1`;
       //   break;
       case "realizar-pedido":
-        page = `/seleccion-comensal/reserva/1`;
+        page = `/seleccion-comensal/estadia/${this.idEstadia}/home`;
         break;
       case "search-gestionar-reserva":
         // page = `/search-gestionar-reserva`;
@@ -116,9 +143,11 @@ export class HomePage implements OnInit {
         console.log("LOG:-----------", logs);
         this.logueo = logs;
         this.currentUsuario = await logs['rolUsuario'];
+        this.idCurrentUsuario = await logs.id;
         if (!logs) {
           console.log('ERRORR')
         }
+        this.getEstadiaUsrLogueado();
       })
   }
 

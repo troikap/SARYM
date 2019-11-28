@@ -372,10 +372,15 @@ export class SeleccionComensalPage implements OnInit {
     }
 
     goBack() {
+      console.log("FROM ", this.from)
       if ( this.from == 'creacion' ) {
         this.navController.navigateRoot('/home')
       } else if (this.from == "edicion") {
         this.navController.navigateBack('/search-gestionar-estadia');
+      } else if (this.from == 'home') {
+        this.navController.navigateRoot('/home')
+      } else {
+        this.navController.navigateRoot('/home')
       }
     }
   }
