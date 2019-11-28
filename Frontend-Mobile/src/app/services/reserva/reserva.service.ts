@@ -28,22 +28,20 @@ export class ReservaService {
     private storage: StorageService,
   ) { }
 
-  getProductosByAll( termino: string) { //Observador
-    console.log("Service getProductosByAll: Termino = ", termino);
+  getReservasPorEstado( termino: string) {
+    console.log("Service getReservasPorEstado: Termino = ", termino);
     if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
       headers = headers.append('token', this.tokenEnviroment);
       return this.http
-        .get(`${this.url}${this.dir}${this.dirTodo}/${termino}`, {headers})
-        .pipe( map ((data: any) => {
-          console.log(data.data);
-          if (data != null) {
-            return data.data;
-          }
-      }));
+      .get(`${this.url}${this.dir}${this.dirTodo}/${termino}`, {headers})
+      .toPromise()
+      .then(response => {
+        return response;
+      });
     }
     else {
-      // console.log("Service getProductosByAll: SIN TERMINO");
+      // console.log("Service getReservasPorEstado: SIN TERMINO");
     }
   }
 

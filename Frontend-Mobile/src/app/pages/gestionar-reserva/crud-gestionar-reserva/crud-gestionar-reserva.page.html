@@ -33,7 +33,7 @@
             </ion-item>
             <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.pattern && form.controls.horaSalida.touched">Debería ser 30m mayor que la hora de Entrada.</p>
             <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.required && form.controls.horaSalida.touched">Ingrese la hora de Salida.</p>
-            <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.horasalida_maxima && form.controls.horaSalida.touched">Ingrese Hora inferior o igual a 22:00hs</p>
+            <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.horasalida_maxima && form.controls.horaSalida.touched">Ingrese Hora inferior o igual a 23:59hs</p>
             <ion-item>
                 <ion-label padding color="primary" position="floating">Cantidad de Personas</ion-label>
                 <ion-input class="form-control" type="number" placeholder="Cantidad Personas" formControlName="cantidadComensal" id="cantidadComensal"></ion-input>

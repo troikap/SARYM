@@ -389,14 +389,7 @@ export class CrudGestionarReservaPage implements OnInit {
     reserva['idUsuario'] = this.currentUsuario.id;
     let reservaConCodigo = await this.agregarCodigoReserva( reserva );
 
-    await this.validarCreacionReserva(reserva, mesas, comensales);
-
-    if (this.accionGet == "crear") {
-      this.enviarReservaCrear( reservaConCodigo , comensales, mesas); 
-    }
-    else if (this.accionGet == "editar") {
-      this.enviarReservaEditar( reserva , comensales, mesas); 
-    }
+    this.validarCreacionReserva(reserva, mesas, comensales, reservaConCodigo);
   }
 
   agregarCodigoReserva( data ) {
@@ -411,11 +404,149 @@ export class CrudGestionarReservaPage implements OnInit {
     return tokenReserva
   }
 
-  async validarCreacionReserva(reserva, mesas, comensales) {
-    await this.reservaservicio.getReservas()
-    .then(res => {
-      let reservasTodas
+  async validarCreacionReserva(reserva, mesas, comensales, reservaConCodigo) {
+    await this.reservaservicio.getReservasPorEstado("generada")
+    .then((res:any) => {
+      if (res.tipo != 2) {
+        let reservasTodas = res.data;
+        // console.log("reserva: ",reserva);
+        // console.log("reservaConCodigo: ",reservaConCodigo);
+        // console.log("mesas: ",mesas);
+        // console.log("comensales: ",comensales);
+        // console.log("reservasTodas: ", reservasTodas);
+        
+        let fechaReservaActual = reserva.fechaReserva;
+        let horaEntradaActual = reserva.horaEntradaReserva + ":00";
+        let horaSalidaActual = reserva.horaSalidaReserva + ":00";
+        let idUsuariosActual = [];
+        let idMesasActual = [];
+        for (let comenActual of comensales) {
+          let idUsrAct = comenActual.idUsuario;
+          if (idUsrAct != null && idUsrAct != "" && idUsrAct != "undefined") {
+            idUsuariosActual.push(idUsrAct);
+          }
+        }
+        for (let mesasActual of mesas) {
+          let mesaAct = mesasActual.idMesa;
+          if (mesaAct != "" && mesaAct != null && mesaAct != "undefined") {
+            idMesasActual.push(mesaAct);
+          }
+        }
+        
+        let errorRangoUsr = false;
+        let errorRangoMesa = false;
+        // console.log("----------------------------------------------------");
+        // console.log("------------TODAS---------------");
+
+        for (let todas of reservasTodas) {
+          let fechaReservaTodas = todas.fechaReserva;
+          let horaEntradaTodas = todas.horaEntradaReserva;
+          let horaSalidaTodas = todas.horaSalidaReserva;
+          let idUsuariosTodas = [];
+          let idMesasTodas = [];
+          for (let comenTodas of todas.comensals) {
+            let idUsrTod = comenTodas.idUsuario;
+            if (idUsrTod != null && idUsrTod != "" && idUsrTod != "undefined") {
+              idUsuariosTodas.push(idUsrTod);
+            }
+          }
+          for (let mesasTodas of todas.detallereservamesas) {
+            let mesaToda = mesasTodas.mesa.idMesa;
+            if (mesaToda != "" && mesaToda != null && mesaToda != "undefined") {
+              idMesasTodas.push(mesaToda);
+            }
+          }
+                    
+          if (fechaReservaTodas == fechaReservaActual) {
+            // Validar: No permitir generar reservas para un mismo usuario, misma fecha, dentro de un rango de horario parecido
+            for (let usuarioActual of idUsuariosActual) {
+              let usrAct = usuarioActual;
+              for (let usuarioTodas of idUsuariosTodas) {
+                let usrTodas = usuarioTodas;
+                if (usrAct == usrTodas) {
+                  errorRangoUsr = this.validarRangoHorarioReserva(horaEntradaTodas, horaEntradaActual, horaSalidaTodas, horaSalidaActual);
+                  // console.log("Error de Rango horario, fecha y usuario: ¿? ", errorRangoUsr);
+                }
+              } 
+            }
+            // Validar: No permitir generar reservas para una misma fecha, misma mesa,rango horario parecido
+            for(let mesaTodas of idMesasTodas) {
+              let mesaToda = mesaTodas;
+              for (let mesaActual of idMesasActual) {
+                let mesaAct = mesaActual;
+                if (mesaToda == mesaAct) {
+                  errorRangoMesa = this.validarRangoHorarioReserva(horaEntradaTodas, horaEntradaActual, horaSalidaTodas, horaSalidaActual);
+                  // console.log("Error de Rango horario, fecha y Mesa: ¿? ", errorRangoMesa);
+                }
+              }
+            }
+          }
+          // console.log("fechaReservaTodas", fechaReservaTodas);
+          // console.log("horaEntradaTodas", horaEntradaTodas);
+          // console.log("horaSalidaTodas", horaSalidaTodas);
+          // console.log("idUsuariosTodas", idUsuariosTodas);
+          // console.log("idMesasTodas", idMesasTodas);
+          
+          // console.log("-------------------------------");
+
+        }
+        // console.log("----------------------------------------------------");
+        // console.log("------------ACTUAL-------------");
+
+        // console.log("fechaTofechaReservaActualdas", fechaReservaActual);
+        // console.log("horaEntradaActual", horaEntradaActual);
+        // console.log("horaSalidaActual", horaSalidaActual);
+        // console.log("idUsuariosActual", idUsuariosActual);
+        // console.log("idMesasActual", idMesasActual);
+        
+        if (!errorRangoUsr && !errorRangoMesa) {
+          if (this.accionGet == "crear") {
+            this.enviarReservaCrear( reservaConCodigo , comensales, mesas); 
+          }
+          else if (this.accionGet == "editar") {
+            this.enviarReservaEditar( reserva , comensales, mesas); 
+          }
+        }
+        else {
+          if (errorRangoUsr) {
+            let msg = "Ya existe una reserva a su nombre o a nombre de otro cliente, que comparte misma fecha y rango horario.";
+            this.toastService.toastError(msg, 5000);
+          }
+          else if (errorRangoMesa) {
+            let msg = "Ya existe una reserva para al menos una mesa seleccionada, que comparte misma fecha y rango horario.";
+            this.toastService.toastError(msg, 5000);
+          }
+        }
+      }
+      else { // Si da error tipo 2, es porque no encuentra reservas generadas
+        if (this.accionGet == "crear") {
+          this.enviarReservaCrear( reservaConCodigo , comensales, mesas); 
+        }
+        else if (this.accionGet == "editar") {
+          this.enviarReservaEditar( reserva , comensales, mesas); 
+        }
+      }
     });
+  }
+
+  validarRangoHorarioReserva(horaEntradaTodas, horaEntradaActual, horaSalidaTodas, horaSalidaActual) {
+    let errorRango = false;
+    if (horaEntradaTodas <= horaEntradaActual && horaEntradaActual < horaSalidaTodas) {
+      // console.log("1");
+      // console.log(horaEntradaTodas, "<=", horaEntradaActual, "&&", horaEntradaActual, "<", horaSalidaTodas);
+      errorRango = true;
+    }
+    if (horaEntradaTodas < horaSalidaActual && horaSalidaActual <= horaSalidaTodas) {
+      // console.log("2");
+      // console.log(horaEntradaTodas, "<", horaSalidaActual, "&&", horaSalidaActual, "<=", horaSalidaTodas);
+      errorRango = true;
+    }
+    if (horaEntradaActual <= horaEntradaTodas && horaSalidaTodas <= horaSalidaActual) {
+      // console.log("3");
+      // console.log(horaEntradaActual, "<=", horaEntradaTodas, "&&", horaSalidaTodas, "<=", horaSalidaActual);
+      errorRango = true;
+    }
+    return errorRango;
   }
 
   async enviarReservaCrear(reserva, comensales, mesas) {
@@ -496,31 +627,57 @@ export class CrudGestionarReservaPage implements OnInit {
       .subscribe( respuesta => {
         const horaSalida = this.form.get('horaSalida').value || 0;
         const nuevaHoraEntrada = respuesta;
-        let horaSalidaTratado = this.tratarFechaProvider.traerTime(horaSalida);
-        let horaEntradaTratado = this.tratarFechaProvider.traerTime(nuevaHoraEntrada);
+        if (this.accionGet == "crear") {
+          let horaSalidaTratado = this.tratarFechaProvider.traerTime(horaSalida);
+          let horaEntradaTratado = this.tratarFechaProvider.traerTime(nuevaHoraEntrada);
 
-        if (  horaSalidaTratado < ( this.addTimes(horaEntradaTratado , '00:30') )) {
-          this.form.controls.horaEntrada.setErrors({pattern: true});
-        } else {
+          if (  horaSalidaTratado < ( this.addTimes(horaEntradaTratado , '00:30') )) {
+            this.form.controls.horaEntrada.setErrors({pattern: true});
+          } else {
+            if (horaEntradaTratado < "10:00") {
+              this.form.controls.horaEntrada.setErrors({horaentrada_minima: true});
+            }
+            else {
+              this.form.controls.horaEntrada.setErrors(null);
+              this.form.controls.horaSalida.setErrors(null);
+            }
+          }
           if (horaEntradaTratado < "10:00") {
             this.form.controls.horaEntrada.setErrors({horaentrada_minima: true});
           }
           else {
-            this.form.controls.horaEntrada.setErrors(null);
-            this.form.controls.horaSalida.setErrors(null);
+            if (  horaSalidaTratado < ( this.addTimes(horaEntradaTratado , '00:30') )) {
+              this.form.controls.horaEntrada.setErrors({pattern: true});
+            }
+            else {
+              this.form.controls.horaEntrada.setErrors(null);
+              this.form.controls.horaSalida.setErrors(null);
+            }
           }
-        }
-
-        if (horaEntradaTratado < "10:00") {
-          this.form.controls.horaEntrada.setErrors({horaentrada_minima: true});
         }
         else {
-          if (  horaSalidaTratado < ( this.addTimes(horaEntradaTratado , '00:30') )) {
+          if (  horaSalida < ( this.addTimes(nuevaHoraEntrada , '00:30') )) {
             this.form.controls.horaEntrada.setErrors({pattern: true});
+          } else {
+            if (nuevaHoraEntrada < "10:00") {
+              this.form.controls.horaEntrada.setErrors({horaentrada_minima: true});
+            }
+            else {
+              this.form.controls.horaEntrada.setErrors(null);
+              this.form.controls.horaSalida.setErrors(null);
+            }
+          }
+          if (nuevaHoraEntrada < "10:00") {
+            this.form.controls.horaEntrada.setErrors({horaentrada_minima: true});
           }
           else {
-            this.form.controls.horaEntrada.setErrors(null);
-            this.form.controls.horaSalida.setErrors(null);
+            if (  horaSalida < ( this.addTimes(nuevaHoraEntrada , '00:30') )) {
+              this.form.controls.horaEntrada.setErrors({pattern: true});
+            }
+            else {
+              this.form.controls.horaEntrada.setErrors(null);
+              this.form.controls.horaSalida.setErrors(null);
+            }
           }
         }
     });
@@ -529,28 +686,55 @@ export class CrudGestionarReservaPage implements OnInit {
     .subscribe( respuesta => {
       const horaEntrada = this.form.get('horaEntrada').value || 0;
       const nuevaHoraSalida = respuesta;
-      let horaSalidaTratado = this.tratarFechaProvider.traerTime(nuevaHoraSalida)
-      let horaEntradaTratado = this.tratarFechaProvider.traerTime(horaEntrada)
-      if ( this.addTimes(horaEntradaTratado , '00:30') > horaSalidaTratado ) {
-        this.form.controls.horaSalida.setErrors({pattern: true});
-      } else {
-        if (horaSalidaTratado > "22:00") {
-          this.form.controls.horaSalida.setErrors({horasalida_maxima: true});
-        }
-        else {
-          this.form.controls.horaSalida.setErrors(null);
-          this.form.controls.horaEntrada.setErrors(null);
-        }
-      }
-      if (horaSalidaTratado > "22:00") {
-        this.form.controls.horaSalida.setErrors({horasalida_maxima: true});
-      }
-      else {
+      if (this.accionGet == "crear") {
+        let horaSalidaTratado = this.tratarFechaProvider.traerTime(nuevaHoraSalida)
+        let horaEntradaTratado = this.tratarFechaProvider.traerTime(horaEntrada)
+
         if ( this.addTimes(horaEntradaTratado , '00:30') > horaSalidaTratado ) {
           this.form.controls.horaSalida.setErrors({pattern: true});
         } else {
-          this.form.controls.horaSalida.setErrors(null);
-          this.form.controls.horaEntrada.setErrors(null);
+          if (horaSalidaTratado > "23:59") {
+            this.form.controls.horaSalida.setErrors({horasalida_maxima: true});
+          }
+          else {
+            this.form.controls.horaSalida.setErrors(null);
+            this.form.controls.horaEntrada.setErrors(null);
+          }
+        }
+        if (horaSalidaTratado > "23:59") {
+          this.form.controls.horaSalida.setErrors({horasalida_maxima: true});
+        }
+        else {
+          if ( this.addTimes(horaEntradaTratado , '00:30') > horaSalidaTratado ) {
+            this.form.controls.horaSalida.setErrors({pattern: true});
+          } else {
+            this.form.controls.horaSalida.setErrors(null);
+            this.form.controls.horaEntrada.setErrors(null);
+          }
+        }
+      }
+      else {
+        if ( this.addTimes(horaEntrada , '00:30') > nuevaHoraSalida ) {
+          this.form.controls.horaSalida.setErrors({pattern: true});
+        } else {
+          if (nuevaHoraSalida > "23:59") {
+            this.form.controls.horaSalida.setErrors({horasalida_maxima: true});
+          }
+          else {
+            this.form.controls.horaSalida.setErrors(null);
+            this.form.controls.horaEntrada.setErrors(null);
+          }
+        }
+        if (nuevaHoraSalida > "23:59") {
+          this.form.controls.horaSalida.setErrors({horasalida_maxima: true});
+        }
+        else {
+          if ( this.addTimes(horaEntrada , '00:30') > nuevaHoraSalida ) {
+            this.form.controls.horaSalida.setErrors({pattern: true});
+          } else {
+            this.form.controls.horaSalida.setErrors(null);
+            this.form.controls.horaEntrada.setErrors(null);
+          }
         }
       }
     });
