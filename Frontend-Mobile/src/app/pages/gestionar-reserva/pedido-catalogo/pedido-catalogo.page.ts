@@ -197,7 +197,8 @@ export class PedidoCatalogoPage implements OnInit {
               }
             }
           }
-        ]
+        ],
+        cssClass: 'alertPrimary'
       });
       await alert.present();
     }

@@ -46,16 +46,7 @@ export class ListaPedidoPage implements OnInit {
   ionViewWillEnter(){
     this.traerReserva();
   }
-
-  ionViewDidEnter(){
-  }
-
-  ionViewWillLeave(){
-  }
-
-  ionViewDidLeave(){
-  }
-
+  
   async traerReserva(){
     await this.reservaService.getReserva(  this.idReserva )
     .then( async reserva => {

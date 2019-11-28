@@ -12,6 +12,12 @@ module.exports = {
                     nombreMedioPago: "Efectivo",
                     createdAt: currentDate,
                     updatedAt: currentDate
+                },
+                {
+                    idMedioPago: 2,
+                    nombreMedioPago: "Tarjeta",
+                    createdAt: currentDate,
+                    updatedAt: currentDate
                 }
         ], {}
         );

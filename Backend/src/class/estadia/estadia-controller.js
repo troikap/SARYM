@@ -24,6 +24,7 @@ const tratarError = require("../../middlewares/handleError"),
     PrecioProductoModelo = require("../precioproducto/precioproducto-model"),
     TipoMonedaModelo = require("../tipomoneda/tipomoneda-model"),
     PrecioMenuPromocionModelo = require("../preciomenupromocion/preciomenupromocion-model"),
+    TipoMenuPromocionModelo = require("../tipomenupromocion/tipomenupromocion-model"),
 
     legend = "Estadia",
     legend2 = "EstadiaEstado",
@@ -126,10 +127,15 @@ EstadiaController.getToAllAttributes = (req, res, next) => {
                                     where: { fechaYHoraHastaPrecioMenuPromocion: null },
                                     attributes: attributes.preciomenupromocion,
                                     include: [{
-                                        model: TipoMonedaModelo,
-                                        attributes: attributes.tipomoneda
-                                    }]
-                                }]
+                                            model: TipoMonedaModelo,
+                                            attributes: attributes.tipomoneda
+                                        }]
+                                    },
+                                    {
+                                        model: TipoMenuPromocionModelo,
+                                        attributes: attributes.tipomenupromocion
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -241,10 +247,15 @@ EstadiaController.getToName = (req, res, next) => {
                                     where: { fechaYHoraHastaPrecioMenuPromocion: null },
                                     attributes: attributes.preciomenupromocion,
                                     include: [{
-                                        model: TipoMonedaModelo,
-                                        attributes: attributes.tipomoneda
-                                    }]
-                                }]
+                                            model: TipoMonedaModelo,
+                                            attributes: attributes.tipomoneda
+                                        }]
+                                    },
+                                    {
+                                        model: TipoMenuPromocionModelo,
+                                        attributes: attributes.tipomenupromocion
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -351,10 +362,15 @@ EstadiaController.getAll = (req, res) => {
                                     where: { fechaYHoraHastaPrecioMenuPromocion: null },
                                     attributes: attributes.preciomenupromocion,
                                     include: [{
-                                        model: TipoMonedaModelo,
-                                        attributes: attributes.tipomoneda
-                                    }]
-                                }]
+                                            model: TipoMonedaModelo,
+                                            attributes: attributes.tipomoneda
+                                        }]
+                                    },
+                                    {
+                                        model: TipoMenuPromocionModelo,
+                                        attributes: attributes.tipomenupromocion
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -463,10 +479,15 @@ EstadiaController.getOne = (req, res) => {
                                     where: { fechaYHoraHastaPrecioMenuPromocion: null },
                                     attributes: attributes.preciomenupromocion,
                                     include: [{
-                                        model: TipoMonedaModelo,
-                                        attributes: attributes.tipomoneda
-                                    }]
-                                }]
+                                            model: TipoMonedaModelo,
+                                            attributes: attributes.tipomoneda
+                                        }]
+                                    },
+                                    {
+                                        model: TipoMenuPromocionModelo,
+                                        attributes: attributes.tipomenupromocion
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -1065,7 +1086,7 @@ EstadiaController.editarComensal = (req, res) => {
                               locals.detalles.push(tratarError.tratarError(error, legend));
                             });
                         }
-                        await ComensalModelo.update( {idReserva: null} ,{ where: { idComensal: idComen }}).then( async resp => {
+                        await ComensalModelo.update( {idEstadia: null} ,{ where: { idComensal: idComen }}).then( async resp => {
                           if(!resp || resp == 0) {
                             locals.detalles.push({
                                 ['title']: `Comensal NO eliminado`,
@@ -1124,6 +1145,7 @@ EstadiaController.editarComensal = (req, res) => {
                                 locals.detalles.push( tratarError.tratarError(error, legend))
                               });
                         } else {
+                            elem[idtable] = body[idtable];
                             await ComensalModelo.update(elem, {where: {[idtable6]: elem[idtable6]}}).then((resp) => {
                                 if (!resp || resp == 0) {
                                     locals.detalles.push({
@@ -1289,17 +1311,17 @@ EstadiaController.editarClienteEstadia = (req, res) => {
                             where: {
                                 [idtable5]: elem[idtable5]
                             }
-                        }).then(async(mesa) => {
-                            if (!mesa || mesa == 0) {
+                        }).then(async(usuario) => {
+                            if (!usuario || usuario == 0) {
                                 locals.detalles.push({
-                                    ['title']: `No existe ${legend5} con id ${idtable5}.`,
+                                    ['title']: `No existe ${legend5} con id ${idtable5}: ${elem[idtable5]}.`,
                                     ['tipo']: 2
                                 })
                             } else {
                                 await ClienteEstadiaModelo.findOne({
                                     where: {
                                         [idtable5]: elem[idtable5],
-                                        [idtable]: body[idtable]
+                                        [idtable]: elem[idtable]
                                     }
                                 }).then(async(clienteestadia) => {
                                     if (!clienteestadia || clienteestadia == 0) {
@@ -1318,7 +1340,7 @@ EstadiaController.editarClienteEstadia = (req, res) => {
                                         })
                                     } else {
                                         locals.detalles.push({
-                                            ['title']: `No existe ${legend5} con id ${idtable5}.`,
+                                            ['title']: `No existe ${legend10} con id ${idtable5}: ${elem[idtable5]}.`,
                                             ['tipo']: 2
                                         })
                                     }
@@ -1635,18 +1657,15 @@ EstadiaController.cambiarMozoEstadia = (req, res) => {
                 locals['tipo'] = 2;
                 res.json(locals);
             } else {
-                console.log("RESPUESTA ", response.dataValues.mozoestadia[0].dataValues[idtable5])
-                if (response.dataValues.mozoestadia[0].dataValues[idtable5] != body[idtable5]) {
-                    MozoEstadiaModelo.findOne({
-                        where: {
-                            [idtable5]: body[idtable5]
-                        }
-                    }).then((mozoestadia) => {
-                        if (!mozoestadia || mozoestadia == 0) {
-                            locals['title'] = `No existe ${legend5} con id ${idtable5}.`;
-                            locals['tipo'] = 2;
-                            res.json(locals);
-                        } else {
+                UsuarioModelo.findOne({
+                    where: { [idtable5]: body[idtable5]}
+                }).then ( usuario => {
+                    if (!usuario || usuario == 0) {
+                        locals['title'] = `No existe ${legend5} con ${idtable5}: ${body[idtable5]}.`;
+                        locals['tipo'] = 2;
+                        res.json(locals);
+                    } else {
+                        if (response.dataValues.mozoestadia[0].dataValues[idtable5] != body[idtable5]) {
                             let pushEstadiaEstado = {};
                             pushEstadiaEstado['fechaYHoraFinMozoEstadia'] = fechaArgentina.getFechaArgentina();
                             MozoEstadiaModelo.update(pushEstadiaEstado, {
@@ -1679,13 +1698,13 @@ EstadiaController.cambiarMozoEstadia = (req, res) => {
                                 locals = tratarError.tratarError(error, legend);
                                 res.json(locals);
                             });
+                        } else {
+                            locals['title'] = `${legend} ya se encuentra con ese ${legend9}.`;
+                            locals['tipo'] = 2;
+                            res.json(locals);
                         }
-                    })
-                } else {
-                    locals['title'] = `${legend} ya se encuentra con ese ${legend9}.`;
-                    locals['tipo'] = 2;
-                    res.json(locals);
-                }
+                    }
+                })
             }
         }
     });

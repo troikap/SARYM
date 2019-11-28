@@ -208,19 +208,30 @@ PagoController.create = (req, res) => {
     } else {
       ComensalModelo.findOne({ where: {[idtable5]: body[idtable5]} }).then( tipomoneda => {
         if ( !tipomoneda || tipomoneda == 0 ) {
-          locals['title'] = `No existe instancia de ${legend5} con ${idtable5}.`;
+          locals['title'] = `No existe instancia de ${legend5} con ${idtable5}: ${body[idtable5]}.`;
           locals['tipo'] = 2;
           res.json(locals);
         } else {
+          body['fechaYHoraAltaPago'] = fechaArgentina.getFechaArgentina();
             PagoModelo.create(body).then(result => {
                 locals['title'] = `${legend} creada.`;
                 locals['data'] = result;
                 locals['id'] = result[idtable];
                 locals['tipo'] = 1;
-                res.json(locals);
+                body['codPago'] = body['codPago'] || `PAGO-N${result[idtable]}-C${body[idtable5]}-M${body[idtable4]}`;
+                PagoModelo.update(body, {where: { [idtable]: result[idtable] }}).then(result => {
+                  if ( !responses || responses == 0 ) {
+                    locals['title'] = `No se pudo colocar Codigo de Pedido.`;
+                    locals['tipo'] = 2;
+                    res.json(locals);
+                  } else {
+                    locals['data']['codPago'] = body['codPago'];
+                    res.json(locals);
+                  }
+                })
             }).catch((error) => {
-            locals = tratarError.tratarError(error, legend);
-            res.json(locals);
+              locals = tratarError.tratarError(error, legend);
+              res.json(locals);
             });
         }
       })

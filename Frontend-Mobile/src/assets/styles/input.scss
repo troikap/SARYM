@@ -18,11 +18,19 @@ ion-select-option {
     margin-bottom: 2px;
 }
 
+.input-info-msg {
+    color: var(--ion-color-primary) !important;
+    padding-bottom: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
 ion-col.login {
     ion-input {
         max-width: 150px;
     }
 }
+
 
 /* ############################################################
   FORMS
@@ -60,4 +68,3 @@ ion-col.login {
         }
     }
 }
-

@@ -14,9 +14,7 @@
                 <ion-label padding color="primary" position="floating">Edad Comensal</ion-label>
                 <ion-input class="form-control" type="number" placeholder="Su edad" formControlName="edadComensal" id="edadComensal" (change)="cambiarEdadComensal($event)"></ion-input>
             </ion-item>
-            <p class="input-error-msg" *ngIf="form.controls.edadComensal.errors?.pattern && form.controls.edadComensal.touched">Ingrese por ejemplo: 45.</p>
-            <p class="input-error-msg" *ngIf="form.controls.edadComensal.errors?.required && form.controls.edadComensal.touched">Deber ingresar la edad.</p>
-            <p class="input-error-msg" *ngIf="form.controls.edadComensal.errors?.edad_maxima && form.controls.edadComensal.touched">No puede ingrear edad mayor a 150.</p>
+            <p class="input-error-msg" *ngIf="form.controls.edadComensal.errors?.pattern && form.controls.edadComensal.touched">Edad debe ser, entre 12 y 99 años.</p>
             <ion-item>
                 <ion-label padding color="primary" position="floating">Fecha Reserva</ion-label>
                 <ion-datetime formControlName="fechaReserva" id="fechaReserva" class="form-control" mode="ios" displayFormat="DD/MM/YYYY" min='{{fechaDesde}}' max='{{fechaHasta}}' doneText="Elegir" placeholder="Elija Fecha"></ion-datetime>
@@ -28,17 +26,23 @@
             </ion-item>
             <p class="input-error-msg" *ngIf="form.controls.horaEntrada.errors?.pattern && form.controls.horaEntrada.touched">Debería ser 30m menos que hora de Salida.</p>
             <p class="input-error-msg" *ngIf="form.controls.horaEntrada.errors?.required && form.controls.horaEntrada.touched">Ingrese la hora de Entrada.</p>
+            <p class="input-error-msg" *ngIf="form.controls.horaEntrada.errors?.horaentrada_minima && form.controls.horaEntrada.touched">Ingrese Hora superior o igual a 10:00hs</p>
             <ion-item>
                 <ion-label padding color="primary" position="floating">Hora Salida</ion-label>
                 <ion-datetime formControlName="horaSalida" id="horaSalida" class="form-control" mode="ios" displayFormat="HH:mm" doneText="Elegir" placeholder="Elija Hora Salida"></ion-datetime>
             </ion-item>
             <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.pattern && form.controls.horaSalida.touched">Debería ser 30m mayor que la hora de Entrada.</p>
             <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.required && form.controls.horaSalida.touched">Ingrese la hora de Salida.</p>
+            <p class="input-error-msg" *ngIf="form.controls.horaSalida.errors?.horasalida_maxima && form.controls.horaSalida.touched">Ingrese Hora inferior o igual a 22:00hs</p>
             <ion-item>
                 <ion-label padding color="primary" position="floating">Cantidad de Personas</ion-label>
                 <ion-input class="form-control" type="number" placeholder="Cantidad Personas" formControlName="cantidadComensal" id="cantidadComensal"></ion-input>
             </ion-item>
             <h1 padding>Seleccione Mesa/s</h1>
+            <p class="input-error-msg" *ngIf="form.controls.idMesa.errors?.required && form.controls.idMesa.touched">Campo Obligatorio.</p>
+            <p class="input-error-msg" *ngIf="form.controls.idMesa.errors?.cant_comensales && form.controls.idMesa.touched">Ingrese la cantidad de Comensales de la reserva.</p>
+            <p class="input-error-msg" *ngIf="form.controls.idMesa.errors?.cant_minima_comensales && form.controls.idMesa.touched">seleccione una mesa con mayor capacidad o bien agregue otra mesa a su reserva.</p>
+            <p class="input-info-msg" *ngIf="mostrarMensajeConsideracion == 1">Considere seleccionar mesas con la misma o menor capacidad posible del total de comensales de la reserva, de ser posible.</p>
             <ion-button padding (click)="mostrar5 = !mostrar5" position="floating">Mostrar Mesas</ion-button>
             <ion-list *ngIf="mostrar5">
                 <ion-item class="form-group" *ngFor='let element of checkBoxList; let i = index'>
@@ -48,7 +52,6 @@
                     <ion-checkbox (ionChange)="checkEvent( i )" [checked]="element.isChecked"> </ion-checkbox>
                 </ion-item>
             </ion-list>
-            <p class="input-error-msg" *ngIf="form.controls.idMesa.errors?.required && form.controls.idMesa.touched">Campo Obligatorio.</p>
         </div>
     </form>
     <form [formGroup]="form2" *ngIf="form2">
@@ -66,7 +69,7 @@
             <button class="btn btn-clear btn-dark tooltip-custom" type="button" (click)="mostrar = !mostrar">
                 <div class="tooltip-container">
                 <p class="averageTicketSize"><b>Agregar Comensal</b></p>
-                <p class="description">Usted puede agregar cuantos comensales quiera. Usted podrá dar permisos para que ingresen a su "Reserva" o "Estadía".</p>
+                <p class="description">Usted puede agregar cuantos comensales quiera. Usted podrá dar permisos para que ingresen a su "Reserva".</p>
                 <i></i>
                 </div>
             </button>
@@ -79,10 +82,12 @@
             <ion-label padding color="primary" position="floating">Edad Comensal</ion-label>
             <ion-input class="form-control" type="number" placeholder="Edad" formControlName="edadComensal" id="edadComensal"></ion-input>
         </ion-item>
+        <p class="input-error-msg" *ngIf="form2.controls.edadComensal.errors?.pattern && form2.controls.edadComensal.touched">Edad debe ser, entre 12 y 99 años.</p>
         <ion-item>
             <ion-label color="primary" padding position="floating">Cuit del Usuario</ion-label>
             <ion-input class="form-control" type="number" placeholder="Cuit del Usuario" formControlName="cuitUsuario" id="cuitUsuario"></ion-input>
         </ion-item>
+        <p class="input-error-msg" *ngIf="form2.controls.cuitUsuario.errors?.pattern && form2.controls.cuitUsuario.touched">Ingrese un CUIT/CUIL válido</p>
         <p class="input-error-msg" *ngIf="!existenciaUsuario">{{mensajeExistenciaUsuario}}</p>
         <ion-row>
             <ion-col></ion-col>
@@ -120,5 +125,4 @@
     </ion-card>
     <ion-button *ngIf="accionGet == 'crear'" class="mt-10" (click)="crearEditarReserva()" [disabled]="!form.valid" expand="full">Crear Reserva</ion-button>
     <ion-button *ngIf="accionGet == 'editar'" class="mt-10" (click)="crearEditarReserva()" [disabled]="!form.valid" expand="full">Editar Reserva</ion-button>
-    <!-- <ion-button class="mt-10" (click)="prueba()" expand="full">Probar</ion-button> -->
 </ion-content>
