@@ -74,7 +74,7 @@ export class HomePage implements OnInit {
   }
 
   realizarPedido() {
-    if (this.idEstadia != null || this.idEstadia != 0) {
+    if (this.idEstadia != null && this.idEstadia != 0) {
       this.goTo('realizar-pedido');
     } else {
       this.toastService.toastWarning('Usted no se encuentra en una Estadía actualmente', 2500)
