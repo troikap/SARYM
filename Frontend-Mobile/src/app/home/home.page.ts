@@ -122,7 +122,7 @@ export class HomePage implements OnInit {
         page = `/consultar-salon`;
         break;
       case "generar-estadia":
-        page = `/generar-estadia`;
+        page = `crud-generar-estadia/0/crear/estadia`;
         break;
         case "finalizar-estadia":
           page = `/`;
