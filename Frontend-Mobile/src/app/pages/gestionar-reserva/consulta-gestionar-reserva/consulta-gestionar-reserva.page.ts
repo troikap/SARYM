@@ -45,6 +45,10 @@ export class ConsultaGestionarReservaPage implements OnInit {
   ngOnInit() {
     this.traerMesas();
   }
+
+  goBack() {
+    this.navController.navigateRoot('/search-gestionar-reserva');
+  }
   
   async traerMesas(){
     await this.mesaservicio.getMesas()

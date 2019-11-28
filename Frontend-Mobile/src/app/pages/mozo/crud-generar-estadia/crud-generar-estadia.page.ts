@@ -405,7 +405,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
     console.log("Validar Existencia")
     const cuit = this.form2.value.cuitUsuario;
     console.log(cuit)
-    if (cuit != null) {
+    if (cuit != null && cuit != "" && cuit != "undefined") {
       this.usuarioservicio.validarExistenciaUsuario( cuit )
       .then( (res) => {
         if (res.tipo == 2) {

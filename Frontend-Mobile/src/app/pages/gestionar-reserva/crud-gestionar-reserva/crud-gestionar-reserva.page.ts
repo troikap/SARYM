@@ -85,10 +85,6 @@ export class CrudGestionarReservaPage implements OnInit {
     this.tratarFecha();
   }
 
-  // TODO: No permitir más de dos reservas la misma fecha, misma mesa, con rango de hora que toque a otra.
-
-  // TODO: No permitir más de dos reservas, misma fecha y misma hora para un mismo usuario.
-
   traerReserva() {
     console.log("Funcion 'traerReserva()', ejecutada");
     if (this.idReserva !== 0) {
@@ -292,7 +288,7 @@ export class CrudGestionarReservaPage implements OnInit {
     console.log("Validar Existencia")
     const cuit = this.form2.value.cuitUsuario;
     console.log(cuit)
-    if (cuit != null) {
+    if (cuit != null && cuit != "" && cuit != "undefined") {
       this.usuarioservicio.validarExistenciaUsuario( cuit )
       .then( (res) => {
         if (res.tipo == 2) {

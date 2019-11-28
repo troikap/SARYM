@@ -31,6 +31,10 @@ export class SearchGestionarReservaPage implements OnInit {
   ngOnInit() {
   }
 
+  goBack() {
+    this.navController.navigateRoot('/home');
+  }
+
   doRefresh(event) {
     
     this.resetDatos();
