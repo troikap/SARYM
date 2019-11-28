@@ -65,16 +65,16 @@ export class HomePage implements OnInit {
     this.estadiaService.getEstadiasPorUsuario(this.idCurrentUsuario)
       .then((res: any) => {
         console.log("getEstadiaUsrLogueado", res);
-        this.idEstadia =  res.data.idEstadia;
+        if (res && res.tipo == 1) {
+          this.idEstadia =  res.data.idEstadia;
+        } else {
+          this.idEstadia = 0;
+        }
       })
   }
 
-  verListaPago() {
-    this.navController.navigateForward([`/seleccion-comensal/estadia/${this.idEstadia}/edicion`])
-  }
-
   realizarPedido() {
-    if (this.idEstadia != null) {
+    if (this.idEstadia != null || this.idEstadia != 0) {
       this.goTo('realizar-pedido');
     } else {
       this.toastService.toastWarning('Usted no se encuentra en una Estadía actualmente', 2500)
