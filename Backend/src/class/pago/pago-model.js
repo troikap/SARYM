@@ -26,7 +26,6 @@ const PagoModelo = sequelize.define('pago', {
   },
   codPago: {
     type: Sequelize.STRING,
-    allowNull: false,
     unique: true
   },
   importeTotalAPagar: {
