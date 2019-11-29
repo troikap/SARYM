@@ -47,7 +47,7 @@
                                     <div class="col-1"  *ngFor="let listaMesas of lista.detalleestadiamesas">{{listaMesas.mesa.nroMesa}}</div>
                                 </div>
                             </td>
-                            <td>{{lista.mozoestadium.usuario.nombreUsuario}} {{lista.mozoestadium.usuario.apellidoUsuario}}</td>    
+                            <td>{{lista.mozoestadia[0].usuario.nombreUsuario}} {{lista.mozoestadia[0].usuario.apellidoUsuario}}</td>    
                             <td>
                                <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Reasignar Mozo" (click)="editEstadia(lista.idEstadia)" style="cursor: pointer;">
                             </td>

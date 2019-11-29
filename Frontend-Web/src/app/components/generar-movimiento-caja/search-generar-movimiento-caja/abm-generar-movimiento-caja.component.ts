@@ -27,11 +27,17 @@ export class AbmGenerarMovimientoCajaComponent implements OnInit {
     $("#botonBuscar").focus();
   }
   buscarCaja(termino: string) {
+    this.listaCajasmensaje=[];
     if (termino !== "") {
       this.cajaService.getCajasByAll(termino).subscribe((data: any) => {
         // Llamo a un Observer
         if (data != null) {
           this.listaCaja = data;
+          data.forEach(item => {
+            if (item["cajaestados"][0].estadocaja.idEstadoCaja == 2) {
+              this.listaCajasmensaje.push(item);
+            }
+          });
         } else {
           this.listaCaja = [];
         }
@@ -42,6 +48,7 @@ export class AbmGenerarMovimientoCajaComponent implements OnInit {
   }
 
   getAllCaja() {
+    this.listaCajasmensaje=[];
     this.cajaService.getCajas().then((res: any) => {
       res.data.forEach(item => {
         if (item["cajaestados"][0].estadocaja.idEstadoCaja == 2) {
