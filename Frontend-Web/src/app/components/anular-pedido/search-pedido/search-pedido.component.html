@@ -47,7 +47,9 @@
                             <div class="col-1"  *ngFor="let listaMesas of lista.detalleestadiamesas">{{listaMesas.mesa.nroMesa}}</div>
                         </div>
                     </td>
-                    <td>{{lista.mozoestadium.usuario.nombreUsuario}} {{lista.mozoestadium.usuario.apellidoUsuario}}</td>    
+                    <div *ngFor="let listaMozo of lista.mozoestadia">
+                        <td *ngIf =" listaMozo.fechaYHoraFinMozoEstadia == null">{{listaMozo.usuario.nombreUsuario}} {{listaMozo.usuario.apellidoUsuario}}</td> 
+                    </div>     
                     <td>
                         <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Consultar Pedidos en Preparacion" (click)="editEstadia(lista.idEstadia)" style="cursor: pointer;">
                     </td>

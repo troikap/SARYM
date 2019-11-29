@@ -70,9 +70,9 @@ export class EditGestionarEstadoEstadiaComponent implements OnInit {
             "dd/MM/yyyy HH:mm"
           ),
           mozoEstadia:
-            this.estadia["mozoestadium"].usuario.nombreUsuario +
+            this.estadia["mozoestadia"][0].usuario.nombreUsuario +
             " " +
-            this.estadia["mozoestadium"].usuario.apellidoUsuario,
+            this.estadia["mozoestadia"][0].usuario.apellidoUsuario,
           estadoEstadia: this.estadia["estadiaestados"][0].estadoestadium
             .nombreEstadoEstadia,
           comensales: this.listaComensales.join()

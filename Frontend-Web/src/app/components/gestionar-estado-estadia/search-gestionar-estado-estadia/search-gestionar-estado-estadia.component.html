@@ -49,7 +49,9 @@
 
                         </div>
                     </td>
-                    <td>{{lista.mozoestadium.usuario.nombreUsuario}} {{lista.mozoestadium.usuario.apellidoUsuario}}</td> 
+                    <div *ngFor="let listaMozo of lista.mozoestadia">
+                        <td *ngIf =" listaMozo.fechaYHoraFinMozoEstadia == null">{{listaMozo.usuario.nombreUsuario}} {{listaMozo.usuario.apellidoUsuario}}</td> 
+                    </div>  
                     <td>{{lista.estadiaestados[0].estadoestadium.nombreEstadoEstadia}}</td>   
                     <td>
                     <img src="../../../../assets/imagenes/editar_ico.png" alt="Editar" title="Gestionar Estado de Estadia" (click)="editEstadia(lista.idEstadia)" style="cursor: pointer;">
