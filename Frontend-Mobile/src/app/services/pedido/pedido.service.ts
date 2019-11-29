@@ -3,7 +3,6 @@ import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { Pedido, Estadia } from '../../models/modelos';
 import { environment } from '../../../environments/environment';
 
-const URL = environment.urlNgrok || environment.url;
 const dir = '/pedido';
 const dir2 = '/todo';
 const dir3 = '/A Entregar';
@@ -11,13 +10,13 @@ const dir4 = '/actualizarDatos';
 const dir5 = '/cambiarEstado';
 const dir6 = '/editarDetallePedidoProducto';
 
-const tokenEnviroment = environment.token;
-
 @Injectable({
   providedIn: 'root'
 })
 export class PedidoService {
 
+  url = environment.urlNgrok || environment.url;
+  tokenEnviroment = environment.token;
   pedido: Pedido;
   estadias: Estadia[] = [];
 
@@ -27,9 +26,9 @@ export class PedidoService {
 
 getPedidosAEnviar(): Promise<Pedido[]> {
   let headers: HttpHeaders = new HttpHeaders();
-  headers = headers.append('token', tokenEnviroment);
+  headers = headers.append('token', this.tokenEnviroment);
   return this.http
-   .get(`${URL}${dir}${dir2}${dir3}`, {headers})
+   .get(`${this.url}${dir}${dir2}${dir3}`, {headers})
    .toPromise()
    .then(response => {
      return response as Pedido[];
@@ -39,11 +38,11 @@ getPedidosAEnviar(): Promise<Pedido[]> {
 
 getEstadiaPedidosAEnviar(pedidos): Promise<Estadia[]> {
   let headers: HttpHeaders = new HttpHeaders();
-  headers = headers.append('token', tokenEnviroment);
+  headers = headers.append('token', this.tokenEnviroment);
   pedidos.forEach(element => {
     let idPedido = element.idPedido;
     return this.http
-    .get(`${URL}${dir}${dir2}/${idPedido}`, {headers})
+    .get(`${this.url}${dir}${dir2}/${idPedido}`, {headers})
     .toPromise()
     .then(response => {
       let data = response['data'][0];
@@ -56,10 +55,10 @@ getEstadiaPedidosAEnviar(pedidos): Promise<Estadia[]> {
 
 updatePedido( datas ): Promise<any> {
   let headers: HttpHeaders = new HttpHeaders();
-   headers = headers.append('token', tokenEnviroment);
+   headers = headers.append('token', this.tokenEnviroment);
    let data = {headers}
   return this.http
-    .put(`${URL}${dir}${dir4}`, datas, data)
+    .put(`${this.url}${dir}${dir4}`, datas, data)
     .toPromise()
     .then(response => {
       return response as Pedido;
@@ -69,10 +68,10 @@ updatePedido( datas ): Promise<any> {
 
 setPedido( datas ): Promise<any> {
   let headers: HttpHeaders = new HttpHeaders();
-   headers = headers.append('token', tokenEnviroment);
+   headers = headers.append('token', this.tokenEnviroment);
    let data = {headers}
   return this.http
-    .post(`${URL}${dir}`, datas, data)
+    .post(`${this.url}${dir}`, datas, data)
     .toPromise()
     .then(response => {
       return response as Pedido;
@@ -82,9 +81,9 @@ setPedido( datas ): Promise<any> {
 
 cambiarEstado( datas: any ): Promise<any> {
   let headers: HttpHeaders = new HttpHeaders();
-  headers = headers.append('token', tokenEnviroment);
+  headers = headers.append('token', this.tokenEnviroment);
   return this.http
-    .put(`${URL}${dir}${dir5}`, datas, {headers})
+    .put(`${this.url}${dir}${dir5}`, datas, {headers})
     .toPromise()
     .then(response => {
       console.log("Servicio cambiarEstado()", response);
@@ -95,11 +94,11 @@ cambiarEstado( datas: any ): Promise<any> {
 
 setDetallePedidoProducto( datas ): Promise<any> {
   let headers: HttpHeaders = new HttpHeaders();
-   headers = headers.append('token', tokenEnviroment);
+   headers = headers.append('token', this.tokenEnviroment);
    let data = {headers}
    console.log("Servicio setDetallePedidoProducto: ", datas);
    return this.http
-    .put(`${URL}${dir}${dir6}`, datas, data)
+    .put(`${this.url}${dir}${dir6}`, datas, data)
     .toPromise()
     .then(response => {
       console.log("Respuesta servicio Editar Producto Pedido: ", response);

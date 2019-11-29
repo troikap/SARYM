@@ -84,13 +84,13 @@ export class SeleccionComensalPage implements OnInit {
     this.storageService.validarComensal().then((respuesta) => {
       if(respuesta) {
         respuesta.forEach(element => {
-          if(element.vencida) {
+          if( element && element.vencida) {
             let data: {} = {idReserva: element.idReserva,
               idEstadoReserva: 2,
               descripcionReservaEstado: `Por Vencimiento, eliminado desde Comensal ${element.idComensal}.`}
             this.reservaServicio.cambiarEstado(data)
             .then( resp => {
-              if(resp.tipo == 1){
+              if( resp && resp.tipo == 1){
                 this.toastService.toastError( `Reserva N° ${element.idReserva} Anulada por vencimiento.`,3000,'bottom')
               } else {
                 this.toastService.toastWarning( `Reserva N° ${element.idReserva} Anulada por vencimiento.`,3000,'bottom')
@@ -204,7 +204,7 @@ export class SeleccionComensalPage implements OnInit {
             let pathComensal = { idReserva: this.idReserva,detalle: [ { idComensal: item['idComensal'], baja: true}]};
             this.reservaServicio.setComensalesReserva(pathComensal)
             .then( respuesta => {
-              if (respuesta.tipo == 1){
+              if ( respuesta && respuesta.tipo == 1){
                 this.toastService.toastSuccess('Comensal eliminado correctamente.', 1500)
                 this.storageService.eliminarComensalReserva( pathComensal.detalle[0].idComensal )
                 this.traerReserva();
@@ -311,7 +311,7 @@ export class SeleccionComensalPage implements OnInit {
   agregarNuevoComensal( path ){
     this.reservaServicio.setComensalesReserva( path )
       .then( res => {
-        if ( res.tipo == 1){
+        if ( res && res.tipo == 1){
           this.toastService.toastSuccess(`Comensal agregado Correctamente!.`, 2000)
         } else {
           this.toastService.toastWarning(`Comensal no se pudo crear`, 2000)
@@ -338,7 +338,7 @@ export class SeleccionComensalPage implements OnInit {
             console.log("Obligar eliminacion de comensal con pedidos asociados")
             this.reservaServicio.setComensalesReserva(pathComensal, true)
             .then( respuesta => {
-              if ( respuesta.tipo == 1 ){
+              if ( respuesta && respuesta.tipo == 1 ){
                 this.toastService.toastSuccess(`Comensal eliminado Correctamente con todos sus Pedidos asociados.`, 2500)
                 this.storageService.eliminarComensalReserva( pathComensal.detalle[0].idComensal )
                 this.traerReserva();

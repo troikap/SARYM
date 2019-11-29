@@ -291,7 +291,7 @@ export class CrudGestionarReservaPage implements OnInit {
     if (cuit != null && cuit != "" && cuit != "undefined") {
       this.usuarioservicio.validarExistenciaUsuario( cuit )
       .then( (res) => {
-        if (res.tipo == 2) {
+        if ( res && res.tipo == 2) {
           this.existenciaUsuario = true;
           this.comensal = {
             aliasComensal: this.form2.value.aliasComensal,
@@ -403,7 +403,7 @@ export class CrudGestionarReservaPage implements OnInit {
   async validarCreacionReserva(reserva, mesas, comensales, reservaConCodigo) {
     await this.reservaservicio.getReservasPorEstado("generada")
     .then((res:any) => {
-      if (res.tipo != 2) {
+      if ( res && res.tipo != 2) {
         let reservasTodas = res.data;
         // console.log("reserva: ",reserva);
         // console.log("reservaConCodigo: ",reservaConCodigo);
@@ -548,19 +548,19 @@ export class CrudGestionarReservaPage implements OnInit {
   async enviarReservaCrear(reserva, comensales, mesas) {
     await this.reservaservicio.setReserva( reserva )
     .then( async res => {
-      if( res.tipo == 1) {
+      if( res && res.tipo == 1) {
         let tokenReserva = await this.agregarTokenReserva(res, reserva)
         let data = { 'idReserva': res.id ,tokenReserva}
         this.reservaservicio.updateReserva( data )
         .then( update => {
-          if (update.tipo == 1) {
+          if ( update && update.tipo == 1) {
             let pathComensales= {};
             pathComensales['detalle'] = comensales;
             pathComensales['idReserva'] = res.id;
             this.reservaservicio.setComensalesReserva( pathComensales )
             .then( resp => {
               console.log("COMENSALES ",resp)
-              if (resp.tipo == 1 ){
+              if ( resp && resp.tipo == 1 ){
                 let pathMesas= {};
                 pathMesas['detalle'] = mesas;
                 pathMesas['idReserva'] = res.id;
@@ -591,13 +591,13 @@ export class CrudGestionarReservaPage implements OnInit {
     console.log("mesas", mesas);
     this.reservaservicio.updateReserva( reserva )
     .then( update => {
-      if (update.tipo == 1) {
+      if ( update && update.tipo == 1) {
         let pathComensales= {};
         pathComensales['detalle'] = comensales;
         pathComensales['idReserva'] = this.idReserva;
         this.reservaservicio.setComensalesReserva( pathComensales )
         .then( resp => {
-          if (resp.tipo == 1 ){
+          if ( resp && resp.tipo == 1 ){
             let pathMesas= {};
             pathMesas['detalle'] = mesas;
             pathMesas['idReserva'] = this.idReserva;

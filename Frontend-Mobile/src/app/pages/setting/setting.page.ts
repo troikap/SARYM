@@ -5,7 +5,7 @@ import { SettingsProvider, ISettings } from '../../providers/settings/settings';
 import { AppSettings } from '../../app.settings';
 // import { ConfigService } from '../../services/config.service';
 // import { IConfig } from '../../model/iconfig.model'
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-setting',

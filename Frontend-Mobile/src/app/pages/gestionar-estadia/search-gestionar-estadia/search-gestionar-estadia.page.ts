@@ -52,7 +52,7 @@ export class SearchGestionarEstadiaPage implements OnInit {
     this.estadiaService.getEstadiasPorUsuario(this.idUsuarioLogueado)
       .then((res: any) => {
         console.log("getEstadiaUsrLogueado", res);
-        if (res.tipo == 1 ){
+        if ( res && res.tipo == 1 ){
           this.estadia =  res.data;
           this.createCode();
         } else {

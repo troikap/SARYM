@@ -87,13 +87,13 @@ export class SeleccionComensalPagoPage implements OnInit {
       console.log("Limpiando Comensales Reserva", respuesta)
       if(respuesta) {
         respuesta.forEach(element => {
-          if(element.vencida) {
+          if( element && element.vencida) {
             let data: {} = {idEstadia: element.idEstadia,
               idEstadoEstadia: 2,
               descripcionReservaEstado: `Por Vencimiento, eliminado desde Comensal ${element.idComensal}.`}
             this.estadiaService.cambiarEstado(data)
             .then( resp => {
-              if(resp.tipo == 1){
+              if( resp && resp.tipo == 1){
                 this.toastService.toastError( `Reserva N° ${element.idEstadia} Anulada por vencimiento.`,3000,'bottom')
               } else {
                 this.toastService.toastWarning( `Reserva N° ${element.idEstadia} Anulada por vencimiento.`,3000,'bottom')

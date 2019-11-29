@@ -416,7 +416,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
     if (cuit != null && cuit != "" && cuit != "undefined") {
       this.usuarioservicio.validarExistenciaUsuario( cuit )
       .then( (res) => {
-        if (res.tipo == 2) {
+        if ( res && res.tipo == 2) {
           this.existenciaUsuario = true;
           this.comensal = {
             aliasComensal: this.form2.value.aliasComensal,
@@ -465,7 +465,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
     this.reservaservicio.setComensalesReserva( pathComensales )
     .then( resp => {
       console.log("COMENSALES ",resp)
-      if (resp.tipo == 1 ){
+      if ( resp && resp.tipo == 1 ){
         // this.comensales.push(this.comensal);
         this.resetComensal();
         this.toastService.toastSuccess("Comensal Agregado", 2500);
@@ -490,7 +490,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
 
       this.estadiaServicio.setComensalesEstadia( pathComensales )
       .then( resp => {
-        if (resp.tipo == 1 ){
+        if ( resp && resp.tipo == 1 ){
           // this.comensales.push(this.comensal);
           this.resetComensal();
           this.toastService.toastSuccess("Comensal Agregado", 2500);
@@ -577,7 +577,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
               };
               this.reservaservicio.setComensalesReserva(pathComensal)
               .then( respuesta => {
-                if (respuesta.tipo == 1){
+                if ( respuesta && respuesta.tipo == 1){
                   this.toastService.toastSuccess('Comensal eliminado correctamente.', 1500)
                   this.actualizarComensales();
                 } else {
@@ -599,7 +599,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
               };
               this.estadiaServicio.setComensalesEstadia(pathComensal)
               .then( respuesta => {
-                if (respuesta.tipo == 1){
+                if ( respuesta && respuesta.tipo == 1){
                   this.toastService.toastSuccess('Comensal eliminado correctamente.', 1500)
                   this.actualizarComensales();
                 } else {
@@ -645,7 +645,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
                 console.log("Obligar eliminacion de comensal con pedidos asociados", pathComensal)
                 this.estadiaServicio.setComensalesEstadia(pathComensal, true)
                 .then( respuesta => {
-                  if ( respuesta.tipo == 1 ){
+                  if ( respuesta && respuesta.tipo == 1 ){
                     this.toastService.toastSuccess(`Comensal eliminado Correctamente con todos sus Pedidos asociados.`, 2500)
                     this.actualizarComensales();
                   }
@@ -659,7 +659,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
               console.log("Obligar eliminacion de comensal con pedidos asociados")
               this.reservaservicio.setComensalesReserva(pathComensal, true)
               .then( respuesta => {
-                if ( respuesta.tipo == 1 ){
+                if ( respuesta && respuesta.tipo == 1 ){
                   this.toastService.toastSuccess(`Comensal eliminado Correctamente con todos sus Pedidos asociados.`, 2500)
                   this.actualizarComensales();
                 }
@@ -769,18 +769,18 @@ export class CrudGenerarEstadiaPage implements OnInit {
   async confirmarReserva(estadia, comensales, mesas) {
     await this.estadiaServicio.setEstadia( estadia )
     .then( async res => {
-      if( res.tipo == 1) {
+      if( res && res.tipo == 1) {
         let tokenEstadia = await this.agregarTokenEstadia(res, estadia)
         let data = { 'idEstadia': res.id ,tokenEstadia}
         this.estadiaServicio.updateEstadia( data )
         .then( update => {
-          if (update.tipo == 1) {
+          if ( update && update.tipo == 1) {
             let pathComensales= {};
             pathComensales['detalle'] = comensales;
             pathComensales['idEstadia'] = res.id;
             this.estadiaServicio.setComensalesEstadia( pathComensales )
             .then(async resp => {
-              if (resp.tipo == 1 ){
+              if ( resp && resp.tipo == 1 ){
 
                 await this.actualizarPedidos(res.id);
                
@@ -794,13 +794,13 @@ export class CrudGenerarEstadiaPage implements OnInit {
                   pathClienteComensal['detalle'] = this.comensalesClientes;
                   this.estadiaServicio.setClienteEstadia(pathClienteComensal)
                   .then( respo2 => {
-                    if (respo2.tipo == 1 ){
+                    if ( respo2 && respo2.tipo == 1 ){
                       let pathReserva = {};
                       pathReserva['idReserva'] = this.idReserva;
                       pathReserva['idEstadoReserva'] = 3; // Confirmar Reserva
                       this.reservaservicio.cambiarEstado(pathReserva)
                       .then( respo3 => {
-                        if (respo3.tipo == 1 ){
+                        if ( respo3 && respo3.tipo == 1 ){
                           this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
                           setTimeout(()=>{
                             this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}/creacion`]);
@@ -836,13 +836,13 @@ export class CrudGenerarEstadiaPage implements OnInit {
     console.log("mesas", mesas);
     this.estadiaServicio.updateEstadia( estadia )
     .then( update => {
-      if (update.tipo == 1) {
+      if ( update && update.tipo == 1) {
         let pathComensales= {};
         pathComensales['detalle'] = comensales;
         pathComensales['idEstadia'] = this.idEstadia;
         this.estadiaServicio.setComensalesEstadia( pathComensales )
         .then( resp => {
-          if (resp.tipo == 1 ){
+          if ( resp && resp.tipo == 1 ){
             let pathMesas= {};
             pathMesas['detalle'] = mesas;
             pathMesas['idEstadia'] = this.idEstadia;
@@ -866,18 +866,18 @@ export class CrudGenerarEstadiaPage implements OnInit {
   async enviarEstadiaCrear(estadia, comensales, mesas) {
     await this.estadiaServicio.setEstadia( estadia )
     .then( async res => {
-      if( res.tipo == 1) {
+      if( res && res.tipo == 1) {
         let tokenEstadia = await this.agregarTokenEstadia(res, estadia)
         let data = { 'idEstadia': res.id ,tokenEstadia}
         this.estadiaServicio.updateEstadia( data )
         .then( update => {
-          if (update.tipo == 1) {
+          if ( update && update.tipo == 1) {
             let pathComensales= {};
             pathComensales['detalle'] = comensales;
             pathComensales['idEstadia'] = res.id;
             this.estadiaServicio.setComensalesEstadia( pathComensales )
             .then( resp => {
-              if (resp.tipo == 1 ){
+              if ( resp && resp.tipo == 1 ){
                 let pathMesas= {};
                 pathMesas['detalle'] = mesas;
                 pathMesas['idEstadia'] = res.id;
@@ -888,7 +888,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
                   pathClienteComensal['detalle'] = this.comensalesClientes;
                   this.estadiaServicio.setClienteEstadia(pathClienteComensal)
                   .then( respo1 => {
-                    if (respo1.tipo == 1 ){
+                    if ( respo1 && respo1.tipo == 1 ){
                       this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
                       setTimeout(()=>{
                         this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}/creacion`]);

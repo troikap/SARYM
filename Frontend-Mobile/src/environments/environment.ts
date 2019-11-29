@@ -1,5 +1,5 @@
 
-export const environment = {
+export let environment = {
   production: false,
   urlNgrok: '', 
   url: 'http://localhost:3000',

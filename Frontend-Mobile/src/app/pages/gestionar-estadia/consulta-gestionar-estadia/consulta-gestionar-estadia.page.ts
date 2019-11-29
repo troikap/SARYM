@@ -147,7 +147,7 @@ export class ConsultaGestionarEstadiaPage implements OnInit {
             .then( resp => {
               console.log("Respuesta Anular Estadia: ",resp)
 
-              if (resp.tipo != 2) {
+              if (resp && resp.tipo != 2) {
                 this.toastService.toastSuccess("Se ha anulado correctamente la estadia seleccionada", 2500);
                 setTimeout(()=>{
                   this.navController.navigateForward(['/search-gestionar-estadia']);

@@ -100,7 +100,7 @@ export class ListaPedidoPagoPage implements OnInit {
     }
     this.pagoService.setPago(pathPago)
     .then( respuesta => {
-      if ( respuesta.tipo == 1) {
+      if ( respuesta && respuesta.tipo == 1) {
         let detalle = [];
         for (let pedido of this.listaPedidos) {
           detalle.push( {idPedido: pedido.idPedido, importePagoPedido: Number(pedido.importeTotal)})
@@ -108,7 +108,7 @@ export class ListaPedidoPagoPage implements OnInit {
         let pathPedidoPago = {idPago: respuesta.id, detalle: detalle};
         this.pagoService.setPagoPedido(pathPedidoPago)
         .then( resp => {
-          if (  resp.tipo == 1 ) {
+          if ( resp && resp.tipo == 1 ) {
             this.loaderService.presentLoading('Realizando Pago. Por favor, aguarde un momento', 5000).then( () => {
               this.toastService.toastSuccess(`Se realizo correctamente el Pago. N° de Pago: ${respuesta.id}`, 3000);
               this.navController.navigateBack(`/lista-pago/${this.idEstadia}`)
@@ -121,7 +121,7 @@ export class ListaPedidoPagoPage implements OnInit {
               }
               this.pedidoService.cambiarEstado(pathPedido)
               .then( resp => {
-                if ( resp.tipo == 1 ) {
+                if ( resp && resp.tipo == 1 ) {
                   console.log("PEDIDO Actualizados Correctamente")
                 } else {
                   console.log("NO se pudo actualizar PEDIDO ")

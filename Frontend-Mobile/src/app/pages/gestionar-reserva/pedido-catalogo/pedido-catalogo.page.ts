@@ -186,7 +186,7 @@ export class PedidoCatalogoPage implements OnInit {
                 let pathDetalle = { idPedido: this.idPedido, detalle: [ {[tipo]: data[tipo], cantidadPedidoProducto: info.cantidad} ]}
                 this.pedidoService.setDetallePedidoProducto( pathDetalle )
                 .then( res => {
-                  if ( res.tipo == 1){
+                  if ( res && res.tipo == 1){
                     this.toastService.toastSuccess(`Detalle creado!. ${nombre} agregado a su Pedido.`, 2000)
                   } else {
                     this.toastService.toastWarning(`Detalle no se pudo crear`, 2500)

@@ -64,7 +64,7 @@ export class ActivarUsuarioPage implements OnInit {
             handler: (  ) => {
               this.usuarioservicio.activarUsuario({ idUsuario: this.idUsuario})
               .then( resp => {
-                if (resp.tipo == 1 ) {
+                if (resp && resp.tipo == 1 ) {
                     this.toastService.toastSuccess('Se realizó la activación de su Usuario.', 2500)
                     this.navController.navigateRoot('/logueo')
                   } else {

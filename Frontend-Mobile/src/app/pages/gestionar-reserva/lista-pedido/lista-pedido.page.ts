@@ -101,12 +101,12 @@ export class ListaPedidoPage implements OnInit {
     }
     this.pedidoService.setPedido( data )
     .then( resp => {
-      if ( resp.tipo == 1 ) {
+      if ( resp && resp.tipo == 1 ) {
         let codPedido = this.crearCodigoPedido(data, resp);
         let pathCodigo: {} = {idPedido: resp.id, codPedido: codPedido}
         this.pedidoService.updatePedido(pathCodigo)
         .then( res => {
-          if ( res.tipo == 1){
+          if ( res && res.tipo == 1){
             this.toastService.toastSuccess(`Pedido N° ${resp.id} creado!`, 2000)
             this.traerReserva();
           } else {
@@ -190,7 +190,7 @@ export class ListaPedidoPage implements OnInit {
               }
               this.pedidoService.cambiarEstado( pathPedidoEstado)
               .then( res => {
-                if (res.tipo == 1){
+                if ( res && res.tipo == 1){
                   this.toastService.toastSuccess(`Pedido N° ${data.idPedido} Anulado!`, 2000)
                 } else {
                   this.toastService.toastWarning(`Problemas al intentar anular Pedido N° ${data.idPedido}.`, 3000)
@@ -245,7 +245,7 @@ export class ListaPedidoPage implements OnInit {
               this.pedidoService.setDetallePedidoProducto( pathDetalle )
               .then( res => {
                 console.log("resssss ----- ", res)
-                if ( res.tipo == 1){
+                if ( res && res.tipo == 1){
                   this.toastService.toastSuccess(`Detalle modificado!. Cantidad del ${nombre} cambiado en su Pedido.`, 3000)
                 } else {
                   this.toastService.toastWarning(`Detalle no se pudo editar`, 4000)
@@ -288,7 +288,7 @@ export class ListaPedidoPage implements OnInit {
             console.log("pathDetalle ", pathDetalle)
             this.pedidoService.setDetallePedidoProducto( pathDetalle )
             .then( res => {
-              if ( res.tipo == 1){
+              if ( res && res.tipo == 1){
                 this.toastService.toastSuccess(`Detalle eliminado!. ${nombre} se borro correctamente del Pedido.`, 3000)
               } else {
                 this.toastService.toastWarning(`Detalle no se pudo eliminar`, 4000)

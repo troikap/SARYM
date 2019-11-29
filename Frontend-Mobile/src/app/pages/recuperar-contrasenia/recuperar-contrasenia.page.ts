@@ -81,7 +81,7 @@ export class RecuperarContraseniaPage implements OnInit {
 
   async presentToast(data) {
     console.log("data" ,data)
-    if (data.tipo == 1) {
+    if ( data && data.tipo == 1) {
       const toast = await this.toastController.create({
         message: data.title.descripcion,
         duration: 3000,
@@ -91,7 +91,7 @@ export class RecuperarContraseniaPage implements OnInit {
       });
       toast.present();
     }
-    if (data.tipo == 2) {
+    if ( data && data.tipo == 2) {
       const toast = await this.toastController.create({
         message: data.title.descripcion,
         duration: 3000,

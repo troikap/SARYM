@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
-const URL = environment.urlNgrok || environment.url;
 const dir = '/traerImagen';
 
 @Injectable({
@@ -11,15 +10,18 @@ const dir = '/traerImagen';
 
 export class ImagenService {
 
+  url = environment.urlNgrok || environment.url;
+  tokenEnviroment = environment.token;
+
   constructor(
     public http: HttpClient
   ) { }
 
   getImagen(token: string): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', token);
+     headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .get(URL + dir, {headers})
+      .get(this.url + dir, {headers})
       .toPromise()
       .then(response => {
         return response;

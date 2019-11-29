@@ -3,25 +3,36 @@ import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Usuario } from '../../models/modelos';
 
-const URL = environment.urlNgrok || environment.url;
 const dir = '/usuario';
-const tokenEnviroment = environment.token;
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
 
+  url = environment.urlNgrok || environment.url;
+  tokenEnviroment = environment.token;
+
   constructor( 
     public http: HttpClient
-  ) { }
+  ) { 
+  }
 
-  getUsuarios(): Promise<Usuario[]> {
+  traerEnviroment() {
+    console.log("ENVIROMENT ----------------- ",environment)
+    if (environment.urlNgrok != '' && environment.urlNgrok != null){
+      return environment.urlNgrok
+    } else {
+      return environment.url
+    }
+  }
+
+  async getUsuarios(): Promise<Usuario[]> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', tokenEnviroment);
+    let urlEnviroment = await this.traerEnviroment();
+    headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .get(URL + dir, {headers})
+      .get(urlEnviroment + dir, {headers})
       .toPromise()
       .then(response => {
         return response as Usuario[];
@@ -29,11 +40,12 @@ export class UsuarioService {
       .catch(  );
   }
 
-  getUsuario( id: number ): Promise<any> {
+  async getUsuario( id: number ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', tokenEnviroment);
+     headers = headers.append('token', this.tokenEnviroment);
+     let urlEnviroment = await this.traerEnviroment();
     return this.http
-      .get(`${URL}${dir}/${id}`, {headers})
+      .get(`${urlEnviroment}${dir}/${id}`, {headers})
       .toPromise()
       .then(response => {
         return response as Usuario;
@@ -41,9 +53,10 @@ export class UsuarioService {
       .catch(  );
   }
 
-  validarExistenciaUsuario( cuit: number ): Promise<any> {
+  async validarExistenciaUsuario( cuit: number ): Promise<any> {
     let value = { cuitUsuario: cuit};
-    return this.http.post(`${URL}/existUser`, value).toPromise()
+    let urlEnviroment = await this.traerEnviroment();
+    return this.http.post(`${urlEnviroment}/existUser`, value).toPromise()
     .then( (response) => {
       return response;
     })
@@ -52,10 +65,11 @@ export class UsuarioService {
     })
   }
 
-  loguear( cuit: number, pass: string ): Promise<any> {
+  async loguear( cuit: number, pass: string ): Promise<any> {
+    let urlEnviroment = await this.traerEnviroment();
     let value = { cuitUsuario: cuit, contrasenaUsuario: pass}
     return this.http
-      .post(`${URL}/login`, value)
+      .post(`${urlEnviroment}/login`, value)
       .toPromise()
       .then( (response: any) => {
         return response as Usuario;
@@ -65,12 +79,13 @@ export class UsuarioService {
       } );
   }
 
-  updateUsuario( datas ): Promise<any> {
+  async updateUsuario( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', tokenEnviroment);
+     headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
+     let urlEnviroment = await this.traerEnviroment();
     return this.http
-      .put(`${URL}${dir}`, datas, data)
+      .put(`${urlEnviroment}${dir}`, datas, data)
       .toPromise()
       .then(response => {
         return response as Usuario;
@@ -78,14 +93,15 @@ export class UsuarioService {
       .catch(  );
   }
 
-  setUsuario( datas ): Promise<any> {
+  async setUsuario( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', tokenEnviroment);
+     headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
+     let urlEnviroment = await this.traerEnviroment();
      data['idRol'] = 5;
      data['idEstadoUsuario'] = 1;
     return this.http
-      .post(`${URL}${dir}`, datas, data)
+      .post(`${urlEnviroment}${dir}`, datas, data)
       .toPromise()
       .then(response => {
         return response as Usuario;
@@ -93,10 +109,11 @@ export class UsuarioService {
       .catch(  );
   }
 
-  recuperarDatosToken( token ): Promise<any> {
+  async recuperarDatosToken( token ): Promise<any> {
     let value = { token }
+    let urlEnviroment = await this.traerEnviroment();
     return this.http
-      .post(`${URL}/recuperarDatosToken`, value)
+      .post(`${urlEnviroment}/recuperarDatosToken`, value)
       .toPromise()
       .then( (response: any) => {
         console.log()
@@ -107,8 +124,9 @@ export class UsuarioService {
       } );
   }
 
-  envioEmail(data, tipo){
+  async envioEmail(data, tipo){
     console.log("DATA ",data)
+    let urlEnviroment = await this.traerEnviroment();
     let value = { 
       origen: 'http://localhost:8100', 
       email: data.emailUsuario, 
@@ -118,7 +136,7 @@ export class UsuarioService {
       cuitUsuario: data.cuitUsuario,
       tipo: tipo }
     return this.http
-      .post(`${URL}/envioEmail`, value)
+      .post(`${urlEnviroment}/envioEmail`, value)
       .toPromise()
       .then( (response: any) => {
         if (response == null ){
@@ -134,12 +152,13 @@ export class UsuarioService {
       } );
   }
 
-  activarUsuario( datas ): Promise<any> {
+  async activarUsuario( datas ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', tokenEnviroment);
+     headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
+     let urlEnviroment = await this.traerEnviroment();
     return this.http
-      .post(`${URL}/activarUsuario`, datas)
+      .post(`${urlEnviroment}/activarUsuario`, datas)
       .toPromise()
       .then(response => {
         return response as Usuario;

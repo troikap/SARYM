@@ -69,7 +69,7 @@ export class SearchGestionarReservaPage implements OnInit {
     if (this.idUsuarioLogueado !== -1) { // Si NO es Usuario Invitado
       this.reservaService.getReservasPorUsuario(this.idUsuarioLogueado)
       .then((res: any) => {
-        if(res.tipo != 2) {
+        if( res && res.tipo != 2) {
           this.listaReservas =  res;
         }    
         else {
@@ -85,7 +85,7 @@ export class SearchGestionarReservaPage implements OnInit {
           idReserva = res.idReservaEstadia;
           this.reservaService.getReserva(idReserva)
           .then((res: any) => {
-            if(res.tipo != 2) {
+            if( res && res.tipo != 2) {
               this.reservaInvitado =  res;
             }
             else {
@@ -169,7 +169,7 @@ export class SearchGestionarReservaPage implements OnInit {
             let dtoAnularReserva = this.getDTOCambioEstadoEliminarReserva(pIdReserva);
             this.reservaService.cambiarEstado(dtoAnularReserva)
             .then( resp => {
-              if (resp.tipo != 2) {
+              if ( resp && resp.tipo != 2) {
                 this.toastSuccess("Se ha anulado correctamente la reserva seleccionada");
                 this.getReservasUsrLogueado();
               }

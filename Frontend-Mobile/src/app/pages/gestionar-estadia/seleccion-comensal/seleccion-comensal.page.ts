@@ -87,13 +87,13 @@ export class SeleccionComensalPage implements OnInit {
         console.log("Limpiando Comensales Estadia", respuesta)
         if(respuesta) {
           respuesta.forEach(element => {
-            if(element.vencida) {
+            if( element && element.vencida) {
               let data: {} = {idEstadia: element.idEstadia,
                 idEstadoEstadia: 2,
                 descripcionEstadiaEstado: `Por Vencimiento, eliminado desde Comensal ${element.idComensal}.`}
               this.estadiaService.cambiarEstado(data)
               .then( resp => {
-                if(resp.tipo == 1){
+                if( resp && resp.tipo == 1){
                   this.toastService.toastError( `Estadia N° ${element.idEstadia} Anulada por vencimiento.`,3000,'bottom')
                 } else {
                   this.toastService.toastWarning( `Estadia N° ${element.idEstadia} Anulada por vencimiento.`,3000,'bottom')
@@ -362,7 +362,7 @@ export class SeleccionComensalPage implements OnInit {
       console.log('agregando ',path);
       this.estadiaService.setComensalesEstadia( path )
         .then( res => {
-          if ( res.tipo == 1){
+          if ( res && res.tipo == 1){
             this.toastService.toastSuccess(`Comensal agregado Correctamente!.`, 2000)
           } else {
             this.toastService.toastWarning(`Comensal no se pudo crear`, 2000)

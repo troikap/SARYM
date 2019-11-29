@@ -180,7 +180,7 @@ export class RegistroUsuarioPage implements OnInit {
       .subscribe( respuesta => {
         this.usuarioservicio.validarExistenciaUsuario( respuesta )
         .then( (res) => {
-          if (res.tipo == 2) {
+          if ( res && res.tipo == 2) {
             this.existenciaUsuario = true;
             this.mensajeExistenciaUsuario = res.descripcion;
             this.form.controls.cuitUsuario.setErrors({pattern: true});
@@ -313,8 +313,7 @@ export class RegistroUsuarioPage implements OnInit {
   async presentToast(data, tipo) {
     console.log("data" ,data)
     let addMensaje = 'Verifique su correo para activar su cuenta.'
-    
-    if (data.tipo == 1) {
+    if ( data && data.tipo == 1) {
       let toast;
       if (tipo == 'creado') {
         toast = await this.toastController.create({
@@ -336,7 +335,7 @@ export class RegistroUsuarioPage implements OnInit {
      
       toast.present();
     }
-    if (data.tipo == 2) {
+    if ( data && data.tipo == 2) {
       const toast = await this.toastController.create({
         message: data.title.descripcion,
         duration: 3000,

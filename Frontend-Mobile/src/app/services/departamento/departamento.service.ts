@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
-const URL = environment.urlNgrok || environment.url;
 const dir = '/departamento';
-
-const tokenEnviroment = environment.token;
 
 @Injectable({
   providedIn: 'root'
 })
 export class DepartamentoService {
+
+  url = environment.urlNgrok || environment.url;
+  tokenEnviroment = environment.token;
 
   constructor( 
     public http: HttpClient
@@ -19,10 +19,10 @@ export class DepartamentoService {
    getDepartamentos( ): Promise<Departamento[]> {
     let headers: HttpHeaders = new HttpHeaders();
     let token;
-    if (tokenEnviroment == null) { token = 'libre' } else { token = tokenEnviroment}
+    if (this.tokenEnviroment == null) { token = 'libre' } else { token = this.tokenEnviroment}
     headers = headers.append('token', token);
     return this.http
-      .get( URL + dir, {headers})
+      .get( this.url + dir, {headers})
       .toPromise()
       .then(response => {
         return response['data'] as Departamento[];

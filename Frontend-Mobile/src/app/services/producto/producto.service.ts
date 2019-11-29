@@ -3,14 +3,15 @@ import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Producto } from './producto.model'
 
-const URL = environment.urlNgrok || environment.url;
 const dir = '/producto';
 
-const tokenEnviroment = environment.token;
 @Injectable({
   providedIn: 'root'
 })
 export class ProductoService {
+
+  url = environment.urlNgrok || environment.url;
+  tokenEnviroment = environment.token;
 
   constructor(
     public http: HttpClient
@@ -18,9 +19,9 @@ export class ProductoService {
 
   getProductos(): Promise<Producto[]> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', tokenEnviroment);
+     headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .get(URL + dir, {headers})
+      .get(this.url + dir, {headers})
       .toPromise()
       .then(response => {
         return response as Producto[];
@@ -30,9 +31,9 @@ export class ProductoService {
 
   getProducto( id: number , token: string): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token',tokenEnviroment);
+     headers = headers.append('token',this.tokenEnviroment);
     return this.http
-      .get(`${URL}${dir}/${id}`, {headers})
+      .get(`${this.url}${dir}/${id}`, {headers})
       .toPromise()
       .then(response => {
         return response as Producto;

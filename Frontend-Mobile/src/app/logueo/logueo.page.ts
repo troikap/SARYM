@@ -67,7 +67,7 @@ export class LogueoPage implements OnInit {
     .then(logueado => {
       console.log("DEVOLVIENDO ESTO ", logueado)
       this.algo = logueado;
-      if (logueado.tipo == 1) {
+      if (logueado && logueado.tipo == 1) {
         let activado = logueado.UsuarioEstado.activadoUsuario;
         if ( activado == true ){ 
           let rol = logueado.rol.idRol;
@@ -100,7 +100,7 @@ export class LogueoPage implements OnInit {
         }
 
       } else {
-        if (logueado.tipo == 2){
+        if (logueado && logueado.tipo == 2){
           console.log("INVALIDOS")
         } else {
           console.log("SUSPENDIDO INHAVILITAD")
@@ -139,7 +139,7 @@ export class LogueoPage implements OnInit {
   }
 
   async alertar() {
-    if (this.algo.tipo == 1) {
+    if (this.algo && this.algo.tipo == 1) {
       const alert = await this.alertController.create({
         header: this.valtitle,
         message: `${this.valmsj} ${this.algo.UsuarioEstado.nombreUsuario} ${this.algo.UsuarioEstado.apellidoUsuario}`,
@@ -148,7 +148,7 @@ export class LogueoPage implements OnInit {
       });
       await alert.present();
     } 
-    if (this.algo.tipo == 2) {
+    if (this.algo && this.algo.tipo == 2) {
       const alert = await this.alertController.create({
         header: this.invalidotitle,
         message: this.invalidomsj,
@@ -157,7 +157,7 @@ export class LogueoPage implements OnInit {
       });
       await alert.present();
     } 
-    if (this.algo.tipo == 3){
+    if (this.algo && this.algo.tipo == 3){
       const alert = await this.alertController.create({
         header: this.susptitle,
         message: this.suspmsj,
@@ -227,7 +227,7 @@ export class LogueoPage implements OnInit {
             if ( resp.cuit.length == 11 ) {
               this.usuarioservicio.validarExistenciaUsuario(resp.cuit)
               .then( resp => {
-                if (resp.tipo == 2 ) {
+                if (resp && resp.tipo == 2 ) {
                   this.usuarioservicio.envioEmail(resp.data, 'recuperar')
                   .then( respuesta => {
                     if (respuesta['tipo'] == 1 ) {
