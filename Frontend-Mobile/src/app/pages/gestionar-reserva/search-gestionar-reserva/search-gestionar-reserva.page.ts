@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReservaService } from '../../../services/reserva/reserva.service';
 import { StorageService } from '../../../services/storage/storage.service';
 import { NavController,  AlertController, ToastController } from '@ionic/angular';
+import { ToastService } from 'src/app/providers/toast.service';
 
 @Component({
   selector: 'app-search-gestionar-reserva',
@@ -23,7 +24,8 @@ export class SearchGestionarReservaPage implements OnInit {
     private storage: StorageService,
     private navController: NavController,
     private alertController: AlertController,
-    public toastController: ToastController
+    public toastController: ToastController,
+    private toastService: ToastService
   ) { 
     this.loadCurrentUsuario();
   }
@@ -69,7 +71,10 @@ export class SearchGestionarReservaPage implements OnInit {
       .then((res: any) => {
         if(res.tipo != 2) {
           this.listaReservas =  res;
-        }        
+        }    
+        else {
+          this.toastService.toastError("No tiene ninguna reserva generada ni se ha asociado a una.", 2500);
+        }    
       })
     }
     else {

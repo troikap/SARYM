@@ -120,7 +120,15 @@ export class CrudGenerarEstadiaPage implements OnInit {
     }
   }
 
-  // TODO: Validar Fecha y Hora de Reserva (no antes de 30 min y no después de 30 min)
+  // TODO: No permitir Confirmar Reserva si horario es antes 30min o después 30min de la hora de Entrada de la reserva.
+
+  // TODO: No permitir generar Estadía (o editar), si existen estadías en misma fecha, mismo rango horario y misma mesa.
+
+  // TODO: No permitir generar Estadía (o editar), si existen reservas para esa misma fecha, mismo rango horario (+30min -30min, hora de entrada de Reserva) y misma mesa.
+
+  // TODO: No permitir generar Estadía (o editar), para un mismo usuario, misma fecha, mismo rango horario
+
+  // TODO: Al generar, editar o confirmar Reserva, verificar Reservas para la fecha y hora actual-con Hora Entrada Reserva, en estado Generada (es decir, NO confirmadas). Aquellas Estadías que superen los 30min desde su Entrada de Reserva comparado con la fecha y hora actual, ANULARLA y colocar detalle que la misma fue anulada por no haber sido confirmada.
   verificarEstadoReserva() {
     console.log("idReserva: ", this.idReserva);
     this.reservaservicio.getReserva(this.idReserva)

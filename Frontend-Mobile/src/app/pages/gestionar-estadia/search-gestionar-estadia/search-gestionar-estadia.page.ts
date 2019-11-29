@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EstadiaService } from '../../../services/estadia/estadia.service';
 import { StorageService } from '../../../services/storage/storage.service';
 import { NavController,  AlertController, ToastController } from '@ionic/angular';
+import { ToastService } from 'src/app/providers/toast.service';
 
 @Component({
   selector: 'app-search-gestionar-estadia',
@@ -21,7 +22,8 @@ export class SearchGestionarEstadiaPage implements OnInit {
     private storage: StorageService,
     private navController: NavController,
     private alertController: AlertController,
-    public toastController: ToastController
+    public toastController: ToastController,
+    private toastService: ToastService,
   ) { 
     this.loadCurrentUsuario();
   }
@@ -55,6 +57,7 @@ export class SearchGestionarEstadiaPage implements OnInit {
           this.createCode();
         } else {
           console.timeLog("NO ESTA EN UNA ESTADIA")
+          this.toastService.toastError("No se ha asociado a ningina estadía.", 2500);
         }
       })
   }
