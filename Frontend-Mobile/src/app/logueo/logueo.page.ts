@@ -266,4 +266,8 @@ export class LogueoPage implements OnInit {
     await alert.present();
   } 
 
+  configurar() {
+    this.navController.navigateForward('/configuracion');
+  }
+
 }

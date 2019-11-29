@@ -1,0 +1,10 @@
+<ion-content class="ion-padding">
+    <ion-title class="ion-padding" size="large" color="primary" *ngIf="settings">Configuración</ion-title>
+    <ion-item class="ion-padding" *ngIf="settings">
+        <ion-label floating>IP : </ion-label>
+        <ion-input type="phone" [(ngModel)]="settings.ip"></ion-input>
+    </ion-item>
+    <ion-button size="large" expand="full" color="primary" class="pedido" (click)="saveChanges()" *ngIf="settings">
+        <p>Guardar</p>
+    </ion-button>
+</ion-content>

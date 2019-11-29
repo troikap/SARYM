@@ -57,7 +57,7 @@ export class SearchGestionarEstadiaPage implements OnInit {
           this.createCode();
         } else {
           console.timeLog("NO ESTA EN UNA ESTADIA")
-          this.toastService.toastError("No se ha asociado a ningina estadía.", 2500);
+          // this.toastService.toastError("No se ha asociado a ningina estadía.", 2500);
         }
       })
   }

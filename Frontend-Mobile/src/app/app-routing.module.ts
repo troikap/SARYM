@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'logueo', loadChildren: './logueo/logueo.module#LogueoPageModule' },
   { path: 'registro-usuario', loadChildren: './registro-usuario/registro-usuario.module#RegistroUsuarioPageModule' },
   { path: 'registro-usuario/:id', loadChildren: './registro-usuario/registro-usuario.module#RegistroUsuarioPageModule' },
+  { path: 'configuracion', loadChildren: './pages/setting/setting.module#SettingPageModule' },
  
 // mozo
   { path: 'consultar-salon', loadChildren: './pages/mozo/consultar-salon/consultar-salon.module#ConsultarSalonPageModule' },
