@@ -42,6 +42,9 @@ import { Camera } from '@ionic-native/camera/ngx';
 //storage
 import { IonicStorageModule } from '@ionic/storage';
 
+// import { ModalDetalleCatalogoPage } from './modal/modal-detalle-catalogo/modal-detalle-catalogo.page';
+
+
 
 
 
