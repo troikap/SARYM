@@ -119,6 +119,15 @@ export class CrudGenerarEstadiaPage implements OnInit {
       this.navController.navigateRoot('/home');
     }
   }
+  // TODO: Hacer Loading en todas las páginas
+
+  // TODO: Cuando confirmé estadía, Me borró el CUIT del cliente, en el comensal
+
+  // TODO: Cuando generó la estadía a partir de una Reserva, Crea la misma al nombre del usuario logueado...Debería pedir el ingreso del nombre de la reserva o bien, tomar el alias del primer comensal
+
+  // TODO: Al generar Estadía, cambiar el estado de las mesas.
+
+  // TODO: Al finalizar estadía, cambiar estado de las mesas.
 
   // TODO: No permitir Confirmar Reserva si horario es antes 30min o después 30min de la hora de Entrada de la reserva.
 

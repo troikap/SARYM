@@ -81,6 +81,8 @@ export class CrudGestionarReservaPage implements OnInit {
     });
    }
 
+   // TODO: No poder realizar nunguna acción sobre reservas en estado distinto a GENERADA
+
   ngOnInit() {
     this.tratarFecha();
   }

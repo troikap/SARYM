@@ -36,6 +36,8 @@ export class ConsultaGestionarEstadiaPage implements OnInit {
     });
   }
 
+  // TODO: En consultar Estadía, NO mostrar opciones de eliminar ni editar
+
   ngOnInit() {
     this.traerMesas();
     this.traerEstadia();

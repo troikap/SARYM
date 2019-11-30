@@ -28,6 +28,8 @@ export class SearchGestionarEstadiaPage implements OnInit {
     this.loadCurrentUsuario();
   }
 
+  // TODO: Como invitado: Cuando se une a una estadía, se guarda en storage pero cuando vas al search no te busca por lo del storage cuando es usuario invitado
+  
   ngOnInit() {
   }
 
