@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, Validatio
 import { Router, ActivatedRoute } from '@angular/router';
 import { MozoEstadiaService } from '../../../services/mozo-estadia/mozo-estadia';
 import { DatePipe } from '@angular/common';
+import { UsuarioService } from '../../../services/usuario/usuario.service'
 
 @Component({
   selector: 'app-edit',
@@ -25,7 +26,8 @@ export class EditComponent implements OnInit{
     private formBuilder: FormBuilder,
     private router: Router,
     private mozoEstadiaServicio: MozoEstadiaService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private usuarioServicio : UsuarioService
   ) {
     this.form = new FormGroup({
       'cantPersonas': new FormControl({ value: '', disabled: true }),
@@ -83,7 +85,8 @@ export class EditComponent implements OnInit{
  
       let rempCaja: any = {
         idEstadia: this.idEstadia,
-        idMozoEstadia: this.form.value['mozoEstadia']       
+        idUsuario: this.form.value['mozoEstadia'],
+        descripcionMozoEstadia: "Modificado por el Encargado"      
       }
       //console.log(rempCaja);
       return rempCaja;
@@ -165,9 +168,13 @@ export class EditComponent implements OnInit{
     
   }
   traerMozos() {
-    this.mozoEstadiaServicio.getMozoEstadia()
+    this.usuarioServicio.getUsuarios()
       .then((res) => {
-        this.mozoEstadias = res['data'];     
+        res['data'].forEach(item => {
+          if (item['rolusuarios'][0].rol.nombreRol == "Mozo" && item['usuarioestados'][0].estadousuario.nombreEstadoUsuario == "Activo") {
+            this.mozoEstadias.push(item);
+          }
+        });   
       console.log("estos son los mozo Estadia",this.mozoEstadias)
       })
       
