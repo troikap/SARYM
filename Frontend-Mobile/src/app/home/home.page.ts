@@ -168,7 +168,6 @@ export class HomePage implements OnInit {
 
   async getEstadiaUsrLogueado() {
     if (this.idCurrentUsuario !== -1) { // Si NO es Usuario Invitado
-      console.log("Usuario Invitado");
       await this.estadiaService.getEstadiasPorUsuario(this.idCurrentUsuario)
       .then((res: any) => {
         if ( res && res.tipo == 1 ){

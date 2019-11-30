@@ -98,7 +98,7 @@ export class EstadiaService {
       .put(`${this.url}${this.dir}${this.dir4}`, datas, data)
       .toPromise()
       .then(response => {
-        return response as Estadia;
+        return response;
       })
       .catch(  );
   }
@@ -112,7 +112,7 @@ export class EstadiaService {
       .post(`${this.url}${this.dir}`, datas, data)
       .toPromise()
       .then(response => {
-        return response as Estadia;
+        return response;
       })
       .catch(  );
   }
@@ -126,7 +126,8 @@ export class EstadiaService {
       .put(`${this.url}${this.dir}${this.dirEditarClienteEstadia}`, datas, data)
       .toPromise()
       .then(response => {
-        return response as Estadia;
+        console.log("Resupesrta setClienteEstadia: ", response);
+        return response;
       })
       .catch(  );
   }
@@ -140,7 +141,7 @@ export class EstadiaService {
       .put(`${this.url}${this.dir}${this.dir2}`, datas, data)
       .toPromise()
       .then(response => {
-        return response as Estadia;
+        return response;
       })
       .catch(  );
   }

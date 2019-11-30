@@ -710,21 +710,31 @@ export class CrudGenerarEstadiaPage implements OnInit {
         cantPersonas: cantPersonas
       }
     }
+    
     const mesas = []
     for (let item of this.checkBoxList) {
       if (item.isChecked) {
-        mesas.push({'idMesa': item.value, 'idDetalleEstadiaMesa': null, 'baja': false})
+        mesas.push({'idMesa': item.value})
       } else {
-        if (item.idDetalleEstadiaMesa != undefined) {
-          mesas.push({'idMesa': item.value, 'idDetalleEstadiaMesa': item.idDetalleEstadiaMesa, 'baja': true})
-        }
-        else {
-          mesas.push({'idMesa': item.value, 'idDetalleEstadiaMesa': null, 'baja': true})
-        }
+        mesas.push({'idDetalleEstadiaMesa': item.idDetalleEstadiaMesa, 'baja': true})
       }
     }
 
-    this.generarMesasCambioEstado(mesas);
+    const mesasAux = []
+    for (let item of this.checkBoxList) {
+      if (item.isChecked) {
+        mesasAux.push({'idMesa': item.value, 'idDetalleEstadiaMesa': null, 'baja': false})
+      } else {
+        if (item.idDetalleEstadiaMesa != undefined) {
+          mesasAux.push({'idMesa': item.value, 'idDetalleEstadiaMesa': item.idDetalleEstadiaMesa, 'baja': true})
+        }
+        else {
+          mesasAux.push({'idMesa': item.value, 'idDetalleEstadiaMesa': null, 'baja': true})
+        }
+      }
+    }
+    
+    this.generarMesasCambioEstado(mesasAux);
     
     const comensales = this.comensales;   
     let encuentraUsr = false;
@@ -753,7 +763,8 @@ export class CrudGenerarEstadiaPage implements OnInit {
     else if (this.origenDatos == "confReserva") {
       estadiaConCodigo['idReserva'] = this.idReserva;
       this.generarComensalesClientes();
-      this.confirmarReserva( estadiaConCodigo , comensales, mesas);
+      console.log("mesas: ", mesas);
+      //this.confirmarReserva( estadiaConCodigo , comensales, mesas);
     }
   }
 
@@ -777,6 +788,11 @@ export class CrudGenerarEstadiaPage implements OnInit {
         }
       }
     }
+
+    if (this.origenDatos == "confReserva") { //verificar las Mesas eliminadas para cambiar de Estado Reserva (si es que está así) a Libre
+      
+    }
+
     console.log("++++++++++++++++++++");
     console.log("this.mesasCambioEstado: ", this.mesasCambioEstado);
   }
@@ -787,6 +803,9 @@ export class CrudGenerarEstadiaPage implements OnInit {
       if (item.idUsuario != null) {
         this.comensalesClientes.push({"idUsuario": item.idUsuario});
       }
+    }
+    if (this.comensalesClientes.length == 0) { //No hay usuarios en la estadía. Se coloca al Mozo como cliente
+      this.comensalesClientes.push({"idUsuario": this.currentUsuario.id});
     }
   }
 
