@@ -24,7 +24,6 @@ export class ConsultarSalonPage implements OnInit {
   mias = false;
   currentUsuario;
   estadiasMozo;
-  estadias;
 
   constructor(
     private mesaService: MesaService,
@@ -46,12 +45,29 @@ export class ConsultarSalonPage implements OnInit {
 
   ngOnInit() {
   }
-  
+
   traerEstadiaMozo() {
     this.estadiaService.getProductosByAll('generada').then( resp => {
-      this.estadias = resp;
-      console.log("ESTADOA resp",resp)
+      if ( resp ) {
+        console.log("ESTADOA resp",resp)
+        this.estadiasMozo = resp;
+      }
     })
+  }
+
+  existeEnEstadia(item): boolean {
+    console.log("AAAA EXISTE ? 0, item ", item)
+    if (this.estadiasMozo) {
+      let exist = false;
+      for (let elem of this.estadiasMozo) {
+        if (item.idMesa ) {
+          exist = true;
+        }
+      }
+      return exist
+    } else {
+      return false
+    }
   }
 
   loadCurrentUsuario() {
