@@ -5,7 +5,7 @@ import { ToastService } from '../../../providers/toast.service';
 import { SectorService } from "src/app/services/sector/sector.service";
 import { EstadoService } from "src/app/services/estado/estado.service";
 import { EstadiaService } from "src/app/services/estadia/estadia.service";
-
+import { StorageService, Log } from '../../../services/storage/storage.service';
 
 @Component({
   selector: 'app-consultar-salon',
@@ -21,6 +21,10 @@ export class ConsultarSalonPage implements OnInit {
   todoEstado = true;
   filtroSector;
   filtroEstado;
+  mias = false;
+  currentUsuario;
+  estadiasMozo;
+  estadias;
 
   constructor(
     private mesaService: MesaService,
@@ -30,14 +34,29 @@ export class ConsultarSalonPage implements OnInit {
     private estadoService: EstadoService,
     private estadiaService: EstadiaService,
     private alertController: AlertController,
+    private storage: StorageService
   ) {
     console.log("Constructor Consulta SAlon")
     this.traerMesas();
     this.traerSectores()
     this.traerEstados('estadomesa')
+    this.loadCurrentUsuario();
+    this.traerEstadiaMozo();
    }
 
   ngOnInit() {
+  }
+  traerEstadiaMozo() {
+    this.estadiaService.getProductosByAll('generada').subscribe( resp => {
+      this.estadias = resp;
+      console.log("ESTADOA resp",resp)
+    })
+  }
+
+  loadCurrentUsuario() {
+    this.storage.getCurrentUsuario().then((data) => {
+      this.currentUsuario = data;
+    })
   }
 
   traerMesas() {
@@ -128,4 +147,8 @@ export class ConsultarSalonPage implements OnInit {
     this.traerEstadiaPorMesa(idMesa)
     
   } 
+
+  cambioMias() {
+    console.log( "CAMBIO Mias ", this.mias)
+  }
 }

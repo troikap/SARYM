@@ -81,4 +81,19 @@ ion-footer {
             }
         }
     }
+    .mias {
+        position: absolute;
+        bottom: 49px;
+        right: 0px;
+        background-color: grey;
+        border-top-left-radius: 30px;
+        p {
+            margin: 0px;
+            text-align: right;
+            font-weight: bold;
+            color: white;
+            padding-top: 5px;
+            padding-right: 10px;
+        }
+    }
 }
