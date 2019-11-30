@@ -49,19 +49,19 @@ export class ConsultarSalonPage implements OnInit {
   traerEstadiaMozo() {
     this.estadiaService.getProductosByAll('generada').then( resp => {
       if ( resp ) {
-        console.log("ESTADOA resp",resp)
         this.estadiasMozo = resp;
       }
     })
   }
 
   existeEnEstadia(item): boolean {
-    console.log("AAAA EXISTE ? 0, item ", item)
     if (this.estadiasMozo) {
       let exist = false;
       for (let elem of this.estadiasMozo) {
-        if (item.idMesa ) {
-          exist = true;
+        for (let mesa of elem.detalleestadiamesas) {
+          if (item.idMesa == mesa.idMesa) {
+            exist = true;
+          }
         }
       }
       return exist
@@ -151,8 +151,10 @@ export class ConsultarSalonPage implements OnInit {
     console.log("ITEM ",item)
     this.estadiaService.getEstadiaPorMesa(item).then( estadia => {
       if (estadia) {
-        console.log("Estadia Por Mesa", estadia)
-        this.navController.navigateForward(`/crud-generar-estadia/${estadia.idEstadia}/editar/salon`)
+        this.ConfirmarConsultarEditarEstadia(estadia.idEstadia);
+        // this.navController.navigateForward(`/consulta-gestionar-estadia/${estadia.idEstadia}`)
+
+        // this.navController.navigateForward(`/crud-generar-estadia/${estadia.idEstadia}/editar/salon`)
       } else {
         this.toastService.toastError(`Ocurrió un error al intentar acceder a la Estadia N° ${item}`, 3000)
       }
@@ -167,5 +169,27 @@ export class ConsultarSalonPage implements OnInit {
 
   cambioMias() {
     console.log( "CAMBIO Mias ", this.mias)
+  }
+
+  async ConfirmarConsultarEditarEstadia( idEstadia ) {
+    const alert = await this.alertController.create({
+      header: 'Seleccione una Opción para Estadía',
+      buttons: [
+        {
+          text: 'Consultar',
+          cssClass: 'secondary',
+          handler: ( ) => {
+            this.navController.navigateForward(`/consulta-gestionar-estadia/${idEstadia}`)
+          }
+        }, {
+          text: 'Editar',
+          handler: ( ) => {
+            this.navController.navigateForward(`/crud-generar-estadia/${idEstadia}/editar/salon`)
+          }
+        }
+      ],
+      cssClass: 'alertPrimary',
+    })
+    await alert.present();
   }
 }
