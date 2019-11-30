@@ -18,6 +18,7 @@ export class HomePage implements OnInit {
   public currentUsuario: string;
   selectOption;
   public idCurrentUsuario;
+  public nombreUsuario = null;
   public idEstadia;
 
   slidesCliente = [
@@ -52,7 +53,7 @@ export class HomePage implements OnInit {
     private estadiaService: EstadiaService,
     private toastService: ToastService
   ) {
-    this.loadLog()
+    //this.loadLog()
   }
   openFirst() {
     this.menu.toggle();
@@ -61,17 +62,14 @@ export class HomePage implements OnInit {
   ngOnInit() {
   }
 
-  getEstadiaUsrLogueado() {
-    this.estadiaService.getEstadiasPorUsuario(this.idCurrentUsuario)
-      .then((res: any) => {
-        console.log("getEstadiaUsrLogueado", res);
-        if (res && res.tipo == 1) {
-          this.idEstadia =  res.data.idEstadia;
-        } else {
-          this.idEstadia = 0;
-        }
-      })
+  ionViewDidEnter() {
+    console.log("CARGO-------------------")
+    this.loadLog()
   }
+
+  // TODO: Consultar por las reservas que se encuentren en estado Generada, y filtrar por fecha y rango horario (-30min + 30min). Las que se encuentren en este rango, cambiar el estado de las mesas a "RESERVADA"
+
+  // TODO: Consultar por las reservas que se encuentren en estado Generada, y filtrar por fecha y rango horario. Aquellas que hayan superado el horario de ingreso por 30 minutos, Actualizar el estado de las mesas a "DISPONIBLE" y la reserva a "ANULADA", con descripción que indique los motivos.
 
   realizarPedido() {
     // if (this.idEstadia != undefined && this.idEstadia != null && this.idEstadia != 0) {
@@ -79,7 +77,7 @@ export class HomePage implements OnInit {
 
       this.goTo('realizar-pedido');
     } else {
-      this.toastService.toastWarning('Usted no se encuentra en una Estadía actualmente', 2500)
+      this.toastService.toastWarning('Usted no se encuentra asociado a ninguna Estadía', 2500)
     }
   }
 
@@ -144,13 +142,37 @@ export class HomePage implements OnInit {
       .then(async logs => {
         console.log("LOG:-----------", logs);
         this.logueo = logs;
-        this.currentUsuario = await logs['rolUsuario'];
-        this.idCurrentUsuario = await logs.id;
-        if (!logs) {
-          console.log('ERRORR')
-        }
+        this.currentUsuario = logs['rolUsuario'];
+        this.idCurrentUsuario = logs.id;
+        this.nombreUsuario = this.currentUsuario['rolUsuario'];
         this.getEstadiaUsrLogueado();
       })
+  }
+
+  async getEstadiaUsrLogueado() {
+    if (this.idCurrentUsuario !== -1) { // Si NO es Usuario Invitado
+      console.log("Usuario Invitado");
+      await this.estadiaService.getEstadiasPorUsuario(this.idCurrentUsuario)
+      .then((res: any) => {
+        if ( res && res.tipo == 1 ){
+          this.idEstadia =  res.data.idEstadia;
+        } else {
+          this.idEstadia = 0;
+        }
+      });
+    }
+    else {
+      await this.storage.getOneObject("estadia")
+      .then((est: any) => {
+        if (est != null && est != "") {
+          this.idEstadia = est.idReservaEstadia;
+        }
+        else {
+          this.idEstadia = 0;
+        }
+      });
+    }
+    
   }
 
   seleccionarMis(){
