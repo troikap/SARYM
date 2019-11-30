@@ -56,13 +56,13 @@
                                 </ion-col>
                                 <ion-col>
                                     <ion-title *ngIf="reserva.data.reservaestados[0].estadoreserva.idEstadoReserva != 1">
-                                        VENCIDA
+                                        NO VIGENTE
                                     </ion-title>
                                 </ion-col>
                             </ion-row>
-                            <ion-row>
+                            <ion-row *ngIf="reserva.data.reservaestados[0].estadoreserva.idEstadoReserva == 1">
                                 <ion-col>
-                                    <ion-button color="success" (click)="consultarReserva(reserva.data.idReserva)">Consultar Reserva</ion-button>
+                                    <ion-button color="success" (click)="consultarReserva(reserva.data.idReserva)">Consultar Reserva:</ion-button>
                                 </ion-col>
                                 <ion-col align="rigth">
                                     <ion-button (click)="realizarPedido(reserva)">Ver Comensales</ion-button>
@@ -126,11 +126,11 @@
                                 </ion-col>
                                 <ion-col>
                                     <ion-title *ngIf="reservaInvitado.reservaestados[0].estadoreserva.idEstadoReserva != 1">
-                                        VENCIDA
+                                        NO VIGENTE
                                     </ion-title>
                                 </ion-col>
                             </ion-row>
-                            <ion-row>
+                            <ion-row *ngIf="reservaInvitado.reservaestados[0].estadoreserva.idEstadoReserva == 1">
                                 <ion-col>
                                     <ion-button color="success" (click)="consultarReserva(reservaInvitado.idReserva)">Consultar Reserva</ion-button>
                                 </ion-col>
@@ -160,9 +160,33 @@
     <ion-item *ngIf="listaReservas.length == 1 && listaReservas[0].tipo == 2">
         <ion-label floating>Usted no posee Reservas generadas</ion-label>
     </ion-item>
+
+    <div>
+        <ion-fab vertical="botton" horizontal="end" slot="fixed">
+            <ion-fab-button>
+                <ion-icon name="arrow-dropleft"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-list side="start">
+                <ion-fab-button color="primary" (click)="crearReserva()" *ngIf="nombreUsuario != 'Invitado'">
+                    <ion-icon name="add"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-button color="secondary" (click)="unirseReserva()">
+                    <ion-icon name="magnet"></ion-icon>
+                </ion-fab-button>
+            </ion-fab-list>
+        </ion-fab>
+    </div>
+
+
+    <!-- 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="crearReserva()" *ngIf="nombreUsuario != 'Invitado'">
         <ion-fab-button>
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>
     </ion-fab>
+    <ion-fab *ngIf="(nombreUsuario != 'Invitado' && listaReservas.length == 0) || (nombreUsuario != 'Invitado' && !reservaInvitado)" vertical="bottom" horizontal="end" slot="fixed" (click)="unirseReserva()">
+        <ion-fab-button>
+            <ion-icon name="magnet"></ion-icon>
+        </ion-fab-button>
+    </ion-fab> -->
 </ion-content>

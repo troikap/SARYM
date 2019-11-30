@@ -8,6 +8,7 @@
   import { UsuarioService } from 'src/app/services/usuario/usuario.service';
   import { ToastService } from '../../providers/toast.service'
 import { StorageService } from 'src/app/services/storage/storage.service';
+import { EstadiaService } from 'src/app/services/estadia/estadia.service';
 
 @Component({
   selector: 'app-unirse-reserva-estadia',
@@ -44,7 +45,9 @@ export class UnirseReservaEstadiaPage implements OnInit {
       public activatedRoute: ActivatedRoute,
       private usuarioServicio: UsuarioService,
       private toastService: ToastService,
-      private storage: StorageService
+      private storage: StorageService,
+      private reservaServicio: ReservaService,
+      private estadiaServicio: EstadiaService,
     ) { }
   
     ngOnInit() {
@@ -61,7 +64,7 @@ export class UnirseReservaEstadiaPage implements OnInit {
       })
       .catch(err => {
         console.log('Error', err);
-        this.qrDataCodify = 'RVNUQURJQS0zLTEx'; // ESTADIA: RVNUQURJQS0zLTEx; //RESERVA: UkVTRVJWQS0yLTE3LTIwMTktMTEtMjkvMTk6MjE=
+        this.qrDataCodify = 'RVNUQURJQS03LTIw'; // ESTADIA: RVNUQURJQS0zLTEx; //RESERVA: UkVTRVJWQS0yLTE3LTIwMTktMTEtMjkvMTk6MjE=
         this.presentAlert()
       });
     }
@@ -108,16 +111,48 @@ export class UnirseReservaEstadiaPage implements OnInit {
             }, {
               text: 'Unirse',
               handler: () => {
-                console.log('Confirm Okay');
-                // ACA TENDRIA QUE IR A MOSTRAR LA ESTADIA PARA SELECCIONAR EL COMENSAL
-                this.insertarReservaEstadiaComensalStorage();
-                this.navController.navigateForward(`seleccion-comensal/${this.rutaTipo}/${this.idReservaEstadia}/creacion`)
+                this.verifiarEstadoReservaEstadia();
               }
             }
           ],
           cssClass: 'alertPrimary'
         });
         await alert.present();
+      }
+    }
+
+    verifiarEstadoReservaEstadia() {
+      if (this.rutaTipo == "reserva") {
+        this.reservaServicio.getReserva(this.idReservaEstadia)
+        .then( res => {
+          console.log("Reserva obtenida: ", res)
+          if (res.reservaestados[0].estadoreserva.idEstadoReserva == 1) {
+            this.insertarReservaEstadiaComensalStorage();
+            this.navController.navigateForward(`seleccion-comensal/${this.rutaTipo}/${this.idReservaEstadia}/creacion`);
+          }
+          else {
+            this.toastService.toastError(`La ${this.rutaTipo} N° ${this.idReservaEstadia} de ${this.nombreUsuario}, no se encuentra Vigente`, 3000);
+            setTimeout(()=>{
+              this.navController.navigateForward([`/home`]);
+            }, 3000);
+          }
+        });
+      }
+      else {
+        this.estadiaServicio.getEstadia(this.idReservaEstadia)
+        .then( est => {
+          console.log("Estadia obtenida: ", est)
+          if (est.estadiaestados[0].estadoestadium.idEstadoEstadia == 1) {
+            this.insertarReservaEstadiaComensalStorage();
+            this.navController.navigateForward(`seleccion-comensal/${this.rutaTipo}/${this.idReservaEstadia}/creacion`);
+          }
+          else {
+            this.toastService.toastError(`La ${this.rutaTipo} N° ${this.idReservaEstadia} de ${this.nombreUsuario}, no se encuentra Vigente`, 3000);
+            setTimeout(()=>{
+              this.navController.navigateForward([`/home`]);
+            }, 3000);
+          }
+        });
       }
     }
     

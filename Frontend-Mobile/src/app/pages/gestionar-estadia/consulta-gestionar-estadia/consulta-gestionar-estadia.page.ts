@@ -38,15 +38,14 @@ export class ConsultaGestionarEstadiaPage implements OnInit {
 
   ngOnInit() {
     this.traerMesas();
-    this.traerEstadia();
   }
   
   async traerMesas(){
     await this.mesaservicio.getMesas()
     .then(  resp => {
       this.mesasTodas =  resp['data'];
-      
       console.log("traerMesas: ", this.mesasTodas );
+      this.traerEstadia();
     })
   }
 
@@ -56,45 +55,44 @@ export class ConsultaGestionarEstadiaPage implements OnInit {
       await this.estadiaServicio.getEstadia(this.idEstadia)
       .then( res => {
         console.log("Estadia obtenida: ", res)
-        if ( res['tipo'] == 2) {
-          console.log("No se pudo obtener Estadia con id Nro ", this.idEstadia);
-        } else {
-          // Estadia
-          this.estadia = res;
-          console.log("TrearEstadia: ", this.estadia);
+        // Estadia
+        this.estadia = res;
+        console.log("TrearEstadia: ", this.estadia);
 
-          let comensal;
-          for (let i = 0; i < res.comensals.length; i++) {
-            comensal = {};
-            comensal = res.comensals[i];
-            if (res.comensals[i].usuario) {
-              comensal['cuitUsuario'] = res.comensals[i].usuario.cuitUsuario;
+        let comensal;
+        for (let com of res.comensals) {
+          comensal = {};
+          comensal = com;
+          for (let cliente of res['clienteestadia']) {
+            if (com.idUsuario == cliente.idUsuario) {
+              comensal['cuitUsuario'] = cliente.usuario.cuitUsuario;
+              break;
             }
-            this.comensales.push(comensal);
           }
-          console.log("Comensales de la estadia: ", this.comensales);
-          let idMesaEstadia = null;
-          let idMesaTodas = null;
-          let mesasMap = {};
-          console.log("res.detalleestadiamesas: ", res.detalleestadiamesas);
-          console.log("this.mesasTodas: ", this.mesasTodas);
-          for(let detalleEstadia of res.detalleestadiamesas) {
-            idMesaEstadia = detalleEstadia.idMesa;
-            for(let mesasTodas of this.mesasTodas) {
-              let idMesaTodas = mesasTodas.idMesa;
-              if (idMesaEstadia == idMesaTodas) {
-                mesasMap['nroMesa'] = mesasTodas.nroMesa;
-                mesasMap['capacidadMesa'] = mesasTodas.capacidadMesa;
-                mesasMap['nombreSector'] = mesasTodas.sector.nombreSector;
-                this.mesas.push(mesasMap);
-              }
-              idMesaTodas = null;
-            }
-            mesasMap = {};
-            idMesaEstadia = null;
-          }
-          console.log("Mesas de la estadia: ", this.mesas);
+          this.comensales.push(comensal);
         }
+        console.log("Comensales de la estadia: ", this.comensales);
+        let idMesaEstadia = null;
+        let idMesaTodas = null;
+        let mesasMap = {};
+        console.log("res.detalleestadiamesas: ", res.detalleestadiamesas);
+        console.log("this.mesasTodas: ", this.mesasTodas);
+        for(let detalleEstadia of res.detalleestadiamesas) {
+          idMesaEstadia = detalleEstadia.idMesa;
+          for(let mesasTodas of this.mesasTodas) {
+            let idMesaTodas = mesasTodas.idMesa;
+            if (idMesaEstadia == idMesaTodas) {
+              mesasMap['nroMesa'] = mesasTodas.nroMesa;
+              mesasMap['capacidadMesa'] = mesasTodas.capacidadMesa;
+              mesasMap['nombreSector'] = mesasTodas.sector.nombreSector;
+              this.mesas.push(mesasMap);
+            }
+            idMesaTodas = null;
+          }
+          mesasMap = {};
+          idMesaEstadia = null;
+        }
+        console.log("Mesas de la estadia: ", this.mesas);
       });
     }
   }

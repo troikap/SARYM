@@ -122,7 +122,7 @@ export class SearchGestionarEstadiaPage implements OnInit {
   }
 
   unirseEstadia() {
-    console.log("crearReserva");
+    console.log("unirseEstadia");
     this.navController.navigateForward(['/unirse-reserva-estadia' ]);
   }
 
