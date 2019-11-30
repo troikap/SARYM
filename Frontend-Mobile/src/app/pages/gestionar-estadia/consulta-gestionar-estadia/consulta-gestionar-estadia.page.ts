@@ -43,7 +43,7 @@ export class ConsultaGestionarEstadiaPage implements OnInit {
   async traerMesas(){
     await this.mesaservicio.getMesas()
     .then(  resp => {
-      this.mesasTodas =  resp['data'];
+      this.mesasTodas =  resp;
       console.log("traerMesas: ", this.mesasTodas );
       this.traerEstadia();
     })

@@ -169,8 +169,8 @@ export class CrudGestionarReservaPage implements OnInit {
     await this.mesaservicio.getMesas()
     .then(  resp => {
       this.checkBoxList = [];
-      this.mesas =  resp['data'];
-      for (let mesa of  resp['data']) {
+      this.mesas =  resp;
+      for (let mesa of  resp) {
         this.checkBoxList.push({ 
           'value': mesa.idMesa,
           'descripcion': `Mesa: N° ${mesa.nroMesa} - Cap: ${mesa.capacidadMesa}p - Sec: ${mesa.sector.nombreSector}`,

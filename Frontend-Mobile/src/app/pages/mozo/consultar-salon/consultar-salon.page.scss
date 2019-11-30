@@ -55,3 +55,30 @@ ion-card  {
         }
     }
 }
+
+ion-footer {
+    ion-segment {
+        ion-segment-button {
+            &.ocupada.segment-button-checked {
+                background-color: var(--ion-color-danger);
+                color: white;
+            }
+            &.disponible.segment-button-checked {
+                background-color: var(--ion-color-success);
+                color: white;
+            }
+            &.reservada.segment-button-checked {
+                background-color: var(--ion-color-warning);
+                color: black;
+            }  
+            &.pendientepago.segment-button-checked {
+                background-color: var(--ion-color-secondary);
+                color: white;
+            } 
+            &.inhabilitada.segment-button-checked {
+                background-color: var(--ion-color-medium);
+                color: white;
+            }
+        }
+    }
+}

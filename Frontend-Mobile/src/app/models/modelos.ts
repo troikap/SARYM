@@ -85,6 +85,7 @@ export interface Mesa {
     nroUbicacion: Number,
     nroMesa: Number,
     capacidadMesa: Number,
+    sector?: Sector
 }
 
 export interface Sector {

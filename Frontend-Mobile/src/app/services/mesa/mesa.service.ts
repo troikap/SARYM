@@ -11,6 +11,7 @@ import { ToastService } from '../../providers/toast.service';
 export class MesaService {
   url = environment.urlNgrok || environment.url;
   dir = '/mesa';
+  dirCambiarEstado = '/cambiarEstado';
 
   tokenEnviroment = environment.token;
 
@@ -22,15 +23,16 @@ export class MesaService {
   getMesas(): Promise<Mesa[]> {
     console.log("ENTRANDO A GET MESA")
     let headers: HttpHeaders = new HttpHeaders();
-     headers = headers.append('token', this.tokenEnviroment);
+    headers = headers.append('token', this.tokenEnviroment);
     return this.http
       .get(`${this.url}${this.dir}`, {headers})
       .toPromise()
       .then(response => {
+        console.log("AAA " , response)
         if ( response && response['tipo'] == 1) {
           return response['data'] as Mesa[];
         } else {
-          this.toastService.toastWarning('Tuvimos un problema al intentar traer las mesas', 2000)
+          this.toastService.toastWarning('Tuvimos un problema al intentar obtener las mesas', 2000)
         }
       })
       .catch( err => {
@@ -39,6 +41,19 @@ export class MesaService {
       });
   }
 
+  cambiarEstado( datas: any ): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    console.log("DATOS A ENVIAR :",datas)
+    return this.http
+    .put(`${this.url}${this.dir}${this.dirCambiarEstado}`, datas, {headers})
+    .toPromise()
+    .then(response => {
+      console.log("Servicio cambiarEstadoMesa()", response);
+      return response;
+    })
+    .catch(  );
+  }
 }
 
 

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MesaService } from "src/app/services/mesa/mesa.service";
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 import { ToastService } from '../../../providers/toast.service';
 import { SectorService } from "src/app/services/sector/sector.service";
 import { EstadoService } from "src/app/services/estado/estado.service";
 import { EstadiaService } from "src/app/services/estadia/estadia.service";
+
 
 @Component({
   selector: 'app-consultar-salon',
@@ -28,6 +29,7 @@ export class ConsultarSalonPage implements OnInit {
     private sectorService: SectorService,
     private estadoService: EstadoService,
     private estadiaService: EstadiaService,
+    private alertController: AlertController,
   ) {
     console.log("Constructor Consulta SAlon")
     this.traerMesas();
@@ -97,11 +99,13 @@ export class ConsultarSalonPage implements OnInit {
       this.navController.navigateForward('/crud-generar-estadia/0/crear/salon')
     } else if ( estadoMesa == 'Ocupada') {
       console.log("VER ESTADIA")
-      this.traerEstadiaPorMesa( item.idMesa )
+      this.traerEstadiaPorMesa( item.idMesa );
     } else if ( estadoMesa == 'Reservada') {
       console.log("VER RESERVA")
+
     } else if ( estadoMesa == 'Pendiente de Pago') {
       console.log("VER PENDIENtE DE PAGO")
+      this.confirmarFinalizarEstadia(item.idMesa);
     } else {
       console.log("OTRA OPCION")
     }
@@ -118,4 +122,10 @@ export class ConsultarSalonPage implements OnInit {
       }
     })
   }
+
+  confirmarFinalizarEstadia(idMesa) {
+    console.log("idMesa: ", idMesa);
+    this.traerEstadiaPorMesa(idMesa)
+    
+  } 
 }

@@ -53,12 +53,8 @@ export class ConsultaGestionarReservaPage implements OnInit {
   async traerMesas(){
     await this.mesaservicio.getMesas()
     .then(  resp => {
-      this.mesasTodas =  resp['data'];
-      
-      console.log("traerMesas: ", this.mesasTodas );
-
+      this.mesasTodas =  resp;
       this.traerReserva();
-      
     })
   }
   

@@ -60,7 +60,12 @@
 <ion-footer>
     <ion-segment scrollable="true" mode="ios" *ngIf="estados">
         <ion-segment-button checked (ionSelect)="seleccionTodoEstado()">Traer<br>Todo</ion-segment-button>
-        <ion-segment-button *ngFor="let item of estados" (ionSelect)="seleccionEstado(item)">
+        <ion-segment-button *ngFor="let item of estados" (ionSelect)="seleccionEstado(item)" 
+        [ngClass]="{'ocupada': item.idEstadoMesa == 1, 
+                    'disponible': item.idEstadoMesa == 2, 
+                    'reservada': item.idEstadoMesa == 3,  
+                    'pendientepago': item.idEstadoMesa == 4, 
+                    'inhabilitada': item.idEstadoMesa == 5}">
             <ion-label>{{item.nombreEstadoMesa}}</ion-label>
         </ion-segment-button>
     </ion-segment>

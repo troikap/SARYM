@@ -154,5 +154,5 @@
     </ion-card>
     <ion-button *ngIf="accionGet == 'editar' && origenDatos == 'confReserva'" class="mt-10" (click)="crearEditarEstadia()" [disabled]="!form.valid" expand="full">Confirmar Reserva</ion-button>
     <ion-button *ngIf="accionGet == 'crear'" class="mt-10" (click)="crearEditarEstadia()" [disabled]="!form.valid" expand="full">Crear Estadía</ion-button>
-    <ion-button *ngIf="accionGet == 'editar' && origenDatos == 'estadia'" class="mt-10" (click)="crearEditarEstadia()" [disabled]="!form.valid" expand="full">Editar Estadía</ion-button>
+    <ion-button *ngIf="accionGet == 'editar' && (origenDatos == 'estadia' || origenDatos == 'salon')" class="mt-10" (click)="crearEditarEstadia()" [disabled]="!form.valid" expand="full">Editar Estadía</ion-button>
 </ion-content>
