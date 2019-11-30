@@ -249,6 +249,23 @@ export class HomePage implements OnInit {
   }
 
   cambiarEstadoMesaReservada(reserva, idMesasReserva) {
+    let verificarCambioEstadoMesa = false;
+    for (let idMesa of idMesasReserva) {
+      this.mesaService.getMesa(idMesa)
+      .then((res:any) => {
+        if ( res && res.tipo != 2) {
+          let estadoMesa = res.data.mesaestados[0].estadomesa.idEstadoMesa;
+          console.log("Estado Mesa con idMesa: ", idMesa, ": Estado: ", estadoMesa);
+          if (estadoMesa == 2) { //Si está en estado Disponible
+
+          }
+        }
+        else {
+          console.log("Erro al intentar traerse las mesas por id, con idMesa: ", idMesa);
+        }
+      });
+    }
+
     console.log("CAMBIAR ESTADO DE MESAS A RESERVADO, de la Reserva Nro ", reserva.idReserva);
     for (let idMesa of idMesasReserva) {
       let pathMesa = {}

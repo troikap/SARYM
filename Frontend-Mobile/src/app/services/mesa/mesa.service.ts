@@ -41,6 +41,18 @@ export class MesaService {
       });
   }
 
+  getMesa( id: number ) {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    return this.http
+      .get(`${this.url}${this.dir}/${id}`, {headers})
+      .toPromise()
+      .then(response => {
+        return response;
+      })
+      .catch();
+  }
+
   cambiarEstado( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
