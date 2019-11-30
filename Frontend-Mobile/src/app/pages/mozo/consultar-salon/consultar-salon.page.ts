@@ -46,8 +46,9 @@ export class ConsultarSalonPage implements OnInit {
 
   ngOnInit() {
   }
+  
   traerEstadiaMozo() {
-    this.estadiaService.getProductosByAll('generada').subscribe( resp => {
+    this.estadiaService.getProductosByAll('generada').then( resp => {
       this.estadias = resp;
       console.log("ESTADOA resp",resp)
     })

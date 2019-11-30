@@ -9,7 +9,7 @@ module.exports = {
         {
             "idEstadiaEstado": 1,
             "idEstadia": 1,
-            "idEstadoEstadia": 1,
+            "idEstadoEstadia": 2,
             "descripcionEstadiaEstado": "Bla bla...",
             "fechaYHoraAltaEstadiaEstado": currentDate,
             "fechaYHoraBajaEstadiaEstado": null,

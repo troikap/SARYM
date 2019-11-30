@@ -8,7 +8,7 @@ module.exports = {
         return queryInterface.bulkInsert('pedidoestados', [{
                 "idPedidoEstado": 1,
                 "idPedido": 1,
-                "idEstadoPedido": 3,
+                "idEstadoPedido": 6,
                 "descripcionPedidoEstado": "Normal",
                 "fechaYHoraAltaPedidoEstado": currentDate,
                 "fechaYHoraBajaPedidoEstado": null,
@@ -18,7 +18,7 @@ module.exports = {
             {
                 "idPedidoEstado": 2,
                 "idPedido": 2,
-                "idEstadoPedido": 2,
+                "idEstadoPedido": 6,
                 "descripcionPedidoEstado": "Normal",
                 "fechaYHoraAltaPedidoEstado": currentDate,
                 "fechaYHoraBajaPedidoEstado": null,
@@ -28,7 +28,7 @@ module.exports = {
             {
                 "idPedidoEstado": 3,
                 "idPedido": 3,
-                "idEstadoPedido": 5,
+                "idEstadoPedido": 6,
                 "descripcionPedidoEstado": "Normal",
                 "fechaYHoraAltaPedidoEstado": currentDate,
                 "fechaYHoraBajaPedidoEstado": null,
