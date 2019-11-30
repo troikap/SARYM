@@ -76,10 +76,6 @@ export class HomePage implements OnInit {
     this.loadLog()
   }
 
-  // TODO: Consultar por las reservas que se encuentren en estado Generada, y filtrar por fecha y rango horario (-30min + 30min). Las que se encuentren en este rango, cambiar el estado de las mesas a "RESERVADA"
-
-  // TODO: Consultar por las reservas que se encuentren en estado Generada, y filtrar por fecha y rango horario. Aquellas que hayan superado el horario de ingreso por 30 minutos, Actualizar el estado de las mesas a "DISPONIBLE" y la reserva a "ANULADA", con descripción que indique los motivos.
-
   realizarPedido() {
     // if (this.idEstadia != undefined && this.idEstadia != null && this.idEstadia != 0) {
       if (this.idEstadia != undefined && this.idEstadia != null && this.idEstadia != 0) {
