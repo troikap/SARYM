@@ -31,23 +31,19 @@ export class EstadiaService {
     private storage: StorageService,
   ) { }
 
-  getProductosByAll( termino: string) { //Observador
+  getProductosByAll( termino: string): Promise<Estadia[]> {
     console.log("Service getProductosByAll: Termino = ", termino);
-    if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
       headers = headers.append('token', this.tokenEnviroment);
       return this.http
         .get(`${this.url}${this.dir}${this.dirTodo}/${termino}`, {headers})
-        .pipe( map ((data: any) => {
-          console.log(data.data);
-          if (data != null) {
-            return data.data;
+        .toPromise()
+        .then( response => {
+          console.log(response);
+          if (response != null) {
+            return response as Estadia[] ;
           }
-      }));
-    }
-    else {
-      // console.log("Service getProductosByAll: SIN TERMINO");
-    }
+        }).catch();
   }
 
    getEstadias(): Promise<Estadia[]> {
