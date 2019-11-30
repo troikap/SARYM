@@ -1,5 +1,5 @@
 export class AppSettings {
-    public static IP = '192.168.100.10';
+    public static IP = 'http://192.168.1.1:3000';
     public static PASSWORD = '12345';
   }
   

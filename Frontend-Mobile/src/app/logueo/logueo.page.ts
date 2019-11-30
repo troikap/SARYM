@@ -102,8 +102,12 @@ export class LogueoPage implements OnInit {
       } else {
         if (logueado && logueado.tipo == 2){
           console.log("INVALIDOS")
-        } else {
+          this.toastService.toastWarning('.', 3000)
+        } else if (logueado && logueado.tipo == 3) {
           console.log("SUSPENDIDO INHAVILITAD")
+          this.toastService.toastWarning('Su cuenta esta suspendida.', 3000)
+        } else {
+          this.toastService.toastWarning('No se pudo realizar la conexión.', 3000)
         }
         this.alertar();
       }
