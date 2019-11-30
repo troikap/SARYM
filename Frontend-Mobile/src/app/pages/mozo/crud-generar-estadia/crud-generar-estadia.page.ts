@@ -716,7 +716,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
       if (item.isChecked) {
         mesas.push({'idMesa': item.value})
       } else {
-        mesas.push({'idDetalleReservaMesa': item.idDetalleReservaMesa, 'baja': true})
+        mesas.push({'idDetalleEstadiaMesa': item.idDetalleEstadiaMesa, 'baja': true})
       }
     }
 
@@ -788,6 +788,11 @@ export class CrudGenerarEstadiaPage implements OnInit {
         }
       }
     }
+
+    if (this.origenDatos == "confReserva") { //verificar las Mesas eliminadas para cambiar de Estado Reserva (si es que está así) a Libre
+      
+    }
+
     console.log("++++++++++++++++++++");
     console.log("this.mesasCambioEstado: ", this.mesasCambioEstado);
   }
@@ -798,6 +803,9 @@ export class CrudGenerarEstadiaPage implements OnInit {
       if (item.idUsuario != null) {
         this.comensalesClientes.push({"idUsuario": item.idUsuario});
       }
+    }
+    if (this.comensalesClientes.length == 0) { //No hay usuarios en la estadía. Se coloca al Mozo como cliente
+      this.comensalesClientes.push({"idUsuario": this.currentUsuario.id});
     }
   }
 
