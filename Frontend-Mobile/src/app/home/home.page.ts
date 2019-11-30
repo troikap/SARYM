@@ -248,45 +248,53 @@ export class HomePage implements OnInit {
     });
   }
 
-  cambiarEstadoMesaReservada(reserva, idMesasReserva) {
-    let cabmiarEstado = false;
+  async cambiarEstadoMesaReservada(reserva, idMesasReserva) {
+    let cambiarEstado = false;
+    let cambiarEstadoCount = 0;
+    let i = 0;
     for (let idMesa of idMesasReserva) {
-      this.mesaService.getMesa(idMesa)
+      i++;
+      await this.mesaService.getMesa(idMesa)
       .then((res:any) => {
         if ( res && res.tipo != 2) {
           let estadoMesa = res.data.mesaestados[0].estadomesa.idEstadoMesa;
+          let estadoMesaDesc = res.data.mesaestados[0].estadomesa.nombreEstadoMesa;
           console.log("Estado Mesa con idMesa: ", idMesa, ": Estado: ", estadoMesa);
           if (estadoMesa == 2) { //Si está en estado Disponible
-            cabmiarEstado = true;
+            cambiarEstado = true;
+            cambiarEstadoCount ++;
           }
           else {
-            console.log("Mesa en estado: ", estadoMesa, ". No hacer cambio de estado");
+            console.log("Mesa en estado: ", estadoMesa, " (",estadoMesaDesc,"). No hacer cambio de estado");
           }
         }
         else {
-          console.log("Erro al intentar traerse las mesas por id, con idMesa: ", idMesa);
+          console.log("Error al intentar traerse las mesas por id, con idMesa: ", idMesa);
         }
       });
-      if (cabmiarEstado) {
-        break;
-      }
     }
-
-    if (cabmiarEstado) {
-      console.log("CAMBIAR ESTADO DE MESAS A RESERVADO, de la Reserva Nro ", reserva.idReserva);
-      for (let idMesa of idMesasReserva) {
-        let pathMesa = {}
-        pathMesa['idMesa'] = idMesa;
-        pathMesa['idEstadoMesa'] = 3 //Reservada
-        this.mesaService.cambiarEstado(pathMesa)
-        .then(resp => {
-          if (resp.tipo != 2) {
-            console.log("Cambio de estado de Mesa Nro ", idMesa, ", a Reservada");
-          }
-          else {
-            console.log("No se ha podido actualizar el estado de la Mesa Nro ", idMesa, " Error: ", resp.title);
-          }
-        });
+    
+    //Cambiar el estado de todas las mesas si TODAS se encontraran en estado Disponible
+    if (cambiarEstado) { // if (cambiarEstado || !cambiarEstado) { // Para reiniciar el estado de todas las mesas, hacer esta condición
+      if (cambiarEstadoCount == i) {
+        console.log("CAMBIAR ESTADO DE MESAS A RESERVADO, de la Reserva Nro ", reserva.idReserva);
+        for (let idMesa of idMesasReserva) {
+          let pathMesa = {}
+          pathMesa['idMesa'] = idMesa;
+          pathMesa['idEstadoMesa'] = 3 //Reservada
+          this.mesaService.cambiarEstado(pathMesa)
+          .then(resp => {
+            if (resp.tipo != 2) {
+              console.log("Cambio de estado de Mesa Nro ", idMesa, ", a Reservada");
+            }
+            else {
+              console.log("No se ha podido actualizar el estado de la Mesa Nro ", idMesa, " Error: ", resp.title);
+            }
+          });
+        }
+      }
+      else { // Estados de mesas incorrectos. Verifique las semillas, ya que hay inconsistencia
+        console.log("Estados de mesas incorrectos. Verifique las semillas, ya que hay inconsistencia. No se realiza el cambio de estado de las mesas de la reserva");
       }
     }    
   }
@@ -403,22 +411,23 @@ export class HomePage implements OnInit {
     }
     // store time values
     for (var i = 0; i < max; i++) {
-      times[i] = a[i] - b[i]
+      times[i] = a[i] - b[i];
     }
-    var hours = times[0]
-    var minutes = times[1]
-    var seconds = times[2]
-    if (seconds >= 60) {
-      var m = (seconds / 60) << 0
-      minutes += m
-      seconds -= 60 * m
+    var hours = times[0];
+    var minutes = times[1];
+    var seconds = times[2];
+
+    if (seconds < 0) {
+      var m =  60 + seconds; // seconds es negativo, por eso sumo (para restar)
+      minutes -= 1
+      seconds = m
     }
-    if (minutes >= 60) {
-      var h = (minutes / 60) << 0
-      hours += h
-      minutes -= 60 * h
+    if (minutes < 0) {
+      var h = 60 + minutes; // minutes es negativo, por eso sumo (para restar)
+      hours -= 1;
+      minutes = h;
     }
-    return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) 
+    return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2);
   }
 
   seleccionarMis(){
