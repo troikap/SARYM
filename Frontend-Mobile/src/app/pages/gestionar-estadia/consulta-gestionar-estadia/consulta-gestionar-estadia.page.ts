@@ -36,8 +36,6 @@ export class ConsultaGestionarEstadiaPage implements OnInit {
     });
   }
 
-  // TODO: En consultar Estadía, NO mostrar opciones de eliminar ni editar
-
   ngOnInit() {
     this.traerMesas();
     this.traerEstadia();
@@ -99,18 +97,6 @@ export class ConsultaGestionarEstadiaPage implements OnInit {
         }
       });
     }
-  }
-
-  editarEstadia() {
-    console.log("Editar Estadia");
-    this.navController.navigateForward(['/crud-gestionar-estadia', this.idEstadia, 'editar' ]);
-  }
-
-  anularEstadia() {
-    console.log("Anular Estadia");
-    let pTituloConfirm = "Anular Estadia";
-    let pMensajeConfirm = "¿Desea anular la estadia seleccionada?<br>Si continúa no podrá revertir los cambios.";
-    this.Confirm(pTituloConfirm, pMensajeConfirm);
   }
 
   verQrEstadia() {

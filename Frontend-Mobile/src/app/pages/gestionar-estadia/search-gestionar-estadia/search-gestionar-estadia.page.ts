@@ -11,11 +11,14 @@ import { ToastService } from 'src/app/providers/toast.service';
 })
 export class SearchGestionarEstadiaPage implements OnInit {
 
-  public estadia;
+  public estadia: any = null;
+  public estadiaInvitado: any = null;
   private currentUsuario;
   private idUsuarioLogueado: number;
   private createdCode;
   public mostrar;
+  public nombreUsuario = null;
+  public traerEstadiaInvitado = false;
 
   constructor(
     private estadiaService: EstadiaService,
@@ -28,40 +31,84 @@ export class SearchGestionarEstadiaPage implements OnInit {
     this.loadCurrentUsuario();
   }
 
-  // TODO: Como invitado: Cuando se une a una estadía, se guarda en storage pero cuando vas al search no te busca por lo del storage cuando es usuario invitado
-  
   ngOnInit() {
   }
 
-  loadCurrentUsuario() {
-    this.storage.getCurrentUsuario().then((data) => {
-      if ( data ) {
-        this.currentUsuario = data;
-        this.idUsuarioLogueado =  this.currentUsuario.id;
-        this.getEstadiaUsrLogueado();
-      } else {
-        console.log("NO ES USUARIO")
-      }
+  goBack() {
+    this.navController.navigateRoot('/home');
+  }
+
+  doRefresh(event) {
+    
+    this.resetDatos();
+    this.loadCurrentUsuario();
+
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
+  }
+
+  resetDatos() {
+    this.estadia = null;
+    this.estadiaInvitado = null;
+    this.currentUsuario = null;
+    this.idUsuarioLogueado = 0;
+    this.nombreUsuario = null;
+    this.traerEstadiaInvitado = false;
+  }
+
+  async loadCurrentUsuario() {
+    await this.storage.getCurrentUsuario()
+    .then((data) => {
+      this.currentUsuario = data;
+      this.nombreUsuario = this.currentUsuario.rolUsuario;
+      this.idUsuarioLogueado =  this.currentUsuario.id; //Si this.idUsuarioLogueado == -1, es usuario invitado
+      this.getEstadiaUsrLogueado();
     });
   }
 
   createCode() {
     console.log('Creando QR');
-    this.createdCode = btoa( this.estadia.tokenEstadia );
+    if (this.idUsuarioLogueado !== -1) { // Si NO es Usuario Invitado
+      this.createdCode = btoa( this.estadia.tokenEstadia );
+    }
+    else {
+      this.createdCode = btoa( this.estadiaInvitado.tokenEstadia );
+    }
   }
 
-  getEstadiaUsrLogueado() {
-    this.estadiaService.getEstadiasPorUsuario(this.idUsuarioLogueado)
+  async getEstadiaUsrLogueado() {
+    if (this.idUsuarioLogueado !== -1) { // Si NO es Usuario Invitado
+      await this.estadiaService.getEstadiasPorUsuario(this.idUsuarioLogueado)
       .then((res: any) => {
-        console.log("getEstadiaUsrLogueado", res);
         if ( res && res.tipo == 1 ){
           this.estadia =  res.data;
           this.createCode();
         } else {
-          console.timeLog("NO ESTA EN UNA ESTADIA")
+          console.timeLog("NO ESTA EN UNA ESTADIA");
           // this.toastService.toastError("No se ha asociado a ningina estadía.", 2500);
         }
-      })
+      });
+    }
+    else {
+      let idEstadia = null;
+      await this.storage.getOneObject("estadia")
+      .then(async (est: any) => {
+        if (est != null && est != "") {
+          this.traerEstadiaInvitado = true;
+          idEstadia = est.idReservaEstadia;
+          await this.estadiaService.getEstadia(idEstadia)
+          .then((est: any) => {
+            this.estadiaInvitado =  est;
+            this.createCode();
+          })
+        }
+        else {
+          console.log("sin estadia Invitado");
+        }
+      });
+    }
+    
   }
 
   realizarPedido(item) {
@@ -76,7 +123,6 @@ export class SearchGestionarEstadiaPage implements OnInit {
 
   unirseEstadia() {
     console.log("crearReserva");
-    // this.navController.navigateForward(['/unirse-gestionar-reserva' ]);
     this.navController.navigateForward(['/unirse-reserva-estadia' ]);
   }
 
@@ -85,69 +131,9 @@ export class SearchGestionarEstadiaPage implements OnInit {
     this.navController.navigateForward(['/consulta-gestionar-estadia', idEstadia ]);
   }
 
-  editarReserva(pIdReserva: number) {
-    console.log("Editar Reserva", pIdReserva);
-    this.navController.navigateForward(['/crud-gestionar-reserva', pIdReserva, 'editar' ]);
-  }
-
-  anularReserva(pIdReserva: number) {
-    console.log("Anular Reserva", pIdReserva);
-    let pTituloConfirm = "Anular Reserva";
-    let pMensajeConfirm = "¿Desea anular la reserva seleccionada?<br>Si continúa no podrá revertir los cambios.";
-    this.Confirm(pTituloConfirm, pMensajeConfirm, pIdReserva);
-  }
-
   verQrReserva(pIdReserva: number) {
     console.log("Ver QR Reserva", pIdReserva);
     this.navController.navigateForward(['/ver-qr-reserva', pIdReserva ]);
-  }
-
-  getDTOCambioEstadoEliminarReserva(idReservaParam: number) {
-    console.log("Funcion 'getDTOCambioEstadoEliminarReserva()', ejecutada");
-
-    let dtoAnularReserva: any = {
-      idReserva: idReservaParam,
-      idEstadoReserva: "2", //ANULAR
-      descripcionReservaEstado:  "Anulada por el Cliente",
-    }
-    return dtoAnularReserva;
-  }
-
-  async Confirm(pTitulo: string, pMensaje: string, pIdReserva: number) {
-    const alert = await this.alertController.create({
-      header: pTitulo,
-      message: pMensaje,
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            console.log('Cancelado');
-          }
-        }, {
-          text: 'Aceptar',
-          handler: () => {
-            console.log('Anular Reserva');
-            // let dtoAnularReserva = this.getDTOCambioEstadoEliminarReserva(pIdReserva);
-            // this.reservaService.cambiarEstado(dtoAnularReserva)
-            // .then( resp => {
-            //   console.log("Respuesta Anular Reserva: ",resp)
-
-            //   if (resp.tipo != 2) {
-            //     this.toastSuccess("Se ha anulado correctamente la reserva seleccionada");
-            //     this.getEstadiaUsrLogueado();
-            //   }
-            //   else {
-            //     this.toastError(resp.title);
-            //   }
-            // })
-          }
-        }
-      ]
-    });
-
-    await alert.present();
   }
 
   async toastSuccess(pMensaje: string) {
