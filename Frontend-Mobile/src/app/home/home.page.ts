@@ -249,7 +249,7 @@ export class HomePage implements OnInit {
   }
 
   cambiarEstadoMesaReservada(reserva, idMesasReserva) {
-    let verificarCambioEstadoMesa = false;
+    let cabmiarEstado = false;
     for (let idMesa of idMesasReserva) {
       this.mesaService.getMesa(idMesa)
       .then((res:any) => {
@@ -257,30 +257,38 @@ export class HomePage implements OnInit {
           let estadoMesa = res.data.mesaestados[0].estadomesa.idEstadoMesa;
           console.log("Estado Mesa con idMesa: ", idMesa, ": Estado: ", estadoMesa);
           if (estadoMesa == 2) { //Si está en estado Disponible
-
+            cabmiarEstado = true;
+          }
+          else {
+            console.log("Mesa en estado: ", estadoMesa, ". No hacer cambio de estado");
           }
         }
         else {
           console.log("Erro al intentar traerse las mesas por id, con idMesa: ", idMesa);
         }
       });
+      if (cabmiarEstado) {
+        break;
+      }
     }
 
-    console.log("CAMBIAR ESTADO DE MESAS A RESERVADO, de la Reserva Nro ", reserva.idReserva);
-    for (let idMesa of idMesasReserva) {
-      let pathMesa = {}
-      pathMesa['idMesa'] = idMesa;
-      pathMesa['idEstadoMesa'] = 3 //Reservada
-      this.mesaService.cambiarEstado(pathMesa)
-      .then(resp => {
-        if (resp.tipo != 2) {
-          console.log("Cambio de estado de Mesa Nro ", idMesa, ", a Reservada");
-        }
-        else {
-          console.log("No se ha podido actualizar el estado de la Mesa Nro ", idMesa, " Error: ", resp.title);
-        }
-      });
-    }
+    if (cabmiarEstado) {
+      console.log("CAMBIAR ESTADO DE MESAS A RESERVADO, de la Reserva Nro ", reserva.idReserva);
+      for (let idMesa of idMesasReserva) {
+        let pathMesa = {}
+        pathMesa['idMesa'] = idMesa;
+        pathMesa['idEstadoMesa'] = 3 //Reservada
+        this.mesaService.cambiarEstado(pathMesa)
+        .then(resp => {
+          if (resp.tipo != 2) {
+            console.log("Cambio de estado de Mesa Nro ", idMesa, ", a Reservada");
+          }
+          else {
+            console.log("No se ha podido actualizar el estado de la Mesa Nro ", idMesa, " Error: ", resp.title);
+          }
+        });
+      }
+    }    
   }
   
   anularReservaAutomaticamente(reserva, idMesasReserva) {
