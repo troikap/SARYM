@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MesaService } from "src/app/services/mesa/mesa.service";
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-consultar-salon',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConsultarSalonPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private mesaService: MesaService,
+    private navController: NavController
+  ) {
+    console.log("Constructor Consulta SAlon")
+    this.traerMesas();
+   }
 
   ngOnInit() {
   }
 
+  traerMesas() {
+    this.mesaService.getMesas().then( mesas => {
+      console.log("MESAS TRAIDAS ", mesas)
+    })
+  }
 }
