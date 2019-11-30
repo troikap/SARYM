@@ -51,10 +51,9 @@ MesaController.getToAllAttributes = (req, res, next) => {
         model: SectorModelo,
         attributes: attributes.sector
       },
-      // {
-      //   model: UbicacionModelo,
-      //   attributes: attributes.ubicacion
-      // }
+    ],
+     order: [ 
+      [ 'idMesa', 'ASC']
     ]
   }).then(project => {
       if (!project || project == 0) {
@@ -89,6 +88,9 @@ MesaController.getToName = (req, res, next) => {
         model: SectorModelo,
         attributes: attributes.sector
       },
+    ],
+     order: [ 
+      [ 'idMesa', 'ASC']
     ]
   }).then(project => {
     if (!project || project == 0) {
@@ -123,10 +125,9 @@ MesaController.getAll = (req, res, next) => {
         model: SectorModelo,
         attributes: attributes.sector
       },
-      // {
-      //   model: UbicacionModelo,
-      //   attributes: attributes.ubicacion
-      // }
+    ],
+     order: [ 
+      [ 'idMesa', 'ASC']
     ]
   })
   .then(projects => {
@@ -163,6 +164,9 @@ MesaController.getOne = (req, res, next) => {
         model: SectorModelo,
         attributes: attributes.sector
       },
+    ],
+     order: [ 
+      [ 'idMesa', 'ASC']
     ]
   }).then(project => {
     if (!project || project == 0) {
