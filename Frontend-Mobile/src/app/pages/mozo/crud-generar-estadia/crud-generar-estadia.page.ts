@@ -47,6 +47,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
   public mostrarMensajeConsideracion = 0;
   public mostrar5 = false;
   private mesasCambioEstado = [];
+  private mesasInicial = [];
 
   public nombreUsuario;
 
@@ -359,6 +360,17 @@ export class CrudGenerarEstadiaPage implements OnInit {
       } else {
         this.form.controls.idMesa.setValue(null)
       }
+
+      for (let item of this.checkBoxList) {
+        let mesaPath = {};
+        mesaPath['value'] = item.value;
+        mesaPath['descripcion'] = item.descripcion;
+        mesaPath['isChecked'] = item.isChecked;
+        mesaPath['capacidad'] = item.capacidad;
+        mesaPath['idDetalleReservaMesa'] = item.idDetalleReservaMesa;
+        this.mesasInicial.push(mesaPath);
+      }
+
     });
   }
 
@@ -763,8 +775,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
     else if (this.origenDatos == "confReserva") {
       estadiaConCodigo['idReserva'] = this.idReserva;
       this.generarComensalesClientes();
-      console.log("mesas: ", mesas);
-      //this.confirmarReserva( estadiaConCodigo , comensales, mesas);
+      this.confirmarReserva( estadiaConCodigo , comensales, mesas);
     }
   }
 
@@ -788,9 +799,26 @@ export class CrudGenerarEstadiaPage implements OnInit {
         }
       }
     }
-
+    
     if (this.origenDatos == "confReserva") { //verificar las Mesas eliminadas para cambiar de Estado Reserva (si es que está así) a Libre
-      
+      for (let inicial of this.mesasInicial) {
+        let idEncontrado = false;
+        let idMesaIni = inicial.value;
+        let isChecked = inicial.isChecked;
+        console.log("Mesa inicial: ", idMesaIni);
+        if (isChecked) {
+          for (let actual of mesas) {
+            let idMesaAct = actual.idMesa;
+            let baja = actual.baja;
+            if (idMesaIni == idMesaAct && baja) {
+              let mesaCambEst = {};
+              mesaCambEst['idMesa'] = idMesaIni;
+              mesaCambEst['idEstadoMesa'] = 2; // Estado: Disponible
+              this.mesasCambioEstado.push(mesaCambEst);
+            }
+          }
+        }
+      }
     }
 
     console.log("++++++++++++++++++++");
