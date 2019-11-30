@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Mesa } from '../../models/modelos';
 import { ToastService } from '../../providers/toast.service';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class MesaService {
+export class EstadoService {
   url = environment.urlNgrok || environment.url;
-  dir = '/mesa';
 
   tokenEnviroment = environment.token;
 
@@ -19,18 +17,17 @@ export class MesaService {
     private toastService: ToastService
   ) { }
 
-  getMesas(): Promise<Mesa[]> {
-    console.log("ENTRANDO A GET MESA")
+  getEstados( nombre ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
     return this.http
-      .get(`${this.url}${this.dir}`, {headers})
+      .get(`${this.url}/${nombre}`, {headers})
       .toPromise()
       .then(response => {
         if ( response && response['tipo'] == 1) {
-          return response['data'] as Mesa[];
+          return response['data'];
         } else {
-          this.toastService.toastWarning('Tuvimos un problema al intentar traer las mesas', 2000)
+          this.toastService.toastWarning('Tuvimos un problema al intentar traer las estados', 2000)
         }
       })
       .catch( err => {

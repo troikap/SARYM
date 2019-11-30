@@ -1,0 +1,57 @@
+ion-card  {
+    padding: 10px;
+    padding-left: 0px;
+    &.mensaje {
+        font-size: 16px;
+        text-align: center;
+    }
+    box-shadow: 10px 10px 10px 10px;
+    ion-col.nro-mesa {  
+        border-right: 2px solid var(--ion-color-primary);
+        p {
+            padding: 0px;
+            font-size: 50px;
+            margin: auto;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+    }
+    ion-row.estado-mesa {
+        padding: 5px;
+        border-radius: 5px;
+        &.ocupada {
+            background-color: var(--ion-color-danger);
+            color: white;
+        }
+        &.disponible {
+            background-color: var(--ion-color-success);
+            color: white;
+        }
+        &.reservada {
+            background-color: var(--ion-color-warning);
+            color: black;
+        }  
+        &.pendientepago {
+            background-color: var(--ion-color-secondary);
+            color: white;
+        } 
+        &.inhabilitada {
+            background-color: var(--ion-color-medium);
+            color: white;
+        }
+        ion-label{
+            font-weight: 600;
+            margin: auto;
+        }
+    }
+    ion-col {
+        ion-row.detalle {
+            text-align: center;
+        }
+    }
+}

@@ -6,7 +6,7 @@ import { UsuarioService } from '../../../services/usuario/usuario.service';
 import { ReservaService } from '../../../services/reserva/reserva.service';
 import { MesaService } from '../../../services/mesa/mesa.service';
 import { StorageService, Log } from '../../../services/storage/storage.service';
-import { Mesa } from '../../../services/mesa/mesa.model';
+import { Mesa } from '../../../models/modelos';
 import { ActivatedRoute } from '@angular/router';
 import { Reserva, Comensal } from 'src/app/models/modelos';
 import { TratarFechaProvider } from '../../../providers/tratarFecha.provider';

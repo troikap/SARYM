@@ -6,7 +6,7 @@ import { UsuarioService } from '../../../services/usuario/usuario.service';
 import { ReservaService } from '../../../services/reserva/reserva.service';
 import { MesaService } from '../../../services/mesa/mesa.service';
 import { StorageService, Log } from '../../../services/storage/storage.service';
-import { Mesa } from '../../../services/mesa/mesa.model';
+import { Mesa } from '../../../models/modelos';
 import { ActivatedRoute } from '@angular/router';
 import { TratarFechaProvider } from '../../../providers/tratarFecha.provider';
 import { AlertService } from '../../../providers/alert.service';
@@ -94,8 +94,9 @@ export class CrudGenerarEstadiaPage implements OnInit {
         this.idReserva = params.id;
         this.verificarEstadoReserva();
         this.validarCantidadComensales();
-      }
-      else if (this.origenDatos == "estadia") {
+      } else if (this.origenDatos == "estadia") {
+        this.idEstadia = params.id;
+      } else if (this.origenDatos == "salon") {
         this.idEstadia = params.id;
       }
 
@@ -104,7 +105,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
   }
 
   ngOnInit() {
-    if (this.origenDatos == "estadia") {
+    if (this.origenDatos == "estadia" || this.origenDatos == "salon") {
       this.tratarFecha();
       this.loadCurrentUsuario();
       this.cargaInicial();
@@ -116,6 +117,10 @@ export class CrudGenerarEstadiaPage implements OnInit {
     if ( this.origenDatos == 'confReserva' ) {
       this.navController.navigateRoot('/home');
     } else if (this.origenDatos == "estadia") {
+      this.navController.navigateRoot('/home');
+    } else if (this.origenDatos == "salon") {
+      this.navController.navigateBack('/consultar-salon');
+    } else {
       this.navController.navigateRoot('/home');
     }
   }
@@ -309,11 +314,12 @@ export class CrudGenerarEstadiaPage implements OnInit {
   }
 
   async actualizarMesas() {
+    console.log("ACTUALIZAR MESAS")
     await this.mesaservicio.getMesas()
     .then(  resp => {
       this.checkBoxList = [];
-      this.mesas =  resp['data'];
-      for (let mesa of  resp['data']) {
+      this.mesas = resp['data'];
+      for (let mesa of resp['data']) {
         this.checkBoxList.push({ 
           'value': mesa.idMesa,
           'descripcion': `Mesa: N° ${mesa.nroMesa} - Cap: ${mesa.capacidadMesa}p - Sec: ${mesa.sector.nombreSector}`,
@@ -321,11 +327,11 @@ export class CrudGenerarEstadiaPage implements OnInit {
           'capacidad': mesa.capacidadMesa
         })
       }
-
       if (this.origenDatos == "confReserva") {
         this.cargarMesasReserva();
-      }
-      else if (this.origenDatos == "estadia" && this.accionGet == "editar") {
+      } else if (this.origenDatos == "estadia" && this.accionGet == "editar" ) {
+        this.cargarMesasEstadia();
+      } else if (this.origenDatos == "salon" && this.accionGet == "editar" ) {
         this.cargarMesasEstadia();
       }
     });

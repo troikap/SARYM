@@ -1,12 +1,67 @@
 <ion-header>
-  <ion-toolbar color="primary">
-      <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
-      </ion-buttons>
-      <ion-title>Consultar Salón</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Consultar Salón</ion-title>
+    </ion-toolbar>
+    <ion-segment scrollable="true" mode="ios" *ngIf="sectores">
+        <ion-segment-button checked (ionSelect)="seleccionTodoSector()">Traer<br>Todo</ion-segment-button>
+        <ion-segment-button *ngFor="let item of sectores" (ionSelect)="seleccionSector(item)">
+            <ion-label>{{item.nombreSector}}</ion-label>
+        </ion-segment-button>
+    </ion-segment>
 </ion-header>
 
 <ion-content>
-
+    <ion-card class="mensaje" *ngIf="!mesas">No se logró traer las mesas. Por favor Recargue la página.</ion-card>
+    <ion-list *ngIf="mesas">
+        <ion-card class="form-group" *ngFor='let element of mesas' [disabled]="element.mesaestados[0].estadomesa.nombreEstadoMesa == 'Inhabilitada'" (click)="seleccionMesa(element)">
+            <ion-row *ngIf="((element.sector.nombreSector == filtroSector || !filtroSector) && ( !filtroEstado || element.mesaestados[0].estadomesa.nombreEstadoMesa == filtroEstado)) || (todoSector && todoEstado)">
+                <ion-col class="nro-mesa" size="2.5">
+                    <p>{{element.nroMesa}}</p>
+                </ion-col>
+                <ion-col>
+                    <ion-row class="estado-mesa" [ngClass]="{'ocupada': element.mesaestados[0].idEstadoMesa == 1, 
+                                        'disponible': element.mesaestados[0].idEstadoMesa == 2, 
+                                        'reservada': element.mesaestados[0].idEstadoMesa == 3,  
+                                        'pendientepago': element.mesaestados[0].idEstadoMesa == 4, 
+                                        'inhabilitada': element.mesaestados[0].idEstadoMesa == 5}">
+                        <ion-label>{{element.mesaestados[0].estadomesa.nombreEstadoMesa}}</ion-label>
+                    </ion-row>
+                    <ion-row class="detalle">
+                        <ion-col size="2">
+                            <ion-label>Ubi.</ion-label>
+                        </ion-col>
+                        <ion-col size="2">
+                            <ion-label>Cap.</ion-label>
+                        </ion-col>
+                        <ion-col>
+                            <ion-label>Sector</ion-label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="detalle">
+                        <ion-col size="2">
+                            <ion-label><strong>{{element.nroUbicacion}}</strong></ion-label>
+                        </ion-col>
+                        <ion-col size="2">
+                            <ion-label><strong>{{element.capacidadMesa}}</strong></ion-label>
+                        </ion-col>
+                        <ion-col>
+                            <ion-label><strong>{{element.sector.nombreSector}}</strong></ion-label>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+            </ion-row>
+        </ion-card>
+    </ion-list>
 </ion-content>
+
+<ion-footer>
+    <ion-segment scrollable="true" mode="ios" *ngIf="estados">
+        <ion-segment-button checked (ionSelect)="seleccionTodoEstado()">Traer<br>Todo</ion-segment-button>
+        <ion-segment-button *ngFor="let item of estados" (ionSelect)="seleccionEstado(item)">
+            <ion-label>{{item.nombreEstadoMesa}}</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+</ion-footer>

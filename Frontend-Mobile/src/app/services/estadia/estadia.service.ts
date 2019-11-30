@@ -22,7 +22,9 @@ export class EstadiaService {
   dirCambiarEstado = '/cambiarEstado';
   dirUsuario = "/getToUsuario";
   dirCambiarMozoEstadia = "/cambiarMozoEstadia";
-  dirEditarClienteEstadia = "/editarClienteEstadia"
+  dirEditarClienteEstadia = "/editarClienteEstadia";
+  dirMesa = "/getToMesa";
+
 
   constructor( 
     public http: HttpClient,
@@ -184,6 +186,26 @@ export class EstadiaService {
       .then(response => {
         console.log("Servicio cambiarMozoEstadia()", response);
         return response;
+      })
+      .catch(  );
+  }
+
+  getEstadiaPorMesa( idMesa ): Promise<Estadia> {
+    let headers: HttpHeaders = new HttpHeaders();
+     headers = headers.append('token', this.tokenEnviroment);
+     let data = {headers}
+    return this.http
+      .post(`${this.url}${this.dir}${this.dirMesa}/${idMesa}`, {} , data)
+      .toPromise()
+      .then(response => {
+        if ( response ) {
+          if ( response['tipo'] == 1) {
+            return response['data'] as Estadia;
+          } else {
+  
+          }
+
+        }
       })
       .catch(  );
   }

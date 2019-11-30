@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
-
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -20,6 +19,8 @@ import { ToastService } from './providers/toast.service';
 import { LoaderService } from './providers/loader.service';
 import { PagoService } from './services/pago/pago.service';
 import { SettingsProvider } from './providers/settings/settings';
+import { SectorService } from './services/sector/sector.service';
+import { EstadoService } from './services/estado/estado.service';
 
 // providers
 import { TratarFechaProvider } from './providers/tratarFecha.provider';
@@ -82,6 +83,8 @@ import { IonicStorageModule } from '@ionic/storage';
     LoaderService,
     PagoService,
     SettingsProvider,
+    SectorService,
+    EstadoService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
