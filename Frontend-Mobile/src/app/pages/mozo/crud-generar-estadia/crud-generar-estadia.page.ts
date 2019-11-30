@@ -119,6 +119,11 @@ export class CrudGenerarEstadiaPage implements OnInit {
       this.navController.navigateRoot('/home');
     }
   }
+  // TODO: Hacer Loading en todas las páginas
+
+  // TODO: Al generar Estadía, cambiar el estado de las mesas.
+
+  // TODO: Al finalizar estadía, cambiar estado de las mesas.
 
   // TODO: No permitir Confirmar Reserva si horario es antes 30min o después 30min de la hora de Entrada de la reserva.
 
@@ -237,23 +242,19 @@ export class CrudGenerarEstadiaPage implements OnInit {
       this.estadiaServicio.getEstadia(this.idEstadia)
       .then( res => {
         console.log("Estadia obtenida: ", res.fechaYHoraInicioEstadia)
-        if ( res['tipo'] == 2) {
-          console.log("No se pudo obtener Estadia con id Nro ", this.idEstadia);
-        } else {
-          // Estadia
-          this.estadia = res;
-          console.log("TrearEstadia: ", this.estadia);
+        // Estadia
+        this.estadia = res;
+        console.log("TrearEstadia: ", this.estadia);
 
-          // Comensales
-          console.log("COMENSALES" , res.comensals);
-          this.traerComensales(res.comensals);
+        // Comensales
+        console.log("COMENSALES" , res.comensals);
+        this.traerComensales(res.comensals);
 
-          this.newForm = {
-            cantPersonas: this.estadia.cantPersonas,
-            idMesa: null     
-          }
-          this.form.setValue(this.newForm);
+        this.newForm = {
+          cantPersonas: this.estadia.cantPersonas,
+          idMesa: null     
         }
+        this.form.setValue(this.newForm);
       });
     }
   }
@@ -710,10 +711,22 @@ export class CrudGenerarEstadiaPage implements OnInit {
         mesas.push({'idDetalleEstadiaMesa': item.idDetalleEstadiaMesa, 'baja': true})
       }
     }
-    const comensales = this.comensales;
-    console.log("Comensales a Crear: ", comensales);
+    const comensales = this.comensales;   
+    let encuentraUsr = false;
+    for (let comensal of comensales) {
+      if (comensal.idUsuario != null) {
+        estadia['idUsuario'] = comensal.idUsuario;
+        estadia['cuitUsuario'] = comensal.cuitUsuario;
+        encuentraUsr = true;
+        break;
+      }
+    }
+
+    if (!encuentraUsr) {
+      estadia['idUsuario'] = this.currentUsuario.id; //Setea al Mozo, en caso de no existir usuario entre los comensales
+      estadia['cuitUsuario'] = this.currentUsuario.cuit;
+    }
     
-    estadia['idUsuario'] = this.currentUsuario.id;
     let estadiaConCodigo = await this.agregarCodigoEstadia( estadia );
     if (this.origenDatos == "estadia" && this.accionGet == "crear") {
       this.generarComensalesClientes();
@@ -739,14 +752,14 @@ export class CrudGenerarEstadiaPage implements OnInit {
   }
 
   agregarCodigoEstadia( data ) {
-    let codEstadia = `${this.currentUsuario.id}-${this.currentUsuario.cuit}-ESTADIA`;
+    let codEstadia = `${data.idUsuario}-${data.cuitUsuario}-ESTADIA`;
     data['codEstadia'] = codEstadia;
     return data
   }
 
   // TOKEN Estadia
   agregarTokenEstadia( data, estadia ) {
-    let tokenEstadia = `ESTADIA-${data.id}-${this.currentUsuario.id}`;
+    let tokenEstadia = `ESTADIA-${data.id}-${estadia.idUsuario}`;
     return tokenEstadia
   }
 

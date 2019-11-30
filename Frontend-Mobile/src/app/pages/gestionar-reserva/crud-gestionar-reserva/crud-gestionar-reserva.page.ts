@@ -79,7 +79,7 @@ export class CrudGestionarReservaPage implements OnInit {
 
       this.mostrar5 = false;
     });
-   }
+  }
 
   ngOnInit() {
     this.tratarFecha();
@@ -91,43 +91,39 @@ export class CrudGestionarReservaPage implements OnInit {
       this.reservaservicio.getReserva(this.idReserva)
       .then( res => {
         console.log("Reserva obtenida: ", res)
-        if ( res['tipo'] == 2) {
-          console.log("No se pudo obtener Reserva con id Nro ", this.idReserva);
-        } else {
-          // Reserva
-          this.reserva = res;
-          console.log("TrearReserva: ", this.reserva);
-          let edadUsrLogueado;
+        // Reserva
+        this.reserva = res;
+        console.log("TrearReserva: ", this.reserva);
+        let edadUsrLogueado;
 
-          // Comensales
-          let comensal;
-          console.log("COMENSALES" , res.comensals)
-          for (let i = 0; i < res.comensals.length; i++) {
-            if (i == 0) {
-              edadUsrLogueado = res.comensals[i].edadComensal;
-            }
-            comensal = {};
-            comensal = res.comensals[i];
-            if (res.comensals[i].usuario) {
-              comensal['cuitUsuario'] = res.comensals[i].usuario.cuitUsuario;
-            }
-            this.comensales.push(comensal);
+        // Comensales
+        let comensal;
+        console.log("COMENSALES" , res.comensals)
+        for (let i = 0; i < res.comensals.length; i++) {
+          if (i == 0) {
+            edadUsrLogueado = res.comensals[i].edadComensal;
           }
-          // Fechas
-          let horaEntradaReserva = this.reserva.horaEntradaReserva;
-          let horaSalidaReserva = this.reserva.horaSalidaReserva;
-          let horaEntradaCortada =  String(horaEntradaReserva).slice(0,5);
-          let horaSalidaCortada =  String(horaSalidaReserva).slice(0,5);
-          this.newForm = {
-            edadComensal: edadUsrLogueado,
-            fechaReserva: this.reserva.fechaReserva, 
-            horaEntrada: String(horaEntradaCortada),
-            horaSalida: String(horaSalidaCortada),
-            cantidadComensal: this.reserva.cantPersonas,
-            idMesa: null     
+          comensal = {};
+          comensal = res.comensals[i];
+          if (res.comensals[i].usuario) {
+            comensal['cuitUsuario'] = res.comensals[i].usuario.cuitUsuario;
           }
-          this.form.setValue(this.newForm);
+          this.comensales.push(comensal);
         }
+        // Fechas
+        let horaEntradaReserva = this.reserva.horaEntradaReserva;
+        let horaSalidaReserva = this.reserva.horaSalidaReserva;
+        let horaEntradaCortada =  String(horaEntradaReserva).slice(0,5);
+        let horaSalidaCortada =  String(horaSalidaReserva).slice(0,5);
+        this.newForm = {
+          edadComensal: edadUsrLogueado,
+          fechaReserva: this.reserva.fechaReserva, 
+          horaEntrada: String(horaEntradaCortada),
+          horaSalida: String(horaSalidaCortada),
+          cantidadComensal: this.reserva.cantPersonas,
+          idMesa: null     
+        }
+        this.form.setValue(this.newForm);
         this.setValidatorsHours();
       });
     }

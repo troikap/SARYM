@@ -21,7 +21,7 @@
                             <div class="col">
                                 <label for="mozoEstadia" class="col col-form-label">Mozo</label>
                                 <select Placeholder='Seleccione Mozo' formControlName='mozoEstadia' class="form-control">                                                                  
-                                        <option *ngFor='let element of mozoEstadias' [value]='element.idMozoEstadia'>{{element.usuario.nombreUsuario}} {{element.usuario.apellidoUsuario}}</option>               
+                                        <option *ngFor='let element of mozoEstadias' [value]='element.idUsuario'>{{element.nombreUsuario}} {{element.apellidoUsuario}}</option>               
                                  </select>
                                 <p class="input-error-msg" *ngIf="form.controls.mozoEstadia.errors?.required && form.controls.mozoEstadia.touched">Campo Obligatorio.</p>
                             </div>

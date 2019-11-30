@@ -139,6 +139,11 @@ export class SearchGestionarReservaPage implements OnInit {
     this.navController.navigateForward(['/ver-qr-reserva', pIdReserva ]);
   }
 
+  unirseReserva() {
+    console.log("unirseReserva");
+    this.navController.navigateForward(['/unirse-reserva-estadia' ]);
+  }
+
   getDTOCambioEstadoEliminarReserva(idReservaParam: number) {
     console.log("Funcion 'getDTOCambioEstadoEliminarReserva()', ejecutada");
 

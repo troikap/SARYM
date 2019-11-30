@@ -76,12 +76,12 @@ export class EstadiaService {
   getEstadiasPorUsuario(idUsuario: number): Promise<any[]> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
-    console.log("URL ",`${this.url}${this.dir}${this.dirUsuario}/${idUsuario}`)
+    // console.log("URL ",`${this.url}${this.dir}${this.dirUsuario}/${idUsuario}`)
     return this.http
       .post(`${this.url}${this.dir}${this.dirUsuario}/${idUsuario}`, {} , {headers})
       .toPromise()
       .then(response => {
-        console.log("Service getEstadiasPorUsuario: ", response);
+        // console.log("Service getEstadiasPorUsuario: ", response);
         return response as any[];
       })
       .catch(  );

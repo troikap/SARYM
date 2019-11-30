@@ -35,11 +35,12 @@ export class SearchComponent implements OnInit {
     if (termino !== "") {
       this.mozoestadiaservicio.getEstadiaByAll(termino)
       .then((data: any) => { // Llamo a un Observer
-        console.log(data.data);
         if (data.tipo == 1) {
           console.log("RESULT ----------------->", data);
           this.listaEstadias= [];
-          this.listaEstadias.push(data.data);          
+             this.listaEstadias.push(data.data); 
+            
+                    
         }else{
           this.listaEstadias =[];
         }
