@@ -37,6 +37,8 @@ export class UnirseReservaEstadiaPage implements OnInit {
     private idReservaEstadia;
     private idUsuario;
     private nombreUsuario;
+    private idUsrStorage;
+    private idReservaEstadiaStorage = 0;
 
     constructor(
       private barcodeScanner: BarcodeScanner,
@@ -83,6 +85,7 @@ export class UnirseReservaEstadiaPage implements OnInit {
         this.nameArray = this.secretCode.split('-');
         let tipo = this.nameArray[0];
         this.idReservaEstadia = this.nameArray[1];
+
         if (tipo == "RESERVA") {
           this.rutaTipo = 'reserva';
         } else if (tipo == "ESTADIA") {
@@ -93,31 +96,40 @@ export class UnirseReservaEstadiaPage implements OnInit {
         }
         this.idUsuario = this.nameArray[2];
         await this.traerUsuario();
-        console.log("ENCONTRADO ", this.secretCode)
-        this.nombreUsuario = `${this.usuario.Usuario.nombreUsuario} ${this.usuario.Usuario.apellidoUsuario}`        
-        const alert = await this.alertController.create(
-          {
-          header: 'Leyendo QR',
-          message: `¿Desea Unirse a la ${this.rutaTipo} N° ${this.idReservaEstadia} de ${this.nombreUsuario}?`,
-          buttons: [
+        await this.traerUsuarioStorage();
+        await this.traerReservaEstadiaStorage();
+        
+        if ((this.idUsuario != this.idUsrStorage) && (this.idReservaEstadiaStorage != this.idReservaEstadia)) { 
+          console.log("ENCONTRADO ", this.secretCode)
+          this.nombreUsuario = `${this.usuario.Usuario.nombreUsuario} ${this.usuario.Usuario.apellidoUsuario}`        
+          const alert = await this.alertController.create(
             {
-              text: 'Cancel',
-              role: 'cancel',
-              cssClass: 'secondary',
-              handler: (blah) => {
-                console.log('Confirm Cancel');
-                this.navController.navigateBack('/home');
+            header: 'Leyendo QR',
+            message: `¿Desea Unirse a la ${this.rutaTipo} N° ${this.idReservaEstadia} de ${this.nombreUsuario}?`,
+            buttons: [
+              {
+                text: 'Cancel',
+                role: 'cancel',
+                cssClass: 'secondary',
+                handler: (blah) => {
+                  console.log('Confirm Cancel');
+                  this.navController.navigateBack('/home');
+                }
+              }, {
+                text: 'Unirse',
+                handler: () => {
+                  this.verifiarEstadoReservaEstadia();
+                }
               }
-            }, {
-              text: 'Unirse',
-              handler: () => {
-                this.verifiarEstadoReservaEstadia();
-              }
-            }
-          ],
-          cssClass: 'alertPrimary'
-        });
-        await alert.present();
+            ],
+            cssClass: 'alertPrimary'
+          });
+          await alert.present();
+        }
+        else { // No continuar, pues ya es Reserva o Estadía del usuario logueado
+          this.toastService.toastSuccess(`Usted ya se encuentra unido a esta ${this.rutaTipo}`, 3000);
+          this.navController.navigateBack('/home');
+        }
       }
     }
 
@@ -174,5 +186,23 @@ export class UnirseReservaEstadiaPage implements OnInit {
          this.usuario = await usuario;
       })
     }
+
+    async traerUsuarioStorage() {
+      await this.storage.getCurrentUsuario()
+      .then(data => {
+        let currentUsuario = data;
+        this.idUsrStorage =  currentUsuario.id;
+      });
+    }
+
+    async traerReservaEstadiaStorage() {
+      await this.storage.getOneObject(this.rutaTipo)
+       .then((est: any) => {
+        if (est != null && est != "") {
+          this.idReservaEstadiaStorage = est.idReservaEstadia;
+        }
+      });
+    }
   }
+  
   
