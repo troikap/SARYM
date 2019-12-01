@@ -7,5 +7,7 @@ export const environment = {
   token: 'libre',
   contRecPass: 3,
   rangoHoraMinReserva: '02:00',
-  rangoHoraMaxReserva: '00:30'
+  rangoHoraMaxReserva: '00:30',
+  rangoHoraMaxReservaLabel: '2hs',
+  rangoHoraMinReservaLabel: '30min'
 };

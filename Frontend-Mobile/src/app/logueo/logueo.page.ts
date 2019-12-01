@@ -146,7 +146,7 @@ export class LogueoPage implements OnInit {
         header: this.valtitle,
         message: `${this.valmsj} ${this.algo.UsuarioEstado.nombreUsuario} ${this.algo.UsuarioEstado.apellidoUsuario}`,
         buttons: ['OK'],
-        cssClass: 'alert',
+        cssClass: 'alertPrimary',
       });
       await alert.present();
     } 
@@ -155,7 +155,7 @@ export class LogueoPage implements OnInit {
         header: this.invalidotitle,
         message: this.invalidomsj,
         buttons: ['OK'],
-        cssClass: 'alert',
+        cssClass: 'alertPrimary',
       });
       await alert.present();
     } 
@@ -164,7 +164,7 @@ export class LogueoPage implements OnInit {
         header: this.susptitle,
         message: this.suspmsj,
         buttons: ['OK'],
-        cssClass: 'alert',
+        cssClass: 'alertPrimary',
       });
       await alert.present();
     }
@@ -175,7 +175,7 @@ export class LogueoPage implements OnInit {
         header: this.error,
         message: this.errormsj,
         buttons: ['OK'],
-        cssClass: 'alert',
+        cssClass: 'alertError',
       });
       await alert.present();
     } 
