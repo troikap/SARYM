@@ -14,13 +14,16 @@
                                     <div class="form-group">
                                         <label>Fecha Inicio</label>
                                         <input class="form-control" id="fechaDesde" formControlName="fechaDesde" [max]="fechaActual" min="2018-01-01" type="date"                                           class="form-control mr-sm-2" placeholder="Ingrese fecha desde">
-                                        <p class="input-error-msg" *ngIf="form.controls.fechaDesde.errors?.required && form.controls.fechaDesde.touched">Campo Obligatorio.</p>
+                                        <p class="input-error-msg" *ngIf="form.controls.fechaDesde.errors?.required && form.controls.fechaDesde.touched">Fecha Inválida</p>
+                                        <p class="input-error-msg" *ngIf="form.controls.fechaDesde.errors?.invalida && form.controls.fechaDesde.touched">Fecha Inválida</p>
                                     </div>
                                     <div class="form-group">
                                         <label>Fecha Fin</label>
                                         <input class="form-control" id="fechaHasta" formControlName="fechaHasta" [max]="fechaActual" min="2018-01-01" type="date"                                          class="form-control mr-sm-2">
-                                        <p class="input-error-msg" *ngIf="form.controls.fechaHasta.errors?.required && form.controls.fechaHasta.touched">Campo Obligatorio.</p>
-                                        <p class="input-error-msg" *ngIf="form.controls.fechaHasta.errors?.not_equal && form.controls.fechaHasta.touched">La fecha inicio debe ser mayor que la fecha fin.</p>
+                                        <p class="input-error-msg" *ngIf="form.controls.fechaHasta.errors?.required && form.controls.fechaHasta.touched">Fecha Inválida</p>
+                                        <p class="input-error-msg" *ngIf="form.controls.fechaHasta.errors?.invalida && form.controls.fechaHasta.touched">Fecha Inválida</p>
+                                        <p class="input-error-msg" *ngIf="form.controls.fechaHasta.errors?.not_equal && form.controls.fechaHasta.touched">La fecha fin debe ser menor que la fecha fin.</p>
+                                        
                                     </div>
                                 </div>
                                 <div class="col">
@@ -49,10 +52,6 @@
             </div>
             <hr>
             <div class="container" id="4">
-                <app-reporte-pedido-por-edad></app-reporte-pedido-por-edad>
-            </div>
-            <hr>
-            <div class="container" id="5">
                 <app-reporte-edad></app-reporte-edad>
             </div>
         </div>
