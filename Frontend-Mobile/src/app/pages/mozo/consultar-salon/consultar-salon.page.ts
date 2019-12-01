@@ -45,6 +45,10 @@ export class ConsultarSalonPage implements OnInit {
   ngOnInit() {
   }
 
+  goBack() {
+    this.navController.navigateRoot('/home');
+  }
+
   traerEstadiaMozo() {
     this.estadiaService.getEstadiasPorEstado('generada')
     .then( resp => {

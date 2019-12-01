@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar color="primary">
         <ion-buttons slot="start">
-            <ion-back-button></ion-back-button>
+            <ion-icon name="md-arrow-back" (click)="goBack()"></ion-icon>
         </ion-buttons>
         <ion-title>Consultar Salón</ion-title>
     </ion-toolbar>
@@ -66,8 +66,7 @@
     </div>
     <ion-segment scrollable="true" mode="ios" *ngIf="estados">
         <ion-segment-button checked (ionSelect)="seleccionTodoEstado()">Traer<br>Todo</ion-segment-button>
-        <ion-segment-button *ngFor="let item of estados" (ionSelect)="seleccionEstado(item)" 
-        [ngClass]="{'ocupada': item.idEstadoMesa == 1, 
+        <ion-segment-button *ngFor="let item of estados" (ionSelect)="seleccionEstado(item)" [ngClass]="{'ocupada': item.idEstadoMesa == 1, 
                     'disponible': item.idEstadoMesa == 2, 
                     'reservada': item.idEstadoMesa == 3,  
                     'pendientepago': item.idEstadoMesa == 4, 

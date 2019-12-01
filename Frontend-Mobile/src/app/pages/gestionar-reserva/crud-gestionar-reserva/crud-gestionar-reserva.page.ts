@@ -12,6 +12,7 @@ import { TratarFechaProvider } from '../../../providers/tratarFecha.provider';
 import { AlertService } from '../../../providers/alert.service';
 import { ToastService } from '../../../providers/toast.service';
 import { LoaderService } from '../../../providers/loader.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -39,6 +40,8 @@ export class CrudGestionarReservaPage implements OnInit {
   public mostrar5 = false;
   public mostrarMensajeConsideracion = 0;
   private mesasInicial = [];
+  private horaActual;
+  private fechaActual;
   
   constructor(
     private formBuilder: FormBuilder,
@@ -83,6 +86,7 @@ export class CrudGestionarReservaPage implements OnInit {
 
   ngOnInit() {
     this.tratarFecha();
+    this.traerHoraActual();
   }
 
   traerReserva() {
@@ -376,21 +380,17 @@ export class CrudGestionarReservaPage implements OnInit {
   }
 
   async validarCreacionReserva(reserva, mesas, comensales, reservaConCodigo) {
+    
+    let fechaReservaActual = reserva.fechaReserva;
+    let horaEntradaActual = reserva.horaEntradaReserva + ":00";
+    let horaSalidaActual = reserva.horaSalidaReserva + ":00";
+    let idUsuariosActual = [];
+    let idMesasActual = [];
+
     await this.reservaservicio.getReservasPorEstado("generada")
-    .then((res:any) => {
+    .then(async (res:any) => {
       if ( res && res.tipo != 2) {
         let reservasTodas = res.data;
-        // console.log("reserva: ",reserva);
-        // console.log("reservaConCodigo: ",reservaConCodigo);
-        // console.log("mesas: ",mesas);
-        // console.log("comensales: ",comensales);
-        // console.log("reservasTodas: ", reservasTodas);
-        
-        let fechaReservaActual = reserva.fechaReserva;
-        let horaEntradaActual = reserva.horaEntradaReserva + ":00";
-        let horaSalidaActual = reserva.horaSalidaReserva + ":00";
-        let idUsuariosActual = [];
-        let idMesasActual = [];
         for (let comenActual of comensales) {
           let idUsrAct = comenActual.idUsuario;
           if (idUsrAct != null && idUsrAct != "" && idUsrAct != "undefined") {
@@ -406,8 +406,6 @@ export class CrudGestionarReservaPage implements OnInit {
         
         let errorRangoUsr = false;
         let errorRangoMesa = false;
-        // console.log("----------------------------------------------------");
-        // console.log("------------TODAS---------------");
 
         for (let todas of reservasTodas) {
           let fechaReservaTodas = todas.fechaReserva;
@@ -465,31 +463,10 @@ export class CrudGestionarReservaPage implements OnInit {
               }
             }
           }
-          // console.log("fechaReservaTodas", fechaReservaTodas);
-          // console.log("horaEntradaTodas", horaEntradaTodas);
-          // console.log("horaSalidaTodas", horaSalidaTodas);
-          // console.log("idUsuariosTodas", idUsuariosTodas);
-          // console.log("idMesasTodas", idMesasTodas);
-          
-          // console.log("-------------------------------");
-
         }
-        // console.log("----------------------------------------------------");
-        // console.log("------------ACTUAL-------------");
 
-        // console.log("fechaTofechaReservaActualdas", fechaReservaActual);
-        // console.log("horaEntradaActual", horaEntradaActual);
-        // console.log("horaSalidaActual", horaSalidaActual);
-        // console.log("idUsuariosActual", idUsuariosActual);
-        // console.log("idMesasActual", idMesasActual);
-        
         if (!errorRangoUsr && !errorRangoMesa) {
-          if (this.accionGet == "crear") {
-            this.enviarReservaCrear( reservaConCodigo , comensales, mesas); 
-          }
-          else if (this.accionGet == "editar") {
-            this.enviarReservaEditar( reserva , comensales, mesas); 
-          }
+          await this.validarAnticipacionReserva(reserva, horaEntradaActual, fechaReservaActual, reservaConCodigo, comensales, mesas);
         }
         else {
           if (errorRangoUsr) {
@@ -503,14 +480,42 @@ export class CrudGestionarReservaPage implements OnInit {
         }
       }
       else { // Si da error tipo 2, es porque no encuentra reservas generadas
-        if (this.accionGet == "crear") {
-          this.enviarReservaCrear( reservaConCodigo , comensales, mesas); 
-        }
-        else if (this.accionGet == "editar") {
-          this.enviarReservaEditar( reserva , comensales, mesas); 
-        }
+        await this.validarAnticipacionReserva(reserva, horaEntradaActual, fechaReservaActual, reservaConCodigo, comensales, mesas);
       }
     });
+  }
+
+  async validarAnticipacionReserva(reserva, horaEntradaActual, fechaReservaActual, reservaConCodigo, comensales, mesas) {
+    //Validación: No permitir generar Reservas dentro de la misma fecha, con una hora de Ingreso menor a la la configuración 
+    //environment.rangoHoraMaxReserva
+    let errorAnticipacionReserva = false;
+    if (fechaReservaActual == this.fechaActual) {
+      if (
+        (this.horaActual >= (this.lessTimes(horaEntradaActual , environment.rangoHoraMaxReserva))) && 
+        (this.horaActual <= horaEntradaActual) 
+      ) {
+        errorAnticipacionReserva = true;
+      }
+    }
+    
+    if (!errorAnticipacionReserva) {
+      if (this.accionGet == "crear") {
+        await this.enviarReservaCrear( reservaConCodigo , comensales, mesas); 
+      }
+      else if (this.accionGet == "editar") {
+        await this.enviarReservaEditar( reserva , comensales, mesas); 
+      }
+    }
+    else {
+      let msg;
+      if (this.accionGet == "crear") {
+        msg = `Debe ${this.accionGet} la reserva con una fecha de inicio mayor a ${environment.rangoHoraMaxReservaLabel} de anticipación.`;
+      }
+      else {
+        msg = `No puede ${this.accionGet} la reserva por encontrarse próxima a iniciar.`;
+      }
+      this.toastService.toastError(msg, 5000);
+    }
   }
 
   validarRangoHorarioReserva(horaEntradaTodas, horaEntradaActual, horaSalidaTodas, horaSalidaActual) {
@@ -768,6 +773,43 @@ export class CrudGestionarReservaPage implements OnInit {
     return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) 
   }
 
+  lessTimes(startTime, endTime) {
+    var times = [ 0, 0, 0 ]
+    var max = times.length
+    var a = ( startTime || '').split(':')
+    var b = (endTime || '').split(':')
+    // normalize time values
+    for (var i = 0; i < max; i++) {
+      a[i] = isNaN(parseInt(a[i])) ? 0 : parseInt(a[i])
+      b[i] = isNaN(parseInt(b[i])) ? 0 : parseInt(b[i])
+    }
+    // store time values
+    for (var i = 0; i < max; i++) {
+      times[i] = a[i] - b[i];
+    }
+    var hours = times[0];
+    var minutes = times[1];
+    var seconds = times[2];
+
+    if (seconds < 0) {
+      var m =  60 + seconds; // seconds es negativo, por eso sumo (para restar)
+      minutes -= 1
+      seconds = m
+    }
+    if (minutes < 0) {
+      var h = 60 + minutes; // minutes es negativo, por eso sumo (para restar)
+      hours -= 1;
+      minutes = h;
+    }
+    return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2);
+  }
+
+  traerHoraActual() {
+    let date = new Date();
+    this.horaActual = this.tratarFechaProvider.traerTime(date);
+    this.horaActual += ":00";
+  }
+
   tratarFecha(){
     let date = new Date();
     let dd = date.getDate();
@@ -798,6 +840,7 @@ export class CrudGestionarReservaPage implements OnInit {
       mes2 = mm2;
     }
     this.fechaDesde = `${yy}-${mes}-${dia}`;
+    this.fechaActual = `${yy}-${mes}-${dia}`;
     this.fechaHasta = `${año}-${mes2}-${dia}`;
   }
 }

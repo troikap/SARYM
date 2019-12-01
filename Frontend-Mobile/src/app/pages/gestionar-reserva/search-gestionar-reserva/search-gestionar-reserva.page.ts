@@ -4,6 +4,7 @@ import { ReservaService } from '../../../services/reserva/reserva.service';
 import { StorageService } from '../../../services/storage/storage.service';
 import { NavController,  AlertController, ToastController } from '@ionic/angular';
 import { ToastService } from 'src/app/providers/toast.service';
+import { MesaService } from 'src/app/services/mesa/mesa.service';
 
 @Component({
   selector: 'app-search-gestionar-reserva',
@@ -18,6 +19,7 @@ export class SearchGestionarReservaPage implements OnInit {
   private idUsuarioLogueado: number = 0;
   public nombreUsuario = null;
   public traeReservasInvitado = false;
+  private mesasReserva = [];
 
   constructor(
     private reservaService: ReservaService,
@@ -25,7 +27,8 @@ export class SearchGestionarReservaPage implements OnInit {
     private navController: NavController,
     private alertController: AlertController,
     public toastController: ToastController,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private mesaservicio: MesaService
   ) { 
     this.loadCurrentUsuario();
   }
@@ -56,52 +59,77 @@ export class SearchGestionarReservaPage implements OnInit {
     this.traeReservasInvitado = false;
   }
 
-  loadCurrentUsuario() {
-    this.storage.getCurrentUsuario().then((data) => {
+  async loadCurrentUsuario() {
+    await this.storage.getCurrentUsuario()
+    .then(async (data) => {
       this.currentUsuario = data;
       this.nombreUsuario = this.currentUsuario.rolUsuario;
       this.idUsuarioLogueado =  this.currentUsuario.id; //Si this.idUsuarioLogueado == -1, es usuario invitado
-      this.getReservasUsrLogueado();
+      await this.getReservasStorage(false);
+      await this.getReservasUsrLogueado();
+      console.log("this.listaReservas: ", this.listaReservas);
     });
   }
 
-  getReservasUsrLogueado() {
+  async getReservasUsrLogueado() {
     if (this.idUsuarioLogueado !== -1) { // Si NO es Usuario Invitado
-      this.reservaService.getReservasPorUsuario(this.idUsuarioLogueado)
-      .then((res: any) => {
-        if( res && res.tipo != 2) {
-          this.listaReservas =  res;
-        }    
-        else {
-          this.toastService.toastError("No tiene ninguna reserva generada ni se ha asociado a una.", 2500);
-        }    
+      await this.reservaService.getReservasPorUsuario(this.idUsuarioLogueado)
+      .then(async (res: any) => {
+        console.log("res: ", res);
+        for (let item of res.detalles) {
+          console.log("item: ", item);
+          if(item.tipo != 2) {
+            let elementosReserva = {};
+            elementosReserva['idReserva'] = item.data.idReserva;
+            elementosReserva['cantPersonas'] = item.cantPersonas;
+            elementosReserva['fechaReserva'] = item.data.fechaReserva;
+            elementosReserva['horaEntradaReserva'] = item.data.horaEntradaReserva;
+            elementosReserva['horaSalidaReserva'] = item.data.horaSalidaReserva;
+            elementosReserva['idEstadoReserva'] = item.data.reservaestados[0].estadoreserva.idEstadoReserva;
+            elementosReserva['propietario'] = "1";
+            this.listaReservas.push(elementosReserva);
+          }
+        } 
       })
     }
     else {
-      let idReserva = null;
-      this.storage.getOneObject("reserva").then((res: any) => {
-        if (res != null && res != "") {
-          this.traeReservasInvitado = true;
-          idReserva = res.idReservaEstadia;
-          this.reservaService.getReserva(idReserva)
-          .then((res: any) => {
-            if( res && res.tipo != 2) {
-              this.reservaInvitado =  res;
-            }
-            else {
-              console.log("ERROR: ", res);
-            }
-          })
-        }
-        else {
-          console.log("sin reserva Invitado");
-        }
-      });
+      await this.getReservasStorage(true);
     }
   }
+  
+  async getReservasStorage(esUsrInvitado) {
+    let idReserva = null;
+    await this.storage.getOneObject("reserva")
+    .then(async (res: any) => {
+      if (res != null && res != "") {
+        idReserva = res.idReservaEstadia;
+        await this.reservaService.getReserva(idReserva)
+        .then((res: any) => {
+          if (esUsrInvitado) {
+            this.reservaInvitado =  res;
+            this.traeReservasInvitado = true;
+          }
+          else {
+            console.log("paso-------------");
+            let elementosReserva = {};
+            elementosReserva['idReserva'] = res.idReserva;
+            elementosReserva['cantPersonas'] = res.cantPersonas;
+            elementosReserva['fechaReserva'] = res.fechaReserva;
+            elementosReserva['horaEntradaReserva'] = res.horaEntradaReserva;
+            elementosReserva['horaSalidaReserva'] = res.horaSalidaReserva;
+            elementosReserva['idEstadoReserva'] = res.reservaestados[0].estadoreserva.idEstadoReserva;
+            elementosReserva['propietario'] = "0";
+            this.listaReservas.push(elementosReserva);
+          }
+        })
+      }
+      else {
+        console.log("sin reserva Invitado");
+      }
+    });
+  }
 
-  realizarPedido(item) {
-    let idReserva = item.data.idReserva;
+  realizarPedido(idReserva) {
     this.navController.navigateForward([`/seleccion-comensal/reserva/${idReserva}/edicion`])
   }
 
@@ -173,8 +201,11 @@ export class SearchGestionarReservaPage implements OnInit {
             console.log('Anular Reserva');
             let dtoAnularReserva = this.getDTOCambioEstadoEliminarReserva(pIdReserva);
             this.reservaService.cambiarEstado(dtoAnularReserva)
-            .then( resp => {
+            .then(async resp => {
               if ( resp && resp.tipo != 2) {
+
+                await this.cambiarEstadoMesas(pIdReserva);
+
                 this.toastSuccess("Se ha anulado correctamente la reserva seleccionada");
                 this.getReservasUsrLogueado();
               }
@@ -184,10 +215,24 @@ export class SearchGestionarReservaPage implements OnInit {
             })
           }
         }
-      ]
+      ],
+      cssClass: 'alertPrimary'
     });
 
     await alert.present();
+  }
+
+  async cambiarEstadoMesas(idReserva){
+    await this.reservaService.getReserva(idReserva)
+    .then(async res => {
+      for (let item of res.detallereservamesas) {
+        let pathMesa = {}
+        pathMesa['idMesa'] = item['mesa'].idMesa;
+        pathMesa['idEstadoMesa'] = 2;
+        await this.mesaservicio.cambiarEstado(pathMesa)
+        .then(respo2 => {});
+      }
+    })
   }
 
   async toastSuccess(pMensaje: string) {
