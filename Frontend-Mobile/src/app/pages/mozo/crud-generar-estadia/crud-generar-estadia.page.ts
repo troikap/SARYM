@@ -15,6 +15,7 @@ import { LoaderService } from '../../../providers/loader.service';
 import { Comensal, Reserva, Estadia } from '../../../models/modelos';
 import { EstadiaService } from 'src/app/services/estadia/estadia.service';
 import { PedidoService } from '../../../services/pedido/pedido.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-crud-generar-estadia',
@@ -22,7 +23,7 @@ import { PedidoService } from '../../../services/pedido/pedido.service';
   styleUrls: ['./crud-generar-estadia.page.scss'],
 })
 export class CrudGenerarEstadiaPage implements OnInit {
-  
+
   public form: FormGroup = null;
   public form2: FormGroup = null;
   public comensal: Comensal = null;
@@ -843,22 +844,16 @@ export class CrudGenerarEstadiaPage implements OnInit {
                   if (this.origenDatos == "confReserva") {
                     let idReservaTodas = reserva.idReserva
                     if (this.idReserva != idReservaTodas) {
-                      if (
-                        (this.horaActual >= (this.lessTimes(horaEntradaReserva , '02:00'))) && 
-                        (this.horaActual < (this.addTimes(horaEntradaReserva, '00:30'))) 
-                      ) {
+                      if (this.validarRangoHorarioReserva(horaEntradaReserva)) {
                         this.errorRangoReserva = true;    
-                        break;         
+                        break;    
                       }
                     }
                   }
                   else {
-                    if (
-                      (this.horaActual >= (this.lessTimes(horaEntradaReserva , '01:00'))) && 
-                      (this.horaActual < (this.addTimes(horaEntradaReserva, '00:30'))) 
-                    ) {
+                    if (this.validarRangoHorarioReserva(horaEntradaReserva)) {
                       this.errorRangoReserva = true;    
-                      break;         
+                      break;    
                     }
                   }
                 }
@@ -871,6 +866,18 @@ export class CrudGenerarEstadiaPage implements OnInit {
         }
       }
     });
+  }
+
+  validarRangoHorarioReserva(horaEntradaReserva) {
+    if (
+      (this.horaActual >= (this.lessTimes(horaEntradaReserva , environment.rangoHoraMaxReserva))) && 
+      (this.horaActual < (this.addTimes(horaEntradaReserva, environment.rangoHoraMinReserva))) 
+    ) {
+      return true;       
+    }
+    else {
+      return false;
+    }
   }
 
   async validarEstadiasGeneradasRango(mesas, comensales) {

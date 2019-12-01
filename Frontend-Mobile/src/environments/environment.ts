@@ -6,5 +6,7 @@ export let environment = {
   apiUrl: 'http://localhost:3000',
   baseHref: '/',
   token: 'libre',
-  contRecPass: 3
+  contRecPass: 3,
+  rangoHoraMinReserva: '02:00',
+  rangoHoraMaxReserva: '00:30'
 };
