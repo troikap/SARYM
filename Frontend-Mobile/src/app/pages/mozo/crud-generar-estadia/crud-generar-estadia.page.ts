@@ -47,6 +47,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
   public mostrarMensajeConsideracion = 0;
   public mostrar5 = false;
   private mesasCambioEstado = [];
+  private mesasInicial = [];
 
   public nombreUsuario;
 
@@ -126,11 +127,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
   }
   // TODO: Hacer Loading en todas las páginas
 
-  // TODO: Al generar Estadía, cambiar el estado de las mesas.
-
   // TODO: Al finalizar estadía, cambiar estado de las mesas.
-
-  // TODO: No permitir Confirmar Reserva si horario es antes 30min o después 30min de la hora de Entrada de la reserva.
 
   // TODO: No permitir generar Estadía (o editar), si existen estadías en misma fecha, mismo rango horario y misma mesa.
 
@@ -138,7 +135,6 @@ export class CrudGenerarEstadiaPage implements OnInit {
 
   // TODO: No permitir generar Estadía (o editar), para un mismo usuario, misma fecha, mismo rango horario
 
-  // TODO: Al generar, editar o confirmar Reserva, verificar Reservas para la fecha y hora actual-con Hora Entrada Reserva, en estado Generada (es decir, NO confirmadas). Aquellas Estadías que superen los 30min desde su Entrada de Reserva comparado con la fecha y hora actual, ANULARLA y colocar detalle que la misma fue anulada por no haber sido confirmada.
   verificarEstadoReserva() {
     console.log("idReserva: ", this.idReserva);
     this.reservaservicio.getReserva(this.idReserva)
@@ -359,6 +355,17 @@ export class CrudGenerarEstadiaPage implements OnInit {
       } else {
         this.form.controls.idMesa.setValue(null)
       }
+
+      for (let item of this.checkBoxList) {
+        let mesaPath = {};
+        mesaPath['value'] = item.value;
+        mesaPath['descripcion'] = item.descripcion;
+        mesaPath['isChecked'] = item.isChecked;
+        mesaPath['capacidad'] = item.capacidad;
+        mesaPath['idDetalleReservaMesa'] = item.idDetalleReservaMesa;
+        this.mesasInicial.push(mesaPath);
+      }
+
     });
   }
 
@@ -757,14 +764,13 @@ export class CrudGenerarEstadiaPage implements OnInit {
       this.generarComensalesClientes();
       this.enviarEstadiaCrear( estadiaConCodigo , comensales, mesas); 
     }
-    else if (this.origenDatos == "estadia" && this.accionGet == "editar") {
+    else if ((this.origenDatos == "estadia" || this.origenDatos == "salon") && this.accionGet == "editar") {
       this.enviarEstadiaEditar( estadia , comensales, mesas); 
     }
     else if (this.origenDatos == "confReserva") {
       estadiaConCodigo['idReserva'] = this.idReserva;
       this.generarComensalesClientes();
-      console.log("mesas: ", mesas);
-      //this.confirmarReserva( estadiaConCodigo , comensales, mesas);
+      this.confirmarReserva( estadiaConCodigo , comensales, mesas);
     }
   }
 
@@ -788,9 +794,26 @@ export class CrudGenerarEstadiaPage implements OnInit {
         }
       }
     }
-
+    
     if (this.origenDatos == "confReserva") { //verificar las Mesas eliminadas para cambiar de Estado Reserva (si es que está así) a Libre
-      
+      for (let inicial of this.mesasInicial) {
+        let idEncontrado = false;
+        let idMesaIni = inicial.value;
+        let isChecked = inicial.isChecked;
+        console.log("Mesa inicial: ", idMesaIni);
+        if (isChecked) {
+          for (let actual of mesas) {
+            let idMesaAct = actual.idMesa;
+            let baja = actual.baja;
+            if (idMesaIni == idMesaAct && baja) {
+              let mesaCambEst = {};
+              mesaCambEst['idMesa'] = idMesaIni;
+              mesaCambEst['idEstadoMesa'] = 2; // Estado: Disponible
+              this.mesasCambioEstado.push(mesaCambEst);
+            }
+          }
+        }
+      }
     }
 
     console.log("++++++++++++++++++++");
@@ -938,15 +961,18 @@ export class CrudGenerarEstadiaPage implements OnInit {
                 pathMesa['idEstadoMesa'] = mesa.idEstadoMesa;
                 this.mesaservicio.cambiarEstado(pathMesa)
                 .then(respo2 => {
-                  if (respo2.tipo != 2) {
-                    this.toastService.toastSuccess(`Estadia N° ${this.idEstadia}, actualizada satisfactoriamente.`, 2500);
-                    setTimeout(()=>{
+                  this.toastService.toastSuccess(`Estadia N° ${this.idEstadia}, actualizada satisfactoriamente.`, 2500);
+                  setTimeout(()=>{
+                    if (this.origenDatos == "estadia") {
                       this.navController.navigateRoot(['/consulta-gestionar-estadia', this.idEstadia ]);
-                    }, 2500);
-                  }
-                  else {
-                    this.toastService.toastError("No se ha podido actualizar el estado de la Mesa Nro " + mesa.idMesa + " Error: " + respo2.title, 2500);
-                  }
+                    }
+                    else if (this.origenDatos == "salon") {
+                      this.navController.navigateRoot(['/consultar-salon']);
+                    }
+                    else {
+                      this.navController.navigateRoot(['/home']);
+                    }
+                  }, 2500);
                 });
               }
             });
