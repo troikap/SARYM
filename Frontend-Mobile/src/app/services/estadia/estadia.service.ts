@@ -197,6 +197,7 @@ export class EstadiaService {
           } else {
             this.toastService.toastWarning('No se encontró Estadia.', 2000)
           }
+        } else {
           this.toastService.toastError('No se pudo realizar la busqueda de Estadía.', 2000)
         }
       })

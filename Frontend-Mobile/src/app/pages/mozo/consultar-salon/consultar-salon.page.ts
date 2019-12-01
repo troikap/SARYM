@@ -152,11 +152,6 @@ export class ConsultarSalonPage implements OnInit {
     this.estadiaService.getEstadiaPorMesa(item).then( estadia => {
       if (estadia) {
         this.ConfirmarConsultarEditarEstadia(estadia.idEstadia);
-        // this.navController.navigateForward(`/consulta-gestionar-estadia/${estadia.idEstadia}`)
-
-        // this.navController.navigateForward(`/crud-generar-estadia/${estadia.idEstadia}/editar/salon`)
-      } else {
-        this.toastService.toastError(`Ocurrió un error al intentar acceder a la Estadia N° ${item}`, 3000)
       }
     })
   }
