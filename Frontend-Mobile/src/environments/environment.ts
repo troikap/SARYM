@@ -7,6 +7,6 @@ export let environment = {
   baseHref: '/',
   token: 'libre',
   contRecPass: 3,
-  rangoHoraMinReserva: '02:00',
-  rangoHoraMaxReserva: '00:30'
+  rangoHoraMaxReserva: '02:00',
+  rangoHoraMinReserva: '00:30'
 };
