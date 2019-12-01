@@ -45,7 +45,7 @@ export class EstadiaService {
             if ( response['tipo'] == 1) {
               return response['data'] as Estadia[] ;
             } else {
-              this.toastService.toastWarning('No se encontró Estadia en proceso.', 2000)
+              //this.toastService.toastWarning('No se encontró Estadia en proceso.', 2000)
             }
           } else {
             this.toastService.toastError('No se pudo realizar la busqueda de Estadía.', 2000)
