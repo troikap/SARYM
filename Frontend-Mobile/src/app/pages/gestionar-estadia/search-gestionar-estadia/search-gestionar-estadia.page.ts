@@ -85,8 +85,24 @@ export class SearchGestionarEstadiaPage implements OnInit {
           this.estadia =  res.data;
           this.createCode();
         } else {
-          console.timeLog("NO ESTA EN UNA ESTADIA");
-          // this.toastService.toastError("No se ha asociado a ningina estadía.", 2500);
+          console.timeLog("Verificar por Estadía Unida");
+          // Verificar si se ha unido a alguna estadía
+          let idEstadia = null;
+          this.storage.getOneObject("estadia")
+          .then(async (est: any) => {
+            if (est != null && est != "") {
+              idEstadia = est.idReservaEstadia;
+              await this.estadiaService.getEstadia(idEstadia)
+              .then((est: any) => {
+                console.log("est: ", est);
+                this.estadia =  est;
+                this.createCode();
+              })
+            }
+            else {
+              console.timeLog("NO ESTA EN UNA ESTADIA");
+            }
+          });
         }
       });
     }

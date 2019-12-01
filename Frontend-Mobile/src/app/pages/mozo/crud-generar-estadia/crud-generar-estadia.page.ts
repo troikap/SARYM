@@ -901,15 +901,10 @@ export class CrudGenerarEstadiaPage implements OnInit {
                             pathMesa['idEstadoMesa'] = mesa.idEstadoMesa;
                             this.mesaservicio.cambiarEstado(pathMesa)
                             .then(respo4 => {
-                              if (respo4.tipo != 2) {
-                                this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
-                                setTimeout(()=>{
-                                  this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}/creacion`]);
-                                }, 2000);
-                              }
-                              else {
-                                this.toastService.toastError("No se ha podido actualizar el estado de la Mesa Nro " + mesa.idMesa + " Error: " + respo4.title, 2500);
-                              }
+                              this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
+                              setTimeout(()=>{
+                                this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}/creacion`]);
+                              }, 2000);
                             });
                           }
                         }
@@ -1018,15 +1013,10 @@ export class CrudGenerarEstadiaPage implements OnInit {
                         pathMesa['idEstadoMesa'] = mesa.idEstadoMesa;
                         this.mesaservicio.cambiarEstado(pathMesa)
                         .then(respo4 => {
-                          if (respo4.tipo != 2) {
-                            this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
-                            setTimeout(()=>{
-                              this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}/creacion`]);
-                            }, 2000);
-                          }
-                          else {
-                            this.toastService.toastError("No se ha podido actualizar el estado de la Mesa Nro " + mesa.idMesa + " Error: " + respo4.title, 2500);
-                          }
+                          this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
+                          setTimeout(()=>{
+                            this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}/creacion`]);
+                          }, 2000);
                         });
                       }
                     }
