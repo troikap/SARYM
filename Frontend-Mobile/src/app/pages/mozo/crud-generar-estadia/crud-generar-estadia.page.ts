@@ -832,7 +832,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
       }
     }
   }
-  
+
   async validarConfirmarReserva(mesas) {
     await this.reservaservicio.getReservasPorEstado("generada")
     .then((res:any) => {
@@ -1106,20 +1106,20 @@ export class CrudGenerarEstadiaPage implements OnInit {
       });
     }
   }
-
+  
   async confirmarReserva(estadia, comensales, mesas) {
     await this.estadiaServicio.setEstadia( estadia )
     .then( async res => {
       if( res && res.tipo == 1) {
         let tokenEstadia = await this.agregarTokenEstadia(res, estadia)
         let data = { 'idEstadia': res.id ,tokenEstadia}
-        this.estadiaServicio.updateEstadia( data )
-        .then( update => {
+        await this.estadiaServicio.updateEstadia( data )
+        .then(async update => {
           if ( update && update.tipo == 1) {
             let pathComensales= {};
             pathComensales['detalle'] = comensales;
             pathComensales['idEstadia'] = res.id;
-            this.estadiaServicio.setComensalesEstadia( pathComensales )
+            await this.estadiaServicio.setComensalesEstadia( pathComensales )
             .then(async resp => {
               if ( resp && resp.tipo == 1 ){
 
@@ -1128,32 +1128,27 @@ export class CrudGenerarEstadiaPage implements OnInit {
                 let pathMesas= {};
                 pathMesas['detalle'] = mesas;
                 pathMesas['idEstadia'] = res.id;
-                this.estadiaServicio.setMesasEstadia( pathMesas )
-                .then( respo1 => {
+                await this.estadiaServicio.setMesasEstadia( pathMesas )
+                .then(async respo1 => {
                   let pathClienteComensal = {};
                   pathClienteComensal['idEstadia'] = res.id;
                   pathClienteComensal['detalle'] = this.comensalesClientes;
-                  this.estadiaServicio.setClienteEstadia(pathClienteComensal)
-                  .then( respo2 => {
+                  await this.estadiaServicio.setClienteEstadia(pathClienteComensal)
+                  .then(async respo2 => {
                     if ( respo2 && respo2.tipo == 1 ){
                       let pathReserva = {};
                       pathReserva['idReserva'] = this.idReserva;
                       pathReserva['idEstadoReserva'] = 3; // Confirmar Reserva
-                      this.reservaservicio.cambiarEstado(pathReserva)
-                      .then( respo3 => {
+                      await this.reservaservicio.cambiarEstado(pathReserva)
+                      .then(async respo3 => {
                         if ( respo3 && respo3.tipo == 1 ){
-                          for (let mesa of this.mesasCambioEstado) {
-                            let pathMesa = {}
-                            pathMesa['idMesa'] = mesa.idMesa;
-                            pathMesa['idEstadoMesa'] = mesa.idEstadoMesa;
-                            this.mesaservicio.cambiarEstado(pathMesa)
-                            .then(respo4 => {
-                              this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
-                              setTimeout(()=>{
-                                this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}/creacion`]);
-                              }, 2000);
-                            });
-                          }
+                          
+                          await this.cambiarEstadoMesas();
+
+                          this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
+                          setTimeout(()=>{
+                            this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}/creacion`]);
+                          }, 2000);
                         }
                         else {
                           this.toastService.toastError("No se han podido confirmar la Reserva:" + respo3.title, 2500);
@@ -1179,44 +1174,50 @@ export class CrudGenerarEstadiaPage implements OnInit {
     });
   }
 
+  async cambiarEstadoMesas() {
+    for (let mesa of this.mesasCambioEstado) {
+      let pathMesa = {}
+      pathMesa['idMesa'] = mesa.idMesa;
+      pathMesa['idEstadoMesa'] = mesa.idEstadoMesa;
+      await this.mesaservicio.cambiarEstado(pathMesa)
+      .then(respo4 => {});
+    }
+  }
+
   async enviarEstadiaEditar(estadia, comensales, mesas) {
     console.log("enviarEstadiaEditar, estadia: ", estadia);
     console.log("comensales", comensales);
     console.log("mesas", mesas);
-    this.estadiaServicio.updateEstadia( estadia )
-    .then( update => {
+    await this.estadiaServicio.updateEstadia( estadia )
+    .then(async update => {
       if ( update && update.tipo == 1) {
         let pathComensales= {};
         pathComensales['detalle'] = comensales;
         pathComensales['idEstadia'] = this.idEstadia;
-        this.estadiaServicio.setComensalesEstadia( pathComensales )
-        .then( resp => {
+        await this.estadiaServicio.setComensalesEstadia( pathComensales )
+        .then(async resp => {
           if ( resp && resp.tipo == 1 ){
             let pathMesas= {};
             pathMesas['detalle'] = mesas;
             pathMesas['idEstadia'] = this.idEstadia;
-            this.estadiaServicio.setMesasEstadia( pathMesas )
-            .then( respo => {
-              for (let mesa of this.mesasCambioEstado) {
-                let pathMesa = {}
-                pathMesa['idMesa'] = mesa.idMesa;
-                pathMesa['idEstadoMesa'] = mesa.idEstadoMesa;
-                this.mesaservicio.cambiarEstado(pathMesa)
-                .then(respo2 => {
-                  this.toastService.toastSuccess(`Estadia N° ${this.idEstadia}, actualizada satisfactoriamente.`, 2500);
-                  setTimeout(()=>{
-                    if (this.origenDatos == "estadia") {
-                      this.navController.navigateRoot(['/consulta-gestionar-estadia', this.idEstadia ]);
-                    }
-                    else if (this.origenDatos == "salon") {
-                      this.navController.navigateRoot(['/consultar-salon']);
-                    }
-                    else {
-                      this.navController.navigateRoot(['/home']);
-                    }
-                  }, 2500);
-                });
-              }
+            await this.estadiaServicio.setMesasEstadia( pathMesas )
+            .then(async respo => {
+
+              await this.cambiarEstadoMesas();
+      
+              this.toastService.toastSuccess(`Estadia N° ${this.idEstadia}, actualizada satisfactoriamente.`, 2500);
+              setTimeout(()=>{
+                if (this.origenDatos == "estadia") {
+                  this.navController.navigateRoot(['/consulta-gestionar-estadia', this.idEstadia ]);
+                }
+                else if (this.origenDatos == "salon") {
+                  this.navController.navigateRoot(['/consultar-salon']);
+                }
+                else {
+                  this.navController.navigateRoot(['/home']);
+                }
+              }, 2500);
+
             });
           } else {
             this.toastService.toastError("No se han podido actualizar los comensales:" + resp.title, 2500);
@@ -1234,38 +1235,33 @@ export class CrudGenerarEstadiaPage implements OnInit {
       if( res && res.tipo == 1) {
         let tokenEstadia = await this.agregarTokenEstadia(res, estadia)
         let data = { 'idEstadia': res.id ,tokenEstadia}
-        this.estadiaServicio.updateEstadia( data )
-        .then( update => {
+        await this.estadiaServicio.updateEstadia( data )
+        .then(async update => {
           if ( update && update.tipo == 1) {
             let pathComensales= {};
             pathComensales['detalle'] = comensales;
             pathComensales['idEstadia'] = res.id;
-            this.estadiaServicio.setComensalesEstadia( pathComensales )
-            .then( resp => {
+            await this.estadiaServicio.setComensalesEstadia( pathComensales )
+            .then(async resp => {
               if ( resp && resp.tipo == 1 ){
                 let pathMesas= {};
                 pathMesas['detalle'] = mesas;
                 pathMesas['idEstadia'] = res.id;
-                this.estadiaServicio.setMesasEstadia( pathMesas )
-                .then( respo => {
+                await this.estadiaServicio.setMesasEstadia( pathMesas )
+                .then(async respo => {
                   let pathClienteComensal = {};
                   pathClienteComensal['idEstadia'] = res.id;
                   pathClienteComensal['detalle'] = this.comensalesClientes;
-                  this.estadiaServicio.setClienteEstadia(pathClienteComensal)
-                  .then( respo1 => {
+                  await this.estadiaServicio.setClienteEstadia(pathClienteComensal)
+                  .then(async respo1 => {
                     if ( respo1 && respo1.tipo == 1 ){
-                      for (let mesa of this.mesasCambioEstado) {
-                        let pathMesa = {}
-                        pathMesa['idMesa'] = mesa.idMesa;
-                        pathMesa['idEstadoMesa'] = mesa.idEstadoMesa;
-                        this.mesaservicio.cambiarEstado(pathMesa)
-                        .then(respo4 => {
-                          this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
-                          setTimeout(()=>{
-                            this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}/creacion`]);
-                          }, 2000);
-                        });
-                      }
+                      
+                      await this.cambiarEstadoMesas();
+
+                      this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
+                      setTimeout(()=>{
+                        this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}/creacion`]);
+                      }, 2000);
                     }
                     else {
                       this.toastService.toastError("No se han podido crear la relación Cliente-Comensal:" + respo1.title, 2500);
