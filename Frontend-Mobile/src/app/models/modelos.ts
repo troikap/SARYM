@@ -300,7 +300,8 @@ export interface Estadoestadia {
 export interface Detalleestadiamesa {
     idDetalleEstadiaMesa: Number,
     idMesa?: Number,
-    idEstadia?: Number
+    idEstadia?: Number,
+    mesa?: Mesa
 }
 
 export interface Clienteestadia {

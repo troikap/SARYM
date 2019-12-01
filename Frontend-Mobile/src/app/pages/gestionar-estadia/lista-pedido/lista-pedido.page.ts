@@ -46,16 +46,7 @@ export class ListaPedidoPage implements OnInit {
   ionViewWillEnter(){
     this.traerEstadia();
   }
-
-  ionViewDidEnter(){
-  }
-
-  ionViewWillLeave(){
-  }
-
-  ionViewDidLeave(){
-  }
-
+  
   async traerEstadia(){
     await this.estadiaService.getEstadia(  this.idEstadia )
     .then( async estadia => {
