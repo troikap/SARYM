@@ -66,7 +66,7 @@ export class UnirseReservaEstadiaPage implements OnInit {
       })
       .catch(err => {
         console.log('Error', err);
-        this.qrDataCodify = 'UkVTRVJWQS0zLTIwLTIwMTktMTItMDEvMjA6Mjg='; // ESTADIA: RVNUQURJQS0zLTEx; //RESERVA: UkVTRVJWQS0yLTE3LTIwMTktMTEtMjkvMTk6MjE=
+        this.qrDataCodify = 'RVNUQURJQS0zLTEx'; // ESTADIA: RVNUQURJQS0zLTEx; //RESERVA: UkVTRVJWQS0yLTE3LTIwMTktMTEtMjkvMTk6MjE=
         this.presentAlert()
       });
     }

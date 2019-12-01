@@ -29,7 +29,6 @@ export class ReservaService {
   ) { }
 
   getReservasPorEstado( termino: string) {
-    console.log("Service getReservasPorEstado: Termino = ", termino);
     if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
       headers = headers.append('token', this.tokenEnviroment);
