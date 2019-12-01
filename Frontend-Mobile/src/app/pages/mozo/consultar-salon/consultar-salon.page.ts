@@ -148,7 +148,6 @@ export class ConsultarSalonPage implements OnInit {
   }
 
   traerEstadiaPorMesa( item ) {
-    console.log("ITEM ",item)
     this.estadiaService.getEstadiaPorMesa(item).then( estadia => {
       if (estadia) {
         this.ConfirmarConsultarEditarEstadia(estadia.idEstadia);
@@ -157,7 +156,6 @@ export class ConsultarSalonPage implements OnInit {
   }
 
   confirmarFinalizarEstadia(idMesa) {
-    console.log("idMesa: ", idMesa);
     this.traerEstadiaPorMesa(idMesa)
     
   } 
