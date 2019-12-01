@@ -160,8 +160,12 @@ export class CrudGestionarReservaPage implements OnInit {
    validarCantidadComensales() {
     this.form.get('cantidadComensal').valueChanges
     .subscribe(respuesta => {
-      this.form.controls.idMesa.markAsUntouched();
-      this.actualizarMesas();
+      if ( respuesta > 50 ) {
+        this.form.controls.cantidadComensal.setValue(50)
+      } else {
+        this.form.controls.idMesa.markAsUntouched();
+        this.actualizarMesas();
+      }
     });
   }
 

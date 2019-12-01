@@ -308,8 +308,12 @@ export class CrudGenerarEstadiaPage implements OnInit {
   validarCantidadComensales() {
     this.form.get('cantPersonas').valueChanges
     .subscribe(respuesta => {
-      this.form.controls.idMesa.markAsUntouched();
-      this.actualizarMesas();
+      if ( respuesta > 50 ) {
+        this.form.controls.cantPersonas.setValue(50)
+      } else {
+        this.form.controls.idMesa.markAsUntouched();
+        this.actualizarMesas();
+      }
     });
   }
 

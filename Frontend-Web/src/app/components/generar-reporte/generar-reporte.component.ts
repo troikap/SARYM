@@ -10,7 +10,7 @@ import { GenerarReporteService } from '../../services/generar-reporte/generar-re
   styleUrls: ['./generar-reporte.component.scss']
 })
 export class GenerarReporteComponent implements OnInit {
-  
+
   form: FormGroup;
   public mostrar = false;
   public fechaActual;
@@ -18,11 +18,11 @@ export class GenerarReporteComponent implements OnInit {
   public fechaHasta: Date;
 
 
-  constructor( private reporteService: GenerarReporteService ) {
+  constructor(private reporteService: GenerarReporteService) {
     this.fechaActual = new Date().toJSON().split('T')[0];
     this.form = new FormGroup({
-      fechaDesde: new FormControl("", Validators.required),  
-      fechaHasta: new FormControl("", Validators.required),  
+      fechaDesde: new FormControl("", Validators.required),
+      fechaHasta: new FormControl("", Validators.required),
     });
 
     this.form.get("fechaDesde").setValidators(Validators.required);
@@ -32,9 +32,8 @@ export class GenerarReporteComponent implements OnInit {
     this.validadorFecha();
   }
 
-  ngOnInit() {    
+  ngOnInit() {
   }
-  
 
   async generarPDF() {
     const doc = new jsPDF('p', 'mm', 'a4');
@@ -79,20 +78,45 @@ export class GenerarReporteComponent implements OnInit {
   }
 
   validadorFecha() {
+
+    let splitFechaActual = this.fechaActual.split('-');
+    let fActual = Number(splitFechaActual[0] + splitFechaActual[1] + splitFechaActual[2]);
+
     this.form.get("fechaDesde").valueChanges.subscribe(resp => {
-      if (resp < this.form.value.fechaHasta) {
-        this.form.controls.fechaHasta.setErrors(null);
-      } else {
+      let splitFechaSeleccionada = resp.split('-');
+      let fAño = Number(splitFechaSeleccionada[0]);
+      let fDesde = Number(splitFechaSeleccionada[0] + splitFechaSeleccionada[1] + splitFechaSeleccionada[2]);
+
+      if (fDesde == NaN || fDesde > fActual || fAño < 2018) {
+        this.form.controls.fechaDesde.setErrors({ invalida: true });
+      }
+
+      let splitFechaHasta = this.form.value.fechaHasta.split('-');
+      let fHasta = Number(splitFechaHasta[0] + splitFechaHasta[1] + splitFechaHasta[2]);
+
+      if ( fHasta == NaN || fDesde >= fHasta) {
         this.form.controls.fechaHasta.setErrors({ not_equal: true });
       }
+
     });
+
     this.form.get("fechaHasta").valueChanges.subscribe(resp => {
-      if (resp > this.form.value.fechaDesde) {
-        this.form.controls.fechaHasta.setErrors(null);
-      } else {
+      let splitFechaSeleccionada = resp.split('-');
+      let fAño = Number(splitFechaSeleccionada[0]);
+      let fHasta = Number(splitFechaSeleccionada[0] + splitFechaSeleccionada[1] + splitFechaSeleccionada[2]);
+
+      if (fHasta == NaN || fHasta > fActual || fAño < 2018) {
+        this.form.controls.fechaHasta.setErrors({ invalida: true });
+      }
+
+      let splitFechaDesde = this.form.value.fechaDesde.split('-');
+      let fDesde = Number(splitFechaDesde[0] + splitFechaDesde[1] + splitFechaDesde[2]);
+
+      if ( fDesde == NaN || fDesde >= fHasta) {
         this.form.controls.fechaHasta.setErrors({ not_equal: true });
       }
     });
+
   }
 
   //http://blog.nubecolectiva.com/generar-pdf-con-angular-js-5/

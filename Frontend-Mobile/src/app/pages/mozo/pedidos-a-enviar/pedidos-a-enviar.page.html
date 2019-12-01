@@ -8,32 +8,34 @@
 </ion-header>
 
 <ion-content no-padding>
-
-    <ion-item-sliding *ngFor="let item of pedidos">
-        <ion-item (click)="seleccionarPedido(item)">
+    <ion-card align="center" class="ion-padding" *ngIf="!pedidos">No hay pedidos en cocina para entregar</ion-card>
+    <ion-item-sliding *ngFor="let item of pedidos; let i = index">
+        <ion-item (click)="mostrar[i] = !mostrar[i]; mostrarDetalle = !mostrarDetalle">
             <ion-card color="success" class="card-inter">
                 <ion-card-header>
                     <ion-card-title>Código Pedido: <strong>{{item.codPedido}}</strong></ion-card-title>
                 </ion-card-header>
                 <ion-card-content>
-                    <ion-card-title>Pedido: <strong>Pizza Mozarella</strong></ion-card-title>
-                    <ion-card-title>Cantidad: <strong>2</strong></ion-card-title>
-                    <ion-card-title>Mesa: <strong>$ {{item.comensal.aliasComensal}}</strong></ion-card-title>
+                    <ion-card-title>Mesa: <strong>{{item.mesas}}</strong></ion-card-title>
                     <ion-card-title>Comensal: <strong>{{item.comensal.aliasComensal}}</strong></ion-card-title>
                 </ion-card-content>
-                <ion-item *ngFor="let elemento of item.detallepedidoproducto">
-                    <ion-card-subtitle>Usuario Asociado: <strong> {{elemento}}</strong></ion-card-subtitle>
-                    <ion-card-subtitle>Cuit: <strong>{{item.usuario.cuitUsuario}}</strong></ion-card-subtitle>
-                </ion-item>
+                <ion-icon *ngIf="!mostrarDetalle" class="mostrar-detalle" name="arrow-dropdown" mode="md"></ion-icon>
+                <div *ngIf="mostrar[i]">
+                    <ion-card-title align="center"><strong>Detalle</strong></ion-card-title>
+                    <ion-card-content *ngFor="let detalle of item.detallepedidoproductos" >
+                        <ion-card-title *ngIf="detalle.producto">Producto: <strong>{{detalle.producto.nombreProducto}}</strong></ion-card-title>
+                        <ion-card-title align="right" *ngIf="detalle.producto">Cantidad: <strong>{{detalle.cantidadPedidoProducto}}</strong></ion-card-title>
+                        <ion-card-title *ngIf="detalle.menupromocion">Menu / Promocion: <strong>{{detalle.menupromocion.nombreMenuPromocion}}</strong></ion-card-title>
+                        <ion-card-title align="right" *ngIf="detalle.menupromocion">Cantidad: <strong>{{detalle.cantidadPedidoProducto}}</strong></ion-card-title>
+                    </ion-card-content>
+                </div>
             </ion-card>
         </ion-item>
         <ion-item-options side="start">
-            <ion-item-option color="tertiary" (click)="pedidoEntregado()">
+            <ion-item-option color="tertiary" (click)="pedidoEntregado(item)">
                 <ion-icon slot="icon-only" name="checkmark"></ion-icon>
             </ion-item-option>
         </ion-item-options>
     </ion-item-sliding>
-
-
 
 </ion-content>
