@@ -117,7 +117,7 @@
                 <ion-input padding class="form-control" type='number' id='codSeguridad' placeholder='Ingrese código de seguridad' formControlName='codSeguridad'></ion-input>
             </ion-item>
             <p class="input-error-msg" *ngIf="(form.controls.codSeguridad.errors?.min || form.controls.codSeguridad.errors?.max) && form.controls.codSeguridad.touched">Debería tener 3 números.</p>
-            <p class="input-error-msg" *ngIf="form.controls.codSeguridad.errors?.required && form.controls.codSeguridad.touched">Ingrese código de tarjeta.</p>
+            <p class="input-error-msg" *ngIf="form.controls.codSeguridad.errors?.required && form.controls.codSeguridad.touched">Ingrese código de seguridad.</p>
             <ion-item class="form-group">
                 <ion-label position="floating" color="primary" padding>DNI del titular de la tarjeta</ion-label>
                 <ion-input padding class="form-control" type='number' id='dniTitular' placeholder='Ingrese dni del titular de la tarjeta' formControlName='dniTitular'></ion-input>

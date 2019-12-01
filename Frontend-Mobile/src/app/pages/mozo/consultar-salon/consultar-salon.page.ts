@@ -159,7 +159,15 @@ export class ConsultarSalonPage implements OnInit {
   }
 
   confirmarFinalizarEstadia(idMesa) {
-    this.traerEstadiaPorMesa(idMesa)
+    if ( this.existeEnEstadia({idMesa: idMesa}) ) {
+      this.estadiaService.getEstadiaPorMesa(idMesa).then( estadia => {
+        if (estadia) {
+          this.navController.navigateForward(`/seleccion-comensal-pago/${estadia.idEstadia}`)
+        }
+      })
+    } else {
+      this.toastService.toastWarning('Esta mesa no esta asignada a usted', 2000)
+    }
   } 
 
   async ConfirmarConsultarEditarEstadia( idEstadia ) {
