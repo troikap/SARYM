@@ -764,7 +764,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
       this.generarComensalesClientes();
       this.enviarEstadiaCrear( estadiaConCodigo , comensales, mesas); 
     }
-    else if (this.origenDatos == "estadia" && this.accionGet == "editar") {
+    else if ((this.origenDatos == "estadia" || this.origenDatos == "salon") && this.accionGet == "editar") {
       this.enviarEstadiaEditar( estadia , comensales, mesas); 
     }
     else if (this.origenDatos == "confReserva") {
@@ -961,15 +961,18 @@ export class CrudGenerarEstadiaPage implements OnInit {
                 pathMesa['idEstadoMesa'] = mesa.idEstadoMesa;
                 this.mesaservicio.cambiarEstado(pathMesa)
                 .then(respo2 => {
-                  if (respo2.tipo != 2) {
-                    this.toastService.toastSuccess(`Estadia N° ${this.idEstadia}, actualizada satisfactoriamente.`, 2500);
-                    setTimeout(()=>{
+                  this.toastService.toastSuccess(`Estadia N° ${this.idEstadia}, actualizada satisfactoriamente.`, 2500);
+                  setTimeout(()=>{
+                    if (this.origenDatos == "estadia") {
                       this.navController.navigateRoot(['/consulta-gestionar-estadia', this.idEstadia ]);
-                    }, 2500);
-                  }
-                  else {
-                    this.toastService.toastError("No se ha podido actualizar el estado de la Mesa Nro " + mesa.idMesa + " Error: " + respo2.title, 2500);
-                  }
+                    }
+                    else if (this.origenDatos == "salon") {
+                      this.navController.navigateRoot(['/consultar-salon']);
+                    }
+                    else {
+                      this.navController.navigateRoot(['/home']);
+                    }
+                  }, 2500);
                 });
               }
             });
