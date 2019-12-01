@@ -138,7 +138,6 @@ export class ConsultarSalonPage implements OnInit {
       this.traerEstadiaPorMesa( item.idMesa );
     } else if ( estadoMesa == 'Reservada') {
       console.log("VER RESERVA")
-
     } else if ( estadoMesa == 'Pendiente de Pago') {
       console.log("VER PENDIENtE DE PAGO")
       this.confirmarFinalizarEstadia(item.idMesa);
@@ -148,28 +147,20 @@ export class ConsultarSalonPage implements OnInit {
   }
 
   traerEstadiaPorMesa( item ) {
-    console.log("ITEM ",item)
-    this.estadiaService.getEstadiaPorMesa(item).then( estadia => {
-      if (estadia) {
-        this.ConfirmarConsultarEditarEstadia(estadia.idEstadia);
-        // this.navController.navigateForward(`/consulta-gestionar-estadia/${estadia.idEstadia}`)
-
-        // this.navController.navigateForward(`/crud-generar-estadia/${estadia.idEstadia}/editar/salon`)
-      } else {
-        this.toastService.toastError(`Ocurrió un error al intentar acceder a la Estadia N° ${item}`, 3000)
-      }
-    })
+    if ( this.existeEnEstadia({idMesa: item}) ) {
+      this.estadiaService.getEstadiaPorMesa(item).then( estadia => {
+        if (estadia) {
+          this.ConfirmarConsultarEditarEstadia(estadia.idEstadia);
+        }
+      })
+    } else {
+      this.toastService.toastWarning('Esta mesa no esta asignada a usted', 2000)
+    }
   }
 
   confirmarFinalizarEstadia(idMesa) {
-    console.log("idMesa: ", idMesa);
     this.traerEstadiaPorMesa(idMesa)
-    
   } 
-
-  cambioMias() {
-    console.log( "CAMBIO Mias ", this.mias)
-  }
 
   async ConfirmarConsultarEditarEstadia( idEstadia ) {
     const alert = await this.alertController.create({

@@ -103,25 +103,17 @@ export class HomePage implements OnInit {
         page = `/crud-gestionar-reserva/0/crear`;
         break;
       case "unirse-reserva":
-        // page = `/unirse-gestionar-reserva`;
         page = `/unirse-reserva-estadia`;
         break;
-      // case "realizar-pedido":
-      //   page = `/ver-qr-reserva/1`;
-      //   break;
       case "realizar-pedido":
         page = `/seleccion-comensal/estadia/${this.idEstadia}/home`;
         break;
       case "search-gestionar-reserva":
-        // page = `/search-gestionar-reserva`;
         break;
-      // case 'realizar-pedido':
-      //   page = `/realizar-pedido`;
-      //   break;
-      
       case "catalogo":
         page = `/catalogo`;
         break;
+
       //MOZO
       case "consultar-salon":
         page = `/consultar-salon`;
@@ -191,11 +183,6 @@ export class HomePage implements OnInit {
     .then((res:any) => {
       if ( res && res.tipo != 2) {
         let reservasGeneradas = res.data;
-        console.log("reservasGeneradas: ", reservasGeneradas);
-
-        console.log("----------------------------------------------------");
-        console.log("------------RESERVAS---------------");
-
         for (let reserva of reservasGeneradas) {
           let fechaReserva = reserva.fechaReserva;
           let horaEntradaReserva = reserva.horaEntradaReserva;
@@ -206,16 +193,6 @@ export class HomePage implements OnInit {
               idMesasReserva.push(mesaToda);
             }
           }
-            
-          console.log("fechaReserva", fechaReserva);
-          console.log("horaEntradaReserva", horaEntradaReserva);
-          console.log("idMesasReserva", idMesasReserva);
-          
-          console.log("lessTimes(horaEntradaReserva, '00:30'): ", this.lessTimes(horaEntradaReserva , '00:30'));
-          console.log("addTimes(horaEntradaReserva , '00:30'): ", this.addTimes(horaEntradaReserva , '00:30'));
-
-          console.log("-------------------------------");
-          
           if (fechaReserva == this.fechaActual) {
             if (
               (this.horaActual >= (this.lessTimes(horaEntradaReserva , '00:30'))) && 
@@ -234,11 +211,6 @@ export class HomePage implements OnInit {
             this.anularReservaAutomaticamente(reserva, idMesasReserva);
           }
         }
-        console.log("----------------------------------------------------");
-        console.log("------------ACTUAL-------------");
-
-        console.log("fechaActual", this.fechaActual);
-        console.log("horaActual", this.horaActual);
       }
     });
   }
