@@ -24,6 +24,8 @@ export class ConsultarSalonPage implements OnInit {
   mias = false;
   currentUsuario;
   estadiasMozo;
+  intervalo;
+  mostrado = false;
 
   constructor(
     private mesaService: MesaService,
@@ -35,24 +37,39 @@ export class ConsultarSalonPage implements OnInit {
     private alertController: AlertController,
     private storage: StorageService
   ) {
-    this.traerMesas();
     this.traerSectores()
     this.traerEstados('estadomesa')
     this.loadCurrentUsuario();
-    this.traerEstadiaMozo();
+    this.iniciarIntervalo();
    }
 
   ngOnInit() {
   }
 
+  ngOnDestroy() {
+    clearInterval(this.intervalo);
+  }
+
+  iniciarIntervalo() {
+    this.intervalo = setInterval( () => {
+      console.log("EJECUTANOD INTERVALO ")
+      this.traerMesas();
+      this.traerEstadiaMozo();
+    },5000);
+  }
+
   traerEstadiaMozo() {
+
     this.estadiaService.getEstadiasPorEstado('generada')
     .then( resp => {
       if ( resp['tipo'] == 1) {
         this.estadiasMozo = resp['data'];
-      }
-      else {
-        this.toastService.toastWarning('No se encontró Estadia en proceso.', 2000)
+        this.mostrado = false;
+      } else {
+        if (this.mostrado ==false) {
+          this.mostrado = true;
+          this.toastService.toastWarning('No se encontró Estadia en proceso.', 2000)
+        }
       }
     })
   }
@@ -161,7 +178,7 @@ export class ConsultarSalonPage implements OnInit {
     if ( this.existeEnEstadia({idMesa: idMesa}) ) {
       this.estadiaService.getEstadiaPorMesa(idMesa).then( estadia => {
         if (estadia) {
-          this.navController.navigateForward(`/seleccion-comensal-pago/${estadia.idEstadia}`)
+          this.ConfirmarFinalizarEstadia(estadia.idEstadia);
         }
       })
     } else {
@@ -184,10 +201,96 @@ export class ConsultarSalonPage implements OnInit {
           handler: ( ) => {
             this.navController.navigateForward(`/crud-generar-estadia/${idEstadia}/editar/salon`)
           }
+        }, 
+        {
+          text: 'Finalizar Estadia',
+          handler: ( ) => {
+            this.finalizarEstadia(idEstadia);
+            // this.navController.navigateForward(`/crud-generar-estadia/${idEstadia}/editar/salon`)
+          }
         }
       ],
       cssClass: 'alertPrimary',
     })
     await alert.present();
+  }
+
+  async ConfirmarFinalizarEstadia( idEstadia ) {
+    const alert = await this.alertController.create({
+      header: 'Desea Finalizar Estadía?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          cssClass: 'secondary',
+          role: 'Cancel',
+          handler: ( ) => {
+          }
+        }, {
+          text: 'Finalizar',
+          handler: ( ) => {
+            this.finalizarEstadia(idEstadia);
+          }
+        }, 
+      ],
+      cssClass: 'alertPrimary',
+    })
+    await alert.present();
+  }
+
+  finalizarEstadia(idEstadia) {
+    this.cambiarEstadoMesas(idEstadia);
+    this.finalizarEstadoEstadia(idEstadia);
+  }
+
+  async cambiarEstadoMesas(idEstadia) {
+    await this.estadiaService.getEstadia(idEstadia).then( async estadia => {
+      if ( estadia ) {
+        console.log("~~~~~~~~~~~~~~~~~~~~~~~ ESTADIA ~~~~~~~~~~~~~~ ",estadia)
+        let modificarEstado = true;
+        for (let pedido of estadia.pedidos) {
+          if (pedido.pedidoestados[0].idEstadoPedido != 2 && // Anulado 
+            pedido.pedidoestados[0].idEstadoPedido != 6 ) {   // Finalizado
+            modificarEstado = false;
+          }
+        }
+        await this.mesaService.getMesa(Number(estadia.detalleestadiamesas[0].idMesa)).then( async response => {
+          console.log("MESA ////////// ",response)
+          let mesa = response['data'];
+          if (response['tipo'] == 1) {
+            if (modificarEstado && (mesa.mesaestados[0].idEstadoMesa == 1 || mesa.mesaestados[0].idEstadoMesa == 4 )) {
+              for (let mesaACambiar of estadia.detalleestadiamesas) {
+                let pathMesa = {
+                  idMesa: mesaACambiar.idMesa,
+                  idEstadoMesa: 2
+                }
+                await this.mesaService.cambiarEstado(pathMesa).then( async resp => {
+                  if (resp) {
+                    if (resp.tipo == 1){
+                      console.log(`MESA N° ${mesaACambiar.idMesa} CAMBIADA A PENDIENTE DE PAGO`)
+                    } else {
+                      console.log(`MESA N° ${mesaACambiar.idMesa} NO CAMBIADA`)
+                    }
+                  }
+                })
+              }
+              
+            }
+          }
+        })
+      }
+    })
+  }
+
+  finalizarEstadoEstadia(idEstadia){
+    let pathEstadoEstadia = {
+      idEstadia: idEstadia,
+      idEstadoEstadia: 2,
+      descripcionEstadiaEstado: 'Finalizada correctamente.'
+    }
+    this.estadiaService.cambiarEstado( pathEstadoEstadia ).then(resp => {
+      if(resp && resp.tipo == 1) {
+        this.toastService.toastSuccess(`Estadia N° ${idEstadia} ha sido Finalizada Correctamente`,2000)
+      }
+    })
   }
 }
