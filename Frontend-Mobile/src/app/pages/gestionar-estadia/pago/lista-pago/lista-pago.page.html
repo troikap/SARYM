@@ -11,6 +11,7 @@
     <ion-card>
         <ion-title color="dark" align="middle" padding>Estadia N°: {{idEstadia}}</ion-title>
     </ion-card>
+    <ion-card  *ngIf='!pagos'> <ion-card-title align="center" padding>No se ha realizado ningún pago. Presione el botón '+', para poder generar pagos a su estadía.</ion-card-title></ion-card>
     <div *ngIf='pagos'>
         <div *ngFor="let item of pagos, let i = index">
             <ion-item-sliding>

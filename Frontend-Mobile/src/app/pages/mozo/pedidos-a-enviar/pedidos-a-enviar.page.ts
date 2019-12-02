@@ -31,6 +31,7 @@ export class PedidosAEnviarPage implements OnInit {
     private toastService: ToastService,
     private mesaService: MesaService,
     ) { 
+      this.traerPedidosAEnviar()
   }
 
   ngOnInit() {
