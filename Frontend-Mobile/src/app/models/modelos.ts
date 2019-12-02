@@ -229,7 +229,10 @@ export interface PedidoEstado {
     idPedidoEstado: Number,
     descripcionPedidoEstado: String,
     fechaYHoraAltaPedidoEstado: Date,
-    fechaYHoraBajaPedidoEstado: Date
+    fechaYHoraBajaPedidoEstado: Date,
+    idPedido: Number,
+    idEstadoPedido: Number,
+    estadopedido?: EstadoPedido
 }
 
 export interface EstadoPedido {

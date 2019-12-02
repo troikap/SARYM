@@ -103,7 +103,7 @@ export class PedidosAEnviarPage implements OnInit {
       if ( estadia ) {
         console.log("~~~~~~~~~~~~~~~~~~~~~~~ ESTADIA ~~~~~~~~~~~~~~ ",estadia)
         for (let pedido of estadia.pedidos) {
-          pedido.pedidoestados[0]
+          pedido.pedidoestados[0].idEstadoPedido
         }
       }
     })
