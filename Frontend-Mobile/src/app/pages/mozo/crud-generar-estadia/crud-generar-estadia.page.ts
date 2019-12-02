@@ -951,72 +951,77 @@ export class CrudGenerarEstadiaPage implements OnInit {
   }
 
   async validarEstadiasGeneradasRango(mesas, comensales) {
-    await this.estadiaServicio.getProductosByAll("generada")
+    await this.estadiaServicio.getEstadiasPorEstado("generada")
     .then((est:any) => {
-      let estadiasGeneradas = est;
-      for (let estadias of estadiasGeneradas) {
-        let fechaEstadiaYHoraInicioEstadia = estadias.fechaYHoraInicioEstadia;
+      
+      console.log("Estadias en estado 'Generada': ", est);
 
-        let fechaEstadia = this.tratarFechaProvider.traerDate(fechaEstadiaYHoraInicioEstadia);
-        let idMesasEstadia = [];
-        let idMesasActual = [];
-        let idUsuariosActual = [];
-        let idUsuariosEstadia = [];
-        for (let mesaEstadia of estadias.detalleestadiamesas) {
-          let mesaEst = mesaEstadia.mesa.idMesa;
-          if (mesaEst != "" && mesaEst != null && mesaEst != "undefined") {
-            idMesasEstadia.push(mesaEst);
-          }
-        }
-        for (let mesasActual of mesas) {
-          let mesaAct = mesasActual.idMesa;
-          if (mesaAct != "" && mesaAct != null && mesaAct != "undefined") {
-            idMesasActual.push(mesaAct);
-          }
-        }
-        for (let comenActual of comensales) {
-          let idUsrAct = comenActual.idUsuario;
-          if (idUsrAct != null && idUsrAct != "" && idUsrAct != "undefined") {
-            idUsuariosActual.push(idUsrAct);
-          }
-        }
-        for (let comenTodas of estadias.comensals) {
-          let idUsrTod = comenTodas.idUsuario;
-          if (idUsrTod != null && idUsrTod != "" && idUsrTod != "undefined") {
-            idUsuariosEstadia.push(idUsrTod);
-          }
-        }
-
-        if (fechaEstadia == this.fechaActual) {
-          for(let mesaEstadia of idMesasEstadia) {
-            for (let mesaActual of idMesasActual) {
-              if (mesaEstadia == mesaActual) {
-                //NO VERIFICO RANGO HORARIO, PUES LAS ESTADIAS EN ESTADO "GENERADA" SIEMPRE SON ACTIVAS
-                this.errorRangoMesa = true;
-                break;
-              }
-            }
-            if (this.errorRangoMesa) {
-              break;
+      if (est.tipo == 1) {
+        let estadiasGeneradas = est;
+        for (let estadias of estadiasGeneradas) {
+          let fechaEstadiaYHoraInicioEstadia = estadias.fechaYHoraInicioEstadia;
+  
+          let fechaEstadia = this.tratarFechaProvider.traerDate(fechaEstadiaYHoraInicioEstadia);
+          let idMesasEstadia = [];
+          let idMesasActual = [];
+          let idUsuariosActual = [];
+          let idUsuariosEstadia = [];
+          for (let mesaEstadia of estadias.detalleestadiamesas) {
+            let mesaEst = mesaEstadia.mesa.idMesa;
+            if (mesaEst != "" && mesaEst != null && mesaEst != "undefined") {
+              idMesasEstadia.push(mesaEst);
             }
           }
-          if (!this.errorRangoMesa) { //Si no da error de estadía, entonces verifico por usuario
-            for(let usuarioActual of idUsuariosActual) {
-              for (let usuarioEstadia of idUsuariosEstadia) {
-                if (usuarioActual == usuarioEstadia) {
+          for (let mesasActual of mesas) {
+            let mesaAct = mesasActual.idMesa;
+            if (mesaAct != "" && mesaAct != null && mesaAct != "undefined") {
+              idMesasActual.push(mesaAct);
+            }
+          }
+          for (let comenActual of comensales) {
+            let idUsrAct = comenActual.idUsuario;
+            if (idUsrAct != null && idUsrAct != "" && idUsrAct != "undefined") {
+              idUsuariosActual.push(idUsrAct);
+            }
+          }
+          for (let comenTodas of estadias.comensals) {
+            let idUsrTod = comenTodas.idUsuario;
+            if (idUsrTod != null && idUsrTod != "" && idUsrTod != "undefined") {
+              idUsuariosEstadia.push(idUsrTod);
+            }
+          }
+  
+          if (fechaEstadia == this.fechaActual) {
+            for(let mesaEstadia of idMesasEstadia) {
+              for (let mesaActual of idMesasActual) {
+                if (mesaEstadia == mesaActual) {
                   //NO VERIFICO RANGO HORARIO, PUES LAS ESTADIAS EN ESTADO "GENERADA" SIEMPRE SON ACTIVAS
-                  this.errorRangoUsr = true;
+                  this.errorRangoMesa = true;
                   break;
                 }
               }
-              if (this.errorRangoUsr) {
+              if (this.errorRangoMesa) {
                 break;
               }
             }
+            if (!this.errorRangoMesa) { //Si no da error de estadía, entonces verifico por usuario
+              for(let usuarioActual of idUsuariosActual) {
+                for (let usuarioEstadia of idUsuariosEstadia) {
+                  if (usuarioActual == usuarioEstadia) {
+                    //NO VERIFICO RANGO HORARIO, PUES LAS ESTADIAS EN ESTADO "GENERADA" SIEMPRE SON ACTIVAS
+                    this.errorRangoUsr = true;
+                    break;
+                  }
+                }
+                if (this.errorRangoUsr) {
+                  break;
+                }
+              }
+            }
           }
-        }
-        if (this.errorRangoMesa || this.errorRangoUsr) {
-          break;
+          if (this.errorRangoMesa || this.errorRangoUsr) {
+            break;
+          }
         }
       }
     });
