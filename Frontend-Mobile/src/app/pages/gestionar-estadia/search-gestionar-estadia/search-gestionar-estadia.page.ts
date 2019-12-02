@@ -95,11 +95,13 @@ export class SearchGestionarEstadiaPage implements OnInit {
               await this.estadiaService.getEstadia(idEstadia)
               .then((est: any) => {
                 console.log("est: ", est);
-                if (est && est.estadiaestados[0].estadoestadium.nombreEstadoEstadia != 'Finalizada') {
+                let idEstadoEstadia = est.estadiaestados[0].estadoestadium.idEstadoEstadia;
+                if (est && idEstadoEstadia != 2 && idEstadoEstadia != 3) { // idEstadoEstadia != "Finalizada" AND idEstadoEstadia != "Anulada"
                   this.estadia =  est;
                   this.createCode();
                 } else {
-                  this.storage.delOneItem("estadia")
+                  this.storage.delOneItem("estadia");
+                  this.storage.delOneItem("comensalEstadia");
                 }
               })
             }
@@ -115,12 +117,18 @@ export class SearchGestionarEstadiaPage implements OnInit {
       await this.storage.getOneObject("estadia")
       .then(async (est: any) => {
         if (est != null && est != "") {
-          this.traerEstadiaInvitado = true;
           idEstadia = est.idReservaEstadia;
           await this.estadiaService.getEstadia(idEstadia)
           .then((est: any) => {
-            this.estadiaInvitado =  est;
-            this.createCode();
+            console.log("est: ", est);
+            let idEstadoEstadia = est.estadiaestados[0].estadoestadium.idEstadoEstadia;
+            if (est && idEstadoEstadia != 2 && idEstadoEstadia != 3) { // idEstadoEstadia != "Finalizada" AND idEstadoEstadia != "Anulada"
+              this.estadiaInvitado =  est;
+              this.createCode();
+            } else {
+              this.storage.delOneItem("estadia");
+              this.storage.delOneItem("comensalEstadia");
+            }
           })
         }
         else {
@@ -128,7 +136,6 @@ export class SearchGestionarEstadiaPage implements OnInit {
         }
       });
     }
-    
   }
 
   realizarPedido(item) {
