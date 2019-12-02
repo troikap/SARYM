@@ -29,12 +29,12 @@
                 <ion-card-title>Codigo: <strong>{{item.codPedido}}</strong></ion-card-title>
               </ion-card-header>
               <ion-card-content *ngIf="!item.importeTotal">
-                  <ion-title *ngIf="item.pedidoestados[0].estadopedido.nombreEstadoPedido != 'Eliminado' && item.pedidoestados[0].estadopedido.nombreEstadoPedido != 'Anulado'">
+                  <ion-card-title *ngIf="item.pedidoestados[0].estadopedido.nombreEstadoPedido != 'Eliminado' && item.pedidoestados[0].estadopedido.nombreEstadoPedido != 'Anulado'">
                       Agregue algún Producto
-                  </ion-title>
-                  <ion-title *ngIf="item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Eliminado' || item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Anulado'">
+                  </ion-card-title>
+                  <ion-card-title *ngIf="item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Eliminado' || item.pedidoestados[0].estadopedido.nombreEstadoPedido == 'Anulado'">
                       Sin Detalle
-                  </ion-title>
+                  </ion-card-title>
               </ion-card-content>
               <ion-card-content *ngIf="item.importeTotal">
                 <ion-card-title>Importe: <strong>$ {{item.importeTotal}}</strong></ion-card-title>
