@@ -263,7 +263,8 @@ export class SeleccionComensalPage implements OnInit {
       //Si al menos un pedido se encuentra en ciertos estados, NO permitir eliminar Comensal
       for (let item of this.estadia.pedidos) {
         if (idComensal == item.idComensal) {
-          let estadoPedido = item['pedidoestados'][0].idPedidoEstado;
+          let estadoPedido = item.idPedido;
+          console.log("estadoPedido: ", estadoPedido);
           if (estadoPedido == 5 || estadoPedido == 6 || estadoPedido == 7 ) { // Que no permite si estado es: Finalizado, Finalizado Sin Pagar, Pendiente de Pago
             return false;
           }
