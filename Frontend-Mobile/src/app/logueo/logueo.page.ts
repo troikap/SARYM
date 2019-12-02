@@ -65,7 +65,6 @@ export class LogueoPage implements OnInit {
   loguear() {
     this.usuarioservicio.loguear(this.form.value.cuitUsuario , this.form.value.contrasenaUsuario )
     .then(logueado => {
-      console.log("DEVOLVIENDO ESTO ", logueado)
       this.algo = logueado;
       if (logueado && logueado.tipo == 1) {
         let activado = logueado.UsuarioEstado.activadoUsuario;
@@ -102,7 +101,6 @@ export class LogueoPage implements OnInit {
       } else {
         if (logueado && logueado.tipo == 2){
           console.log("INVALIDOS")
-          this.toastService.toastWarning('.', 3000)
         } else if (logueado && logueado.tipo == 3) {
           console.log("SUSPENDIDO INHAVILITAD")
           this.toastService.toastWarning('Su cuenta esta suspendida.', 3000)
