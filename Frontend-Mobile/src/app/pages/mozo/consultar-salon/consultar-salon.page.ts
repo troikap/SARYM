@@ -50,7 +50,7 @@ export class ConsultarSalonPage implements OnInit {
     this.estadiaService.getEstadiasPorEstado('generada')
     .then( resp => {
       if ( resp['tipo'] == 1) {
-        this.estadiasMozo = resp.data;
+        this.estadiasMozo = resp['data'];
       }
       else {
         this.toastService.toastWarning('No se encontró Estadia en proceso.', 2000)
