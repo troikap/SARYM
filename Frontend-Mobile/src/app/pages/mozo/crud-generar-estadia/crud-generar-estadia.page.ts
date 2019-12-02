@@ -724,7 +724,16 @@ export class CrudGenerarEstadiaPage implements OnInit {
     return true;
   }
 
-  async crearEditarEstadia() {
+  crearEditarEstadia() {
+    console.log("COMENSALES " ,this.comensales)
+    console.log("COMENSALES " ,this.comensales ==null)
+    console.log("COMENSALES " ,this.comensales ==undefined)
+    console.log("COMENSALES " ,this.comensales ==[])
+    console.log("COMENSALES " ,this.comensales.length)
+    console.log("COMENSALES " ,this.comensales.length == 0)
+  }
+
+  async crearEditarEstadia2() {
     let estadia;
     let cantPersonas = this.form.value['cantPersonas']; 
     console.log("cantPersonas del formulario: ", cantPersonas);
@@ -739,7 +748,6 @@ export class CrudGenerarEstadiaPage implements OnInit {
         cantPersonas: cantPersonas
       }
     }
-    
     const mesas = []
     for (let item of this.checkBoxList) {
       if (item.isChecked) {
@@ -748,7 +756,6 @@ export class CrudGenerarEstadiaPage implements OnInit {
         mesas.push({'idDetalleEstadiaMesa': item.idDetalleEstadiaMesa, 'baja': true})
       }
     }
-
     const mesasAux = []
     for (let item of this.checkBoxList) {
       if (item.isChecked) {
@@ -762,9 +769,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
         }
       }
     }
-    
     this.generarMesasCambioEstado(mesasAux);
-    
     const comensales = this.comensales;   
     let encuentraUsr = false;
     for (let comensal of comensales) {
@@ -775,14 +780,11 @@ export class CrudGenerarEstadiaPage implements OnInit {
         break;
       }
     }
-
     if (!encuentraUsr) {
       estadia['idUsuario'] = this.currentUsuario.id; //Setea al Mozo, en caso de no existir usuario entre los comensales
       estadia['cuitUsuario'] = this.currentUsuario.cuit;
     }
-
     let estadiaConCodigo = await this.agregarCodigoEstadia( estadia );
-
     await this.validarCreacionEstadia(estadia, mesas, comensales, estadiaConCodigo);
   }
 
