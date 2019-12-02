@@ -67,6 +67,8 @@
             <ion-label padding color="primary" position="floating">Cantidad de Personas</ion-label>
             <ion-input class="form-control" type="number" placeholder="Cantidad Personas" formControlName="cantPersonas" id="cantPersonas"></ion-input>
         </ion-item>
+        <p padding class="input-error-msg" *ngIf="form.controls.cantPersonas.errors?.required && form.controls.cantPersonas.touched">Campo Obligatorio.</p>
+        <p padding class="input-error-msg" *ngIf="form.controls.cantPersonas.errors?.pattern && form.controls.cantPersonas.touched">Máximo 62.</p>
         <h1 padding>Seleccione Mesa/s</h1>
         <p padding class="input-error-msg" *ngIf="form.controls.idMesa.errors?.required && form.controls.idMesa.touched">Campo Obligatorio.</p>
         <p padding class="input-error-msg" *ngIf="form.controls.idMesa.errors?.cant_comensales && form.controls.idMesa.touched">Ingrese la cantidad de Comensales de la reserva.</p>

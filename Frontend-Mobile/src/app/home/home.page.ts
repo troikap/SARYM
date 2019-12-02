@@ -8,6 +8,7 @@ import { ToastService } from '../providers/toast.service';
 import { ReservaService } from '../services/reserva/reserva.service';
 import { TratarFechaProvider } from '../providers/tratarFecha.provider';
 import { MesaService } from '../services/mesa/mesa.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -72,7 +73,6 @@ export class HomePage implements OnInit {
   }
 
   ionViewDidEnter() {
-    console.log("CARGO-------------------")
     this.loadLog()
   }
 
@@ -137,7 +137,6 @@ export class HomePage implements OnInit {
   async loadLog() {
     await this.storage.getCurrentUsuario()
       .then(async logs => {
-        console.log("LOG:-----------", logs);
         this.logueo = logs;
         this.currentUsuario = logs['rolUsuario'];
         this.idCurrentUsuario = logs.id;
@@ -195,13 +194,13 @@ export class HomePage implements OnInit {
           }
           if (fechaReserva == this.fechaActual) {
             if (
-              (this.horaActual >= (this.lessTimes(horaEntradaReserva , '00:30'))) && 
-              (this.horaActual < (this.addTimes(horaEntradaReserva, '00:30'))) 
+              (this.horaActual >= (this.lessTimes(horaEntradaReserva , environment.rangoHoraMaxReserva))) && 
+              (this.horaActual < (this.addTimes(horaEntradaReserva, environment.rangoHoraMinReserva))) 
             ) {
               //CAMBIAR ESTADO DE MESAS A RESERVADO
               this.cambiarEstadoMesaReservada(reserva, idMesasReserva);
             }
-            else if ( this.horaActual > (this.addTimes(horaEntradaReserva, '00:30')) ) {
+            else if ( this.horaActual > (this.addTimes(horaEntradaReserva, environment.rangoHoraMinReserva)) ) {
               //ANULAR RESERVA y LIBERAR MESAS
               this.anularReservaAutomaticamente(reserva, idMesasReserva);
             }

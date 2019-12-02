@@ -16,7 +16,7 @@ export class ConsultarSalonPage implements OnInit {
 
   mesas;
   sectores;
-  estados;
+  estados = [];
   todoSector = true;
   todoEstado = true;
   filtroSector;
@@ -35,7 +35,6 @@ export class ConsultarSalonPage implements OnInit {
     private alertController: AlertController,
     private storage: StorageService
   ) {
-    console.log("Constructor Consulta SAlon")
     this.traerMesas();
     this.traerSectores()
     this.traerEstados('estadomesa')
@@ -46,10 +45,18 @@ export class ConsultarSalonPage implements OnInit {
   ngOnInit() {
   }
 
+  goBack() {
+    this.navController.navigateRoot('/home');
+  }
+
   traerEstadiaMozo() {
-    this.estadiaService.getProductosByAll('generada').then( resp => {
-      if ( resp ) {
-        this.estadiasMozo = resp;
+    this.estadiaService.getEstadiasPorEstado('generada')
+    .then( resp => {
+      if ( resp['tipo'] == 1) {
+        this.estadiasMozo = resp['data'];
+      }
+      else {
+        this.toastService.toastWarning('No se encontró Estadia en proceso.', 2000)
       }
     })
   }
@@ -78,7 +85,6 @@ export class ConsultarSalonPage implements OnInit {
 
   traerMesas() {
     this.mesaService.getMesas().then( mesas => {
-      console.log("MESAS TRAIDAS ", mesas)
       if ( mesas ) {
         this.mesas = mesas;
       } 
@@ -87,7 +93,6 @@ export class ConsultarSalonPage implements OnInit {
 
   traerSectores() {
     this.sectorService.getSectores().then( sectores => {
-      console.log("Sectores TRAIDoS ", sectores)
       if ( sectores ) {
         this.sectores = sectores;
       } 
@@ -96,39 +101,37 @@ export class ConsultarSalonPage implements OnInit {
 
   traerEstados(nombre: string) {
     this.estadoService.getEstados( nombre ).then( estados => {
-      console.log("Estados TRAIDoS ", estados)
       if ( estados ) {
-        this.estados = estados;
+        for ( let estado of estados ){
+          if (estado.nombreEstadoMesa != 'Inhabilitada') {
+            this.estados.push(estado)
+          }
+        }
       } 
     })
   }
 
   seleccionSector(item) {
-    console.log("Selecciono Sector", item)
     this.todoSector = false;
     this.filtroSector = item.nombreSector;
   }
 
   seleccionTodoSector() {
-    console.log("Selecciono Todo")
     this.todoSector = true;
     this.filtroSector = null;
   }
 
   seleccionEstado(item) {
-    console.log("Selecciono Estado", item)
     this.todoEstado = false;
     this.filtroEstado = item.nombreEstadoMesa
   }
 
   seleccionTodoEstado() {
-    console.log("Selecciono Todo")
     this.todoEstado = true;
     this.filtroEstado = null;
   }
 
   seleccionMesa( item ) {
-    console.log("SELECCIONO MESA ", item.mesaestados[0].estadomesa.nombreEstadoMesa)
     let estadoMesa = item.mesaestados[0].estadomesa.nombreEstadoMesa;
     if ( estadoMesa == 'Disponible') {
       console.log("CREAR NUEVA ESTADIA")

@@ -114,7 +114,6 @@ export class SettingPage implements OnInit {
   }
 
   private async saveSuccess() {
-    console.log("ENVIROMENT ", environment)
     const alert = await this.alertCtrl.create({
       message: 'Cambios guardados con éxito',
       buttons: [{

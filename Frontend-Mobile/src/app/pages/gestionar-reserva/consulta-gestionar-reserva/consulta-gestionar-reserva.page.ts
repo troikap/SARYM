@@ -23,6 +23,9 @@ export class ConsultaGestionarReservaPage implements OnInit {
   private mesasTodas: any[];
   public mesas: any[] = [];
   public nombreUsuario;
+  private mesasReserva = [];
+  private idUsuarioReserva = null;
+  private esPropietario = false;
 
   constructor(
     private toastController: ToastController,
@@ -61,13 +64,32 @@ export class ConsultaGestionarReservaPage implements OnInit {
   loadCurrentUsuario() {
     this.storage.getCurrentUsuario().then((data) => {
       let currentUsuario: any = data;
+      this.idUsuarioReserva = data.id;
       this.nombreUsuario = currentUsuario.rolUsuario;
-      console.log("this.nombreUsuario : ", this.nombreUsuario );
+      this.getReservasStorage();
     });
   }
 
+  async getReservasStorage() {
+    let idReservaStorage = null;
+    let idUsrReservaStorage = null;
+    await this.storage.getOneObject("reserva")
+    .then(async (res: any) => {
+      if (res != null && res != "") {
+        idReservaStorage = res.idReservaEstadia;
+        idUsrReservaStorage = res.idUsuarioCreador;
+        if (idReservaStorage == this.idReserva && idUsrReservaStorage == this.idUsuarioReserva) {
+          this.esPropietario = true;
+        }
+      }
+      else { //No existe reserva en storage
+        this.esPropietario = true;
+      }
+    });
+    console.log("esPropietario: ", this.esPropietario);
+  }
+
   async traerReserva() {
-    console.log("Funcion 'traerReserva()', ejecutada");
     if (this.idReserva !== 0) {
       await this.reservaservicio.getReserva(this.idReserva)
       .then( res => {
@@ -77,8 +99,6 @@ export class ConsultaGestionarReservaPage implements OnInit {
         } else {
           // Reserva
           this.reserva = res;
-          console.log("TrearReserva: ", this.reserva);
-
           let comensal;
           for (let i = 0; i < res.comensals.length; i++) {
             comensal = {};
@@ -88,19 +108,13 @@ export class ConsultaGestionarReservaPage implements OnInit {
             }
             this.comensales.push(comensal);
           }
-
-          console.log("Comensales de la reserva: ", this.comensales);
-
           let idMesaReserva = null;
           let idMesaTodas = null;
-
           let mesasMap = {};
-
-          console.log("res.detallereservamesas: ", res.detallereservamesas);
-          console.log("this.mesasTodas: ", this.mesasTodas);
 
           for(let detalleReserva of res.detallereservamesas) {
             idMesaReserva = detalleReserva.idMesa;
+            this.mesasReserva.push(detalleReserva.idMesa);
 
             for(let mesasTodasParam of this.mesasTodas) {
               let idMesaTodas = mesasTodasParam.idMesa;
@@ -117,8 +131,6 @@ export class ConsultaGestionarReservaPage implements OnInit {
             mesasMap = {};
             idMesaReserva = null;
           }
-          console.log("Mesas de la reserva: ", this.mesas);
-          
           this.loadCurrentUsuario();
         }
       });
@@ -172,25 +184,32 @@ export class ConsultaGestionarReservaPage implements OnInit {
             console.log('Anular Reserva');
             let dtoAnularReserva = this.getDTOCambioEstadoEliminarReserva();
             this.reservaservicio.cambiarEstado(dtoAnularReserva)
-            .then( resp => {
-              console.log("Respuesta Anular Reserva: ",resp)
-
-              if ( resp && resp.tipo != 2) {
-                this.toastService.toastSuccess("Se ha anulado correctamente la reserva seleccionada", 2500);
-                setTimeout(()=>{
-                  this.navController.navigateForward(['/search-gestionar-reserva']);
-                 }, 2500);
-              }
-              else {
-                this.toastService.toastError(resp.title, 2500);
-              }
+            .then(async resp => {
+              
+              await this.cambiarEstadoMesas();
+              
+              this.toastService.toastSuccess("Se ha anulado correctamente la reserva seleccionada", 2500);
+              setTimeout(()=>{
+                this.navController.navigateForward(['/search-gestionar-reserva']);
+              }, 2500);
             })
           }
         }
-      ]
+      ],
+      cssClass: 'alertPrimary'
     });
 
     await alert.present();
+  }
+
+  async cambiarEstadoMesas(){
+    for (let mesa of this.mesasReserva) {
+      let pathMesa = {}
+      pathMesa['idMesa'] = mesa.idMesa;
+      pathMesa['idEstadoMesa'] = 2;
+      await this.mesaservicio.cambiarEstado(pathMesa)
+      .then(respo2 => {});
+    }
   }
   
 }

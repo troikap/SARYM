@@ -9,6 +9,7 @@
   import { ToastService } from '../../providers/toast.service'
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { EstadiaService } from 'src/app/services/estadia/estadia.service';
+import { TratarFechaProvider } from 'src/app/providers/tratarFecha.provider';
 
 @Component({
   selector: 'app-unirse-reserva-estadia',
@@ -39,6 +40,10 @@ export class UnirseReservaEstadiaPage implements OnInit {
     private nombreUsuario;
     private idUsrStorage;
     private idReservaEstadiaStorage = 0;
+  
+    private errorRangoUsr;
+    private horaActual;
+    private fechaActual;
 
     constructor(
       private barcodeScanner: BarcodeScanner,
@@ -50,9 +55,12 @@ export class UnirseReservaEstadiaPage implements OnInit {
       private storage: StorageService,
       private reservaServicio: ReservaService,
       private estadiaServicio: EstadiaService,
+      private tratarFechaProvider: TratarFechaProvider
     ) { }
   
     ngOnInit() {
+      this.tratarFecha();
+      this.traerHoraActual();
       this.scanCode();
     }
   
@@ -66,7 +74,7 @@ export class UnirseReservaEstadiaPage implements OnInit {
       })
       .catch(err => {
         console.log('Error', err);
-        this.qrDataCodify = 'RVNUQURJQS0zLTIw'; // ESTADIA: RVNUQURJQS0zLTEx; //RESERVA: UkVTRVJWQS0yLTE3LTIwMTktMTEtMjkvMTk6MjE=
+        this.qrDataCodify = 'RVNUQURJQS01LTEx'; // RVNUQURJQS01LTEx - RVNUQURJQS00LTEx
         this.presentAlert()
       });
     }
@@ -133,14 +141,23 @@ export class UnirseReservaEstadiaPage implements OnInit {
       }
     }
 
-    verifiarEstadoReservaEstadia() {
+    async verifiarEstadoReservaEstadia() {
       if (this.rutaTipo == "reserva") {
-        this.reservaServicio.getReserva(this.idReservaEstadia)
-        .then( res => {
+        await this.reservaServicio.getReserva(this.idReservaEstadia)
+        .then(async res => {
           console.log("Reserva obtenida: ", res)
           if (res.reservaestados[0].estadoreserva.idEstadoReserva == 1) {
-            this.insertarReservaEstadiaComensalStorage();
-            this.navController.navigateForward(`seleccion-comensal/${this.rutaTipo}/${this.idReservaEstadia}/creacion`);
+
+            await this.verificarUnionReserva(res);
+
+            if (!this.errorRangoUsr) {
+              await this.insertarReservaEstadiaComensalStorage();
+              this.navController.navigateForward(`seleccion-comensal/${this.rutaTipo}/${this.idReservaEstadia}/creacion`);
+            }
+            else {
+              this.toastService.toastError(`Ya se encuentra participando en una reserva para la misma fecha y rango horario. No es posible realizar la unión.`, 5000);
+              this.navController.navigateForward([`/home`]);
+            }
           }
           else {
             this.toastService.toastError(`La ${this.rutaTipo} N° ${this.idReservaEstadia} de ${this.nombreUsuario}, no se encuentra Vigente`, 3000);
@@ -151,12 +168,21 @@ export class UnirseReservaEstadiaPage implements OnInit {
         });
       }
       else {
-        this.estadiaServicio.getEstadia(this.idReservaEstadia)
-        .then( est => {
+        await this.estadiaServicio.getEstadia(this.idReservaEstadia)
+        .then(async est => {
           console.log("Estadia obtenida: ", est)
           if (est.estadiaestados[0].estadoestadium.idEstadoEstadia == 1) {
-            this.insertarReservaEstadiaComensalStorage();
-            this.navController.navigateForward(`seleccion-comensal/${this.rutaTipo}/${this.idReservaEstadia}/creacion`);
+
+            await this.verificarUnionEstadia(est);
+            
+            if (!this.errorRangoUsr) {
+              await this.insertarReservaEstadiaComensalStorage();
+              this.navController.navigateForward(`seleccion-comensal/${this.rutaTipo}/${this.idReservaEstadia}/creacion`);
+            }
+            else {
+              this.toastService.toastError(`Ya se encuentra participando en una estadía para la misma fecha y rango horario. No es posible realizar la unión.`, 5000);
+              this.navController.navigateForward([`/home`]);
+            }
           }
           else {
             this.toastService.toastError(`La ${this.rutaTipo} N° ${this.idReservaEstadia} de ${this.nombreUsuario}, no se encuentra Vigente`, 3000);
@@ -167,8 +193,98 @@ export class UnirseReservaEstadiaPage implements OnInit {
         });
       }
     }
+
+    async verificarUnionReserva(reserva) {
+      this.errorRangoUsr = false;
+
+      let fechaReservaActual = reserva.fechaReserva;
+      let horaEntradaActual = reserva.horaEntradaReserva;
+      let horaSalidaActual = reserva.horaSalidaReserva; 
+      let idReservaActual = reserva.idReserva;
+
+      await this.reservaServicio.getReservasPorEstado("generada")
+      .then(async (res:any) => {
+        if ( res && res.tipo != 2) {
+          let reservasTodas = res.data;
+          for (let todas of reservasTodas) {
+            let fechaReservaTodas = todas.fechaReserva;
+            let horaEntradaTodas = todas.horaEntradaReserva;
+            let horaSalidaTodas = todas.horaSalidaReserva;
+            let idReservaTodas = todas.idReserva;
+
+            if (fechaReservaTodas == fechaReservaActual) {
+              // Validar: No permitir generar reservas para un mismo usuario, misma fecha, dentro de un rango de horario parecido
+              
+              console.log("fechaReservaTodas", fechaReservaTodas, "fechaReservaActual", fechaReservaActual);
+              if (idReservaActual != idReservaTodas) {
+                this.errorRangoUsr = this.validarRangoHorarioReserva(horaEntradaTodas, horaEntradaActual, horaSalidaTodas, horaSalidaActual);
+              }
+            }
+            if (this.errorRangoUsr) {
+              break;
+            }
+          }
+        }
+      });
+    }
+
+    async verificarUnionEstadia(estadia) {
+      this.errorRangoUsr = false;
+
+      let fechaEstadiaActual = estadia.fechaEstadia;
+      let idEstadiaActual = estadia.idEstadia;
+
+      await this.estadiaServicio.getEstadiasPorEstado("generada")
+      .then(async (res:any) => {
+        if ( res && res.tipo != 2) {
+          let estadiasTodas = res.data;
+          for (let todas of estadiasTodas) {
+            let fechaEstadiaTodas = todas.fechaEstadia;
+            let idEstadiaTodas = todas.idEstadia;
+            let idUsuariosEstadia = [];
+
+            for (let comenTodas of todas.comensals) {
+              let idUsrTod = comenTodas.idUsuario;
+              if (idUsrTod != null && idUsrTod != "" && idUsrTod != "undefined") {
+                idUsuariosEstadia.push(idUsrTod);
+              }
+            }
+
+            if (fechaEstadiaTodas == fechaEstadiaActual) {
+              // Validar: No permitir generar Estadias para un mismo usuario, misma fecha, dentro de un rango de horario parecido
+              for (let usuarioEstadia of idUsuariosEstadia) {
+                if (this.idUsrStorage == usuarioEstadia) {
+                  if (idEstadiaTodas != idEstadiaActual) {
+                    //NO VERIFICO RANGO HORARIO, PUES LAS ESTADIAS EN ESTADO "GENERADA" SIEMPRE SON ACTIVAS
+                    this.errorRangoUsr = true;
+                    break;
+                  }
+                }
+              }
+            }
+            if (this.errorRangoUsr) {
+              break;
+            }
+          }
+        }
+      });
+    }
+
+    validarRangoHorarioReserva(horaEntradaTodas, horaEntradaActual, horaSalidaTodas, horaSalidaActual) {
+      let errorRango = false;
+      if (horaEntradaTodas <= horaEntradaActual && horaEntradaActual < horaSalidaTodas) {
+        errorRango = true;
+      }
+      if (horaEntradaTodas < horaSalidaActual && horaSalidaActual <= horaSalidaTodas) {
+        errorRango = true;
+      }
+      if (horaEntradaActual <= horaEntradaTodas && horaSalidaTodas <= horaSalidaActual) {
+        errorRango = true;
+      }
+      return errorRango;
+    }
     
-    insertarReservaEstadiaComensalStorage() {
+    async insertarReservaEstadiaComensalStorage() {
       //Elimino lo existente relacionado en storage, para no duplicar datos. Solo podra existir una reserva y estadía a la vez, para
       //un usuario logueado.
 
@@ -177,7 +293,7 @@ export class UnirseReservaEstadiaPage implements OnInit {
         idUsuarioCreador: this.idUsuario,
         tipo: this.rutaTipo
       }
-      this.storage.setOneObject(this.rutaTipo, reservaEstadia);
+      await this.storage.setOneObject(this.rutaTipo, reservaEstadia);
     }
     
     async traerUsuario() {
@@ -202,6 +318,105 @@ export class UnirseReservaEstadiaPage implements OnInit {
           this.idReservaEstadiaStorage = est.idReservaEstadia;
         }
       });
+    }
+
+    addTimes(startTime, endTime) {
+      var times = [ 0, 0, 0 ]
+      var max = times.length
+      var a = ( startTime || '').split(':')
+      var b = (endTime || '').split(':')
+      // normalize time values
+      for (var i = 0; i < max; i++) {
+        a[i] = isNaN(parseInt(a[i])) ? 0 : parseInt(a[i])
+        b[i] = isNaN(parseInt(b[i])) ? 0 : parseInt(b[i])
+      }
+      // store time values
+      for (var i = 0; i < max; i++) {
+        times[i] = a[i] + b[i]
+      }
+      var hours = times[0]
+      var minutes = times[1]
+      var seconds = times[2]
+      if (seconds >= 60) {
+        var m = (seconds / 60) << 0
+        minutes += m
+        seconds -= 60 * m
+      }
+      if (minutes >= 60) {
+        var h = (minutes / 60) << 0
+        hours += h
+        minutes -= 60 * h
+      }
+      return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) 
+    }
+  
+    lessTimes(startTime, endTime) {
+      var times = [ 0, 0, 0 ]
+      var max = times.length
+      var a = ( startTime || '').split(':')
+      var b = (endTime || '').split(':')
+      // normalize time values
+      for (var i = 0; i < max; i++) {
+        a[i] = isNaN(parseInt(a[i])) ? 0 : parseInt(a[i])
+        b[i] = isNaN(parseInt(b[i])) ? 0 : parseInt(b[i])
+      }
+      // store time values
+      for (var i = 0; i < max; i++) {
+        times[i] = a[i] - b[i];
+      }
+      var hours = times[0];
+      var minutes = times[1];
+      var seconds = times[2];
+  
+      if (seconds < 0) {
+        var m =  60 + seconds; // seconds es negativo, por eso sumo (para restar)
+        minutes -= 1
+        seconds = m
+      }
+      if (minutes < 0) {
+        var h = 60 + minutes; // minutes es negativo, por eso sumo (para restar)
+        hours -= 1;
+        minutes = h;
+      }
+      return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2);
+    }
+  
+    traerHoraActual() {
+      let date = new Date();
+      this.horaActual = this.tratarFechaProvider.traerTime(date);
+      this.horaActual += ":00";
+    }
+  
+    tratarFecha(){
+      let date = new Date();
+      let dd = date.getDate();
+      let mm = date.getMonth() + 1;
+      let mm2 = date.getMonth() + 1 + 5;
+      let yy = date.getFullYear();
+      let dia;
+      let mes;
+      let mes2;
+      let año;
+      if (mm2 > 12) {
+        mm2 = mm2 - 12;
+        año = yy + 1;
+      }
+      if ((dd >= 0) && (dd < 10)) {  
+        dia = "0" + String(dd);
+      } else {
+        dia = dd;
+      }
+      if ((mm >= 0) && (mm < 10)) {  
+        mes = "0" + String(mm);
+      } else {
+        mes = mm;
+      }
+      if ((mm2 >= 0) && (mm2 < 10)) {  
+        mes2 = "0" + String(mm2);
+      } else {
+        mes2 = mm2;
+      }
+      this.fechaActual = `${yy}-${mes}-${dia}`;
     }
   }
   

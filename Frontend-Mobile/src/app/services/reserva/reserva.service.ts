@@ -29,7 +29,6 @@ export class ReservaService {
   ) { }
 
   getReservasPorEstado( termino: string) {
-    console.log("Service getReservasPorEstado: Termino = ", termino);
     if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
       headers = headers.append('token', this.tokenEnviroment);
@@ -70,7 +69,7 @@ export class ReservaService {
       .catch();
   }
 
-  getReservasPorUsuario(idUsuario: number): Promise<any[]> {
+  getReservasPorUsuario(idUsuario: number) {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
     console.log(`${this.url}${this.dir}${this.dirComensal}/${idUsuario}`);
@@ -79,7 +78,7 @@ export class ReservaService {
       .toPromise()
       .then(response => {
         console.log("Service getReservasPorUsuario: ", response['detalles']);
-        return response['detalles'] as any[];
+        return response;
       })
       .catch(  );
   }

@@ -33,24 +33,21 @@ export class EstadiaService {
     private toastService: ToastService,
   ) { }
 
-  getProductosByAll( termino: string): Promise<Estadia[]> {
+  getEstadiasPorEstado( termino: string) {
+    if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
       headers = headers.append('token', this.tokenEnviroment);
       return this.http
-        .get(`${this.url}${this.dir}${this.dirTodo}/${termino}`, {headers})
-        .toPromise()
-        .then( response => {
-          console.log("RESPUESTA ", response)
-          if ( response ) {
-            if ( response['tipo'] == 1) {
-              return response['data'] as Estadia[] ;
-            } else {
-              this.toastService.toastWarning('No se encontró Estadia en proceso.', 2000)
-            }
-          } else {
-            this.toastService.toastError('No se pudo realizar la busqueda de Estadía.', 2000)
-          }
-        }).catch();
+      .get(`${this.url}${this.dir}${this.dirTodo}/${termino}`, {headers})
+      .toPromise()
+      .then( response => {
+        return response;
+      })
+      .catch();
+    }
+    else {
+      // console.log("Service getReservasPorEstado: SIN TERMINO");
+    }
   }
 
    getEstadias(): Promise<Estadia[]> {

@@ -14,6 +14,7 @@
                 <ion-label padding color="primary" position="floating">Edad Comensal</ion-label>
                 <ion-input class="form-control" type="number" placeholder="Su edad" formControlName="edadComensal" id="edadComensal" (change)="cambiarEdadComensal($event)"></ion-input>
             </ion-item>
+            <p class="input-error-msg" *ngIf="form.controls.edadComensal.errors?.required && form.controls.edadComensal.touched">Ingrese la edad del comensal.</p>
             <p class="input-error-msg" *ngIf="form.controls.edadComensal.errors?.pattern && form.controls.edadComensal.touched">Edad debe ser, entre 12 y 99 años.</p>
             <ion-item>
                 <ion-label padding color="primary" position="floating">Fecha Reserva</ion-label>
@@ -38,6 +39,9 @@
                 <ion-label padding color="primary" position="floating">Cantidad de Personas</ion-label>
                 <ion-input class="form-control" type="number" placeholder="Cantidad Personas" formControlName="cantidadComensal" id="cantidadComensal"></ion-input>
             </ion-item>
+            <p padding class="input-error-msg" *ngIf="form.controls.cantidadComensal.errors?.required && form.controls.cantidadComensal.touched">Campo Obligatorio.</p>
+            <p padding class="input-error-msg" *ngIf="form.controls.cantidadComensal.errors?.pattern && form.controls.cantidadComensal.touched">Máximo 62.</p>
+
             <h1 padding>Seleccione Mesa/s</h1>
             <p class="input-error-msg" *ngIf="form.controls.idMesa.errors?.required && form.controls.idMesa.touched">Campo Obligatorio.</p>
             <p class="input-error-msg" *ngIf="form.controls.idMesa.errors?.cant_comensales && form.controls.idMesa.touched">Ingrese la cantidad de Comensales de la reserva.</p>
