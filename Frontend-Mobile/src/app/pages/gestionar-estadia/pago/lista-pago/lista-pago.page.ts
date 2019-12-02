@@ -28,7 +28,7 @@ export class ListaPagoPage implements OnInit {
     public from;
     public nombreUsuario;
     public pathDetalleComensalUsuario: {idEstadia: number, detalle: [{aliasComensal: string, edadComensal: number, idUsuario?: number}]};
-    public mostrar: any[] = [];
+    public mostrar = [];
 
   constructor(
     private alertController: AlertController,
