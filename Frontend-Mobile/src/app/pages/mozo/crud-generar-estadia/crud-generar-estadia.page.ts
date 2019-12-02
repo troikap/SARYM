@@ -723,17 +723,8 @@ export class CrudGenerarEstadiaPage implements OnInit {
     }
     return true;
   }
-
-  crearEditarEstadia() {
-    console.log("COMENSALES " ,this.comensales)
-    console.log("COMENSALES " ,this.comensales ==null)
-    console.log("COMENSALES " ,this.comensales ==undefined)
-    console.log("COMENSALES " ,this.comensales ==[])
-    console.log("COMENSALES " ,this.comensales.length)
-    console.log("COMENSALES " ,this.comensales.length == 0)
-  }
-
-  async crearEditarEstadia2() {
+  
+  async crearEditarEstadia() {
     let estadia;
     let cantPersonas = this.form.value['cantPersonas']; 
     console.log("cantPersonas del formulario: ", cantPersonas);
