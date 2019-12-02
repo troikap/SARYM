@@ -77,9 +77,8 @@ export class HomePage implements OnInit {
   }
 
   realizarPedido() {
-    // if (this.idEstadia != undefined && this.idEstadia != null && this.idEstadia != 0) {
-      if (this.idEstadia != undefined && this.idEstadia != null && this.idEstadia != 0) {
-
+    this.getEstadiaUsrLogueado();
+    if (this.idEstadia != undefined && this.idEstadia != null && this.idEstadia != 0) {
       this.goTo('realizar-pedido');
     } else {
       this.toastService.toastWarning('Usted no se encuentra asociado a ninguna Estadía', 2500)
@@ -89,11 +88,9 @@ export class HomePage implements OnInit {
   async goTo(key: string) {
     // await this.loadLog()
     let id = this.logueo.id;
-
     if (id == -1) { //Invitado
       id = 0;
     }
-
     let page;
     switch (key) {
       case "registro-usuario":
@@ -141,7 +138,6 @@ export class HomePage implements OnInit {
         this.currentUsuario = logs['rolUsuario'];
         this.idCurrentUsuario = logs.id;
         this.nombreUsuario = this.currentUsuario['rolUsuario'];
-        
         await this.cargarPagina();
       })
   }

@@ -91,7 +91,8 @@ export class PedidosAEnviarPage implements OnInit {
         if ( resp.tipo == 1 ) {
           this.cambiarEstadoMesas(item);
           this.toastService.toastSuccess(`Se entregó correctamente el Pedido N° ${item.idPedido}`, 2000);
-          this.traerPedidosAEnviar();
+          this.pedidos = [];
+          // this.traerPedidosAEnviar();
         } else {
           this.toastService.toastSuccess(`No se pudo modificar el Pedido N° ${item.idPedido}`, 2000);
         }
