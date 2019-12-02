@@ -20,7 +20,7 @@
                                         <label>Fecha Fin</label>
                                         <input class="form-control" id="fechaHasta" formControlName="fechaHasta" [max]="fechaActual" min="2018-01-01" type="date"                                          class="form-control mr-sm-2">
                                         <p class="input-error-msg" *ngIf="form.controls.fechaHasta.errors?.required && form.controls.fechaHasta.touched">Campo Obligatorio.</p>
-                                        <p class="input-error-msg" *ngIf="form.controls.fechaHasta.errors?.not_equal && form.controls.fechaHasta.touched">La fecha inicio debe ser mayor que la fecha fin.</p>
+                                        <p class="input-error-msg" *ngIf="form.controls.fechaHasta.errors?.not_equal && form.controls.fechaHasta.touched">La fecha fin debe ser mayor que la fecha inicio.</p>
                                     </div>
                                 </div>
                                 <div class="col">
