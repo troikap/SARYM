@@ -234,6 +234,11 @@ export class ConsultarSalonPage implements OnInit {
           handler: ( ) => {
             this.finalizarEstadia(idEstadia);
           }
+        }, {
+          text: 'Consultar',
+          handler: ( ) => {
+            this.navController.navigateForward(`/consulta-gestionar-estadia/${idEstadia}`)
+          }
         }, 
       ],
       cssClass: 'alertPrimary',

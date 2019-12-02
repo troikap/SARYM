@@ -125,6 +125,10 @@ export class ListaPedidoPagoPage implements OnInit {
               await this.pedidoService.cambiarEstado(pathPedido).then( async resp => {
                 if ( resp && resp.tipo == 1 ) {
                   console.log("PEDIDO Actualizados Correctamente")
+                  let pathActualizarFechaFin = {
+                    fechaYHoraFinPedido: 'aaa'                                                                                // ACA EMILIO
+                  }
+                  // SERVICIO DE ACTUALIZAR DATOS DEL PEDIDO .....
                 } else {
                   console.log("NO se pudo actualizar PEDIDO ")
                 }
