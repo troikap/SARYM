@@ -16,7 +16,6 @@ export class PedidosAEnviarPage implements OnInit {
    Y CU 15-ENTREGAR PEDIDO
 */
 
-  token: string;
   pedidos: Pedido[];
   pedidoEstadia: Pedido[];
   intervalo;
@@ -29,7 +28,6 @@ export class PedidosAEnviarPage implements OnInit {
     private estadiaService: EstadiaService,
     private toastService: ToastService
     ) { 
-    this.getToken();
   }
 
   ngOnInit() {
@@ -39,14 +37,6 @@ export class PedidosAEnviarPage implements OnInit {
   // Limpia el Intervalo
   ngOnDestroy() {
     clearInterval(this.intervalo);
-  }
-
-  async getToken() {
-    await this.storage.getOneObject('token')
-      .then( resp => {
-          this.token = resp;
-          this.traerPedidosAEnviar();
-      })
   }
 
   setearIntervalo() {
@@ -87,23 +77,35 @@ export class PedidosAEnviarPage implements OnInit {
     }
   }
 
-pedidoEntregado(item) {
-  let pathPedido = {
-    idPedido: item.idPedido,
-    idEstadoPedido: 5,
-    descripcionPedidoEstado: "Entregado Correctamente"
-  }
-  this.pedidoService.cambiarEstado(pathPedido).then( resp => {
-    if ( resp ) {
-      if ( resp.tipo == 1 ) {
-        this.toastService.toastSuccess(`Se entregó correctamente el Pedido N° ${item.idPedido}`, 2000);
-        this.traerPedidosAEnviar();
-      } else {
-        this.toastService.toastSuccess(`No se pudo modificar el Pedido N° ${item.idPedido}`, 2000);
-      }
-    } else {
-      this.toastService.toastError('Problemas al intentar conectarse', 2500);
+  pedidoEntregado(item) {
+    let pathPedido = {
+      idPedido: item.idPedido,
+      idEstadoPedido: 5,
+      descripcionPedidoEstado: "Entregado Correctamente"
     }
-  })
-}
+    this.pedidoService.cambiarEstado(pathPedido).then( resp => {
+      if ( resp ) {
+        if ( resp.tipo == 1 ) {
+          this.cambiarEstadoMesas(item);
+          this.toastService.toastSuccess(`Se entregó correctamente el Pedido N° ${item.idPedido}`, 2000);
+          this.traerPedidosAEnviar();
+        } else {
+          this.toastService.toastSuccess(`No se pudo modificar el Pedido N° ${item.idPedido}`, 2000);
+        }
+      } else {
+        this.toastService.toastError('Problemas al intentar conectarse', 2500);
+      }
+    })
+  }
+
+  cambiarEstadoMesas(item) {
+    this.estadiaService.getEstadia(item.idEstadia).then( estadia => {
+      if ( estadia ) {
+        console.log("~~~~~~~~~~~~~~~~~~~~~~~ ESTADIA ~~~~~~~~~~~~~~ ",estadia)
+        for (let pedido of estadia.pedidos) {
+          pedido.pedidoestados[0].idEstadoPedido
+        }
+      }
+    })
+  }
 }

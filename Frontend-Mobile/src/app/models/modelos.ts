@@ -26,18 +26,18 @@ export interface Usuario2 {
     nroTelefonoUsuario: Number,
 };
 
-export interface Usuarioestado {
+export interface UsuarioEstado {
     descripcionUsuarioEstado: String,
     fechaYHoraAltaUsuarioEstado: Date,
     fechaYHoraBajaUsuarioEstado: Date
 };
 
-export interface Estadousuario {
+export interface EstadoUsuario {
     idEstadoUsuario: Number,
     nombreEstadoUsuario: String
 };
 
-export interface Rolusuario {
+export interface RolUsuario {
     fechaYHoraAltaRolUsuario: Date,
     fechaYHoraBajaRolUsuario: Date
 };
@@ -52,7 +52,7 @@ export interface Departamento {
     nombreDepartamento: String
 }
 
-export interface Unidadmedida {
+export interface UnidadMedida {
     idUnidadMedida: Number,
     codUnidadMedida: String,
     nombreUnidadMedida: String,
@@ -65,7 +65,7 @@ export interface Caja {
     nroCaja: Number,
 }
 
-export interface Cajaestado {
+export interface CajaEstado {
     idCajaEstado: Number,
     descripcionCajaEstado: String,
     montoAperturaCajaEstado: Number,
@@ -74,7 +74,7 @@ export interface Cajaestado {
     fechaYHoraBajaCajaEstado: Date
 }
 
-export interface Estadocaja {
+export interface EstadoCaja {
     idEstadoCaja: Number,
     codEstadoCaja: String,
     nombreEstadoCaja: String,
@@ -95,7 +95,7 @@ export interface Sector {
     fechaYHoraBajaSector: Date
 }
 
-export interface Mesaestado {
+export interface MesaEstado {
     idMesaEstado: Number,
     idMesa: Number,
     idEstadoMesa: Number,
@@ -103,7 +103,7 @@ export interface Mesaestado {
     fechaYHoraBajaMesaEstado: Date
 }
 
-export interface Estadomesa {
+export interface EstadoMesa {
     idEstadoMesa: Number,
     codEstadoMesa: String,
     nombreEstadoMesa: String,
@@ -117,7 +117,7 @@ export interface Producto {
     nombreProducto: String,
     descripcionProducto: String,
     pathImagenProducto: String,
-    precioproductos: Precioproducto[],
+    precioproductos: PrecioProducto[],
 
 }
 
@@ -128,77 +128,77 @@ export interface Rubro {
     descripcionRubro: String,
 }
 
-export interface Productoestado {
+export interface ProductoEstado {
     idProductoEstado: Number,
     descripcionProductoEstado: String,
     fechaYHoraAltaProductoEstado: Date,
     fechaYHoraBajaProductoEstado: Date
 }
 
-export interface Estadoproducto {
+export interface EstadoProducto {
     idEstadoProducto: Number,
     codEstadoProducto: String,
     nombreEstadoProducto: String,
 }
 
-export interface Precioproducto {
+export interface PrecioProducto {
     idPrecioProducto: Number,
     importePrecioProducto: Number,
     fechaYHoraDesdePrecioProducto: Date,
     fechaYHoraHastaPrecioProducto: Date
 }
 
-export interface Tipomoneda {
+export interface TipoMoneda {
     idTipoMoneda: Number,
     nombreTipoMoneda: String
     simboloTipoMoneda: String
 }
 
-export interface Menupromocion {
+export interface MenuPromocion {
     idMenuPromocion: Number,
     codMenuPromocion: String,
     nombreMenuPromocion: String,
     descripcionMenuPromocion: String,
     pathImagenMenuPromocion: String,
-    preciomenupromocions: Preciomenupromocion[],
+    preciomenupromocions: PrecioMenuPromocion[],
 }
 
-export interface Tipomenupromocion {
+export interface TipoMenuPromocion {
     idTipoMenuPromocion: Number,
     nombreTipoMenuPromocion: String,
 }
 
-export interface Menupromocionestado {
+export interface MenuPromocionEstado {
     idMenuPromocionEstado: Number,
     descripcionMenuPromocionEstado: String,
     fechaYHoraAltaMenuPromocionEstado: Date,
     fechaYHoraBajaMenuPromocionEstado: Date
 }
 
-export interface Estadomenupromocion {
+export interface EstadoMenuPromocion {
     idEstadoMenuPromocion: Number,
     codEstadoMenuPromocion: String,
     nombreEstadoMenuPromocion: String,
 }
 
-export interface Preciomenupromocion {
+export interface PrecioMenuPromocion {
     idPrecioMenuPromocion: Number,
     importePrecioMenuPromocion: Number,
     fechaYHoraDesdePrecioMenuPromocion: Date,
     fechaYHoraHastaPrecioMenuPromocion: Date
 }
 
-export interface Detallemenupromocionproducto {
+export interface DetalleMenuPromocionProducto {
     idDetalleMenuPromocionProducto: Number,
     cantidadProductoMenuPromocion: Number,
 }
 
-export interface Tipomovimientocaja {
+export interface TipoMovimientoCaja {
     idTipoMovimientoCaja: Number,
     nombreTipoMovimientoCaja: String,
 }
 
-export interface Movimientocaja {
+export interface MovimientoCaja {
     idMovimientoCaja: Number,
     fechaYHoraMovimientoCaja: Date,
     idUsuario: Number,
@@ -206,13 +206,13 @@ export interface Movimientocaja {
     descripcionMovimientoCaja: String,
 }
 
-export interface Detallepedidoproducto {
+export interface DetallePedidoProducto {
     idDetallePedidoProducto: Number,
     cantidadPedidoProducto:Number,
     fechaYhoraEntregaPedidoProducto: Date,
     fechaYHoraInicioPedidoProducto: Date,
     producto: Producto,
-    menupromocion: Menupromocion,
+    menupromocion: MenuPromocion,
 }
 
 export interface Comensal {
@@ -225,14 +225,17 @@ export interface Comensal {
     baja?: Boolean,
 }
 
-export interface Pedidoestado {
+export interface PedidoEstado {
     idPedidoEstado: Number,
     descripcionPedidoEstado: String,
     fechaYHoraAltaPedidoEstado: Date,
-    fechaYHoraBajaPedidoEstado: Date
+    fechaYHoraBajaPedidoEstado: Date,
+    idPedido: Number,
+    idEstadoPedido: Number,
+    estadopedido?: EstadoPedido
 }
 
-export interface Estadopedido {
+export interface EstadoPedido {
     idEstadoPedido: Number,
     codEstadoPedido: String,
     nombreEstadoPedido: String,
@@ -247,7 +250,7 @@ export interface Reserva {
     horaSalidaReserva: Time,
     tokenReserva: String,
     comensals?: Comensal[],
-    detallereservamesas?: Detallereservamesa[],
+    detallereservamesas?: DetalleReservaMesa[],
     pedidos?: Pedido[],
     reservaestados?: ReservaEstado,
     usuario?: Usuario,
@@ -260,13 +263,13 @@ export interface ReservaEstado {
     fechaYHoraBajaReservaEstado: Date
 }
 
-export interface Estadoreserva {
+export interface EstadoReserva {
     idEstadoReserva: Number,
     codEstadoReserva: String,
     nombreEstadoReserva: String,
 }
 
-export interface Detallereservamesa {
+export interface DetalleReservaMesa {
     idDetalleReservaMesa: Number,
     idMesa?: Number,
     idReserva?: Number
@@ -279,38 +282,38 @@ export interface Estadia {
     fechaYHoraFinEstadia: Date,
     tokenEstadia: String,
     comensals?: Comensal[],
-    detalleestadiamesas?: Detalleestadiamesa[],
+    detalleestadiamesas?: DetalleEstadiaMesa[],
     pedidos?: Pedido[],
-    estadiaestados?: Estadiaestado,
+    estadiaestados?: EstadiaEstado,
 }
 
-export interface Estadiaestado {
+export interface EstadiaEstado {
     idEstadiaEstado: Number,
     descripcionEstadiaEstado: String,
     fechaYHoraAltaEstadiaEstado: Date,
     fechaYHoraBajaEstadiaEstado: Date
 }
 
-export interface Estadoestadia {
+export interface EstadoEstadia {
     idEstadoEstadia: Number,
     codEstadoEstadia: String,
     nombreEstadoEstadia: String,
 }
 
-export interface Detalleestadiamesa {
+export interface DetalleEstadiaMesa {
     idDetalleEstadiaMesa: Number,
     idMesa?: Number,
     idEstadia?: Number,
     mesa?: Mesa
 }
 
-export interface Clienteestadia {
+export interface ClienteEstadia {
     idClienteEstadia: Number,
     idUsuario: Number,
     idEstadia: Number,
 }
 
-export interface Mozoestadia {
+export interface MozoEstadia {
     idMozoEstadia: Number,
     idUsuario: Number,
     fechaYHoraInicioMozoEstadia: Date,
@@ -326,12 +329,12 @@ export interface Pago {
     fechaYHoraAltaPago: Date
 }
 
-export interface Pagopedido {
+export interface PagoPedido {
     idPagoPedido: Number,
     importePagoPedido: Number,
 }
 
-export interface Mediopago {
+export interface MedioPago {
     idMedioPago: Number,
     nombreMedioPago: String,
 }
@@ -344,6 +347,7 @@ export interface Pedido {
     codPedido: String,
     fechaYHoraInicioPedido: Date,
     fechaYHoraFinPedido: Date,
-    detallepedidoproductos: Detallepedidoproducto[],
-    importeTotal?: Number
+    detallepedidoproductos: DetallePedidoProducto[],
+    importeTotal?: Number,
+    pedidoestados?: PedidoEstado[]
 }

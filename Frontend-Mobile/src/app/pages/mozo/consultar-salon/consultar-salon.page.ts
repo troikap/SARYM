@@ -16,7 +16,7 @@ export class ConsultarSalonPage implements OnInit {
 
   mesas;
   sectores;
-  estados;
+  estados = [];
   todoSector = true;
   todoEstado = true;
   filtroSector;
@@ -100,9 +100,12 @@ export class ConsultarSalonPage implements OnInit {
 
   traerEstados(nombre: string) {
     this.estadoService.getEstados( nombre ).then( estados => {
-      console.log("Estados TRAIDoS ", estados)
       if ( estados ) {
-        this.estados = estados;
+        for ( let estado of estados ){
+          if (estado.nombreEstadoMesa != 'Inhabilitada') {
+            this.estados.push(estado)
+          }
+        }
       } 
     })
   }
