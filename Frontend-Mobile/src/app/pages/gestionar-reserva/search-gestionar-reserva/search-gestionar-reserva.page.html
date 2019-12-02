@@ -157,10 +157,9 @@
             </ion-item-options>
         </ion-item-sliding>
     </ion-card>
-    <ion-item *ngIf="listaReservas.length == 1 && listaReservas[0].tipo == 2">
-        <ion-label floating>Usted no posee Reservas generadas</ion-label>
-    </ion-item>
-
+    <ion-card *ngIf="listaReservas.length == 1 && listaReservas[0].tipo == 2">
+        <h3 padding><strong>Debe generar o pertenecer a una reserva para poder interactuar con ella</strong></h3>
+    </ion-card>
     <div>
         <ion-fab vertical="botton" horizontal="end" slot="fixed">
             <ion-fab-button>

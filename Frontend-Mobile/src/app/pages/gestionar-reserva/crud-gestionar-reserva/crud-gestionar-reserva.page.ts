@@ -62,7 +62,7 @@ export class CrudGestionarReservaPage implements OnInit {
       fechaReserva: ['', Validators.required],
       horaEntrada: ['', Validators.required],
       horaSalida: ['', Validators.required],
-      cantidadComensal: ['', Validators.required],
+      cantidadComensal: ['', [Validators.required, Validators.pattern(/^([0-9]|([1-5][0-9])|([6][0-2]))$/)]],
       idMesa: [null, Validators.required],
     });
     this.form2 = this.formBuilder.group({
@@ -130,43 +130,11 @@ export class CrudGestionarReservaPage implements OnInit {
     }
   }
 
-  validarEdadComensal() {
-    console.log("validarEdadComensal");
-    this.form.get('edadComensal').valueChanges
-    .subscribe( edad => {
-      console.log("form, edad comensal: ", edad);
-      if (edad > 150){
-        this.form.controls.edadComensal.setErrors({edad_maxima: true});
-      }
-      else {
-        this.form.get("edadComensal").setValidators([ Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]);
-      }
-    });
-  }
-  
-  validarComensalNuevo() {
-    console.log("validarComensalNuevo", this.form2.value.edadComensal);
-    this.form2.get('edadComensal').valueChanges
-    .subscribe( edad => {
-      console.log("form2, edidad comensal: ", edad);
-      if (edad > 150){
-        this.form2.controls.edadComensal.setErrors({edad_maxima: true});
-      }
-      else {
-        this.form2.get("edadComensal").setValidators([ Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]);
-      }
-    });
-  }
-
    validarCantidadComensales() {
     this.form.get('cantidadComensal').valueChanges
     .subscribe(respuesta => {
-      if ( respuesta > 50 ) {
-        this.form.controls.cantidadComensal.setValue(50)
-      } else {
-        this.form.controls.idMesa.markAsUntouched();
-        this.actualizarMesas();
-      }
+      this.form.controls.idMesa.markAsUntouched();
+      this.actualizarMesas();
     });
   }
 

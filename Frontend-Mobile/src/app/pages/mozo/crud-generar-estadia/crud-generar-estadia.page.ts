@@ -88,7 +88,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
     private pedidoSercice: PedidoService
   ) { 
     this.form = this.formBuilder.group({
-      cantPersonas: ['', Validators.required],
+      cantPersonas: ['', [Validators.required, Validators.pattern(/^([0-9]|([1-5][0-9])|([6][0-2]))$/)]],
       idMesa: [null, Validators.required],
     });
     this.form2 = this.formBuilder.group({
@@ -311,12 +311,8 @@ export class CrudGenerarEstadiaPage implements OnInit {
   validarCantidadComensales() {
     this.form.get('cantPersonas').valueChanges
     .subscribe(respuesta => {
-      if ( respuesta > 50 ) {
-        this.form.controls.cantPersonas.setValue(50)
-      } else {
-        this.form.controls.idMesa.markAsUntouched();
-        this.actualizarMesas();
-      }
+      this.form.controls.idMesa.markAsUntouched();
+      this.actualizarMesas();
     });
   }
 
@@ -613,7 +609,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
                 console.log("ERROR ", error)
               });
             }
-            else if (this.origenDatos == "estadia" && this.accionGet == "editar") {
+            else if ((this.origenDatos == "estadia" || this.origenDatos == "salon") && this.accionGet == "editar") {
               let pathComensal = { 
                 idEstadia: this.idEstadia,
                 detalle: [ 
@@ -666,7 +662,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
         }, {
           text: 'Eliminar',
           handler: ( info ) => {
-            if (this.origenDatos == "estadia" && this.accionGet == "editar") { //Verificar Pedidos de Estadía
+            if ((this.origenDatos == "estadia" || this.origenDatos == "salon") && this.accionGet == "editar") { //Verificar Pedidos de Estadía
               if (this.verificarEliminarComensalEstadia(idComensal)) {
                 console.log("Obligar eliminacion de comensal con pedidos asociados", pathComensal)
                 this.estadiaServicio.setComensalesEstadia(pathComensal, true)
@@ -717,7 +713,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
     let estadia;
     let cantPersonas = this.form.value['cantPersonas']; 
     console.log("cantPersonas del formulario: ", cantPersonas);
-    if ((this.origenDatos == "estadia" && this.accionGet == "crear") || (this.origenDatos == "confReserva")) {
+    if (((this.origenDatos == "estadia" || this.origenDatos == "salon") && this.accionGet == "crear") || (this.origenDatos == "confReserva")) {
       estadia = {
         cantPersonas: cantPersonas
       }
@@ -788,7 +784,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
     console.log("errorRangoMesa: ", this.errorRangoMesa, ", errorRangoReserva: ", this.errorRangoReserva, "errorRangoUsr: ", this.errorRangoUsr);
 
     if (!this.errorRangoMesa && !this.errorRangoReserva && !this.errorRangoUsr) {
-      if (this.origenDatos == "estadia" && this.accionGet == "crear") {
+      if ((this.origenDatos == "estadia" || this.origenDatos == "salon") && this.accionGet == "crear") {
         this.generarComensalesClientes();
         this.enviarEstadiaCrear( estadiaConCodigo , comensales, mesas); 
       }
