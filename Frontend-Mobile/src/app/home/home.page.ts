@@ -8,6 +8,7 @@ import { ToastService } from '../providers/toast.service';
 import { ReservaService } from '../services/reserva/reserva.service';
 import { TratarFechaProvider } from '../providers/tratarFecha.provider';
 import { MesaService } from '../services/mesa/mesa.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -72,18 +73,12 @@ export class HomePage implements OnInit {
   }
 
   ionViewDidEnter() {
-    console.log("CARGO-------------------")
     this.loadLog()
   }
 
-  // TODO: Consultar por las reservas que se encuentren en estado Generada, y filtrar por fecha y rango horario (-30min + 30min). Las que se encuentren en este rango, cambiar el estado de las mesas a "RESERVADA"
-
-  // TODO: Consultar por las reservas que se encuentren en estado Generada, y filtrar por fecha y rango horario. Aquellas que hayan superado el horario de ingreso por 30 minutos, Actualizar el estado de las mesas a "DISPONIBLE" y la reserva a "ANULADA", con descripción que indique los motivos.
-
   realizarPedido() {
-    // if (this.idEstadia != undefined && this.idEstadia != null && this.idEstadia != 0) {
-      if (this.idEstadia != undefined && this.idEstadia != null && this.idEstadia != 0) {
-
+    this.getEstadiaUsrLogueado();
+    if (this.idEstadia != undefined && this.idEstadia != null && this.idEstadia != 0) {
       this.goTo('realizar-pedido');
     } else {
       this.toastService.toastWarning('Usted no se encuentra asociado a ninguna Estadía', 2500)
@@ -93,11 +88,9 @@ export class HomePage implements OnInit {
   async goTo(key: string) {
     // await this.loadLog()
     let id = this.logueo.id;
-
     if (id == -1) { //Invitado
       id = 0;
     }
-
     let page;
     switch (key) {
       case "registro-usuario":
@@ -107,25 +100,17 @@ export class HomePage implements OnInit {
         page = `/crud-gestionar-reserva/0/crear`;
         break;
       case "unirse-reserva":
-        // page = `/unirse-gestionar-reserva`;
         page = `/unirse-reserva-estadia`;
         break;
-      // case "realizar-pedido":
-      //   page = `/ver-qr-reserva/1`;
-      //   break;
       case "realizar-pedido":
         page = `/seleccion-comensal/estadia/${this.idEstadia}/home`;
         break;
       case "search-gestionar-reserva":
-        // page = `/search-gestionar-reserva`;
         break;
-      // case 'realizar-pedido':
-      //   page = `/realizar-pedido`;
-      //   break;
-      
       case "catalogo":
         page = `/catalogo`;
         break;
+
       //MOZO
       case "consultar-salon":
         page = `/consultar-salon`;
@@ -149,12 +134,10 @@ export class HomePage implements OnInit {
   async loadLog() {
     await this.storage.getCurrentUsuario()
       .then(async logs => {
-        console.log("LOG:-----------", logs);
         this.logueo = logs;
         this.currentUsuario = logs['rolUsuario'];
         this.idCurrentUsuario = logs.id;
         this.nombreUsuario = this.currentUsuario['rolUsuario'];
-        
         await this.cargarPagina();
       })
   }
@@ -168,21 +151,43 @@ export class HomePage implements OnInit {
 
   async getEstadiaUsrLogueado() {
     if (this.idCurrentUsuario !== -1) { // Si NO es Usuario Invitado
-      console.log("Usuario Invitado");
       await this.estadiaService.getEstadiasPorUsuario(this.idCurrentUsuario)
-      .then((res: any) => {
+      .then(async (res: any) => {
         if ( res && res.tipo == 1 ){
-          this.idEstadia =  res.data.idEstadia;
-        } else {
+          let idEstadia = res.data.idEstadia;
+          await this.estadiaService.getEstadia(idEstadia)
+          .then((est: any) => {
+            console.log("est: ", est);
+            let idEstadoEstadia = est.estadiaestados[0].estadoestadium.idEstadoEstadia;
+            if (est && idEstadoEstadia != 2 && idEstadoEstadia != 3) { // idEstadoEstadia != "Finalizada" AND idEstadoEstadia != "Anulada"
+              this.idEstadia = idEstadia;
+            } else {
+              this.storage.delOneItem("estadia");
+              this.storage.delOneItem("comensalEstadia");
+            }
+          })
+        }
+        else {
           this.idEstadia = 0;
         }
       });
     }
     else {
       await this.storage.getOneObject("estadia")
-      .then((est: any) => {
+      .then(async (est: any) => {
         if (est != null && est != "") {
-          this.idEstadia = est.idReservaEstadia;
+          let idEstadia = est.idReservaEstadia;
+          await this.estadiaService.getEstadia(idEstadia)
+          .then((est: any) => {
+            console.log("est: ", est);
+            let idEstadoEstadia = est.estadiaestados[0].estadoestadium.idEstadoEstadia;
+            if (est && idEstadoEstadia != 2 && idEstadoEstadia != 3) { // idEstadoEstadia != "Finalizada" AND idEstadoEstadia != "Anulada"
+              this.idEstadia = idEstadia;
+            } else {
+              this.storage.delOneItem("estadia");
+              this.storage.delOneItem("comensalEstadia");
+            }
+          })
         }
         else {
           this.idEstadia = 0;
@@ -196,11 +201,6 @@ export class HomePage implements OnInit {
     .then((res:any) => {
       if ( res && res.tipo != 2) {
         let reservasGeneradas = res.data;
-        console.log("reservasGeneradas: ", reservasGeneradas);
-
-        console.log("----------------------------------------------------");
-        console.log("------------RESERVAS---------------");
-
         for (let reserva of reservasGeneradas) {
           let fechaReserva = reserva.fechaReserva;
           let horaEntradaReserva = reserva.horaEntradaReserva;
@@ -211,25 +211,15 @@ export class HomePage implements OnInit {
               idMesasReserva.push(mesaToda);
             }
           }
-            
-          console.log("fechaReserva", fechaReserva);
-          console.log("horaEntradaReserva", horaEntradaReserva);
-          console.log("idMesasReserva", idMesasReserva);
-          
-          console.log("lessTimes(horaEntradaReserva, '00:30'): ", this.lessTimes(horaEntradaReserva , '00:30'));
-          console.log("addTimes(horaEntradaReserva , '00:30'): ", this.addTimes(horaEntradaReserva , '00:30'));
-
-          console.log("-------------------------------");
-          
           if (fechaReserva == this.fechaActual) {
             if (
-              (this.horaActual >= (this.lessTimes(horaEntradaReserva , '00:30'))) && 
-              (this.horaActual < (this.addTimes(horaEntradaReserva, '00:30'))) 
+              (this.horaActual >= (this.lessTimes(horaEntradaReserva , environment.rangoHoraMaxReserva))) && 
+              (this.horaActual < (this.addTimes(horaEntradaReserva, environment.rangoHoraMinReserva))) 
             ) {
               //CAMBIAR ESTADO DE MESAS A RESERVADO
               this.cambiarEstadoMesaReservada(reserva, idMesasReserva);
             }
-            else if ( this.horaActual > (this.addTimes(horaEntradaReserva, '00:30')) ) {
+            else if ( this.horaActual > (this.addTimes(horaEntradaReserva, environment.rangoHoraMinReserva)) ) {
               //ANULAR RESERVA y LIBERAR MESAS
               this.anularReservaAutomaticamente(reserva, idMesasReserva);
             }
@@ -239,31 +229,59 @@ export class HomePage implements OnInit {
             this.anularReservaAutomaticamente(reserva, idMesasReserva);
           }
         }
-        console.log("----------------------------------------------------");
-        console.log("------------ACTUAL-------------");
-
-        console.log("fechaActual", this.fechaActual);
-        console.log("horaActual", this.horaActual);
       }
     });
   }
 
-  cambiarEstadoMesaReservada(reserva, idMesasReserva) {
-    console.log("CAMBIAR ESTADO DE MESAS A RESERVADO, de la Reserva Nro ", reserva.idReserva);
+  async cambiarEstadoMesaReservada(reserva, idMesasReserva) {
+    let cambiarEstado = false;
+    let cambiarEstadoCount = 0;
+    let i = 0;
     for (let idMesa of idMesasReserva) {
-      let pathMesa = {}
-      pathMesa['idMesa'] = idMesa;
-      pathMesa['idEstadoMesa'] = 3 //Reservada
-      this.mesaService.cambiarEstado(pathMesa)
-      .then(resp => {
-        if (resp.tipo != 2) {
-          console.log("Cambio de estado de Mesa Nro ", idMesa, ", a Reservada");
+      i++;
+      await this.mesaService.getMesa(idMesa)
+      .then((res:any) => {
+        if ( res && res.tipo != 2) {
+          let estadoMesa = res.data.mesaestados[0].estadomesa.idEstadoMesa;
+          let estadoMesaDesc = res.data.mesaestados[0].estadomesa.nombreEstadoMesa;
+          console.log("Estado Mesa con idMesa: ", idMesa, ": Estado: ", estadoMesa);
+          if (estadoMesa == 2) { //Si está en estado Disponible
+            cambiarEstado = true;
+            cambiarEstadoCount ++;
+          }
+          else {
+            console.log("Mesa en estado: ", estadoMesa, " (",estadoMesaDesc,"). No hacer cambio de estado");
+          }
         }
         else {
-          console.log("No se ha podido actualizar el estado de la Mesa Nro ", idMesa, " Error: ", resp.title);
+          console.log("Error al intentar traerse las mesas por id, con idMesa: ", idMesa);
         }
       });
     }
+    
+    //Cambiar el estado de todas las mesas si TODAS se encontraran en estado Disponible
+    if (cambiarEstado) { // if (cambiarEstado || !cambiarEstado) { // Para reiniciar el estado de todas las mesas, hacer esta condición
+      if (cambiarEstadoCount == i) {
+        console.log("CAMBIAR ESTADO DE MESAS A RESERVADO, de la Reserva Nro ", reserva.idReserva);
+        for (let idMesa of idMesasReserva) {
+          let pathMesa = {}
+          pathMesa['idMesa'] = idMesa;
+          pathMesa['idEstadoMesa'] = 3 //Reservada
+          this.mesaService.cambiarEstado(pathMesa)
+          .then(resp => {
+            if (resp.tipo != 2) {
+              console.log("Cambio de estado de Mesa Nro ", idMesa, ", a Reservada");
+            }
+            else {
+              console.log("No se ha podido actualizar el estado de la Mesa Nro ", idMesa, " Error: ", resp.title);
+            }
+          });
+        }
+      }
+      else { // Estados de mesas incorrectos. Verifique las semillas, ya que hay inconsistencia
+        console.log("Estados de mesas incorrectos. Verifique las semillas, ya que hay inconsistencia. No se realiza el cambio de estado de las mesas de la reserva");
+      }
+    }    
   }
   
   anularReservaAutomaticamente(reserva, idMesasReserva) {
@@ -378,22 +396,23 @@ export class HomePage implements OnInit {
     }
     // store time values
     for (var i = 0; i < max; i++) {
-      times[i] = a[i] - b[i]
+      times[i] = a[i] - b[i];
     }
-    var hours = times[0]
-    var minutes = times[1]
-    var seconds = times[2]
-    if (seconds >= 60) {
-      var m = (seconds / 60) << 0
-      minutes += m
-      seconds -= 60 * m
+    var hours = times[0];
+    var minutes = times[1];
+    var seconds = times[2];
+
+    if (seconds < 0) {
+      var m =  60 + seconds; // seconds es negativo, por eso sumo (para restar)
+      minutes -= 1
+      seconds = m
     }
-    if (minutes >= 60) {
-      var h = (minutes / 60) << 0
-      hours += h
-      minutes -= 60 * h
+    if (minutes < 0) {
+      var h = 60 + minutes; // minutes es negativo, por eso sumo (para restar)
+      hours -= 1;
+      minutes = h;
     }
-    return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) 
+    return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2);
   }
 
   seleccionarMis(){

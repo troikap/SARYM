@@ -11,7 +11,7 @@
     <ion-card>
         <ion-title color="dark" align="middle" padding>Reserva N°: {{reserva.idReserva}}</ion-title>
     </ion-card>
-    <ion-item-sliding *ngFor="let item of reserva.comensals">
+    <ion-item-sliding *ngFor="let item of reserva.comensals, let i = index">
         <ion-item (click)="seleccionarComensal(item)">
             <ion-card color=success class="card-inter">
                 <ion-card-header>
@@ -23,7 +23,7 @@
                 </ion-card-content>
             </ion-card>
         </ion-item>
-        <ion-item-options side="start" *ngIf="nombreUsuario != 'Invitado'">
+        <ion-item-options side="start" *ngIf="nombreUsuario != 'Invitado' && i != 0">
             <ion-item-option color="danger" (click)="eliminarComensal(item)">
                 <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-item-option>

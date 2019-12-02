@@ -30,8 +30,10 @@
                 <ion-title no-padding>Estado: <strong>{{item.pedidoestados[0].estadopedido.nombreEstadoPedido}}</strong></ion-title>
                 <ion-card-title>Codigo: <strong>{{item.codPedido}}</strong></ion-card-title>
                 <ion-card-title>Fecha inicio: <strong>{{item.fechaYHoraInicioPedido | date:'dd/MM/yyyy - HH:mm'}}</strong></ion-card-title>
-                <ion-card-title>Fecha fin: <strong>{{item.fechaYHoraFinPedido | date:'dd/MM/yyyy - HH:mm'}} </strong></ion-card-title>
-                <ion-title align="right">Importe: {{item.importeTotal | currency}}</ion-title>
+                <ion-card-title *ngIf="item.fechaYHoraFinPedido != null">Fecha fin: <strong>{{item.fechaYHoraFinPedido | date:'dd/MM/yyyy - HH:mm'}} </strong></ion-card-title>
+                <ion-card-title *ngIf="item.fechaYHoraFinPedido == null">Fecha fin: <strong>Sin Fecha</strong></ion-card-title>
+                <ion-card-title align="right" *ngIf="item.importeTotal != null">Importe: {{item.importeTotal | currency}}</ion-card-title>
+                <ion-card-title *ngIf="item.importeTotal == null " align="right">Importe: Sin Importe</ion-card-title>
               </ion-card-header>
               <ion-card-content >
                   <ion-card-subtitle>Comensal: <strong> {{item.comensal.aliasComensal}} - {{item.comensal.edadComensal}}</strong> años</ion-card-subtitle>
@@ -117,7 +119,7 @@
                 <ion-input padding class="form-control" type='number' id='codSeguridad' placeholder='Ingrese código de seguridad' formControlName='codSeguridad'></ion-input>
             </ion-item>
             <p class="input-error-msg" *ngIf="(form.controls.codSeguridad.errors?.min || form.controls.codSeguridad.errors?.max) && form.controls.codSeguridad.touched">Debería tener 3 números.</p>
-            <p class="input-error-msg" *ngIf="form.controls.codSeguridad.errors?.required && form.controls.codSeguridad.touched">Ingrese código de tarjeta.</p>
+            <p class="input-error-msg" *ngIf="form.controls.codSeguridad.errors?.required && form.controls.codSeguridad.touched">Ingrese código de seguridad.</p>
             <ion-item class="form-group">
                 <ion-label position="floating" color="primary" padding>DNI del titular de la tarjeta</ion-label>
                 <ion-input padding class="form-control" type='number' id='dniTitular' placeholder='Ingrese dni del titular de la tarjeta' formControlName='dniTitular'></ion-input>
@@ -144,8 +146,10 @@
                   <ion-title no-padding>Estado: <strong>{{item.pedidoestados[0].estadopedido.nombreEstadoPedido}}</strong></ion-title>
                   <ion-card-title>Codigo: <strong>{{item.codPedido}}</strong></ion-card-title>
                   <ion-card-title>Fecha inicio: <strong>{{item.fechaYHoraInicioPedido | date:'dd/MM/yyyy - HH:mm'}}</strong></ion-card-title>
-                  <ion-card-title>Fecha fin: <strong>{{item.fechaYHoraFinPedido | date:'dd/MM/yyyy - HH:mm'}} </strong></ion-card-title>
-                  <ion-title align="right">Importe: {{item.importeTotal | currency}}</ion-title>
+                  <ion-card-title *ngIf="item.fechaYHoraFinPedido != null">Fecha fin: <strong>{{item.fechaYHoraFinPedido | date:'dd/MM/yyyy - HH:mm'}} </strong></ion-card-title>
+                  <ion-card-title *ngIf="item.fechaYHoraFinPedido == null">Fecha fin: <strong>Sin Fecha</strong></ion-card-title>
+                  <ion-card-title align="right" *ngIf="item.importeTotal != null">Importe: {{item.importeTotal | currency}}</ion-card-title>
+                  <ion-card-title *ngIf="item.importeTotal == null" align="right">Importe: Sin Importe</ion-card-title>
                 </ion-card-header>
                 <ion-card-content >
                     <ion-card-subtitle>Comensal: <strong> {{item.comensal.aliasComensal}} - {{item.comensal.edadComensal}}</strong> años</ion-card-subtitle>

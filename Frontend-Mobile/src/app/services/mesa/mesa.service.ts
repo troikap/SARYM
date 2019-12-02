@@ -21,14 +21,12 @@ export class MesaService {
   ) { }
 
   getMesas(): Promise<Mesa[]> {
-    console.log("ENTRANDO A GET MESA")
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
     return this.http
       .get(`${this.url}${this.dir}`, {headers})
       .toPromise()
       .then(response => {
-        console.log("AAA " , response)
         if ( response && response['tipo'] == 1) {
           return response['data'] as Mesa[];
         } else {
@@ -39,6 +37,18 @@ export class MesaService {
         console.log("ERRROR ", err)
         return err
       });
+  }
+
+  getMesa( id: number ) {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('token', this.tokenEnviroment);
+    return this.http
+      .get(`${this.url}${this.dir}/${id}`, {headers})
+      .toPromise()
+      .then(response => {
+        return response;
+      })
+      .catch();
   }
 
   cambiarEstado( datas: any ): Promise<any> {

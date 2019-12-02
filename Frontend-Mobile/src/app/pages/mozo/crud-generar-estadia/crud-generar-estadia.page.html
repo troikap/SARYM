@@ -67,11 +67,13 @@
             <ion-label padding color="primary" position="floating">Cantidad de Personas</ion-label>
             <ion-input class="form-control" type="number" placeholder="Cantidad Personas" formControlName="cantPersonas" id="cantPersonas"></ion-input>
         </ion-item>
+        <p padding class="input-error-msg" *ngIf="form.controls.cantPersonas.errors?.required && form.controls.cantPersonas.touched">Campo Obligatorio.</p>
+        <p padding class="input-error-msg" *ngIf="form.controls.cantPersonas.errors?.pattern && form.controls.cantPersonas.touched">Máximo 62.</p>
         <h1 padding>Seleccione Mesa/s</h1>
-        <p class="input-error-msg" *ngIf="form.controls.idMesa.errors?.required && form.controls.idMesa.touched">Campo Obligatorio.</p>
-        <p class="input-error-msg" *ngIf="form.controls.idMesa.errors?.cant_comensales && form.controls.idMesa.touched">Ingrese la cantidad de Comensales de la reserva.</p>
-        <p class="input-error-msg" *ngIf="form.controls.idMesa.errors?.cant_minima_comensales && form.controls.idMesa.touched">seleccione una mesa con mayor capacidad o bien agregue otra mesa a su reserva.</p>
-        <p class="input-info-msg" *ngIf="mostrarMensajeConsideracion == 1">Considere seleccionar mesas con la misma o menor capacidad posible del total de comensales de la reserva, de ser posible.</p>
+        <p padding class="input-error-msg" *ngIf="form.controls.idMesa.errors?.required && form.controls.idMesa.touched">Campo Obligatorio.</p>
+        <p padding class="input-error-msg" *ngIf="form.controls.idMesa.errors?.cant_comensales && form.controls.idMesa.touched">Ingrese la cantidad de Comensales de la reserva.</p>
+        <p padding class="input-error-msg" *ngIf="form.controls.idMesa.errors?.cant_minima_comensales && form.controls.idMesa.touched">Seleccione una mesa con mayor capacidad o bien agregue otra mesa a su reserva.</p>
+        <p padding class="input-info-msg" *ngIf="mostrarMensajeConsideracion == 1">Considere seleccionar mesas con la misma o menor capacidad posible del total de comensales de la reserva, de ser posible.</p>
         <ion-button padding (click)="mostrar5 = !mostrar5" position="floating">Mostrar Mesas</ion-button>
         <ion-list *ngIf="mostrar5">
             <ion-item class="form-group" *ngFor='let element of checkBoxList; let i = index'>
@@ -152,7 +154,7 @@
         <ion-button color="danger" class="mt-10" (click)="eliminarComensal(i, comen.idComensal)" shape="round" *ngIf="!comen.baja">Eliminar</ion-button>
         <ion-button color="success" class="mt-10" (click)="cargarPedido(comen.idComensal)" shape="round" *ngIf="!comen.baja && (idEstadia != 0 || idReserva != 0)">Cargar Pedidos</ion-button>
     </ion-card>
-    <ion-button *ngIf="accionGet == 'editar' && origenDatos == 'confReserva'" class="mt-10" (click)="crearEditarEstadia()" [disabled]="!form.valid" expand="full">Confirmar Reserva</ion-button>
-    <ion-button *ngIf="accionGet == 'crear'" class="mt-10" (click)="crearEditarEstadia()" [disabled]="!form.valid" expand="full">Crear Estadía</ion-button>
-    <ion-button *ngIf="accionGet == 'editar' && (origenDatos == 'estadia' || origenDatos == 'salon')" class="mt-10" (click)="crearEditarEstadia()" [disabled]="!form.valid" expand="full">Editar Estadía</ion-button>
+    <ion-button *ngIf="accionGet == 'editar' && origenDatos == 'confReserva'" class="mt-10" (click)="crearEditarEstadia()" [disabled]="!form.valid || this.comensales.length == 0" expand="full">Confirmar Reserva</ion-button>
+    <ion-button *ngIf="accionGet == 'crear'" class="mt-10" (click)="crearEditarEstadia()" [disabled]="!form.valid || this.comensales.length == 0" expand="full">Crear Estadía</ion-button>
+    <ion-button *ngIf="accionGet == 'editar' && (origenDatos == 'estadia' || origenDatos == 'salon')" class="mt-10" (click)="crearEditarEstadia()" [disabled]="!form.valid || this.comensales.length == 0" expand="full">Editar Estadía</ion-button>
 </ion-content>

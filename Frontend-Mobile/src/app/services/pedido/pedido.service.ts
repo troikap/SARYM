@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { Pedido, Estadia } from '../../models/modelos';
 import { environment } from '../../../environments/environment';
+import { ToastService } from '../../providers/toast.service'
 
 const dir = '/pedido';
 const dir2 = '/todo';
@@ -19,9 +20,11 @@ export class PedidoService {
   tokenEnviroment = environment.token;
   pedido: Pedido;
   estadias: Estadia[] = [];
+  mostroMensaje;
 
   constructor(
-    public http: HttpClient
+    public http: HttpClient,
+    private toastService: ToastService,
   ) { }
 
 getPedidosAEnviar(): Promise<Pedido[]> {
@@ -30,10 +33,20 @@ getPedidosAEnviar(): Promise<Pedido[]> {
   return this.http
    .get(`${this.url}${dir}${dir2}${dir3}`, {headers})
    .toPromise()
-   .then(response => {
-     return response as Pedido[];
-   })
-   .catch(  );
+   .then( response => {
+     console.log("respuesta getPedidosAEnviar ",response)
+    if ( response ) {
+      if ( response['tipo'] == 1) {
+        this.mostroMensaje = false;
+        return response['data'] as Pedido[];
+      } 
+    } else {
+      if ( !this.mostroMensaje ) {
+        this.mostroMensaje = true;
+        this.toastService.toastError('No se pudo realizar la busqueda de Estadía.', 2000)
+      }
+    }
+  }).catch();
 }
 
 getEstadiaPedidosAEnviar(pedidos): Promise<Estadia[]> {
@@ -86,7 +99,6 @@ cambiarEstado( datas: any ): Promise<any> {
     .put(`${this.url}${dir}${dir5}`, datas, {headers})
     .toPromise()
     .then(response => {
-      console.log("Servicio cambiarEstado()", response);
       return response;
     })
     .catch(  );

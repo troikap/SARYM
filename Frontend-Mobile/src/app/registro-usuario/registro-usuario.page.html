@@ -14,9 +14,9 @@
                     <ion-label color="primary" padding>Dni</ion-label>
                     <ion-input slot="end" class="form-control" type='number' id='dniUsuario' placeholder='Ingrese DNI' formControlName='dniUsuario' (ionChange)="validateCuit()"></ion-input>
                 </ion-item>
-                <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.required && form.controls.dniUsuario.touched">Campo Obligatorio.</p>
-                <p class="input-error-msg" *ngIf="(form.controls.dniUsuario.errors?.min || form.controls.dniUsuario.errors?.max) && form.controls.dniUsuario.touched">Debería ser por ejemplo: 12345678.</p>
-                <p class="input-error-msg" *ngIf="form.controls.dniUsuario.errors?.not_equals && form.controls.dniUsuario.touched">Debe Calcular el Cuit.</p>
+                <p class="input-error-msg ion-padding" *ngIf="form.controls.dniUsuario.errors?.required && form.controls.dniUsuario.touched">Campo Obligatorio.</p>
+                <p class="input-error-msg ion-padding" *ngIf="(form.controls.dniUsuario.errors?.min || form.controls.dniUsuario.errors?.max) && form.controls.dniUsuario.touched">Debería ser por ejemplo: 12345678.</p>
+                <p class="input-error-msg ion-padding" *ngIf="form.controls.dniUsuario.errors?.not_equals && form.controls.dniUsuario.touched">Dni inválido. Luego calcule CUIT.</p>
                 <ion-row *ngIf="isDNI == true && cuitValidated == false">
                     <ion-col>
                         <ion-list>

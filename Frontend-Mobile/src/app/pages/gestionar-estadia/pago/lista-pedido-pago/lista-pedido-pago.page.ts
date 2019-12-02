@@ -10,6 +10,9 @@ import { ToastService } from '../../../../providers/toast.service';
 import { AlertService } from '../../../../providers/alert.service';
 import { LoaderService } from '../../../../providers/loader.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { MesaService } from '../../../../services/mesa/mesa.service';
+import { TratarFechaProvider } from 'src/app/providers/tratarFecha.provider';
+
 
 @Component({
   selector: 'app-lista-pedido-pago',
@@ -45,6 +48,9 @@ export class ListaPedidoPagoPage implements OnInit {
   private alertService: AlertService,
   private loaderService: LoaderService,
   private formBuilder: FormBuilder,
+  private mesaService: MesaService,
+  private tratarFechaProvider: TratarFechaProvider
+
   ) {
     this.form = this.formBuilder.group({
       formaPago: ['', Validators.required],
@@ -79,7 +85,7 @@ export class ListaPedidoPagoPage implements OnInit {
     });
   }
 
-  realizarPago() {
+  async realizarPago() {
     console.log("REALIZAR PAGO")
     let MP;
     if (this.medioPago == 'tarjeta') {
@@ -98,35 +104,46 @@ export class ListaPedidoPagoPage implements OnInit {
       idMedioPago: MP,
       idComensal: Number(this.idComensal),
     }
-    this.pagoService.setPago(pathPago)
-    .then( respuesta => {
+    await this.pagoService.setPago(pathPago).then( async respuesta => {
       if ( respuesta && respuesta.tipo == 1) {
         let detalle = [];
         for (let pedido of this.listaPedidos) {
           detalle.push( {idPedido: pedido.idPedido, importePagoPedido: Number(pedido.importeTotal)})
         }
         let pathPedidoPago = {idPago: respuesta.id, detalle: detalle};
-        this.pagoService.setPagoPedido(pathPedidoPago)
-        .then( resp => {
+        await this.pagoService.setPagoPedido(pathPedidoPago).then( async resp => {
           if ( resp && resp.tipo == 1 ) {
             this.loaderService.presentLoading('Realizando Pago. Por favor, aguarde un momento', 5000).then( () => {
               this.toastService.toastSuccess(`Se realizo correctamente el Pago. N° de Pago: ${respuesta.id}`, 3000);
               this.navController.navigateBack(`/lista-pago/${this.idEstadia}`)
             })
+            let count = 1;
             for (let element of detalle ) {
               let pathPedido = {
                 idPedido: element.idPedido,
                 idEstadoPedido: 6,
                 descripcionPedidoEstado: `Pagado: $${element.importePagadoPedido}`
               }
-              this.pedidoService.cambiarEstado(pathPedido)
-              .then( resp => {
+              await this.pedidoService.cambiarEstado(pathPedido)
+              .then( async resp => {
                 if ( resp && resp.tipo == 1 ) {
-                  console.log("PEDIDO Actualizados Correctamente")
+                  let fechaYHoraActual = await this.getFechaYHoraActual();
+                  let pathActualizarFechaFin = {
+                    idPedido: element.idPedido,
+                    fechaYHoraFinPedido: fechaYHoraActual
+                  }
+                  await this.pedidoService.updatePedido(pathActualizarFechaFin)
+                  .then(resp1 => {
+                    console.log("PEDIDO Actualizados Correctamente. Seteo de fechaYHoraFinPedido a:" , fechaYHoraActual);
+                  });
                 } else {
                   console.log("NO se pudo actualizar PEDIDO ")
                 }
+                if (detalle.length == count) {
+                  this.cambiarEstadoMesas(this.estadia)
+                }
               })
+              count += 1;
             }
           } else {
             console.log("ERROr")
@@ -136,6 +153,95 @@ export class ListaPedidoPagoPage implements OnInit {
       } else {
         console.log("ERROr")
         this.toastService.toastError('Ocurrió un error al crearse el Pago', 2000);
+      }
+    })
+  }
+
+  async getFechaYHoraActual() {
+    let fechaActual = this.traerFechaActual();
+    let horaActual = await this.traerHoraActual();
+    
+    let fechaYHoraActual = fechaActual + " " + horaActual;
+    console.log("fechaYHoraActual: ", fechaYHoraActual);
+    return fechaYHoraActual;
+  }
+
+  traerFechaActual(){
+    let date = new Date();
+    let dd = date.getDate();
+    let mm = date.getMonth() + 1;
+    let mm2 = date.getMonth() + 1 + 5;
+    let yy = date.getFullYear();
+    let dia;
+    let mes;
+    let mes2;
+    let año;
+    if (mm2 > 12) {
+      mm2 = mm2 - 12;
+      año = yy + 1;
+    }
+    if ((dd >= 0) && (dd < 10)) {  
+      dia = "0" + String(dd);
+    } else {
+      dia = dd;
+    }
+    if ((mm >= 0) && (mm < 10)) {  
+      mes = "0" + String(mm);
+    } else {
+      mes = mm;
+    }
+    if ((mm2 >= 0) && (mm2 < 10)) {  
+      mes2 = "0" + String(mm2);
+    } else {
+      mes2 = mm2;
+    }
+    let fechaDesde = `${yy}-${mes}-${dia}`;
+    return fechaDesde;
+
+  }
+
+  async traerHoraActual() {
+    let date = new Date();
+    let horaActual = await this.tratarFechaProvider.traerTime(date);
+    horaActual += ":00";
+
+    return horaActual;
+  }
+
+  async cambiarEstadoMesas(item) {
+    await this.estadiaService.getEstadia(item.idEstadia).then( async estadia => {
+      if ( estadia ) {
+        console.log("~~~~~~~~~~~~~~~~~~~~~~~ ESTADIA ~~~~~~~~~~~~~~ ",estadia)
+        let modificarEstado = true;
+        for (let pedido of estadia.pedidos) {
+          if (pedido.pedidoestados[0].idEstadoPedido != 2 && // Anulado 
+            pedido.pedidoestados[0].idEstadoPedido != 6 ) {   // Finalizado
+              modificarEstado = false;
+            }
+        }
+        await this.mesaService.getMesa(Number(estadia.detalleestadiamesas[0].idMesa)).then( async response => {
+          console.log("MESA ////////// ",response)
+          let mesa = response['data'];
+          if (response['tipo'] == 1) {
+            if (modificarEstado && mesa.mesaestados[0].idEstadoMesa == 4) {
+              for (let mesaACambiar of estadia.detalleestadiamesas) {
+                let pathMesa = {
+                  idMesa: mesaACambiar.idMesa,
+                  idEstadoMesa: 1
+                }
+                await this.mesaService.cambiarEstado(pathMesa).then( async resp => {
+                  if (resp) {
+                    if (resp.tipo == 1){
+                      console.log(`MESA N° ${mesaACambiar.idMesa} CAMBIADA A PENDIENTE DE PAGO`)
+                    } else {
+                      console.log(`MESA N° ${mesaACambiar.idMesa} NO CAMBIADA`)
+                    }
+                  }
+                })
+              }
+            }
+          }
+        })
       }
     })
   }

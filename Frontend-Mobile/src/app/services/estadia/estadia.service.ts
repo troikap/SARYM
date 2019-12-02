@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { Estadia } from '../../models/modelos';
 import { map } from 'rxjs/operators';
 import { StorageService } from '../storage/storage.service';
+import { ToastService } from '../../providers/toast.service'
 
 @Injectable({
   providedIn: 'root'
@@ -29,24 +30,23 @@ export class EstadiaService {
   constructor( 
     public http: HttpClient,
     private storage: StorageService,
+    private toastService: ToastService,
   ) { }
 
-  getProductosByAll( termino: string) { //Observador
-    console.log("Service getProductosByAll: Termino = ", termino);
+  getEstadiasPorEstado( termino: string) {
     if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
       headers = headers.append('token', this.tokenEnviroment);
       return this.http
-        .get(`${this.url}${this.dir}${this.dirTodo}/${termino}`, {headers})
-        .pipe( map ((data: any) => {
-          console.log(data.data);
-          if (data != null) {
-            return data.data;
-          }
-      }));
+      .get(`${this.url}${this.dir}${this.dirTodo}/${termino}`, {headers})
+      .toPromise()
+      .then( response => {
+        return response;
+      })
+      .catch();
     }
     else {
-      // console.log("Service getProductosByAll: SIN TERMINO");
+      // console.log("Service getReservasPorEstado: SIN TERMINO");
     }
   }
 
@@ -64,6 +64,8 @@ export class EstadiaService {
   }
 
   getEstadia( id: number ): Promise<Estadia> {
+    console.log("ENVIROMENT ", this.url)
+    console.log("url  2",`${this.url}${this.dir}/${id}`)
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
     return this.http
@@ -78,12 +80,10 @@ export class EstadiaService {
   getEstadiasPorUsuario(idUsuario: number): Promise<any[]> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
-    // console.log("URL ",`${this.url}${this.dir}${this.dirUsuario}/${idUsuario}`)
     return this.http
       .post(`${this.url}${this.dir}${this.dirUsuario}/${idUsuario}`, {} , {headers})
       .toPromise()
       .then(response => {
-        // console.log("Service getEstadiasPorUsuario: ", response);
         return response as any[];
       })
       .catch(  );
@@ -97,7 +97,7 @@ export class EstadiaService {
       .put(`${this.url}${this.dir}${this.dir4}`, datas, data)
       .toPromise()
       .then(response => {
-        return response as Estadia;
+        return response;
       })
       .catch(  );
   }
@@ -111,7 +111,7 @@ export class EstadiaService {
       .post(`${this.url}${this.dir}`, datas, data)
       .toPromise()
       .then(response => {
-        return response as Estadia;
+        return response;
       })
       .catch(  );
   }
@@ -125,7 +125,8 @@ export class EstadiaService {
       .put(`${this.url}${this.dir}${this.dirEditarClienteEstadia}`, datas, data)
       .toPromise()
       .then(response => {
-        return response as Estadia;
+        console.log("Resupesrta setClienteEstadia: ", response);
+        return response;
       })
       .catch(  );
   }
@@ -135,12 +136,11 @@ export class EstadiaService {
     headers = headers.append('token', this.tokenEnviroment);
     let data = {headers}
     datas['eliminar'] = eliminar;
-    console.log("Servicio setComensalesEstadia", datas);
     return this.http
       .put(`${this.url}${this.dir}${this.dir2}`, datas, data)
       .toPromise()
       .then(response => {
-        return response as Estadia;
+        return response;
       })
       .catch(  );
   }
@@ -149,14 +149,10 @@ export class EstadiaService {
     let headers: HttpHeaders = new HttpHeaders();
      headers = headers.append('token', this.tokenEnviroment);
      let data = {headers}
-
-     console.log("Servicio setMesasEstadia: ", datas);
-
      return this.http
       .put(`${this.url}${this.dir}${this.dir3}`, datas, data)
       .toPromise()
       .then(response => {
-        console.log("Respuesta servicio Editar Mesas: ", response);
         return response as Estadia;
       })
       .catch(  );
@@ -165,12 +161,10 @@ export class EstadiaService {
   cambiarEstado( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR :",datas)
     return this.http
       .put(`${this.url}${this.dir}${this.dirCambiarEstado}`, datas, {headers})
       .toPromise()
       .then(response => {
-        console.log("Servicio cambiarEstado()", response);
         return response;
       })
       .catch(  );
@@ -179,12 +173,10 @@ export class EstadiaService {
   cambiarMozoEstadia( datas: any ): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
-    console.log("DATOS A ENVIAR :",datas)
     return this.http
       .put(`${this.url}${this.dir}${this.dirCambiarMozoEstadia}`, datas, {headers})
       .toPromise()
       .then(response => {
-        console.log("Servicio cambiarMozoEstadia()", response);
         return response;
       })
       .catch(  );
@@ -202,9 +194,10 @@ export class EstadiaService {
           if ( response['tipo'] == 1) {
             return response['data'] as Estadia;
           } else {
-  
+            this.toastService.toastWarning('No se encontró Estadia.', 2000)
           }
-
+        } else {
+          this.toastService.toastError('No se pudo realizar la busqueda de Estadía.', 2000)
         }
       })
       .catch(  );

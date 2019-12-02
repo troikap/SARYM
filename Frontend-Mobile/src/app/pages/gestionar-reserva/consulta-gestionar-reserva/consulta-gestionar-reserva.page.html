@@ -113,13 +113,13 @@
                 <ion-icon name="arrow-dropleft"></ion-icon>
             </ion-fab-button>
             <ion-fab-list side="start">
-                <ion-fab-button (click)="editarReserva()" color="primary">
+                <ion-fab-button (click)="editarReserva()" color="primary" *ngIf="esPropietario">
                     <ion-icon name="create"></ion-icon>
                 </ion-fab-button>
                 <ion-fab-button (click)="verQrReserva()" color="secondary">
                     <ion-icon name="barcode"></ion-icon>
                 </ion-fab-button>
-                <ion-fab-button (click)="anularReserva()" color="danger">
+                <ion-fab-button (click)="anularReserva()" color="danger" *ngIf="esPropietario">
                     <ion-icon name="trash"></ion-icon>
                 </ion-fab-button>
             </ion-fab-list>

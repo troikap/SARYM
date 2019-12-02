@@ -11,6 +11,7 @@ import { TipoMoneda } from '../../../model/tipo-moneda/tipo-moneda.model';
 import { Rubro } from 'src/app/model/rubro/rubro.model';
 import { UploadComponent } from 'src/app/upload/upload.component';
 import { environment } from 'src/environments/environment';
+import { MenuPromocionService } from "src/app/services/menu-promocion/menu-promocion.service";
 
 @Component({
   selector: "app-crud-gestionar-producto",
@@ -48,7 +49,8 @@ export class CrudGestionarProductoComponent implements OnInit {
     private productoServicio: ProductoService,
     private unidadMedidaService: UnidadMedidaService,
     private tipoMonedaService: TipoMonedaService,
-    private rubroService: RubroService
+    private rubroService: RubroService,
+    private menuPromocionServicio: MenuPromocionService
   ) {
     this.form = new FormGroup({
       idProducto: new FormControl({ value: "", disabled: true }),

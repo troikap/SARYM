@@ -15,6 +15,7 @@ import { LoaderService } from '../../../providers/loader.service';
 import { Comensal, Reserva, Estadia } from '../../../models/modelos';
 import { EstadiaService } from 'src/app/services/estadia/estadia.service';
 import { PedidoService } from '../../../services/pedido/pedido.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-crud-generar-estadia',
@@ -22,7 +23,7 @@ import { PedidoService } from '../../../services/pedido/pedido.service';
   styleUrls: ['./crud-generar-estadia.page.scss'],
 })
 export class CrudGenerarEstadiaPage implements OnInit {
-  
+
   public form: FormGroup = null;
   public form2: FormGroup = null;
   public comensal: Comensal = null;
@@ -45,8 +46,9 @@ export class CrudGenerarEstadiaPage implements OnInit {
   private comensalesClientes = [];
   private pedidosReserva = [];
   public mostrarMensajeConsideracion = 0;
-  private primerPasoMesa = 0;
   public mostrar5 = false;
+  private mesasCambioEstado = [];
+  private mesasInicial = [];
 
   public nombreUsuario;
 
@@ -58,6 +60,15 @@ export class CrudGenerarEstadiaPage implements OnInit {
 
   public fechaReserva;
   public cantPersonasReserva;
+
+  private fechaActual;
+  private horaActual;
+
+  private errorRangoReserva;
+  private errorRangoUsr;
+  private errorRangoMesa;
+  private errorConfReservaPrematura;
+  private errorEstadoMesa;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -77,7 +88,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
     private pedidoSercice: PedidoService
   ) { 
     this.form = this.formBuilder.group({
-      cantPersonas: ['', Validators.required],
+      cantPersonas: ['', [Validators.required, Validators.pattern(/^([0-9]|([1-5][0-9])|([6][0-2]))$/)]],
       idMesa: [null, Validators.required],
     });
     this.form2 = this.formBuilder.group({
@@ -107,6 +118,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
   ngOnInit() {
     if (this.origenDatos == "estadia" || this.origenDatos == "salon") {
       this.tratarFecha();
+      this.traerHoraActual();
       this.loadCurrentUsuario();
       this.cargaInicial();
       this.validarCantidadComensales();
@@ -126,29 +138,35 @@ export class CrudGenerarEstadiaPage implements OnInit {
   }
   // TODO: Hacer Loading en todas las páginas
 
-  // TODO: Al generar Estadía, cambiar el estado de las mesas.
-
   // TODO: Al finalizar estadía, cambiar estado de las mesas.
+  
+  
+  async verificarEstadoReserva() {
+    this.errorConfReservaPrematura = false;
 
-  // TODO: No permitir Confirmar Reserva si horario es antes 30min o después 30min de la hora de Entrada de la reserva.
-
-  // TODO: No permitir generar Estadía (o editar), si existen estadías en misma fecha, mismo rango horario y misma mesa.
-
-  // TODO: No permitir generar Estadía (o editar), si existen reservas para esa misma fecha, mismo rango horario (+30min -30min, hora de entrada de Reserva) y misma mesa.
-
-  // TODO: No permitir generar Estadía (o editar), para un mismo usuario, misma fecha, mismo rango horario
-
-  // TODO: Al generar, editar o confirmar Reserva, verificar Reservas para la fecha y hora actual-con Hora Entrada Reserva, en estado Generada (es decir, NO confirmadas). Aquellas Estadías que superen los 30min desde su Entrada de Reserva comparado con la fecha y hora actual, ANULARLA y colocar detalle que la misma fue anulada por no haber sido confirmada.
-  verificarEstadoReserva() {
     console.log("idReserva: ", this.idReserva);
-    this.reservaservicio.getReserva(this.idReserva)
-    .then((resp: any) => {
+    await this.reservaservicio.getReserva(this.idReserva)
+    .then(async (resp: any) => {
       console.log("resp: ", resp);
       let estadoReserva = resp.reservaestados[0].estadoreserva.idEstadoReserva;
       if (estadoReserva == 1) { // Generada
-        this.tratarFecha();
-        this.loadCurrentUsuario();
-        this.cargaInicial();
+
+        await this.validarConfirmarReserva();
+        console.log("errorConfReservaPrematura: ", this.errorConfReservaPrematura);
+        
+        if(!this.errorConfReservaPrematura) {
+          this.tratarFecha();
+          this.traerHoraActual();
+          this.loadCurrentUsuario();
+          this.cargaInicial();
+        }
+        else {
+          let msg = `No puede confirmar una reserva con una anticipación mayor a ${environment.rangoHoraMaxReservaLabel}.`;
+          this.toastService.toastError(msg, 5000);
+          setTimeout(()=>{
+            this.navController.navigateForward([`/home`]);
+          }, 3000);
+        }
       }
       else if (estadoReserva == 3) { // Reserva ya confirmada
         this.toastService.toastWarning("La reserva ingresada ya ha sido confirmada", 2000);
@@ -334,6 +352,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
       } else if (this.origenDatos == "salon" && this.accionGet == "editar" ) {
         this.cargarMesasEstadia();
       }
+      
     });
   }
 
@@ -358,6 +377,17 @@ export class CrudGenerarEstadiaPage implements OnInit {
       } else {
         this.form.controls.idMesa.setValue(null)
       }
+
+      for (let item of this.checkBoxList) {
+        let mesaPath = {};
+        mesaPath['value'] = item.value;
+        mesaPath['descripcion'] = item.descripcion;
+        mesaPath['isChecked'] = item.isChecked;
+        mesaPath['capacidad'] = item.capacidad;
+        mesaPath['idDetalleReservaMesa'] = item.idDetalleReservaMesa;
+        this.mesasInicial.push(mesaPath);
+      }
+
     });
   }
 
@@ -594,7 +624,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
                 console.log("ERROR ", error)
               });
             }
-            else if (this.origenDatos == "estadia" && this.accionGet == "editar") {
+            else if ((this.origenDatos == "estadia" || this.origenDatos == "salon") && this.accionGet == "editar") {
               let pathComensal = { 
                 idEstadia: this.idEstadia,
                 detalle: [ 
@@ -647,7 +677,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
         }, {
           text: 'Eliminar',
           handler: ( info ) => {
-            if (this.origenDatos == "estadia" && this.accionGet == "editar") { //Verificar Pedidos de Estadía
+            if ((this.origenDatos == "estadia" || this.origenDatos == "salon") && this.accionGet == "editar") { //Verificar Pedidos de Estadía
               if (this.verificarEliminarComensalEstadia(idComensal)) {
                 console.log("Obligar eliminacion de comensal con pedidos asociados", pathComensal)
                 this.estadiaServicio.setComensalesEstadia(pathComensal, true)
@@ -693,12 +723,12 @@ export class CrudGenerarEstadiaPage implements OnInit {
     }
     return true;
   }
-
+  
   async crearEditarEstadia() {
     let estadia;
     let cantPersonas = this.form.value['cantPersonas']; 
     console.log("cantPersonas del formulario: ", cantPersonas);
-    if ((this.origenDatos == "estadia" && this.accionGet == "crear") || (this.origenDatos == "confReserva")) {
+    if (((this.origenDatos == "estadia" || this.origenDatos == "salon") && this.accionGet == "crear") || (this.origenDatos == "confReserva")) {
       estadia = {
         cantPersonas: cantPersonas
       }
@@ -717,6 +747,20 @@ export class CrudGenerarEstadiaPage implements OnInit {
         mesas.push({'idDetalleEstadiaMesa': item.idDetalleEstadiaMesa, 'baja': true})
       }
     }
+    const mesasAux = []
+    for (let item of this.checkBoxList) {
+      if (item.isChecked) {
+        mesasAux.push({'idMesa': item.value, 'idDetalleEstadiaMesa': null, 'baja': false})
+      } else {
+        if (item.idDetalleEstadiaMesa != undefined) {
+          mesasAux.push({'idMesa': item.value, 'idDetalleEstadiaMesa': item.idDetalleEstadiaMesa, 'baja': true})
+        }
+        else {
+          mesasAux.push({'idMesa': item.value, 'idDetalleEstadiaMesa': null, 'baja': true})
+        }
+      }
+    }
+    this.generarMesasCambioEstado(mesasAux);
     const comensales = this.comensales;   
     let encuentraUsr = false;
     for (let comensal of comensales) {
@@ -727,33 +771,337 @@ export class CrudGenerarEstadiaPage implements OnInit {
         break;
       }
     }
-
     if (!encuentraUsr) {
       estadia['idUsuario'] = this.currentUsuario.id; //Setea al Mozo, en caso de no existir usuario entre los comensales
       estadia['cuitUsuario'] = this.currentUsuario.cuit;
     }
-    
     let estadiaConCodigo = await this.agregarCodigoEstadia( estadia );
-    if (this.origenDatos == "estadia" && this.accionGet == "crear") {
-      this.generarComensalesClientes();
-      this.enviarEstadiaCrear( estadiaConCodigo , comensales, mesas); 
+    await this.validarCreacionEstadia(estadia, mesas, comensales, estadiaConCodigo);
+  }
+
+  async validarCreacionEstadia(estadia, mesas, comensales, estadiaConCodigo) {
+    this.errorRangoMesa = false;
+    this.errorRangoReserva = false;
+    this.errorRangoUsr = false;
+    this.errorEstadoMesa = false;
+
+    await this.validarReservasGeneradasRango(mesas);
+    await this.validarEstadiasGeneradasRango(mesas, comensales);
+    
+    console.log("errorRangoMesa: ", this.errorRangoMesa, ", errorRangoReserva: ", this.errorRangoReserva, ", errorRangoUsr: ", this.errorRangoUsr,", this.errorEstadoMesa: ", this.errorEstadoMesa );
+
+    if (!this.errorRangoMesa && !this.errorRangoReserva && !this.errorRangoUsr && !this.errorEstadoMesa) {
+      if ((this.origenDatos == "estadia" || this.origenDatos == "salon") && this.accionGet == "crear") {
+        this.generarComensalesClientes();
+        this.enviarEstadiaCrear( estadiaConCodigo , comensales, mesas); 
+      }
+      else if ((this.origenDatos == "estadia" || this.origenDatos == "salon") && this.accionGet == "editar") {
+        this.enviarEstadiaEditar( estadia , comensales, mesas); 
+      }
+      else if (this.origenDatos == "confReserva") {
+        estadiaConCodigo['idReserva'] = this.idReserva;
+        this.generarComensalesClientes();
+        this.confirmarReserva( estadiaConCodigo , comensales, mesas);
+      }
     }
-    else if (this.origenDatos == "estadia" && this.accionGet == "editar") {
-      this.enviarEstadiaEditar( estadia , comensales, mesas); 
-    }
-    else if (this.origenDatos == "confReserva") {
-      estadiaConCodigo['idReserva'] = this.idReserva;
-      this.generarComensalesClientes();
-      this.confirmarReserva( estadiaConCodigo , comensales, mesas);
+    else {
+      if (this.errorRangoReserva) {
+        let msg = "Existe una reserva para al menos una de las mesa seleccionadas, sin confirmar.";
+        this.toastService.toastError(msg, 5000);
+      }
+      else if (this.errorRangoMesa) {
+        let msg = "Ya existe una estadía con al menos una de las mesa seleccionadas.";
+        this.toastService.toastError(msg, 5000);
+      }
+      else if (this.errorEstadoMesa) { // this.errorEstadoMesa
+        let msg = "Existen mesas no disponibles en la reserva que intenta confirmar.";
+        this.toastService.toastError(msg, 5000);
+      }
+      else { // this.errorRangoUsr
+        let msg = "Ya existe una estadía a nombre de al menos uno de los clientes ingresados.";
+        this.toastService.toastError(msg, 5000);
+      }
     }
   }
 
+  async validarConfirmarReserva() {
+    //Validación: No permitir Confirmar Reserva, con una antelación mayor a la fecha y hora de ingreso, y el rango 
+    //permitido: environment.rangoHoraMaxReserva
+    await this.reservaservicio.getReservasPorEstado("generada")
+    .then((res:any) => {
+      if ( res && res.tipo != 2) {
+        let reservasGeneradas = res.data;
+        for (let reserva of reservasGeneradas) {
+          let fechaReserva = reserva.fechaReserva;
+          let horaEntradaReserva = reserva.horaEntradaReserva;
+          if (fechaReserva == this.fechaActual) {
+            if (
+              (this.horaActual < (this.lessTimes(horaEntradaReserva , environment.rangoHoraMaxReserva)))
+            ) {
+              this.errorConfReservaPrematura = true; 
+              break; 
+            }
+          }
+          else {
+            // Si fecha no coincide, es porque es una fecha menor a la actual, de lo contrario no llegaría a esta instancia,
+            // ya que se verifica (previamente), que la reserva no esté anulada. 
+            // Para reservas que se encuentren sin confirmar con fecha y hora inicio de la reserva mayor a la configuración 
+            // de rangoHoraMaxReserva, el sistema ya contempla la anulación y liberación de las mesas.
+            this.errorConfReservaPrematura = true;
+            break;
+          }
+        }
+      }
+    });
+  }
+
+  async validarReservasGeneradasRango(mesas) {
+    await this.reservaservicio.getReservasPorEstado("generada")
+    .then((res:any) => {
+      if ( res && res.tipo != 2) {
+        let reservasGeneradas = res.data;
+        for (let reserva of reservasGeneradas) {
+          let fechaReserva = reserva.fechaReserva;
+          let horaEntradaReserva = reserva.horaEntradaReserva;
+          let idMesasReserva = [];
+          let idMesasActual = [];
+          for (let mesasreserva of reserva.detallereservamesas) {
+            let mesaToda = mesasreserva.mesa.idMesa;
+            if (mesaToda != "" && mesaToda != null && mesaToda != "undefined") {
+              idMesasReserva.push(mesaToda);
+            }
+          }
+          for (let mesasActual of mesas) {
+            let mesaAct = mesasActual.idMesa;
+            if (mesaAct != "" && mesaAct != null && mesaAct != "undefined") {
+              idMesasActual.push(mesaAct);
+            }
+          }
+          
+          //Validación: No permitir generar/editar para al menos una mesa de la Estadia, si existen Reservas dentro del rango de la fecha de entrada
+          // de la reserva y el mínimo y máximo de confirmación: environment.rangoHoraMaxReserva y environment.rangoHoraMinReserva
+          if (fechaReserva == this.fechaActual) {
+            for(let mesaReserva of idMesasReserva) {
+              for (let mesaActual of idMesasActual) {
+                let mesaAct = mesaActual;
+                if (mesaReserva == mesaAct) {
+                  if (this.origenDatos == "confReserva") {
+                    let idReservaTodas = reserva.idReserva
+                    if (this.idReserva != idReservaTodas) {
+                      if (this.validarRangoHorarioReserva(horaEntradaReserva)) {
+                        this.errorRangoReserva = true;    
+                        break;    
+                      }
+                    }
+                  }
+                  else {
+                    if (this.validarRangoHorarioReserva(horaEntradaReserva)) {
+                      this.errorRangoReserva = true;    
+                      break;    
+                    }
+                  }
+                }
+              }
+              if (this.errorRangoReserva) {
+                break;
+              }
+            }
+          }
+          if (this.errorRangoReserva) {
+            break;
+          }
+        }
+      }
+    });
+  }
+
+  validarRangoHorarioReserva(horaEntradaReserva) {
+    if (
+      (this.horaActual >= (this.lessTimes(horaEntradaReserva , environment.rangoHoraMaxReserva))) && 
+      (this.horaActual < (this.addTimes(horaEntradaReserva, environment.rangoHoraMinReserva))) 
+    ) {
+      return true;       
+    }
+    else {
+      return false;
+    }
+  }
+
+  async validarEstadiasGeneradasRango(mesas, comensales) {
+    await this.estadiaServicio.getEstadiasPorEstado("generada")
+    .then((est:any) => {
+      if (est.tipo == 1) {
+        let estadiasGeneradas = est.data;
+        for (let estadias of estadiasGeneradas) {
+          let fechaEstadiaYHoraInicioEstadia = estadias.fechaYHoraInicioEstadia;
+  
+          let fechaEstadia = this.tratarFechaProvider.traerDate(fechaEstadiaYHoraInicioEstadia);
+          let idMesasEstadia = [];
+          let idMesasActual = [];
+          let idUsuariosActual = [];
+          let idUsuariosEstadia = [];
+          let idEstadiaTodas = estadias.idEstadia;
+          for (let mesaEstadia of estadias.detalleestadiamesas) {
+            let mesaEst = mesaEstadia.mesa.idMesa;
+            if (mesaEst != "" && mesaEst != null && mesaEst != "undefined") {
+              idMesasEstadia.push(mesaEst);
+            }
+          }
+          for (let mesasActual of mesas) {
+            let mesaAct = mesasActual.idMesa;
+            if (mesaAct != "" && mesaAct != null && mesaAct != "undefined") {
+              idMesasActual.push(mesaAct);
+            }
+          }
+          for (let comenActual of comensales) {
+            let idUsrAct = comenActual.idUsuario;
+            if (idUsrAct != null && idUsrAct != "" && idUsrAct != "undefined") {
+              idUsuariosActual.push(idUsrAct);
+            }
+          }
+          for (let comenTodas of estadias.comensals) {
+            let idUsrTod = comenTodas.idUsuario;
+            if (idUsrTod != null && idUsrTod != "" && idUsrTod != "undefined") {
+              idUsuariosEstadia.push(idUsrTod);
+            }
+          }
+          //Validación: No permitir generar/editar estadía si existiera al menos una de las mesas en una estadía Activa
+          if (fechaEstadia == this.fechaActual) {
+            for(let mesaEstadia of idMesasEstadia) {
+              console.log("mesaEstadia: ", mesaEstadia);
+              for (let mesaActual of idMesasActual) {
+                console.log("mesaActual: ", mesaActual);
+                console.log("mesaEstadia == mesaActual ?: ", mesaEstadia == mesaActual);
+                if (mesaEstadia == mesaActual) {
+                  //NO VERIFICO RANGO HORARIO, PUES LAS ESTADIAS EN ESTADO "GENERADA" SIEMPRE SON ACTIVAS
+                  if (this.accionGet == "editar") {
+                    if (idEstadiaTodas != this.idEstadia) {
+                      this.errorRangoMesa = true;
+                      break;
+                    }
+                  } 
+                  else {
+                    this.errorRangoMesa = true;
+                    break;
+                  }
+                }
+              }
+              if (this.errorRangoMesa) {
+                break;
+              }
+            }
+            if (!this.errorRangoMesa) { //Si no da error de estadía, entonces verifico por usuario
+              //Validación: No permitir generar/editar estadía si al menos uno de los comensales de la estadía ya se encuentra 
+              //en una estadía activa.
+              for(let usuarioActual of idUsuariosActual) {
+                for (let usuarioEstadia of idUsuariosEstadia) {
+                  //NO VERIFICO RANGO HORARIO, PUES LAS ESTADIAS EN ESTADO "GENERADA" SIEMPRE SON ACTIVAS
+                  if (this.accionGet == "editar") {
+                    if (idEstadiaTodas != this.idEstadia) {
+                      this.errorRangoUsr = true;
+                      break;
+                    }
+                  } 
+                  else {
+                    this.errorRangoUsr = true;
+                    break;
+                  }
+                }
+                if (this.errorRangoUsr) {
+                  break;
+                }
+              }
+            }
+          }
+
+          if (!this.errorRangoMesa && !this.errorRangoUsr) {
+            //Validación: No permitir Confirmar Reserva, crear o editar una estadía si al menos una de las mesas de la misma NO 
+            //se encontrara en estado Disponible o Reservada.
+            for (let mesasActual of mesas) {
+              let idMesaAct = mesasActual.idMesa;
+              if (idMesaAct != "" && idMesaAct != null && idMesaAct != "undefined") {
+                this.mesaservicio.getMesa(idMesaAct)
+                .then((mesa: any) => {
+                  let estadoMesa = mesa.data.mesaestados[0].idEstadoMesa;
+                  if (estadoMesa != 2 && estadoMesa != 3) { // Si estadoMesa != "DISPONIBLE" AND estadoMesa != "RESERVADA" 
+                    if (this.accionGet == "editar") {
+                      if (idEstadiaTodas != this.idEstadia) {
+                        this.errorEstadoMesa = true;
+                      }
+                    } 
+                    else {
+                      this.errorEstadoMesa = true;
+                    }
+                  }
+                });
+              }
+              if (this.errorEstadoMesa) {
+                break;
+              }
+            }
+          }
+          if (this.errorRangoMesa || this.errorRangoUsr || this.errorEstadoMesa) {
+            break;
+          }
+        }
+      }
+    });
+  }
+
+  generarMesasCambioEstado(mesas) {
+    this.mesasCambioEstado = [];
+    for (let mesasActual of mesas) {
+      let idMesaActual = mesasActual.idMesa;
+      let idDetalleEstadiaActual = mesasActual.idDetalleEstadiaMesa;
+      let baja = mesasActual.baja;
+      if (!baja) {
+        let mesaCambEst = {};
+        mesaCambEst['idMesa'] = idMesaActual;
+        mesaCambEst['idEstadoMesa'] = 1; // Estado: Ocupada
+        this.mesasCambioEstado.push(mesaCambEst);
+      }
+      else {
+        if (idDetalleEstadiaActual != null) {
+          let mesaCambEst = {};
+          mesaCambEst['idMesa'] = idMesaActual;
+          mesaCambEst['idEstadoMesa'] = 2; // Estado: Disponible
+          this.mesasCambioEstado.push(mesaCambEst);
+        }
+      }
+    }
+    
+    if (this.origenDatos == "confReserva") { //verificar las Mesas eliminadas para cambiar de Estado Reserva (si es que está así) a Libre
+      for (let inicial of this.mesasInicial) {
+        let idMesaIni = inicial.value;
+        let isChecked = inicial.isChecked;
+        if (isChecked) {
+          for (let actual of mesas) {
+            let idMesaAct = actual.idMesa;
+            let baja = actual.baja;
+            if (idMesaIni == idMesaAct && baja) {
+              let mesaCambEst = {};
+              mesaCambEst['idMesa'] = idMesaIni;
+              mesaCambEst['idEstadoMesa'] = 2; // Estado: Disponible
+              this.mesasCambioEstado.push(mesaCambEst);
+            }
+          }
+        }
+      }
+    }
+
+    console.log("++++++++++++++++++++");
+    console.log("this.mesasCambioEstado: ", this.mesasCambioEstado);
+  }
+  
   generarComensalesClientes() {
     this.comensalesClientes = [];
     for (let item of this.comensales) {
       if (item.idUsuario != null) {
         this.comensalesClientes.push({"idUsuario": item.idUsuario});
       }
+    }
+    if (this.comensalesClientes.length == 0) { //No hay usuarios en la estadía. Se coloca al Mozo como cliente
+      this.comensalesClientes.push({"idUsuario": this.currentUsuario.id});
     }
   }
 
@@ -784,20 +1132,20 @@ export class CrudGenerarEstadiaPage implements OnInit {
       });
     }
   }
-
+  
   async confirmarReserva(estadia, comensales, mesas) {
     await this.estadiaServicio.setEstadia( estadia )
     .then( async res => {
       if( res && res.tipo == 1) {
         let tokenEstadia = await this.agregarTokenEstadia(res, estadia)
         let data = { 'idEstadia': res.id ,tokenEstadia}
-        this.estadiaServicio.updateEstadia( data )
-        .then( update => {
+        await this.estadiaServicio.updateEstadia( data )
+        .then(async update => {
           if ( update && update.tipo == 1) {
             let pathComensales= {};
             pathComensales['detalle'] = comensales;
             pathComensales['idEstadia'] = res.id;
-            this.estadiaServicio.setComensalesEstadia( pathComensales )
+            await this.estadiaServicio.setComensalesEstadia( pathComensales )
             .then(async resp => {
               if ( resp && resp.tipo == 1 ){
 
@@ -806,20 +1154,23 @@ export class CrudGenerarEstadiaPage implements OnInit {
                 let pathMesas= {};
                 pathMesas['detalle'] = mesas;
                 pathMesas['idEstadia'] = res.id;
-                this.estadiaServicio.setMesasEstadia( pathMesas )
-                .then( respo1 => {
+                await this.estadiaServicio.setMesasEstadia( pathMesas )
+                .then(async respo1 => {
                   let pathClienteComensal = {};
                   pathClienteComensal['idEstadia'] = res.id;
                   pathClienteComensal['detalle'] = this.comensalesClientes;
-                  this.estadiaServicio.setClienteEstadia(pathClienteComensal)
-                  .then( respo2 => {
+                  await this.estadiaServicio.setClienteEstadia(pathClienteComensal)
+                  .then(async respo2 => {
                     if ( respo2 && respo2.tipo == 1 ){
                       let pathReserva = {};
                       pathReserva['idReserva'] = this.idReserva;
                       pathReserva['idEstadoReserva'] = 3; // Confirmar Reserva
-                      this.reservaservicio.cambiarEstado(pathReserva)
-                      .then( respo3 => {
+                      await this.reservaservicio.cambiarEstado(pathReserva)
+                      .then(async respo3 => {
                         if ( respo3 && respo3.tipo == 1 ){
+                          
+                          await this.cambiarEstadoMesas();
+
                           this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
                           setTimeout(()=>{
                             this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}/creacion`]);
@@ -849,28 +1200,50 @@ export class CrudGenerarEstadiaPage implements OnInit {
     });
   }
 
+  async cambiarEstadoMesas() {
+    for (let mesa of this.mesasCambioEstado) {
+      let pathMesa = {}
+      pathMesa['idMesa'] = mesa.idMesa;
+      pathMesa['idEstadoMesa'] = mesa.idEstadoMesa;
+      await this.mesaservicio.cambiarEstado(pathMesa)
+      .then(respo4 => {});
+    }
+  }
+
   async enviarEstadiaEditar(estadia, comensales, mesas) {
     console.log("enviarEstadiaEditar, estadia: ", estadia);
     console.log("comensales", comensales);
     console.log("mesas", mesas);
-    this.estadiaServicio.updateEstadia( estadia )
-    .then( update => {
+    await this.estadiaServicio.updateEstadia( estadia )
+    .then(async update => {
       if ( update && update.tipo == 1) {
         let pathComensales= {};
         pathComensales['detalle'] = comensales;
         pathComensales['idEstadia'] = this.idEstadia;
-        this.estadiaServicio.setComensalesEstadia( pathComensales )
-        .then( resp => {
+        await this.estadiaServicio.setComensalesEstadia( pathComensales )
+        .then(async resp => {
           if ( resp && resp.tipo == 1 ){
             let pathMesas= {};
             pathMesas['detalle'] = mesas;
             pathMesas['idEstadia'] = this.idEstadia;
-            this.estadiaServicio.setMesasEstadia( pathMesas )
-            .then( respo => {
-                this.toastService.toastSuccess(`Estadia N° ${this.idEstadia}, actualizada satisfactoriamente.`, 2500);
-                setTimeout(()=>{
+            await this.estadiaServicio.setMesasEstadia( pathMesas )
+            .then(async respo => {
+
+              await this.cambiarEstadoMesas();
+      
+              this.toastService.toastSuccess(`Estadia N° ${this.idEstadia}, actualizada satisfactoriamente.`, 2500);
+              setTimeout(()=>{
+                if (this.origenDatos == "estadia") {
                   this.navController.navigateRoot(['/consulta-gestionar-estadia', this.idEstadia ]);
-                }, 2500);
+                }
+                else if (this.origenDatos == "salon") {
+                  this.navController.navigateRoot(['/consultar-salon']);
+                }
+                else {
+                  this.navController.navigateRoot(['/home']);
+                }
+              }, 2500);
+
             });
           } else {
             this.toastService.toastError("No se han podido actualizar los comensales:" + resp.title, 2500);
@@ -888,26 +1261,29 @@ export class CrudGenerarEstadiaPage implements OnInit {
       if( res && res.tipo == 1) {
         let tokenEstadia = await this.agregarTokenEstadia(res, estadia)
         let data = { 'idEstadia': res.id ,tokenEstadia}
-        this.estadiaServicio.updateEstadia( data )
-        .then( update => {
+        await this.estadiaServicio.updateEstadia( data )
+        .then(async update => {
           if ( update && update.tipo == 1) {
             let pathComensales= {};
             pathComensales['detalle'] = comensales;
             pathComensales['idEstadia'] = res.id;
-            this.estadiaServicio.setComensalesEstadia( pathComensales )
-            .then( resp => {
+            await this.estadiaServicio.setComensalesEstadia( pathComensales )
+            .then(async resp => {
               if ( resp && resp.tipo == 1 ){
                 let pathMesas= {};
                 pathMesas['detalle'] = mesas;
                 pathMesas['idEstadia'] = res.id;
-                this.estadiaServicio.setMesasEstadia( pathMesas )
-                .then( respo => {
+                await this.estadiaServicio.setMesasEstadia( pathMesas )
+                .then(async respo => {
                   let pathClienteComensal = {};
                   pathClienteComensal['idEstadia'] = res.id;
                   pathClienteComensal['detalle'] = this.comensalesClientes;
-                  this.estadiaServicio.setClienteEstadia(pathClienteComensal)
-                  .then( respo1 => {
+                  await this.estadiaServicio.setClienteEstadia(pathClienteComensal)
+                  .then(async respo1 => {
                     if ( respo1 && respo1.tipo == 1 ){
+                      
+                      await this.cambiarEstadoMesas();
+
                       this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
                       setTimeout(()=>{
                         this.navController.navigateForward([`/seleccion-comensal/estadia/${res.id}/creacion`]);
@@ -930,36 +1306,6 @@ export class CrudGenerarEstadiaPage implements OnInit {
         this.toastService.toastError("Error:" + res.title, 2500);
       }
     })
-  }
-
-  addTimes(startTime, endTime) {
-    var times = [ 0, 0, 0 ]
-    var max = times.length
-    var a = ( startTime || '').split(':')
-    var b = (endTime || '').split(':')
-    // normalize time values
-    for (var i = 0; i < max; i++) {
-      a[i] = isNaN(parseInt(a[i])) ? 0 : parseInt(a[i])
-      b[i] = isNaN(parseInt(b[i])) ? 0 : parseInt(b[i])
-    }
-    // store time values
-    for (var i = 0; i < max; i++) {
-      times[i] = a[i] + b[i]
-    }
-    var hours = times[0]
-    var minutes = times[1]
-    var seconds = times[2]
-    if (seconds >= 60) {
-      var m = (seconds / 60) << 0
-      minutes += m
-      seconds -= 60 * m
-    }
-    if (minutes >= 60) {
-      var h = (minutes / 60) << 0
-      hours += h
-      minutes -= 60 * h
-    }
-    return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) 
   }
 
   tratarFecha(){
@@ -992,7 +1338,74 @@ export class CrudGenerarEstadiaPage implements OnInit {
       mes2 = mm2;
     }
     this.fechaDesde = `${yy}-${mes}-${dia}`;
+    this.fechaActual = `${yy}-${mes}-${dia}`;
     this.fechaHasta = `${año}-${mes2}-${dia}`;
   }
 
+  addTimes(startTime, endTime) {
+    var times = [ 0, 0, 0 ]
+    var max = times.length
+    var a = ( startTime || '').split(':')
+    var b = (endTime || '').split(':')
+    // normalize time values
+    for (var i = 0; i < max; i++) {
+      a[i] = isNaN(parseInt(a[i])) ? 0 : parseInt(a[i])
+      b[i] = isNaN(parseInt(b[i])) ? 0 : parseInt(b[i])
+    }
+    // store time values
+    for (var i = 0; i < max; i++) {
+      times[i] = a[i] + b[i]
+    }
+    var hours = times[0]
+    var minutes = times[1]
+    var seconds = times[2]
+    if (seconds >= 60) {
+      var m = (seconds / 60) << 0
+      minutes += m
+      seconds -= 60 * m
+    }
+    if (minutes >= 60) {
+      var h = (minutes / 60) << 0
+      hours += h
+      minutes -= 60 * h
+    }
+    return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) 
+  }
+
+  lessTimes(startTime, endTime) {
+    var times = [ 0, 0, 0 ]
+    var max = times.length
+    var a = ( startTime || '').split(':')
+    var b = (endTime || '').split(':')
+    // normalize time values
+    for (var i = 0; i < max; i++) {
+      a[i] = isNaN(parseInt(a[i])) ? 0 : parseInt(a[i])
+      b[i] = isNaN(parseInt(b[i])) ? 0 : parseInt(b[i])
+    }
+    // store time values
+    for (var i = 0; i < max; i++) {
+      times[i] = a[i] - b[i];
+    }
+    var hours = times[0];
+    var minutes = times[1];
+    var seconds = times[2];
+
+    if (seconds < 0) {
+      var m =  60 + seconds; // seconds es negativo, por eso sumo (para restar)
+      minutes -= 1
+      seconds = m
+    }
+    if (minutes < 0) {
+      var h = 60 + minutes; // minutes es negativo, por eso sumo (para restar)
+      hours -= 1;
+      minutes = h;
+    }
+    return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2);
+  }
+
+  traerHoraActual() {
+    let date = new Date();
+    this.horaActual = this.tratarFechaProvider.traerTime(date);
+    this.horaActual += ":00";
+  }
 }

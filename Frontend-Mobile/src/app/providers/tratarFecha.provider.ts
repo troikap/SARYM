@@ -1,6 +1,9 @@
 export class TratarFechaProvider {
 
     public traerDate( fecha): String {
+        if (fecha.length == 10) {
+            fecha += "T00:00:00-03:00";
+        }
         let date = new Date(fecha);
         let dd = date.getDate();
         let mm = date.getMonth() + 1;
@@ -22,9 +25,7 @@ export class TratarFechaProvider {
     }
 
     public traerTime( fecha): String {
-        console.log("traerTime, fecha", fecha)
         let date = new Date(fecha);
-        console.log("date: ", date);
         let horas = date.getHours();
         let minutes = date.getMinutes();
         let tratarMinuto;
