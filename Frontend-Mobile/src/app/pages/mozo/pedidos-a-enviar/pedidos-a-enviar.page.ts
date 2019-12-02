@@ -5,6 +5,8 @@ import { PedidoService } from 'src/app/services/pedido/pedido.service';
 import { Pedido } from 'src/app/models/modelos';
 import { EstadiaService } from '../../../services/estadia/estadia.service';
 import { ToastService } from "../../../providers/toast.service";
+import { MesaService } from '../../../services/mesa/mesa.service';
+
 
 @Component({
   selector: 'app-pedidos-a-enviar',
@@ -26,7 +28,8 @@ export class PedidosAEnviarPage implements OnInit {
     private storage: StorageService,
     private pedidoService: PedidoService,
     private estadiaService: EstadiaService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private mesaService: MesaService,
     ) { 
   }
 
@@ -98,13 +101,41 @@ export class PedidosAEnviarPage implements OnInit {
     })
   }
 
-  cambiarEstadoMesas(item) {
-    this.estadiaService.getEstadia(item.idEstadia).then( estadia => {
+  async cambiarEstadoMesas(item) {
+    await this.estadiaService.getEstadia(item.idEstadia).then( async estadia => {
       if ( estadia ) {
         console.log("~~~~~~~~~~~~~~~~~~~~~~~ ESTADIA ~~~~~~~~~~~~~~ ",estadia)
+        let modificarEstado = true;
         for (let pedido of estadia.pedidos) {
-          pedido.pedidoestados[0].idEstadoPedido
+          if (pedido.pedidoestados[0].idEstadoPedido != 2 && // Anulado 
+            pedido.pedidoestados[0].idEstadoPedido != 5 && // Pendiente de Pago
+            pedido.pedidoestados[0].idEstadoPedido != 6 ) {   // Finalizado
+              modificarEstado = false;
+            }
         }
+        await this.mesaService.getMesa(Number(estadia.detalleestadiamesas[0].idMesa)).then( async response => {
+          console.log("MESA ////////// ",response)
+          let mesa = response['data'];
+          if (response['tipo'] == 1) {
+            if (modificarEstado && mesa.mesaestados[0].idEstadoMesa == 1) {
+              for (let mesaACambiar of estadia.detalleestadiamesas) {
+                let pathMesa = {
+                  idMesa: mesaACambiar.idMesa,
+                  idEstadoMesa: 4
+                }
+                await this.mesaService.cambiarEstado(pathMesa).then( async resp => {
+                  if (resp) {
+                    if (resp.tipo == 1){
+                      console.log(`MESA N° ${mesaACambiar.idMesa} CAMBIADA A PENDIENTE DE PAGO`)
+                    } else {
+                      console.log(`MESA N° ${mesaACambiar.idMesa} NO CAMBIADA`)
+                    }
+                  }
+                })
+              }
+            }
+          }
+        })
       }
     })
   }

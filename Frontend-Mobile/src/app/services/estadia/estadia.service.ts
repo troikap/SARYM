@@ -34,7 +34,6 @@ export class EstadiaService {
   ) { }
 
   getEstadiasPorEstado( termino: string) {
-    console.log("Service getEstadiasPorEstado: Termino = ", termino);
     if (termino != "") {
       let headers: HttpHeaders = new HttpHeaders();
       headers = headers.append('token', this.tokenEnviroment);
@@ -42,7 +41,6 @@ export class EstadiaService {
       .get(`${this.url}${this.dir}${this.dirTodo}/${termino}`, {headers})
       .toPromise()
       .then( response => {
-        console.log("RESPUESTA ", response)
         return response;
       })
       .catch();

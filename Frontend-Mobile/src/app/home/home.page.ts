@@ -73,7 +73,6 @@ export class HomePage implements OnInit {
   }
 
   ionViewDidEnter() {
-    console.log("CARGO-------------------")
     this.loadLog()
   }
 
@@ -138,7 +137,6 @@ export class HomePage implements OnInit {
   async loadLog() {
     await this.storage.getCurrentUsuario()
       .then(async logs => {
-        console.log("LOG:-----------", logs);
         this.logueo = logs;
         this.currentUsuario = logs['rolUsuario'];
         this.idCurrentUsuario = logs.id;

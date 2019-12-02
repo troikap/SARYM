@@ -80,16 +80,18 @@
                         </div>
                     </ion-card>
                 </ion-item>
-                <ion-item-options side="start">
-                    <ion-item-option color="danger" (click)="eliminarDetalle(elemento, item.idPedido)">
-                        <ion-icon slot="icon-only" name="trash"></ion-icon>
-                    </ion-item-option>
-                </ion-item-options>
-                <ion-item-options side="end">
-                    <ion-item-option style="background-color:green" (click)="editarDetalle(elemento, item.idPedido)">
-                        <ion-icon slot="icon-only" name="create"></ion-icon>
-                    </ion-item-option>
-                </ion-item-options>
+                <div *ngIf="item.pedidoestados[0].estadopedido.nombreEstadoPedido != 'Finalizado' || item.pedidoestados[0].estadopedido.nombreEstadoPedido != 'Finalizado sin Pago'">
+                    <ion-item-options side="start">
+                        <ion-item-option color="danger" (click)="eliminarDetalle(elemento, item.idPedido)">
+                            <ion-icon slot="icon-only" name="trash"></ion-icon>
+                        </ion-item-option>
+                    </ion-item-options>
+                    <ion-item-options side="end">
+                        <ion-item-option style="background-color:green" (click)="editarDetalle(elemento, item.idPedido)">
+                            <ion-icon slot="icon-only" name="create"></ion-icon>
+                        </ion-item-option>
+                    </ion-item-options>
+                </div>
             </ion-item-sliding>
         </div>
     </div>

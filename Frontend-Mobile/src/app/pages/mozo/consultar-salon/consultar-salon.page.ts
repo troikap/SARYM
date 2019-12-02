@@ -35,7 +35,6 @@ export class ConsultarSalonPage implements OnInit {
     private alertController: AlertController,
     private storage: StorageService
   ) {
-    console.log("Constructor Consulta SAlon")
     this.traerMesas();
     this.traerSectores()
     this.traerEstados('estadomesa')
@@ -82,7 +81,6 @@ export class ConsultarSalonPage implements OnInit {
 
   traerMesas() {
     this.mesaService.getMesas().then( mesas => {
-      console.log("MESAS TRAIDAS ", mesas)
       if ( mesas ) {
         this.mesas = mesas;
       } 
@@ -91,7 +89,6 @@ export class ConsultarSalonPage implements OnInit {
 
   traerSectores() {
     this.sectorService.getSectores().then( sectores => {
-      console.log("Sectores TRAIDoS ", sectores)
       if ( sectores ) {
         this.sectores = sectores;
       } 
@@ -111,31 +108,26 @@ export class ConsultarSalonPage implements OnInit {
   }
 
   seleccionSector(item) {
-    console.log("Selecciono Sector", item)
     this.todoSector = false;
     this.filtroSector = item.nombreSector;
   }
 
   seleccionTodoSector() {
-    console.log("Selecciono Todo")
     this.todoSector = true;
     this.filtroSector = null;
   }
 
   seleccionEstado(item) {
-    console.log("Selecciono Estado", item)
     this.todoEstado = false;
     this.filtroEstado = item.nombreEstadoMesa
   }
 
   seleccionTodoEstado() {
-    console.log("Selecciono Todo")
     this.todoEstado = true;
     this.filtroEstado = null;
   }
 
   seleccionMesa( item ) {
-    console.log("SELECCIONO MESA ", item.mesaestados[0].estadomesa.nombreEstadoMesa)
     let estadoMesa = item.mesaestados[0].estadomesa.nombreEstadoMesa;
     if ( estadoMesa == 'Disponible') {
       console.log("CREAR NUEVA ESTADIA")
