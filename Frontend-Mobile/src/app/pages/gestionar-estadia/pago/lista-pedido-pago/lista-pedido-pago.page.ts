@@ -11,6 +11,7 @@ import { AlertService } from '../../../../providers/alert.service';
 import { LoaderService } from '../../../../providers/loader.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MesaService } from '../../../../services/mesa/mesa.service';
+import { TratarFechaProvider } from 'src/app/providers/tratarFecha.provider';
 
 
 @Component({
@@ -48,6 +49,7 @@ export class ListaPedidoPagoPage implements OnInit {
   private loaderService: LoaderService,
   private formBuilder: FormBuilder,
   private mesaService: MesaService,
+  private tratarFechaProvider: TratarFechaProvider
 
   ) {
     this.form = this.formBuilder.group({
@@ -122,13 +124,18 @@ export class ListaPedidoPagoPage implements OnInit {
                 idEstadoPedido: 6,
                 descripcionPedidoEstado: `Pagado: $${element.importePagadoPedido}`
               }
-              await this.pedidoService.cambiarEstado(pathPedido).then( async resp => {
+              await this.pedidoService.cambiarEstado(pathPedido)
+              .then( async resp => {
                 if ( resp && resp.tipo == 1 ) {
-                  console.log("PEDIDO Actualizados Correctamente")
+                  let fechaYHoraActual = await this.getFechaYHoraActual();
                   let pathActualizarFechaFin = {
-                    fechaYHoraFinPedido: 'aaa'                                                                                // ACA EMILIO
+                    idPedido: element.idPedido,
+                    fechaYHoraFinPedido: fechaYHoraActual
                   }
-                  // SERVICIO DE ACTUALIZAR DATOS DEL PEDIDO .....
+                  await this.pedidoService.updatePedido(pathActualizarFechaFin)
+                  .then(resp1 => {
+                    console.log("PEDIDO Actualizados Correctamente. Seteo de fechaYHoraFinPedido a:" , fechaYHoraActual);
+                  });
                 } else {
                   console.log("NO se pudo actualizar PEDIDO ")
                 }
@@ -148,6 +155,57 @@ export class ListaPedidoPagoPage implements OnInit {
         this.toastService.toastError('Ocurrió un error al crearse el Pago', 2000);
       }
     })
+  }
+
+  async getFechaYHoraActual() {
+    let fechaActual = this.traerFechaActual();
+    let horaActual = await this.traerHoraActual();
+    
+    let fechaYHoraActual = fechaActual + " " + horaActual;
+    console.log("fechaYHoraActual: ", fechaYHoraActual);
+    return fechaYHoraActual;
+  }
+
+  traerFechaActual(){
+    let date = new Date();
+    let dd = date.getDate();
+    let mm = date.getMonth() + 1;
+    let mm2 = date.getMonth() + 1 + 5;
+    let yy = date.getFullYear();
+    let dia;
+    let mes;
+    let mes2;
+    let año;
+    if (mm2 > 12) {
+      mm2 = mm2 - 12;
+      año = yy + 1;
+    }
+    if ((dd >= 0) && (dd < 10)) {  
+      dia = "0" + String(dd);
+    } else {
+      dia = dd;
+    }
+    if ((mm >= 0) && (mm < 10)) {  
+      mes = "0" + String(mm);
+    } else {
+      mes = mm;
+    }
+    if ((mm2 >= 0) && (mm2 < 10)) {  
+      mes2 = "0" + String(mm2);
+    } else {
+      mes2 = mm2;
+    }
+    let fechaDesde = `${yy}-${mes}-${dia}`;
+    return fechaDesde;
+
+  }
+
+  async traerHoraActual() {
+    let date = new Date();
+    let horaActual = await this.tratarFechaProvider.traerTime(date);
+    horaActual += ":00";
+
+    return horaActual;
   }
 
   async cambiarEstadoMesas(item) {

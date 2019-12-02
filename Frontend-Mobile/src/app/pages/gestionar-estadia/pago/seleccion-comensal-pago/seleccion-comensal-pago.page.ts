@@ -178,7 +178,7 @@ export class SeleccionComensalPagoPage implements OnInit {
           }
         }
       ],
-      cssClass: 'alert',
+      cssClass: 'alertPrimary',
     });
     await alert.present();
   } 
