@@ -74,7 +74,7 @@ export class UnirseReservaEstadiaPage implements OnInit {
       })
       .catch(err => {
         console.log('Error', err);
-        this.qrDataCodify = 'RVNUQURJQS0zLTIw'; // RVNUQURJQS01LTEx - RVNUQURJQS00LTEx
+        this.qrDataCodify = 'RVNUQURJQS0zLTE3'; // RVNUQURJQS01LTEx - RVNUQURJQS00LTEx
         this.presentAlert()
       });
     }
