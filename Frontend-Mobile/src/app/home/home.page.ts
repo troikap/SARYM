@@ -152,19 +152,42 @@ export class HomePage implements OnInit {
   async getEstadiaUsrLogueado() {
     if (this.idCurrentUsuario !== -1) { // Si NO es Usuario Invitado
       await this.estadiaService.getEstadiasPorUsuario(this.idCurrentUsuario)
-      .then((res: any) => {
+      .then(async (res: any) => {
         if ( res && res.tipo == 1 ){
-          this.idEstadia =  res.data.idEstadia;
-        } else {
+          let idEstadia = res.data.idEstadia;
+          await this.estadiaService.getEstadia(idEstadia)
+          .then((est: any) => {
+            console.log("est: ", est);
+            let idEstadoEstadia = est.estadiaestados[0].estadoestadium.idEstadoEstadia;
+            if (est && idEstadoEstadia != 2 && idEstadoEstadia != 3) { // idEstadoEstadia != "Finalizada" AND idEstadoEstadia != "Anulada"
+              this.idEstadia = idEstadia;
+            } else {
+              this.storage.delOneItem("estadia");
+              this.storage.delOneItem("comensalEstadia");
+            }
+          })
+        }
+        else {
           this.idEstadia = 0;
         }
       });
     }
     else {
       await this.storage.getOneObject("estadia")
-      .then((est: any) => {
+      .then(async (est: any) => {
         if (est != null && est != "") {
-          this.idEstadia = est.idReservaEstadia;
+          let idEstadia = est.idReservaEstadia;
+          await this.estadiaService.getEstadia(idEstadia)
+          .then((est: any) => {
+            console.log("est: ", est);
+            let idEstadoEstadia = est.estadiaestados[0].estadoestadium.idEstadoEstadia;
+            if (est && idEstadoEstadia != 2 && idEstadoEstadia != 3) { // idEstadoEstadia != "Finalizada" AND idEstadoEstadia != "Anulada"
+              this.idEstadia = idEstadia;
+            } else {
+              this.storage.delOneItem("estadia");
+              this.storage.delOneItem("comensalEstadia");
+            }
+          })
         }
         else {
           this.idEstadia = 0;
