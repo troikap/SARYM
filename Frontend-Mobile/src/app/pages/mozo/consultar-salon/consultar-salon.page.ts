@@ -57,6 +57,10 @@ export class ConsultarSalonPage implements OnInit {
       this.traerEstadiaMozo();
     },5000);
   }
+  
+  goBack() {
+    this.navController.navigateRoot('/home');
+  }
 
   traerEstadiaMozo() {
 

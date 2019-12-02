@@ -25,9 +25,7 @@ export class TratarFechaProvider {
     }
 
     public traerTime( fecha): String {
-        console.log("traerTime, fecha", fecha)
         let date = new Date(fecha);
-        console.log("date: ", date);
         let horas = date.getHours();
         let minutes = date.getMinutes();
         let tratarMinuto;

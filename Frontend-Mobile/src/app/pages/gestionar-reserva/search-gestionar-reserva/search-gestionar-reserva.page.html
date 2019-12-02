@@ -19,11 +19,11 @@
     </ion-card>
     <ion-card *ngIf="nombreUsuario != 'Invitado'">
         <ion-item-sliding *ngFor="let reserva of listaReservas">
-            <ion-item *ngIf="reserva.tipo != 2">
+            <ion-item>
                 <ion-label>
                     <p class="text">
                         <ion-grid>
-                            <ion-row>Reserva N°: {{reserva.data.idReserva}}</ion-row>
+                            <ion-row>Reserva N°: {{reserva.idReserva}}</ion-row>
                             <ion-row>
                                 <ion-col>
                                     <strong>Fecha</strong>
@@ -37,13 +37,13 @@
                             </ion-row>
                             <ion-row>
                                 <ion-col>
-                                    {{reserva.data.fechaReserva | date:'dd/MM/yyyy'}}
+                                    {{reserva.fechaReserva | date:'dd/MM/yyyy'}}
                                 </ion-col>
                                 <ion-col>
-                                    {{reserva.data.horaEntradaReserva}}hs
+                                    {{reserva.horaEntradaReserva}}hs
                                 </ion-col>
                                 <ion-col>
-                                    {{reserva.data.horaSalidaReserva}}hs
+                                    {{reserva.horaSalidaReserva}}hs
                                 </ion-col>
                             </ion-row>
                         </ion-grid>
@@ -52,36 +52,36 @@
                         <ion-grid>
                             <ion-row>
                                 <ion-col>
-                                    <strong>Cantidad de Comensales:</strong> {{reserva.data.cantPersonas}}
+                                    <strong>Cantidad de Comensales:</strong> {{reserva.cantPersonas}}
                                 </ion-col>
                                 <ion-col>
-                                    <ion-title *ngIf="reserva.data.reservaestados[0].estadoreserva.idEstadoReserva != 1">
+                                    <ion-title *ngIf="reserva.idEstadoReserva != 1">
                                         NO VIGENTE
                                     </ion-title>
                                 </ion-col>
                             </ion-row>
-                            <ion-row *ngIf="reserva.data.reservaestados[0].estadoreserva.idEstadoReserva == 1">
+                            <ion-row *ngIf="reserva.idEstadoReserva == 1">
                                 <ion-col>
-                                    <ion-button color="success" (click)="consultarReserva(reserva.data.idReserva)">Consultar Reserva:</ion-button>
+                                    <ion-button color="success" (click)="consultarReserva(reserva.idReserva)">Consultar Reserva:</ion-button>
                                 </ion-col>
                                 <ion-col align="rigth">
-                                    <ion-button (click)="realizarPedido(reserva)">Ver Comensales</ion-button>
+                                    <ion-button (click)="realizarPedido(reserva.idReserva)">Ver Comensales</ion-button>
                                 </ion-col>
                             </ion-row>
                         </ion-grid>
                     </p>
                 </ion-label>
             </ion-item>
-            <ion-item-options side="start" *ngIf="nombreUsuario != 'Invitado'">
-                <ion-item-option color="danger" (click)="anularReserva(reserva.data.idReserva)">
+            <ion-item-options side="start" *ngIf="nombreUsuario != 'Invitado' && reserva.propietario == 1">
+                <ion-item-option color="danger" (click)="anularReserva(reserva.idReserva)">
                     <ion-icon slot="icon-only" name="trash"></ion-icon>
                 </ion-item-option>
             </ion-item-options>
             <ion-item-options side="end" *ngIf="nombreUsuario != 'Invitado'">
-                <ion-item-option style="background-color:green" (click)="editarReserva(reserva.data.idReserva)">
+                <ion-item-option style="background-color:green" (click)="editarReserva(reserva.idReserva)" *ngIf="reserva.propietario == 1">
                     <ion-icon slot="icon-only" name="create"></ion-icon>
                 </ion-item-option>
-                <ion-item-option color="secondary" (click)="verQrReserva(reserva.data.idReserva)">
+                <ion-item-option color="secondary" (click)="verQrReserva(reserva.idReserva)">
                     <ion-icon slot="icon-only" name="barcode"></ion-icon>
                 </ion-item-option>
             </ion-item-options>
