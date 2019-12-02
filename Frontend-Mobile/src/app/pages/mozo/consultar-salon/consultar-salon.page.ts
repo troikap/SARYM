@@ -47,9 +47,13 @@ export class ConsultarSalonPage implements OnInit {
   }
 
   traerEstadiaMozo() {
-    this.estadiaService.getProductosByAll('generada').then( resp => {
-      if ( resp ) {
-        this.estadiasMozo = resp;
+    this.estadiaService.getEstadiasPorEstado('generada')
+    .then( resp => {
+      if ( resp['tipo'] == 1) {
+        this.estadiasMozo = resp['data'];
+      }
+      else {
+        this.toastService.toastWarning('No se encontró Estadia en proceso.', 2000)
       }
     })
   }

@@ -38,6 +38,7 @@ export class CrudGestionarReservaPage implements OnInit {
   public newForm = {};
   public mostrar5 = false;
   public mostrarMensajeConsideracion = 0;
+  private mesasInicial = [];
   
   constructor(
     private formBuilder: FormBuilder,
@@ -208,6 +209,13 @@ export class CrudGestionarReservaPage implements OnInit {
       } else {
         this.form.controls.idMesa.setValue(null)
       }
+
+      for (let item of this.checkBoxList) {
+        let mesaPath = {};
+        mesaPath['idMesa'] = item.value;
+        this.mesasInicial.push(mesaPath);
+      }
+
     });
   }
 
@@ -439,6 +447,7 @@ export class CrudGestionarReservaPage implements OnInit {
           let horaSalidaTodas = todas.horaSalidaReserva;
           let idUsuariosTodas = [];
           let idMesasTodas = [];
+          let idReservaTodas = todas.idReserva;
           for (let comenTodas of todas.comensals) {
             let idUsrTod = comenTodas.idUsuario;
             if (idUsrTod != null && idUsrTod != "" && idUsrTod != "undefined") {
@@ -459,8 +468,14 @@ export class CrudGestionarReservaPage implements OnInit {
               for (let usuarioTodas of idUsuariosTodas) {
                 let usrTodas = usuarioTodas;
                 if (usrAct == usrTodas) {
-                  errorRangoUsr = this.validarRangoHorarioReserva(horaEntradaTodas, horaEntradaActual, horaSalidaTodas, horaSalidaActual);
-                  // console.log("Error de Rango horario, fecha y usuario: ¿? ", errorRangoUsr);
+                  if (this.accionGet != "editar") {
+                    errorRangoUsr = this.validarRangoHorarioReserva(horaEntradaTodas, horaEntradaActual, horaSalidaTodas, horaSalidaActual);
+                  }
+                  else {
+                    if (this.idReserva != idReservaTodas) {
+                      errorRangoUsr = this.validarRangoHorarioReserva(horaEntradaTodas, horaEntradaActual, horaSalidaTodas, horaSalidaActual);
+                    }
+                  }
                 }
               } 
             }
@@ -470,8 +485,14 @@ export class CrudGestionarReservaPage implements OnInit {
               for (let mesaActual of idMesasActual) {
                 let mesaAct = mesaActual;
                 if (mesaToda == mesaAct) {
-                  errorRangoMesa = this.validarRangoHorarioReserva(horaEntradaTodas, horaEntradaActual, horaSalidaTodas, horaSalidaActual);
-                  // console.log("Error de Rango horario, fecha y Mesa: ¿? ", errorRangoMesa);
+                  if (this.accionGet != "editar") {
+                    errorRangoMesa = this.validarRangoHorarioReserva(horaEntradaTodas, horaEntradaActual, horaSalidaTodas, horaSalidaActual);
+                  }
+                  else {
+                    if (this.idReserva != idReservaTodas) {
+                      errorRangoMesa = this.validarRangoHorarioReserva(horaEntradaTodas, horaEntradaActual, horaSalidaTodas, horaSalidaActual);
+                    }
+                  }
                 }
               }
             }
@@ -588,24 +609,25 @@ export class CrudGestionarReservaPage implements OnInit {
     console.log("enviarReservaEditar, reserva: ", reserva);
     console.log("comensales", comensales);
     console.log("mesas", mesas);
-    this.reservaservicio.updateReserva( reserva )
-    .then( update => {
+    await this.reservaservicio.updateReserva( reserva )
+    .then(async update => {
       if ( update && update.tipo == 1) {
         let pathComensales= {};
         pathComensales['detalle'] = comensales;
         pathComensales['idReserva'] = this.idReserva;
-        this.reservaservicio.setComensalesReserva( pathComensales )
-        .then( resp => {
+        await this.reservaservicio.setComensalesReserva( pathComensales )
+        .then( async resp => {
           if ( resp && resp.tipo == 1 ){
             let pathMesas= {};
             pathMesas['detalle'] = mesas;
             pathMesas['idReserva'] = this.idReserva;
-            this.reservaservicio.setMesasReserva( pathMesas )
-            .then( respo => {
-                this.toastService.toastSuccess(`Reserva N° ${this.idReserva}, actualizada satisfactoriamente.`, 2500);
-                setTimeout(()=>{
-                  this.navController.navigateRoot(['/consulta-gestionar-reserva', this.idReserva ]);
-                }, 2500);
+            await this.reservaservicio.setMesasReserva( pathMesas )
+            .then(async respo => {
+              await this.cambiarEstadoMesas();
+              this.toastService.toastSuccess(`Reserva N° ${this.idReserva}, actualizada satisfactoriamente.`, 2500);
+              setTimeout(()=>{
+                this.navController.navigateRoot(['/consulta-gestionar-reserva', this.idReserva ]);
+              }, 2500);
             })
           } else {
             this.toastService.toastError("No se han podido actualizar los comensales:" + resp.title, 2500);
@@ -615,6 +637,19 @@ export class CrudGestionarReservaPage implements OnInit {
         this.toastService.toastError("Error:" + update.title, 2500);
       }
     })
+  }
+
+  async cambiarEstadoMesas(){
+    for (let mesa of this.mesasInicial) {
+      let idMesa = mesa.idMesa;
+      if (idMesa != undefined) {
+        let pathMesa = {}
+        pathMesa['idMesa'] = mesa.idMesa;
+        pathMesa['idEstadoMesa'] = 2;
+        await this.mesaservicio.cambiarEstado(pathMesa)
+        .then(respo2 => {});
+      }
+    }
   }
 
   setValidatorsHours() {

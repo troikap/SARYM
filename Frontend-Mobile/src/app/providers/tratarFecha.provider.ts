@@ -1,6 +1,9 @@
 export class TratarFechaProvider {
 
     public traerDate( fecha): String {
+        if (fecha.length == 10) {
+            fecha += "T00:00:00-03:00";
+        }
         let date = new Date(fecha);
         let dd = date.getDate();
         let mm = date.getMonth() + 1;
