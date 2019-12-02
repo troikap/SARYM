@@ -50,7 +50,7 @@ export class CrudGestionarProductoComponent implements OnInit {
     private unidadMedidaService: UnidadMedidaService,
     private tipoMonedaService: TipoMonedaService,
     private rubroService: RubroService,
-    private menuPromocionServicio: MenuPromocionService,
+    private menuPromocionServicio: MenuPromocionService
   ) {
     this.form = new FormGroup({
       idProducto: new FormControl({ value: "", disabled: true }),
