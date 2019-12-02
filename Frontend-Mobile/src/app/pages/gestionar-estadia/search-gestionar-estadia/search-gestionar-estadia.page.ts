@@ -95,8 +95,12 @@ export class SearchGestionarEstadiaPage implements OnInit {
               await this.estadiaService.getEstadia(idEstadia)
               .then((est: any) => {
                 console.log("est: ", est);
-                this.estadia =  est;
-                this.createCode();
+                if (est && est.estadiaestados[0].estadoestadium.nombreEstadoEstadia != 'Finalizada') {
+                  this.estadia =  est;
+                  this.createCode();
+                } else {
+                  this.storage.delOneItem("estadia")
+                }
               })
             }
             else {

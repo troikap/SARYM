@@ -41,6 +41,8 @@ export class ConsultarSalonPage implements OnInit {
     this.traerEstados('estadomesa')
     this.loadCurrentUsuario();
     this.iniciarIntervalo();
+    this.traerMesas();
+    this.traerEstadiaMozo();
    }
 
   ngOnInit() {
@@ -63,7 +65,6 @@ export class ConsultarSalonPage implements OnInit {
   }
 
   traerEstadiaMozo() {
-
     this.estadiaService.getEstadiasPorEstado('generada')
     .then( resp => {
       if ( resp['tipo'] == 1) {
