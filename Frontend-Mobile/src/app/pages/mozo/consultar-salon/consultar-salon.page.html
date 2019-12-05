@@ -14,7 +14,7 @@
 </ion-header>
 
 <ion-content>
-    <ion-card class="mensaje" *ngIf="!mesas">No se logró traer las mesas. Por favor Recargue la página.</ion-card>
+    <ion-card class="mensaje" *ngIf="!mesas">No se logró traer las mesas. Por favor espere un momento a que recargue la página.</ion-card>
     <ion-list *ngIf="mesas">
         <ion-card class="form-group" *ngFor='let element of mesas' [disabled]="element.mesaestados[0].estadomesa.nombreEstadoMesa == 'Inhabilitada'" (click)="seleccionMesa(element)">
             <ion-row *ngIf="((element.sector.nombreSector == filtroSector || !filtroSector) && ( !filtroEstado || element.mesaestados[0].estadomesa.nombreEstadoMesa == filtroEstado) && ( !mias || existeEnEstadia(element) ) )">

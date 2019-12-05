@@ -77,9 +77,8 @@ export class HomePage implements OnInit {
   }
 
   realizarPedido() {
-    // if (this.idEstadia != undefined && this.idEstadia != null && this.idEstadia != 0) {
-      if (this.idEstadia != undefined && this.idEstadia != null && this.idEstadia != 0) {
-
+    this.getEstadiaUsrLogueado();
+    if (this.idEstadia != undefined && this.idEstadia != null && this.idEstadia != 0) {
       this.goTo('realizar-pedido');
     } else {
       this.toastService.toastWarning('Usted no se encuentra asociado a ninguna Estadía', 2500)
@@ -89,11 +88,9 @@ export class HomePage implements OnInit {
   async goTo(key: string) {
     // await this.loadLog()
     let id = this.logueo.id;
-
     if (id == -1) { //Invitado
       id = 0;
     }
-
     let page;
     switch (key) {
       case "registro-usuario":
@@ -141,7 +138,6 @@ export class HomePage implements OnInit {
         this.currentUsuario = logs['rolUsuario'];
         this.idCurrentUsuario = logs.id;
         this.nombreUsuario = this.currentUsuario['rolUsuario'];
-        
         await this.cargarPagina();
       })
   }
@@ -156,19 +152,42 @@ export class HomePage implements OnInit {
   async getEstadiaUsrLogueado() {
     if (this.idCurrentUsuario !== -1) { // Si NO es Usuario Invitado
       await this.estadiaService.getEstadiasPorUsuario(this.idCurrentUsuario)
-      .then((res: any) => {
+      .then(async (res: any) => {
         if ( res && res.tipo == 1 ){
-          this.idEstadia =  res.data.idEstadia;
-        } else {
+          let idEstadia = res.data.idEstadia;
+          await this.estadiaService.getEstadia(idEstadia)
+          .then((est: any) => {
+            console.log("est: ", est);
+            let idEstadoEstadia = est.estadiaestados[0].estadoestadium.idEstadoEstadia;
+            if (est && idEstadoEstadia != 2 && idEstadoEstadia != 3) { // idEstadoEstadia != "Finalizada" AND idEstadoEstadia != "Anulada"
+              this.idEstadia = idEstadia;
+            } else {
+              this.storage.delOneItem("estadia");
+              this.storage.delOneItem("comensalEstadia");
+            }
+          })
+        }
+        else {
           this.idEstadia = 0;
         }
       });
     }
     else {
       await this.storage.getOneObject("estadia")
-      .then((est: any) => {
+      .then(async (est: any) => {
         if (est != null && est != "") {
-          this.idEstadia = est.idReservaEstadia;
+          let idEstadia = est.idReservaEstadia;
+          await this.estadiaService.getEstadia(idEstadia)
+          .then((est: any) => {
+            console.log("est: ", est);
+            let idEstadoEstadia = est.estadiaestados[0].estadoestadium.idEstadoEstadia;
+            if (est && idEstadoEstadia != 2 && idEstadoEstadia != 3) { // idEstadoEstadia != "Finalizada" AND idEstadoEstadia != "Anulada"
+              this.idEstadia = idEstadia;
+            } else {
+              this.storage.delOneItem("estadia");
+              this.storage.delOneItem("comensalEstadia");
+            }
+          })
         }
         else {
           this.idEstadia = 0;

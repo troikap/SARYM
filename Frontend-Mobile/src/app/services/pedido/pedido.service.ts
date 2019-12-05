@@ -34,16 +34,12 @@ getPedidosAEnviar(): Promise<Pedido[]> {
    .get(`${this.url}${dir}${dir2}${dir3}`, {headers})
    .toPromise()
    .then( response => {
+     console.log("respuesta getPedidosAEnviar ",response)
     if ( response ) {
       if ( response['tipo'] == 1) {
         this.mostroMensaje = false;
         return response['data'] as Pedido[];
-      } else {
-        if ( !this.mostroMensaje ) {
-          this.mostroMensaje = true;
-          this.toastService.toastWarning('No se encontraron Pedidos a Entregar.', 2000)
-        }
-      }
+      } 
     } else {
       if ( !this.mostroMensaje ) {
         this.mostroMensaje = true;

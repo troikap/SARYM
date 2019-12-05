@@ -64,6 +64,8 @@ export class EstadiaService {
   }
 
   getEstadia( id: number ): Promise<Estadia> {
+    console.log("ENVIROMENT ", this.url)
+    console.log("url  2",`${this.url}${this.dir}/${id}`)
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
     return this.http

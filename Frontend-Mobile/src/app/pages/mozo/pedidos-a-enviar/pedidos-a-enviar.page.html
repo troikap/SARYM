@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content no-padding>
-    <ion-card align="center" class="ion-padding" *ngIf="!pedidos">No hay pedidos en cocina para entregar</ion-card>
+    <ion-card align="center" class="ion-padding" *ngIf="!pedidos || pedidos.length == 0">No hay pedidos en cocina para entregar</ion-card>
     <ion-item-sliding *ngFor="let item of pedidos; let i = index">
         <ion-item (click)="mostrar[i] = !mostrar[i]; mostrarDetalle = !mostrarDetalle">
             <ion-card color="success" class="card-inter">

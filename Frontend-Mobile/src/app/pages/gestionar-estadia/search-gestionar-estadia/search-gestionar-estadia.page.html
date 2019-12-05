@@ -34,7 +34,7 @@
                             </ion-row>
                             <ion-row>
                                 <ion-col>
-                                    {{estadia.fechaYHoraInicioEstadia | date:'dd/MM/yyyy'}}
+                                    {{estadia.fechaYHoraInicioEstadia | date:'dd/MM/yyyy - HH:mm'}}hs
                                 </ion-col>
                             </ion-row>
                         </ion-grid>
@@ -68,7 +68,7 @@
             </ion-item>
         </ion-item-sliding>
     </ion-card>
-    <ion-card *ngIf="nombreUsuario == 'Invitado' && traerEstadiaInvitado">
+    <ion-card *ngIf="nombreUsuario == 'Invitado'">
         <ion-item-sliding *ngIf="estadiaInvitado">
             <ion-item>
                 <ion-label>

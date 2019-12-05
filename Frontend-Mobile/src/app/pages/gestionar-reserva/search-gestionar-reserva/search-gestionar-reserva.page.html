@@ -147,8 +147,8 @@
                     <ion-icon slot="icon-only" name="trash"></ion-icon>
                 </ion-item-option>
             </ion-item-options>
-            <ion-item-options side="end" *ngIf="nombreUsuario != 'Invitado'">
-                <ion-item-option style="background-color:green" (click)="editarReserva(reservaInvitado.idReserva)">
+            <ion-item-options side="end" >
+                <ion-item-option style="background-color:green" (click)="editarReserva(reservaInvitado.idReserva)" *ngIf="nombreUsuario != 'Invitado'">
                     <ion-icon slot="icon-only" name="create"></ion-icon>
                 </ion-item-option>
                 <ion-item-option color="secondary" (click)="verQrReserva(reservaInvitado.idReserva)">
