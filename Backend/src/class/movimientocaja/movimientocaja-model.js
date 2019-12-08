@@ -3,6 +3,7 @@
 const Sequelize = require('sequelize');
 const TipoMovimientoCajaModelo = require('../tipomovimientocaja/tipomovimientocaja-model');
 const UsuarioModelo = require('../usuario/usuario-model');
+const PagoModelo = require('../pago/pago-model');
 var sequelize = require('../../database/connection');
 
 // DEFINICION DEL MODELO
@@ -26,6 +27,9 @@ const MovimientoCajaModelo = sequelize.define('movimientocaja', {
 		type: Sequelize.INTEGER,
 		allowNull: false
 	},
+	idPago: {
+		type: Sequelize.INTEGER,
+	},
 	montoMovimientoCaja: {
 		type: Sequelize.FLOAT,
 		allowNull: false
@@ -44,5 +48,7 @@ const MovimientoCajaModelo = sequelize.define('movimientocaja', {
 
 MovimientoCajaModelo.belongsTo(TipoMovimientoCajaModelo, { foreignKey: "idTipoMovimientoCaja" });
 MovimientoCajaModelo.belongsTo(UsuarioModelo, { foreignKey: "idUsuario" });
+MovimientoCajaModelo.belongsTo(PagoModelo, { foreignKey: "idPago" });
+
 
 module.exports = MovimientoCajaModelo;
