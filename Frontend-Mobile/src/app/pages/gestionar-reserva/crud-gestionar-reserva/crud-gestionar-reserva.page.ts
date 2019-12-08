@@ -265,38 +265,51 @@ export class CrudGestionarReservaPage implements OnInit {
 
   validarExistenciaUsuario(){
     console.log("Validar Existencia")
-    const cuit = this.form2.value.cuitUsuario;
-    console.log(cuit)
-    if (cuit != null && cuit != "" && cuit != "undefined") {
-      this.usuarioservicio.validarExistenciaUsuario( cuit )
-      .then( (res) => {
-        if ( res && res.tipo == 2) {
-          this.existenciaUsuario = true;
-          this.comensal = {
-            aliasComensal: this.form2.value.aliasComensal,
-            edadComensal: this.form2.value.edadComensal,
-            cuitUsuario: this.form2.value.cuitUsuario,
-            idUsuario: res.data.idUsuario
+
+    let aliasComensalArray = [];
+    let existeAlias = false;
+    for (let comensal of this.comensales) {
+      aliasComensalArray.push(comensal.aliasComensal);
+    }
+    const alias = this.form2.value.aliasComensal;
+    if (aliasComensalArray.includes(alias)) { 
+      this.toastService.toastError("Ya existe el Alias del Comensal que está intentando agregar.", 2500);
+      existeAlias = true;
+    }
+    if (!existeAlias) {
+      const cuit = this.form2.value.cuitUsuario;
+      console.log(cuit)
+      if (cuit != null && cuit != "" && cuit != "undefined") {
+        this.usuarioservicio.validarExistenciaUsuario( cuit )
+        .then( (res) => {
+          if ( res && res.tipo == 2) {
+            this.existenciaUsuario = true;
+            this.comensal = {
+              aliasComensal: this.form2.value.aliasComensal,
+              edadComensal: this.form2.value.edadComensal,
+              cuitUsuario: this.form2.value.cuitUsuario,
+              idUsuario: res.data.idUsuario
+            }
+            this.comensales.push(this.comensal);
+            this.resetComensal();
+            this.toastService.toastSuccess("Comensal Agregado", 2500);
+          } else {
+            this.existenciaUsuario = false;
+            this.mensajeExistenciaUsuario = res.descripcion;
+            this.form2.controls.cuitUsuario.setErrors({pattern: true});
+            this.form2.markAsTouched();
+            this.toastService.toastWarning("Cuit de Usuario ingresado es incorrecto", 2500);
           }
-          this.comensales.push(this.comensal);
-          this.resetComensal();
-          this.toastService.toastSuccess("Comensal Agregado", 2500);
-        } else {
-          this.existenciaUsuario = false;
-          this.mensajeExistenciaUsuario = res.descripcion;
-          this.form2.controls.cuitUsuario.setErrors({pattern: true});
-          this.form2.markAsTouched();
-          this.toastService.toastWarning("Cuit de Usuario ingresado es incorrecto", 2500);
+        });
+      } else {
+        this.comensal = {
+          aliasComensal: this.form2.value.aliasComensal,
+          edadComensal: this.form2.value.edadComensal
         }
-      });
-    } else {
-      this.comensal = {
-        aliasComensal: this.form2.value.aliasComensal,
-        edadComensal: this.form2.value.edadComensal
+        this.comensales.push(this.comensal);
+        this.resetComensal();
+        this.toastService.toastSuccess("Comensal Agregado", 2500);
       }
-      this.comensales.push(this.comensal);
-      this.resetComensal();
-      this.toastService.toastSuccess("Comensal Agregado", 2500);
     }
   }
 
