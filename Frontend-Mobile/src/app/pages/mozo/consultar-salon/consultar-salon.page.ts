@@ -54,7 +54,6 @@ export class ConsultarSalonPage implements OnInit {
 
   iniciarIntervalo() {
     this.intervalo = setInterval( () => {
-      console.log("EJECUTANOD INTERVALO ")
       this.traerMesas();
       this.traerEstadiaMozo();
     },5000);

@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>Estadia N° {{idEstadia}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card>
+      <ngx-qrcode [(qrc-value)]="createdCode"></ngx-qrcode>
+      <ion-card-content>
+          <p>Value: {{createdCode}} </p>
+      </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="scannedCode">
+      <ion-card-content>
+          Result from Scan: {{scannedCode}}
+      </ion-card-content>
+  </ion-card>
+  <h2 padding> <strong>Confirma tu pago mostrando este código al mozo!</strong></h2>
+</ion-content>
