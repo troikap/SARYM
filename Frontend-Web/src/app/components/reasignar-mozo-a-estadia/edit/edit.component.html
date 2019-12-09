@@ -1,49 +1,53 @@
 <div class="contenedor-pagina">
-        <br>
-        <h2 class="titulo">Reasignar Mozo a Estadia</h2>
-        <hr>
-        <div class="container">
-            <div class="form-section">
-                <form [formGroup]="form" (ngSubmit)="guardar()">
-                    <div class="form-group">
-                        <label for="cantPersonas" class="col col-form-label">Cantidad de Personas</label>
-                        <input type="text" id="cantPersonas" placeholder="cantidad de personas" formControlName="cantPersonas" class="form-control">
-                    </div>            
-                    <div class="form-group">
-                            <label for="mesa" class="col col-form-label">Mesas</label>
-                            <input type="text" id="mesa" placeholder="mesas" formControlName="mesa" class="form-control">
-                    </div>   
-                    <div class="form-group">
-                            <label for="fechaYHoraInicioEstadia" class="col col-form-label">Fecha y Hora de Inicio de Estadia</label>
-                            <input type="text" id="fechaYHoraInicioEstadia" placeholder="cantidad de personas" formControlName="fechaYHoraInicioEstadia" class="form-control">
-                    </div>      
-                    <div class="form-group row">
-                            <div class="col">
-                                <label for="mozoEstadia" class="col col-form-label">Mozo</label>
-                                <select Placeholder='Seleccione Mozo' formControlName='mozoEstadia' class="form-control">                                                                  
-                                        <option *ngFor='let element of mozoEstadias' [value]='element.idUsuario'>{{element.nombreUsuario}} {{element.apellidoUsuario}}</option>               
-                                 </select>
-                                <p class="input-error-msg" *ngIf="form.controls.mozoEstadia.errors?.required && form.controls.mozoEstadia.touched">Campo Obligatorio.</p>
-                            </div>
-                    </div>                             
-                    <hr align="left">
-                    <div *ngIf="accionGet != 'eliminar'">
-                        <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
-                    </div>
-                    <div *ngIf="accionGet == 'eliminar'">
-                        <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <hr>
-        <div class="buttons-botton">
-            <div class="row">
-                <div class="col"></div>
-                <div class="col-2">
-                    <button onclick="history.back()" class="btn btn-primary">Cancelar</button>
+    <br>
+    <h2 class="titulo">Reasignar Mozo a Estadia</h2>
+    <hr>
+    <div class="container">
+        <div class="form-section">
+            <form [formGroup]="form" (ngSubmit)="guardar()">
+                <div class="form-group">
+                    <label for="cantPersonas" class="col col-form-label">Cantidad de Personas</label>
+                    <input type="text" id="cantPersonas" placeholder="cantidad de personas" formControlName="cantPersonas" class="form-control">
                 </div>
-                <div class="col"></div>
-            </div>  
+                <div class="form-group">
+                    <label for="mesa" class="col col-form-label">Mesas</label>
+                    <input type="text" id="mesa" placeholder="mesas" formControlName="mesa" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="fechaYHoraInicioEstadia" class="col col-form-label">Fecha y Hora de Inicio de Estadia</label>
+                    <input type="text" id="fechaYHoraInicioEstadia" placeholder="cantidad de personas" formControlName="fechaYHoraInicioEstadia" class="form-control">
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="mozoEstadia" class="col col-form-label">Mozo</label>
+                        <select Placeholder='Seleccione Mozo' formControlName='mozoEstadia' class="form-control">                                                                  
+                            <option *ngFor='let element of mozoEstadias' [value]='element.idUsuario'>{{element.nombreUsuario}} {{element.apellidoUsuario}}</option>               
+                        </select>
+                        <p class="input-error-msg" *ngIf="form.controls.mozoEstadia.errors?.required && form.controls.mozoEstadia.touched">Campo Obligatorio.</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="descripcionCambioEstado" class="col col-form-label">Motivos de Reasignación</label>
+                    <textarea aria-label="Ingrese los Motivos de Reasignación" id="descripcionCambioEstado" formControlName="descripcionCambioEstado" class="form-control"></textarea>
+                </div>
+                <hr align="left">
+                <div *ngIf="accionGet != 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Guardar</button>
+                </div>
+                <div *ngIf="accionGet == 'eliminar'">
+                    <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+                </div>
+            </form>
         </div>
+    </div>
+    <hr>
+    <div class="buttons-botton">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-2">
+                <button onclick="history.back()" class="btn btn-primary">Cancelar</button>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
 </div>
