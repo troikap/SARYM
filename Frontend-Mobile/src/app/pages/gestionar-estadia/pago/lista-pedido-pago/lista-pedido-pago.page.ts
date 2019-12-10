@@ -277,6 +277,7 @@ export class ListaPedidoPagoPage implements OnInit {
         newPedidos.push(element);
       }
     }
+    this.toastService.toastPrimary('Se agrego este pedido. Ver Detalle a Pagar.', 2000)
     this.pedidos = newPedidos;
   }
 
@@ -289,8 +290,7 @@ export class ListaPedidoPagoPage implements OnInit {
       }
     }
     this.listaPedidos = newPedidos;
-    console.log("PEDIDOS ---------- ", this.pedidos)
-    console.log("ITEM  ---------- ", this.listaPedidos)
+    this.toastService.toastWarning('Eliminado correctamente. Ver Pedidos.', 2000)
   }
 
   async imprimir( item ) {
