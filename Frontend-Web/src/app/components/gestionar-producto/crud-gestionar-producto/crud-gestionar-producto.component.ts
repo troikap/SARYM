@@ -284,8 +284,8 @@ export class CrudGestionarProductoComponent implements OnInit {
                                 _this.menuPromocionServicio
                                 .habilitarDeshabilitarMenuPromocion()
                                 .then(response => {
+                                  _this.router.navigate(["/producto/"]);
                                 });
-                                _this.router.navigate(["/producto/"]);
                               }
                             }
                           }
@@ -407,7 +407,11 @@ export class CrudGestionarProductoComponent implements OnInit {
                         text: "Aceptar",
                         btnClass: "btn-green",
                         action: function() {
-                          _this.router.navigate(["/producto/"]);
+                          _this.menuPromocionServicio
+                          .habilitarDeshabilitarMenuPromocion()
+                          .then(response => {
+                            _this.router.navigate(["/producto/"]);
+                          });
                         }
                       }
                     }
