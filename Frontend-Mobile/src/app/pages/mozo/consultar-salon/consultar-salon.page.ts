@@ -280,16 +280,19 @@ export class ConsultarSalonPage implements OnInit {
       if ( estadia ) {
         console.log("~~~~~~~~~~~~~~~~~~~~~~~ ESTADIA ~~~~~~~~~~~~~~ ",estadia)
         let modificarEstado = true;
+        let pedidosError;
         for (let pedido of estadia.pedidos) {
           if (pedido.pedidoestados[0].idEstadoPedido != 2 && // Anulado 
             pedido.pedidoestados[0].idEstadoPedido != 6 ) {   // Finalizado
-            modificarEstado = false;
+              pedidosError = pedido.pedidoestados[0].estadopedido.nombreEstadoPedido;
+              modificarEstado = false;
           }
         }
         await this.mesaService.getMesa(Number(estadia.detalleestadiamesas[0].idMesa)).then( async response => {
           console.log("MESA ////////// ",response)
           let mesa = response['data'];
           if (response['tipo'] == 1) {
+            let estadoMesa = mesa.mesaestados[0].estadomesa.nombreEstadoMesa;
             if (modificarEstado && (mesa.mesaestados[0].idEstadoMesa == 1 || mesa.mesaestados[0].idEstadoMesa == 4 )) {
               let cant = 1;
               for (let mesaACambiar of estadia.detalleestadiamesas) {
@@ -312,7 +315,12 @@ export class ConsultarSalonPage implements OnInit {
                 })
               }
             } else {
-              this.toastService.toastWarning('Tuvimos problemas al intentar Finalizar Estadía porfavor comuníquese con el equipo SARYM.',2500)
+              if (!modificarEstado) {
+                this.toastService.toastError(`Existen pedidos en estado "${pedidosError}". Imposible finalizar la estadía.`,3000);
+              }
+              else {
+                this.toastService.toastError(`Existen Mesas en estado "${estadoMesa}". Imposible finalizar la estadía.`,3000);
+              }
             }
           }
         })

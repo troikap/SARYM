@@ -5,20 +5,22 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Prod/Menu-Prom</th>
-                    <th scope="col">Cantidad</th> 
-                    <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Precio Unitario</th>
+                    <th scope="col">Precio Total</th>
                 </tr>
             </thead>
-            <tbody  *ngFor="let lista of detallesPedido">
-                <tr> 
-                    <div *ngIf="lista.menupromocion == null">                    
-                        <td>{{lista.producto.codProducto}}</td> 
+            <tbody *ngFor="let lista of detallesPedido">
+                <tr>
+                    <div *ngIf="lista.menupromocion == null">
+                        <td>{{lista.producto.codProducto}}</td>
                     </div>
-                    <div *ngIf="lista.producto == null">                    
-                            <td>{{lista.menupromocion.codMenuPromocion}}</td> 
-                    </div>   
+                    <div *ngIf="lista.producto == null">
+                        <td>{{lista.menupromocion.codMenuPromocion}}</td>
+                    </div>
                     <td>{{lista.cantidadPedidoProducto}}</td>
-                    <td>{{lista.simboloTipoMoneda}}{{lista.precio}}</td>                        
+                    <td>{{lista.simboloTipoMoneda}}{{lista.precio}}</td>
+                    <td>{{lista.simboloTipoMoneda}}{{lista.precioTotal}}</td>
                 </tr>
             </tbody>
         </table>

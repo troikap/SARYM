@@ -38,7 +38,7 @@ export class MozoEstadiaService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .get(this.url + this.dir, { headers })
+      .get(this.url + this.dir + this.dir3 + this.dir4, { headers })
       .toPromise()
       .then(response => {
         return response as any;

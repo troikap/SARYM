@@ -45,6 +45,7 @@ export class SearchPedidoComponent implements OnInit {
     this.mozoestadiaservicio.getEstadias().then((res: any) => {
       res.data.forEach(item => {
         if (item["estadiaestados"][0].estadoestadium.idEstadoEstadia == 1) {
+          console.log("Item: ", item);
           this.listaEstadiasmensaje.push(item);
         }
       });
