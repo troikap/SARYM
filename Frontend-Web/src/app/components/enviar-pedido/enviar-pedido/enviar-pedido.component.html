@@ -18,16 +18,19 @@
                     }">
                     <div class="card-body">
                         <h5 class="card-title">Mesa N°: {{pedido.mesas}}</h5>
+                        <hr>
                         <h6 class="card-subtitle mb-2 text-white">Código: {{pedido.codPedido}}</h6>
                         <h6 class="card-subtitle mb-2 text-white">Comensal: {{pedido.comensal.aliasComensal}}</h6>
                         <h6 class="card-subtitle mb-2 text-white">Hora de Inicio: {{pedido.fechaYHoraInicioPedido | date: 'h:mm a'}} hs</h6>
                         <h6 class="card-subtitle mb-2 text-white">Tiempo desde Inicio: {{pedido.horaDesdeComienzo}} min</h6>
+                        <hr>
                         <div class="grid" *ngFor="let detalles of pedido.detallepedidoproductos">
-                            <p class="card-text" *ngIf="detalles.menupromocion == null">{{detalles.cantidadPedidoProducto}} {{detalles.producto.nombreProducto}}
-                            </p>
-                            <p class="card-text" *ngIf="detalles.menupromocion != null">{{detalles.cantidadPedidoProducto}} {{detalles.menupromocion.codMenuPromocion}}
-                            </p>
+                            <h6 class="card-subtitle mb-2 text-dark" *ngIf="detalles.menupromocion == null">{{detalles.cantidadPedidoProducto}} {{detalles.producto.nombreProducto}}
+                            </h6>
+                            <h6 class="card-subtitle mb-2 text-dark" *ngIf="detalles.menupromocion != null">{{detalles.cantidadPedidoProducto}} {{detalles.menupromocion.codMenuPromocion}}
+                            </h6>
                         </div>
+                        <hr>
                         <div>
                             <button class="btn btn-secondary" (click)="enviarPedido(pedido.idPedido)">Enviar Pedido</button>
                         </div>
