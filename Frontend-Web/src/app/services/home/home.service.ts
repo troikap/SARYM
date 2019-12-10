@@ -85,7 +85,6 @@ export class HomeService {
       img: "assets/imagenes/reportes.png",
       nombreFuncion: "Generar Reporte"
     },
-    /*
     {
       id: "10",
       nombre: "Generar Backup",
@@ -93,7 +92,7 @@ export class HomeService {
       path: "/backup",
       img: "assets/imagenes/backup.png",
       nombreFuncion: "Gestionar Backup"
-    },*/
+    },
     {
       id: "11",
       nombre: "ABM Rol",
@@ -173,17 +172,14 @@ export class HomeService {
   getIconosHome(): IconoHome[] {
     let iconosHabilitados: IconoHome[] = [];
     let funcionesRecuperadas: [] = [];
-    if ( localStorage.getItem("FuncionesRol") ) {
+    if (localStorage.getItem("FuncionesRol")) {
       let lista = localStorage.getItem("FuncionesRol");
       funcionesRecuperadas = JSON.parse(lista);
     }
     for (let itemIcono of this.iconos) {
       for (let itemFuncionesRecuperadas of funcionesRecuperadas) {
         if (itemIcono.nombreFuncion == itemFuncionesRecuperadas) {
-          //if para ocultar gestionar backup porque no fue implementado
-          if ( itemFuncionesRecuperadas != "Gestionar Backup") {
-            iconosHabilitados.push(itemIcono);
-          }
+          iconosHabilitados.push(itemIcono);
         }
       }
     }

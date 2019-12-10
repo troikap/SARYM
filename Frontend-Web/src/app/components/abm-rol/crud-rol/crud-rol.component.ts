@@ -101,10 +101,8 @@ export class CrudRolComponent implements OnInit {
   traerFunciones() {
     this.rolService.getFuncionesRolAll().then((res: any) => {
       for (let item of res.data) {
-        if (item.nombreFuncion != "Gestionar Backup") {
-          this.funcionesRol = res.data;
-          this.ordenarBurbujaList(this.funcionesRol);
-        }
+        this.funcionesRol = res.data;
+        this.ordenarBurbujaList(this.funcionesRol);
       }
     });
   }
@@ -132,11 +130,8 @@ export class CrudRolComponent implements OnInit {
     this.rolService.getRol(this.idRol).then(res => {
       listaAux = res.data.funcionrols;
       for (let item of listaAux) {
-        //descartamos gestionar backup porque no esta implementada
-        if ( item.funcion.nombreFuncion != "Gestionar Backup" ) {
           this.funcionesAsignadas.push(item.funcion);
           this.funcionesAsignadasInicial.push(item.funcion);
-        }
       }
     });
   }
