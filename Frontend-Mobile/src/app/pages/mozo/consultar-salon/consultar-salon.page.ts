@@ -54,7 +54,6 @@ export class ConsultarSalonPage implements OnInit {
 
   iniciarIntervalo() {
     this.intervalo = setInterval( () => {
-      console.log("EJECUTANOD INTERVALO ")
       this.traerMesas();
       this.traerEstadiaMozo();
     },5000);
@@ -85,7 +84,9 @@ export class ConsultarSalonPage implements OnInit {
       for (let elem of this.estadiasMozo) {
         for (let mesa of elem.detalleestadiamesas) {
           if (item.idMesa == mesa.idMesa) {
-            exist = true;
+            if (elem.mozoestadia[0].idUsuario == this.currentUsuario.id) {
+              exist = true;
+            }
           }
         }
       }
@@ -272,7 +273,6 @@ export class ConsultarSalonPage implements OnInit {
 
   finalizarEstadia(idEstadia) {
     this.cambiarEstadoMesas(idEstadia);
-    this.finalizarEstadoEstadia(idEstadia);
   }
 
   async cambiarEstadoMesas(idEstadia) {
@@ -291,6 +291,7 @@ export class ConsultarSalonPage implements OnInit {
           let mesa = response['data'];
           if (response['tipo'] == 1) {
             if (modificarEstado && (mesa.mesaestados[0].idEstadoMesa == 1 || mesa.mesaestados[0].idEstadoMesa == 4 )) {
+              let cant = 1;
               for (let mesaACambiar of estadia.detalleestadiamesas) {
                 let pathMesa = {
                   idMesa: mesaACambiar.idMesa,
@@ -299,14 +300,19 @@ export class ConsultarSalonPage implements OnInit {
                 await this.mesaService.cambiarEstado(pathMesa).then( async resp => {
                   if (resp) {
                     if (resp.tipo == 1){
-                      console.log(`MESA N° ${mesaACambiar.idMesa} CAMBIADA A PENDIENTE DE PAGO`)
+                      console.log(`MESA N° ${mesaACambiar.idMesa} CAMBIADA A PENDIENTE DE PAGO`);
+                      if (estadia.detalleestadiamesas.length == cant) {
+                        this.finalizarEstadoEstadia(idEstadia);
+                      }
+                      cant += 1;
                     } else {
                       console.log(`MESA N° ${mesaACambiar.idMesa} NO CAMBIADA`)
                     }
                   }
                 })
               }
-              
+            } else {
+              this.toastService.toastWarning('Tuvimos problemas al intentar Finalizar Estadía porfavor comuníquese con el equipo SARYM.',2500)
             }
           }
         })

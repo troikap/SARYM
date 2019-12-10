@@ -14,6 +14,7 @@ module.exports = {
             "montoMovimientoCaja": 250.09,
             "descripcionMovimientoCaja": "Pago de comida de mesa nro 20",
             "fechaYHoraMovimientoCaja": currentDate,
+            "idPago": null,
             "createdAt": currentDate,
             "updatedAt": currentDate
         },
@@ -25,6 +26,7 @@ module.exports = {
             "montoMovimientoCaja": 300,
             "descripcionMovimientoCaja": "Pago de comida de mesa nro 20",
             "fechaYHoraMovimientoCaja": currentDate,
+            "idPago": null,
             "createdAt": currentDate,
             "updatedAt": currentDate
         },
@@ -36,6 +38,7 @@ module.exports = {
             "montoMovimientoCaja": 100,
             "descripcionMovimientoCaja": "Pago de impuesto",
             "fechaYHoraMovimientoCaja": currentDate,
+            "idPago": null,
             "createdAt": currentDate,
             "updatedAt": currentDate
         },
@@ -47,6 +50,7 @@ module.exports = {
             "montoMovimientoCaja": 2300,
             "descripcionMovimientoCaja": "Pago de reserva",
             "fechaYHoraMovimientoCaja": currentDate,
+            "idPago": null,
             "createdAt": currentDate,
             "updatedAt": currentDate
         },
@@ -58,6 +62,7 @@ module.exports = {
             "montoMovimientoCaja": 3000,
             "descripcionMovimientoCaja": "Pago de reserva con propina",
             "fechaYHoraMovimientoCaja": currentDate,
+            "idPago": null,
             "createdAt": currentDate,
             "updatedAt": currentDate
         },

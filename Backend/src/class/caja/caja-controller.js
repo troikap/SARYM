@@ -10,6 +10,8 @@ const tratarError = require("../../middlewares/handleError"),
   UsuarioModelo = require("../usuario/usuario-model"),
   MovimientoCajaModelo = require("../movimientocaja/movimientocaja-model"),
   TipoMovimientoCajaModelo = require("../tipomovimientocaja/tipomovimientocaja-model"),
+  PagoModelo = require("../pago/pago-model"),
+
 
   legend = "Caja",
   legend2 = "CajaEstado",
@@ -70,6 +72,10 @@ CajaController.getToAllAttributes = (req, res, next) => {
           {
             model: UsuarioModelo,
             attributes: attributes.usuario
+          },
+          {
+            model: PagoModelo,
+            attributes: attributes.pago
           }
         ]
       }
@@ -118,6 +124,10 @@ CajaController.getToName = (req, res, next) => {
             {
               model: UsuarioModelo,
               attributes: attributes.usuario
+            },
+            {
+              model: PagoModelo,
+              attributes: attributes.pago
             }
           ]
         }
@@ -166,6 +176,10 @@ CajaController.getAll = (req, res, next) => {
             {
               model: UsuarioModelo,
               attributes: attributes.usuario
+            },
+            {
+              model: PagoModelo,
+              attributes: attributes.pago
             }
           ]
         }
@@ -216,6 +230,10 @@ CajaController.getOne = (req, res, next) => {
           {
             model: UsuarioModelo,
             attributes: attributes.usuario
+          },
+          {
+            model: PagoModelo,
+            attributes: attributes.pago
           }
         ]
       }
@@ -248,7 +266,6 @@ CajaController.create = (req, res) => {
             locals['tipo'] = 2;
             res.json(locals);
           } else {
-            console.log("GOLA")
             CajaModelo.findOne({attributes: [ Sequelize.fn('max', Sequelize.col('nroCaja')) ],
               raw: true,
             }).then( caja => {
@@ -306,7 +323,8 @@ CajaController.actualizarDatos = (req, res) => {
             {
               model: UsuarioModelo,
               attributes: attributes.usuario
-            }
+            },
+
           ]
         },
         { 
@@ -320,6 +338,10 @@ CajaController.actualizarDatos = (req, res) => {
             {
               model: UsuarioModelo,
               attributes: attributes.usuario
+            },
+            {
+              model: PagoModelo,
+              attributes: attributes.pago
             }
           ]
         }
@@ -403,6 +425,10 @@ CajaController.cambiarEstado = (req, res) => {
             {
               model: UsuarioModelo,
               attributes: attributes.usuario
+            },
+            {
+              model: PagoModelo,
+              attributes: attributes.pago
             }
           ]
         }
@@ -494,6 +520,10 @@ CajaController.abrirCaja = (req, res) => {
             {
               model: UsuarioModelo,
               attributes: attributes.usuario
+            },
+            {
+              model: PagoModelo,
+              attributes: attributes.pago
             }
           ]
         }
@@ -576,6 +606,10 @@ CajaController.cerrarCaja = (req, res) => {
             {
               model: UsuarioModelo,
               attributes: attributes.usuario
+            },
+            {
+              model: PagoModelo,
+              attributes: attributes.pago
             }
           ]
         }
@@ -657,6 +691,10 @@ CajaController.realizarMovimiento = (req, res) => {
             {
               model: UsuarioModelo,
               attributes: attributes.usuario
+            },
+            {
+              model: PagoModelo,
+              attributes: attributes.pago
             }
           ]
         }
@@ -686,91 +724,5 @@ CajaController.realizarMovimiento = (req, res) => {
     }
   });
 };
-
-// return sequelize.transaction(t => {
-
-//   // chain all your queries here. make sure you return them.
-//   return User.create({
-//     firstName: 'Abraham',
-//     lastName: 'Lincoln'
-//   }, {transaction: t}).then(user => {
-//     return user.setShooter({
-//       firstName: 'John',
-//       lastName: 'Boothe'
-//     }, {transaction: t});
-//   });
-
-// }).then(result => {
-//   // Transaction has been committed
-//   // result is whatever the result of the promise chain returned to the transaction callback
-// }).catch(err => {
-//   // Transaction has been rolled back
-//   // err is whatever rejected the promise chain returned to the transaction callback
-// });
-
-// CajaController.cambiarEstado = (req, res) => {
-//   let locals = {};
-//   let body = req.body;
-//   CajaModelo.findOne({
-//     where: {
-//       [idtable]: body[idtable] },
-//       attributes: attributes.caja,
-//       include: [
-//         {
-//           model: CajaEstadoModelo,
-//           where: { fechaYHoraBajaCajaEstado: null },
-//           attributes: attributes.cajaestado,
-//           include: [
-//             {
-//               model: EstadoCajaModelo,
-//               attributes: attributes.estadocaja
-//             },
-//             {
-//               model: UsuarioModelo,
-//               attributes: attributes.usuario
-//             }
-//           ]
-//         }
-//       ]
-//     }).then(response => {
-//     if (!response || response == 0) {
-//       locals['title'] = `No existe ${legend} con id ${body[idtable]}`;
-//       locals['tipo'] = 2;
-//       res.json(locals);
-//     } else {
-//       sequelize.transaction(t => {
-//         let pushCajaEstado = {};
-//         pushCajaEstado['fechaYHoraBajaCajaEstado'] = fechaArgentina.getFechaArgentina();
-//           CajaEstadoModelo.update(pushCajaEstado , {
-//             where: { [idtable]: body[idtable], fechaYHoraBajaCajaEstado: null }
-//         }, {transaction: t}).then((respons) => {
-//           if(!respons || respons == 0) {
-//             locals['title'] = `No existe ${legend2} habilitado.`;
-//             locals['tipo'] = 2;
-//             res.json(locals);
-//           } else {
-//             body['fechaYHoraAltaCajaEstado'] = fechaArgentina.getFechaArgentina();
-//             CajaEstadoModelo.create(body,{transaction: t}).then((resp) => {
-//               if (!resp || resp == 0 ){
-//                 locals['title'] = `No se pudo crear ${legend2}.`;
-//                 locals['tipo'] = 2;
-//               } else {
-//                 locals['title'] = `Se creo correctamente ${legend2}.`;
-//                 locals['tipo'] = 1;
-//               }
-//               res.json(locals);
-//             }).catch((error) => {
-//               locals = tratarError.tratarError(error, legend);
-//               res.json(locals);
-//             });
-//           }
-//         }).catch((error) => {
-//           locals = tratarError.tratarError(error, legend);
-//           res.json(locals);
-//         });
-//       });
-//     }
-//   });
-// };
 
 module.exports = CajaController;

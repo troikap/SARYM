@@ -16,16 +16,16 @@ module.exports = {
                 "createdAt": currentDate,
                 "updatedAt": currentDate
             },
-            {
-                "idPago": 2,
-                "idMedioPago": 1,
-                "idComensal": 2,
-                "codPago": "PAGO-12345",
-                "importeTotalAPagar": 199.99,
-                "fechaYHoraAltaPago": currentDate,
-                "createdAt": currentDate,
-                "updatedAt": currentDate
-            ,}
+            // {
+            //     "idPago": 2,
+            //     "idMedioPago": 1,
+            //     "idComensal": 2,
+            //     "codPago": "PAGO-12345",
+            //     "importeTotalAPagar": 199.99,
+            //     "fechaYHoraAltaPago": currentDate,
+            //     "createdAt": currentDate,
+            //     "updatedAt": currentDate
+            // ,}
     ], {});
     },
 

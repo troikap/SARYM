@@ -101,5 +101,10 @@ export class ListaPagoPage implements OnInit {
       this.pagos = pagos;
     })
   }
+
+  confirmarPago(item) {
+    console.log("CONFIRMANDO : ",item)
+    this.navController.navigateRoot(`/confirmar-pago/estadia/${this.idEstadia}/pago/${item.idPago}`)
+  }
 }
       
