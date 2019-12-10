@@ -11,6 +11,9 @@ import { PagoService } from 'src/app/services/pago/pago.service';
 import { MesaService } from 'src/app/services/mesa/mesa.service';
 import { PedidoService } from 'src/app/services/pedido/pedido.service';
 import { TratarFechaProvider } from 'src/app/providers/tratarFecha.provider';
+import { CajaService } from 'src/app/services/caja/caja.service';
+import { StorageService } from '../../../services/storage/storage.service';
+
 
 @Component({
   selector: 'app-confirmar-pago-efectivo',
@@ -30,6 +33,8 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
   public idPago;
   public estadia;
   public pago;
+  public cajas;
+  public idCurrentUsuario;
 
   constructor(
     private barcodeScanner: BarcodeScanner,
@@ -41,11 +46,21 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
     private pagoService: PagoService,
     private mesaService: MesaService,
     private pedidoService: PedidoService,
-    private tratarFechaProvider: TratarFechaProvider
+    private tratarFechaProvider: TratarFechaProvider,
+    private cajaService: CajaService,
+    private storageService: StorageService
   ) { }
 
   ngOnInit() {
+    // this.realizarMovimientoCaja();
+    this.loadCurrencyUsuario();
     this.scanCode();
+  }
+  async loadCurrencyUsuario() {
+    await this.storageService.getCurrentUsuario()
+    .then(async logs => {
+      this.idCurrentUsuario = logs.id;
+    })
   }
 
   scanCode() {
@@ -88,7 +103,7 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
         const alert = await this.alertController.create(
           {
           header: 'Leyendo QR',
-          message: `¿Desea Confirmar pago de Estadia N° ${this.estadia.idEstadia}?. El monto es de $${this.pago.importeTotalAPagar} correspondiente al comensal ${this.pago.comensal.aliasComensal}`,
+          message: `¿Desea Confirmar pago de Estadia N° ${this.estadia.idEstadia}?. El monto es de $${this.pago.importeTotalAPagar} correspondiente al comensal ${this.pago.comensal.aliasComensal}.`,
           buttons: [
             {
               text: 'Cancel',
@@ -101,7 +116,7 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
             }, {
               text: 'Confirmar',
               handler: () => {
-                this.cambiarEstadoPedido()
+                this.realizarMovimientoCaja();
               }
             }
           ],
@@ -126,23 +141,28 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
     await this.pagoService.getPago(this.idPago).then( async pago => {
       console.log("PAGOOOOOOOOOOOOOOOOO -----------------", pago)
       this.pago = await pago;
+      if (pago['confirmado'] == true) {
+        this.toastService.toastWarning(`Este pago ya ha sido Confirmado!`, 3000);
+        this.navController.navigateBack('/home')
+      }
     })
   }
 
   async cambiarEstadoPedido() {
     let count = 1;
+    console.log("cambiarEstadoPedido", this.pago.pagopedidos)
     for (let element of this.pago.pagopedidos ) {
       let pathPedido = {
         idPedido: element.pedido.idPedido,
         idEstadoPedido: 6,
-        descripcionPedidoEstado: `Pagado: $${element.importePagadoPedido}`
+        descripcionPedidoEstado: `Pago Confirmado Correctamente: $${element.importePagadoPedido}`
       }
       await this.pedidoService.cambiarEstado(pathPedido)
       .then( async resp => {
         if ( resp && resp.tipo == 1 ) {
           let fechaYHoraActual = await this.getFechaYHoraActual();
           let pathActualizarFechaFin = {
-            idPedido: element.idPedido,
+            idPedido: element.pedido.idPedido,
             fechaYHoraFinPedido: fechaYHoraActual
           }
           await this.pedidoService.updatePedido(pathActualizarFechaFin)
@@ -154,7 +174,9 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
         }
         if (this.pago.pagopedidos.length == count) {
           this.toastService.toastSuccess("Pago de Pedido Confirmado", 3000)
-          this.cambiarEstadoMesas(this.idEstadia)
+          this.cambiarEstadoMesas(this.idEstadia);
+          this.actualizarPago();
+          
         }
       })
       count += 1;
@@ -195,6 +217,107 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
             }
           }
         })
+      }
+    })
+  }
+
+   async realizarMovimientoCaja() {
+    await this.cajaService.getCajas().then( async cajas => {
+      console.log("CAJAS ", cajas)
+      console.log("Cantidad CAJAS ", cajas.length)
+      if (cajas.length == 0) {
+        this.toastService.toastError('Solicite la apertura de alguna Caja al Encargado del Local', 3000);
+      } else if (cajas.length == 1) {
+        // crear movimiento
+        this.crearMovimiento(cajas[0].idCaja)
+      } else {
+        this.cajas = cajas;
+        let listaCajas: String = '';
+        for (let item of cajas) {
+          if (listaCajas == '') {
+            listaCajas = String(item.nroCaja);
+          } else {
+            listaCajas += ` - ${item.nroCaja}`;
+          }
+        }
+        const alert = await this.alertController.create(
+          {
+          header: 'Seleccione caja',
+          message: `Elija la Caja a donde enviará su pago Confirmado de $${this.pago.importeTotalAPagar}. Las Cajas Abiertas son: ${listaCajas}`,
+          inputs: [
+            {
+              name: 'nroCaja',
+              type: 'number',
+              placeholder: 'Ingrese número de Caja'
+            },
+          ],
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: (blah) => {
+                console.log('Confirm Cancel');
+                this.navController.navigateBack('/home');
+              }
+            }, {
+              text: 'Confirmar',
+              handler: ( input ) => {
+                console.log("CAJA SELECCIONADA ", input)
+                let idCajaSeleccionada;
+                for ( let item of this.cajas) {
+                  if (item.nroCaja == input.nroCaja) {
+                    idCajaSeleccionada = item.idCaja;
+                  }
+                  if (idCajaSeleccionada != null) {
+                    this.crearMovimiento(idCajaSeleccionada)
+                  }
+                }
+              }
+            }
+          ],
+          cssClass: 'alertPrimary'
+        });
+        await alert.present();
+      }
+    });
+  }
+
+  crearMovimiento( idCaja ){
+    let pathMovimientoCaja = {
+      "idCaja": idCaja,
+      "idUsuario": this.idCurrentUsuario,
+      "idTipoMovimientoCaja": 1,
+      "fechaYHoraMovimientoCaja": new Date(),
+      "montoMovimientoCaja": this.pago.importeTotalAPagar,
+      "descripcionMovimientoCaja": `Confirmado Pago de $${this.pago.importeTotalAPagar} por usuario: ${this.idCurrentUsuario}.`,
+      "idPago": Number(this.idPago)
+    }
+    console.log("PATH MOVIMIENTO ", pathMovimientoCaja)
+    this.cajaService.realizarMovimientoCaja(pathMovimientoCaja).then( resp => {
+      console.log("REALIZANDO MOVIMIENTO ", resp)
+      if (resp!= null && resp != 0) {
+        if (resp['tipo'] == 1) {
+          this.toastService.toastSuccess(`Se creo satisfactoriamente el movimiento de $${this.pago.importeTotalAPagar} sobre la caja ${idCaja}`, 3000, 'bottom');
+          this.cambiarEstadoPedido();
+        }
+      }
+    })
+  }
+
+  actualizarPago() {
+    let pathPago = {
+      idPago: this.idPago,
+      confirmado: true
+    }
+    this.pagoService.updatePago(pathPago).then( resp => {
+      console.log("ACTUALIZANOD PAGO ", resp)
+      if (resp && resp.tipo == 1) {
+        this.toastService.toastSuccess(`Se actualizo correctamente el Pago N°: ${this.idPago}`, 3000, 'top');
+        console.log("NAVEGANDO -------------------------------------------------------")
+        this.navController.navigateBack('/home');
+      } else {
+        this.toastService.toastError(`Fallo al actualizar el Pago N°: ${this.idPago}`, 3000, 'top');
       }
     })
   }

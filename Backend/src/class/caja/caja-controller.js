@@ -10,6 +10,8 @@ const tratarError = require("../../middlewares/handleError"),
   UsuarioModelo = require("../usuario/usuario-model"),
   MovimientoCajaModelo = require("../movimientocaja/movimientocaja-model"),
   TipoMovimientoCajaModelo = require("../tipomovimientocaja/tipomovimientocaja-model"),
+  PagoModelo = require("../pago/pago-model"),
+
 
   legend = "Caja",
   legend2 = "CajaEstado",
@@ -72,7 +74,7 @@ CajaController.getToAllAttributes = (req, res, next) => {
             attributes: attributes.usuario
           },
           {
-            model: PagpModelo,
+            model: PagoModelo,
             attributes: attributes.pago
           }
         ]
@@ -124,7 +126,7 @@ CajaController.getToName = (req, res, next) => {
               attributes: attributes.usuario
             },
             {
-              model: PagpModelo,
+              model: PagoModelo,
               attributes: attributes.pago
             }
           ]
@@ -176,7 +178,7 @@ CajaController.getAll = (req, res, next) => {
               attributes: attributes.usuario
             },
             {
-              model: PagpModelo,
+              model: PagoModelo,
               attributes: attributes.pago
             }
           ]
@@ -230,7 +232,7 @@ CajaController.getOne = (req, res, next) => {
             attributes: attributes.usuario
           },
           {
-            model: PagpModelo,
+            model: PagoModelo,
             attributes: attributes.pago
           }
         ]
@@ -338,7 +340,7 @@ CajaController.actualizarDatos = (req, res) => {
               attributes: attributes.usuario
             },
             {
-              model: PagpModelo,
+              model: PagoModelo,
               attributes: attributes.pago
             }
           ]
@@ -425,7 +427,7 @@ CajaController.cambiarEstado = (req, res) => {
               attributes: attributes.usuario
             },
             {
-              model: PagpModelo,
+              model: PagoModelo,
               attributes: attributes.pago
             }
           ]
@@ -520,7 +522,7 @@ CajaController.abrirCaja = (req, res) => {
               attributes: attributes.usuario
             },
             {
-              model: PagpModelo,
+              model: PagoModelo,
               attributes: attributes.pago
             }
           ]
@@ -606,7 +608,7 @@ CajaController.cerrarCaja = (req, res) => {
               attributes: attributes.usuario
             },
             {
-              model: PagpModelo,
+              model: PagoModelo,
               attributes: attributes.pago
             }
           ]
@@ -691,7 +693,7 @@ CajaController.realizarMovimiento = (req, res) => {
               attributes: attributes.usuario
             },
             {
-              model: PagpModelo,
+              model: PagoModelo,
               attributes: attributes.pago
             }
           ]
