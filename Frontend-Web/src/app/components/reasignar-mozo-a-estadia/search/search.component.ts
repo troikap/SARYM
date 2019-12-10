@@ -52,16 +52,17 @@ export class SearchComponent implements OnInit {
   }
   getAllEstadias() {    
     this.mozoestadiaservicio.getEstadias()
-      .then((res: any) => {
+    .then((res: any) => {
+      if (res.tipo != 2) {
         res.data.forEach( (item) => {
-        if(item['estadiaestados'][0].estadoestadium.idEstadoEstadia ==1){
-         this.listaEstadiasmensaje.push(item);
-        }
-        })
-        this.listaEstadias =  res.data;         
-        console.log(res); 
-      })
-
+          if(item['estadiaestados'][0].estadoestadium.idEstadoEstadia ==1){
+            this.listaEstadiasmensaje.push(item);
+          }
+          })
+          this.listaEstadias =  res.data;         
+          console.log(res); 
+      }
+    });
   }
 
   

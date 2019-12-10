@@ -6,7 +6,7 @@
             </div>
         </div>
         <hr>
-        <div class="row animated fadeIn fast" *ngIf="listaEstadias.length == 0">
+        <div class="row animated fadeIn fast" *ngIf="listaEstadias.length == 0 && termino.value != '' ">
             <div class="col-md-12">
                 <div class="alert alert-info" role="alert">
                     No existen Estadias con el término <strong>{{termino.value}}</strong>
@@ -16,7 +16,7 @@
         <div class="row animated fadeIn fast" *ngIf="listaEstadiasmensaje.length == 0">
             <div class="col-md-12">
                 <div class="alert alert-info" role="alert">
-                    No existen Estadias con estado generada
+                    No existen Estadias Generadas
                 </div>
             </div>
         </div>

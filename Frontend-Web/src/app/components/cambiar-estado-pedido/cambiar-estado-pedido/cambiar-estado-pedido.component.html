@@ -9,6 +9,13 @@
             </li>
         </ul>
         <br>
+        <div class="row animated fadeIn fast" *ngIf="listaPedidosEnviados.length == 0">
+            <div class="col-md-12">
+                <div class="alert alert-info" role="alert">
+                    No existen Pedidos Enviados
+                </div>
+            </div>
+        </div>
         <div class="card-columns">
             <div class="card bg-light" style="max-width: 18rem;" *ngFor="let pedido of listaPedidosEnviados">
                 <div class="card-body">

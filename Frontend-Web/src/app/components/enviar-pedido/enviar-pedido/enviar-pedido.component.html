@@ -9,6 +9,13 @@
             </li>
         </ul>
         <br>
+        <div class="row animated fadeIn fast" *ngIf="listaPedidosEnPreparacion.length == 0">
+            <div class="col-md-12">
+                <div class="alert alert-info" role="alert">
+                    No existen Pedidos a Elaborar
+                </div>
+            </div>
+        </div>
         <div class="card-columns">
             <div *ngFor="let pedido of listaPedidosEnPreparacion">
                 <div class="card" style="width: 16rem;" *ngIf="pedido.detallepedidoproductos.length > 0" [ngClass]="{

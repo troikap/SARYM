@@ -42,14 +42,18 @@ export class SearchPedidoComponent implements OnInit {
     }
   }
   getAllEstadias() {
-    this.mozoestadiaservicio.getEstadias().then((res: any) => {
-      res.data.forEach(item => {
-        if (item["estadiaestados"][0].estadoestadium.idEstadoEstadia == 1) {
-          console.log("Item: ", item);
-          this.listaEstadiasmensaje.push(item);
-        }
-      });
-      this.listaEstadias = res.data;
+    this.mozoestadiaservicio.getEstadias()
+    .then((res: any) => {
+      console.log("res: ", res);
+      if (res.tipo != 2) {
+        res.data.forEach(item => {
+          if (item["estadiaestados"][0].estadoestadium.idEstadoEstadia == 1) {
+            console.log("Item: ", item);
+            this.listaEstadiasmensaje.push(item);
+          }
+        });
+        this.listaEstadias = res.data;
+      }
     });
   }
 
