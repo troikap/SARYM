@@ -21,6 +21,8 @@ import { PagoService } from './services/pago/pago.service';
 import { SettingsProvider } from './providers/settings/settings';
 import { SectorService } from './services/sector/sector.service';
 import { EstadoService } from './services/estado/estado.service';
+import { CajaService } from './services/caja/caja.service';
+
 
 // providers
 import { TratarFechaProvider } from './providers/tratarFecha.provider';
@@ -85,6 +87,7 @@ import { IonicStorageModule } from '@ionic/storage';
     SettingsProvider,
     SectorService,
     EstadoService,
+    CajaService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

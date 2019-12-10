@@ -54,7 +54,6 @@ export class ConsultarSalonPage implements OnInit {
 
   iniciarIntervalo() {
     this.intervalo = setInterval( () => {
-      console.log("EJECUTANOD INTERVALO ")
       this.traerMesas();
       this.traerEstadiaMozo();
     },5000);
@@ -85,7 +84,9 @@ export class ConsultarSalonPage implements OnInit {
       for (let elem of this.estadiasMozo) {
         for (let mesa of elem.detalleestadiamesas) {
           if (item.idMesa == mesa.idMesa) {
-            exist = true;
+            if (elem.mozoestadia[0].idUsuario == this.currentUsuario.id) {
+              exist = true;
+            }
           }
         }
       }
@@ -209,13 +210,36 @@ export class ConsultarSalonPage implements OnInit {
         }, 
         {
           text: 'Finalizar Estadia',
-          handler: ( ) => {
-            this.finalizarEstadia(idEstadia);
+          handler: (  ) => {
+            this.cofirmarAccionFinalizar(idEstadia);
+            // this.finalizarEstadia(idEstadia);
             // this.navController.navigateForward(`/crud-generar-estadia/${idEstadia}/editar/salon`)
           }
         }
       ],
       cssClass: 'alertPrimary',
+    })
+    await alert.present();
+  }
+
+  async cofirmarAccionFinalizar( idEstadia ) {
+    const alert = await this.alertController.create({
+      header: 'Desea Finalizar Estadía seleccionada?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          cssClass: 'secondary',
+          role: 'Cancel',
+          handler: ( ) => {
+          }
+        }, {
+          text: 'Finalizar',
+          handler: ( ) => {
+            this.finalizarEstadia(idEstadia);
+          }
+        }
+      ],
+      cssClass: 'alertWarning',
     })
     await alert.present();
   }
@@ -249,7 +273,6 @@ export class ConsultarSalonPage implements OnInit {
 
   finalizarEstadia(idEstadia) {
     this.cambiarEstadoMesas(idEstadia);
-    this.finalizarEstadoEstadia(idEstadia);
   }
 
   async cambiarEstadoMesas(idEstadia) {
@@ -257,17 +280,21 @@ export class ConsultarSalonPage implements OnInit {
       if ( estadia ) {
         console.log("~~~~~~~~~~~~~~~~~~~~~~~ ESTADIA ~~~~~~~~~~~~~~ ",estadia)
         let modificarEstado = true;
+        let pedidosError;
         for (let pedido of estadia.pedidos) {
           if (pedido.pedidoestados[0].idEstadoPedido != 2 && // Anulado 
             pedido.pedidoestados[0].idEstadoPedido != 6 ) {   // Finalizado
-            modificarEstado = false;
+              pedidosError = pedido.pedidoestados[0].estadopedido.nombreEstadoPedido;
+              modificarEstado = false;
           }
         }
         await this.mesaService.getMesa(Number(estadia.detalleestadiamesas[0].idMesa)).then( async response => {
           console.log("MESA ////////// ",response)
           let mesa = response['data'];
           if (response['tipo'] == 1) {
+            let estadoMesa = mesa.mesaestados[0].estadomesa.nombreEstadoMesa;
             if (modificarEstado && (mesa.mesaestados[0].idEstadoMesa == 1 || mesa.mesaestados[0].idEstadoMesa == 4 )) {
+              let cant = 1;
               for (let mesaACambiar of estadia.detalleestadiamesas) {
                 let pathMesa = {
                   idMesa: mesaACambiar.idMesa,
@@ -276,14 +303,24 @@ export class ConsultarSalonPage implements OnInit {
                 await this.mesaService.cambiarEstado(pathMesa).then( async resp => {
                   if (resp) {
                     if (resp.tipo == 1){
-                      console.log(`MESA N° ${mesaACambiar.idMesa} CAMBIADA A PENDIENTE DE PAGO`)
+                      console.log(`MESA N° ${mesaACambiar.idMesa} CAMBIADA A PENDIENTE DE PAGO`);
+                      if (estadia.detalleestadiamesas.length == cant) {
+                        this.finalizarEstadoEstadia(idEstadia);
+                      }
+                      cant += 1;
                     } else {
                       console.log(`MESA N° ${mesaACambiar.idMesa} NO CAMBIADA`)
                     }
                   }
                 })
               }
-              
+            } else {
+              if (!modificarEstado) {
+                this.toastService.toastError(`Existen pedidos en estado "${pedidosError}". Imposible finalizar la estadía.`,3000);
+              }
+              else {
+                this.toastService.toastError(`Existen Mesas en estado "${estadoMesa}". Imposible finalizar la estadía.`,3000);
+              }
             }
           }
         })

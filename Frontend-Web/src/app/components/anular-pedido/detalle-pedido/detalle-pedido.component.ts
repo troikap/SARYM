@@ -31,41 +31,36 @@ export class DetallePedidoComponent implements OnInit {
   }
 
   ngOnInit() {}
+
   async traerPedido(idPedido) {
-    let _this = this;
     var menuPromocion;
     var producto;
-    _this.pedidoServicio.getPedido(idPedido).then(async (res: any) => {
-      _this.pedido = res.data;
-      _this.detallesPedido = _this.pedido.detallepedidoproductos;
+    this.pedidoServicio.getPedido(idPedido).then(async (res: any) => {
+      this.pedido = res.data;
+      this.detallesPedido = this.pedido.detallepedidoproductos;
 
-      var length = _this.detallesPedido.length;
-      for (let i = 0; i < length; i++) {
-        _this.precio = 0;
-        if (_this.detallesPedido[i].producto == null) {
-          await _this.menuPromocionService
-            .getMenuPromocion(
-              _this.detallesPedido[i].menupromocion.idMenuPromocion
-            )
+      for (let i = 0; i < this.detallesPedido.length; i++) {
+        this.precio = 0;
+        if (this.detallesPedido[i].producto == null) {
+          await this.menuPromocionService
+            .getMenuPromocion(this.detallesPedido[i].menupromocion.idMenuPromocion)
             .then(async (datamp: any) => {
               menuPromocion = datamp;
-              _this.precio +=
-                menuPromocion.preciomenupromocions[0].importePrecioMenuPromocion;
-              _this.simbolo =
-                menuPromocion.preciomenupromocions[0].tipomoneda.simboloTipoMoneda;
+              this.precio += menuPromocion.preciomenupromocions[0].importePrecioMenuPromocion;
+              this.simbolo = menuPromocion.preciomenupromocions[0].tipomoneda.simboloTipoMoneda;
             });
         } else {
-          await _this.productoService
-            .getProducto(_this.detallesPedido[i].producto.idProducto)
+          await this.productoService
+            .getProducto(this.detallesPedido[i].producto.idProducto)
             .then(async (datap: any) => {
               producto = datap;
-              _this.precio += producto.precioproductos[0].importePrecioProducto;
-              _this.simbolo =
-                producto.precioproductos[0].tipomoneda.simboloTipoMoneda;
+              this.precio += producto.precioproductos[0].importePrecioProducto;
+              this.simbolo = producto.precioproductos[0].tipomoneda.simboloTipoMoneda;
             });
         }
-        _this.detallesPedido[i].precio = _this.precio;
-        _this.detallesPedido[i].simboloTipoMoneda = _this.simbolo;
+        this.detallesPedido[i].precio = this.precio;
+        this.detallesPedido[i].precioTotal = this.precio * this.detallesPedido[0].cantidadPedidoProducto;
+        this.detallesPedido[i].simboloTipoMoneda = this.simbolo;
       }
     });
   }

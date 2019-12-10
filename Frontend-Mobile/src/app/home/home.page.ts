@@ -118,14 +118,17 @@ export class HomePage implements OnInit {
       case "generar-estadia":
         page = `crud-generar-estadia/0/crear/estadia`;
         break;
-        case "finalizar-estadia":
-          page = `/`;
-          break;
+      case "finalizar-estadia":
+        page = `/`;
+        break;
       case "pedidos a enviar":
         page = `/pedidos-a-enviar`;
         break;
       case "confirmar-reserva":
         page = `/confirmar-reserva`;
+        break;
+      case "confirmar-pago-efectivo":
+        page = `/confirmar-pago-efectivo`;
         break;
     }
     this.navController.navigateForward(page);

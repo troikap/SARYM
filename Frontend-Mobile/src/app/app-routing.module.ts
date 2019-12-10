@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'mostrar-mesas', loadChildren: './pages/mozo/generar-estadia/mostrar-mesas/mostrar-mesas.module#MostrarMesasPageModule' },
   { path: 'confirmar-reserva', loadChildren: './pages/mozo/confirmar-reserva/confirmar-reserva.module#ConfirmarReservaPageModule' },
   { path: 'crud-generar-estadia/:id/:accion/:tipo', loadChildren: './pages/mozo/crud-generar-estadia/crud-generar-estadia.module#CrudGenerarEstadiaPageModule' },
+  { path: 'confirmar-pago/estadia/:idEstadia/pago/:idPago', loadChildren: './pages/gestionar-estadia/pago/confirmar-pago/confirmar-pago.module#ConfirmarPagoPageModule' },
 
 // invitado
   { path: 'home-invitado', loadChildren: './pages/invitado/home-invitado/home-invitado.module#HomeInvitadoPageModule' },
@@ -27,7 +28,6 @@ const routes: Routes = [
   { path: 'search-gestionar-reserva', loadChildren: './pages/gestionar-reserva/search-gestionar-reserva/search-gestionar-reserva.module#SearchGestionarReservaPageModule' },
   { path: 'crud-gestionar-reserva/:id/:accion', loadChildren: './pages/gestionar-reserva/crud-gestionar-reserva/crud-gestionar-reserva.module#CrudGestionarReservaPageModule' },
   { path: 'consulta-gestionar-reserva/:id', loadChildren: './pages/gestionar-reserva/consulta-gestionar-reserva/consulta-gestionar-reserva.module#ConsultaGestionarReservaPageModule' },
-  // { path: 'unirse-gestionar-reserva', loadChildren: './pages/gestionar-reserva/unirse-gestionar-reserva/unirse-gestionar-reserva.module#UnirseGestionarReservaPageModule' },
   { path: 'ver-qr-reserva/:id', loadChildren: './pages/gestionar-reserva/ver-qr-reserva/ver-qr-reserva.module#VerQRReservaPageModule' },
   
   { path: 'lista-pedido/reserva/:idReserva/comensal/:idComensal', loadChildren: './pages/gestionar-reserva/lista-pedido/lista-pedido.module#ListaPedidoPageModule' },
@@ -43,7 +43,6 @@ const routes: Routes = [
   { path: 'recuperar-contrasenia/:token', loadChildren: './pages/recuperar-contrasenia/recuperar-contrasenia.module#RecuperarContraseniaPageModule' },
   { path: 'seleccion-comensal/estadia/:idEstadia/:from', loadChildren: './pages/gestionar-estadia/seleccion-comensal/seleccion-comensal.module#SeleccionComensalPageModule' },
   { path: 'lista-pedido/estadia/:idEstadia/comensal/:idComensal', loadChildren: './pages/gestionar-estadia/lista-pedido/lista-pedido.module#ListaPedidoPageModule' },
-
   
   { path: 'lista-pago/:idEstadia', loadChildren: './pages/gestionar-estadia/pago/lista-pago/lista-pago.module#ListaPagoPageModule' },
   { path: 'lista-pedido-pago/estadia/:idEstadia/comensal/:idComensal', loadChildren: './pages/gestionar-estadia/pago/lista-pedido-pago/lista-pedido-pago.module#ListaPedidoPagoPageModule' },
@@ -52,8 +51,7 @@ const routes: Routes = [
 // unirse reserva estadia
   { path: 'unirse-reserva-estadia', loadChildren: './pages/unirse-reserva-estadia/unirse-reserva-estadia.module#UnirseReservaEstadiaPageModule' },
   { path: 'ver-qr-estadia/:id', loadChildren: './pages/gestionar-estadia/ver-qr-estadia/ver-qr-estadia.module#VerQrEstadiaPageModule' },
-  { path: 'activar-usuario/:token', loadChildren: './pages/activar-usuario/activar-usuario.module#ActivarUsuarioPageModule' },
-
+  { path: 'activar-usuario/:token', loadChildren: './pages/activar-usuario/activar-usuario.module#ActivarUsuarioPageModule' },  { path: 'confirmar-pago-efectivo', loadChildren: './pages/mozo/confirmar-pago-efectivo/confirmar-pago-efectivo.module#ConfirmarPagoEfectivoPageModule' },
 
 
 ];

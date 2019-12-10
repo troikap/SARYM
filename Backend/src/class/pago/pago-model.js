@@ -35,7 +35,10 @@ const PagoModelo = sequelize.define('pago', {
   fechaYHoraAltaPago: {
     type: Sequelize.DATE,
     allowNull: false
-  }
+  },
+  confirmado: {
+    type: Sequelize.STRING,
+  },
 }, {
   // options
 });

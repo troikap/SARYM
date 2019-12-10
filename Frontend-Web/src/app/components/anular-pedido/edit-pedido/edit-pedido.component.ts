@@ -34,8 +34,24 @@ export class EditPedidoComponent implements OnInit {
 
   ngOnInit() {}
 
+
+  async calcularTotalCostoPedido(){
+    for (let item of this.listaPedidos) {
+      let importe;
+      for (let elem of item.detallepedidoproductos) {
+        if (elem.producto != null) {
+          if (importe == null) importe = 0;
+          importe += ( Number(elem.producto.precioproductos[0].importePrecioProducto) * Number(elem.cantidadPedidoProducto))
+        } else if (elem.menupromocion != null) {
+          if (importe == null) importe = 0;
+          importe += ( Number(elem.menupromocion.preciomenupromocions[0].importePrecioMenuPromocion) * Number(elem.cantidadPedidoProducto))
+        }
+      }
+      item['importeTotal'] = importe;
+    }
+  }
+
   async traerPedidos() {
-    let _this = this;
     var menuPromocion;
     var producto;
     await this.mozoestadiaservicio
@@ -45,50 +61,38 @@ export class EditPedidoComponent implements OnInit {
         if (data != null) {
           this.listaPedidos = data.data.pedidos;
 
-          var length = this.listaPedidos.length;
-          for (let i = 0; i < length; i++) {
-            if (
-              this.listaPedidos[i]["pedidoestados"][0].estadopedido
-                .idEstadoPedido == 3
-            ) {
+          await this.calcularTotalCostoPedido();
+          
+          for (let i = 0; i < this.listaPedidos.length; i++) {
+            if (this.listaPedidos[i]["pedidoestados"][0].estadopedido.idEstadoPedido == 3) {
               this.listaPedidosmensaje.push(this.listaPedidos[i]);
             }
-            _this.precioTotalPedido = 0;
+            this.precioTotalPedido = 0;
             var detalles = this.listaPedidos[i].detallepedidoproductos.length;
             for (let j = 0; j < detalles; j++) {
-              if (
-                _this.listaPedidos[i].detallepedidoproductos[j].producto == null
-              ) {
-                await _this.menuPromocionService
-                  .getMenuPromocion(
-                    _this.listaPedidos[i].detallepedidoproductos[j]
-                      .menupromocion.idMenuPromocion
-                  )
+              if ( this.listaPedidos[i].detallepedidoproductos[j].producto == null) {
+                let idMenuPromocion = this.listaPedidos[i].detallepedidoproductos[j].menupromocion.idMenuPromocion;
+                await this.menuPromocionService
+                  .getMenuPromocion(idMenuPromocion)
                   .then(async (datamp: any) => {
                     menuPromocion = datamp;
 
-                    _this.precioTotalPedido +=
-                      menuPromocion.preciomenupromocions[0].importePrecioMenuPromocion;
-                    _this.simbolo =
-                      menuPromocion.preciomenupromocions[0].tipomoneda.simboloTipoMoneda;
+                    this.precioTotalPedido += menuPromocion.preciomenupromocions[0].importePrecioMenuPromocion;
+                    this.simbolo = menuPromocion.preciomenupromocions[0].tipomoneda.simboloTipoMoneda;
                   });
               } else {
-                await _this.productoService
-                  .getProducto(
-                    _this.listaPedidos[i].detallepedidoproductos[j].producto
-                      .idProducto
-                  )
+                let idProducto = this.listaPedidos[i].detallepedidoproductos[j].producto.idProducto;
+                await this.productoService
+                  .getProducto(idProducto)
                   .then(async (datap: any) => {
                     producto = datap;
-                    _this.precioTotalPedido +=
-                      producto.precioproductos[0].importePrecioProducto;
-                    _this.simbolo =
-                      producto.precioproductos[0].tipomoneda.simboloTipoMoneda;
+                    this.precioTotalPedido += producto.precioproductos[0].importePrecioProducto;
+                    this.simbolo = producto.precioproductos[0].tipomoneda.simboloTipoMoneda;
                   });
               }
             }
-            _this.listaPedidos[i].precioTotalPedido = _this.precioTotalPedido;
-            _this.listaPedidos[i].simboloTipoMoneda = _this.simbolo;
+            this.listaPedidos[i].precioTotalPedido = this.precioTotalPedido;
+            this.listaPedidos[i].simboloTipoMoneda = this.simbolo;
           }
         }
       });

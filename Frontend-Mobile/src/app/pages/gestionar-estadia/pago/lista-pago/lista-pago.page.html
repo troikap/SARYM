@@ -17,6 +17,7 @@
             <ion-item-sliding>
                 <ion-item lines="full" (click)="mostrar[i] = !mostrar[i]">
                     <ion-card color=success class="card-inter">
+                        <ion-row *ngIf="item.confirmado == false" class="pendiente">Pendiente de Confirmación</ion-row>
                         <ion-card-header>
                             <ion-card-title>Codigo: <strong>{{item.codPago}}</strong></ion-card-title>
                             <ion-card-title>Fecha:
@@ -30,9 +31,14 @@
                         </ion-card-content>
                     </ion-card>
                 </ion-item>
-                <ion-item-options side="start">
+                <ion-item-options side="start" *ngIf="item.confirmado == true">
                     <ion-item-option color="medium" (click)="imprimir( item )">
                         <ion-icon slot="icon-only" name="print"></ion-icon>
+                    </ion-item-option>
+                </ion-item-options>
+                <ion-item-options side="end" *ngIf="item.confirmado == false">
+                    <ion-item-option color="warning" (click)="confirmarPago( item )">
+                        <ion-icon slot="icon-only" name="qr-scanner"></ion-icon>
                     </ion-item-option>
                 </ion-item-options>
             </ion-item-sliding>

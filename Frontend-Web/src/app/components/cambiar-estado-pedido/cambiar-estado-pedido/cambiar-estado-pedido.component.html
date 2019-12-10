@@ -13,15 +13,19 @@
             <div class="card bg-light" style="max-width: 18rem;" *ngFor="let pedido of listaPedidosEnviados">
                 <div class="card-body">
                     <h5 class="card-title">Mesa N°: {{pedido.mesas}}</h5>
+                    <hr>
+                    <h6 class="card-subtitle mb-2 text-muted">Código: {{pedido.codPedido}}</h6>
                     <h6 class="card-subtitle mb-2 text-muted">Comensal: {{pedido.comensal.aliasComensal}}</h6>
                     <h6 class="card-subtitle mb-2 text-muted">Hora Inicio: {{pedido.fechaYHoraInicioPedido | date: 'h:mm a'}}</h6>
                     <h6 class="card-subtitle mb-2 text-muted">Hora Fin: {{pedido.pedidoestados[0].fechaYHoraAltaPedidoEstado | date: 'h:mm a'}}</h6>
+                    <hr>
                     <div class="grid" *ngFor="let detalles of pedido.detallepedidoproductos">
-                        <p class="card-text" *ngIf="detalles.menupromocion == null">{{detalles.cantidadPedidoProducto}}
-                            {{detalles.producto.nombreProducto}}</p>
-                        <p class="card-text" *ngIf="detalles.menupromocion != null">{{detalles.cantidadPedidoProducto}}
-                            {{detalles.menupromocion.codMenuPromocion}}</p>
+                        <h6 class="card-subtitle mb-2 text-dark" *ngIf="detalles.menupromocion == null">x{{detalles.cantidadPedidoProducto}} - {{detalles.producto.nombreProducto}}
+                        </h6>
+                        <h6 class="card-subtitle mb-2 text-dark" *ngIf="detalles.menupromocion != null">x{{detalles.cantidadPedidoProducto}} - {{detalles.menupromocion.codMenuPromocion}}
+                        </h6>
                     </div>
+                    <hr>
                     <button class="btn btn-warning" (click)="enviarPedido(pedido.idPedido)">Enviar a Elaborar</button>
                 </div>
             </div>

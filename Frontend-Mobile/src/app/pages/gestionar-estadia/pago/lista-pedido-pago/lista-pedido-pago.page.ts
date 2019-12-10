@@ -88,10 +88,13 @@ export class ListaPedidoPagoPage implements OnInit {
   async realizarPago() {
     console.log("REALIZAR PAGO")
     let MP;
+    let confirmacion;
     if (this.medioPago == 'tarjeta') {
       MP = 2;
+      confirmacion = true      
     } else if ( this.medioPago == 'efectivo') {
-      MP = 1
+      MP = 1;
+      confirmacion = false;
     } else {
       console.log("SE ESTA SELECCIONANDO MAL EL MEDIO DE PAGO")
     }
@@ -103,6 +106,7 @@ export class ListaPedidoPagoPage implements OnInit {
       importeTotalAPagar: importeTotalPago,
       idMedioPago: MP,
       idComensal: Number(this.idComensal),
+      confirmado: confirmacion
     }
     await this.pagoService.setPago(pathPago).then( async respuesta => {
       if ( respuesta && respuesta.tipo == 1) {
@@ -114,8 +118,13 @@ export class ListaPedidoPagoPage implements OnInit {
         await this.pagoService.setPagoPedido(pathPedidoPago).then( async resp => {
           if ( resp && resp.tipo == 1 ) {
             this.loaderService.presentLoading('Realizando Pago. Por favor, aguarde un momento', 5000).then( () => {
-              this.toastService.toastSuccess(`Se realizo correctamente el Pago. N° de Pago: ${respuesta.id}`, 3000);
-              this.navController.navigateBack(`/lista-pago/${this.idEstadia}`)
+              if (pathPago['confirmado']) {
+                this.toastService.toastSuccess(`Se realizo correctamente el Pago. N° de Pago: ${respuesta.id}`, 3000);
+                this.navController.navigateBack(`/lista-pago/${this.idEstadia}`)
+              } else {
+                this.toastService.toastSuccess(`Solicite a mozo su confirmación de N° de Pago: ${respuesta.id}`, 3000);
+                this.navController.navigateRoot(`/confirmar-pago/estadia/${this.idEstadia}/pago/${respuesta.id}`)
+              }
             })
             let count = 1;
             for (let element of detalle ) {
@@ -124,25 +133,27 @@ export class ListaPedidoPagoPage implements OnInit {
                 idEstadoPedido: 6,
                 descripcionPedidoEstado: `Pagado: $${element.importePagadoPedido}`
               }
-              await this.pedidoService.cambiarEstado(pathPedido)
-              .then( async resp => {
-                if ( resp && resp.tipo == 1 ) {
-                  let fechaYHoraActual = await this.getFechaYHoraActual();
-                  let pathActualizarFechaFin = {
-                    idPedido: element.idPedido,
-                    fechaYHoraFinPedido: fechaYHoraActual
+              if (MP == 2) {
+                await this.pedidoService.cambiarEstado(pathPedido)
+                .then( async resp => {
+                  if ( resp && resp.tipo == 1 ) {
+                    let fechaYHoraActual = await this.getFechaYHoraActual();
+                    let pathActualizarFechaFin = {
+                      idPedido: element.idPedido,
+                      fechaYHoraFinPedido: fechaYHoraActual
+                    }
+                    await this.pedidoService.updatePedido(pathActualizarFechaFin)
+                    .then(resp1 => {
+                      console.log("PEDIDO Actualizados Correctamente. Seteo de fechaYHoraFinPedido a:" , fechaYHoraActual);
+                    });
+                  } else {
+                    console.log("NO se pudo actualizar PEDIDO ")
                   }
-                  await this.pedidoService.updatePedido(pathActualizarFechaFin)
-                  .then(resp1 => {
-                    console.log("PEDIDO Actualizados Correctamente. Seteo de fechaYHoraFinPedido a:" , fechaYHoraActual);
-                  });
-                } else {
-                  console.log("NO se pudo actualizar PEDIDO ")
-                }
-                if (detalle.length == count) {
-                  this.cambiarEstadoMesas(this.estadia)
-                }
-              })
+                  if (detalle.length == count) {
+                    this.cambiarEstadoMesas(this.estadia)
+                  }
+                })
+              }
               count += 1;
             }
           } else {
@@ -266,9 +277,8 @@ export class ListaPedidoPagoPage implements OnInit {
         newPedidos.push(element);
       }
     }
+    this.toastService.toastPrimary('Se agrego este pedido. Ver Detalle a Pagar.', 2000)
     this.pedidos = newPedidos;
-    console.log("PEDIDOS ---------- ", this.pedidos)
-    console.log("ITEM  ---------- ", this.listaPedidos)
   }
 
   eliminarPedido( item ) {
@@ -280,8 +290,7 @@ export class ListaPedidoPagoPage implements OnInit {
       }
     }
     this.listaPedidos = newPedidos;
-    console.log("PEDIDOS ---------- ", this.pedidos)
-    console.log("ITEM  ---------- ", this.listaPedidos)
+    this.toastService.toastWarning('Eliminado correctamente. Ver Pedidos.', 2000)
   }
 
   async imprimir( item ) {

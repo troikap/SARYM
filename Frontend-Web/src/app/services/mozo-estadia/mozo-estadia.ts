@@ -14,6 +14,7 @@ export class MozoEstadiaService {
   dir4 = "/generada";
   dir5 = "/actualizarDatos";
   dir6 = "/cambiarEstado";
+  dir7 = "/cambiarMozoEstadia";
 
   tokenEnviroment = environment.token;
 
@@ -37,7 +38,7 @@ export class MozoEstadiaService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .get(this.url + this.dir, { headers })
+      .get(this.url + this.dir + this.dir3 + this.dir4, { headers })
       .toPromise()
       .then(response => {
         return response as any;
@@ -67,11 +68,11 @@ export class MozoEstadiaService {
       .catch();
   }
 
-  updateEstadia(datas: any): Promise<any> {
+  reasignarMozoEstadia(datas: any): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append("token", this.tokenEnviroment);
     return this.http
-      .put(`${this.url}${this.dir}${this.dir5}`, datas, { headers })
+      .put(`${this.url}${this.dir}${this.dir7}`, datas, { headers })
       .toPromise()
       .then(response => {
         return response as any;

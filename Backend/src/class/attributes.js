@@ -200,7 +200,8 @@ movimientocaja = [
     "fechaYHoraMovimientoCaja",
     "idUsuario",
     "montoMovimientoCaja",
-    "descripcionMovimientoCaja"
+    "descripcionMovimientoCaja",
+    "idPago"
 ]
 
 pedido = [
@@ -330,6 +331,7 @@ pago = [
     "codPago",
     "importeTotalAPagar",
     "fechaYHoraAltaPago",
+    "confirmado"
 ]
 
 pagopedido = [

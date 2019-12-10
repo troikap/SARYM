@@ -5,13 +5,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ConsultarSalonPage } from './consultar-salon.page';
+import { ConfirmarPagoEfectivoPage } from './confirmar-pago-efectivo.page';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 
 const routes: Routes = [
   {
     path: '',
-    component: ConsultarSalonPage
+    component: ConfirmarPagoEfectivoPage
   }
 ];
 
@@ -23,6 +23,6 @@ const routes: Routes = [
     NgxQRCodeModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ConsultarSalonPage]
+  declarations: [ConfirmarPagoEfectivoPage]
 })
-export class ConsultarSalonPageModule {}
+export class ConfirmarPagoEfectivoPageModule {}

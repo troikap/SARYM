@@ -447,48 +447,61 @@ export class CrudGenerarEstadiaPage implements OnInit {
   }
 
   agregarNuevoComensal(){
-    console.log("Validar Existencia")
-    const cuit = this.form2.value.cuitUsuario;
-    console.log(cuit)
-    if (cuit != null && cuit != "" && cuit != "undefined") {
-      this.usuarioservicio.validarExistenciaUsuario( cuit )
-      .then( (res) => {
-        if ( res && res.tipo == 2) {
-          this.existenciaUsuario = true;
-          this.comensal = {
-            aliasComensal: this.form2.value.aliasComensal,
-            edadComensal: this.form2.value.edadComensal,
-            cuitUsuario: this.form2.value.cuitUsuario,
-            idUsuario: res.data.idUsuario
-          }
-
-          if(this.origenDatos == "confReserva") {
-            this.crearComensalReserva();
-          }
-          else { //es estadia
-            this.crearComensalEstadia();
-          }
-        } else {
-          this.existenciaUsuario = false;
-          this.mensajeExistenciaUsuario = res.descripcion;
-          this.form2.controls.cuitUsuario.setErrors({pattern: true});
-          this.form2.markAsTouched();
-          this.toastService.toastWarning("Cuit de Usuario ingresado es incorrecto", 2500);
-        }
-      });
-    } else {
-      this.comensal = {
-        aliasComensal: this.form2.value.aliasComensal,
-        edadComensal: this.form2.value.edadComensal
-      }
-
-      if(this.origenDatos == "confReserva") {
-        this.crearComensalReserva();
-      }
-      else { //es estadia
-        this.crearComensalEstadia();
-      }
+    console.log("Validar Existencia");
+    
+    let aliasComensalArray = [];
+    let existeAlias = false;
+    for (let comensal of this.comensales) {
+      aliasComensalArray.push(comensal.aliasComensal);
     }
+    const alias = this.form2.value.aliasComensal;
+    if (aliasComensalArray.includes(alias)) { 
+      this.toastService.toastError("Ya existe el Alias del Comensal que está intentando agregar.", 2500);
+      existeAlias = true;
+    }
+    if (!existeAlias) {
+      const cuit = this.form2.value.cuitUsuario;
+      console.log(cuit)
+      if (cuit != null && cuit != "" && cuit != "undefined") {
+        this.usuarioservicio.validarExistenciaUsuario( cuit )
+        .then( (res) => {
+          if ( res && res.tipo == 2) {
+            this.existenciaUsuario = true;
+            this.comensal = {
+              aliasComensal: this.form2.value.aliasComensal,
+              edadComensal: this.form2.value.edadComensal,
+              cuitUsuario: this.form2.value.cuitUsuario,
+              idUsuario: res.data.idUsuario
+            }
+  
+            if(this.origenDatos == "confReserva") {
+              this.crearComensalReserva();
+            }
+            else { //es estadia
+              this.crearComensalEstadia();
+            }
+          } else {
+            this.existenciaUsuario = false;
+            this.mensajeExistenciaUsuario = res.descripcion;
+            this.form2.controls.cuitUsuario.setErrors({pattern: true});
+            this.form2.markAsTouched();
+            this.toastService.toastWarning("Cuit de Usuario ingresado es incorrecto", 2500);
+          }
+        });
+      } else {
+        this.comensal = {
+          aliasComensal: this.form2.value.aliasComensal,
+          edadComensal: this.form2.value.edadComensal
+        }
+  
+        if(this.origenDatos == "confReserva") {
+          this.crearComensalReserva();
+        }
+        else { //es estadia
+          this.crearComensalEstadia();
+        }
+      }
+    }    
   }
 
   crearComensalReserva() {
@@ -761,22 +774,14 @@ export class CrudGenerarEstadiaPage implements OnInit {
       }
     }
     this.generarMesasCambioEstado(mesasAux);
+
     const comensales = this.comensales;   
-    let encuentraUsr = false;
-    for (let comensal of comensales) {
-      if (comensal.idUsuario != null) {
-        estadia['idUsuario'] = comensal.idUsuario;
-        estadia['cuitUsuario'] = comensal.cuitUsuario;
-        encuentraUsr = true;
-        break;
-      }
-    }
-    if (!encuentraUsr) {
-      estadia['idUsuario'] = this.currentUsuario.id; //Setea al Mozo, en caso de no existir usuario entre los comensales
-      estadia['cuitUsuario'] = this.currentUsuario.cuit;
-    }
+    estadia['idUsuario'] = this.currentUsuario.id; //Setea al Mozo en la estadía
+    estadia['cuitUsuario'] = this.currentUsuario.cuit;
+    
     let estadiaConCodigo = await this.agregarCodigoEstadia( estadia );
     await this.validarCreacionEstadia(estadia, mesas, comensales, estadiaConCodigo);
+    
   }
 
   async validarCreacionEstadia(estadia, mesas, comensales, estadiaConCodigo) {
@@ -996,16 +1001,18 @@ export class CrudGenerarEstadiaPage implements OnInit {
               for(let usuarioActual of idUsuariosActual) {
                 for (let usuarioEstadia of idUsuariosEstadia) {
                   //NO VERIFICO RANGO HORARIO, PUES LAS ESTADIAS EN ESTADO "GENERADA" SIEMPRE SON ACTIVAS
-                  if (this.accionGet == "editar") {
-                    if (idEstadiaTodas != this.idEstadia) {
+                  if (usuarioActual == usuarioEstadia) {
+                    if (this.accionGet == "editar") {
+                      if (idEstadiaTodas != this.idEstadia) {
+                        this.errorRangoUsr = true;
+                        break;
+                      }
+                    } 
+                    else {
                       this.errorRangoUsr = true;
                       break;
                     }
-                  } 
-                  else {
-                    this.errorRangoUsr = true;
-                    break;
-                  }
+                  }                  
                 }
                 if (this.errorRangoUsr) {
                   break;
@@ -1264,6 +1271,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
         await this.estadiaServicio.updateEstadia( data )
         .then(async update => {
           if ( update && update.tipo == 1) {
+            console.log("comensales: ", comensales);
             let pathComensales= {};
             pathComensales['detalle'] = comensales;
             pathComensales['idEstadia'] = res.id;
