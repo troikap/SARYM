@@ -27,7 +27,7 @@ export class SearchRolComponent implements OnInit {
 
   buscarElemento(termino: string) {
     if (termino.trim() !== "") {
-      this.rolService.getRolByAll(termino).subscribe((data: any) => {
+      this.rolService.getRolByAll(termino).subscribe((data: any) => { 
         if (data != null) {
           let arrayAFiltrar = [];
       //DESCARTAMOS MOZOS Y CLIENTS PQ NO TIENEN ACCESO AL SISTEMA WEB.
@@ -53,7 +53,7 @@ export class SearchRolComponent implements OnInit {
       let arrayAFiltrar = [];
       //DESCARTAMOS MOZOS Y CLIENTS PQ NO TIENEN ACCESO AL SISTEMA WEB.
       let arrayFiltrado = [];
-      arrayAFiltrar = res.data;           
+      arrayAFiltrar = res.data;        
       for ( let item of arrayAFiltrar ){
         if ( item.nombreRol != "Cliente" && item.nombreRol != "Mozo" ) {
           arrayFiltrado.push(item);

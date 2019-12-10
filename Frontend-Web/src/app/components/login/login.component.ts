@@ -201,7 +201,9 @@ export class LoginComponent implements OnInit {
     this.rolService.getFuncionesByRol3(this.rol).then((res: any) => {
       let array = [];
       for (let item of res) {
-        array.push(item.funcion.nombreFuncion);
+        if ( item.funcion.nombreFuncion != "Gestionar Backup" ) {
+          array.push(item.funcion.nombreFuncion);
+        }
       }
       localStorage.setItem('FuncionesRol', JSON.stringify(array));
     });

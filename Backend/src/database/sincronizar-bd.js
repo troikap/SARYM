@@ -96,7 +96,7 @@ sequelize.sync({ force: false }); // force = false  crea nuevos modelos/tablas d
 // 
 
 // bcrypt.compare("123", encrypt, function(err, res) {
-//     // res == true
+//     // res == true 
 //     console.log("RESPUESTA: ",res)
 //   });
 

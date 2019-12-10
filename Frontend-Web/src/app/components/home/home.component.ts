@@ -114,8 +114,8 @@ export class HomeComponent implements OnInit {
     break;
     case 'upload':
       next = '/upload';
-    case 'backup':
-        next = '/backup';
+    //case 'backup':
+    //    next = '/backup';
     break;
     }
     this.routes.navigate([next]);

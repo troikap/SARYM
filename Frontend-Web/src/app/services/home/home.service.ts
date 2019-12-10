@@ -85,6 +85,7 @@ export class HomeService {
       img: "assets/imagenes/reportes.png",
       nombreFuncion: "Generar Reporte"
     },
+    /*
     {
       id: "10",
       nombre: "Generar Backup",
@@ -92,7 +93,7 @@ export class HomeService {
       path: "/backup",
       img: "assets/imagenes/backup.png",
       nombreFuncion: "Gestionar Backup"
-    },
+    },*/
     {
       id: "11",
       nombre: "ABM Rol",
@@ -179,7 +180,10 @@ export class HomeService {
     for (let itemIcono of this.iconos) {
       for (let itemFuncionesRecuperadas of funcionesRecuperadas) {
         if (itemIcono.nombreFuncion == itemFuncionesRecuperadas) {
-          iconosHabilitados.push(itemIcono);
+          //if para ocultar gestionar backup porque no fue implementado
+          if ( itemFuncionesRecuperadas != "Gestionar Backup") {
+            iconosHabilitados.push(itemIcono);
+          }
         }
       }
     }
