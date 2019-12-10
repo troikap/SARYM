@@ -13,6 +13,7 @@ import { UsuarioService } from '../../../services/usuario/usuario.service'
 export class EditComponent implements OnInit{
   form: FormGroup;
   private idEstadia: number;
+  private idUsuarioMozoEstadia: number;
   private estadia: any;
   private newForm = {};
   private listaMesas: any[] =[];
@@ -33,6 +34,7 @@ export class EditComponent implements OnInit{
       'cantPersonas': new FormControl({ value: '', disabled: true }),
       'mesa': new FormControl({ value: '', disabled: true }),      
       'fechaYHoraInicioEstadia': new FormControl({ value: '', disabled: true}),
+      'descripcionCambioEstado': new FormControl({ value: ''}),
       'mozoEstadia': new FormControl('', Validators.required)  
     });
 
@@ -56,6 +58,7 @@ export class EditComponent implements OnInit{
         .then((data: any) => { // Llamo a un Observer
           if (data != null) {
             this.estadia = data.data;
+            this.idUsuarioMozoEstadia = data.data.mozoestadia[0].idUsuario;
             console.log(this.estadia);
             console.log("estas son las mesas",this.estadia.detalleestadiamesas);
             this.listaMesas = this.estadia['detalleestadiamesas'];
@@ -66,11 +69,13 @@ export class EditComponent implements OnInit{
             }
             this.date = this.estadia['fechaYHoraInicioEstadia'];
             console.log(this.listaNumerosMesa);
+
             this.newForm = {
               cantPersonas: this.estadia['cantPersonas'],                           
               mesa: this.listaNumerosMesa.join(),
               fechaYHoraInicioEstadia: this.datePipe.transform(this.date,'dd/MM/yyyy HH:mm'), 
-              mozoEstadia:""
+              mozoEstadia:"",
+              descripcionCambioEstado: ""
             }
 
             this.form.setValue(this.newForm);
@@ -80,19 +85,16 @@ export class EditComponent implements OnInit{
     
   }
 
-  reemplazarEstadia(): any {
-    console.log("Funcion 'reemplazarEstadia()', ejecutada");
+  getDTOMozoEstadia(): any {
+    console.log("Funcion 'getDTOMozoEstadia()', ejecutada");
  
-      let rempCaja: any = {
+      let reempMozoEstadia: any = {
         idEstadia: this.idEstadia,
-        idUsuario: this.form.value['mozoEstadia'],
-        descripcionMozoEstadia: "Modificado por el Encargado"      
+        idUsuario: this.form.value['mozoEstadia'], 
+        descripcionMozoEstadia: this.form.value['descripcionCambioEstado']
       }
-      //console.log(rempCaja);
-      return rempCaja;
-
-    
-
+      console.log("DTO Reeasignar Mozo: ", reempMozoEstadia);
+      return reempMozoEstadia;
   }
 
   guardar() {
@@ -114,12 +116,12 @@ export class EditComponent implements OnInit{
             text: 'Aceptar',
             btnClass: 'btn-blue',
             action: function () {
-              let estadia = _this.reemplazarEstadia(); 
+              let mozoEstadia = _this.getDTOMozoEstadia(); 
              
              
-              if(estadia != null ){
+              if(mozoEstadia != null ){
               
-                _this.mozoEstadiaServicio.updateEstadia(estadia)
+                _this.mozoEstadiaServicio.reasignarMozoEstadia(mozoEstadia)
                   .then((response) => {
                     console.log("ACTUALIZADO", response);
 
@@ -172,7 +174,9 @@ export class EditComponent implements OnInit{
       .then((res) => {
         res['data'].forEach(item => {
           if (item['rolusuarios'][0].rol.nombreRol == "Mozo" && item['usuarioestados'][0].estadousuario.nombreEstadoUsuario == "Activo") {
-            this.mozoEstadias.push(item);
+            if (this.idUsuarioMozoEstadia != item.idUsuario) {
+              this.mozoEstadias.push(item);
+            }
           }
         });   
       console.log("estos son los mozo Estadia",this.mozoEstadias)

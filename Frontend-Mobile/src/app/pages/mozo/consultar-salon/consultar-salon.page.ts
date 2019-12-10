@@ -208,13 +208,36 @@ export class ConsultarSalonPage implements OnInit {
         }, 
         {
           text: 'Finalizar Estadia',
-          handler: ( ) => {
-            this.finalizarEstadia(idEstadia);
+          handler: (  ) => {
+            this.cofirmarAccionFinalizar(idEstadia);
+            // this.finalizarEstadia(idEstadia);
             // this.navController.navigateForward(`/crud-generar-estadia/${idEstadia}/editar/salon`)
           }
         }
       ],
       cssClass: 'alertPrimary',
+    })
+    await alert.present();
+  }
+
+  async cofirmarAccionFinalizar( idEstadia ) {
+    const alert = await this.alertController.create({
+      header: 'Desea Finalizar Estadía seleccionada?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          cssClass: 'secondary',
+          role: 'Cancel',
+          handler: ( ) => {
+          }
+        }, {
+          text: 'Finalizar',
+          handler: ( ) => {
+            this.finalizarEstadia(idEstadia);
+          }
+        }
+      ],
+      cssClass: 'alertWarning',
     })
     await alert.present();
   }
