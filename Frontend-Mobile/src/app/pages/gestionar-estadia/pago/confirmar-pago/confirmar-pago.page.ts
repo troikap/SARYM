@@ -72,6 +72,10 @@ export class ConfirmarPagoPage implements OnInit {
       });
     }
   }
+
+  goBack() {
+    this.navController.navigateBack('home');
+  }
   
   createCode() {
     console.log('Creando QR');

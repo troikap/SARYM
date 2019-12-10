@@ -73,7 +73,7 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
     })
     .catch(err => {
       console.log('Error', err);
-      this.qrDataCodify = 'UEFHTy0zLTM='; // RVNUQURJQS01LTEx - RVNUQURJQS00LTEx
+      this.qrDataCodify = 'UEFHTy0zLTU='; // RVNUQURJQS01LTEx - RVNUQURJQS00LTEx
       this.presentAlert()
     });
   }
@@ -99,33 +99,35 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
       this.idPago = this.nameArray[2];
       await this.buscarEstadia();
       await this.buscarPago();
-      if ((this.idEstadia) && (this.idPago)) { 
-        const alert = await this.alertController.create(
-          {
-          header: 'Leyendo QR',
-          message: `¿Desea Confirmar pago de Estadia N° ${this.estadia.idEstadia}?. El monto es de $${this.pago.importeTotalAPagar} correspondiente al comensal ${this.pago.comensal.aliasComensal}.`,
-          buttons: [
+      if(this.pago) {
+        if ((this.idEstadia) && (this.idPago)) { 
+          const alert = await this.alertController.create(
             {
-              text: 'Cancel',
-              role: 'cancel',
-              cssClass: 'secondary',
-              handler: (blah) => {
-                console.log('Confirm Cancel');
-                this.navController.navigateBack('/home');
+            header: 'Leyendo QR',
+            message: `¿Desea Confirmar pago de Estadia N° ${this.estadia.idEstadia}?. El monto es de $${this.pago.importeTotalAPagar} correspondiente al comensal ${this.pago.comensal.aliasComensal}.`,
+            buttons: [
+              {
+                text: 'Cancel',
+                role: 'cancel',
+                cssClass: 'secondary',
+                handler: (blah) => {
+                  console.log('Confirm Cancel');
+                  this.navController.navigateBack('/home');
+                }
+              }, {
+                text: 'Confirmar',
+                handler: () => {
+                  this.realizarMovimientoCaja();
+                }
               }
-            }, {
-              text: 'Confirmar',
-              handler: () => {
-                this.realizarMovimientoCaja();
-              }
-            }
-          ],
-          cssClass: 'alertPrimary'
-        });
-        await alert.present();
-      } else { // No continuar, pues ya es Reserva o Estadía del usuario logueado
-        this.toastService.toastSuccess(`No se enviaron los datos correctamente`, 3000);
-        this.navController.navigateBack('/home');
+            ],
+            cssClass: 'alertPrimary'
+          });
+          await alert.present();
+        } else { // No continuar, pues ya es Reserva o Estadía del usuario logueado
+          this.toastService.toastSuccess(`No se enviaron los datos correctamente`, 3000);
+          this.navController.navigateBack('/home');
+        }
       }
     }
   }
@@ -140,10 +142,11 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
   async buscarPago() {
     await this.pagoService.getPago(this.idPago).then( async pago => {
       console.log("PAGOOOOOOOOOOOOOOOOO -----------------", pago)
-      this.pago = await pago;
       if (pago['confirmado'] == true) {
         this.toastService.toastWarning(`Este pago ya ha sido Confirmado!`, 3000);
         this.navController.navigateBack('/home')
+      } else {
+        this.pago = await pago;
       }
     })
   }
