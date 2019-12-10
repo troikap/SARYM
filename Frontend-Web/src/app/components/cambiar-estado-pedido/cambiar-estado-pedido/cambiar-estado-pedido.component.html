@@ -20,9 +20,9 @@
                     <h6 class="card-subtitle mb-2 text-muted">Hora Fin: {{pedido.pedidoestados[0].fechaYHoraAltaPedidoEstado | date: 'h:mm a'}}</h6>
                     <hr>
                     <div class="grid" *ngFor="let detalles of pedido.detallepedidoproductos">
-                        <h6 class="card-subtitle mb-2 text-dark" *ngIf="detalles.menupromocion == null">{{detalles.cantidadPedidoProducto}} {{detalles.producto.nombreProducto}}
+                        <h6 class="card-subtitle mb-2 text-dark" *ngIf="detalles.menupromocion == null">x{{detalles.cantidadPedidoProducto}} - {{detalles.producto.nombreProducto}}
                         </h6>
-                        <h6 class="card-subtitle mb-2 text-dark" *ngIf="detalles.menupromocion != null">{{detalles.cantidadPedidoProducto}} {{detalles.menupromocion.codMenuPromocion}}
+                        <h6 class="card-subtitle mb-2 text-dark" *ngIf="detalles.menupromocion != null">x{{detalles.cantidadPedidoProducto}} - {{detalles.menupromocion.codMenuPromocion}}
                         </h6>
                     </div>
                     <hr>
