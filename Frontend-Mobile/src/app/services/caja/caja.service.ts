@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Caja } from '../../models/modelos';
-import { ToastService } from '../../providers/toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +17,6 @@ export class CajaService {
 
   constructor(
     public http: HttpClient,
-    private toastService: ToastService
   ) { }
 
   getCajas(): Promise<Caja[]> {
@@ -31,7 +29,6 @@ export class CajaService {
         if ( response && response['tipo'] == 1) {
           return response['data'] as Caja[];
         } else {
-          this.toastService.toastWarning('Tuvimos un problema al intentar obtener las cajas', 2000)
         }
       })
       .catch( err => {

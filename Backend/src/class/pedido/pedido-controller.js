@@ -461,6 +461,21 @@ let body = req.body;
                     } else {
                         locals['title'] = `Se creo correctamente ${legend2}.`;
                         locals['tipo'] = 1;
+                        if (body[idtable3] == 6 || body[idtable3] == 7) {
+                            let pathActualizarPedido = {
+                                fechaYHoraFinPedido: fechaArgentina.getFechaArgentina()
+                            }
+                            PedidoModelo.update(pathActualizarPedido, {[idtable]: body[idtable]}).then( resp => {
+                                if(!resp || resp == 0) {
+                                    locals['titleFecha'] = `No se actualizo la Fecha Fin de Pedido.`;
+                                    locals['tipoFecha'] = 2;
+                                    res.json(locals);
+                                } else {
+                                    locals['titleFecha'] = `Se actualizo la fecha Fin de Pedido}.`;
+                                    locals['tipoFecha'] = 1;
+                                }
+                            })
+                        }
                     }
                     res.json(locals);
                 }).catch((error) => {

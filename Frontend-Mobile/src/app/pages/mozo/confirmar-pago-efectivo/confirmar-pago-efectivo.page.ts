@@ -67,19 +67,17 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
     this.barcodeScanner
     .scan()
     .then(barcodeData => {
-      console.log("BARCODEDATA 0" , barcodeData)
       this.qrDataCodify = barcodeData.text;
       this.presentAlert();
     })
     .catch(err => {
       console.log('Error', err);
-      this.qrDataCodify = 'UEFHTy0zLTU='; // RVNUQURJQS01LTEx - RVNUQURJQS00LTEx
+      this.qrDataCodify = 'UEFHTy01LTk='; // RVNUQURJQS01LTEx - RVNUQURJQS00LTEx
       this.presentAlert()
     });
   }
 
   async presentAlert() {
-    console.log("this ", this.qrDataCodify)
     try {
       this.secretCode = atob( this.qrDataCodify );
     } catch(e) {
@@ -88,7 +86,6 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
         this.navController.navigateBack('/home');
     }
     if (this.secretCode) {
-      console.log("SECRETO ", this.secretCode)
       this.nameArray = this.secretCode.split('-');
       let tipo = this.nameArray[0];
       if (tipo != "PAGO") {
@@ -125,7 +122,7 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
           });
           await alert.present();
         } else { // No continuar, pues ya es Reserva o Estadía del usuario logueado
-          this.toastService.toastSuccess(`No se enviaron los datos correctamente`, 3000);
+          await this.toastService.toastSuccess(`No se enviaron los datos correctamente`, 3000);
           this.navController.navigateBack('/home');
         }
       }
@@ -134,14 +131,12 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
 
   async buscarEstadia() {
     await this.estadiaService.getEstadia(this.idEstadia).then( async estadia => {
-      console.log("ESTADIAAAAAAAAAAAA ------------ ", estadia)
       this.estadia = await estadia;
     })
   }
 
   async buscarPago() {
     await this.pagoService.getPago(this.idPago).then( async pago => {
-      console.log("PAGOOOOOOOOOOOOOOOOO -----------------", pago)
       if(pago) {
         if (pago['confirmado'] == true) {
           this.toastService.toastWarning(`Este pago ya ha sido Confirmado!`, 3000);
@@ -157,7 +152,6 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
 
   async cambiarEstadoPedido() {
     let count = 1;
-    console.log("cambiarEstadoPedido", this.pago.pagopedidos)
     for (let element of this.pago.pagopedidos ) {
       let pathPedido = {
         idPedido: element.pedido.idPedido,
@@ -180,10 +174,9 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
           console.log("NO se pudo actualizar PEDIDO ")
         }
         if (this.pago.pagopedidos.length == count) {
-          this.toastService.toastSuccess("Pago de Pedido Confirmado", 3000)
-          this.cambiarEstadoMesas(this.idEstadia);
-          this.actualizarPago();
-          
+          await this.toastService.toastSuccess("Pago de Pedido Confirmado", 3000)
+          await this.cambiarEstadoMesas(this.idEstadia);
+          await this.actualizarPago();
         }
       })
       count += 1;
@@ -193,7 +186,6 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
   async cambiarEstadoMesas(idEstadia) {
     await this.estadiaService.getEstadia(idEstadia).then( async estadia => {
       if ( estadia ) {
-        console.log("~~~~~~~~~~~~~~~~~~~~~~~ ESTADIA ~~~~~~~~~~~~~~ ",estadia)
         let modificarEstado = true;
         for (let pedido of estadia.pedidos) {
           if (pedido.pedidoestados[0].idEstadoPedido != 2 && // Anulado 
@@ -202,7 +194,6 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
             }
         }
         await this.mesaService.getMesa(Number(estadia.detalleestadiamesas[0].idMesa)).then( async response => {
-          console.log("MESA ////////// ",response)
           let mesa = response['data'];
           if (response['tipo'] == 1) {
             if (modificarEstado && mesa.mesaestados[0].idEstadoMesa == 4) {
@@ -230,22 +221,32 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
 
    async realizarMovimientoCaja() {
     await this.cajaService.getCajas().then( async cajas => {
-      console.log("CAJAS ", cajas)
-      console.log("Cantidad CAJAS ", cajas.length)
       if (cajas.length == 0) {
-        this.toastService.toastError('Solicite la apertura de alguna Caja al Encargado del Local', 3000);
+        this.toastService.toastError('Ocurrió un error al intentar recuperar Cajas', 3000);
       } else if (cajas.length == 1) {
         // crear movimiento
-        this.crearMovimiento(cajas[0].idCaja)
+        if (cajas[0].cajaestados[0].estadocaja.nombreEstadoCaja == 'Abierta') {
+          this.toastService.toastSuccess('Existe caja Abierta', 3000);
+          this.crearMovimiento(cajas[0].idCaja)
+        } else {
+          await this.toastService.toastError('Solicite la apertura de alguna Caja al Encargado del Local', 3000);
+          this.navController.navigateBack('/home');
+        }
       } else {
         this.cajas = cajas;
         let listaCajas: String = '';
         for (let item of cajas) {
-          if (listaCajas == '') {
-            listaCajas = String(item.nroCaja);
-          } else {
-            listaCajas += ` - ${item.nroCaja}`;
+          if ( item.cajaestados[0].estadocaja.nombreEstadoCaja == 'Abierta') {
+            if (listaCajas == '') {
+              listaCajas = String(item.nroCaja);
+            } else {
+              listaCajas += ` - ${item.nroCaja}`;
+            }
           }
+        }
+        if ( listaCajas.length == 0 ){
+          await this.toastService.toastError('Solicite la apertura de alguna Caja al Encargado del Local', 3000);
+          this.navController.navigateBack('/home');
         }
         const alert = await this.alertController.create(
           {
@@ -269,16 +270,19 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
               }
             }, {
               text: 'Confirmar',
-              handler: ( input ) => {
-                console.log("CAJA SELECCIONADA ", input)
-                let idCajaSeleccionada;
+              handler: async ( input ) => {
+                let idCajaSeleccionada = null;
                 for ( let item of this.cajas) {
-                  if (item.nroCaja == input.nroCaja) {
+                  if (item.nroCaja == input.nroCaja && item.cajaestados[0].estadocaja.nombreEstadoCaja == 'Abierta') {
                     idCajaSeleccionada = item.idCaja;
+                    break;
                   }
-                  if (idCajaSeleccionada != null) {
-                    this.crearMovimiento(idCajaSeleccionada)
-                  }
+                }
+                if (idCajaSeleccionada != null) {
+                  await this.crearMovimiento(idCajaSeleccionada)
+                } else {
+                  await this.toastService.toastError('Ha ingresado una opción incorrecta', 3000);
+                  this.navController.navigateBack('/home');
                 }
               }
             }
@@ -312,19 +316,18 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
     })
   }
 
-  actualizarPago() {
+  async actualizarPago() {
     let pathPago = {
       idPago: this.idPago,
       confirmado: true
     }
-    this.pagoService.updatePago(pathPago).then( resp => {
+    await this.pagoService.updatePago(pathPago).then( async resp => {
       console.log("ACTUALIZANOD PAGO ", resp)
       if (resp && resp.tipo == 1) {
-        this.toastService.toastSuccess(`Se actualizo correctamente el Pago N°: ${this.idPago}`, 3000, 'top');
-        console.log("NAVEGANDO -------------------------------------------------------")
+        await this.toastService.toastSuccess(`Se actualizo correctamente el Pago N°: ${this.idPago}`, 3000, 'top');
         this.navController.navigateBack('/home');
       } else {
-        this.toastService.toastError(`Fallo al actualizar el Pago N°: ${this.idPago}`, 3000, 'top');
+        await this.toastService.toastError(`Fallo al actualizar el Pago N°: ${this.idPago}`, 3000, 'top');
       }
     })
   }

@@ -18,33 +18,33 @@ module.exports = {
                 "createdAt": currentDate,
                 "updatedAt": currentDate
             }
-            // ,
-            // {
-            //     "idCajaEstado": 2,
-            //     "idCaja": 2,
-            //     "idEstadoCaja": 2,
-            //     "idUsuario": 2,
-            //     "descripcionCajaEstado": "",
-            //     "montoAperturaCajaEstado": 500,
-            //     "montoCierreCajaEstado": 750,
-            //     "fechaYHoraAltaCajaEstado": currentDate,
-            //     "fechaYHoraBajaCajaEstado": null,
-            //     "createdAt": currentDate,
-            //     "updatedAt": currentDate
-            // },
-            // {
-            //     "idCajaEstado": 3,
-            //     "idCaja": 3,
-            //     "idEstadoCaja": 3,
-            //     "idUsuario": 3,
-            //     "descripcionCajaEstado": "",
-            //     "montoAperturaCajaEstado": 800,
-            //     "montoCierreCajaEstado": 1100,
-            //     "fechaYHoraAltaCajaEstado": currentDate,
-            //     "fechaYHoraBajaCajaEstado": null,
-            //     "createdAt": currentDate,
-            //     "updatedAt": currentDate
-            // }
+            ,
+            {
+                "idCajaEstado": 2,
+                "idCaja": 2,
+                "idEstadoCaja": 2,
+                "idUsuario": 1,
+                "descripcionCajaEstado": "",
+                "montoAperturaCajaEstado": 500,
+                "montoCierreCajaEstado": 750,
+                "fechaYHoraAltaCajaEstado": currentDate,
+                "fechaYHoraBajaCajaEstado": null,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            },
+            {
+                "idCajaEstado": 3,
+                "idCaja": 3,
+                "idEstadoCaja": 3,
+                "idUsuario": 1,
+                "descripcionCajaEstado": "",
+                "montoAperturaCajaEstado": 800,
+                "montoCierreCajaEstado": 1100,
+                "fechaYHoraAltaCajaEstado": currentDate,
+                "fechaYHoraBajaCajaEstado": null,
+                "createdAt": currentDate,
+                "updatedAt": currentDate
+            }
         ], {});
     },
 

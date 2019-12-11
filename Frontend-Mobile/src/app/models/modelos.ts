@@ -63,6 +63,8 @@ export interface UnidadMedida {
 export interface Caja {
     idCaja: Number,
     nroCaja: Number,
+    cajaestados: CajaEstado[],
+    usuario: Usuario
 }
 
 export interface CajaEstado {
@@ -71,7 +73,8 @@ export interface CajaEstado {
     montoAperturaCajaEstado: Number,
     montoCierreCajaEstado: Number,
     fechaYHoraAltaCajaEstado: Date,
-    fechaYHoraBajaCajaEstado: Date
+    fechaYHoraBajaCajaEstado: Date,
+    estadocaja: EstadoCaja
 }
 
 export interface EstadoCaja {

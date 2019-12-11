@@ -30,7 +30,6 @@ export class EstadiaService {
   constructor( 
     public http: HttpClient,
     private storage: StorageService,
-    private toastService: ToastService,
   ) { }
 
   getEstadiasPorEstado( termino: string) {
@@ -57,15 +56,12 @@ export class EstadiaService {
       .get(`${this.url}${this.dir}`, {headers})
       .toPromise()
       .then(response => {
-        console.log("Service getEstadias: ", response);
         return response['data'] as Estadia[];
       })
       .catch(  );
   }
 
   getEstadia( id: number ): Promise<Estadia> {
-    console.log("ENVIROMENT ", this.url)
-    console.log("url  2",`${this.url}${this.dir}/${id}`)
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('token', this.tokenEnviroment);
     return this.http
@@ -194,10 +190,10 @@ export class EstadiaService {
           if ( response['tipo'] == 1) {
             return response['data'] as Estadia;
           } else {
-            this.toastService.toastWarning('No se encontró Estadia.', 2000)
+            // this.toastService.toastWarning('No se encontró Estadia.', 2000)
           }
         } else {
-          this.toastService.toastError('No se pudo realizar la busqueda de Estadía.', 2000)
+          // this.toastService.toastError('No se pudo realizar la busqueda de Estadía.', 2000)
         }
       })
       .catch(  );
