@@ -1147,6 +1147,83 @@ export class CrudGenerarEstadiaPage implements OnInit {
       });
     }
   }
+
+  async actualizarEstadoPedidos() {
+    let pathPedidosList = [];
+    let pathActualizarPedidoList = [];
+    let fechaYHoraActual = await this.getFechaYHoraActual();
+
+    for (let pedido of this.pedidosReserva) {
+      let pathPedidos = {
+        "idPedido": pedido.idPedido,
+        "idEstadoPedido": 3,
+        "descripcionPedidoEstado": "Reserva Confirmada. Se genera estadía y asocia pedido."
+      };
+      pathPedidosList.push(pathPedidos);
+
+      let pathActualizarFechaFin = {
+        idPedido: pedido.idPedido,
+        fechaYHoraInicioPedido: fechaYHoraActual
+      }
+      pathActualizarPedidoList.push(pathActualizarFechaFin);
+    }
+
+    for (let path of pathPedidosList) {
+      await this.pedidoSercice.cambiarEstado(path)
+      .then( respo => {
+        console.log("Cambio de Estado del pedido: " + path.idPedido + " a 'En Preparación'. Path: ", path);
+      });
+    }
+
+    for (let path of pathActualizarPedidoList) {
+      await this.pedidoSercice.updatePedido(path)
+      .then( respo => {
+        console.log("Cambio Fecha de Inicio del Pedido: " + path.idPedido + " a " + fechaYHoraActual + ". Path: ", path);
+      });
+    }
+  }
+
+  async getFechaYHoraActual() {
+    let fechaActual = this.traerFechaActual();
+    
+    let fechaYHoraActual = fechaActual + " " + this.horaActual;
+    console.log("fechaYHoraActual: ", fechaYHoraActual);
+    return fechaYHoraActual;
+  }
+
+  traerFechaActual(){
+    let date = new Date();
+    let dd = date.getDate();
+    let mm = date.getMonth() + 1;
+    let mm2 = date.getMonth() + 1 + 5;
+    let yy = date.getFullYear();
+    let dia;
+    let mes;
+    let mes2;
+    let año;
+    if (mm2 > 12) {
+      mm2 = mm2 - 12;
+      año = yy + 1;
+    }
+    if ((dd >= 0) && (dd < 10)) {  
+      dia = "0" + String(dd);
+    } else {
+      dia = dd;
+    }
+    if ((mm >= 0) && (mm < 10)) {  
+      mes = "0" + String(mm);
+    } else {
+      mes = mm;
+    }
+    if ((mm2 >= 0) && (mm2 < 10)) {  
+      mes2 = "0" + String(mm2);
+    } else {
+      mes2 = mm2;
+    }
+    let fechaDesde = `${yy}-${mes}-${dia}`;
+    return fechaDesde;
+
+  }
   
   async confirmarReserva(estadia, comensales, mesas) {
     await this.estadiaServicio.setEstadia( estadia )
@@ -1165,7 +1242,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
               if ( resp && resp.tipo == 1 ){
 
                 await this.actualizarPedidos(res.id);
-               
+                
                 let pathMesas= {};
                 pathMesas['detalle'] = mesas;
                 pathMesas['idEstadia'] = res.id;
@@ -1185,6 +1262,7 @@ export class CrudGenerarEstadiaPage implements OnInit {
                         if ( respo3 && respo3.tipo == 1 ){
                           
                           await this.cambiarEstadoMesas();
+                          await this.actualizarEstadoPedidos();
 
                           this.toastService.toastSuccess(`Estadia Creada Satisfactoriamente. N° ${res.id}`, 2000);
                           setTimeout(()=>{
