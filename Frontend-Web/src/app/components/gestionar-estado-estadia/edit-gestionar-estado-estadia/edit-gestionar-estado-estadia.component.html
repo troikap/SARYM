@@ -6,35 +6,42 @@
             <div class="form-section">
                 <form [formGroup]="form" (ngSubmit)="guardar()">
                     <div class="form-group">
+                        <label for="idEstadia" class="col col-form-label">Nro de Estadía</label>
+                        <input type="text" id="cantPersonas" placeholder="Nro de Estadía" formControlName="idEstadia" class="form-control">
+                    </div>
+                    <div class="form-group">
                         <label for="cantPersonas" class="col col-form-label">Cantidad de Personas</label>
                         <input type="text" id="cantPersonas" placeholder="cantidad de personas" formControlName="cantPersonas" class="form-control">
-                    </div>            
+                    </div>
                     <div class="form-group">
-                            <label for="mesa" class="col col-form-label">Mesas</label>
-                            <input type="text" id="mesa" placeholder="mesas" formControlName="mesa" class="form-control">
-                    </div>   
+                        <label for="mesa" class="col col-form-label">Mesas</label>
+                        <input type="text" id="mesa" placeholder="mesas" formControlName="mesa" class="form-control">
+                    </div>
                     <div class="form-group">
-                            <label for="fechaYHoraInicioEstadia" class="col col-form-label">Fecha y Hora de Inicio de Estadia</label>
-                            <input type="text" id="fechaYHoraInicioEstadia" placeholder="Fecha y Hora" formControlName="fechaYHoraInicioEstadia" class="form-control">
-                    </div>  
+                        <label for="fechaYHoraInicioEstadia" class="col col-form-label">Fecha y Hora de Inicio de Estadia</label>
+                        <input type="text" id="fechaYHoraInicioEstadia" placeholder="Fecha y Hora" formControlName="fechaYHoraInicioEstadia" class="form-control">
+                    </div>
                     <div class="form-group">
                         <label for="mozoEstadia" class="col col-form-label">Mozo</label>
                         <input type="text" id="mozoEstadia" placeholder="Mozo" formControlName="mozoEstadia" class="form-control">
-                    </div> 
+                    </div>
                     <div class="form-group">
                         <label for="estadoEstadia" class="col col-form-label">Estado Estadia</label>
                         <input type="text" id="estadoEstadia" placeholder="Estado Estadia" formControlName="estadoEstadia" class="form-control">
-                    </div>      
+                    </div>
                     <div class="form-group">
                         <label for="comensales" class="col col-form-label">Comensales</label>
                         <input type="text" id="comensales" placeholder="Comensales" formControlName="comensales" class="form-control">
-                    </div>                                 
-                    <hr align="left">
-                    <div *ngIf="accionGet != 'eliminar'">
-                        <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="form.valid">Anular Estadia</button>
                     </div>
-                    <div *ngIf="accionGet == 'eliminar'">
-                        <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Eliminar</button>
+                    <div class="form-group">
+                        <label for="descripcionCambioEstado" class="col col-form-label">Descripción Cambio de Estado</label>
+                        <textarea aria-label="Ingrese Descripción del Cambio de estado" id="descripcionCambioEstado" formControlName="descripcionCambioEstado" class="form-control"></textarea>
+                        <hr>
+                        <p class="input-error-msg" *ngIf="form.controls.descripcionCambioEstado.errors?.required && form.controls.descripcionCambioEstado.touched">Debe describir los motivos por los que Anula la Estadía.</p>
+                    </div>
+                    <hr align="left">
+                    <div>
+                        <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Anular Estadia</button>
                     </div>
                 </form>
                 <hr>
