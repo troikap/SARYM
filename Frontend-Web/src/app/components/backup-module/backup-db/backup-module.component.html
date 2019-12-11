@@ -1,5 +1,289 @@
 <div class="contenedor-pagina">
     <div class="table-container">
+        <h2 class="nav-link active" style="color:blue;">Backup Base de Datos</h2>
+        <h4 class="nav-link active" style="color:black;">Para realizar el backup completo de datos de todo el sistema
+            deberá realizar los siguientes pasos:</h4>
+        <div class="accordion" id="accordionExample">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                            aria-expanded="true" aria-controls="collapseOne">
+                            Pre Requisitos
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                    data-parent="#accordionExample">
+                    <div class="card-body">
+                        <ul>
+                            <li>
+                                MySQL instalado.
+                            </li>
+                            <li>
+                                Base de datos existente.
+                            </li>
+                            <li>
+                                Herramienta Mysqldump (incluida con MySQL Software).
+                            </li>
+                            <li>
+                                Credenciales para acceder a la base de datos.
+                            </li>
+                            <li>
+                                Se recomienda no utilizar el Sistema Sarym durante la ejecución del backup.
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Paso 1: Consola de comandos
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                    <div class="card-body">
+                        Abrir línea de comandos preferida. Se recomienda usar CMD o "Símbolo del Sistema". Abrir con
+                        privilegios de administrador.
+                        <br>
+                        Debe ubicarse en la ruta donde se va a guardar el archivo de backup.
+                        <br>
+                        A modo de ejemplo se utiliza la ruta:
+                        <br>
+                        <ul>
+                            <li>
+                                "C:\Backup Sarym\2019"
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Paso 2: Ejecutar comando para generación de Backup
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div class="card-body">
+                        Debe ejecutar el siguiente comando: <i>mysqldump -u [nombreusuario] -p [nombrebasededatos] >
+                            [archivobackup.sql]</i>
+                        <br>
+                        Donde:
+                        <ul>
+                            <li>
+                                [nombreusuario]: Nombre del usuario de la base de datos. Por defecto: root
+                            </li>
+                            <li>
+                                [nombrebasededatos]: Nombre de la base de datos. Por defecto: sarym
+                            </li>
+                            <li>
+                                [archivobackup.sql]: Nombre del archivo final al realizar el backup. Se recomienda
+                                utilizar nombre
+                                descriptivo + fecha de realización del backup
+                            </li>
+                        </ul>
+                        Ejemplo:
+                        <ul>
+                            <li>
+                                <strong>mysqldump -u root -p sarym > 02-12-2019_Backup_sarym.sql </strong>
+                            </li>
+                        </ul>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Paso 3: Ingreso contraseña y verificación de resultados
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                    <div class="card-body">
+                        Una vez ejectuado el comando del Paso 2, se le solicita ingresar la contraseña de la base de
+                        datos, debe hacerlo y presionar el botón "Enter".
+                        <br>
+                        El arhivo de backup ha sido creado en la carpeta correspondiente a la indicada en la ruta del
+                        Paso 1 <i>(ejemplo: "C:\Backup Sarym\2019")</i>
+                        <hr>
+                        Verificación:
+                        <br>
+                        Se recomienda verificar existencia del archivo de backup recién creado:
+                        <ul>
+                            <li>
+                                <i>02-12-2019_Backup_sarym.sql </i> en la ubicación: <i>"C:\Backup Sarym\2019"</i>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--  RESTAURAR BASE DE DATOS  -->
+    <div class="table-container">
+        <h2 class="nav-link active" style="color:blue;">Restaurar Base de Datos</h2>
+        <h4 class="nav-link active" style="color:black;">Para restaurar el backup completo de datos de todo el sistema
+            deberá realizar los siguientes pasos:</h4>
+        <h5 class="nav-link active">
+            <strong>¡Precaución!</strong><br>La siguiente acción reemplazará los datos actuales del Sistema. Tenga en
+            cuenta que la carga de un archivo de Backup recuperará los datos del Sistema a la fecha y hora en que se
+            generó dicho archivo. Se reemplazará el archivo actual.
+        </h5>
+        <div class="accordion" id="accordionExample">
+                <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                    aria-expanded="true" aria-controls="collapseOne">
+                                    Pre Requisitos
+                                </button>
+                            </h2>
+                        </div>
+        
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                            data-parent="#accordionExample">
+                            <div class="card-body">
+                                <ul>
+                                    <li>
+                                        MySQL instalado.
+                                    </li>
+                                    <li>
+                                        Base de datos existente.
+                                    </li>
+                                    <li>
+                                        Herramienta Mysqldump (incluida con MySQL Software).
+                                    </li>
+                                    <li>
+                                        Credenciales para acceder a la base de datos.
+                                    </li>
+                                    <li>
+                                        Archivo de backup a restaurar con extensión sql.
+                                    </li>
+                                    <li>
+                                        Se recomienda no utilizar el Sistema Sarym durante la restauración del backup.
+                                    </li>
+                                </ul>
+        
+                            </div>
+                        </div>
+                    </div>
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                            Paso 1: Consola de comandos
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                    <div class="card-body">
+                        Abrir línea de comandos preferida. Se recomienda usar CMD o "Símbolo del Sistema". Abrir con
+                        privilegios de administrador.
+                        <br>
+                        Debe ubicarse en la ruta donde se encuentra el archivo de backup a restaurar.
+                        <br>
+                        A modo de ejemplo se utiliza la ruta:
+                        <br>
+                        <ul>
+                            <li>
+                                "C:\Backup Sarym\2019"
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                            Paso 2: Ejecutar comando para restaurar Backup
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapse3" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div class="card-body">
+                        Debe ejecutar el siguiente comando: <i>mysql -u [nombreusuario] -p [nombrebasededatos] <
+                                [archivobackup.sql]</i> <br>
+                                Donde:
+                                <ul>
+                                    <li>
+                                        [nombreusuario]: Nombre del usuario de la base de datos. Por defecto: root
+                                    </li>
+                                    <li>
+                                        [nombrebasededatos]: Nombre de la base de datos. Por defecto: sarym
+                                    </li>
+                                    <li>
+                                        [archivobackup.sql]: Nombre del archivo de backup a restaurar.
+                                    </li>
+                                </ul>
+                                Ejemplo:
+                                <ul>
+                                    <li>
+                                        <strong>mysq -u root -p sarym < 02-12-2019_Backup_sarym.sql</strong>
+                                    </li>
+                                </ul>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                            Paso 3: Ingreso contraseña
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapse4" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                    <div class="card-body">
+                        Una vez ejectuado el comando del Paso 2, se le solicita ingresar la contraseña de la base de
+                        datos, debe hacerlo y presionar el botón "Enter".
+                        <br>
+                        El arhivo de backup ha sido restaurado una vez finalice la ejecución de dicho comando.
+                        <br>
+                        Una vez finalizado, puede utilizar el Sistema Sarym normalmente.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="buttons-botton">
+                <div class="row">
+                    <div class="col-2">
+                        <button [routerLink]="['/home']" class="btn btn-primary">Volver</button>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
+    </div>
+
+</div>
+
+<!--
+<div class="contenedor-pagina">
+    <div class="table-container">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" style="color:blue;" [routerLink]="['/backup']"><strong>Base de Datos</strong></a>
@@ -39,3 +323,4 @@
         </div>
     </div>
 </div>
+-->

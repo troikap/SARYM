@@ -100,8 +100,10 @@ export class CrudRolComponent implements OnInit {
 
   traerFunciones() {
     this.rolService.getFuncionesRolAll().then((res: any) => {
-      this.funcionesRol = res.data;
-      this.ordenarBurbujaList(this.funcionesRol);
+      for (let item of res.data) {
+        this.funcionesRol = res.data;
+        this.ordenarBurbujaList(this.funcionesRol);
+      }
     });
   }
 
@@ -128,8 +130,8 @@ export class CrudRolComponent implements OnInit {
     this.rolService.getRol(this.idRol).then(res => {
       listaAux = res.data.funcionrols;
       for (let item of listaAux) {
-        this.funcionesAsignadas.push(item.funcion);
-        this.funcionesAsignadasInicial.push(item.funcion);
+          this.funcionesAsignadas.push(item.funcion);
+          this.funcionesAsignadasInicial.push(item.funcion);
       }
     });
   }
