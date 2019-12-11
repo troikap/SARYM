@@ -115,11 +115,11 @@ export class CrudGenerarEstadiaPage implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     if (this.origenDatos == "estadia" || this.origenDatos == "salon") {
-      this.tratarFecha();
-      this.traerHoraActual();
-      this.loadCurrentUsuario();
+      await this.tratarFecha();
+      await this.traerHoraActual();
+      await this.loadCurrentUsuario();
       this.cargaInicial();
       this.validarCantidadComensales();
     }
@@ -150,14 +150,15 @@ export class CrudGenerarEstadiaPage implements OnInit {
       console.log("resp: ", resp);
       let estadoReserva = resp.reservaestados[0].estadoreserva.idEstadoReserva;
       if (estadoReserva == 1) { // Generada
+        
+        await this.tratarFecha();
+        await this.traerHoraActual();
+        await this.loadCurrentUsuario();
 
         await this.validarConfirmarReserva();
         console.log("errorConfReservaPrematura: ", this.errorConfReservaPrematura);
         
         if(!this.errorConfReservaPrematura) {
-          this.tratarFecha();
-          this.traerHoraActual();
-          this.loadCurrentUsuario();
           this.cargaInicial();
         }
         else {
@@ -183,8 +184,8 @@ export class CrudGenerarEstadiaPage implements OnInit {
     });
   }
   
-  loadCurrentUsuario() {
-    this.storage.getCurrentUsuario().then((data) => {
+  async loadCurrentUsuario() {
+    await this.storage.getCurrentUsuario().then((data) => {
       this.currentUsuario = data;
     })
   }
@@ -840,6 +841,9 @@ export class CrudGenerarEstadiaPage implements OnInit {
           let fechaReserva = reserva.fechaReserva;
           let horaEntradaReserva = reserva.horaEntradaReserva;
           if (fechaReserva == this.fechaActual) {
+            console.log("horaActual: ", this.horaActual);
+            console.log("this.lessTimes(horaEntradaReserva , environment.rangoHoraMaxReserva): ", this.lessTimes(horaEntradaReserva , environment.rangoHoraMaxReserva));
+            console.log("Se cumple: ?: ", this.horaActual < (this.lessTimes(horaEntradaReserva , environment.rangoHoraMaxReserva)));
             if (
               (this.horaActual < (this.lessTimes(horaEntradaReserva , environment.rangoHoraMaxReserva)))
             ) {
@@ -852,6 +856,10 @@ export class CrudGenerarEstadiaPage implements OnInit {
             // ya que se verifica (previamente), que la reserva no esté anulada. 
             // Para reservas que se encuentren sin confirmar con fecha y hora inicio de la reserva mayor a la configuración 
             // de rangoHoraMaxReserva, el sistema ya contempla la anulación y liberación de las mesas.
+            
+            console.log("fechaReserva: ", fechaReserva);
+            console.log("this.fechaActual: ", this.fechaActual);
+
             this.errorConfReservaPrematura = true;
             break;
           }
@@ -1316,12 +1324,12 @@ export class CrudGenerarEstadiaPage implements OnInit {
     })
   }
 
-  tratarFecha(){
+  async tratarFecha(){
     let date = new Date();
-    let dd = date.getDate();
-    let mm = date.getMonth() + 1;
-    let mm2 = date.getMonth() + 1 + 5;
-    let yy = date.getFullYear();
+    let dd = await date.getDate();
+    let mm = await date.getMonth() + 1;
+    let mm2 = await date.getMonth() + 1 + 5;
+    let yy = await date.getFullYear();
     let dia;
     let mes;
     let mes2;
@@ -1411,9 +1419,9 @@ export class CrudGenerarEstadiaPage implements OnInit {
     return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2);
   }
 
-  traerHoraActual() {
+  async traerHoraActual() {
     let date = new Date();
-    this.horaActual = this.tratarFechaProvider.traerTime(date);
+    this.horaActual = await this.tratarFechaProvider.traerTime(date);
     this.horaActual += ":00";
   }
 }
