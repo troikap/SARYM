@@ -47,6 +47,9 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 
 // import { ModalDetalleCatalogoPage } from './modal/modal-detalle-catalogo/modal-detalle-catalogo.page';
+// import { Deeplinks } from '@ionic-native/deeplinks';
+import { Deeplinks } from '@ionic-native/deeplinks/ngx';
+
 
 
 
@@ -88,6 +91,7 @@ import { IonicStorageModule } from '@ionic/storage';
     SectorService,
     EstadoService,
     CajaService,
+    Deeplinks,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

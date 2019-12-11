@@ -10,5 +10,6 @@ export let environment = {
   rangoHoraMaxReserva: '02:00',
   rangoHoraMinReserva: '00:30',
   rangoHoraMaxReservaLabel: '2hs',
-  rangoHoraMinReservaLabel: '30min'
+  rangoHoraMinReservaLabel: '30min',
+  webApp: 'https://sarym.sarym.com',
 };

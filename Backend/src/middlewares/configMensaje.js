@@ -13,6 +13,7 @@ const transporter = nodemailer.createTransport({
 
 module.exports = async (formulario) => {
     let EMAIL = 'sarymresto@gmail.com';
+    console.log("FORMULARIO ", formulario)
     if ( formulario.tipo == 'recuperar') {
         let token = await jwt.sign({
             idUsuario: formulario.idUsuario
@@ -36,6 +37,11 @@ module.exports = async (formulario) => {
                         <p>Se ha solicitado un restablecimiento de contraseña del usuario <strong>${formulario.cuitUsuario}</strong> de la App de SARYM.</p>
                         <p>Para continuar con el proceso de recuperación, haga click en el siguiente enlace: 
                         <a href= ${formulario.origen}/recuperar-contrasenia/${token}>Recuperar Contraseña</a>.
+                        <p>Desde la Aplicación SARYM utilice este link</p>
+                        <a href= ${formulario.origenWeb}/${formulario.tipo}/${token}>Recuperar Contraseña</a>.
+
+
+
                         <br> 
                         Si usted no solicitó un restablecimiento de contraseña, desestime el siguiente correo.</p>
                         <br>
