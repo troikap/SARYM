@@ -28,6 +28,9 @@
                                 Herramienta Mysqldump (incluida con MySQL Software).
                             </li>
                             <li>
+                                Variable de entorno agregada de MySQL Server.
+                            </li>
+                            <li>
                                 Credenciales para acceder a la base de datos.
                             </li>
                             <li>
@@ -88,14 +91,13 @@
                             </li>
                             <li>
                                 [archivobackup.sql]: Nombre del archivo final al realizar el backup. Se recomienda
-                                utilizar nombre
-                                descriptivo + fecha de realización del backup
+                                utilizar como nombre: fecha de realización del backup + nombre descriptivo
                             </li>
                         </ul>
                         Ejemplo:
                         <ul>
                             <li>
-                                <strong>mysqldump -u root -p sarym > 02-12-2019_Backup_sarym.sql </strong>
+                                <strong>mysqldump -u root -p sarym >{{fechaActual}}_Backup_sarym.sql </strong>
                             </li>
                         </ul>
 
@@ -143,9 +145,12 @@
         <h4 class="nav-link active" style="color:black;">Para restaurar el backup completo de datos de todo el sistema
             deberá realizar los siguientes pasos:</h4>
         <h5 class="nav-link active">
-            <strong>¡Precaución!</strong><br>La siguiente acción reemplazará los datos actuales del Sistema. Tenga en
-            cuenta que la carga de un archivo de Backup recuperará los datos del Sistema a la fecha y hora en que se
-            generó dicho archivo. Se reemplazará el archivo actual.
+            <div style="color:red;">
+                    <strong>¡Precaución!</strong><br>La siguiente acción reemplazará los datos actuales del Sistema. Tenga en
+                    cuenta que la carga de un archivo de Backup recuperará los datos del Sistema a la fecha y hora en que se
+                    generó dicho archivo. Se reemplazará el archivo actual.
+            </div>
+
         </h5>
         <div class="accordion" id="accordionExample">
                 <div class="card">
@@ -170,6 +175,9 @@
                                     </li>
                                     <li>
                                         Herramienta Mysqldump (incluida con MySQL Software).
+                                    </li>
+                                    <li>
+                                            Variable de entorno agregada de MySQL Server.
                                     </li>
                                     <li>
                                         Credenciales para acceder a la base de datos.
@@ -239,7 +247,7 @@
                                 Ejemplo:
                                 <ul>
                                     <li>
-                                        <strong>mysq -u root -p sarym < 02-12-2019_Backup_sarym.sql</strong>
+                                        <strong>mysql -u root -p sarym < {{fechaActual}}_Backup_sarym.sql</strong>
                                     </li>
                                 </ul>
 
@@ -260,7 +268,7 @@
                 <div id="collapse4" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
                     <div class="card-body">
                         Una vez ejectuado el comando del Paso 2, se le solicita ingresar la contraseña de la base de
-                        datos, debe hacerlo y presionar el botón "Enter".
+                        datos, debe hacerlo con las credenciales provistas y presionar el botón "Enter".
                         <br>
                         El arhivo de backup ha sido restaurado una vez finalice la ejecución de dicho comando.
                         <br>

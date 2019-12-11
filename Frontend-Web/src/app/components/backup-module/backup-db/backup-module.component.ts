@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BackupService } from 'src/app/services/backup/backup.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-backup-module',
@@ -19,13 +20,18 @@ export class BackupModuleComponent implements OnInit {
   cuenta que la carga de un archivo de Backup recuperará los datos del Sistema a la fecha y hora en que se
   generó dicho archivo. Se reemplazará el archivo actual.`
 
+  private fechaActual;
+  
+
   constructor(
     private activatedRoute: ActivatedRoute,
     public backupService: BackupService,
-    private router: Router
+    private router: Router,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit() {
+    this.fechaActual = this.datePipe.transform(new Date(),"dd-MM-yyyy");
   }
 
   generarBackup() {
