@@ -6,6 +6,8 @@ import { StorageService, Log } from '../services/storage/storage.service';
 import { AlertController, MenuController, NavController } from '@ionic/angular';
 import { ToastService } from '../providers/toast.service'
 import { environment } from 'src/environments/environment';
+import { Deeplinks } from '@ionic-native/deeplinks/ngx';
+import {RecuperarContraseniaPage} from '../pages/recuperar-contrasenia/recuperar-contrasenia.page';
 
 @Component({
   selector: 'app-logueo',
@@ -36,7 +38,16 @@ export class LogueoPage implements OnInit {
     private menu: MenuController,
     private navController: NavController, 
     private toastService: ToastService,
+    private deeplinks: Deeplinks
     ) { 
+      this.deeplinks.route({
+        '/recuperar/:token': RecuperarContraseniaPage,
+        '/': RecuperarContraseniaPage,
+      }).subscribe( resp => {
+        console.log("ENTRANDO DESDE LA WEB A LA APLICACION ", resp)
+      }, error => { 
+        console.log(" NO ESTA ENTRANDO DESDE LA WEB A LA APLICACION ", error)
+      })
       this.menu.enable(false)
       this.loadLog();
       this.form = this.formBuilder.group({

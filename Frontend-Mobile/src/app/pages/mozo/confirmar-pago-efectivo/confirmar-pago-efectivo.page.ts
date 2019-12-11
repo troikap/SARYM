@@ -142,11 +142,15 @@ export class ConfirmarPagoEfectivoPage implements OnInit {
   async buscarPago() {
     await this.pagoService.getPago(this.idPago).then( async pago => {
       console.log("PAGOOOOOOOOOOOOOOOOO -----------------", pago)
-      if (pago['confirmado'] == true) {
-        this.toastService.toastWarning(`Este pago ya ha sido Confirmado!`, 3000);
-        this.navController.navigateBack('/home')
+      if(pago) {
+        if (pago['confirmado'] == true) {
+          this.toastService.toastWarning(`Este pago ya ha sido Confirmado!`, 3000);
+          this.navController.navigateBack('/home')
+        } else {
+          this.pago = await pago;
+        }
       } else {
-        this.pago = await pago;
+        this.toastService.toastError(`No se encontro ningun pago relacionado`, 3000);
       }
     })
   }

@@ -6,6 +6,9 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { StorageService, Log } from './services/storage/storage.service';
 import { MenuController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
+// import { Deeplinks } from '@ionic-native/deeplinks';
+// import { Deeplinks } from '@ionic-native/deeplinks/ngx';
+
 
 @Component({
   selector: 'app-root',
@@ -78,7 +81,8 @@ export class AppComponent {
     private statusBar: StatusBar,
     private storage: StorageService,
     private menu: MenuController,
-    private navController: NavController
+    private navController: NavController,
+    // private deep: DeeplinksOriginal,
   ) {
     this.initializeApp();
   }
