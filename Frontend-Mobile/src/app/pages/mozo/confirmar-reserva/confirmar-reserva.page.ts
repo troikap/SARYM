@@ -53,7 +53,7 @@ export class ConfirmarReservaPage implements OnInit {
     })
     .catch(err => {
       console.log('Error', err);
-      this.qrDataCodify = 'UkVTRVJWQS0yLTIwLTIwMTktMTItMTEvMTk6MTc='; 
+      this.qrDataCodify = 'UkVTRVJWQS01LTIwLTIwMTktMTItMTEvMjA6NTU='; 
       this.presentAlert()
     });
   }
