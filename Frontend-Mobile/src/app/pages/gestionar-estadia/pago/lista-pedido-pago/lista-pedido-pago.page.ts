@@ -35,6 +35,7 @@ export class ListaPedidoPagoPage implements OnInit {
   public listaPedidos: Pedido[] = [];
   public form: FormGroup;
   public medioPago;
+  public pagos;
 
   constructor(
   private alertController: AlertController,
@@ -67,15 +68,15 @@ export class ListaPedidoPagoPage implements OnInit {
     console.log(" OK ", this.form)
   }
 
-  ngOnInit() {
-  console.log("PAGE ListaPedidoPagoPage")
-  this.activatedRoute.params
-  .subscribe(params => {
-    this.idEstadia = params.idEstadia;
-    this.idComensal = params.idComensal;
-    console.log("PARAMETROS ", params)
-  })
-  this.traerEstadia();
+  async ngOnInit() {
+    console.log("PAGE ListaPedidoPagoPage");
+    await this.activatedRoute.params
+    .subscribe(async params => {
+      this.idEstadia = params.idEstadia;
+      this.idComensal = params.idComensal;
+      console.log("PARAMETROS ", params);
+      await this.traerEstadia();
+    });
   }
 
   loadCurrentUsuario() {
@@ -335,15 +336,51 @@ export class ListaPedidoPagoPage implements OnInit {
     console.log("MODIFICADO ",this.pedidos)
   }
 
-  traerEstadia(){
-    this.estadiaService.getEstadia( this.idEstadia )
-    .then( estadia => {
+  async traerEstadia(){
+    await this.estadiaService.getEstadia( this.idEstadia )
+    .then(async estadia => {
       console.log("ESTADIA ", estadia)
       this.estadia = estadia;
       console.log("PEDIDOS ", estadia.pedidos)
       this.pedidos = estadia.pedidos;
       this.calcularTotalCostoPedido();
+      await this.traerPagos();
+      this.verificarPedidosaMostrar();
     })
   }
+
+  async traerPagos(){
+    await this.pagoService.getPagosPorEstadia( this.idEstadia )
+    .then( pagos => {
+      console.log("PAGOS ", pagos);
+      this.pagos = pagos;
+    });
+  }
+
+  verificarPedidosaMostrar() {
+    let i = 0;
+    for (let pedidoEstadia of this.pedidos) {
+      let idPedidoEstadia = pedidoEstadia.idPedido;
+      for(let pago of this.pagos) {
+        for(let pedidosPago of pago.pagopedidos) {
+          let idPedidoPago = pedidosPago.pedido.idPedido;
+          if (idPedidoEstadia == idPedidoPago) {
+            this.pedidos[i]['noMostrar'] = true;
+          }
+        }
+      }
+      i ++;
+    }
+    i = 0;
+    for (let pedidoEstadia of this.pedidos) {
+      let noMostrar = pedidoEstadia['noMostrar'];
+      if (noMostrar == undefined) {
+        this.pedidos[i]['noMostrar'] = false;
+      }
+      i ++;
+    }
+    console.log("NUEVOS PEDIDOS: ", this.pedidos);
+  }
+
 }
         
