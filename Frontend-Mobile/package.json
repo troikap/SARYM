@@ -45,7 +45,7 @@
     "express-fileupload": "^1.1.5",
     "ionic-plugin-deeplinks": "^1.0.20",
     "ionic-selectable": "^4.4.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jsonwebtoken": "^8.5.1",
     "ngx-qrcode2": "0.0.9",
     "phonegap-plugin-barcodescanner": "^8.1.0",
