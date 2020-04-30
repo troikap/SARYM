@@ -25,7 +25,7 @@
     "chart.js": "^2.8.0",
     "drag": "0.0.4",
     "html2canvas": "1.0.0-rc.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jspdf": "^1.5.3",
     "moment": "^2.24.0",
     "jwt-decode": "^2.2.0",
