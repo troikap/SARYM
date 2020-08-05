@@ -42,7 +42,7 @@
     "core-js": "^2.5.4",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "express-fileupload": "^1.1.5",
+    "express-fileupload": "^1.1.9",
     "ionic-plugin-deeplinks": "^1.0.20",
     "ionic-selectable": "^4.4.1",
     "jquery": "^3.4.1",
