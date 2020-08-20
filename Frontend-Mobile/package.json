@@ -31,7 +31,7 @@
     "@ionic/cli-plugin-cordova": "^1.6.2",
     "@ionic/storage": "^2.2.0",
     "@types/jquery": "^3.3.31",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "br-mask": "0.0.8",
     "cordova-android": "8.0.0",
