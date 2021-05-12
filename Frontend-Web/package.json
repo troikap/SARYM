@@ -22,7 +22,7 @@
     "@angular/router": "~8.2.0",
     "@auth0/angular-jwt": "^3.0.1",
     "@types/html2canvas": "0.0.35",
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "drag": "0.0.4",
     "html2canvas": "1.0.0-rc.1",
     "jquery": "^3.4.1",
