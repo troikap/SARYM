@@ -27,7 +27,7 @@
     "html2canvas": "1.0.0-rc.1",
     "jquery": "^3.4.1",
     "jspdf": "^1.5.3",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "jwt-decode": "^2.2.0",
     "ng2-charts": "^2.3.0",
     "rxjs": "~6.4.0",
