@@ -41,7 +41,7 @@
     "cordova-sqlite-storage": "^3.3.0",
     "core-js": "^2.5.4",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-fileupload": "^1.1.5",
     "ionic-plugin-deeplinks": "^1.0.20",
     "ionic-selectable": "^4.4.1",
